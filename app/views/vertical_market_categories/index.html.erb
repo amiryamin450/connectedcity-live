@@ -1,0 +1,40 @@
+<h1>Vertical Market Categories</h1>
+
+
+<%= search_form_for @search, class: 'form-search' do |f| %>
+  <div class="input-append">
+      <%= f.text_field :name_cont, class: 'search-query' %>
+      <%= f.submit "Search", class: 'btn' %>
+  </div>
+
+
+<% end -%>
+
+
+<table class="table table-bordered table-striped table-hover">
+  <tr>
+    <th>Name</th>
+    <th>Vertical market</th>
+    <th>Default logo</th>
+    <th></th>
+  </tr>
+
+<% @vertical_market_categories.each do |vertical_market_category| %>
+  <tr>
+    <td><%= vertical_market_category.name %></td>
+    <td><%= vertical_market_category.vertical_market.name %></td>
+    <td></td>
+    <td>
+      <div class="btn-group">
+        <%= link_to 'Show', vertical_market_category_path(vertical_market_category), :class => 'btn btn-mini' %>
+    <%= link_to 'Edit', edit_vertical_market_category_path(vertical_market_category), :class => 'btn btn-mini' %>
+    <%= link_to 'Destroy', vertical_market_category_path(vertical_market_category), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini' %></div>
+    </div>
+    </td>
+  </tr>
+<% end %>
+</table>
+<%= paginate @vertical_market_categories %>
+<br />
+
+<%= link_to 'New Vertical market category', new_vertical_market_category_path, :class => 'btn btn-primary' %>

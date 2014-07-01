@@ -1,0 +1,14 @@
+<div class="row-fluid status-update">
+  <div class="span1">
+    <% if status_update.statusable.logo.blank? %>
+
+    <% else %>
+      <%= image_tag status_update.statusable.logo.url(:thumb) if status_update.statusable.logo? %>
+    <% end %>
+
+  </div>
+  <div class="span11">
+    <div class="name"><%= link_to status_update.statusable.name, status_update.statusable %> <span class="time-ago"> <%= "#{time_ago_in_words(status_update.created_at)} ago" %></span></div>
+    <div><%= status_update.content %></div>
+  </div>
+</div>

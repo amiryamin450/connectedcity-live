@@ -1,0 +1,3 @@
+<% if @location.send(check) and @location.send(field).present? %>
+  <div><strong>Toll Free: </strong> <%= @location.send(field) %></div>
+<% end %>

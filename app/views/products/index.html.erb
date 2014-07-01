@@ -1,0 +1,36 @@
+<h1>Managing <%= @location.name %>'s Products </h1>
+<% if @products.size > 0 %>
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Sku</th>
+    <th>Price</th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+
+  <% @products.each do |product| %>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= product.sku %></td>
+        <td><%= number_to_currency product.price %></td>
+        <td>
+          <div class="btn-group">
+            <%= link_to 'show', [@location, product], class: 'btn btn-mini' %>
+            <%= link_to 'edit', edit_location_product_path(@location, product), class: 'btn btn-mini' %>
+            <%= link_to 'delete', [@location, product], method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+          </div>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+<% else %>
+<div class="alert notice">No products found.</div>
+<% end %>
+
+<%= link_to 'New Product', new_location_product_path(@location), class: 'btn btn-primary' %>
+<%= link_to "Back to #{@location.name}", @location, class: 'btn' %>

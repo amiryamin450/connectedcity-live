@@ -1,0 +1,36 @@
+<h1>Managing <%= @location.name %>'s Events </h1>
+<% if @events.size > 0 %>
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Start Time</th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+
+  <% @events.each do |event| %>
+      <tr>
+        <td><%= event.name %></td>
+        <td><%= event.email %></td>
+        <td><%= event.starts_at %></td>
+        <td>
+          <div class="btn-group">
+            <%= link_to 'show', [@location, event], class: 'btn btn-mini' %>
+            <%= link_to 'edit', edit_location_event_path(@location, event), class: 'btn btn-mini' %>
+            <%= link_to 'delete', [@location, event], method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+          </div>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+<% else %>
+<div class="alert notice">No events found.</div>
+<% end %>
+
+<%= link_to 'New Event', new_location_event_path(@location), class: 'btn btn-primary' %>
+<%= link_to "Back to #{@location.name}", @location, class: 'btn' %>

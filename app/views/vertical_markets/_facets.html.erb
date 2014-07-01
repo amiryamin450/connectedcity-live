@@ -1,0 +1,46 @@
+<% content_for :facets do %>
+<div class="row-fluid facet-results">
+  <div class="span4">
+    <h6>Category</h6>
+    <ul>
+      <% @results.facets['categories']['terms'].each do |cat| %>
+      <% if request.parameters[:category].present? and cat['term'] == request.parameters[:category] %>
+      <% request.parameters.delete(:category) %>
+      <li><%= link_to "(x) #{cat['term']} - #{cat['count']}", request.parameters %></li>
+      <% else %>
+      <li><%= link_to "#{cat['term']} - #{cat['count']}", request.parameters.merge({category: cat['term']}) %></li>
+      <% end %>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="span4">
+    <h6>Neighborhoods</h6>
+    <ul>
+      <% @results.facets['neighborhoods']['terms'].each do |cat| %>
+      <% if request.parameters[:neighborhood].present? and cat['term'] == request.parameters[:neighborhood] %>
+      <% request.parameters.delete(:neighborhood) %>
+      <li><%= link_to "(x) #{cat['term']} - #{cat['count']}", request.parameters %></li>
+      <% else %>
+
+      <li><%= link_to "#{cat['term']} (#{cat['count']})", request.parameters.merge({neighborhood: cat['term']}) %></li>
+      <% end %>
+      <% end %>
+    </ul>
+  </div>
+  <div class="span4">
+    <h6>Brands</h6>
+    <ul>
+      <% @results.facets['brands']['terms'].each do |cat| %>
+      <% if request.parameters[:brand].present? and cat['term'] == request.parameters[:brand] %>
+      <% request.parameters.delete(:brand) %>
+      <li><%= link_to "(x) #{cat['term']} - #{cat['count']}", request.parameters %></li>
+      <% else %>
+      <li><%= link_to "#{cat['term']} (#{cat['count']})", request.parameters.merge({brand: cat['term']}) %></li>
+      <% end %>
+      <% end %>
+    </ul>
+  </div>
+
+</div>
+<% end %>

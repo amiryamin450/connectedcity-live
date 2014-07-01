@@ -1,0 +1,46 @@
+h6.favorites, h6.admin_menu {
+  color: $blue;
+  font-size: .786em;
+  text-transform: uppercase;
+  margin-top: 30px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+
+ul.favorites-list {
+  margin-left: 5px;
+
+
+
+  li {
+
+    color: $blue;
+    vertical-align: middle;
+    list-style: none;
+
+    &:hover {
+      
+    }
+
+    a {
+      font-size: .786em;
+      font-weight: normal;
+      text-decoration: none;
+      color: $blue;
+
+      vertical-align: middle;
+      padding-left: 25px;
+      &.automotive { background: image-url('fav/auto.gif') no-repeat; }
+      &.dining { background: image-url('fav/dining.gif') no-repeat; }
+      &.electronics { background: image-url('fav/electronics.gif') no-repeat; }
+      &.fashion { background: image-url('fav/fashion.gif') no-repeat; }
+      &.entertainment { background: image-url('fav/entertainment.gif') no-repeat; }
+      &.health-beauty { background: image-url('fav/health.gif') no-repeat; }
+      &.home-improvement { background: image-url('fav/home_improvement.gif') no-repeat; }
+      &.real-estate { background: image-url('fav/real_estate.gif') no-repeat; }
+      &.jobs { background: image-url('fav/jobs.gif') no-repeat; }
+      &.money { background: image-url('fav/money.gif') no-repeat; }
+      &.travel { background: image-url('fav/travel.gif') no-repeat; }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+<h1>Listing communities</h1>
+
+<%= search_form_for @search do |f| %>
+    <div class="field">
+      <%= f.label :name_cont, "Name contains" %>
+      <%= f.text_field :name_cont %>
+      <%= f.select(:region_id_eq, Region.all.collect {|r| [ r.name, r.id] }, {:include_blank => 'None'}) %>
+    </div>
+    <div class="actions"><%= f.submit "Search" %></div>
+<% end %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Region</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @communities.each do |community| %>
+  <tr>
+    <td><%= community.name %></td>
+    <td><%= community.description %></td>
+    <td><%= community.region_id %></td>
+    <td><%= link_to 'Show', community %></td>
+    <td><%= link_to 'Edit', edit_community_path(community) %></td>
+    <td><%= link_to 'Destroy', community, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+<%= paginate @communities %>
+<br />
+
+<%= link_to 'New Community', new_community_path %>

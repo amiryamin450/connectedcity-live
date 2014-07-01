@@ -1,0 +1,45 @@
+<div class='modal hide fade' id="realestate_listing" tabindex="-1" role="dialog" aria-labelledby="realestate_listing_label" aria-hidden="true">
+  <%= simple_form_for @location, :html => {multipart: true, :style => 'margin-bottom: 0;'} do |f| %>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="realestate_listing_label">Create New Listing</h3>
+      </div>
+      <div class="modal-body">
+        <%= f.fields_for :real_estate_listings, @location.real_estate_listings.build(listing_source: 'manual') do |b| %>
+          <%= b.input :listing_source, as: :hidden %>
+          <%= b.input :regional_mls_number, label: "MLS Number" %>
+          <%= b.input :regional_mls_number_visible %>
+          <%= b.input :status, collection: ["For Sale", "For Rent", "Sale Pending", "Sold", "Rented"], prompt: 'Please Select' %>
+          <%= b.input :title %>
+          <%= b.input :list_price %>
+          <%= b.input :tax_amount %>
+
+          <%= b.input :property_type, collection: ["Residential", "Farm and Ranch", "Commercial", "Condominium", "Multifamily", "Recreational", "Lots and Land", "Other"], prompt: "Select Property Type" %>
+          <%= b.input :description %>
+
+
+          <%= b.input :list_price %>
+          <%= b.input :tax_amount %>
+          <%= b.input :detail_view_url, as: :url, label: "Offsite Detail Page" %>
+
+          <%= b.association :country, prompt: '-- Select Contry --' %>
+          <%= b.association :province, prompt: '-- Select Province --'  %>
+          <%= b.association :city, prompt: '-- Select City --'  %>
+
+          <%= b.input :address %>
+          <%= b.input :address_suite %>
+          <%= b.input :postal_code %>
+          <%= b.input :address_visible %>
+
+          
+
+
+
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="Cancel" />
+        <%= f.button :submit, "Submit", :class => 'btn btn-primary' %>
+      </div>
+  <% end %>
+</div>

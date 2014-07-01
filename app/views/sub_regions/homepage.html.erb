@@ -1,0 +1,87 @@
+<h3><%= @sub_region.name %></h3>
+<div class="row-fluid">
+  <div class="span8">
+    <div class="row-fluid">
+      <div class="span12 metro-img">
+        <%= image_tag @sub_region.home_page_image.url %>
+      </div>
+    </div>
+    
+
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="holder pad10">
+          <h5>Featured Listings</h5>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span6">
+        <div class="holder pad10">
+          <h5>Market Updates</h5>
+          <% if @sub_region.status_updates.size > 0 %>
+          <% @sub_region.status_updates.order(:created_at).each do |update| %>
+          <div class="row-fluid status-update">
+            <div class="span1">
+              <%= image_tag update.statusable.logo.url(:thumb) if update.statusable.logo? %>
+            </div>
+            <div class="span11">
+              <div class="name"><%= link_to update.statusable.name, update.statusable %> <span class="time-ago"> <%= "#{time_ago_in_words(update.created_at)} ago" %></span></div>
+              <div><%= update.content %></div>
+            </div>                
+          </div>
+          <% end %>
+          <% else %>
+          <div class="alert">No Market Updates found.</div>
+          <% end %>
+
+        </div>
+      </div>
+      <div class="span6">
+        <div class="holder pad10">
+          <h5>News</h5>
+          <% if @sub_region.news_articles.size > 0 %>
+          <% @sub_region.news_articles.order(:created_at).each do |article| %>
+
+          <div class="row-fluid article">
+            <div class="span1">
+              <%= image_tag article.newsable.logo.url(:thumb) if article.newsable.logo? %>
+            </div>
+            <div class="span11">
+              <div class="name"><%= link_to article.title, [article.newsable,article] %> <span class="time-ago"> <%= "#{time_ago_in_words(article.created_at)} ago" %>. by <%= link_to article.newsable.name, article.newsable %></span></div>
+              <div><%= truncate_html(article.content, :length => 300) %></div>
+
+            </div>                
+          </div>
+          <% end %>
+          <% else %>
+          <div class="alert">No News Articles found.</div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="span4">
+    <div class="row-fluid">
+      <div class="holder pad10">
+        <h5>Join Now</h5>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="holder pad10">
+        <h5>Cities in the <%= @sub_region.name %></h5>
+        <ul class="list-none">
+          <% @cities.each do |city| %>
+            <li><%= link_to city.name, city_guide_path(@sub_region,city) %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,18 @@
+
+ul.admin-list {
+  margin-left: 5px;
+
+  li {
+
+    color: $blue;
+    list-style: none;
+
+
+    a {
+      font-size: .786em;
+      font-weight: normal;
+      text-decoration: none;
+      color: $blue;
+    }
+  }
+}

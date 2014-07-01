@@ -1,0 +1,1 @@
+<%= raw @users.collect {|u| {:label => u.name, :value => u.id, :email => u.email, :last_signin => u.last_sign_in_at.nil? ? 'Never' : time_ago_in_words(u.last_sign_in_at)}}.to_json %>

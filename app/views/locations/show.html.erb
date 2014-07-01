@@ -1,0 +1,213 @@
+<%######## view content ########%>
+<div class="span6">
+  <div class="profile">
+
+
+    <div class="pad10 holder clearfix">
+      <div class="row-fluid">    
+        <div class="span12">
+          <% if @location.cover_photo %>
+            <%= image_tag @location.cover_photo.url %>
+          <% else %>
+          <%= image_tag "http://placehold.it/1280x400" %>
+          <% end -%>
+        </div>
+      </div>
+
+      <div class="row-fluid" style="margin-top: 5px;">
+        <div class="span3">
+          <div class="thumbnail logo">
+            <%= image_tag @location.logo.url %>
+          </div>
+          
+        </div>
+        <div class="span9">
+          <h1><%= @location.name %></h1>
+          <div class="address-line">
+           <%= @location.address %> &middot; <%= "#{@location.city.name} #{@location.province.abbr}, #{@location.postal_code}" %>
+           <%= display_phone 'show_phone', 'phone', 'Phone' %> 
+           <%= display_phone 'show_toll_free', 'toll_free', 'Toll Free' %>
+            <%= raw "<div><strong>Fax:</strong> #{@location.fax}</div>" if @location.fax.present? %>
+            <div>
+              <%= mail_to @location.email if @location.email.present? %> 
+              <%= "|" if @location.email.present? and @location.website_url.present? %>
+              <%= link_to_if @location.website_url.present?, 'Visit us online!', @location.website_url, target: :_blank %>
+           </div>
+         </div>
+         <div id="favorite-<%= @location.id %>" class="favorite">
+              <%= render 'favorites/like_button', :location_id => @location.id if user_signed_in? %>
+          </div>
+            <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+              <div class="btn-group">
+                <%= link_to "Edit", edit_location_path(@location), class: 'btn btn-mini btn-primary' %>
+              </div>
+            <% end %>
+        </div>
+      </div>
+
+      <% if @location.location_images.size > 0 %>
+      <div class="row-fluid gallery-wrap">
+        <ul>
+          <% @location.location_images.each do |image| %>
+          <li>
+            <a href="#" class="">
+              <%= image_tag image.image.url(:thumb) %>
+            </a>
+          </li>
+          <% end %>
+        </ul>
+      </div>
+      <% end %>
+      <% if @location.content.present? %>
+      <div class="row-fluid">
+        <div class="span12 description">
+          <h5>Description</h5>
+           <%= @location.content.html_safe %>
+        </div>
+      </div>
+      <% end %>
+    </div>
+
+    <div class="pad10 holder clearfix">
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="status-tabs clearfix">
+            <ul class="clearfix">
+              <li><a href="#status_updates">Status Updates</a></li>
+              <li><a href="#news_articles">News Articles</a></li>
+              <li><a href="#blog_entries">Blog Entries</a></li>
+            </ul>
+          </div>
+
+          <div id="status_updates">
+            <%= render 'status_updates' %>
+          </div>
+          
+          <div id="news_articles">
+            <%= render 'news_articles' %>
+          </div>
+          <div id="blog_entries">
+            <%= render 'blog_entry' %>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+    <div class="social-feed">
+      <div class="pad10 holder clearfix">
+        <div class="fb-comments" data-href="<%= request.fullpath %>" data-num-posts="5" data-width="530"></div>
+      </div>
+    </div>
+  </div>  
+</div>
+
+
+
+
+
+<%######## page title content ########%>
+
+<% content_for :page_title do %>
+    <div class="page=header">
+        <h3><%= @location.name %></h3>
+    </div>
+<% end %>
+
+
+<%####### column right #######%>
+<div class="span6">
+
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="pad10 holder">
+           <div id="profile-map" class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+
+    <% if @location.vertical_market_categories.exists?(99) %>
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="">
+          <%= render 'location_listings' %>
+        </div>
+      </div>
+    </div>
+    <% elsif @location.vertical_market_categories.exists?(100) %>
+        <div class="row-fluid">
+      <div class="span12">
+        <div class="">
+          agents here
+        </div>
+      </div>
+    </div>
+    <% else %>
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="">
+           <%= render 'location_products' %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+
+
+
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="">
+           <%= render 'location_services' %>
+        </div>
+      </div>
+    </div>
+
+    <% if @location.vertical_market_categories.exists?(99) %>
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="">
+          
+        </div>
+      </div>
+    </div>
+    <% else %>
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="">
+           <%= render 'location_events' %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+
+
+
+<!--     <div class="row-fluid">
+      <div class="span12">
+        <div class="">
+           <%= render 'location_coupons' %>
+        </div>
+      </div>
+    </div> -->
+
+</div>
+
+<!--- Modals -->
+<% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+
+
+<%############# status update ###############%>
+
+<%= render 'status_update_form' %>
+
+
+<%#render 'new_realestate_listing_form' %>
+
+<% end %>
+<%= javascript_tag do %>
+
+    <% ## TODO Limit the number of locations returned  %>
+
+    Window.profile_marker = <%= raw @location.geo_location.to_json() %>
+<% end %>

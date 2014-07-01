@@ -1,0 +1,30 @@
+<h3>Businesses</h3>
+
+<table class="table table-stripped">
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th></th>
+  </tr>
+
+  <% @businesses.each do |business| %>
+      <tr>
+        <td><%= business.name %></td>
+        <td><%= business.email %></td>
+        <td><%= business.phone %></td>
+
+        <td>
+          <div class="btn-group">
+            <%= link_to 'Show', business, class: 'btn btn-mini' %>
+            <%= link_to 'Edit', edit_business_path(business), class: 'btn btn-mini' %>
+            <%= link_to 'Destroy', business, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-mini' %>
+          </div>
+        </td>
+      </tr>
+  <% end %>
+</table>
+
+
+
+<%= link_to 'New Business', new_business_path, class: 'btn btn-primary' %>

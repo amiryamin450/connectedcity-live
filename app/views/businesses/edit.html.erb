@@ -1,0 +1,58 @@
+<h3>Editing <%= @business.name %></h3>
+<%= simple_form_for @business, :html => { :multipart => true, :class => 'form-horizontal' }  do |f| %>
+<%= f.error_notification %>
+
+
+
+
+    <fieldset>
+      <legend>Address Info</legend>
+      <%= f.input :name %>
+      <%= f.input :address %>
+      <%= f.input :address_1 %>
+      <%= f.association :city %>
+      <%= f.association :province %>
+      <%= f.input :postal_code %>
+      <%= f.association :country %>
+    </fieldset>
+    <fieldset>
+      <legend>Contact Info</legend>
+      <%= f.input :phone %>
+      <%= f.input :alt_phone %>
+      <%= f.input :fax %>
+      <%= f.input :email %>
+      <%= f.input :website %>
+      <%= f.input :contact_name %>
+    </fieldset>
+    <fieldset>
+      <legend>Users</legend>
+        <div class="control-group string optional">
+          <label class="string optional control-label" for="business_user_ids">Users</label>
+          <div class="controls">
+            <%= f.text_field :user_tokens, data: {load: @business.users} %>
+          </div>
+        </div>
+
+    </fieldset>
+    <fieldset>
+      <legend>Locations</legend>
+      <div class="control-group string optional">
+        <label class="string optional control-label" for="business_location_ids">Locations</label>
+        <div class="controls">
+          <%= f.text_field :location_tokens, data: {load: @business.locations} %>
+        </div>
+      </div>
+
+    </fieldset>
+
+
+
+    <div class="form-actions">
+        <%= f.button :submit, :class => 'btn btn-primary' %>
+    </div>
+
+<% end %>
+<div class="btn-group">
+    <%= link_to 'Show', @business, class: 'btn btn-mini' %> |
+    <%= link_to 'Back', businesses_path, class: 'btn btn-mini' %>
+</div>

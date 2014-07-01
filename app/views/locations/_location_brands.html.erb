@@ -1,0 +1,17 @@
+<h4>Brands</h4>
+<% if @location.brands.size > 0 %>
+<div class="row-fluid">
+  <ul class="thumbnails">
+    <% @location.brands.each do |brand| %>
+    <li>
+      <div class="thumbnail">
+        <%= link_to image_tag(brand.logo.url), brand %>
+        <div class="brand-name"><%= brand.name %></div class="brand-name">
+      </div>
+    </li>
+    <% end %>
+  </ul>
+</div>
+<% else %>
+<div class="alert">No Brands found.</div>
+<% end %>

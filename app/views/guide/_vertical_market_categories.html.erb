@@ -1,0 +1,84 @@
+
+<%
+ r = 0
+ # categories = @facets['categories']
+ # neighborhoods = @facets['neighborhoods']
+ # brands = @facets['brands']
+ # has_filters = (request.parameters[:category].present? or request.parameters[:neighborhood].present? or request.parameters[:brand].present?) ? true : false
+ markers = []
+%>
+<% content_for :page_title do  %>
+  <h4><%= "#{@page_title_part} #{@vertical_market.name} #{@vertical_market.parent.name if @vertical_market.parent} Guide" %></h4>
+<% end %>
+<% @vertical_market.subtree.each do |vm| %>
+  <% vm.vertical_market_categories.each do |category| %>
+          <% 
+            locations = category.get_locations(@region, @subregion, @city, @district, {params: params}) 
+            markers |= locations.results 
+          %>
+          <% if locations.size > 0 %>
+          <div class="category">
+            <div class="heading index-<%= r += 1 %>">
+              <h5><%= category.name %></h5>
+
+              <a href="#" class="see-more" data-element="<%= category.id %>">More +</a>&nbsp;<%= link_to "See All", "#{@base_path}category/#{category.slug}" unless locations.size < 20 %>
+              <% if user_signed_in? and current_user.has_role? :admin %>
+                  <%= link_to "Edit - #{category.name}", edit_vertical_market_category_path(category), class: 'admin-link' %>
+              <% end %>
+            </div>
+
+            <div class="location-holder" id="cat-<%= category.id %>">
+              <div class="clearfix">
+                <% locations.each do |location| %>
+
+                    <div class="location-teaser clearfix">
+                      <div class="location-logo pull-right">
+
+                        <% if location.logo? %>
+                          <%= image_tag location.logo.url :thumb %>
+                        <% else %>
+                          <% if category.default_logo.file? %>
+                          <%= image_tag category.default_logo.url :thumb %>
+                          <% else %>
+                          <%= image_tag "http://placehold.it/70x55" %>
+                          <% end %>
+                        <% end %>
+
+
+
+
+
+                        <div class="action-links">
+                          <% if user_signed_in? %>
+                              <div id="favorite-<%= location.id %>">
+                                    <%= render 'favorites/like_button', :location_id => location.id.to_i %>
+                              </div>
+                          <% end %>
+
+                        </div>
+                      </div>
+                      <div class="location-info pull-left">
+                        <div class="title">
+                          <%= link_to location.name, location_path(location.slug) %>
+
+                        </div>
+                        <div><%= location.address %></div>
+                        <div><%= "#{location.city.name}, #{location.province.abbr} #{location.postal_code}" %></div>
+                        <div><%= location.phone %></div>
+
+                      </div>
+                    </div>
+
+                <% end %>
+              </div>
+            </div>
+          </div>
+      <% end %>
+  <% end %>
+<% end %>
+
+<%= javascript_tag do %>
+  window.locations = <%= raw markers.collect { |m| {:name => m.name, :latitude => m.geo[0], :longitude => m.geo[1]}}.to_json %>;
+<% end %>
+
+<%# render '_facets' %>

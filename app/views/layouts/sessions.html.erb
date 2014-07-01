@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <title><%= content_for?(:title) ? yield(:title) : "Connectbook" %></title>
+  <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Connectbook" %>">
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <%= yield(:head) %>
+</head>
+<body class="">
+<div class="wrapper">
+  <nav>
+    <div class="row-fluid" id="header">
+      <div class="span12">
+        <div class="row-fluid">
+          <div class="logo span6">
+            <a href="/" title="Connectbook.tv"><img src="/assets/logo.png" alt="" width="" height=""/></a>
+          </div>
+          <div class="user-nav span6">
+            Privacy | Log Out | My account | About | Home
+          </div>
+        </div>
+      </div>
+      <%= render 'main_menu' %>
+    </div>
+  </nav>
+  <div class="container content">
+
+    <div class="row">
+
+      <div class="span12">
+
+              <%= yield %>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="push"><!--// push // --></div>
+</div>
+<%= render :partial => 'footer' %>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<%= javascript_tag do %>
+  window.baseURL = '<%= request.domain %><%= ":#{request.port}" unless request.port == 80 %>'  
+  window.protocol = '<%= j request.protocol %>'
+  window.redirectURL = '<%= j request.url.gsub('http://', '') %>'
+<% end %>
+
+<div class="chooser-label">Location</div> 
+<div class="chooser">
+  <span id="selected_location">
+    Select Location
+  </span>
+  <div class="chooser-mega">
+
+
+
+    <div class="row-fluid country-holder" id="mega-us">
+      <div class="span3" id="metro-select-us">
+        <ul class="nav nav-list">
+
+          <% @regions_us.each do |r| %>
+          <li><a href="#" data-subdomain="<%= r.subdomain %>" data-toggle="<%= r.slug %>" class="region-select <%= 'selected' if !@path_metro.nil? && @path_metro == r.subdomain  %>"><i class="icon-chevron-right"></i><%= r.name %></a></li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="span3" id="sub-region-select-us">
+        <% @regions_us.each do |r| %>
+        <div id="<%= r.slug %>" style="display: <%=  (!@path_metro.nil? && @path_metro == r.subdomain) ? 'block' : 'none' %>;" class="border-left">
+          <ul class="nav nav-list">
+            <% r.sub_regions.each do |sub_region| %>
+              <li><a href="#" data-slug="<%= sub_region.slug %>" data-toggle="<%= sub_region.slug %>-sub-region" class="sub-region-select <%= 'selected' if !@path_sub_region.nil? && @path_sub_region == sub_region.slug  %>"><i class="icon-chevron-right"></i><%= sub_region.name %></a></li>
+            <% end %>
+          </ul>
+        </div>
+        <% end %>
+      </div>
+      <div class="span3" id="city-select-us">
+        <% @regions_us.each do |region| %>
+          <% region.sub_regions.each do |sub_region| %>
+          <div id ="<%= sub_region.slug %>-sub-region" style="display: <%= (!@path_sub_region.nil? && @path_sub_region == sub_region.slug) ? 'block' : 'none' %>;" class="border-left">
+            <ul class="nav nav-list">
+              <% sub_region.cities.each do |city| %>
+                <li><a href="#" data-slug="<%= city.slug %>" data-toggle="<%= city.slug %>-city" class="city-select <%= 'selected' if !@path_city.nil? && @path_city == city.slug  %>"><i class="icon-chevron-right"></i><%= city.name %></a></li>
+              <% end %>
+            </ul>
+          </div>
+          <% end %>
+        <% end -%>
+      </div>
+      <div class="span3" id="district-select-us">
+        <% @regions_us.each do |region| %>
+          <% region.sub_regions.each do |sub_region| %>
+            <% sub_region.cities.each do |city| %>
+          <div id ="<%= city.slug %>-city" style="display: <%= (!@path_city.nil? && @path_city == city.slug) ? 'block' : 'none' %>;" class="border-left">
+            <ul class="nav nav-list">
+              <% city.districts.each do |district| %>
+                <li><a href="#" data-slug="<%= district.slug %>" class="district-select <%= 'selected' if !@path_district.nil? && @path_district == district.slug  %>"><i class="icon-chevron-right"></i><%= district.name %></a></li>
+              <% end %>
+            </ul>
+          </div>
+          <% end %>
+        <% end -%>
+        <% end -%>
+      </div>
+    </div>
+
+
+
+    <div class="row-fluid country-holder" id="mega-ca" >
+      <div class="span3" id="metro-select-ca">
+        <ul class="nav nav-list">
+
+          <% @regions_ca.each do |r| %>
+          <li><a href="#" data-subdomain="<%= r.subdomain %>" data-toggle="<%= r.slug %>" class="region-select <%= 'selected' if !@path_metro.nil? && @path_metro == r.subdomain  %>"><i class="icon-chevron-right"></i><%= r.name %></a></li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="span3" id="sub-region-select-ca">
+        <% @regions_ca.each do |r| %>
+        <div id="<%= r.slug %>" style="display: <%=  (!@path_metro.nil? && @path_metro == r.subdomain) ? 'block' : 'none' %>;" class="border-left">
+          <ul class="nav nav-list">
+            <% r.sub_regions.each do |sub_region| %>
+              <li><a href="#" data-slug="<%= sub_region.slug %>" data-toggle="<%= sub_region.slug %>-sub-region" class="sub-region-select <%= 'selected' if !@path_sub_region.nil? && @path_sub_region == sub_region.slug  %>"><i class="icon-chevron-right"></i><%= sub_region.name %></a></li>
+            <% end %>
+          </ul>
+        </div>
+        <% end %>
+      </div>
+      <div class="span3" id="city-select-ca">
+        <% @regions_ca.each do |region| %>
+          <% region.sub_regions.each do |sub_region| %>
+          <div id ="<%= sub_region.slug %>-sub-region" style="display: <%= (!@path_sub_region.nil? && @path_sub_region == sub_region.slug) ? 'block' : 'none' %>;" class="border-left">
+            <ul class="nav nav-list">
+              <% sub_region.cities.each do |city| %>
+                <li><a href="#" data-slug="<%= city.slug %>" data-toggle="<%= city.slug %>-city" class="city-select <%= 'selected' if !@path_city.nil? && @path_city == city.slug  %>"><i class="icon-chevron-right"></i><%= city.name %></a></li>
+              <% end %>
+            </ul>
+          </div>
+          <% end %>
+        <% end -%>
+      </div>
+      <div class="span3" id="district-select-ca">
+        <% @regions_ca.each do |region| %>
+          <% region.sub_regions.each do |sub_region| %>
+            <% sub_region.cities.each do |city| %>
+          <div id ="<%= city.slug %>-city" style="display: <%= (!@path_city.nil? && @path_city == city.slug) ? 'block' : 'none' %>;" class="border-left">
+            <ul class="nav nav-list">
+              <% city.districts.each do |district| %>
+                <li><a href="#" data-slug="<%= district.slug %>" class="district-select <%= 'selected' if !@path_district.nil? && @path_district == district.slug  %>"><i class="icon-chevron-right"></i><%= district.name %></a></li>
+              <% end %>
+            </ul>
+          </div>
+          <% end %>
+        <% end -%>
+        <% end -%>
+      </div>
+    </div>
+
+
+
+    <div class="row-fluid btns">
+      <div class="pull-left more-cities">
+        <a href="#" class="">More Cities ...</a>
+      </div>
+      <div class="pull-right">
+
+        <a href="#" class="btn btn-small btn-go">Go</a>
+        <a href="#" class="btn btn-small btn-cancel">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="chooser-country">
+  <a href="#" class="country-select us" data-country="us" data-target="mega-us">US</a> | <a href="#" class="country-select ca" data-target="mega-ca" data-country="ca" >CA</a>
+</div>          

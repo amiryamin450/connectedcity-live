@@ -1,0 +1,35 @@
+<h1>Managing <%= @location.name %>'s Blog</h1>
+<% if @blog_entries.size > 0 %>
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Created</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @blog_entries.each do |blog_entry| %>
+    <tr>
+      <td><%= blog_entry.title %></td>
+      <td><%= blog_entry.user.name %></td>
+      <td><%= l blog_entry.created_at, format: :display %></td>
+          <td>
+        <div class='btn-group'>    
+          <%= link_to 'Show', [@location, blog_entry], class: 'btn btn-mini' %>
+          <%= link_to 'Edit', edit_location_blog_entry_path(@location, blog_entry), class: 'btn btn-mini' %>
+          <%= link_to 'Destroy', [@location,blog_entry], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+        </div>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+<div class="alert info">No Results</div>
+<% end -%>
+<br />
+
+<%= link_to 'New Blog entry', new_location_blog_entry_path(@location), class: 'btn btn-primary' %>

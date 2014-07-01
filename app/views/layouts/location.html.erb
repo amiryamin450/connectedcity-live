@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <title><%= content_for?(:title) ? yield(:title) : "Connectbook" %></title>
+  <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Connectbook" %>">
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <%= yield(:head) %>
+</head>
+<body class="">
+  <%= render 'facebook' %>
+  <div class="wrapper">
+    <nav>
+      <div class="row-fluid" id="header">
+        <div class="span12">
+          <div class="row-fluid">
+            <div class="logo span6">
+              <a href="/" title="Connectbook.tv"><img src="/assets/logo.png" alt="" width="" height=""/></a>
+            </div>
+            <div class="span6">
+              <div class="user-nav">
+                <%= render 'top_nav' %>
+              </div>
+
+              <div class="location-chooser">
+                <%= render 'location_chooser' %>               
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <%= render 'main_menu' %>
+      </div>
+    </nav>
+
+    <div>
+      
+
+    
+
+        <div id="sidebar" >
+          <%= render 'user_sidebar' %>
+        </div>
+        <div id="main-content">
+          <div class="row-fluid">
+            <div id="breadcrumbs">
+              <div class="breadcrumb">
+                <%= render_crumbs separator: "<span class='divider'><i class='icon-angle-right'></i></span>".html_safe %>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid content-holder">            
+          <div class="row-fluid">
+            <%= yield %>
+          </div>
+          </div>
+
+        </div>      
+
+
+
+
+
+
+    
+    
+    </div>
+  </div>
+ 
+  <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5088b5ab602f3daf"></script>
+</body>
+</html>

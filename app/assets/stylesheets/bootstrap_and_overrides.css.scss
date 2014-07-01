@@ -1,0 +1,671 @@
+//$import "twitter/bootstrap/bootstrap";
+//body { padding-top: 60px; }
+//$import "twitter/bootstrap/responsive";
+//$import "elements.less";
+
+// Set the correct sprite paths
+//$iconSpritePath: asset-path("twitter/bootstrap/glyphicons-halflings.png");
+//$iconWhiteSpritePath: asset-path("twitter/bootstrap/glyphicons-halflings-white.png");
+
+// Set the Font Awesome (Font Awesome is default. You can disable by commenting below lines)
+// Note: If you use asset_path() here, your compiled boostrap_and_overrides.css will not
+//       have the proper paths. So for now we use the absolute path.
+//$fontAwesomeEotPath: asset-path("fontawesome-webfont.eot");
+//$fontAwesomeWoffPath: asset-path("fontawesome-webfont.woff");
+//$fontAwesomeTtfPath: asset-path("fontawesome-webfont.ttf");
+//$fontAwesomeSvgPath: asset-path("fontawesome-webfont.svg");
+
+// Font Awesome
+//$import "fontawesome";
+
+// Your custom LESS stylesheets goes here
+//
+// Since bootstrap was imported above you have access to its mixins which
+// you may use and inherit here
+//
+// If you'd like to override bootstrap's own variables, you can do so here as well
+// See http://twitter.github.com/bootstrap/customize.html#variables for their names and documentation
+//
+// Example:
+// $linkColor: #ff0000;
+
+
+// Set the correct sprite paths
+$iconSpritePath: image-path('glyphicons-halflings.png');
+$iconWhiteSpritePath: image-path('glyphicons-halflings-white.png');
+$grey: #e9e9e9;
+$darkGrey: darken($grey, 10%);
+$white: #FFFFFF;
+$blue: #1c3656;
+$tenpx: .786em;
+$font-color: #333333;
+$gold: #fab301;
+
+.modal-backdrop, .modal-backdrop.fade.in {
+  opacity: 0.7;
+}
+
+body.admin .footer, body.admin footer {
+  margin-top: 3em;
+  min-height: 190px;
+  height: 190px;
+  background: #eeeeee;
+}
+
+
+
+
+
+html, body {
+
+  color: $font-color;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+}
+
+.push {
+  height: 196px;
+}
+
+.pad10 {
+  padding: 10px;
+}
+
+.margin-bottom {
+  margin-bottom: 2em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $blue;
+}
+
+#header {
+  
+  background: transparent image-url('header_bg.png') repeat-x;
+  color: $white;
+  font-size: $tenpx;
+
+  .logo {
+    margin-top: 20px;
+    padding-left: 30px;
+  }
+  .user-nav {
+    text-align: right;
+    padding-right: 30px;
+    font-size: $tenpx;
+    margin-top: 5px;
+  }
+}
+
+.breadcrumb {
+  color: #666;
+  line-height: 24px;
+  margin: 0 22px 0 22px;
+  padding: 8px 0 0 0;
+  font-size: 13px;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+.menu {
+  margin-top: 20px;
+  padding-left: 30px;
+
+  ul {
+    margin: 0;
+    padding: 0;
+
+    li {
+      float: left;
+      list-style: none;
+      background: transparent image-url('tab_li.png') no-repeat -15px 0;
+      height: 25px;
+      min-height: 25px;
+      padding: 0;
+      margin: 0;
+
+      &.active {
+        background: transparent image-url('tab_li_active.png') no-repeat -15px 0;
+      }
+
+      a {
+        color: $white;
+        background: transparent image-url('tab_a.png') no-repeat right center;
+        display: block;
+        height: 20px;
+        min-height: 20px;
+        padding: 2px 25px 3px 5px;
+        text-decoration: none;
+
+        &.active {
+          background-image: image-url('tab_a_active.png');
+          padding-right: 35px;
+          color: $blue;
+        }
+      }
+
+      &.first {
+        background-position: 0 0;
+        padding-left: 5px;
+      }
+
+      &.last a {
+        background-image: image-url('tab_end.png');
+        padding-right: 35px;
+      }
+
+      &.last a.active {
+        background-image: image-url('tab_end_active.png');
+
+      }
+
+      &.before-active a {
+        background-image: image-url('tab_a_before_active.png');
+      }
+
+      ul.child-menu {
+        position: absolute;
+        margin-top: 3px;
+        float: left;
+        li { 
+          background-image: none; 
+          color: #333;
+          margin-right: 15px;
+          a {
+            background: none;
+            color: #333;
+            padding: 0;
+            margin: 0;
+          }
+        }
+      }
+    
+
+    }
+  }
+}
+
+.band {
+  background: transparent image-url('band_bg.png') repeat-x;
+  height: 27px;
+  min-height: 27px;
+  margin: 0;
+  color: $blue;
+}
+
+#map, #profile-map {
+  height: 240px;
+
+}
+
+
+#map-holder {
+  background: #FFFFFF;
+  padding: 10px;
+  box-shadow: 0px 0px 3px #666;
+}
+
+div.filler {
+  width: 100%;
+  min-height: 300px;
+  background: #CCC;
+}
+
+.location-teaser {
+  background-color: $white;
+  width: 190px;
+  float: left;
+  min-height: 120px;
+  height: 120px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  padding: 10px;
+  box-shadow: 0px 0px 3px #666;
+  font-size: 0.754em;
+  line-height: 1.1em;
+
+  .action-links {
+    margin-top: 5px;
+
+    a.add-favorite {
+      text-indent: 99999px;
+      height: 16px;
+      min-height: 16px;
+      width: 18px;
+      min-width: 18px;
+      background: transparent image-url('fav_sprite.png') no-repeat -18px 0px;
+      display: block;
+      float: right;
+    }
+    a.remove-favorite {
+      text-indent: 99999px;
+      height: 16px;
+      min-height: 16px;
+      width: 18px;
+      min-width: 18px;
+      background: transparent image-url('fav_sprite.png') no-repeat 0px 0px;
+      display: block;
+      float: right;
+    }
+
+  }
+
+
+
+  .location-info {
+    width: 110px;
+    margin-right: 5px;
+
+    .title {
+      a {
+        font-size: 1.1em;
+        font-weight: bold;
+        color: $blue;
+        text-decoration: none;
+      }
+    }
+
+
+  }
+
+  .location-logo {
+    width: 70px;
+    height: 55px;
+    
+  }
+}
+
+.category {
+  margin-bottom: 1.5em;
+  .heading {
+
+
+    margin-left: 3px;
+    margin-bottom: 5px;
+    font-size: .714em;
+
+    h5 {
+      display: inline;
+      margin: 0;
+      font-size: 1.1em;
+      font-weight: normal;
+      color: $white;
+      padding: 5px 25px 4px 10px;
+      margin-right: 1em;
+      border-radius: 6px 6px 0px 0px;
+    }
+    span {
+      margin-bottom: 3px;
+    }
+    a {
+
+      color: #333;
+      text-decoration: none;
+
+      &.see-more {
+        margin-right: 5px;
+      }
+    }
+
+    &.index-0 {
+      border-bottom: #10aab0 4px solid;
+      h5 {
+        background: #10aab0
+      }
+    }
+    &.index-1 {
+      border-bottom: #6377bf 4px solid;
+      h5 {
+        background: #6377bf
+      }
+    }
+    &.index-2 {
+      border-bottom: #f08080 4px solid;
+      h5 {
+        background: #f08080
+      }
+    }
+    &.index-3 {
+      border-bottom: #8f951a 4px solid;
+      h5 {
+        background: #8f951a
+      }
+    }
+    &.index-4 {
+      border-bottom: #945c1a 4px solid;
+      h5 {
+        background: #945c1a
+      }
+    }
+    &.index-5 {
+      border-bottom: #c6292b 4px solid;
+      h5 {
+        background: #c6292b
+      }
+    }
+    &.index-6 {
+      border-bottom: #e05603 4px solid;
+      h5 {
+        background: #e05603
+      }
+    }
+    &.index-7 {
+      border-bottom: #f08080 4px solid;
+      h5 {
+        background: #f08080
+      }
+    }
+    &.index-8 {
+      border-bottom: #8f951a 4px solid;
+      h5 {
+        background: #8f951a
+      }
+    }
+    &.index-9 {
+      border-bottom: #c6292b 4px solid;
+      h5 {
+        background: #c6292b
+      }
+    }
+    &.index-10 {
+      border-bottom: #f08080 4px solid;
+      h5 {
+        background: #f08080
+      }
+    }
+    &.index-11 {
+      border-bottom: #945c1a 4px solid;
+      h5 {
+        background: #945c1a
+      }
+    }
+  }
+
+  .location-holder {
+    height: 140px;
+    overflow: hidden;
+    padding: 3px;
+    &.show {
+      height: auto;
+    }
+  }
+}
+
+h6.shopper {
+  background: transparent image-url('connected_shopper.png') no-repeat;
+  display: block;
+  height: 15px;
+  margin: 10px 0 5px 5px;
+  text-indent: -9999px;
+}
+
+div.login-block {
+  font-size: .756em;
+  margin-left: 5px;
+  a {
+    color: $blue;
+  }
+}
+
+
+.footer {
+  padding: 25px 35px;
+  height: 146px;
+  min-height: 146px;
+
+  background: #19314F image-url('footer_bg.png') repeat-x;
+  .links {
+    text-align: right;
+    font-size: .786em;
+  }
+  .copyright {
+    img {
+      margin-right: 20px;
+    }
+    font-size: .756em;
+  }
+  .links, .copyright {
+    color: $white;
+  }
+  a {
+    color: $white;
+  }
+}
+
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+}
+
+.filler {
+  width: 100%;
+  background: #333;
+  height: 400px;
+  min-height: 400px;
+
+  margin-bottom: 1em;
+}
+
+.nav.small a {
+  font-size: 0.786em;
+}
+
+.accent {
+  display: block;
+  text-decoration: none;
+  @include border-radius(6px);
+  @include background-image(linear-radient(color-stops($grey, $darkGrey, $grey)));
+
+  padding: 1em;
+  border: 1px solid $darkGrey;
+  margin-bottom: .5em;
+  &:hover {
+    color: $white;
+    @include background-image(linear-radient(color-stops($grey, $blueDark, $blue)));
+    text-decoration: none;
+  }
+}
+
+.cb-container {
+  border: 1px solid $blueDark;
+  margin-bottom: 1em;
+}
+
+.header {
+  @include background-image(linear-radient(color-stops($grey, $blueDark, $blue)));
+  color: $white;
+  padding: 10px;
+}
+
+ul.location-list {
+  display: table;
+  width: 100%;
+  margin: 15px 0;
+  padding: 0;
+  li {
+    list-style-type: none;
+  }
+  > li {
+    background: $white;
+    border: 1px solid $darkGrey;
+    @include border-radius(4px);
+    margin: 0 0 10px;
+    overflow: hidden;
+    padding: 8px 10px 0;
+
+    h3 {
+      font-size: 14px;
+      margin: 0 0 8px;
+      white-space: nowrap;
+      line-height: 20px;
+      i {
+        margin-right: 5px;
+      }
+    }
+    p.updated-at {
+      color: #888;
+      font-size: 11px;
+      margin: 0;
+    }
+    .body {
+      @include background-image(linear-radient(color-stops($grey, $blueDark, $blue)));
+      padding: 5px 10px;
+      width: 100%;
+      margin-left: -10px;
+      @include border-radius(0 0 4px 4px);
+      border-top: 1px solid $darkGrey;
+
+      .activity-graph {
+        @include border-radius(3px);
+        background-color: $white;
+        border-color: $darkGrey $grey $grey $darkGrey;
+        border-width: 1px;
+        border-style: solid;
+        padding: 5px 4px;
+
+        .bars {
+          height: 20px;
+        }
+        .legend {
+          height: 10px;
+        }
+      }
+    }
+  }
+  ul.list {
+    display: inline-block;
+    font-size: 11px;
+    li {
+      display: block;
+      float: left;
+      margin-right: 6px;
+      i {
+        margin-right: 5px;
+      }
+    }
+  }
+
+}
+
+.holder {
+  background: $white;
+  background: $white;
+  box-shadow: 0px 0px 3px #666;
+  margin-bottom: 1.5em;
+}
+
+.status-updates {
+  margin-top: 1em;
+  background: $white;
+  box-shadow: 0px 0px 3px #666;
+  margin-bottom: 2.5em;
+  .status-tabs {
+    ul {
+      margin: 0;
+      padding: 0;
+      height: 30px;
+      background: image-url('quick_tabs_bg.png') repeat-x;
+      li {
+        list-style: none;
+        display: block;
+        float: left;
+        margin: 0;
+        min-height: 20px;
+        padding: 5px 10px;
+        border-right: 1px solid $white;
+        &.last { border-right: none; }
+        font-size: 10px;
+        a {
+          color: #FEC111;
+          &:hover {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+.tweet {
+  font-size: 12px;
+  line-height: 14px;
+  background: $white;
+  border-bottom: 1px solid #CCCCCC;
+
+  &:last-child {
+    border-bottom: none;
+  }
+  &:hover {
+    background: #EEE;
+  }
+  .name {
+    font-weight: bold;
+    font-size: 14px;
+    .screen-name {
+      font-size: 11px;
+      font-weight: normal;
+      color: #999999;
+    }
+  }
+  .message {
+    margin: 6px 0;
+  }
+  .retweeted {
+    color: #999999;
+  }
+  .tweet-profile-img {
+    @include border-radius(5px);
+  }
+  a {
+    color: #990000;
+  }
+  .row-fluid [class*="span"] {
+    min-height: auto;
+  }
+  .time-elapse {
+    text-align: right;
+    font-size: 11px;
+    color: #999999;
+  }
+}
+
+.fb_ltr {
+  width: 100% !important;
+}
+.profile-breadcrumb {
+  width: 750px;
+}
+.column-left {
+  width: 165px;
+  margin-right: 25px;
+  float: left;
+}
+.column-center {
+  width: 550px;
+  float: left;
+  margin-right: 25px;
+}
+
+.column-right {
+  margin-left: 765px;
+}
+.nav-pills > li > a {
+  border-radius: 5px;
+}

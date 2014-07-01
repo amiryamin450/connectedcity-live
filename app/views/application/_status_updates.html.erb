@@ -1,0 +1,94 @@
+<div class="holder pad10">
+  <div class="status-tabs clearfix">
+    <ul class="clearfix">
+      <li class="first"><a href="#market-updates">Updates</a></li>
+      <li><a href="#listings">New Listings</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#news">News</a></li>
+      <li><a href="#blogs">Blogs</a></li>
+      <li class="last"><a href="#coupons">Coupons</a></li>
+    </ul>
+  </div>
+
+  <div id="market-updates">
+    <h4>Market Updates</h4>
+    <div class="primary-content">
+      <%= render @vertical_market.get_status_updates(@region, @subregion, @city, @district) %>
+    </div>
+  </div>
+
+  <div id="listings">
+    <h4>Products</h4>
+    <%= render @vertical_market.get_products(@region, @subregion, @city, @district) %>
+  </div>
+
+  <div id="events">
+    <h4>Events</h4>
+    <% @vertical_market.get_events(@region, @subregion, @city, @district).each do |event| %>
+    <div class="row-fluid event">
+      <div class="span1">
+
+        <div class="date">
+          <div><%= event.starts_at.strftime('%e') -%>
+            <div class="month"><%= event.starts_at.strftime('%b') -%></div>
+          </div>
+        </div>
+
+      </div>
+      <div class="span11">
+        <div class="name"><strong><%= event.name %></strong></div>
+        <div class="dates">
+          <%= raw "<strong>Starts:</strong> #{event.starts_at.strftime('%m/%d/%Y %l:%M %p')}" if event.starts_at.present? %>
+          <%= raw " | <strong>Ends:</strong> #{event.ends_at.strftime('%m/%d/%Y %l:%M %p')}" if event.ends_at.present? %>
+        </div>
+        <div class="event-info">
+          <%= link_to "Event Website", event.url if event.url? %>
+          <%= raw " | #{mail_to event.email}" if event.email.present? %>
+        </div>
+        <div><%= raw event.description %></div>
+        <div class="row-fluid branding">
+          <div class="span1"><%= image_tag event.location.logo.url(:thumb) if event.location.logo? %></div>
+          <div class="span11"><%= link_to event.location.name, event.location, class: 'strong' %></div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>
+  <div id="news">
+    <h4>News Articles</h4>
+          <% @vertical_market.get_news_articles(@region, @subregion, @city, @district).each do |article| %>
+
+      <div class="row-fluid article">
+        <div class="span1">
+          <%= image_tag article.newsable.logo.url(:thumb) if article.newsable.logo? %>
+        </div>
+        <div class="span11">
+
+
+        </div>
+      </div>
+
+      <% end %>
+  </div>
+  <div id="blogs">
+    <h4>Blog Entries</h4>
+    <% @vertical_market.get_blog_entries(@region, @subregion, @city, @district).each do |blog| %>
+
+      <div class="row-fluid blog">
+        <div class="span1">
+          <%= image_tag blog.bloggable.logo.url(:thumb) if blog.bloggable.logo? %>
+        </div>
+        <div class="span11">
+
+        </div>
+      </div>
+
+      <% end %>
+  </div>
+  <div id="coupons">
+    <h4>Coupons</h4>
+  </div>
+
+
+
+</div>

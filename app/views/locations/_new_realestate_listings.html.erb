@@ -1,0 +1,16 @@
+<h4>Home Listings
+ <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+ <small><%= link_to "(add)", "#realestate_listing", class: 'small', role: :button, data: {toggle: 'modal'} %></small>
+ <% end %>
+</h4>
+<% if @location.real_estate_listings.size > 0 %>
+  <% @location.real_estate_listings.each do |listing| %>
+    <div class="row-fluid">
+     
+    </div>
+  <% end %>
+<% else %>
+<div class="alert">
+  No Listings found.
+</div>
+<% end %>

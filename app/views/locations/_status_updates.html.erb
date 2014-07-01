@@ -1,0 +1,23 @@
+<h5 class="title">Status Updates
+ <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+ <small><%= link_to "(add)", "#status_update", class: 'small', role: :button, data: {toggle: 'modal'} %></small>
+ <% end %>
+</h5>
+
+<div id="status_updates">
+  <% if @location.status_updates.size > 0 %>
+
+  
+  <% @status_updates.each do |s| %>
+  <article class="teaser">      
+    <div class="article-content"><%= truncate(s.content, length: 200, seperator: ' ') %></div>
+    <div class="article-published"><%= "#{time_ago_in_words(s.created_at)} ago" %></div>
+  </article>
+
+  <% end %>
+  <%= paginate @status_updates, param_name: 'status_page' %>
+  
+  <% else %>
+  <div class="alert">No Status Updates found.</div>
+  <% end %>
+</div>

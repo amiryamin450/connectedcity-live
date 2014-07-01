@@ -1,0 +1,15 @@
+<%= simple_form_for [@location, @blog_entry] do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :user_id, as: :hidden %>
+    <%= f.input :title %>
+    <%= f.input :content, input_html: {class: 'wysihtml5', style: 'width: 80%'} %>
+
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: 'btn btn-primary' %>
+    <%= link_to "Cancel", location_blog_entries_path, class: 'btn' %>
+  </div>
+<% end %>

@@ -1,0 +1,37 @@
+<div class="category">
+  <div class="heading index-2">
+  <h5>Services</h5>
+    <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+ <small><%= link_to "add", new_location_product_path(@location), class: 'small' %> | <%= link_to 'manage', location_products_path(@location) %></small>
+ <% end %>
+</div>
+</div>
+
+<% if @services.size > 0 %>
+
+<% @services.in_groups_of(4) do |group| %>
+<div class="row-fluid service">
+    <ul class="thumbnails">
+    <% group.each do |service| %>
+      <% if service %>
+      <li class="span3">
+        <div class="thumbnail">
+          <%= image_tag service.image.url(:list) %>
+          <div class="caption">
+            <h6><%= service.name %></h6>
+          </div>
+        </div>
+        <% end -%>
+      </li>
+    <% end -%>
+  </ul>
+</div>
+
+<% end -%>   
+
+  <%= paginate @services, param_name: 'service_page' %>
+<% else %>
+<div class="alert">
+  No Products found.
+</div>
+<% end %>

@@ -1,0 +1,15 @@
+
+<% if user_signed_in? %>
+<% if @current_user.locations.count > 0 %>
+<h6 class="admin_menu">Manage My Locations</h6>
+<ul class="admin-list">
+  <% @current_user.locations.each do |location| %>
+  <li><%= link_to location.name, location_path(location) %></li>
+  <% end %>
+</ul>
+<% else %>
+	<%= @current_user.name %>
+<% end %>
+
+<% else %>
+<% end %>

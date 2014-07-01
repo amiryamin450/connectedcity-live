@@ -1,0 +1,35 @@
+<div class="category">
+  <div class="heading index-1">
+  <h5>Real Estate Listings</h5>
+   <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+ <small><%= link_to "add", new_location_real_estate_listing_path(@location), class: 'small' %> | <%= link_to 'manage', location_real_estate_listings_path(@location) %></small>
+ <% end %>
+</div>
+</div>
+<% if @listings.size > 0 %>
+<% @listings.in_groups_of(4) do |group| %>
+<div class="row-fluid product">
+    <ul class="thumbnails">
+    <% group.each do |listing| %>
+      <% if listing %>
+      <li class="span3">
+        <div class="thumbnail">
+          <%= image_tag listing.main_image.url(:list) %>
+          <div class="caption">
+            <h6><%= listing.regional_mls_number %></h6>            
+          </div>
+        </div>
+        <% end -%>
+      </li>
+    <% end -%>
+  </ul>
+</div>
+
+<% end -%>   
+
+  <%= paginate @listings, param_name: 'listing_page' %>
+<% else %>
+<div class="alert">
+  No Listings found.
+</div>
+<% end %>

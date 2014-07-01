@@ -1,0 +1,43 @@
+<div class="row-fluid">
+  <div class="span9">
+    <h1><%= @news_article.title %></h1>
+    <div class="submitted">
+      author: <%= @news_article.user.name %> - <%= l @news_article.created_at, format: :display %>
+    </div>
+    <div>
+    <%= @news_article.content.html_safe %>
+    </div>
+   <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+
+      
+      <%= link_to 'Edit Article', edit_location_news_article_path(@location, @news_article), class: 'btn btn-primary'  %>
+      <%= link_to 'Create New Article', new_location_news_article_path(@location), class: 'btn' %>
+   <% end %>
+
+  </div>
+  <div class="span3">
+    <div class="thumbnail"><%= image_tag "http://placehold.it/320x240" %></div>
+    
+    <div class="info">
+      <address>
+        <strong><%= link_to @location.name, @location %></strong><br />
+        <%= @location.address %><br/>
+        <%= "#{@location.city.name} #{@location.province.abbr}, #{@location.postal_code}" %><br />
+      </address>
+    </div>
+    
+    <% if @location.news_articles.size > 1 %>
+    <div class="blog-entries">
+      <h5>Recent News Articles</h5>
+      <ul>
+        <% @location.news_articles.each do |article| %>
+          <% unless article == @news_article %>
+            <li><%= link_to article.title, [@location, article] %></li>
+          <% end %>
+        <% end %>
+      </ul>      
+    </div>
+    <% end %>
+  </div>  
+</div>
+

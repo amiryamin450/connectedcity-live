@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @status_update.title %>
+</p>
+
+<p>
+  <b>Content:</b>
+  <%= @status_update.content %>
+</p>
+
+<p>
+  <b>Provider:</b>
+  <%= @status_update.provider %>
+</p>
+
+<p>
+  <b>Location:</b>
+  <%= @status_update.location_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_status_update_path(@status_update) %> |
+<%= link_to 'Back', status_updates_path %>

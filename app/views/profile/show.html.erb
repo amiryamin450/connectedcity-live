@@ -1,0 +1,66 @@
+<h3><%= @user.name %></h3>
+
+
+
+
+<div class="tabs" id="tab">
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#main">Main</a></li>
+    <li><a data-toggle="tab" href="#favorites">Favorites</a></li>
+    <li><a data-toggle="tab" href="#blah">Blah</a></li>
+  </ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="main">
+    Main pane
+  </div>
+  <div class="tab-pane" id="favorites">
+    Favorites pane
+  </div>
+  <div class="tab-pane" id="blah">
+    blah blah balh
+  </div>
+</div>
+
+</div>
+
+
+
+
+
+
+<%= javascript_tag do%>
+
+$(function(){
+
+  var tabs = $('.tabs'),
+    tab_a_selector = '.nav-tabs a';
+
+  tabs.find( tab_a_selector ).click(function(e){
+
+    e.preventDefault();
+
+    $(this).tab('show');
+
+    var state = {},
+      // Get the id of this tab widget.
+      id = $(this).closest( '.tabs' ).attr( 'id' ),
+      // Get the index of this tab.
+      idx = $(this).parent().prevAll().length;
+
+    // Set the state!
+    state[ id ] = idx;
+    $.bbq.pushState( state );
+  });
+
+  $(window)
+  .on( 'hashchange', function(e) {
+    tabs.each(function(){
+      var idx = $.bbq.getState( this.id, true ) || 0;
+      $(this).find( tab_a_selector ).eq( idx ).triggerHandler( 'click' );
+    });
+  })
+  .trigger( 'hashchange' );
+});
+
+<% end %>

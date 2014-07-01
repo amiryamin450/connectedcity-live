@@ -1,0 +1,37 @@
+<%= simple_form_for [@location, @event] do |f| %>
+<div class="form-inputs">
+  <%= f.input :name %>
+  <%= f.input :email %>
+  <%= f.input :url, label: 'Website URL', placeholder: 'http://www.example.com' %>
+
+  <div class="control-group">
+    <label for="event_starts_at" class="string optional control-label">Start Time</label>
+    <div class="input-append" id="datepicker_starts" >
+      <%= f.input_field :starts_at, as: :string,  data: { format: "yyyy-MM-dd HH:mm PP" }, value: @event.starts_at.strftime("%Y-%m-%d %I:%M %p")   %>
+      <span class='add-on'>
+        <i data-time-icon='icon-time' data-date-icon='icon-calendar'></i>
+      </span>
+    </div>
+  </div>
+
+
+  <div class="control-group">
+    <label for="event_ends_at" class="string optional control-label">End Time</label>
+    <div class="input-append" id="datepicker_ends" >
+      <%= f.input_field :ends_at, as: :string,  data: { format: "yyyy-MM-dd HH:mm PP" }, value: @event.ends_at.strftime("%Y-%m-%d %I:%M %p")   %>
+      <span class='add-on'>
+        <i data-time-icon='icon-time' data-date-icon='icon-calendar'></i>
+      </span>
+    </div>
+  </div>
+
+  <%= f.input :description, input_html: { class: 'input-block-level wysihtml5'} %>
+  <%= f.input :image, as: :logo_preview %>
+</div>
+
+<div class="form-actions">
+  <%= f.button :submit, class: 'btn btn-primary' %>
+  <%= link_to 'Cancel', location_events_path(@location), class: 'btn'  %>
+</div>
+
+<% end -%>

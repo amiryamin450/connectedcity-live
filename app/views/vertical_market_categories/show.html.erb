@@ -1,0 +1,61 @@
+<% content_for :page_title do %>
+<h4><%= @vertical_market_category.name %></h4>
+<% end %>
+
+<% 
+  # categories = @facets['categories']
+  # neighborhoods = @facets['neighborhoods']
+  # brands = @facets['brands']
+  markers = []
+  locations = @vertical_market_category.get_locations(@region, @subregion, @city, @district, { :page => params[:page], :per => 20, :params => params}) 
+  markers |= locations.results
+  # has_filters = (request.parameters[:category].present? or request.parameters[:neighborhood].present? or request.parameters[:brand].present?) ? true : false
+%>
+
+<div class="row-fluid">
+  <%= paginate locations %>
+  <div class="location-holder">
+    <div class="clearfix">
+      <% locations.each do |location| %>
+
+      <div class="location-teaser clearfix">
+        <div class="location-logo pull-right">
+          <% if location.logo? %>
+            <%= image_tag location.logo.url :thumb %>
+          <% else %>
+            <% if @vertical_market_category.default_logo.file? %>
+              <%= image_tag @vertical_market_category.default_logo.url :thumb %>
+            <% else %>
+              <%= image_tag "http://placehold.it/70x55" %>
+            <% end %>
+          <% end %>
+          <div class="action-links">
+            <% if user_signed_in? %>
+            <div id="favorite-<%= location.id %>">
+              <%= render 'favorites/like_button', :location_id => location.id.to_i %>
+            </div>
+            <% end %>
+
+          </div>
+        </div>
+        <div class="location-info pull-left">
+          <div class="title">
+            <%= link_to location.name, "#{@base_path}business/#{location.slug}" %>
+
+          </div>
+          <div><%= location.address %></div>
+          <div><%= "#{location.city.name}, #{location.province.abbr} #{location.postal_code}" %></div>
+          <div><%= location.phone %></div>
+
+        </div>
+      </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= javascript_tag do %>
+window.locations = <%= raw markers.collect { |m| {:name => m.name, :latitude => m.geo[0], :longitude => m.geo[1]}}.to_json %>;
+<% end %>
+<%# render 'facets' %>

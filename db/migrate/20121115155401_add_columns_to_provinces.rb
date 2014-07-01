@@ -1,0 +1,7 @@
+class AddColumnsToProvinces < ActiveRecord::Migration
+  def change
+    add_column :provinces, :country_code, :string
+    add_column :provinces, :country, :string
+    add_column :provinces, :province_code, :string
+  end
+end

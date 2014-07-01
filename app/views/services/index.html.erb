@@ -1,0 +1,36 @@
+<h1>Managing <%= @location.name %>'s Services</h1>
+
+<% if @services.size > 0 %>
+
+<table class="table table-bordered table-striped table-hover">
+  <tr>
+    <th>Name</th>
+    <th>Sku</th>
+    <th>Price</th>
+    <th></th>
+  </tr>
+
+  <% @services.each do |service| %>
+  <tr>
+    <td><%= service.name %></td>
+    <td><%= service.sku %></td>
+    <td><%= number_to_currency service.price %></td>
+    <td>
+      <div class='btn-group'>    
+        <%= link_to 'Show', [@location, service], class: 'btn btn-mini' %>
+        <%= link_to 'Edit', edit_location_service_path(@location, service), class: 'btn btn-mini' %>
+        <%= link_to 'Destroy', [@location,service], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+      </div>
+    </td>
+  </tr>
+  <% end %>
+</table>
+
+<% else %>
+<div class="alert info">No Results</div>
+<% end -%>
+
+<br />
+
+<%= link_to 'New Service', new_location_service_path(@location), class: 'btn btn-primary' %>
+<%= link_to "Back to #{@location.name}", @location, class: 'btn'  %>

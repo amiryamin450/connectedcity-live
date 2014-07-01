@@ -1,0 +1,53 @@
+<div id="sidebar-shortcuts">
+  <a href="#" class="menu-toggle"><i class="icon-chevron-sign-left"></i><span>Menu</span></a>
+</div>
+<div id="sidebar-shortcuts-mini">
+  <a href="#" class="menu-toggle"><i class="icon-chevron-sign-right"></i></a>
+</div>
+<ul class="nav nav-list">
+  <li>
+    <a href="#" data-toggle="user-sidebar" class="dropdown-toggle">
+      <i class="icon-user"></i>
+      <span>
+        Account
+      </span>
+      <b class="arrow icon-angle-right"></b>
+    </a>
+    <ul class="submenu hide" id="user-sidebar">
+      
+        <% if user_signed_in? %>
+       <li> <%= link_to '<i class="icon-user"></i> Edit account'.html_safe, edit_user_registration_path %> </li>
+        <% else %>
+        <li><%= link_to 'Login', new_user_session_path %> </li>
+        <li><%= link_to 'Login with Facebook', user_omniauth_authorize_path(:facebook) %></li>
+       <li> <%= link_to 'Sign up', new_user_registration_path %></li>
+        <% end %>
+      
+    </ul>
+
+  </li>
+
+  <li>
+    <a href="#" data-toggle="favorites" class="dropdown-toggle" >
+      <i class="icon-star"></i>
+      <span>Favorites</span>
+      <b class="arrow icon-angle-right"></b>
+    </a>
+    <ul class="submenu hide" id="favorites">
+      <% @vertical_markets_all.each do |vm| %>
+      <li class="">
+        <a href="">
+          <i class="icon-home"></i>
+          <span><%= "#{vm.name} #{fav_count vm}" %></span>
+        </a>
+      </li>
+      <% end -%>
+    </ul>
+  </li>
+
+</ul>
+
+
+
+
+

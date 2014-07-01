@@ -1,0 +1,14 @@
+<%= simple_form_for [@location, @product] do |f| %>
+<div class="form-inputs">
+  <%= f.input :name %>
+  <%= f.input :description, input_html: { class: 'input-block-level wysihtml5'} %>
+  <%= f.input :price, as: :string %>
+  <%= f.input :sku %>
+  <%= f.input :image, as: :logo_preview %>
+</div>
+<div class="form-actions">
+  <%= f.button :submit, class: 'btn btn-primary' %>
+  <%= link_to 'Cancel', location_products_path(@location), class: 'btn'  %>
+</div>
+
+<% end %>

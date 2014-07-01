@@ -1,0 +1,14 @@
+<%= simple_form_for(@vertical_market) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :description, input_html: { class: 'input-block-level'} %>
+    <%= f.input :parent_id, :collection => VerticalMarket.where(ancestry_depth: 0).where(@vertical_market.id.nil? ? "id IS NOT NULL" : "id != #{@vertical_market.id}"), prompt: 'Select Parent' %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: 'btn btn-primary' %>
+    <%= link_to "Cancel", vertical_markets_path, class: 'btn' %>
+  </div>
+<% end %>

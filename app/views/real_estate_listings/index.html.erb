@@ -1,0 +1,35 @@
+<h1>Listing Real Estate Listings for <%= @location.name %></h1>
+<% if @real_estate_listings.size > 0 %>
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+    <tr>
+      <th>MLS #</th>
+      <th>Address</th>
+      <th>List Price</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @real_estate_listings.each do |real_estate_listing| %>
+  <tr>
+    <td><%= real_estate_listing.regional_mls_number %></td>
+    <td><%= real_estate_listing.address %></td>
+    <td><%= number_to_currency real_estate_listing.list_price %></td>
+    <td>
+      <div class="btn-group">
+                    <%= link_to 'show', [@location, real_estate_listing], class: 'btn btn-mini' %>
+            <%= link_to 'edit', edit_location_real_estate_listing_path(@location, real_estate_listing), class: 'btn btn-mini' %>
+            <%= link_to 'delete', [@location, real_estate_listing], method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+      </div>
+    </td>
+  </tr>
+<% end %>
+  </tbody>
+
+</table>
+<% else %>
+<div class="alert notice">No Listings found.</div>
+<% end %>
+
+<%= link_to 'New Real Estate Listing', new_location_real_estate_listing_path(@location), class: 'btn btn-primary' %>
+<%= link_to "Back to #{@location.name}", @location, class: 'btn' %>

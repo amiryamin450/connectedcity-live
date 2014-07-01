@@ -1,0 +1,147 @@
+// Place all the styles related to the Locations controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.fb-comments, .fb-comments iframe[style], .fb-comments span[style] {width: 100% !important;}
+.status-tabs {
+  margin-bottom: 10px;
+  ul {
+    margin: 0;
+    padding: 0;
+    height: 30px;
+    background: image-url("quick_tabs_bg.png") repeat-x;
+    li {
+      list-style: none;
+      display: block;
+      float: left;
+      margin: 0;
+      min-height: 20px;
+      padding: 5px 10px;
+      border-right: 1px solid #fff;
+      &.last, &:last-child { border-right: none; }
+      font-size: 10px;
+      a {
+        color: #FEC111;
+        &:hover {
+          text-decoration: none;
+          color: #FFF;
+        }
+      }
+    }
+  }
+}
+
+.gallery-wrap {
+  margin: 1em 0;
+  ul {
+    list-style: none;
+    margin: 0;
+    li {
+      display: inline-block;
+      width: 75px;
+      a {
+        img {
+          margin: 3px;
+        }
+      }
+
+    }
+  }
+
+}
+.address-line {
+  font-size: 11px;
+  color: #666;
+  line-height: 14px;
+  margin-bottom: 10px;
+}
+.profile {
+  .profile-info {
+    font-size: .786em;
+    address {
+      line-height: 1.25em;
+      margin-bottom: 10px;
+    }
+    .name {
+      line-height: 18px;
+      font-size: 1.2em;
+      margin-bottom: 5px;
+    }
+  }
+  .favorite {
+    display: inline;
+  }
+  .description {
+    font-size: .857em;
+    line-height: 1.5em;
+  }
+  .logo {
+    
+  }
+
+  a.add-favorite {
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 16px;
+    min-height: 16px;
+    width: 18px;
+    min-width: 18px;
+    background: transparent image-url('fav_sprite.png') no-repeat -18px 0px;
+    display: inline-block;
+  }
+  a.remove-favorite {
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 16px;
+    min-height: 16px;
+    width: 18px;
+    min-width: 18px;
+    background: transparent image-url('fav_sprite.png') no-repeat 0px 0px;
+    display: inline-block;
+  }
+}
+
+h5 {
+  @include background(linear-gradient(color-stops(#666, #000)));
+  margin: 0;
+  margin-bottom: 1em;
+  padding: 5px 10px;
+  color: #FEC111;
+  a {
+    color: $white;
+    font-size: .8em;
+  }
+}
+
+.product, .service, .event {
+  .thumbnails > li {
+    margin-bottom: 0;
+  }
+  .thumbnail {
+    background: #FFF;
+  }
+  font-size: 0.8em;
+  .sku, .dates { font-size: .8em; font-style: italic; }
+  .price {
+   font-size: .8em;
+   
+ }
+ .event-info {
+  padding: 5px 0;
+ }
+}
+
+.brand-name {
+  font-size: .8em;
+  font-weight: bold;
+  color: $blue;
+  text-align: center;
+}
+
+.caption {
+  h6 {
+    margin: 0;
+  }
+}

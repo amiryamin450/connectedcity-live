@@ -1,0 +1,42 @@
+<div class="category">
+  <div class="heading index-3">
+  <h5>Events</h5>
+   <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+   <small><%= link_to "add", new_location_event_path(@location) %> | <%= link_to 'manage', location_events_path(@location) %></small>
+   <% end %>
+</div>
+</div>
+
+<% if @events.size > 0 %>
+
+<% @events.in_groups_of(4) do |group| %>
+<div class="row-fluid event">
+    <ul class="thumbnails">
+    <% group.each do |event| %>
+      <% if event %>
+      <li class="span3">
+        <div class="thumbnail">
+          <%= image_tag event.image.url(:list) %>
+          <div class="caption">
+            <h6><%= event.name %></h6>
+          </div>
+        </div>
+        <% end -%>
+      </li>
+    <% end -%>
+  </ul>
+</div>
+
+
+
+
+
+
+
+<% end %>
+<%= paginate @events, param_name: 'event_page' %>
+<% else %>
+<div class="alert">No Events found.</div>
+<% end %>
+
+

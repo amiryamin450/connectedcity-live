@@ -1,0 +1,48 @@
+<h3>Search Results <em><%= "for #{params[:query].present? ? params[:query] : 'All Records'}"  %></em></h3>
+
+<div class="result-numbers">Showing <%= "#{params[:page].present? ? @results.count * params[:page].to_i : '1'} to #{ params[:page].present? ? (@results.count * params[:page].to_i) + @results.count : @results.count }"  %> of <%= @results.total_entries %> results</div>
+
+<div class="pagination-holder top">
+  <%= paginate @results  %>
+</div>
+
+<div class="location-holder">
+  <div class="clearfix">
+    <% @results.each do |location| %>
+
+    <div class="location-teaser clearfix">
+      <div class="location-logo pull-right">
+        <%= image_tag "http://placehold.it/70x55" %>
+        <div class="action-links">
+          <% if user_signed_in? %>
+          <div id="favorite-<%= location.id %>">
+            <%= render 'favorites/like_button', :location_id => location.id.to_i %>
+          </div>
+          <% end %>
+
+        </div>
+      </div>
+      <div class="location-info pull-left">
+        <div class="title">
+          <%= link_to location.name, "#{@base_path}locations/#{location.slug}" %>
+        </div>
+        <div><%= location.address %></div>
+        <div><%= "#{location.city.name}, #{location.province.abbr} #{location.postal_code}" %></div>
+        <div><%= location.phone %></div>
+
+      </div>
+    </div>
+
+    <% end %>
+  </div>
+</div>
+
+<div class="pagination-holder bottom">
+  <%= paginate @results %>
+</div>
+
+<%= javascript_tag do %>
+window.locations = <%= raw @results.results.collect { |m| {:name => m.name, :latitude => m.geo[0], :longitude => m.geo[1]}}.to_json %>;
+<% end %>
+
+<%# render 'facets' %>

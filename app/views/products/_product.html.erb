@@ -1,0 +1,9 @@
+<div class="row-fluid product">
+  <div class="img-thumb span1">
+    <%= image_tag product.image.url(:thumb) if product.image? %>
+  </div>
+  <div class="span11">
+    <div><strong><%= product.name %></strong> <%= raw " <span class='price' >$#{product.price}</span>" if product.price.present? %></div>
+    <div class="sku"><%= "SKU: #{product.sku}" if product.sku.present? %></div>
+  </div>
+</div>
