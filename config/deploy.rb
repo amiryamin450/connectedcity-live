@@ -26,7 +26,7 @@ set :cmd_prefix, -> { path_to_bin_rvm(:with_ruby => "in #{fetch(:current_path)}"
 set :sidekiq_cmd, -> { "#{fetch(:cmd_prefix)} bundle exec sidekiq" }
 set :sidekiqctl_cmd, -> { "#{fetch(:cmd_prefix)} bundle exec sidekiqctl" }
 
-set :application, 'connectbook'
+set :application, 'connectedcity'
 set :deploy_via, :remote_cache
 set :use_sudo, false
 
