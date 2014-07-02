@@ -85,9 +85,6 @@ group :development do
   gem 'quiet_assets'
   gem 'thin'
   gem 'seed_dump'
-  gem 'better_errors'
-  gem 'binding_of_caller'
-  gem 'meta_request'
   gem 'capistrano', '< 3.0.0'
   gem 'rvm-capistrano'
 
