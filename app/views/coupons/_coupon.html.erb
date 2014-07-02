@@ -1,0 +1,11 @@
+
+
+      <div class="row-fluid blog">
+        <div class="span2">
+          <%= link_to(image_tag(coupon.image.url), [coupon.location, coupon]) %>
+        </div>
+        <div class="span10">
+          <div><strong><%= link_to coupon.name, [coupon.location, coupon] %></strong></div>
+          <div><small style="font-size: 9px;">by <%= link_to coupon.location.name, coupon.location %></small></div>
+        </div>
+      </div>

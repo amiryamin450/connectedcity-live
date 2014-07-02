@@ -1,0 +1,37 @@
+<div class="category">
+  <div class="heading index-1">
+  <h5>Videos</h5>
+   <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+ <small><%= link_to "add", new_location_media_attachment_path(@location), class: 'small' %> | <%= link_to 'manage', location_media_attachments_path(@location) %></small>
+ <% end %>
+</div>
+</div>
+
+<% if @media_attachments.size > 0 %>
+
+<% @media_attachments.in_groups_of(4) do |group| %>
+<div class="row-fluid product">
+    <ul class="thumbnails">
+    <% group.each do |media| %>
+      <% if media %>
+      <li class="span3">
+        <div class="thumbnail">
+          <%= link_to(image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media]) %>
+          <div class="">
+            <strong><%= link_to media.title.truncate(25), [@location, media] %></strong>            
+          </div>
+        </div>
+        <% end -%>
+      </li>
+    <% end -%>
+  </ul>
+</div>
+
+<% end -%>   
+
+  <%= paginate @products, param_name: 'product_page' %>
+<% else %>
+<div class="alert">
+  No Media found.
+</div>
+<% end %>

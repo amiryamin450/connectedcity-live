@@ -1,0 +1,32 @@
+<%= simple_form_for([@location, @employment_listing]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :title %>
+    <%= f.input :number, label: 'Job Number' %>
+    <%= f.association :employment_category, prompt: 'Select Category' %>
+    <%= f.input :locations, input_html: { rows: 3, class: 'input-xxlarge', style: 'resize: none;'}, placeholder: 'Places where these positions are open.' %>
+    <%= f.input :description, input_html: { class: 'input-block-level wysihtml5'} %>
+    <%= f.input :advantages, input_html: { class: 'input-block-level wysihtml5'} %>
+    <%= f.input :qualifications, input_html: { class: 'input-block-level wysihtml5'} %>
+    <%= f.input :number_of_positions, collection: (1..20), prompt: 'Select number of positions' %>
+
+    <div class="control-group">
+      <label for="employment_listing_application_deadline" class="string optional control-label">Application Deadline</label>
+      <div class="input-append" id="datepicker_starts" >
+        <%= f.input_field :application_deadline, as: :string,  data: { format: "yyyy-MM-dd" }, value: @employment_listing.application_deadline.strftime("%Y-%m-%d")   %>
+        <span class='add-on'>
+          <i data-time-icon='icon-time' data-date-icon='icon-calendar'></i>
+        </span>
+      </div>
+    </div>
+
+    <%= f.input :cover_photo, as: :logo_preview %>
+
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: 'btn btn-primary' %>
+    <%= link_to 'Back', :back, class: 'btn' %>
+  </div>
+<% end %>

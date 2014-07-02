@@ -31,14 +31,18 @@ GEM
     addressable (2.3.4)
     ancestry (2.0.0)
       activerecord (>= 3.0.0)
-    ansi (1.4.3)
     arel (3.0.2)
+    auto_html (1.6.0)
+      redcarpet (~> 2.0)
+      rinku (~> 1.5.0)
     bcrypt-ruby (3.0.1)
     better_errors (0.9.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-colorpicker-rails (0.3.1)
+      railties (>= 3.0)
     bootstrap-datetimepicker-rails (0.0.11)
     bootstrap-sass (2.3.1.3)
       sass (~> 3.2)
@@ -110,6 +114,7 @@ GEM
       i18n (~> 0.5)
     faraday (0.8.7)
       multipart-post (~> 1.1)
+    fattr (2.2.1)
     ffi (1.8.1)
     font-awesome-rails (3.2.1.1)
       railties (>= 3.2, < 5.0)
@@ -127,7 +132,6 @@ GEM
       guard (>= 1.8)
       rspec (~> 2.13)
     hashie (2.0.5)
-    hashr (0.0.22)
     highline (1.6.19)
     hike (1.2.3)
     http-cookie (1.0.1)
@@ -135,6 +139,8 @@ GEM
     httpauth (0.2.0)
     i18n (0.6.1)
     journey (1.0.4)
+    jqcloud-rails (1.0.0)
+      jquery-rails
     jquery-fileupload-rails (0.4.1)
       actionpack (>= 3.1)
       railties (>= 3.1)
@@ -176,6 +182,12 @@ GEM
       railties
     method_source (0.8.1)
     mime-types (1.23)
+    money (5.1.1)
+      i18n (~> 0.6.0)
+    money-rails (0.8.1)
+      activesupport (>= 3.0)
+      money (~> 5.1.0)
+      railties (>= 3.0)
     multi_json (1.7.6)
     multipart-post (1.2.0)
     mysql2 (0.3.11)
@@ -204,6 +216,8 @@ GEM
     omniauth-oauth2 (1.1.1)
       oauth2 (~> 0.8.0)
       omniauth (~> 1.0)
+    options (2.3.0)
+      fattr
     orm_adapter (0.4.0)
     paperclip (3.4.2)
       activemodel (>= 3.0.0)
@@ -214,6 +228,10 @@ GEM
     polyamorous (0.5.0)
       activerecord (~> 3.0)
     polyglot (0.3.3)
+    pr_geohash (1.0.0)
+    progress_bar (1.0.0)
+      highline (~> 1.6.1)
+      options (~> 2.3.0)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
@@ -259,13 +277,15 @@ GEM
       ffi (>= 0.5.0)
     rdoc (3.12.2)
       json (~> 1.4)
+    redcarpet (2.3.0)
     redis (3.0.4)
     redis-namespace (1.3.0)
       redis (~> 3.0.0)
-    rest-client (1.6.7)
-      mime-types (>= 1.16)
+    rinku (1.5.1)
     rmagick (2.13.2)
     rolify (3.2.0)
+    rsolr (1.0.9)
+      builder (>= 2.1.2)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
@@ -286,6 +306,7 @@ GEM
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
+    seed_dump (0.6.0)
     sidekiq (2.12.1)
       celluloid (>= 0.14.1)
       connection_pool (>= 1.0.0)
@@ -308,6 +329,13 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
+    sunspot (2.0.0)
+      pr_geohash (~> 1.0)
+      rsolr (~> 1.0.7)
+    sunspot_rails (2.0.0)
+      nokogiri
+      sunspot (= 2.0.0)
+    sunspot_solr (2.0.0)
     temple (0.6.5)
     thin (1.5.1)
       daemons (>= 1.0.9)
@@ -316,14 +344,6 @@ GEM
     thor (0.18.1)
     tilt (1.4.1)
     timers (1.1.0)
-    tire (0.5.8)
-      activemodel (>= 3.0)
-      activesupport
-      ansi
-      hashr (~> 0.0.19)
-      multi_json (~> 1.3)
-      rake
-      rest-client (~> 1.6)
     treetop (1.4.14)
       polyglot
       polyglot (>= 0.3.1)
@@ -351,8 +371,10 @@ PLATFORMS
 
 DEPENDENCIES
   ancestry
+  auto_html
   better_errors
   binding_of_caller
+  bootstrap-colorpicker-rails
   bootstrap-datetimepicker-rails
   bootstrap-sass
   bootstrap-wysihtml5-rails
@@ -372,6 +394,7 @@ DEPENDENCIES
   friendly_id
   geocoder
   guard-rspec
+  jqcloud-rails
   jquery-fileupload-rails
   jquery-rails
   jquery-ui-rails
@@ -379,10 +402,12 @@ DEPENDENCIES
   launchy
   mechanize
   meta_request
+  money-rails
   mysql2
   nokogiri
   omniauth-facebook
   paperclip
+  progress_bar
   quiet_assets
   rails
   ransack
@@ -391,12 +416,14 @@ DEPENDENCIES
   rolify
   rspec-rails
   sass-rails (~> 3.2.3)
+  seed_dump
   sidekiq
   simple_form
   sinatra
   slim
+  sunspot_rails
+  sunspot_solr
   thin
-  tire
   truncate_html
   uglifier (>= 1.0.3)
   unicorn

@@ -1,0 +1,126 @@
+
+<div class="row-fluid">
+  <div class="span8">
+    <h3><%= @trade_association.name %>
+      <% if user_signed_in? and current_user.has_role? :admin %>
+      <small>
+        <%= link_to 'edit', edit_trade_association_path(@trade_association) %>
+      </small>
+      <% end -%>  
+    </h3>
+  </div>
+  <div class="span4">
+  <%= render 'search_form' %>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span8">
+    <div class="row-fluid">
+      <div class="span12 metro-img thumbnail">
+        <%= image_tag @trade_association.home_page_image.url %>
+      </div>
+    </div>
+
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="holder pad10">
+          <h5>Featured Businesses</h5>
+          <div class="row-fluid">
+            <% @trade_association.locations.order("RAND()").limit(6).each do |location| %>
+            <div class="span2">
+              <div class="thumbnail">
+                <div style="min-height: 100px; text-align: center;">
+                  <%= link_to(image_tag(location.logo.url(:bia_display)), location) %>
+                </div>
+                
+                <div><%= location.name %></div>
+              </div>
+            </div>
+            <% end -%>  
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span6">
+        <div class="holder pad10">
+          <h5>Status Updates
+           <% if user_signed_in? and current_user.has_role? :admin %>
+           <small><%= link_to "(add)", "#status_update", class: 'small', role: :button, data: {toggle: 'modal'} %></small>
+           <% end %>
+         </h5>
+         <% if @status_updates.size > 0 %>
+         <% @status_updates.sort_by(&:created_at).reverse!.each do |update| %>
+         <div class="row-fluid status-update">
+          <div class="span2">
+            <%= image_tag update.statusable.logo.url if update.statusable.logo? %>
+          </div>
+          <div class="span10">
+            <div class="name"><%= link_to update.statusable.name, update.statusable %> <span class="time-ago"> <%= "#{time_ago_in_words(update.created_at)} ago" %></span></div>
+            <div><%= update.content %></div>
+          </div>                
+        </div>
+        <% end %>
+        <% else %>
+        <div class="alert">No Market Updates found.</div>
+        <% end %>
+
+      </div>
+    </div>
+    <div class="span6">
+      <div class="holder pad10">
+        <h5>Events</h5>
+        <% if @trade_association.news_articles.size > 0 %>
+        <% @trade_association.news_articles.order(:created_at).each do |article| %>
+
+        <div class="row-fluid article">
+          <div class="span1">
+            <%= image_tag article.newsable.logo.url(:thumb) if article.newsable.logo? %>
+          </div>
+          <div class="span11">
+            <div class="name"><%= link_to article.title, [article.newsable, article] %> <span class="time-ago"> <%= "#{time_ago_in_words(article.created_at)} ago" %>. by <%= link_to article.newsable.name, article.newsable %></span></div>
+            <div><%= truncate_html( article.content, :length => 300 ) %></div>
+
+          </div>                
+        </div>
+        <% end %>
+        <% else %>
+        <div class="alert">No Events found.</div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="span4">
+  <div class="row-fluid">
+    <div class="holder pad10">
+      <h5>Join Now</h5>
+    </div>
+  </div>
+
+  <div class="row-fluid">
+    <div class="holder pad10 clearfix">
+      <h5>About <%= @trade_association.name %> BIA</h5>
+      <div class="pull-left clearfix" style="margin-right: 10px; margin-bottom: 10px;">
+        <%= image_tag(@trade_association.logo.url(:display), class: '') %>
+      </div>        
+      <%= @trade_association.description.html_safe %>
+      <div class="" style="margin-top: 10px; clear: both;">
+        <%= link_to "Visit us online!", @trade_association.website_url, class: 'btn btn-success input-block-level' if @trade_association.website_url.present? %>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+<% if user_signed_in? and current_user.has_role? :admin %>
+<%############# status update ###############%>
+
+<%= render 'status_update_form' %>
+
+<% end %>

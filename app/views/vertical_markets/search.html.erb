@@ -1,4 +1,4 @@
-<h3>Search Results <em><%= "for #{params[:query].present? ? params[:query] : 'All Records'}"  %></em></h3>
+<h3>Search Results <em><%= "for #{params[:search].present? ? params[:search] : 'All Records'}"  %></em></h3>
 
 <div class="result-numbers">Showing <%= "#{params[:page].present? ? @results.count * params[:page].to_i : '1'} to #{ params[:page].present? ? (@results.count * params[:page].to_i) + @results.count : @results.count }"  %> of <%= @results.total_entries %> results</div>
 
@@ -10,28 +10,18 @@
   <div class="clearfix">
     <% @results.each do |location| %>
 
-    <div class="location-teaser clearfix">
-      <div class="location-logo pull-right">
-        <%= image_tag "http://placehold.it/70x55" %>
-        <div class="action-links">
-          <% if user_signed_in? %>
-          <div id="favorite-<%= location.id %>">
-            <%= render 'favorites/like_button', :location_id => location.id.to_i %>
-          </div>
-          <% end %>
-
+      <div class="location-teaser clearfix">
+        <div style="min-height: 80px; text-align: center;">
+          <%= link_to(image_tag(get_location_image_url(location)), location)%>
+        </div>
+        <div style="width: 168px; margin-top: 5px; margin-bottom: 5px; font-size: 12px; min-height:24px;"><strong><%= link_to location.name, location %></strong></div>
+        <div style="width: 168px;"><%= "#{location.address}".html_safe %></div>
+        <div style="width: 168px;"><%= "#{location.city.name if location.city.present? } #{location.province.abbr} #{location.postal_code}".html_safe %></div>
+        <div style="width: 168px; color: #1c3656;"><%= location.phone %></div>
+        <div id="favorite-<%= location.id %>" class="favorite" style="margin-top: 5px;">
+              <%= render 'favorites/like_button', :location_id => location.id, :vertical_market_slug => location.vertical_markets.first.slug if user_signed_in? %>
         </div>
       </div>
-      <div class="location-info pull-left">
-        <div class="title">
-          <%= link_to location.name, "#{@base_path}locations/#{location.slug}" %>
-        </div>
-        <div><%= location.address %></div>
-        <div><%= "#{location.city.name}, #{location.province.abbr} #{location.postal_code}" %></div>
-        <div><%= location.phone %></div>
-
-      </div>
-    </div>
 
     <% end %>
   </div>
@@ -42,7 +32,7 @@
 </div>
 
 <%= javascript_tag do %>
-window.locations = <%= raw @results.results.collect { |m| {:name => m.name, :latitude => m.geo[0], :longitude => m.geo[1]}}.to_json %>;
+window.locations = <%= raw @results.collect { |m| {:name => m.name, :latitude => m.latitude, :longitude => m.longitude}}.to_json %>;
 <% end %>
 
 <%# render 'facets' %>

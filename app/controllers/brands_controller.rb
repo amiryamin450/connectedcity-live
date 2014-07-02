@@ -1,11 +1,19 @@
 class BrandsController < ApplicationController
+  load_and_authorize_resource :brand
   # GET /brands
   # GET /brands.json
   def index
-    @brands = Brand.order('name')
+    @search = Brand.search(params[:q])
+    @brands = @search.result.order(:name).page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
+      format.json { render json: @brands.where("name like ?", "%#{params[:q]}%")  }
+    end
+  end
+
+  def autocomplete
+    respond_to do |format|
       format.json { render json: @brands.where("name like ?", "%#{params[:q]}%")  }
     end
   end

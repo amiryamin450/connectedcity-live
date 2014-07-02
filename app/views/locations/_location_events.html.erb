@@ -16,9 +16,9 @@
       <% if event %>
       <li class="span3">
         <div class="thumbnail">
-          <%= image_tag event.image.url(:list) %>
+          <%= link_to(image_tag(event.image.url(:list)), [@location, event]) %>
           <div class="caption">
-            <h6><%= event.name %></h6>
+            <h6><%= link_to event.name, [@location, event] %></h6>
           </div>
         </div>
         <% end -%>

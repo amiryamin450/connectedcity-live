@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+<h1>
+  <%= @classified_listing.title %>
+  <small><%= humanized_money_with_symbol @classified_listing.price %> | <%= classified_condition @classified_listing %></small>
+</h1>
+
+<% if @classified_listing.classified_images.present? %>
+<div class="row-fluid">
+  <div class="span12">
+    <%= image_tag @classified_listing.classified_images.first.image.url( :display), id: 'main-image', class: 'thumbnail' %>
+  </div>
+</div>
+<div class="row-fluid thumbnails">
+  <div class="span12">
+    <% @classified_listing.classified_images.each do |img| %>
+      <%= image_tag img.image.url(:thumb), class: 'thumbnail img-thumb', data: { source: img.image.url(:display) } %>
+    <% end -%>
+  </div>
+</div>
+<% end %>
+<div class="row-fluid">
+  <div class="span12">
+    <p><%= @classified_listing.description.html_safe %></p>
+  </div>
+</div>
+
+
+<div class="row-fluid">
+  <div class="span12 btn-group">
+    <%= link_to 'Edit', edit_classified_listing_path(@classified_listing), class: 'btn btn-primary' if can? :update, @classified_listing%>
+<%= link_to 'Delete', @classified_listing, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn' if can? :destroy, @classified_listing %>
+  </div>
+</div>
+

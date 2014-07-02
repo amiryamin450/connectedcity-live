@@ -38,32 +38,6 @@ class VerticalMarketCategoriesController < ApplicationController
     @vertical_market = @vertical_market_category.vertical_market
 
 
-    id = @vertical_market.id
-    p = params
-
-    results = Location.tire.search do
-      query do
-        boolean do
-          must { term "vertical_market_categories.vertical_market_id", id }
-          must { term "categories", p[:category] } unless p[:category].nil?
-          must { term "neighborhoods", p[:neighborhood] } unless p[:neighborhood].nil?
-          must { term "brands", p[:brand] } unless p[:brand].nil?
-        end
-      end
-
-      # facet 'categories' do
-      #   terms :categories, { size: 10 }
-      # end
-      # facet 'neighborhoods' do
-      #   terms :neighborhoods, { size: 10}
-      # end
-      # facet 'brands' do
-      #   terms :brands, {size: 10}
-      # end
-    end
-
-    @facets = results.facets
-
     add_crumb @vertical_market_category.vertical_market.parent.name, "#{@base_path}guide/#{@vertical_market_category.vertical_market.parent.slug}" unless @vertical_market_category.vertical_market.parent.nil?
     add_crumb @vertical_market_category.vertical_market.name, "#{@base_path}guide/#{@vertical_market_category.vertical_market.slug}"
     add_crumb @vertical_market_category.name
@@ -129,7 +103,7 @@ class VerticalMarketCategoriesController < ApplicationController
     @vertical_market_category.destroy
 
     respond_to do |format|
-      format.html { redirect_to admin_vertical_market_categories_url }
+      format.html { redirect_to vertical_market_categories_url }
       format.json { head :no_content }
     end
   end

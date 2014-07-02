@@ -1,0 +1,37 @@
+<h1>Manage Districts</h1>
+
+<% if @districts.size > 0 %>
+
+  <table class="table table-bordered table-striped table-hover">
+  <tr>
+    <th>Name</th>
+    <th>City</th>
+    <th>Slug</th>
+    <th>Created</th>
+    <th></th>
+  </tr>
+
+  <% @districts.each do |district| %>
+  <tr>
+    <td><%= district.name %></td>
+    <td><%= district.city.name %></td>
+    <td><%= district.slug %></td>
+    <td><%= district.created_at.to_s(:short) %></td>
+    <td>
+      <div class='btn-group'>    
+        <%= link_to 'Show', district, class: 'btn btn-mini' %>
+        <%= link_to 'Edit', edit_district_path(district), class: 'btn btn-mini' %>
+        <%= link_to 'Destroy', district, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+      </div>
+    </td>
+  </tr>
+  <% end %>
+</table>
+
+<% else %>
+<div class="alert info">No Results</div>
+<% end -%>
+
+<br />
+
+<%= link_to 'New District', new_district_path, class: 'btn btn-primary' %>

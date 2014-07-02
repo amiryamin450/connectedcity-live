@@ -1,0 +1,25 @@
+<h1>Listing employment_categories</h1>
+
+<table class="table table-bordered table-striped table-hover">
+  <tr>
+    <th>Name</th>
+    <th></th>
+  </tr>
+
+<% @employment_categories.each do |employment_category| %>
+  <tr>
+    <td><%= employment_category.name %></td>
+    <td>
+      <div class='btn-group'>    
+        <%= link_to 'Show', employment_category, class: 'btn btn-mini' %>
+        <%= link_to 'Edit', edit_employment_category_path(employment_category), class: 'btn btn-mini' %>
+        <%= link_to 'Destroy', employment_category, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+      </div>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Employment category', new_employment_category_path, class: 'btn btn-primary' %>

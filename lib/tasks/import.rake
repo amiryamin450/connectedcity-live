@@ -282,3 +282,15 @@ task :update_locations => :environment do
   puts "done"
 
 end
+
+  task :set_all => :envrionment do
+    Location.geocoded.each do |location|
+      unless location.latitude.nil?
+        puts "processing #{location.name}"
+        location.maponics_neighborhood = Base::Neighborhood.calculate(location.longitude, location.latitude, 'N')
+        location.sub_neighborhood = Base::Neighborhood.calculate(location.longitude, location.latitude, 'S')
+        location.macro_neighborhood = Base::Neighborhood.calculate(location.longitude, location.latitude, 'M')
+        location.save
+      end
+    end
+  end

@@ -1,4 +1,190 @@
-<p id="notice"><%= notice %></p>
+<div class="span6">
+  <div class="pad10 holder clearfix">
+    <div class="row-fluid">
+      <div class="span12">
+        <%= image_tag @real_estate_listing.main_image.url %>
+      </div>
+
+    </div>
+    <div class="row-fluid" style="margin-top:5px;">
+
+      <div class="span3">
+        <div class="thumbnail logo" style="margin-top: 10px;">
+          <%= image_tag @real_estate_listing.location.logo.url %>
+        </div>
+      </div>
+
+      <div class="span9">
+        <h4><%= @real_estate_listing.title %></h4>
+        <h3><%= number_to_currency(@real_estate_listing.list_price) %></h3>
+        
+        <div class="address-line">
+          <div style="margin-bottom: 10px;">
+           <%= "#{@real_estate_listing.address} &middot;".html_safe if @real_estate_listing.address_visible %> <%= "#{@real_estate_listing.address_suite} &middot;".html_safe if @real_estate_listing.address_suite.present? %> <%= "#{@real_estate_listing.city.name} #{@real_estate_listing.province.preabbr}, #{@real_estate_listing.postal_code}" %>
+         </div>
+         <div>
+          <% if @real_estate_listing.year_built %>
+          Built in: <%= @real_estate_listing.year_built %>
+          <% end -%>
+
+        </div>
+        <div>
+          <%= @real_estate_listing.style %> &middot; 
+          <%= "#{pluralize(@real_estate_listing.bedrooms, 'Bedroom')}" %> &middot; <%= "#{pluralize(@real_estate_listing.bathrooms, 'Bathroom')}" %> &middot; <%= @real_estate_listing.living_area %> Sq Ft &middot;  
+          
+          <%= link_to("More Info", @real_estate_listing.detail_view_url, target: :_blank) if @real_estate_listing.detail_view_url.present? %>
+          <%= " &middot; ".html_safe if @real_estate_listing.detail_view_url.present?  %>
+          <%= link_to("Virtual Tour", @real_estate_listing.virtual_tour_url, target: :_blank) if @real_estate_listing.virtual_tour_url.present? %>
+        </div>
+        <div>
+          <% if @real_estate_listing.association_fee.present? %>
+          Association Fee: <%= number_to_currency(@real_estate_listing.association_fee) %>  <%= "/ #{@real_estate_listing.association_fee_period}" if @real_estate_listing.association_fee_period.present? %>
+          <% end -%>
+        </div>
+        <div><%= "MLS Number: #{@real_estate_listing.regional_mls_number}" if @real_estate_listing.regional_mls_number.present? %></div>
+      </div>
 
 
+      <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+      <div class="btn-group">
+       <%= link_to "Edit", edit_location_real_estate_listing_path(@location, @real_estate_listing), class: 'btn btn-mini btn-primary' %>
+     </div>
+     <% end %>
+
+   </div>
+ </div>
+</div>
+
+<div class="pad10 holder">
+  <div class="row-fluid">
+    <div class="span12">
+      <h4>Comments</h4>
+      <%= @real_estate_listing.description.html_safe %>
+    </div>
+  </div>
+  <% if @real_estate_listing.bedroom_comment.present? %>
+  <div class="row-fluid">
+    <div class="span12">
+      <h4>Bedroom Comments</h4>
+      <%= @real_estate_listing.bedroom_comment.html_safe %>
+    </div>
+  </div>
+  <% end -%>
+  <% if @real_estate_listing.bathroom_comment.present? %>
+  <div class="row-fluid">
+    <div class="span12">
+      <h4>Bathroom Comments</h4>
+      <%= @real_estate_listing.bathroom_comment.html_safe %>
+    </div>
+  </div>
+  <% end -%>
+
+  <% if @real_estate_listing.garage_stalls.present? %>
+  <div class="row-fluid">
+    <div class="span12">
+      <div style="margin-top: 10px;"><strong>Garage Stalls:</strong> <%= @real_estate_listing.garage_stalls %></div>
+    </div>
+  </div>
+  <% end -%>  
+  <% if @real_estate_listing.garage_style.present? %>
+  <div class="row-fluid">
+    <div class="span12">
+      <div style=""><strong>Garage Style:</strong> <%= @real_estate_listing.garage_style %></div>
+    </div>
+  </div>
+  <% end -%>
+  <% if @real_estate_listing.garage_comment.present? %>
+  <div class="row-fluid">
+    <div class="span12">
+      <h4>Garage Comments</h4>
+      <%= @real_estate_listing.garage_comment.html_safe %>
+    </div>
+  </div>
+  <% end -%>
+</div>
+
+</div>
+<div class="span6">
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="pad10 holder">
+       <div id="profile-map" class="clearfix"></div>
+     </div>
+
+
+     <div class="pad10 holder">
+       <h4>Property Images</h4>
+       <% @real_estate_listing.real_estate_listing_images.in_groups_of(4) do |group| %>
+          <div class="row-fluid">
+            <% group.each do |item| %>
+            <div class="span3"><%= image_tag item.image.url :display %></div>
+          <% end %>
+          </div>          
+       <% end %>
+     </div>
+
+
+     <div class="pad10 holder">
+      <div class="row-fluid">
+        <div class="span12">
+          <h4 class="title">Status Updates
+           <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+           <small><%= link_to "add", "#status_update", class: 'small', role: :button, data: {toggle: 'modal'} %></small>
+           <% end %>
+         </h4>
+
+         <div id="status_updates">
+          <% if @real_estate_listing.status_updates.size > 0 %>
+
+
+          <% @real_estate_listing.status_updates.each do |s| %>
+          <article class="teaser">      
+            <div class="article-content"><%= truncate(s.content, length: 200, seperator: ' ') %></div>
+            <div class="article-published"><%= "#{time_ago_in_words(s.created_at)} ago" %></div>
+          </article>
+
+          <% end %>
+          
+
+          <% else %>
+          <div class="alert">No Status Updates found.</div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+
+<%= javascript_tag do %>
+
+<% ## TODO Limit the number of locations returned  %>
+
+Window.profile_marker = <%= raw @real_estate_listing.geo_location.to_json() %>
+<% end %>
+
+
+
+<div class='modal hide fade' id="status_update" tabindex="-1" role="dialog" aria-labelledby="status_update_label" aria-hidden="true">
+  <%= simple_form_for [@location,@real_estate_listing], :html => {:style => 'margin-bottom: 0;'} do |f| %>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="status_update_label">What's Happening?</h3>
+  </div>
+  <div class="modal-body">
+    <%= f.fields_for :status_updates, @real_estate_listing.status_updates.build() do |b| %>
+    <div>
+      <%= b.label 'Update Text' %>
+      <%= b.text_area :content, :rows => 3, style: 'width: 515px' %>
+    </div>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="Cancel" />
+    <%= f.button :submit, :class => 'btn btn-primary' %>
+  </div>
+  <% end %>
+</div>
 

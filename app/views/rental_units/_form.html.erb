@@ -1,0 +1,37 @@
+<%= simple_form_for([@location, @rental_property, @rental_unit]) do |f| %>
+<%= f.error_notification %>
+
+<div class="form-inputs">
+  <%= f.input :availability, collection: [['Not Available', 0],['Available', 1]], prompt: 'Select Availability' %>
+  <%= f.input :bathrooms, collection: [1,2,3,4,5], prompt: 'Select' %>
+  <%= f.input :bedrooms, collection: [1,2,3,4], prompt: 'Select' %>
+  <div class="control-group string required rental_unit_date_available">
+    <label class="string required control-label" for="list_date_dtp">List date</label>
+    <div class="controls">
+      <div id="list_date_dtp" class="input-append">
+        <input class="string required" id="rental_unit_date_available" name="rental_unit[date_available]" size="50" type="text">
+        <span class="add-on">
+          <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+          </i>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <%= f.input :description, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
+  <%= f.input :rent_amount, as: :string, wrapper: :prepend do %>
+  <span class="add-on"><i class="icon-dollar"></i></span><%= f.input_field :rent_amount %>
+  <% end %>
+  <%= f.input :living_area, as: :string, hint: 'total sq footage', wrapper: :append do %>
+  <%= f.input_field :living_area %><span class="add-on"><i class="icon-superscript"></i></span>
+  <% end %>
+  <%= f.input :unit_number %>
+  <%= f.input :included_appliances, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.'  %>
+  <%= f.input :flooring_types, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.'  %>
+  <%= f.input :cover_photo, as: :logo_preview %>
+</div>
+
+<div class="form-actions">
+  <%= f.button :submit, class: 'btn btn-primary' %>
+</div>
+<% end %>

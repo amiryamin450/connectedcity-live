@@ -1,9 +1,15 @@
 class User < ActiveRecord::Base
   rolify
 
+
+
+  has_many :locations
   has_many :favorites
-  has_and_belongs_to_many :businesses
-  has_many :locations, :through => :businesses
+  has_many :classified_listings
+  has_many :redemptions
+  has_many :coupons, through: :redemptions
+  
+  has_many :business_improvement_areas
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -12,7 +18,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :role_ids, :as => :admin
+  # attr_accessible :role_ids, :as => :admin
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
 
   def has_favorite? location
@@ -56,6 +62,10 @@ class User < ActiveRecord::Base
 
   def can_manage_location?(location)
     self.locations.where(id: location.id).exists?
+  end
+
+  def has_locations?
+    self.locations.size > 0
   end
 
 end

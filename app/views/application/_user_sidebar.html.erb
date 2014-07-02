@@ -16,7 +16,9 @@
     <ul class="submenu hide" id="user-sidebar">
       
         <% if user_signed_in? %>
-       <li> <%= link_to '<i class="icon-user"></i> Edit account'.html_safe, edit_user_registration_path %> </li>
+       <li> <%= link_to '<i class="icon-pencil"></i> Edit account'.html_safe, edit_user_registration_path %> </li>
+       <li><%= link_to '<i class="icon-list"></i> My Classifieds'.html_safe, classified_listings_path %></li>
+       <li><%= link_to '<i class="icon-dollar"></i> My Coupons'.html_safe, coupons_user_path(current_user) %></li>
         <% else %>
         <li><%= link_to 'Login', new_user_session_path %> </li>
         <li><%= link_to 'Login with Facebook', user_omniauth_authorize_path(:facebook) %></li>
@@ -34,16 +36,131 @@
       <b class="arrow icon-angle-right"></b>
     </a>
     <ul class="submenu hide" id="favorites">
-      <% @vertical_markets_all.each do |vm| %>
+      <%= render 'favorites' %>
+    </ul>
+  </li>
+
+<% if user_signed_in? and current_user.has_role? :admin %>
+<li>
+   <a href="#" data-toggle="admin" class="dropdown-toggle" >
+      <i class="icon-gears"></i>
+      <span>Admin</span>
+      <b class="arrow icon-angle-right"></b>
+    </a>
+    <ul class="submenu hide" id="admin">
+      
       <li class="">
-        <a href="">
-          <i class="icon-home"></i>
-          <span><%= "#{vm.name} #{fav_count vm}" %></span>
+        <a href="/vertical_markets">
+          <i class="icon-cog"></i>
+          <span>Vertical Markets</span>
         </a>
+      </li>
+      <li class="">
+        <a href="/vertical_market_categories">
+          <i class="icon-tags"></i>
+          <span>Vertical Market Categories</span>
+        </a>
+      </li>
+      <li class="">
+        <a href="/city_news_categories">
+          <i class="icon-globe"></i>
+          <span>City News Categories</span>
+        </a>
+      </li>
+      <li class="">
+        <a href="/city-news">
+          <i class="icon-globe"></i>
+          <span>Manage City News</span>
+        </a>
+      </li>
+      <li class="">
+        <a href="/classified_categories">
+          <i class="icon-globe"></i>
+          <span>Classified Categories</span>
+        </a>
+      </li>
+      <li class="">
+        <a href="/employment_categories">
+          <i class="icon-globe"></i>
+          <span>Employment Categories</span>
+        </a>
+      </li>
+      <li class="">
+        <a href="/brands">
+          <i class="icon-globe"></i>
+          <span>Brand Management</span>
+        </a>
+      </li>
+      <li class="">
+        <a href="/districts">
+          <i class="icon-globe"></i>
+          <span>Districts</span>
+        </a>
+      </li>
+      <li class="">
+        <a href="/neighborhoods">
+          <i class="icon-globe"></i>
+          <span>Neighborhoods</span>
+        </a>
+      </li>
+      <li class="">
+        <a href="/bia">
+          <i class="icon-home"></i>
+          <span>BIA Management</span>
+        </a>
+      </li>
+      <li class="">
+        <a href="/trade_associations">
+          <i class="icon-home"></i>
+          <span>Trade Associations</span>
+        </a>
+      </li>
+      <li class="">
+        <a href="/business">
+          <i class="icon-home"></i>
+          <span>Businesses</span>
+        </a>
+      </li>
+      <li class="">
+        <a href="/business/new">
+          <i class="icon-plus"></i>
+          <span>Add Business</span>
+        </a>
+      </li>
+      <li class="">
+        <a href="/user">
+          <i class="icon-user"></i>
+          <span>Users</span>
+        </a>
+      </li>
+      <li class="">
+        <a href="/admin/connected_advertiser">
+          <i class="icon-tags"></i>
+          <span>Connected Advertiser</span>
+        </a>
+      </li>
+    </ul>
+</li>
+<% end %>
+
+<% if user_signed_in? and current_user.has_locations? %>
+<li>
+   <a href="#" data-toggle="locations" class="dropdown-toggle" >
+      <i class="icon-bookmark"></i>
+      <span>My Locations</span>
+      <b class="arrow icon-angle-right"></b>
+    </a>
+    <ul class="submenu hide" id="locations">
+      <% current_user.locations.each do |location| %>
+      <li class="">
+        
+        <%= link_to location.name, location %>
+        
       </li>
       <% end -%>
     </ul>
-  </li>
+</li>
+<% end %>
 
 </ul>
 

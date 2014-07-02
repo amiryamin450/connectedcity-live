@@ -1,0 +1,34 @@
+<h1>Managing <%= @location.name %>'s Media </h1>
+<% if @media_attachments.size > 0 %>
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+  <tr>
+    <th>Thumbnail</th>
+    <th>Link</th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+
+  <% @media_attachments.each do |media| %>
+      <tr>
+        <td><%= media.title %></td>
+        <td><%= image_tag("http://img.youtube.com/vi/#{media.media_source_id}/1.jpg") %></td>
+        <td>
+          <div class="btn-group">
+            <%= link_to 'show', [@location, media], class: 'btn btn-mini' %>
+            <%= link_to 'edit', edit_location_media_attachment_path(@location, media), class: 'btn btn-mini' %>
+            <%= link_to 'delete', [@location, media], method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+          </div>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+<% else %>
+<div class="alert notice">No Attachements found.</div>
+<% end %>
+
+<%= link_to 'New Product', new_location_media_attachment_path(@location), class: 'btn btn-primary' %>
+<%= link_to "Back to #{@location.name}", @location, class: 'btn' %>

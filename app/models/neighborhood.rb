@@ -1,11 +1,33 @@
-# class Neighborhood < ActiveRecord::Base
-#   establish_connection :gis_database
-#   self.rgeo_factory_generator = RGeo::Geos.factory_generator
-#   set_rgeo_factory_for_column(:geom, RGeo::Geographic.spherical_factory(:srid => 4326))
+class Neighborhood < ActiveRecord::Base
+  extend FriendlyId
 
-#   set_table_name "maponics_neighborhoods_transcona"
-#   set_primary_key "nid"
+  self.primary_key = 'nid'
 
+  belongs_to :district 
+  belongs_to :city, foreign_key: "placecode"
+  has_many :locations
 
-# end
+  default_scope order(:neighborhd)
+
+  attr_accessible :district_id, :district, :slug
+
+  friendly_id :name, use: [:slugged, :history]
+
+  def name
+    neighborhd
+  end
+  
+  def wkt
+    Neighborhood.select(%q{AsText(geom) as geom}).where(:nid => nid).map(&:geom).first
+  end
+
+  def self.calculate( lon, lat, type = 'N')
+    self.where("MBRWITHIN(POINT(#{lon}, #{lat}), geom) AND nbr_type = '#{type}'").first
+  end
+
+  def id
+    nid
+  end
+
+end
 

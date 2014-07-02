@@ -1,0 +1,11 @@
+    <div style="margin-top: 10px;" class="hp-search-form">
+      <%= form_tag "#{@base_path}search", method: :get do %>
+      <div class="input-append" style="">
+        <%= text_field_tag :search, params[:search], class: 'span8', placeholder: "Search in ... " %>
+        <%= select_tag 'market', options_from_collection_for_select(@vertical_markets_all, 'id', 'name'), prompt: 'all categories', class: 'visible-desktop' %>
+        <button class="btn btn-warning" type="submit">Search!</button>                        
+      </div>     
+
+      <!--  <button id="btn-facet" class="btn" type="button" style="margin-left: .75em;">Filter Neighborhoods</button> -->
+      <% end %>
+    </div>

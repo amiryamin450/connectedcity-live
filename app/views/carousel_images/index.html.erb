@@ -1,0 +1,29 @@
+<h1>Carousel Images</h1>
+
+<table class="table table-bordered table-striped table-hover">
+  <tr>
+    <th></th>
+    <th>Title</th>
+    <th></th>
+  </tr>
+
+<% @carousel_images.each do |carousel_image| %>
+  <tr>
+    <td style="width:160px;"><%= image_tag carousel_image.image.url(:thumb) %></td>
+    <td><%= carousel_image.title %></td>
+    <td style="width: 200px;">
+      <div class="btn-group">
+        <%= link_to 'show', [@carouselable, carousel_image], class: 'btn btn-mini' %>
+        <%= link_to 'edit', edit_polymorphic_path([@carouselable, carousel_image]) , class: 'btn btn-mini' %>
+        <%= link_to 'delete', polymorphic_path([@carouselable, carousel_image]), method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+      </div>
+    </td>
+
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Carousel image', new_polymorphic_path([@carouselable, :carousel_image]), class: 'btn btn-primary' %>
+<%= link_to 'Back', @carouselable, class: 'btn' %>

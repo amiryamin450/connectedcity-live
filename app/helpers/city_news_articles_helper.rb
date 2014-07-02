@@ -1,0 +1,2 @@
+module CityNewsArticlesHelper
+end

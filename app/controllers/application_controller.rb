@@ -18,33 +18,42 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_up
-    @vertical_markets_all = VerticalMarket.at_depth 0
+
+    @vertical_markets_all = VerticalMarket.order(:name).at_depth 0
     user_signed_in? ? @favorites = current_user.favorites.all : @favorites = []
 
+    @city = City.find(5915022)
+    @sidebar_class = if cookies[:sidebar_class].present?
+                        cookies[:sidebar_class]
+                      else
+                        'menu-min'
+                      end
 
-    @base_path = if params[:sub_region].present? && params[:city].present? && params[:district].present?
-                    "/region/#{params[:sub_region]}/#{params[:city]}/#{params[:district]}/"
-                  elsif params[:sub_region].present? && params[:city].present?
-                    "/region/#{params[:sub_region]}/#{params[:city]}/"
-                  elsif params[:sub_region].present?
-                    "/region/#{params[:sub_region]}/"
+    if request.fullpath == "/"
+      cookies.delete(:base_path)
+      cookies.delete(:district_route)
+    end
+
+    @base_path = if params[:district_route].present? and params[:neighborhood].present?
+                    cookies[:base_path] = "/#{params[:district_route]}/#{params[:neighborhood]}/"
+                    cookies[:district_route] = params[:district_route]
+                    @district = District.find(params[:district_route])
+                    @neighborhood = Neighborhood.find(params[:neighborhood])
+                    "/#{params[:district_route]}/#{params[:neighborhood]}/"
+                  elsif params[:district_route].present?
+                    cookies[:base_path] = "/#{params[:district_route]}/#{params[:neighborhood]}/"
+                    cookies[:district_route] = params[:district_route]
+                    @district = District.find(params[:district_route])
+                    cookies[:base_path] = "/#{params[:district_route]}/"
+                    "/#{params[:district_route]}/"
+                  elsif cookies[:base_path].present? and params['action'] != 'guide'
+                    @district = District.find(cookies[:district_route])
+                    cookies[:base_path]
                   else
+                    cookies.delete(:base_path)
+                    cookies.delete(:district_route)
                     root_path
                   end
-
-    #TODO add some caching here
-    #@regions_us ||= Region.find(:all, :include => [:provinces, :sub_regions => {:cities => :districts}], :conditions => ['provinces.country_code = "US" and regions.show_in_menu = 1'])
-
-    @regions_us ||= Region.includes( [:provinces, :sub_regions => { :cities => :districts } ]).where('provinces.country_code = "US" and regions.show_in_menu = 1')
-    @regions_ca ||= Region.includes( [:provinces, :sub_regions => { :cities => :districts } ]).where('provinces.country_code = "CA" and regions.show_in_menu = 1')
-
-    #@regions_ca ||= Region.find(:all, :include => [:provinces, :sub_regions => {:cities => :districts}], :conditions => ['provinces.country_code = "CA" and regions.show_in_menu = 1'])
-    # Region.includes(:sub_regions => {:cities => :districts}).where(:show_in_menu => true)
-    @path_metro = request.subdomain.present? ? request.subdomain : nil
-    @path_sub_region = params[:sub_region].present? ? params[:sub_region] : nil
-    @path_city = params[:city].present? ? params[:city] : nil
-    @path_district = params[:district].present? ? params[:district] : nil
-
 
   end
 
@@ -52,34 +61,37 @@ class ApplicationController < ActionController::Base
   private
 
   def set_region
-    if request.subdomain.present? && request.subdomain != 'www'
-      @region = Region.find_by_subdomain(request.subdomain)
-      @page_title_part = @region.name
-      add_crumb @region.name, '/'
-    end
+
   end
 
   def set_subregion
-    if params[:sub_region].present?
-      @sub_region = @region.sub_regions.find(params[:sub_region])
-      @page_title_part = @sub_region.name
-      add_crumb @sub_region.name, subregion_guide_path(@sub_region)
-    end
+    # if params[:sub_region].present?
+    #   @sub_region = @region.sub_regions.find(params[:sub_region])
+    #   @page_title_part = @sub_region.name
+    #   add_crumb @sub_region.name, subregion_guide_path(@sub_region)
+    # end
   end
 
   def set_city
-    if params[:city].present?
-      @city = @sub_region.cities.find(params[:city])
-      @page_title_part = @city.name
-      add_crumb @city.name, city_guide_path(@sub_region, @city)
-    end
+    # if params[:city].present?
+    #   @city = @sub_region.cities.find(params[:city])
+    #   @page_title_part = @city.name
+    #   add_crumb @city.name, city_guide_path(@sub_region, @city)
+    # end
   end
 
   def set_district
-    if params[:district].present?
-      @district = District.find(params[:district])
-      @page_title_part = @district.name
-      add_crumb @district.name, district_guide_path(@sub_region, @city, @district)
+    # if params[:district_route].present?
+    #   @district = District.find(params[:district_route])
+    #   @page_title_part = @district.name
+    #   add_crumb @district.name, district_path(@district)
+    # end
+  end
+
+  def set_neighborhood
+    if params[:neighborhood].present?
+      @neighborhood = Neighborhood.find(params[:neighborhood])
+      add_crumb @neighborhood.name, '#'
     end
   end
 

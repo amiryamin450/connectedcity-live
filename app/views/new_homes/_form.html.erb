@@ -1,0 +1,38 @@
+<%= simple_form_for([@location, @new_home_community, @new_home]) do |f| %>
+<%= f.error_notification %>
+
+<div class="form-inputs">
+  <%= f.input :title %>
+  <%= f.input :list_price, as: :string, wrapper: :prepend do  %>
+  <span class="add-on"><i class="icon-dollar"></i></span><%= f.input_field :list_price %>
+  <% end %>
+
+  <%= f.input :tax_amount, as: :string, wrapper: :prepend do %>
+  <span class="add-on"><i class="icon-dollar"></i></span><%= f.input_field :tax_amount %>
+  <% end %>
+  <%= f.input :address %>    
+  <%= f.input :address_suite %>
+  <%= f.association :city %>
+  <%= f.association :province  %>
+  <%= f.input :postal_code %>
+  <%= f.input :detail_view_url %>
+  <%= f.input :virtual_tour_url %>
+  <%= f.input :description, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
+  <%= f.input :bedrooms, collection: [1,2,3,4,5], prompt: 'Select # of Bedrooms' %>    
+  <%= f.input :bedroom_comment, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
+  <%= f.input :bathrooms, collection: [1,2,3,4,5], prompt: 'Select # of Bathrooms' %>
+  <%= f.input :bathroom_comment, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
+  <%= f.input :style %>
+  <%= f.input :living_area, as: :string, hint: 'total sq footage', wrapper: :append do %>
+  <%= f.input_field :living_area %><span class="add-on"><i class="icon-superscript"></i></span>
+  <% end %>
+  <%= f.input :year_built, as: :string %>
+  <%= f.input :cover_photo, as: :logo_preview %>
+
+</div>
+
+<div class="form-actions">
+  <%= f.button :submit, class: 'btn btn-primary' %>
+  <%= link_to "Back", [@location, @new_home_community], class: 'btn' %>
+</div>
+<% end %>

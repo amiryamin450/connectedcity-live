@@ -1,0 +1,15 @@
+<%= simple_form_for(@city_news_article) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :title %>
+    <%= f.association :city_news_category, prompt: 'select category' %>
+    <%= f.input :content, input_html: { class: 'input-block-level wysihtml5'} %>    
+    <%= f.input :image, as: :logo_preview %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: 'btn btn-primary' %>
+    <%= link_to 'Cancel', city_news_articles_path, class: 'btn' %>
+  </div>
+<% end %>

@@ -1,0 +1,33 @@
+<h1>Units for <%= @rental_property.name %></h1>
+
+<table class="table table-bordered table-striped table-hover">
+  <tr>
+    <th>Unit Number</th>
+    <th>Bathrooms</th>
+    <th>Bedrooms</th>
+    <th>Availability</th>
+    <th>Date available</th>
+    <th></th>
+  </tr>
+
+  <% @rental_units.each do |rental_unit| %>
+  <tr>
+    <td><%= rental_unit.availability %></td>
+    <td><%= rental_unit.bathrooms %></td>
+    <td><%= rental_unit.bedrooms %></td>
+    <td><%= rental_unit.rental_property_id %></td>
+    <td><%= rental_unit.date_available %></td>
+    <td>
+      <div class="btn-group">
+        <%= link_to 'show', [@location, @rental_property, rental_unit], class: 'btn btn-mini' %>
+        <%= link_to 'edit', edit_location_rental_property_rental_unit_path(@location, @rental_property, rental_unit), class: 'btn btn-mini' %>
+        <%= link_to 'delete', [@location, @rental_property, rental_unit], method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+      </div>
+    </td>
+  </tr>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Rental Unit', new_location_rental_property_rental_unit_path, class: 'btn btn-primary' %>

@@ -1,0 +1,32 @@
+<%= simple_form_for(@classified_listing, :html => { :multipart => true, id: 'fileupload' }) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :title %>
+    <%= f.input :active %>
+    <%= f.input :price %>
+    <%= f.input :address %>
+    <%= f.input :address_1, label: 'Suite' %>  
+
+      <%= f.association :province %>
+      <%= f.association :city %>
+
+
+    <%= f.input :postal_code %>
+    <%= f.association :classified_category, prompt: 'Select Category' %>
+    <%= f.input :condition, collection: CLASSIFIED_CONDITION_OPTIONS, prompt: 'Select Condition' %>
+    <%= f.input :description, input_html: { class: 'input-block-level wysihtml5'} %>
+    <% if @classified_listing.persisted? %>
+      <%= render 'classified_images', :f => f  %>
+    <% else %>
+      <div class="well">
+        Save listing to add images.
+      </div>
+    <% end %>
+    </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: 'btn btn-primary' %>
+    <%= link_to 'Back', :back, class: 'btn' %>
+  </div>
+<% end %>

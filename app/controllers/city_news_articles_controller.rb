@@ -1,0 +1,92 @@
+class CityNewsArticlesController < ApplicationController
+  # GET /city_news_articles
+  # GET /city_news_articles.json
+  def index
+    @city_news_articles = CityNewsArticle.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @city_news_articles }
+    end
+  end
+
+  def guide
+    @city_news_categories = CityNewsCategory.includes(:city_news_articles).all
+    add_crumb 'City News'
+  end
+
+  # GET /city_news_articles/1
+  # GET /city_news_articles/1.json
+  def show
+    @city_news_article = CityNewsArticle.find(params[:id])
+
+    add_crumb 'City News', city_news_guide_path
+    add_crumb @city_news_article.city_news_category.name, city_news_category_path(@city_news_article.city_news_category)
+    add_crumb @city_news_article.title
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @city_news_article }
+    end
+  end
+
+  # GET /city_news_articles/new
+  # GET /city_news_articles/new.json
+  def new
+    @city_news_article = CityNewsArticle.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @city_news_article }
+    end
+  end
+
+  # GET /city_news_articles/1/edit
+  def edit
+    @city_news_article = CityNewsArticle.find(params[:id])
+  end
+
+  # POST /city_news_articles
+  # POST /city_news_articles.json
+  def create
+    @city_news_article = CityNewsArticle.new(params[:city_news_article])
+
+    respond_to do |format|
+      if @city_news_article.save
+        format.html { redirect_to @city_news_article, notice: 'City news article was successfully created.' }
+        format.json { render json: @city_news_article, status: :created, location: @city_news_article }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @city_news_article.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /city_news_articles/1
+  # PUT /city_news_articles/1.json
+  def update
+    @city_news_article = CityNewsArticle.find(params[:id])
+
+    respond_to do |format|
+      if @city_news_article.update_attributes(params[:city_news_article])
+        format.html { redirect_to @city_news_article, notice: 'City news article was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @city_news_article.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /city_news_articles/1
+  # DELETE /city_news_articles/1.json
+  def destroy
+    @city_news_article = CityNewsArticle.find(params[:id])
+    @city_news_article.destroy
+
+    respond_to do |format|
+      format.html { redirect_to city_news_articles_url }
+      format.json { head :no_content }
+    end
+  end
+end

@@ -1,0 +1,23 @@
+<h1>Classifieds - <%= @classified_category.name %> </h1>
+
+<% if @classified_category.classified_listings.size > 0 %>
+<div class="row-fluid classified-category">
+  <div class="row-fluid classified-header" style="background-color: <%= "#{@classified_category.heading_color}" %>">
+    
+    <div class="span7 head-cell"><%= @classified_category.name %></div>
+    <div class="span1 head-cell">Price</div>
+    <div class="span1 head-cell">Photos?</div>
+    <div class="span3 head-cell">Condition</div>
+  </div>
+
+  <% @classified_category.classified_listings.each do |listing| %>
+  <div class="row-fluid classified-detail-row" style="border-color: <%= @classified_category.heading_color %>">
+    <div class="span7"><%= link_to listing.title, listing %></div>
+    <div class="span1"><%= humanized_money_with_symbol listing.price %></div>
+    <div class="span1"><%= image_size_words listing  %></div>
+    <div class="span3"><%= classified_condition listing %></div>
+  </div>
+  <% end -%>
+
+</div>
+<% end -%>

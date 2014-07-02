@@ -1,0 +1,33 @@
+<div class="category">
+  <div class="heading index-1">
+  <h5>Agents</h5>
+  
+</div>
+</div>
+<% if @location.agents.size > 0 %>
+<% @location.agents.in_groups_of(4) do |group| %>
+<div class="row-fluid product">
+    <ul class="thumbnails">
+    <% group.each do |agent| %>
+      <% if agent %>
+      <li class="span3">
+        <div class="thumbnail">
+          <%= link_to(image_tag(agent.logo.url), agent) %>
+          <div class="caption">
+            <h6><%= agent.name %></h6>            
+          </div>
+        </div>
+        <% end -%>
+      </li>
+    <% end -%>
+  </ul>
+</div>
+
+<% end -%>   
+
+
+<% else %>
+<div class="alert">
+  No Agents found.
+</div>
+<% end %>

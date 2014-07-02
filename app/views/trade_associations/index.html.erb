@@ -1,0 +1,35 @@
+<h1>Listing Trade Associations</h1>
+
+<table class="table table-bordered table-striped table-hover">
+  <tr>
+    <th>Name</th>
+
+    <th>City</th>
+
+
+    <th>Website url</th>
+    <th></th>
+
+  </tr>
+
+<% @trade_associations.each do |trade_association| %>
+  <tr>
+    <td><%= trade_association.name %></td>
+
+    <td><%= trade_association.city.name %></td>
+
+    <td><%= link_to("website", trade_association.website_url, target: :_blank) if trade_association.website_url.present? %></td>
+    <td>
+      <div class='btn-group'>    
+        <%= link_to 'Show', trade_association, class: 'btn btn-mini' %>
+        <%= link_to 'Edit', edit_trade_association_path(trade_association), class: 'btn btn-mini' %>
+        <%= link_to 'Destroy', trade_association, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+      </div>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Trade association', new_trade_association_path, class: 'btn btn-primary' %>

@@ -1,0 +1,30 @@
+<div class="well" id="notice"><%= notice %></div>
+
+
+ <h1> <%= @employment_listing.title %></h1>
+
+<div style="margin: 15px 0;">
+  <%= image_tag @employment_listing.cover_photo.url(:display), class: 'thumbnail' %>
+</div>
+
+<h4>Description</h4>
+<p>
+  <%= @employment_listing.description.html_safe %>
+</p>
+
+  <h4>Advantages:</h4>
+<p>
+
+  <%= @employment_listing.advantages.html_safe %>
+</p>
+  <h4>Qualifications:</h4>
+<p>
+ <%= @employment_listing.qualifications.html_safe %>
+</p>
+<br/>
+<br/>
+
+<div><strong>Job Number:</strong> <%= @employment_listing.number %></div>
+<div><strong>Locations:</strong> <%= @employment_listing.locations %></div>
+<div><strong>Number of Positions:</strong> <%= @employment_listing.number_of_positions %></div>
+<div><strong>Application Deadline:</strong> <%= @employment_listing.application_deadline %></div>

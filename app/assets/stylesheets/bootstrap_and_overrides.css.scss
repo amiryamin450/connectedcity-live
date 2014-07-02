@@ -54,7 +54,11 @@ body.admin .footer, body.admin footer {
 
 
 
-
+.hp-search-form {
+  select {
+    width: auto !important;
+  }
+}
 
 html, body {
 
@@ -95,13 +99,14 @@ h1, h2, h3, h4, h5, h6 {
 
 #header {
   
-  background: transparent image-url('header_bg.png') repeat-x;
+  // background: transparent image-url('header_bg.png') repeat-x;
+  background: $blue;
   color: $white;
-  font-size: $tenpx;
+  
 
   .logo {
-    margin-top: 20px;
-    padding-left: 30px;
+    margin-top: 15px;
+    padding-left: 10px;
   }
   .user-nav {
     text-align: right;
@@ -121,10 +126,11 @@ h1, h2, h3, h4, h5, h6 {
   background-color: transparent;
 }
 
-.menu {
-  margin-top: 20px;
-  padding-left: 30px;
 
+.menu {
+  margin-top: 10px;
+  padding-left: 10px;
+  font-size: 11px;
   ul {
     margin: 0;
     padding: 0;
@@ -132,29 +138,35 @@ h1, h2, h3, h4, h5, h6 {
     li {
       float: left;
       list-style: none;
-      background: transparent image-url('tab_li.png') no-repeat -15px 0;
-      height: 25px;
-      min-height: 25px;
+      // background: transparent image-url('tab_li.png') no-repeat -15px 0;
       padding: 0;
       margin: 0;
-
+      // margin-right: 10px;
       &.active {
-        background: transparent image-url('tab_li_active.png') no-repeat -15px 0;
+        // background: transparent image-url('tab_li_active.png') no-repeat -15px 0;
       }
 
       a {
-        color: $white;
-        background: transparent image-url('tab_a.png') no-repeat right center;
+        color: #fff;
+        font-family: 'Helvetica Neue', Helvetica, Arial;
         display: block;
-        height: 20px;
-        min-height: 20px;
-        padding: 2px 25px 3px 5px;
+        // padding: 2px 25px 3px 5px;
+        padding: 3px 5px 0px 5px;
         text-decoration: none;
-
+        font-weight: bold;
+        font-size: 11px;
         &.active {
-          background-image: image-url('tab_a_active.png');
-          padding-right: 35px;
+          // background-image: image-url('tab_a_active.png');
+          // padding-right: 35px;
+          background: #fec00f;
           color: $blue;
+          border-radius: 4px 4px 0px 0px;
+         
+        }
+        &:hover {
+          background: #ffd250;
+          color: $blue;
+          border-radius: 4px 4px 0px 0px;
         }
       }
 
@@ -164,17 +176,17 @@ h1, h2, h3, h4, h5, h6 {
       }
 
       &.last a {
-        background-image: image-url('tab_end.png');
-        padding-right: 35px;
+        // background-image: image-url('tab_end.png');
+        // padding-right: 35px;
       }
 
       &.last a.active {
-        background-image: image-url('tab_end_active.png');
+        // background-image: image-url('tab_end_active.png');
 
       }
 
       &.before-active a {
-        background-image: image-url('tab_a_before_active.png');
+        // background-image: image-url('tab_a_before_active.png');
       }
 
       ul.child-menu {
@@ -188,9 +200,16 @@ h1, h2, h3, h4, h5, h6 {
           a {
             background: none;
             color: #333;
-            padding: 0;
+            padding: 0px 10px 0px 10px;
             margin: 0;
+
+            &.sub-active {
+              background-color: #333;
+              color: #FFF;
+              border-radius: 6px;
+            }
           }
+
         }
       }
     
@@ -200,7 +219,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .band {
-  background: transparent image-url('band_bg.png') repeat-x;
+  background: #fec00f;
   height: 27px;
   min-height: 27px;
   margin: 0;
@@ -227,12 +246,10 @@ div.filler {
 
 .location-teaser {
   background-color: $white;
-  width: 190px;
   float: left;
-  min-height: 120px;
-  height: 120px;
   margin-right: 8px;
   margin-bottom: 8px;
+  min-height: 178px;
   padding: 10px;
   box-shadow: 0px 0px 3px #666;
   font-size: 0.754em;
@@ -396,7 +413,7 @@ div.filler {
   }
 
   .location-holder {
-    height: 140px;
+    height: 200px;
     overflow: hidden;
     padding: 3px;
     &.show {

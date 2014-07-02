@@ -53,5 +53,5 @@ Connectbook::Application.configure do
   
 
 end
-
+Rails.application.routes.default_url_options[:host] = 'www.lvh.me:3000'
 #Tire::Configuration.url "http://10.10.0.55:9200"

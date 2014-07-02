@@ -1,0 +1,159 @@
+<h1><%= @automotive_listing.title %> <small><%= "#{@automotive_listing.year} #{@automotive_listing.make} #{@automotive_listing.model} - #{humanized_money_with_symbol @automotive_listing.price}" %></small></h1>
+<p id="notice"><%= notice %></p>
+
+<div class="row-fluid">
+  <div class="span4 thumbnail">
+    <%= image_tag @automotive_listing.main_image.url(:display), class: '' %>
+  </div>
+</div>
+<div class="row-fluid">
+  <div class="span4">
+    <div style="margin: 10px 0px;"></div>
+  </div>
+</div>
+
+
+
+<div class="row-fluid">
+  <div class="span4">
+
+    <div class="row-fluid">
+      <div class="well">
+        <div class="row-fluid">
+          <div class="span4">
+            <ul class="unstyled">
+              <li><strong>Status:</strong> <%= @automotive_listing.status %></li>
+              <li><strong>Year:</strong> <%= @automotive_listing.year %></li>
+              <li><strong>Make:</strong> <%= @automotive_listing.make %></li>
+              <li> <strong>Model:</strong> <%= @automotive_listing.model %></li>
+              <li><strong>Mileage:</strong> <%= @automotive_listing.mileage %></li>
+              <li><strong>Accident:</strong> <%= @automotive_listing.accident %></li>
+            </ul>
+          </div>
+          <div class="span4">
+            <ul class="unstyled">
+              <li><strong>Trim level:</strong> <%= @automotive_listing.trim_level %></li>
+              <li><strong>Exterior color:</strong> <%= @automotive_listing.exterior_color %></li>
+              <li><strong>Interior color:</strong> <%= @automotive_listing.interior_color %></li>
+              <li><strong>Enigine:</strong> <%= @automotive_listing.enigine %></li>
+              <li><strong>Vehicle type:</strong> <%= @automotive_listing.vehicle_type %></li>
+            </ul>
+          </div>
+          <div class="span4">
+            <ul class="unstyled">
+              <li><strong>Drivetrain:</strong> <%= @automotive_listing.drivetrain %></li>
+              <li><strong>Transmission:</strong> <%= @automotive_listing.transmission %></li>
+              <li><strong>Body:</strong> <%= @automotive_listing.body %></li>
+              <li><strong>Local:</strong> <%= @automotive_listing.local %></li>
+              <li><strong>Stock number:</strong> <%= @automotive_listing.stock_number %></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row-fluid">
+      <div class="well">
+        <h6>Description</h6>
+        <%= @automotive_listing.description.html_safe %>
+      </div>
+    </div>
+
+    <div class="row-fluid">
+      <div class="well">
+        <div class="row-fluid">
+          <div class="span6">
+            <h6>Powertrain specs</h6>
+            <ul class="unstyled">
+              <% @automotive_listing.powertrain_specs.each_line do |item| %>
+              <li><%= item %></li>
+              <% end %>
+            </ul>
+          </div>
+          <div class="span6">
+            <h6>Suspension specs</h6>
+            <ul class="unstyled">
+              <% @automotive_listing.suspension_specs.each_line do |item| %>
+              <li><%= item %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+        <div class="row-fluid">
+          <div class="span6">
+            <h6>Specs</h6>
+            <%= @automotive_listing.specs %>
+            <ul class="unstyled">
+              <% @automotive_listing.specs.each_line do |item| %>
+              <li><%= item %></li>
+              <% end %>
+            </ul>
+          </div>
+          <div class="span6">
+            <h6>Entertainment features</h6>
+           <ul class="unstyled">
+            <% @automotive_listing.entertainment_features.each_line do |item| %>
+            <li><%= item %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span6">
+          <h6>Seats and trim</h6>
+          <ul class="unstyled">
+            <% @automotive_listing.seats_and_trim.each_line do |item| %>
+            <li><%= item %></li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="span6">
+          <h6>Convenience features</h6>
+          <ul class="unstyled">
+            <% @automotive_listing.convenience_features.each_line do |item| %>
+            <li><%= item %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span6">
+          <h6>Body exterior</h6>
+          <ul class="unstyled">
+            <% @automotive_listing.body_exterior.each_line do |item| %>
+            <li><%= item %></li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="span6">
+          <h6>Lighting visibility instruments</h6>
+
+          <ul class="unstyled">
+            <% @automotive_listing.lighting_visibility_instruments.each_line do |item| %>
+            <li><%= item %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span6">
+          <h6>Saftey and security</h6>
+
+          <ul class="unstyled">
+            <% @automotive_listing.saftey_and_security.each_line do |item| %>
+            <li><%= item %></li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="span6"></div>
+      </div>
+
+    </div>
+  </div>
+
+
+</div>
+</div>
+
+
+

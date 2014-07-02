@@ -1,29 +1,46 @@
 class City < ActiveRecord::Base
 
+    self.table_name = "maponics_subdivisions"
+    self.primary_key = "csduid"
+
+    has_many :neighborhoods, class_name: "Neighborhood", foreign_key: "placecode"
+    has_many :districts
+    has_many :locations
+    has_many :status_updates
+    has_many :news_articles, through: :locations, uniq: true
+    has_many :events, through: :locations, uniq: true
+    has_many :business_improvement_areas, through: :districts
+
+    belongs_to :maponics_division, class_name: "MaponicsDivision", foreign_key: "cduid"
+    belongs_to :province, foreign_key: "pruid"
+
+    default_scope where(csdtype: 'CY').order(:csdname)
+
+    attr_accessible :csdname, :csduid, :csdtype
 
 
-  belongs_to :province
-  belongs_to :region
-  belongs_to :sub_region
+    def name
+      csdname
+    end
 
-  has_many :locations
-  has_many :districts
+    def id 
+      csduid
+    end
 
-  has_many :status_updates, through: :locations, uniq: true
-  has_many :news_articles, through: :locations, uniq: true
+    def label
+      "#{csdname} - #{csdtype}"
+    end
 
-  default_scope includes(:province).where('provinces.country_code' => 'CA').order('cities.name')
+    def title
+      csdname
+    end
 
-  extend FriendlyId
-  friendly_id :name, use: [:slugged, :history]
+    def wkt
+      MaponicsSubdivision.select(%q{AsText(geom) as geom}).where(:csduid => csduid).map(&:geom).first
+    end
 
-  has_attached_file :home_page_image, styles: {thumb: "100x100>"},
-                    default_url: '/assets/home_page_image/:style/default.jpg'
 
-  attr_accessible :community_id, :description, :name, :province_id, :slug, :province, 
-                  :region, :region_code, :region_id, :sub_region, :sub_region_id,
-                  :home_page_image
-                  
-  validates_presence_of :name, :province_id
+    has_attached_file :home_page_image, styles: {thumb: "100x100>"},
+                    default_url: '/assets/home_page_image/default.jpg'
 
 end

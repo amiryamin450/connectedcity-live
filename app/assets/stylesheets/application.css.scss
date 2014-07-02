@@ -8,6 +8,7 @@
 @import "leaflet/MarkerCluster.Default";
 @import "jquery-tokeninput/token-input-facebook";
 @import "bootstrap-wysihtml5/index";
+@import "jquery.ui.core";
 @import "jquery.ui.datepicker";
 @import "locations";
 @import "status_updates";
@@ -15,14 +16,26 @@
 @import "admin_menu";
 @import "bootstrap-datetimepicker";
 @import "font-awesome";
+@import "classified_categories";
+@import "classified_listings";
+@import "bootstrap-colorpicker";
+@import "jqcloud";
 
 
 body {
   background-color: #f2f2f2;
 }
+div.jqcloud {
+  line-height: normal;
+}
+.help-block {
+  font-size: 10px;
+  font-style: italic;
+}
 
-
-
+label {
+  font-weight: bold;
+}
 .submenu {
 
 }
@@ -74,10 +87,15 @@ body {
 
     .nav-list {
       li {
-
+        a {
+          span {
+            z-index: 99999999;
+          }
+        }
         a:hover {
           span {
             display: block;
+            
           }
         }
       }
@@ -393,15 +411,26 @@ article {
     .article-published { font-style: italic; font-size: .8em;}
   }
 }
-
+.location-nav {
+  color: #FFF;
+  font-size: 11px;
+  a {
+    color: #FFF;
+    text-decoration: none;
+    font-weight: bold;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
 #map-holder {
   margin-bottom: 1.5em;
 }
 
 .location-chooser {
   text-align: right;
-  margin-right: 30px;
-  margin-top: 1em;
+  margin-right: 15px;
+  // margin-top: 1em;
   .country-holder {
     display: none;
   }
@@ -428,6 +457,7 @@ article {
   .chooser-label {
     display: inline;
   }
+
   .chooser {
     position: relative;
     display: inline-block;
@@ -537,4 +567,40 @@ article {
   margin-bottom: 20px;
 }
 
+ul.unstyled {
+  margin-bottom: 0;
+}
+div.facets {
+  a.active {
+    background-color: #000;
+    color: #fff;
+  }
+}
 
+.carousel-caption {
+  small {
+    color: #FFF;
+  }
+}
+
+div.line-one, div.line-two {
+  text-align: center;
+  font-weight: bold;
+}
+div.line-one {
+  margin-top: 30px;
+}
+div.line-two {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+div.other-junk {
+  margin-top: 25px;
+  margin-left: -45px;
+  font-size: 11px;
+  font-weight: bold;
+  a {
+    color: white;
+    text-decoration: none;
+  }
+}

@@ -1,1 +1,38 @@
-<h4>Coupons</h4>
+<div class="category">
+  <div class="heading index-9">
+  <h5>Offers</h5>
+   <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+ <small><%= link_to "add", new_location_coupon_path(@location), class: 'small' %> | <%= link_to 'manage', location_coupons_path(@location) %></small>
+ <% end %>
+</div>
+</div>
+
+<% if @coupons.size > 0 %>
+
+<% @coupons.in_groups_of(4) do |group| %>
+<div class="row-fluid product">
+    <ul class="thumbnails">
+    <% group.each do |coupon| %>
+      <% if coupon and coupon.how_many_left > 0 %>
+      <li class="span3">
+        <div class="thumbnail">
+          <%= link_to(image_tag(coupon.image.url(:large)), [@location, coupon]) %>
+          <div class="caption">
+            <h6><%= link_to coupon.name, [@location, coupon] %></h6>
+            
+          </div>
+        </div>
+        <% end -%>
+      </li>
+    <% end -%>
+  </ul>
+</div>
+
+<% end -%>   
+
+  <%= paginate @coupons, param_name: 'coupon_page' %>
+<% else %>
+<div class="alert">
+  No Coupons found.
+</div>
+<% end %>

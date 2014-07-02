@@ -2,7 +2,7 @@
   <div class="heading index-2">
   <h5>Services</h5>
     <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
- <small><%= link_to "add", new_location_product_path(@location), class: 'small' %> | <%= link_to 'manage', location_products_path(@location) %></small>
+ <small><%= link_to "add", new_location_service_path(@location), class: 'small' %> | <%= link_to 'manage', location_services_path(@location) %></small>
  <% end %>
 </div>
 </div>
@@ -16,9 +16,9 @@
       <% if service %>
       <li class="span3">
         <div class="thumbnail">
-          <%= image_tag service.image.url(:list) %>
+          <%= link_to(image_tag(service.image.url(:list)), [@location, service]) %>
           <div class="caption">
-            <h6><%= service.name %></h6>
+            <h6><%= link_to service.name, [@location, service] %></h6>
           </div>
         </div>
         <% end -%>
@@ -32,6 +32,6 @@
   <%= paginate @services, param_name: 'service_page' %>
 <% else %>
 <div class="alert">
-  No Products found.
+  No Services found.
 </div>
 <% end %>

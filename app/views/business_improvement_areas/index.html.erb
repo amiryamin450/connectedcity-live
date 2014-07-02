@@ -1,0 +1,28 @@
+<h1>Listing Business Improvement Areas</h1>
+
+<table class="table table-bordered table-striped table-hover">
+  <tr>
+    
+    <th>Name</th>
+   <th>District</th>
+    <th></th>
+  </tr>
+
+<% @business_improvement_areas.each do |business_improvement_area| %>
+  <tr>
+    <td><%= business_improvement_area.name %></td>
+    <td><%= business_improvement_area.district.name %></td>
+    <td>
+      <div class="btn-group">
+        <%= link_to 'show', business_improvement_area, class: 'btn btn-mini' %>
+        <%= link_to 'edit', edit_business_improvement_area_path(business_improvement_area) , class: 'btn btn-mini' %>
+        <%= link_to 'delete', business_improvement_area, method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+      </div>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Business improvement area', new_business_improvement_area_path, class: 'btn btn-primary' %>

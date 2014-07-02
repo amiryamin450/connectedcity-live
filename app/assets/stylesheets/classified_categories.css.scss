@@ -1,0 +1,33 @@
+// Place all the styles related to the ClassifiedCategories controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.classified-header {
+  color: #fff;
+  line-height: 30px;
+  .span7, .span5, .span12 {
+    padding-left: 10px;
+  }
+  .head-cell {
+    border-right: 1px solid #fff;
+    &:last-child { 
+      border-right: none;
+    }
+  }
+}
+
+.classified-detail-row {
+  border-bottom: 1px solid #ccc;
+  line-height: 30px;
+  
+  .span7, .span5, .span12 { 
+    padding-left: 10px;
+    border-left: 1px solid #ccc; }
+  .span7, .span3, .span1, .span12 {
+     border-right: 1px solid #ccc;
+  }
+}
+
+.classified-category {
+  margin-bottom: 1.5em;
+}

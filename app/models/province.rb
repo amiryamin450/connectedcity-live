@@ -1,18 +1,26 @@
 class Province < ActiveRecord::Base
 
-  default_scope where(country_code: 'CA')
+    self.table_name = "maponics_provinces"
+    self.primary_key = "pruid"
+    attr_accessible :prename, :preabbr, :geom, :pruid
 
-  extend FriendlyId
-  friendly_id :name, use: [:slugged, :history]
+    # has_many :metro_areas, class_name: "MetroAreas", foreign_key: "pruid"
+    has_many :cities, foreign_key: "pruid"
 
-  belongs_to :country
+    def name
+      prename
+    end
+    
+    def abbr
+      preabbr
+    end
 
-  has_many :cities
-  has_and_belongs_to_many :regions
-  has_many :locations
+    def id
+      pruid
+    end
 
-
-  attr_accessible :abbr, :country_id, :name, :country_code, :country, :province_code, :country_name
-  validates_presence_of :abbr, :country_id, :name
+    def wkt
+      Province.select(%q{AsText(geom) as geom}).where(:pruid => pruid).map(&:geom).first
+    end
 
 end

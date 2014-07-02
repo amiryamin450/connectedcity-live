@@ -7,7 +7,7 @@ jQuery ->
     pick12HourFormat: true,
     pickSeconds: false
 
-  $('#location_brand_tokens').tokenInput '/brands.json',
+  $('#location_brand_tokens').tokenInput '/brands_autocomplete.json',
     theme: 'facebook',
     propertyToSearch: 'name',
     prePopulate: $('#location_brand_tokens').data('load'),
@@ -39,10 +39,14 @@ jQuery ->
 
   $('.menu-toggle').click ->
     $('#sidebar').toggleClass('menu-min')
+    $.cookie("sidebar_class", $('#sidebar').attr('class'))
     return false
+
+
 
   $('.dropdown-toggle').click ->
     $target = $('#' + $(this).data('toggle'))
+    $('#sidebar').removeClass('menu-min')
     if $target.is(':visible') 
       $(this).find('b').removeClass('icon-angle-down').addClass('icon-angle-right')
       $target.slideUp(200)

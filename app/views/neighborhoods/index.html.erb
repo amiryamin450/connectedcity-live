@@ -1,0 +1,41 @@
+<h1>Neighborhoods</h1>
+
+<%= search_form_for @q do |f| %>
+  <%= f.label :place_cont %>
+  <%= f.text_field :place_cont %>
+  <%= f.submit %>
+<% end -%>
+
+<% if @neighborhoods.size > 0 %>
+
+<table class="table table-bordered table-striped table-hover">
+  <tr>
+    <th><%= sort_link(@q, :neighborhd, "Name") %></th>
+    <th><%= sort_link(@q, :place, "City") %></th>
+    <th><%= sort_link(@q, :state, "State") %></th>
+    <th><%= sort_link(@q, :metro, "Metro Area") %></th>
+    <th>District</th>
+    <th></th>
+  </tr>
+
+  <% @neighborhoods.each do |n| %>
+  <tr>
+    <td><%= n.name %></td>
+    <td><%= n.place %></td>
+    <td><%= n.state %></td>
+    <td><%= n.metro %></td>
+    <td><%= n.district.name if n.district %></td>
+    <td>
+      <div class='btn-group'>    
+
+        <%= link_to 'Edit', edit_neighborhood_path(n), class: 'btn btn-mini' %>
+        
+      </div>
+    </td>
+  </tr>
+  <% end %>
+</table>
+
+<% else %>
+<div class="alert info">No Results</div>
+<% end -%>

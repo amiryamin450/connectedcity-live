@@ -1,0 +1,35 @@
+<div class="category">
+  <div class="heading index-1">
+  <h5>New Homes</h5>
+   <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+ <small><%= link_to "add", new_location_new_home_community_new_home_path(@location, @new_home_community), class: 'small' %> | <%= link_to 'manage', location_new_home_community_new_homes_path(@location, @new_home_community) %></small>
+ <% end %>
+</div>
+</div>
+<% if @new_home_community.new_homes.size > 0 %>
+<% @new_home_community.new_homes.in_groups_of(4) do |group| %>
+<div class="row-fluid product">
+    <ul class="thumbnails">
+    <% group.each do |unit| %>
+      <% if unit %>
+      <li class="span3">
+        <div class="thumbnail">
+          <%= link_to(image_tag(unit.cover_photo.url), [@location, @new_home_community, unit]) %>
+          <div class="clearfix">
+            <div class="pull-left"><%= number_to_currency unit.list_price %></div>            
+            <div class="pull-right"><%= "#{unit.bedrooms} bed | #{unit.bathrooms} baths" %></div>
+          </div>
+        </div>
+        <% end -%>
+      </li>
+    <% end -%>
+  </ul>
+</div>
+
+<% end -%>   
+
+<% else %>
+<div class="alert">
+  No New Homes found.
+</div>
+<% end %>

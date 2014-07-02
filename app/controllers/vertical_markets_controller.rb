@@ -37,82 +37,67 @@ class VerticalMarketsController < ApplicationController
 
   def guide
 
-    set_region
-    set_subregion
-    set_city
-    set_district
-
     @vertical_market = VerticalMarket.find(params[:market])
 
-    id = @vertical_market.id
-    p = params
-    region = @region
-    sub_region = @sub_region
-    city = @city
-    district = @district
-
-    results = Location.tire.search do
-      query do
-        boolean do
-          must { term "vertical_market_categories.vertical_market_id", id }
-          must { term "categories", p[:category] } unless p[:category].nil?
-          must { term "neighborhoods", p[:neighborhood] } unless p[:neighborhood].nil?
-          must { term "brands", p[:brand] } unless p[:brand].nil?
-          must { term "region.id", region.id } unless region.nil?
-          must { term "city.sub_region_id", sub_region.id } unless sub_region.nil?
-          must { term "city.id", city.id } unless city.nil?
-          must { term "district.id", district.id } unless district.nil?
-        end
+    case @vertical_market.id
+    when 17
+      @rental_properties = if @district
+        RentalProperty.where(district_id: @district.id).where(city_id: 5915022).order(:name)
+      else
+        RentalProperty.where(city_id: 5915022).order(:name)
       end
-
-      # facet 'categories' do
-      #   terms :categories, { size: 10 }
-      # end
-      # facet 'neighborhoods' do
-      #   terms :neighborhoods, { size: 10}
-      # end
-      # facet 'brands' do
-      #   terms :brands, {size: 10}
-      # end
+    when 18
+      @listings = if @district
+        RealEstateListing.where(property_type: 'Residential').where(district_id: @district.id).where(city_id: 5915022).order(:title)
+      else
+        RealEstateListing.where(property_type: 'Residential').where(city_id: 5915022).order(:title)
+      end
+    when 20
+      @listings = if @district
+        RealEstateListing.where(property_type: 'Commercial').where(district_id: @district.id).where(city_id: 5915022).order(:title)
+      else
+        RealEstateListing.where(property_type: 'Commercial').where(city_id: 5915022).order(:title)
+      end
+    when 19
+      @new_home_communities = if @district
+        NewHomeCommunity.where(district_id: @district.id).where(city_id: 5915022).order(:name)
+      else
+        NewHomeCommunity.where(city_id: 5915022).order(:name)
+      end
+    else
     end
-
-    @facets = results.facets
-    logger.debug "Facets: #{@facets}"
+    add_crumb '<i class="icon-home"></i> Home'.html_safe, @base_path
+    add_crumb @district.name, district_guide_path(@district) if params[:district_route].present?
     add_crumb "#{@vertical_market.name} Guide"
   end
 
   def search
-
-    set_region
-    set_subregion
-    set_city
-    set_district
-
-    @vertical_market = VerticalMarket.find(params[:market])
+    vm = nil
+    vm = VerticalMarket.find(params[:market]) if params[:market].present?
+    district = District.find(params[:district_route]) if params[:district_route].present?
+    @vertical_market = vm if vm.present?
 
 
-    query = if params[:query].present?
-      {
-        multi_match: {
-          query: params[:query].downcase,
-          fields: [:name, :brands, 'vertical_market.name', 'vertical_market_category.name' ]
-        }
-      }
+
+    ids = if vm.present?
+      if vm.has_children?
+        vm.children.map(&:id) + [vm.id]
+      else
+        vm.id
+      end
     else
-      {match_all: {}}
+      nil
     end
 
-    filters = {}
-    filters[:and] = []
-    filters[:and] << { term: {"vertical_market_categories.vertical_market_id" => @vertical_market.id}}
-    filters[:and] << { term: {"region.id" => @region.id} } unless @region.nil?
-    filters[:and] << { term: {"city.sub_region_id" => @subregion.id} } unless @subregion.nil?
-    filters[:and] << { term: {"city.id" => @city.id} } unless @city.nil?
-    filters[:and] << { term: {"district.id" => @district.id} } unless @district.nil?
 
-    page = params[:page].to_i > 0 ? params[:page].to_i - 1 : params[:page].to_i
-    search = Tire.search('locations', query: query, filter: filters, from: page * 10, size: 35 )
-    @results = search.results
+    @search = Location.solr_search do
+      fulltext params[:search]
+      with(:city_id, 5915022)
+      with(:vertical_market_ids, ids) if vm.present?
+      with(:district_id, district.id) if district.present?
+    end
+
+    @results = @search.results
 
     add_crumb 'Search Results'
 
@@ -177,7 +162,7 @@ class VerticalMarketsController < ApplicationController
     @vertical_market.destroy
 
     respond_to do |format|
-      format.html { redirect_to admin_vertical_markets_url }
+      format.html { redirect_to vertical_markets_url }
       format.json { head :no_content }
     end
   end

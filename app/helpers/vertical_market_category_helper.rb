@@ -13,4 +13,16 @@ module VerticalMarketCategoryHelper
     end
   end
 
+
+  def get_location_image_url(location)
+    if location.logo.present?
+      location.logo.url :list
+    elsif location.vertical_market_categories.first.default_logo.present?
+      location.vertical_market_categories.first.default_logo.url :list
+    else
+      "http://placehold.it/160x80"
+    end
+      
+  end
+
 end

@@ -1,18 +1,9 @@
-<!-- <h6 class="favorites">My Favourites</h6>
-<ul class="favorites-list">
-  <% @vertical_markets_all.each do |vm| %>
-    <li><a href="#" class="<%= vm.slug %>"><%= vm.name %> <%= fav_count vm %></a></li>
-  <% end %>
-</ul> -->
 
-
-<ul class="nav nav-list">
-  <% @vertical_markets_all.each do |vm| %>
-    <li class="">
-      <a href="">
-        <i class="icon-home"></i>
-        <span><%= "#{vm.name} #{fav_count vm}" %></span>
-      </a>
-    </li>
-  <% end -%>
-</ul>
+<% @vertical_markets_all.each do |vm| %>
+<li class="">
+<a href="<%= fav_link vm %>">
+  <i class="icon-home"></i>
+  <span><%= "#{vm.name} #{fav_count vm}" %></span>
+</a>
+</li>
+<% end -%>

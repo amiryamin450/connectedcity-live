@@ -1,0 +1,67 @@
+
+
+<%
+r = 0
+ # categories = @facets['categories']
+ # neighborhoods = @facets['neighborhoods']
+ # brands = @facets['brands']
+ # has_filters = (request.parameters[:category].present? or request.parameters[:neighborhood].present? or request.parameters[:brand].present?) ? true : false
+ markers = []
+ %>
+
+ 
+
+
+
+
+<div class="row-fluid">
+  <div class="span4">
+  <div id="map-holder">
+  <div id="map"></div>
+  </div>
+  <div id="status_updates"><%= render :partial => 'status_updates' %></div>
+</div>
+<div class="span8">
+  <h1><%= "#{current_user.name}'s Favorites" %></h1>
+   <% @vertical_markets.each do |vm| %>
+   <% if fav_count_num(vm) > 0 %>
+   <div class="category">
+    <div class="heading index-<%= r += 1 %>">
+      <h5><%= vm.name %></h5>   
+      <a href="#" class="see-more" data-element="<%= vm.id %>">More +</a>
+    </div>
+
+    <div class="location-holder" id="cat-<%= vm.id %>">
+      <a href="" id="vm-<%= vm.id %>"></a>
+      <div class="clearfix">
+        <% fav_categories(vm).each  do |f| %>
+        <% markers << f.location %>
+        <div class="location-teaser clearfix">
+          <div style="min-height: 80px; text-align: center;">
+            <%= link_to(image_tag(get_location_image_url(f.location)), f.location)%>
+          </div>
+          <div style="width: 168px; margin-top: 5px; margin-bottom: 5px; font-size: 12px; min-height:24px;"><strong><%= link_to f.location.name, f.location %></strong></div>
+          <div style="width: 168px;"><%= "#{f.location.address}".html_safe %></div>
+          <div style="width: 168px;"><%= "#{f.location.city.name if f.location.city.present? } #{f.location.province.abbr} #{f.location.postal_code}".html_safe %></div>
+          <div style="width: 168px; color: #1c3656;"><%= f.location.phone %></div>
+          <div id="favorite-<%= f.location.id %>" class="favorite" style="margin-top: 5px;">
+                <%= render 'favorites/like_button', :location_id => f.location.id if user_signed_in? %>
+          </div>
+        </div>
+
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <% end %>
+  <% end %>
+</div>
+</div>
+
+
+
+
+<%= javascript_tag do %>
+window.locations = <%= raw markers.collect { |m| {:name => m.name, :latitude => m.latitude, :longitude => m.longitude}}.to_json %>;
+<% end %>
+

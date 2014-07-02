@@ -16,9 +16,9 @@
       <% if product %>
       <li class="span3">
         <div class="thumbnail">
-          <%= image_tag product.image.url(:list) %>
+          <%= link_to(image_tag(product.image.url(:list)), [@location, product]) %>
           <div class="caption">
-            <h6><%= product.name %></h6>
+            <h6><%= link_to(product.name, [@location, product]) %></h6>
             
           </div>
         </div>

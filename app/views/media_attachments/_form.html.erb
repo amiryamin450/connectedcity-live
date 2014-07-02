@@ -1,0 +1,11 @@
+<%= simple_form_for [@location, @media_attachment] do |f| %>
+<div class="form-inputs">
+  <%= f.input :attachment, as: :url %>
+</div>
+
+<div class="form-actions">
+  <%= f.button :submit, class: 'btn btn-primary' %>
+  <%= link_to 'Cancel', :back, class: 'btn'  %>
+</div>
+
+<% end %>

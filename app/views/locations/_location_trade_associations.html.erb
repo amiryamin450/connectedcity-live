@@ -1,0 +1,35 @@
+<div class="category">
+  <div class="heading index-6">
+    <h5>Trade Associations</h5>    
+  </div>
+</div>
+
+<% if @location.trade_associations.size > 0 %>
+
+<%  @location.trade_associations.in_groups_of(4) do |group| %>
+<div class="row-fluid product">
+  <ul class="thumbnails">
+    <% group.each do |association| %>
+    <% if association %>
+    <li class="span3">
+      <div class="thumbnail">
+        <%= link_to(image_tag(association.logo.url(:list)), association) %>
+        <div class="caption">
+          <h6><%= link_to association.name, association %></h6>
+
+        </div>
+      </div>
+      <% end -%>
+    </li>
+    <% end -%>
+  </ul>
+</div>
+
+<% end -%>   
+
+
+<% else %>
+<div class="alert">
+  No Trade Associations found.
+</div>
+<% end %>

@@ -1,0 +1,159 @@
+<div class="span6">
+  <div class="pad10 holder clearfix">
+    <div class="row-fluid">
+      <div class="span12">
+        <% if @new_home_community.cover_photo %>
+        <%= image_tag @new_home_community.cover_photo.url %>
+        <% else %>
+        <%= image_tag "http://placehold.it/1280x400" %>
+        <% end -%>
+      </div>
+
+    </div>
+    <div class="row-fluid" style="margin-top:5px;">
+
+      <div class="span3">
+        <div class=" logo" style="margin-top: 10px;">
+          <%= image_tag @location.logo.url %>
+          
+        </div>
+      </div>
+
+      <div class="span6">
+        <h4><%= @new_home_community.name %></h4>
+        
+        
+        <div class="address-line">
+          <div style="margin-bottom: 10px;">
+            <%= "#{@new_home_community.address} &middot; #{@new_home_community.city.name}, #{@new_home_community.province.abbr} #{@new_home_community.postal_code}".html_safe %>
+          </div>
+
+        </div>
+
+
+        <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+        <div class="btn-group">
+         <%= link_to "Edit", edit_location_new_home_community_path(@location, @new_home_community), class: 'btn btn-mini btn-primary' %>
+       </div>
+       <% end %>
+
+     </div>
+     <div class="span3">
+               <% if @new_home_community.logo.present? %>
+        <div class=" logo" style="margin-top: 10px;">
+          <%= image_tag @new_home_community.logo.url %>
+          
+        </div>
+        <% end %>
+     </div>
+   </div>
+ </div>
+
+
+
+<div class="pad10 holder">
+
+  <div class="row-fluid">
+    <div class="span12">
+      <h4>Description</h4>
+      <%= @new_home_community.description.html_safe %>
+    </div>
+  </div>
+  <div class="well" style="margin-top: 10px;">
+    <div class="row-fluid">
+      <div class="span6">
+
+        <% if @new_home_community.highlights %>
+        <h6>Highlights</h6>
+        <ul>
+          <% @new_home_community.highlights.each_line do |item| %>
+          <li><%= item %></li>
+          <% end -%>
+        </ul>
+        <% end -%>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+</div>
+<div class="span6">
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="pad10 holder">
+       <div id="profile-map" class="clearfix"></div>
+     </div>
+
+      <div class="pad10 holder">
+  <div class="row-fluid">
+    <div class="span12">
+      <h4 class="title">Status Updates
+       <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+       <small><%= link_to "add", "#status_update", class: 'small', role: :button, data: {toggle: 'modal'} %></small>
+       <% end %>
+     </h4>
+
+     <div id="status_updates">
+      <% if @new_home_community.status_updates.size > 0 %>
+
+
+      <% @new_home_community.status_updates.each do |s| %>
+      <article class="teaser">      
+        <div class="article-content"><%= truncate(s.content, length: 200, seperator: ' ') %></div>
+        <div class="article-published"><%= "#{time_ago_in_words(s.created_at)} ago" %></div>
+      </article>
+
+      <% end %>
+
+
+      <% else %>
+      <div class="alert">No Status Updates found.</div>
+      <% end %>
+    </div>
+  </div>
+</div>
+</div>
+
+
+   </div>
+ </div>
+ <div class="row-fluid">
+   <div class="span12">
+    <%= render 'new_homes' %>
+  </div>
+</div>
+</div>
+
+
+<%= javascript_tag do %>
+
+<% ## TODO Limit the number of locations returned  %>
+
+Window.profile_marker = <%= raw @new_home_community.geo_location.to_json() %>
+<% end %>
+
+
+
+<div class='modal hide fade' id="status_update" tabindex="-1" role="dialog" aria-labelledby="status_update_label" aria-hidden="true">
+  <%= simple_form_for [@location,@new_home_community], :html => {:style => 'margin-bottom: 0;'} do |f| %>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="status_update_label">What's Happening?</h3>
+  </div>
+  <div class="modal-body">
+    <%= f.fields_for :status_updates, @new_home_community.status_updates.build() do |b| %>
+    <div>
+      <%= b.label 'Update Text' %>
+      <%= b.text_area :content, :rows => 3, style: 'width: 515px' %>
+    </div>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="Cancel" />
+    <%= f.button :submit, :class => 'btn btn-primary' %>
+  </div>
+  <% end %>
+</div>
+

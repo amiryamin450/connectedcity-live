@@ -1,0 +1,34 @@
+<h2>Rental Properties</h2>
+
+ <div class="location-holder">
+    <div class="clearfix">
+      <% @rental_properties.each do |listing| %>
+      <div class="location-teaser clearfix">
+
+
+        <div style="min-height: 80px; text-align: center;">
+          <% if listing.cover_photo.present? %>
+            <%= link_to(image_tag(listing.cover_photo.url(:list)), [listing.location, listing])%>
+          <% else %>
+            <%= image_tag "http://placehold.it/168x80" %>
+          <% end -%>
+        </div>
+
+        <div style="width: 168px; margin-top: 5px; font-size: 12px; clearfix;min-height:24px;">
+          <%= listing.name %>
+        </div>
+
+
+        <div style="width: 168px; clear:both; padding-top: 5px;">
+          <div><%= listing.address_1 %>&nbsp;</div>
+          <div><%= " #{listing.city.name}, #{listing.province.abbr}" %></div>
+        </div>
+        <div style="width: 168px; clear:both; padding-top: 5px; font-size: 12px;">
+          <%= link_to listing.location.name, listing.location %>
+        </div>
+
+      </div>
+
+      <% end %>
+    </div>
+  </div>

@@ -1,0 +1,23 @@
+
+<h1>Classifieds - <%= @employment_category.name %> </h1>
+
+<div class="row-fluid classified-category">
+  <div class="row-fluid classified-header" style="background-color: <%= "#{@employment_category.heading_color}" %>">
+    
+    <div class="span5 head-cell"><%= @employment_category.name %></div>
+    <div class="span2 head-cell">Company</div>
+    <div class="span1 head-cell">Job Number</div>
+    <div class="span1 head-cell"># Available</div>
+    <div class="span3 head-cell">Application Deadline</div>
+  </div>
+
+  <% @employment_category.employment_listings.first(4).each do |listing| %>
+  <div class="row-fluid classified-detail-row" style="border-color: <%= @employment_category.heading_color %>">
+    <div class="span5"><%= link_to listing.title, [listing.location, listing] %></div>
+    <div class="span2" style="font-size: 10px;"><%= link_to listing.location.name, listing.location %></div>
+
+    <div class="span1" ><%= listing.number %></div>
+    <div class="span1"><%= listing.number_of_positions %></div>
+    <div class="span3"><%= listing.application_deadline %></div>
+  </div>
+  <% end -%>

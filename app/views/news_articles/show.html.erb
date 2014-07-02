@@ -16,9 +16,17 @@
 
   </div>
   <div class="span3">
-    <div class="thumbnail"><%= image_tag "http://placehold.it/320x240" %></div>
+    <div class="thumbnail">
+        <% if @news_article.image.exists? %>
+            <%= image_tag @news_article.image.url %>
+        <% else %>
+            <%= image_tag "http://placehold.it/360x240" %>
+        <% end %>
+
+
+    </div>
     
-    <div class="info">
+    <div class="info" style="margin-top: 1em;">
       <address>
         <strong><%= link_to @location.name, @location %></strong><br />
         <%= @location.address %><br/>
@@ -27,7 +35,7 @@
     </div>
     
     <% if @location.news_articles.size > 1 %>
-    <div class="blog-entries">
+    <div class="blog-entries" >
       <h5>Recent News Articles</h5>
       <ul>
         <% @location.news_articles.each do |article| %>

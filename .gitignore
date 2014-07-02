@@ -75,3 +75,5 @@ pickle-email-*.html
 # vim artifacts
 **.swp
 public/assets
+solr/data
+solr/pids

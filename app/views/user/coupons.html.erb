@@ -1,0 +1,26 @@
+<h1>My Coupons</h1>
+
+<% if @coupons.size > 0 %>
+    <table class="table table-bordered table-striped table-hover">
+      <tr>
+        <th>Name</th>
+        <th>Expiration</th>
+        <th></th>
+      </tr>
+
+    <% @coupons.each do |coupon| %>
+      <tr>
+        <td><%= link_to coupon.name, [coupon.location, coupon] %></td>
+        <td><%= coupon.expiration.strftime("%m/%d/%Y") %></td>
+        <td>
+          <div class="btn-group">
+            <%= link_to 'show', [coupon.location, coupon], class: 'btn btn-mini' %>
+            <%= link_to 'release', release_coupon_path(coupon.redemptions.where(user_id: current_user.id).first.id), class: 'btn btn-mini' %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+<% else %>
+    <div class="alert notice">No Coupons Found</div>
+<% end %>

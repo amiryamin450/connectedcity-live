@@ -1,5 +1,13 @@
 <h1>Listing locations</h1>
 
+<%= search_form_for @search, class: 'form-search' do |f| %>
+  <div class="input-append">
+      <%= f.text_field :name_cont, class: 'search-query' %>
+      <%= f.submit "Search", class: 'btn' %>
+  </div>
+
+<% end -%>
+
 <table class="table table-striped table-compact table-bordered">
   <tr>
     <th>Name</th>
@@ -15,8 +23,8 @@
       <tr>
         <td><%= location.name %></td>
         <td><%= location.address %></td>
-        <td><%= location.city.name %></td>
-        <td><%= location.state_or_province.abbr %></td>
+        <td><%= location.city.name if location.city.present? %></td>
+        <td><%= location.province.abbr %></td>
         <td><%= location.postal_code %></td>
         <td><%= location.country.country_code %></td>
         <td>
@@ -32,4 +40,4 @@
 <%= paginate @locations %>
 
 
-<%= link_to 'New Location', new_location_path %>
+<%= link_to 'New Location', new_location_path, class: 'btn btn-primary' %>

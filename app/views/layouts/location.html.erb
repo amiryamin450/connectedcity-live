@@ -24,9 +24,7 @@
               <a href="/" title="Connectbook.tv"><img src="/assets/logo.png" alt="" width="" height=""/></a>
             </div>
             <div class="span6">
-              <div class="user-nav">
-                <%= render 'top_nav' %>
-              </div>
+
 
               <div class="location-chooser">
                 <%= render 'location_chooser' %>               
@@ -42,37 +40,37 @@
     <div>
       
 
-    
+      
 
-        <div id="sidebar" >
-          <%= render 'user_sidebar' %>
-        </div>
-        <div id="main-content">
-          <div class="row-fluid">
-            <div id="breadcrumbs">
-              <div class="breadcrumb">
-                <%= render_crumbs separator: "<span class='divider'><i class='icon-angle-right'></i></span>".html_safe %>
-              </div>
+      <div id="sidebar"  class="<%= @sidebar_class %>">
+        <%= render 'user_sidebar' %>
+      </div>
+      <div id="main-content">
+        <div class="row-fluid">
+          <div id="breadcrumbs">
+            <div class="breadcrumb">
+              <%= render_crumbs separator: "<span class='divider'><i class='icon-angle-right'></i></span>".html_safe %>
             </div>
           </div>
-          <div class="container-fluid content-holder">            
+        </div>
+        <div class="container-fluid content-holder">            
           <div class="row-fluid">
             <%= yield %>
           </div>
-          </div>
+        </div>
 
-        </div>      
-
-
+      </div>      
 
 
 
 
-    
-    
+
+
+      
+      
     </div>
   </div>
- 
+  
   <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5088b5ab602f3daf"></script>
 </body>
 </html>

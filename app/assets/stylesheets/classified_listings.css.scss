@@ -1,0 +1,14 @@
+// Place all the styles related to the ClassifiedListings controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+div.thumbnails {
+  margin-top: 5px;
+  img {
+
+  }
+  .thumbnail {
+    display: inline;
+    margin-right: 5px;
+    cursor: pointer;
+  }
+}

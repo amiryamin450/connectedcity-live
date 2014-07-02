@@ -1,0 +1,19 @@
+<%= simple_form_for(@business_improvement_area) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    
+    <%= f.input :name %>
+    <%= f.association :district, prompt: 'Select District' %>
+    <%= f.input :website_url %>
+    <%= f.input :description, as: :text, input_html: { class: 'input-block-level wysihtml5' }  %>
+    <%= f.input :logo, as: :logo_preview %>
+    <%= f.input :home_page_image, as: :logo_preview %>
+    <%= f.input :use_carousel, label: 'Use Image Rotator' %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: 'btn btn-primary' %>
+    <%= link_to 'Cancel', business_improvement_areas_path, class: 'btn' %>
+  </div>
+<% end %>

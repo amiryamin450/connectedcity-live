@@ -18,24 +18,19 @@
   <div class="wrapper">
     <nav>
       <div class="row-fluid" id="header">
-        <div class="span12">
           <div class="row-fluid">
             <div class="logo span6">
               <a href="/" title="Connectbook.tv"><%= image_tag 'logo.png' %></a>
             </div>
             <div class="span6">
-              <div class="user-nav">
-                <%= render 'top_nav' %>
-              </div>
-
               <div class="location-chooser">
                 <%= render 'location_chooser' %>               
               </div>
 
             </div>
           </div>
-        </div>
 
+        
 
         <%= render 'main_menu' %>
 
@@ -43,7 +38,7 @@
       </div>
     </nav>
     <div class="">
-<div id="sidebar" >
+      <div id="sidebar" class="<%= @sidebar_class %>">
           <%= render 'user_sidebar' %>
         </div>
         <div id="main-content">
@@ -58,6 +53,7 @@
           <div class="row-fluid">
             <%= yield %>
           </div>
+          <div style="margin-bottom: 1.5em;"></div>
           </div>
 
         </div>      

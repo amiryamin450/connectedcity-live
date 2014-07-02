@@ -1,0 +1,17 @@
+<h1>Classifieds - <%= @city_news_category.name %> </h1>
+
+<% if @city_news_category.city_news_articles.size > 0 %>
+<div class="row-fluid classified-category">
+  <div class="row-fluid classified-header" style="background-color: <%= "#{@city_news_category.heading_color}" %>">
+    
+    <div class="span12 head-cell"><%= @city_news_category.name %></div>
+  </div>
+
+  <% @city_news_category.city_news_articles.each do |listing| %>
+  <div class="row-fluid classified-detail-row" style="border-color: <%= @city_news_category.heading_color %>">
+    <div class="span12" style="border-color: <%= category.heading_color %>"><%= link_to listing.title, listing %></div>
+  </div>
+  <% end -%>
+
+</div>
+<% end -%>

@@ -1,0 +1,10 @@
+<%= simple_form_for @neighborhood do |f| %>
+
+<div class="form-inputs">
+  <%= f.association :district, collection: @districts  %>
+</div>
+<div class="form-actions">
+  <%= f.button :submit, class: 'btn btn-primary' %>
+  <%= link_to 'Cancil', neighborhoods_path, class: 'btn' %>
+</div>
+<% end -%>

@@ -1,0 +1,37 @@
+<h1>My Classified Listings</h1>
+
+<% if @classified_listings.size > 0 %>
+
+
+<table class="table table-bordered table-striped table-hover">
+  <tr>
+    <th>Title</th>
+    <th>Price</th>
+    <th>Condition</th>
+
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @classified_listings.each do |classified_listing| %>
+  <tr>
+    <td><%= classified_listing.title %></td>
+    <td><%= humanized_money_with_symbol classified_listing.price %></td>
+    <td><%= CLASSIFIED_CONDITION_OPTIONS.index classified_listing.condition %></td>
+    <td>
+      <div class='btn-group'>    
+        <%= link_to 'Show', classified_listing, class: 'btn btn-mini' %>
+        <%= link_to 'Edit', edit_classified_listing_path(classified_listing), class: 'btn btn-mini' %>
+        <%= link_to 'Destroy', classified_listing, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+      </div>
+    </td>
+  </tr>
+<% end %>
+</table>
+  <% else %>
+<% end %>
+<br />
+
+<%= link_to 'Create classified listing', new_classified_listing_path, class: 'btn btn-primary' %>
+<%= link_to 'Back', :back, class: 'btn' %>

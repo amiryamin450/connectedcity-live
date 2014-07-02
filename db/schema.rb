@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130819233545) do
+ActiveRecord::Schema.define(:version => 20131118235049) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -59,15 +59,57 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
 
   add_index "attachments", ["attachable_id", "attachable_type"], :name => "index_attachments_on_attachable_id_and_attachable_type"
 
+  create_table "automotive_listings", :force => true do |t|
+    t.string   "title"
+    t.string   "status"
+    t.string   "vehicle_type"
+    t.boolean  "local"
+    t.boolean  "accident"
+    t.integer  "price_cents"
+    t.integer  "year"
+    t.string   "make"
+    t.string   "model"
+    t.string   "trim_level"
+    t.string   "exterior_color"
+    t.string   "interior_color"
+    t.string   "enigine"
+    t.string   "drivetrain"
+    t.string   "transmission"
+    t.string   "body"
+    t.integer  "mileage"
+    t.string   "stock_number"
+    t.text     "description"
+    t.text     "powertrain_specs"
+    t.text     "suspension_specs"
+    t.text     "specs"
+    t.text     "entertainment_features"
+    t.text     "seats_and_trim"
+    t.text     "convenience_features"
+    t.text     "body_exterior"
+    t.text     "lighting_visibility_instruments"
+    t.text     "saftey_and_security"
+    t.integer  "location_id"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+    t.string   "main_image_file_name"
+    t.string   "main_image_content_type"
+    t.integer  "main_image_file_size"
+    t.datetime "main_image_updated_at"
+  end
+
   create_table "blog_entries", :force => true do |t|
     t.string   "title"
     t.text     "content"
     t.integer  "user_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.string   "slug"
     t.integer  "bloggable_id"
     t.string   "bloggable_type"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   add_index "blog_entries", ["bloggable_id", "bloggable_type"], :name => "index_blog_entries_on_bloggable_id_and_bloggable_type"
@@ -77,12 +119,17 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
     t.text     "description"
     t.string   "slug"
     t.integer  "business_id"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
+    t.string   "home_page_image_file_name"
+    t.string   "home_page_image_content_type"
+    t.integer  "home_page_image_file_size"
+    t.datetime "home_page_image_updated_at"
+    t.string   "website_url"
   end
 
   add_index "brands", ["business_id"], :name => "index_brands_on_business_id"
@@ -90,6 +137,26 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
   create_table "brands_locations", :id => false, :force => true do |t|
     t.integer "brand_id"
     t.integer "location_id"
+  end
+
+  create_table "business_improvement_areas", :force => true do |t|
+    t.integer  "district_id"
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+    t.string   "home_page_image_file_name"
+    t.string   "home_page_image_content_type"
+    t.integer  "home_page_image_file_size"
+    t.datetime "home_page_image_updated_at"
+    t.string   "slug"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.integer  "user_id"
+    t.string   "website_url"
+    t.boolean  "use_carousel",                 :default => false
   end
 
   create_table "businesses", :force => true do |t|
@@ -115,7 +182,22 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
     t.integer "business_id"
   end
 
-  create_table "cities", :force => true do |t|
+  create_table "carousel_images", :force => true do |t|
+    t.string   "title"
+    t.string   "caption"
+    t.integer  "carouselable_id"
+    t.string   "carouselable_type"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+  end
+
+  add_index "carousel_images", ["carouselable_id", "carouselable_type"], :name => "index_carousel_images_on_carouselable_id_and_carouselable_type"
+
+  create_table "cities_old", :force => true do |t|
     t.string   "name"
     t.text     "description"
     t.integer  "community_id"
@@ -132,11 +214,69 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
     t.datetime "home_page_image_updated_at"
   end
 
-  add_index "cities", ["community_id"], :name => "community_id"
-  add_index "cities", ["province_id"], :name => "province_id"
-  add_index "cities", ["region_id"], :name => "region_id"
-  add_index "cities", ["slug"], :name => "index_cities_on_slug"
-  add_index "cities", ["slug"], :name => "slug"
+  add_index "cities_old", ["community_id"], :name => "community_id"
+  add_index "cities_old", ["province_id"], :name => "province_id"
+  add_index "cities_old", ["region_id"], :name => "region_id"
+  add_index "cities_old", ["slug"], :name => "index_cities_on_slug"
+  add_index "cities_old", ["slug"], :name => "slug"
+
+  create_table "city_news_articles", :force => true do |t|
+    t.text     "content"
+    t.string   "title"
+    t.integer  "city_news_category_id"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.string   "slug"
+  end
+
+  create_table "city_news_categories", :force => true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "heading_color"
+  end
+
+  create_table "classified_categories", :force => true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "heading_color"
+    t.integer  "weight"
+  end
+
+  create_table "classified_images", :force => true do |t|
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.integer  "classified_listing_id"
+  end
+
+  create_table "classified_listings", :force => true do |t|
+    t.string   "title"
+    t.integer  "condition"
+    t.text     "description"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+    t.integer  "classified_category_id"
+    t.integer  "user_id"
+    t.integer  "price_cents"
+    t.string   "address"
+    t.string   "address_1"
+    t.integer  "city_id"
+    t.integer  "province_id"
+    t.string   "postal_code"
+    t.integer  "neighborhood_id"
+    t.boolean  "active"
+  end
 
   create_table "communities", :force => true do |t|
     t.string   "name"
@@ -161,7 +301,40 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
   add_index "countries", ["country_code"], :name => "country_code"
   add_index "countries", ["slug"], :name => "index_countries_on_slug"
 
+  create_table "coupons", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.date     "expiration"
+    t.integer  "howmany"
+    t.integer  "redemptions_count",  :default => 0
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+    t.integer  "location_id"
+    t.string   "code_prefix"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+  end
+
   create_table "districts", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "city_id"
+    t.string   "slug"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+    t.string   "home_page_image_file_name"
+    t.string   "home_page_image_content_type"
+    t.integer  "home_page_image_file_size"
+    t.datetime "home_page_image_updated_at"
+    t.boolean  "use_carousel"
+  end
+
+  add_index "districts", ["city_id"], :name => "city_id"
+  add_index "districts", ["slug"], :name => "slug"
+
+  create_table "districts_copy", :force => true do |t|
     t.string   "name"
     t.text     "description"
     t.integer  "city_id"
@@ -174,8 +347,35 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
     t.datetime "home_page_image_updated_at"
   end
 
-  add_index "districts", ["city_id"], :name => "city_id"
-  add_index "districts", ["slug"], :name => "slug"
+  add_index "districts_copy", ["city_id"], :name => "city_id"
+  add_index "districts_copy", ["slug"], :name => "slug"
+
+  create_table "employment_categories", :force => true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.string   "heading_color"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "employment_listings", :force => true do |t|
+    t.string   "title"
+    t.string   "number"
+    t.text     "locations"
+    t.text     "description"
+    t.text     "advantages"
+    t.text     "qualifications"
+    t.integer  "number_of_positions"
+    t.date     "application_deadline"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+    t.integer  "location_id"
+    t.integer  "employment_category_id"
+    t.string   "cover_photo_file_name"
+    t.string   "cover_photo_content_type"
+    t.integer  "cover_photo_file_size"
+    t.datetime "cover_photo_updated_at"
+  end
 
   create_table "events", :force => true do |t|
     t.string   "name"
@@ -199,9 +399,10 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
   create_table "favorites", :force => true do |t|
     t.integer  "location_id"
     t.string   "category"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.integer  "user_id"
+    t.integer  "vertical_market_id"
   end
 
   create_table "friendly_id_slugs", :force => true do |t|
@@ -252,8 +453,8 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
     t.string   "slug"
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
@@ -269,6 +470,10 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
     t.string   "cover_photo_content_type"
     t.integer  "cover_photo_file_size"
     t.datetime "cover_photo_updated_at"
+    t.integer  "neighborhood_id"
+    t.integer  "broker_id"
+    t.integer  "business_improvement_area_id"
+    t.integer  "user_id"
   end
 
   add_index "locations", ["city_id"], :name => "city_id"
@@ -279,28 +484,116 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
   add_index "locations", ["slug"], :name => "index_slug"
   add_index "locations", ["yp_lid"], :name => "index_locations_on_yp_lid"
 
+  create_table "locations_trade_associations", :id => false, :force => true do |t|
+    t.integer "trade_association_id"
+    t.integer "location_id"
+  end
+
   create_table "locations_vertical_market_categories", :id => false, :force => true do |t|
     t.integer "vertical_market_category_id"
     t.integer "location_id"
   end
 
-  create_table "locations_vertical_market_categories_dupes", :id => false, :force => true do |t|
-    t.integer "vertical_market_category_id"
-    t.integer "location_id"
+# Could not dump table "maponics_division" because of following StandardError
+#   Unknown type 'geometry' for column 'geom'
+
+# Could not dump table "maponics_provinces" because of following StandardError
+#   Unknown type 'geometry' for column 'geom'
+
+# Could not dump table "maponics_subdivisions" because of following StandardError
+#   Unknown type 'geometry' for column 'geom'
+
+  create_table "media_attachments", :force => true do |t|
+    t.text     "attachment"
+    t.text     "attachment_html"
+    t.integer  "attachable_id"
+    t.string   "attachable_type"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "thumb_url"
+    t.string   "title"
+    t.string   "media_source_id"
+    t.string   "media_source"
   end
 
 # Could not dump table "neighborhoods" because of following StandardError
 #   Unknown type 'geometry' for column 'geom'
 
+  create_table "new_home_communities", :force => true do |t|
+    t.string   "name"
+    t.integer  "location_id"
+    t.integer  "city_id"
+    t.integer  "province_id"
+    t.integer  "neighborhood_id"
+    t.text     "description"
+    t.text     "highlights"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+    t.integer  "district_id"
+    t.string   "cover_photo_file_name"
+    t.string   "cover_photo_content_type"
+    t.integer  "cover_photo_file_size"
+    t.datetime "cover_photo_updated_at"
+    t.string   "slug"
+    t.string   "address"
+    t.string   "postal_code"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+  end
+
+  create_table "new_homes", :force => true do |t|
+    t.integer  "location_id"
+    t.string   "title"
+    t.string   "address"
+    t.string   "address_suite"
+    t.string   "postal_code"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "slug"
+    t.integer  "city_id"
+    t.integer  "province_id"
+    t.integer  "country_id"
+    t.string   "detail_view_url"
+    t.string   "virtual_tour_url"
+    t.text     "description"
+    t.integer  "bedrooms"
+    t.integer  "bathrooms"
+    t.text     "bedroom_comment"
+    t.text     "bathroom_comment"
+    t.string   "style"
+    t.integer  "living_area"
+    t.integer  "year_built"
+    t.decimal  "association_fee",          :precision => 10, :scale => 0
+    t.string   "association_fee_period"
+    t.integer  "neighborhood_id"
+    t.decimal  "list_price",               :precision => 10, :scale => 0
+    t.decimal  "tax_amount",               :precision => 10, :scale => 0
+    t.datetime "created_at",                                              :null => false
+    t.datetime "updated_at",                                              :null => false
+    t.integer  "new_home_community_id"
+    t.string   "cover_photo_file_name"
+    t.string   "cover_photo_content_type"
+    t.integer  "cover_photo_file_size"
+    t.datetime "cover_photo_updated_at"
+  end
+
   create_table "news_articles", :force => true do |t|
     t.string   "title"
     t.text     "content"
     t.integer  "user_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.string   "slug"
     t.integer  "newsable_id"
     t.string   "newsable_type"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   add_index "news_articles", ["newsable_id", "newsable_type"], :name => "index_news_articles_on_newsable_id_and_newsable_type"
@@ -322,7 +615,7 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
 
   add_index "products", ["location_id"], :name => "index_products_on_location_id"
 
-  create_table "provinces", :force => true do |t|
+  create_table "provinces_old", :force => true do |t|
     t.string   "name"
     t.string   "abbr"
     t.integer  "country_id"
@@ -334,27 +627,24 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
     t.string   "province_code"
   end
 
-  add_index "provinces", ["country_code"], :name => "index_country_code"
-  add_index "provinces", ["country_id"], :name => "index_province_country_id"
-  add_index "provinces", ["slug"], :name => "index_state_or_provinces_on_slug"
+  add_index "provinces_old", ["country_code"], :name => "index_country_code"
+  add_index "provinces_old", ["country_id"], :name => "index_province_country_id"
+  add_index "provinces_old", ["slug"], :name => "index_state_or_provinces_on_slug"
 
-  create_table "provinces_regions", :id => false, :force => true do |t|
+  create_table "provinces_regions_old", :id => false, :force => true do |t|
     t.integer "region_id"
     t.integer "province_id"
   end
 
-  create_table "rails_admin_histories", :force => true do |t|
-    t.text     "message"
-    t.string   "username"
-    t.integer  "item"
-    t.string   "table"
-    t.integer  "month",      :limit => 2
-    t.integer  "year",       :limit => 8
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
+  create_table "real_estate_listing_images", :force => true do |t|
+    t.integer  "real_estate_listing_id"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
-
-  add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
 
   create_table "real_estate_listings", :force => true do |t|
     t.string   "listing_source"
@@ -378,28 +668,28 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
     t.float    "latitude"
     t.float    "longitude"
     t.integer  "city_id"
-    t.string   "description"
+    t.text     "description"
     t.decimal  "list_price",                  :precision => 10, :scale => 0
     t.decimal  "tax_amount",                  :precision => 10, :scale => 0
     t.string   "property_type"
     t.string   "style"
-    t.string   "lot_comment"
-    t.string   "lot_legal"
+    t.text     "lot_comment"
+    t.text     "lot_legal"
     t.decimal  "rental_price",                :precision => 10, :scale => 0
     t.string   "rental_period"
     t.string   "rental_currency"
     t.integer  "bedrooms"
-    t.string   "bedroom_comment"
+    t.text     "bedroom_comment"
     t.integer  "bathrooms"
-    t.string   "bathroom_comment"
+    t.text     "bathroom_comment"
     t.string   "garage"
     t.integer  "garage_stalls"
     t.string   "garage_style"
-    t.string   "garage_comment"
+    t.text     "garage_comment"
     t.string   "living_area"
     t.decimal  "living_area_unit",            :precision => 10, :scale => 0
     t.integer  "year_built"
-    t.string   "year_built_comment"
+    t.text     "year_built_comment"
     t.string   "broker_name"
     t.datetime "list_date"
     t.string   "virtual_tour_url"
@@ -415,6 +705,8 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
     t.string   "main_image_content_type"
     t.integer  "main_image_file_size"
     t.datetime "main_image_updated_at"
+    t.integer  "district_id"
+    t.integer  "neighborhood_id"
   end
 
   add_index "real_estate_listings", ["city_id"], :name => "index_real_estate_listings_on_city_id"
@@ -422,7 +714,16 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
   add_index "real_estate_listings", ["province_id"], :name => "index_real_estate_listings_on_province_id"
   add_index "real_estate_listings", ["slug"], :name => "index_real_estate_listings_on_slug"
 
-  create_table "regions", :force => true do |t|
+  create_table "redemptions", :force => true do |t|
+    t.integer  "coupon_id"
+    t.integer  "user_id"
+    t.string   "transaction_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.boolean  "redeemed"
+  end
+
+  create_table "regions_old", :force => true do |t|
     t.string   "name"
     t.datetime "created_at",                   :null => false
     t.datetime "updated_at",                   :null => false
@@ -436,9 +737,69 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
     t.datetime "home_page_image_updated_at"
   end
 
-  add_index "regions", ["region_code"], :name => "region_code"
-  add_index "regions", ["slug"], :name => "index_regions_on_slug"
-  add_index "regions", ["subdomain"], :name => "subdomain"
+  add_index "regions_old", ["region_code"], :name => "region_code"
+  add_index "regions_old", ["slug"], :name => "index_regions_on_slug"
+  add_index "regions_old", ["subdomain"], :name => "subdomain"
+
+  create_table "rental_properties", :force => true do |t|
+    t.string   "name"
+    t.string   "address_1"
+    t.string   "address_2"
+    t.string   "postal_code"
+    t.string   "phone"
+    t.string   "fax"
+    t.string   "email"
+    t.string   "website_url"
+    t.integer  "neighborhood_id"
+    t.text     "neighborhood_description"
+    t.integer  "province_id"
+    t.integer  "city_id"
+    t.string   "tag_line"
+    t.text     "description"
+    t.text     "neighborhood_highlights"
+    t.text     "property_highlights"
+    t.string   "facebook_url"
+    t.boolean  "active"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "pov"
+    t.string   "slug"
+    t.string   "phone_count"
+    t.text     "property_features"
+    t.text     "garage_types"
+    t.text     "included_utilities"
+    t.text     "pet_restrictions"
+    t.text     "restrictions"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+    t.integer  "location_id"
+    t.string   "cover_photo_file_name"
+    t.string   "cover_photo_content_type"
+    t.integer  "cover_photo_file_size"
+    t.datetime "cover_photo_updated_at"
+    t.integer  "district_id"
+  end
+
+  create_table "rental_units", :force => true do |t|
+    t.integer  "availability"
+    t.integer  "bathrooms"
+    t.integer  "bedrooms"
+    t.integer  "property_id"
+    t.date     "date_available"
+    t.text     "description"
+    t.decimal  "rent_amount",              :precision => 10, :scale => 0
+    t.integer  "living_area"
+    t.string   "unit_number"
+    t.text     "included_appliances"
+    t.text     "flooring_types"
+    t.datetime "created_at",                                              :null => false
+    t.datetime "updated_at",                                              :null => false
+    t.integer  "rental_property_id"
+    t.string   "cover_photo_file_name"
+    t.string   "cover_photo_content_type"
+    t.integer  "cover_photo_file_size"
+    t.datetime "cover_photo_updated_at"
+  end
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -472,15 +833,23 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
     t.string   "title"
     t.string   "content"
     t.string   "provider"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
     t.integer  "statusable_id"
     t.string   "statusable_type"
+    t.integer  "district_id"
+    t.integer  "neighborhood_id"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "city_id"
+    t.integer  "province_id"
+    t.string   "vertical_markets"
+    t.string   "vertical_market_categories"
   end
 
   add_index "status_updates", ["statusable_type", "statusable_id"], :name => "index_status_updates_on_statusable_type_and_statusable_id"
 
-  create_table "sub_regions", :force => true do |t|
+  create_table "sub_regions_old", :force => true do |t|
     t.string   "name"
     t.text     "description"
     t.string   "slug"
@@ -493,8 +862,30 @@ ActiveRecord::Schema.define(:version => 20130819233545) do
     t.datetime "home_page_image_updated_at"
   end
 
-  add_index "sub_regions", ["region_id"], :name => "region_id"
-  add_index "sub_regions", ["slug"], :name => "slug"
+  add_index "sub_regions_old", ["region_id"], :name => "region_id"
+  add_index "sub_regions_old", ["slug"], :name => "slug"
+
+  create_table "trade_associations", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "city_id"
+    t.integer  "province_id"
+    t.string   "slug"
+    t.string   "website_url"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.string   "home_page_image_file_name"
+    t.string   "home_page_image_content_type"
+    t.integer  "home_page_image_file_size"
+    t.datetime "home_page_image_updated_at"
+  end
+
+  add_index "trade_associations", ["city_id"], :name => "index_trade_associations_on_city_id"
+  add_index "trade_associations", ["province_id"], :name => "index_trade_associations_on_province_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

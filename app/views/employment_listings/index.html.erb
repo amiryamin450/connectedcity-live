@@ -1,0 +1,37 @@
+<h1>Manage Employment Listings</h1>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+  <tr>
+    <th>Title</th>
+    <th>Number</th>
+    <th>Number of positions</th>
+    <th>Application deadline</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+</thead>
+<tbody>
+<% @employment_listings.each do |employment_listing| %>
+  <tr>
+    <td><%= employment_listing.title %></td>
+    <td><%= employment_listing.number %></td>
+    <td><%= employment_listing.number_of_positions %></td>
+    <td><%= employment_listing.application_deadline %></td>
+    <td>
+      <div class='btn-group'>    
+        <%= link_to 'Show', [@location,employment_listing], class: 'btn btn-mini' %>
+        <%= link_to 'Edit', edit_location_employment_listing_path(@location,employment_listing), class: 'btn btn-mini' %>
+        <%= link_to 'Destroy', [@location,employment_listing], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+      </div>
+    </td>
+  </tr>
+<% end %>
+</tbody>
+</table>
+
+<br />
+
+<%= link_to 'New Employment listing', new_location_employment_listing_path, class: 'btn btn-primary' %>
+<%= link_to "Back to #{@location.name}", @location, class: 'btn' %>

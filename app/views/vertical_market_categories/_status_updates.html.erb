@@ -1,0 +1,52 @@
+<% if @vertical_market.present? %>
+
+<div class="holder pad10">
+  <div class="status-tabs clearfix">
+    <ul class="clearfix">
+      <li class="first"><a href="#market-updates">Updates</a></li>
+      <li><a href="#media">Videos</a></li>
+      <li><a href="#listings">Products & Services</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#news">News</a></li>
+      <li><a href="#blogs">Blogs</a></li>
+      <li class="last"><a href="#offers">Offers</a></li>
+    </ul>
+  </div>
+
+  <div id="market-updates">
+    <h4>Updates</h4>
+    <div class="primary-content">
+      <%= render @vertical_market.get_status_updates(@city, @district, @neighborhood, false, @vertical_market_category) %>
+    </div>
+  </div>
+
+  <div id="listings">
+    <h4>Products</h4>
+    <%= render @vertical_market.get_products(@city, @district) %>
+  </div>
+
+  <div id="events">
+    <h4>Events</h4>
+    <%= render @vertical_market.get_events(@city, @district) %>
+  </div>
+  <div id="news">
+    <h4>News Articles</h4>
+          <%= render @vertical_market.get_news_articles(@city, @district) %>
+  </div>
+  <div id="blogs">
+    <h4>Blog Entries</h4>
+    <%= render @vertical_market.get_blog_entries(@city, @district) %>
+  </div>
+  <div id="offers">
+    <h4>Offers</h4>
+    <%= render @vertical_market.get_coupons %>
+  </div>
+
+  <div id="media">
+    <h4>Videos</h4>
+    <%= render @vertical_market.get_media_attachments %>
+  </div>
+
+
+</div>
+<% end -%>

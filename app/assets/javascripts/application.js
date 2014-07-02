@@ -22,4 +22,6 @@
 //= require bootstrap-wysihtml5/index
 //= require jquery.ba-bbq.js
 //= require jquery.cookie.js
+//= require bootstrap-colorpicker
+//= require jqcloud
 //= require_tree .

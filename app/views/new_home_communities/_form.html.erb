@@ -1,0 +1,22 @@
+<%= simple_form_for([@location, @new_home_community]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :address %>
+
+    <%= f.association :province %>
+    <%= f.association :city %>
+    <%= f.input :postal_code %>
+    <%= f.association :district %>
+    <%= f.input :description, as: :text, input_html: { class: 'input-block-level wysihtml5' }  %>
+    <%= f.input :highlights, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.' %>
+    <%= f.input :cover_photo, as: :logo_preview %>
+    <%= f.input :logo, as: :logo_preview %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: 'btn btn-primary' %>
+    <%= link_to "Back to #{@location.name}", @location, class: 'btn' %>
+  </div>
+<% end %>

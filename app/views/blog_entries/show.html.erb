@@ -19,7 +19,13 @@
 
   </div>
   <div class="span3">
-    <div class="thumbnail"><%= image_tag "http://placehold.it/320x240" %></div>
+    <div class="thumbnail">
+        <% if @blog_entry.image.exists? %>
+            <%= image_tag @blog_entry.image.url %>
+        <% else %>
+            <%= image_tag "http://placehold.it/360x240" %>
+        <% end %>
+    </div>
     
     <div class="info">
       <address>
@@ -30,7 +36,7 @@
     </div>
     
     <% if @location.blog_entries.size > 1 %>
-    <div class="blog-entries">
+    <div class="blog-entries" style="margin-top: 1em;">
       <h5>Recent Blog Entries</h5>
       <ul>
         <% @location.blog_entries.each do |blog| %>

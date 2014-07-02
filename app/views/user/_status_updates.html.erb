@@ -1,0 +1,58 @@
+<div class="holder pad10">
+  <div class="status-tabs clearfix">
+    <ul class="clearfix">
+      <li class="first"><a href="#market-updates">Updates</a></li>
+      <li><a href="#listings">New Listings</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#news">News</a></li>
+      <li><a href="#blogs">Blogs</a></li>
+      <li class="last"><a href="#coupons">Coupons</a></li>
+    </ul>
+  </div>
+
+  <div id="market-updates">
+    <h4>Market Updates</h4>
+    <div class="primary-content">
+      <% current_user.favorites.collect { |f| f.location_status_updates.includes(:statusable) if f.location_status_updates.size > 0 }.compact.each do |status_update| %>
+              <div class="row-fluid status-update">
+          <div class="span1">
+            <% if status_update.first.statusable.logo.blank? %>
+
+            <% else %>
+              <%= image_tag status_update.first.statusable.logo.url(:thumb) if status_update.first.statusable.logo? %>
+            <% end %>
+
+          </div>
+          <div class="span11">
+            <div class="name"><%= link_to status_update.first.statusable.name, status_update.first.statusable %> <span class="time-ago"> <%= "#{time_ago_in_words(status_update.first.created_at)} ago" %></span></div>
+            <div><%= status_update.first.content %></div>
+          </div>
+        </div>
+      <% end -%>
+    </div>
+  </div>
+
+  <div id="listings">
+    <h4>Products</h4>
+    <%# render @vertical_market.get_products(@city, @district) %>
+  </div>
+
+  <div id="events">
+    <h4>Events</h4>
+    
+  </div>
+  <div id="news">
+    <h4>News Articles</h4>
+
+  </div>
+  <div id="blogs">
+    <h4>Blog Entries</h4>
+    
+  </div>
+  <div id="coupons">
+    <h4>Coupons</h4>
+  </div>
+
+
+
+</div>

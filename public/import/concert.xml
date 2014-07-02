@@ -1,0 +1,1090 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<company>
+  <name>Concert Properties</name>
+  <emal>mlugay@concertproperties.com</emal>
+  <address_1>1190 Hornby Street</address_1>
+  <address_2></address_2>
+  <city>Vancouver</city>
+  <province>BC</province>
+  <postal_code>V6J1r1</postal_code>
+  <contact_name>Mac Lugay</contact_name>
+  <phone>604-689-1190</phone>
+  <fax></fax>
+  <website_url>http://www.concertproperties.com</website_url>
+  <description>
+    <![CDATA[]]>
+  </description>
+  <logo>http://www.connectedlandlord.com/system/base/companies/000/000/009/original/concert_properties_200_x_200.jpg?1376324893</logo>
+  <properties>
+    <property>
+      <active>false</active>
+      <name>Palomar at Village Gate West</name>
+      <property_manager_name/>
+      <address_1>3 Summerland Terrace</address_1>
+      <address_2></address_2>
+      <city>Toronto</city>
+      <province>ON</province>
+      <postal_code>M9A 1C2</postal_code>
+      <phone>416.239.0008</phone>
+      <fax></fax>
+      <email>info@transcona.tv</email>
+      <tag_line>Palomar at Village Gate West</tag_line>
+      <property_type>Apartment</property_type>
+      <website_url>http://www.VillageGateWest.com</website_url>
+      <facebook_url></facebook_url>
+      <total_units/>
+      <neighborhood>Etobicoke</neighborhood>
+      <neighborhood_description>
+        <![CDATA[Located in Central Etobicoke within the historic Islington Village Palomar is conveniently located near restaurants and shopping. Both the Islington and Kippling subway stations are within a short walking distance. ]]>
+      </neighborhood_description>
+      <neighborhood_highlights>
+      </neighborhood_highlights>
+      <property_description>
+        <![CDATA[Rental Office Hours: 
+Monday to Thursday: 11 am - 7 pm
+Friday to Sunday: 11 am - 5 pm
+
+Palomar, the final phase of Concert's Village Gate West master-planned community, is now in it's first release of rental apartments. This 26-storey highrise offers studio, one bedroom and two bedroom residences with the five-storey townhouse complex featuring three bedroom homes. Each home is equipped with black appliances including Energy Star certified frost-free refigerator/freezer, stove and dishwasher, full-size in-suite laundry, individually controlled heat and air conditioning, bright and spacious kitchen designs, and laminate and ceramic flooring. 
+
+For more information about Palomar and Village Gate West, please visit www.VillageGateWest.com]]>
+      </property_description>
+      <property_highlights>
+      </property_highlights>
+      <property_features>
+        <property_feature>Business Centre</property_feature>
+        <property_feature>Common BBQ Facilities</property_feature>
+        <property_feature>Courtyard</property_feature>
+        <property_feature>Fitness Facility</property_feature>
+        <property_feature>Games Room</property_feature>
+        <property_feature>Library</property_feature>
+        <property_feature>Social / Party Room</property_feature>
+      </property_features>
+      <images>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/248/Palomar-original.jpg?1375649902</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/249/Palomar_6-original.jpg?1375649903</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/250/Palomar_3-original.jpg?1375649906</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/251/Palomar-252a-original.jpg?1375649908</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/252/Palomar_5-original.jpg?1375649909</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/253/Palomar_4-original.jpg?1375649910</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/254/Palomar-252a-original.jpg?1375649993</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/255/Palomar_3-original.jpg?1375650120</image>
+      </images>
+      <garage_types>
+      </garage_types>
+      <included_utilities>
+      </included_utilities>
+      <parking_types>
+      </parking_types>
+      <pet_restrictions>
+      </pet_restrictions>
+      <restrictions>
+      </restrictions>
+      <units>
+      </units>
+    </property>
+    <property>
+      <active>false</active>
+      <name>Axis</name>
+      <property_manager_name/>
+      <address_1>6090 Iona Drive</address_1>
+      <address_2></address_2>
+      <city>Vancouver</city>
+      <province>BC</province>
+      <postal_code>V6T 1Z1</postal_code>
+      <phone>604.803.7635</phone>
+      <fax></fax>
+      <email>info@transcona.tv</email>
+      <tag_line></tag_line>
+      <property_type>Apartment</property_type>
+      <website_url>http://www.ConcertProperties.com/rentals/Axis</website_url>
+      <facebook_url></facebook_url>
+      <total_units/>
+      <neighborhood>UBC</neighborhood>
+      <neighborhood_description>
+      </neighborhood_description>
+      <neighborhood_highlights>
+      </neighborhood_highlights>
+      <property_description>
+        <![CDATA[Ideally located in the Chancellor Place neighbourhood on the University of British Columbia (UBC) campus, Axis is where higher learning meets inspired living.
+
+Axis offers a mix of efficiently planned studios and one bedroom suites ranging from 410 to 550 square feet. Contemporary finishes, full kitchens and six energy-efficient appliances including dishwasher and in-suite laundry are standard throughout. At 15-storeys tall, many homes showcase stunning, unobstructed views of the water, city and North Shore mountains. With stylish interiors, quality construction, thoughtful amenities and our signature Concert On-Call customer service, you can have confidence in choosing Axis as your new home.
+
+Environmental sustainability was kept top of mind in the development of this residence. Axis is targeted to meet the rigorous sustainability requirements of UBC’s REAP (Residential Environmental Assessment Program) Gold certification.
+
+Please note only students, faculty, campus staff and employees of businesses located on campus are eligible to rent at Axis. Please view our criteria for residency for more information.]]>
+      </property_description>
+      <property_highlights>
+      </property_highlights>
+      <property_features>
+        <property_feature>Bicycle Parking</property_feature>
+        <property_feature>Courtyard</property_feature>
+        <property_feature>Fitness Facility</property_feature>
+        <property_feature>In-suite Laundry</property_feature>
+        <property_feature>Playground</property_feature>
+        <property_feature>Resident Lounge</property_feature>
+        <property_feature>Storage Lockers</property_feature>
+      </property_features>
+      <images>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/268/Axis_1-original.jpg?1376326305</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/269/Axis_2-original.jpg?1376326323</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/270/Axis_3-original.jpg?1376326334</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/271/Axis_4-original.jpg?1376326350</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/272/Axis_5-original.jpeg?1376326363</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/273/Axis_6-original.jpg?1376326401</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/274/Axis_7-original.jpg?1376326412</image>
+      </images>
+      <garage_types>
+      </garage_types>
+      <included_utilities>
+      </included_utilities>
+      <parking_types>
+      </parking_types>
+      <pet_restrictions>
+      </pet_restrictions>
+      <restrictions>
+      </restrictions>
+      <units>
+      </units>
+    </property>
+    <property>
+      <active>true</active>
+      <name>Whitgift Gardens</name>
+      <property_manager_name/>
+      <address_1>550 Cottonwood Ave</address_1>
+      <address_2></address_2>
+      <city>Coquitlam</city>
+      <province>BC</province>
+      <postal_code>V3J 2S1</postal_code>
+      <phone>604.939.0944</phone>
+      <fax></fax>
+      <email>info@transcona.tv</email>
+      <tag_line></tag_line>
+      <property_type>Apartment</property_type>
+      <website_url>http://www.concertproperties.com/rentals/whitgift-gardens</website_url>
+      <facebook_url></facebook_url>
+      <total_units/>
+      <neighborhood>Coquitlam</neighborhood>
+      <neighborhood_description>
+        <![CDATA[Whitgift Gardens is located adjacent to Cottonwood Park within easy walking distance to the Burquitlam Plaza neighbourhood shopping centre. The community is also within walking distance of both Mountain View and Roy Stibbs Elementary Schools. Lougheed Town Centre, hiking or biking on Burnaby Mountain, Simon Fraser University and the Millennium Skytrain Line are also nearby.]]>
+      </neighborhood_description>
+      <neighborhood_highlights>
+      </neighborhood_highlights>
+      <property_description>
+        <![CDATA[Rental Office Hours: 
+10:00 – 5:00, Monday to Saturday
+
+Whitgift Gardens is situated on an eight-acre site in West Coquitlam within close proximity to transit, schools, shopping and numerous parks. This extensive complex includes 12 three-storey apartment buildings containing a mix of one, two and three bedroom homes.
+
+These generously-sized apartments come equipped with a stove, refrigerator, window coverings, carpeting in the primary living spaces and resilient flooring in the kitchen and bathroom. Every apartment has a balcony and comes with a parking space.]]>
+      </property_description>
+      <property_highlights>
+      </property_highlights>
+      <property_features>
+        <property_feature>Laundry Room</property_feature>
+        <property_feature>Swimming Pool</property_feature>
+      </property_features>
+      <images>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/264/Whitgift_Gardens_main-original.JPG?1376326086</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/265/Whitgift_Gardens_1-original.JPG?1376326103</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/266/Whitgift_Gardens_2-original.JPG?1376326135</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/267/Whitgift_Gardens_3-original.JPG?1376326147</image>
+      </images>
+      <garage_types>
+      </garage_types>
+      <included_utilities>
+      </included_utilities>
+      <parking_types>
+      </parking_types>
+      <pet_restrictions>
+      </pet_restrictions>
+      <restrictions>
+      </restrictions>
+      <units>
+      </units>
+    </property>
+    <property>
+      <active>false</active>
+      <name>Fraser Pointe I and II</name>
+      <property_manager_name/>
+      <address_1>3083 N.E. Kent Avenue</address_1>
+      <address_2></address_2>
+      <city>Vancouver</city>
+      <province>BC</province>
+      <postal_code>V5S 4R2</postal_code>
+      <phone>604.451.1180</phone>
+      <fax></fax>
+      <email>info@transcona.tv</email>
+      <tag_line></tag_line>
+      <property_type>Apartment</property_type>
+      <website_url>http://www.concertproperties.com/rentals/fraser-pointe-i-and-ii</website_url>
+      <facebook_url></facebook_url>
+      <total_units/>
+      <neighborhood>Vancouver South</neighborhood>
+      <neighborhood_description>
+        <![CDATA[Fraser Point is centrally located near the River District in southeast Vancouver, fronting the Fraser River and easily accessed from Marine Drive. Fraser Pointe is a short bus ride away from the new Canada Line SkyTrain route that makes commuting into downtown and getting to the airport fast and efficient. The Champlain Shopping Centre with Starbucks, Extra Foods, Kins Market and many other retails stores is just a short drive up Kerr Street.
+
+Also located in the immediate area are Fraserview Public Golf Course, Killarney Community Centre with ice rink and pool, Champlain Heights Community Centre with fitness and racquet courts, as well as many walking and jogging paths. Champlain Heights Elementary and Killarney Secondary Schools are also nearby.]]>
+      </neighborhood_description>
+      <neighborhood_highlights>
+      </neighborhood_highlights>
+      <property_description>
+        <![CDATA[Rental Office Hours: 
+Noon-5pm Mon-Sat
+
+Sister properties Fraser Pointe I and II make up an extensive complex which has something for everyone. With 16 two and three bedroom townhomes in addition to two 15-storey concrete towers Fraser Pointe offers a variety of modern studio, one bedroom, one plus den and two bedroom apartments.
+
+Each suite comes with a stove, EnergyStar refrigerator, dishwasher (except with studios), colour coordinated blinds, carpeting in the primary living spaces, murphy beds in some cases and resilient flooring in the kitchen and bathroom. All townhomes have an in-suite washer and dryer, as well as private front patio and carport. The three bedroom layouts also include an extra half bath.
+
+Most of the apartments have a balcony, many with spectacular views of the Fraser River, Mount Baker, the North Shore mountains and Vancouver Island.]]>
+      </property_description>
+      <property_highlights>
+      </property_highlights>
+      <property_features>
+        <property_feature>Fitness Facility</property_feature>
+        <property_feature>Laundry Room</property_feature>
+        <property_feature>Resident Lounge</property_feature>
+      </property_features>
+      <images>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/275/Fraser_Pointe_main-original.jpg?1376327004</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/276/Fraser_Pointe_-_02-original.jpg?1376327062</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/277/Fraser_Pointe_-_07-original.jpg?1376327064</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/278/Fraser_Pointe_-_03-original.jpg?1376327065</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/279/Fraser_Pointe_-_04-original.jpg?1376327067</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/280/Fraser_Pointe_-_05-original.jpg?1376327068</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/281/Fraser_Pointe_-_06-original.jpg?1376327069</image>
+      </images>
+      <garage_types>
+      </garage_types>
+      <included_utilities>
+      </included_utilities>
+      <parking_types>
+      </parking_types>
+      <pet_restrictions>
+      </pet_restrictions>
+      <restrictions>
+      </restrictions>
+      <units>
+      </units>
+    </property>
+    <property>
+      <active>false</active>
+      <name>The Bradford at Collingwood Village</name>
+      <property_manager_name/>
+      <address_1>3535 Crowley Drive</address_1>
+      <address_2></address_2>
+      <city>Vancouver</city>
+      <province>BC</province>
+      <postal_code>V5R 6G5</postal_code>
+      <phone>604.438.6911</phone>
+      <fax></fax>
+      <email>info@transcona.tv</email>
+      <tag_line></tag_line>
+      <property_type>Apartment</property_type>
+      <website_url>http://www.concertproperties.com/rentals/bradford-collingwood-village</website_url>
+      <facebook_url></facebook_url>
+      <total_units/>
+      <neighborhood>Vancouver East</neighborhood>
+      <neighborhood_description>
+        <![CDATA[The Bradford is just one block south of the Joyce SkyTrain station and close to neighbourhood conveniences and shopping such as Safeway, London Drugs and Starbucks. The area is dotted with parks, basketball and tennis courts, and playgrounds, with close proximity to Central Park and Metrotown Shopping Centre. Located in the immediate vicinity are Windermere Secondary School and Collingwood Neighbourhood House, which offer many community services and programs.]]>
+      </neighborhood_description>
+      <neighborhood_highlights>
+      </neighborhood_highlights>
+      <property_description>
+        <![CDATA[Rental Office Hours: 
+Noon-5pm Mon-Sat
+
+This quality built four-storey luxury rental building, located in vibrant Collingwood Village, offers contemporary studios in addition to one and two-bedroom apartments. These bright, spacious, and well-designed apartments feature a ceramic-cooktop stove, EnergyStar refrigerator and dishwasher, in-suite washer and dryer, ample storage area, walk-in shower, colour coordinated window blinds, carpeting in the primary living spaces and resilient flooring in the kitchen and bathroom. All of the two bedroom suites have two bathrooms and some have breakfast nooks. Homes come with either a patio or balcony perfect for taking in the beauty of three-acre Gaston Park nearby, or simply enjoying the peaceful landscaped common garden and patio area.
+
+The buildings have been designed with safety in mind; there are smoke detectors and sprinklers in addition to computer controlled building access and a video surveillance system. Other features include a main floor lounge for entertaining guests, a ping-pong table and access to a modern fitness room just across the courtyard, with cardio equipment, weights and a TV to make your workout more enjoyable. Vehicle parking, storage lockers and bicycle storage are also provided in a well-lit and gated underground parking facility.
+
+Concert's professional on-site staff maintains the building premises and grounds, and is dedicated to making your Concert living experience a pleasant one. Our site office is open noon to 5pm Monday to Saturday for your convenience, with on-call service after hours to respond to your emergency needs.]]>
+      </property_description>
+      <property_highlights>
+      </property_highlights>
+      <property_features>
+        <property_feature>Playground</property_feature>
+        <property_feature>Resident Lounge</property_feature>
+      </property_features>
+      <images>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/282/Bradford_-_01_0-original.jpg?1376328615</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/283/Bradford_-_03-original.jpg?1376328642</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/284/Bradford_-_02-original.jpg?1376328643</image>
+      </images>
+      <garage_types>
+      </garage_types>
+      <included_utilities>
+      </included_utilities>
+      <parking_types>
+      </parking_types>
+      <pet_restrictions>
+      </pet_restrictions>
+      <restrictions>
+      </restrictions>
+      <units>
+      </units>
+    </property>
+    <property>
+      <active>false</active>
+      <name>Cassiar Court</name>
+      <property_manager_name/>
+      <address_1>1730 Cassiar St</address_1>
+      <address_2></address_2>
+      <city>Vancouver</city>
+      <province>BC</province>
+      <postal_code>V5M 4R9</postal_code>
+      <phone>604.251.2503</phone>
+      <fax></fax>
+      <email>info@transcona.tv</email>
+      <tag_line></tag_line>
+      <property_type>Townhouse</property_type>
+      <website_url>http://www.concertproperties.com/rentals/cassiar-court</website_url>
+      <facebook_url></facebook_url>
+      <total_units/>
+      <neighborhood>Vancouver East</neighborhood>
+      <neighborhood_description>
+        <![CDATA[The Rupert SkyTrain station is only a few blocks away. Neighbourhood conveniences include shopping and restaurants such as Save-on Foods, Staples, Earl's Restaurant, Brentwood Mall, Superstore, Walmart, London Drugs, and Zellers to name a few. Just across the street is Rupert Park offering pitch and putt, tennis courts and soccer fields.]]>
+      </neighborhood_description>
+      <neighborhood_highlights>
+      </neighborhood_highlights>
+      <property_description>
+        <![CDATA[Rental Office Hours: 
+Noon-5pm Tue-Sat
+
+This well-designed, 48-home complex offers contemporary one and two bedroom garden apartments and three bedroom townhomes. The homes are bright and spacious with their own private entrance. Each home comes with a stove, EnergyStar refrigerator, dishwasher, storage space, colour coordinated window blinds, carpeting in the primary living spaces, and resilient flooring in the kitchen and bathroom.
+
+Your new home also has its own furnace and hot water tank so personal comfort is in your control. All of the three bedroom homes have one and a half bathrooms. Enjoy the convenience of your own private patio or balcony, many with views of the North Shore mountains or Mount Baker, and for an alternate view - try the beautiful central courtyard. Cassiar Court is located on 1st Avenue, close to Highway 1 and just 20 minutes to downtown Vancouver.
+
+The buildings have been designed with safety in mind; there are smoke detectors, sprinklers and CO2 detectors in each suite. Other features include a bright, central laundry facility, equipped with current SmartCard technology, making laundry time easy and convenient. Vehicle parking is available in the central parking area just outside your door, with plenty of parking for guests. There are also bicycle storage facilities conveniently located in the central courtyard area. Additionally, there is a comprehensive recycling station to help residents minimize their environmental footprint. Cassiar Court is pet friendly, so cats and dogs are welcome with some conditions.
+
+Concert's professional on-site staff maintains the building premises and grounds, and is dedicated to making your Concert living experience a pleasant one. Our site office is open Tuesday to Saturday for your convenience, with on-call service after hours to respond to your emergency needs.]]>
+      </property_description>
+      <property_highlights>
+      </property_highlights>
+      <property_features>
+        <property_feature>Laundry Room</property_feature>
+      </property_features>
+      <images>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/285/Cassiar_Court_-_01-original.jpg?1376328889</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/286/Cassiar_Court_-_02-original.jpg?1376328915</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/287/Cassiar_Court_-_03-original.jpg?1376328918</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/288/Cassiar_Court_-_04-original.jpg?1376328923</image>
+      </images>
+      <garage_types>
+      </garage_types>
+      <included_utilities>
+      </included_utilities>
+      <parking_types>
+      </parking_types>
+      <pet_restrictions>
+      </pet_restrictions>
+      <restrictions>
+      </restrictions>
+      <units>
+      </units>
+    </property>
+    <property>
+      <active>false</active>
+      <name>Earles Court at Collingwood Village</name>
+      <property_manager_name/>
+      <address_1>3428 Crowley Drive</address_1>
+      <address_2></address_2>
+      <city>Vancouver</city>
+      <province>BC</province>
+      <postal_code>V5R 6C4</postal_code>
+      <phone>604.438.6911</phone>
+      <fax></fax>
+      <email>info@transcona.tv</email>
+      <tag_line></tag_line>
+      <property_type>Apartment</property_type>
+      <website_url>http://www.concertproperties.com/rentals/earles-court-collingwood-village</website_url>
+      <facebook_url></facebook_url>
+      <total_units/>
+      <neighborhood>Vancouver East</neighborhood>
+      <neighborhood_description>
+        <![CDATA[Earles Court is just one block south of the Joyce SkyTrain station and close to to neighbourhood services and shopping such as Safeway, London Drugs and Starbucks. The area is dotted with parks, basketball and tennis courts, and playgrounds, with close proximity to Central Park and Metrotown shopping centre.
+
+Located in the immediate vicinity are Windermere Secondary School and Collingwood Neighbourhood House, which offers many community services and programs.]]>
+      </neighborhood_description>
+      <neighborhood_highlights>
+      </neighborhood_highlights>
+      <property_description>
+        <![CDATA[Rental Office Hours: 
+Noon-5pm Mon-Sat
+
+This six-storey concrete midrise, located in vibrant Collingwood Village master-planned community, offers 57 contemporary two bedroom apartments. The suites are spacious and bright with a well-designed kitchen including stove, EnergyStar refrigerator and dishwasher, along with colour coordinated window blinds, carpeting in the primary living spaces, and resilient flooring in the kitchen and bathroom.
+
+Your new home comes with either a patio or balcony, and access to a beautifully landscaped courtyard with playground area.
+
+The building has been designed with safety in mind; there are smoke detectors and sprinklers in addition to computer controlled building access and a video surveillance system. A large, bright central laundry facility, equipped with SmartCard technology, makes doing laundry easy and convenient. Try out our modern exercise room with cardio equipment, universal gym and TV to make your workout more enjoyable. Vehicle parking, storage lockers and bicycle storage are also provided in a well-lit and gated underground parking facility. A comprehensive recycling station helps residents minimize their environmental footprint. Earls Court is a pet-friendly building, so cats and dogs are welcome with some conditions.
+
+Concert's professional on-site staff maintains the building premises and grounds, and is dedicated to making your Concert living experience a pleasant one. Our site office is open noon to 5 pm Monday to Saturday for your convenience, with on-call service after hours to respond to your emergency needs.]]>
+      </property_description>
+      <property_highlights>
+      </property_highlights>
+      <property_features>
+        <property_feature>Courtyard</property_feature>
+        <property_feature>Fitness Facility</property_feature>
+        <property_feature>Laundry Room</property_feature>
+        <property_feature>Playground</property_feature>
+      </property_features>
+      <images>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/289/Earles_1-original.jpg?1376414031</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/290/Earles_5-original.jpg?1376414136</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/291/Earles_3-original.jpg?1376414136</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/292/Earles_2-original.jpg?1376414138</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/293/Earles_4-original.jpg?1376414138</image>
+      </images>
+      <garage_types>
+      </garage_types>
+      <included_utilities>
+      </included_utilities>
+      <parking_types>
+      </parking_types>
+      <pet_restrictions>
+      </pet_restrictions>
+      <restrictions>
+      </restrictions>
+      <units>
+      </units>
+    </property>
+    <property>
+      <active>false</active>
+      <name>The Melbourne at Collingwood Village</name>
+      <property_manager_name/>
+      <address_1>3433 Crowley Drive</address_1>
+      <address_2></address_2>
+      <city>Vancouver</city>
+      <province>BC</province>
+      <postal_code>V5R 6C5</postal_code>
+      <phone>604.438.6911</phone>
+      <fax></fax>
+      <email>info@transcona.tv</email>
+      <tag_line></tag_line>
+      <property_type>Apartment</property_type>
+      <website_url>http://www.concertproperties.com/rentals/melbourne-collingwood-village</website_url>
+      <facebook_url></facebook_url>
+      <total_units/>
+      <neighborhood>Vancouver East</neighborhood>
+      <neighborhood_description>
+        <![CDATA[The Melbourne is located just one block south of the Joyce SkyTrain station close to neighbourhood conveniences and shopping such as Safeway, London Drugs and Starbucks. The area is dotted with parks, basketball and tennis courts, and playgrounds, with close proximity to Central Park and Metrotown shopping centre.
+
+Located in the immediate vicinity are Windermere Secondary School and Collingwood Neighbourhood House, which offers many community services and programs.]]>
+      </neighborhood_description>
+      <neighborhood_highlights>
+      </neighborhood_highlights>
+      <property_description>
+        <![CDATA[Rental Office Hours: 
+Noon-5pm Mon-Sat
+
+The Melbourne is a recently renovated 20-storey, 178-home concrete highrise located in the vibrant master-planned community of Collingwood Village offering contemporary studios, one bedroom and two bedroom apartments. Each suite features a bright and open kitchen including stove, EnergyStar refrigerator and dishwasher (except for studios), along with colour coordinated window blinds, carpeting in the primary living spaces, and resilient flooring in the kitchen and bathroom. Some of the two bedroom suites have one and a half bathrooms. Your new home comes with either a patio or balcony, many with spectacular views of the North Shore mountains, Vancouver and Burnaby skylines and even Washington State's Mount Baker.
+
+The building has been designed with safety in mind; there are smoke detectors and sprinklers in addition to computer controlled building access and a video surveillance system. Other features include a modern tenant lounge with HDTV, wireless internet, meeting room and a central laundry facility equipped with SmartCard technology. Try out our modern exercise room with cardio equipment, universal gym and a HDTV to make your workout more enjoyable. Vehicle parking, storage lockers and bicycle storage are also provided in a well-lit and gated underground parking facility, with computer-controlled card access.
+
+Concert's professional on-site staff maintains the building premises and grounds, and is dedicated to making your Concert living experience a pleasant one. Our site office is open noon to 5 pm Monday to Saturday for your convenience, with on-call service after hours to respond to your emergency needs.]]>
+      </property_description>
+      <property_highlights>
+      </property_highlights>
+      <property_features>
+        <property_feature>Courtyard</property_feature>
+        <property_feature>Fitness Facility</property_feature>
+        <property_feature>Resident Lounge</property_feature>
+      </property_features>
+      <images>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/294/Melbourne_1-original.jpg?1376414423</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/295/Melbourne_2-original.jpg?1376414435</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/296/Melbourne_3-original.jpg?1376414440</image>
+      </images>
+      <garage_types>
+      </garage_types>
+      <included_utilities>
+      </included_utilities>
+      <parking_types>
+      </parking_types>
+      <pet_restrictions>
+      </pet_restrictions>
+      <restrictions>
+      </restrictions>
+      <units>
+      </units>
+    </property>
+    <property>
+      <active>false</active>
+      <name>The Remington at Collingwood Village</name>
+      <property_manager_name/>
+      <address_1>3528 Vanness Avenue</address_1>
+      <address_2></address_2>
+      <city>Vancouver</city>
+      <province>BC</province>
+      <postal_code>V5R 6G4</postal_code>
+      <phone>604.438.6911</phone>
+      <fax></fax>
+      <email>info@transcona.tv</email>
+      <tag_line></tag_line>
+      <property_type>Apartment</property_type>
+      <website_url>http://www.concertproperties.com/rentals/remington-collingwood-village</website_url>
+      <facebook_url></facebook_url>
+      <total_units/>
+      <neighborhood>Vancouver East</neighborhood>
+      <neighborhood_description>
+        <![CDATA[The Remington is just one block south of the Joyce SkyTrain station and close to neighbourhood services and shopping, such as Safeway, London Drugs and Starbucks. The area is dotted with parks, basketball and tennis courts, and playgrounds, with close proximity to Central Park and Metrotown shopping centre. 
+
+Located in the immediate vicinity are Windermere Secondary School and Collingwood Neighbourhood House, which offers many community service and programs.]]>
+      </neighborhood_description>
+      <neighborhood_highlights>
+      </neighborhood_highlights>
+      <property_description>
+        <![CDATA[Rental Office Hours: 
+Noon-5pm Mon-Sat
+
+This 20-storey concrete highrise located in vibrant Collingwood Village offers 30 different styles of contemporary studios, one bedroom and two bedroom apartments. Each suite features a bright, open kitchen including stove, EnergyStar refrigerator and dishwasher (except for studios), along with colour coordinated window blinds, carpeting in the primary living spaces, and resilient flooring in the kitchen and bathroom. Your new home comes with either a patio or balcony, many with spectacular views of the North Shore mountains, Vancouver and Burnaby skylines and even Washington State's Mount Baker.
+
+The building has been designed with safety in mind; there are smoke detectors and sprinklers in addition to computer controlled building access and a video surveillance system. Other features include a large, bright central laundry facility, equipped with SmartCard technology. Just off the laundry is a modern exercise room with cardio equipment, weights and an HDTV to make your workout more enjoyable. Another resident lounge on the seventh floor accesses a beautifully landscaped deck with barbeques and picnic tables for your outdoor dining pleasure. A comprehensive recycling station helps residents minimize their environmental footprint. Vehicle parking, storage lockers and bicycle storage are also provided in a well-lit and gated underground parking facility, with computer-controlled card access.
+
+Concert's professional on-site staff maintains the building premises and grounds, and is dedicated to making your Concert living experience a pleasant one. Our site office is open noon to 5 pm Monday to Saturday for your convenience, with on-call service after hours to respond to your emergency needs.]]>
+      </property_description>
+      <property_highlights>
+      </property_highlights>
+      <property_features>
+        <property_feature>Common BBQ Facilities</property_feature>
+        <property_feature>Common BBQ Facilities</property_feature>
+        <property_feature>Courtyard</property_feature>
+        <property_feature>Courtyard</property_feature>
+        <property_feature>Fitness Facility</property_feature>
+        <property_feature>Fitness Facility</property_feature>
+        <property_feature>Playground</property_feature>
+        <property_feature>Playground</property_feature>
+      </property_features>
+      <images>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/257/Remington_1-original.jpg?1375722380</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/297/Remmington_5-original.jpg?1376415062</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/298/Remmington_3-original.jpg?1376415062</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/299/Remmington_2-original.jpg?1376415064</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/300/Remmington_4-original.jpg?1376415065</image>
+      </images>
+      <garage_types>
+      </garage_types>
+      <included_utilities>
+      </included_utilities>
+      <parking_types>
+      </parking_types>
+      <pet_restrictions>
+      </pet_restrictions>
+      <restrictions>
+      </restrictions>
+      <units>
+      </units>
+    </property>
+    <property>
+      <active>false</active>
+      <name>Wessex Gate at Collingwood</name>
+      <property_manager_name/>
+      <address_1>3408 Crowley Drive</address_1>
+      <address_2></address_2>
+      <city>Vancouver</city>
+      <province>BC</province>
+      <postal_code>V5R 6C3</postal_code>
+      <phone>604.438.6911</phone>
+      <fax></fax>
+      <email>info@transcona.tv</email>
+      <tag_line></tag_line>
+      <property_type>Apartment</property_type>
+      <website_url>http://www.concertproperties.com/rentals/wessex-gate-collingwood-village</website_url>
+      <facebook_url></facebook_url>
+      <total_units/>
+      <neighborhood>Vancouver Eastside</neighborhood>
+      <neighborhood_description>
+        <![CDATA[Wessex Gate is just one block south of the Joyce SkyTrain station and close to neighbourhood services and shopping, such as Metrotown shopping centre, Safeway, London Drugs and Starbucks. The area is dotted with parks such as Central Park, basketball and tennis courts and playgrounds. 
+
+Located in the immediate vicinity are Windermere Secondary School and Collingwood Neighbourhood House, which offers many community service and programs. ]]>
+      </neighborhood_description>
+      <neighborhood_highlights>
+      </neighborhood_highlights>
+      <property_description>
+        <![CDATA[This 17-storey concrete highrise located in vibrant Collingwood Village offers a great selection of contemporary studios, one bedroom and two bedroom apartments. Each suite features a bright, open kitchen including stove, EnergyStar refrigerator and dishwasher (except for studios), along with colour coordinated window blinds, carpeting in the primary living spaces, and resilient flooring in the kitchen and bathroom.
+
+Your new home comes with either a patio or balcony, many with spectacular views of the North Shore mountains, Vancouver and Burnaby skylines, and even Washington State's Mount Baker. A beautifully landscaped courtyard with playground area is also yours to enjoy.
+
+The building has been designed with safety in mind; there are smoke detectors and sprinklers in addition to computer controlled building access and a video surveillance system. A bright central laundry facility, equipped with SmartCard technology, makes doing laundry easy and convenient. Residents also enjoy access to a modern fitness room in neighbouring Earles Court with cardio equipment, universal gym and an HDTV. A comprehensive recycling station helps residents minimize their environmental footprint. Vehicle parking, storage lockers, and bicycle storage are also provided in a well-lit and gated underground parking facility with computer-controlled card access.
+
+Concert's professional on-site staff maintains the building premises and grounds, and is dedicated to making your Concert living experience a pleasant one. Our site office is open noon to 5 pm Monday to Saturday for your convenience, with on-call service after hours to respond to your emergency needs.]]>
+      </property_description>
+      <property_highlights>
+      </property_highlights>
+      <property_features>
+        <property_feature>Courtyard</property_feature>
+        <property_feature>Fitness Facility</property_feature>
+        <property_feature>Laundry Room</property_feature>
+        <property_feature>Playground</property_feature>
+        <property_feature>Resident Lounge</property_feature>
+      </property_features>
+      <images>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/301/Wessex_1-original.jpg?1376419847</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/302/Wessex_2-original.jpg?1376419858</image>
+      </images>
+      <garage_types>
+      </garage_types>
+      <included_utilities>
+      </included_utilities>
+      <parking_types>
+      </parking_types>
+      <pet_restrictions>
+      </pet_restrictions>
+      <restrictions>
+      </restrictions>
+      <units>
+      </units>
+    </property>
+    <property>
+      <active>false</active>
+      <name>The Westridge</name>
+      <property_manager_name/>
+      <address_1>4180 Nanaimo Street</address_1>
+      <address_2></address_2>
+      <city>Vancouver</city>
+      <province>BC</province>
+      <postal_code>V5N 5H7</postal_code>
+      <phone>604.871.9104</phone>
+      <fax></fax>
+      <email>info@transcona.tv</email>
+      <tag_line></tag_line>
+      <property_type>Apartment</property_type>
+      <website_url>http://www.concertproperties.com/rentals/westridge</website_url>
+      <facebook_url></facebook_url>
+      <total_units/>
+      <neighborhood>Vancouver Eastside</neighborhood>
+      <neighborhood_description>
+        <![CDATA[The Westridge is adjacent to the Nanaimo SkyTrain station providing quick access to downtown Vancouver and Metrotown shopping centre. Neighbourhood services, retaurants and shopping are all located just a few blocks north on Kingsway.
+
+In the vicinity are the Real Canadian Superstore, John Hendry Park with a lake and sporting field and Trout Lake Community Centre in addition to several elementary and secondary schools.]]>
+      </neighborhood_description>
+      <neighborhood_highlights>
+      </neighborhood_highlights>
+      <property_description>
+        <![CDATA[Rental Office Hours: 
+Noon-5pm Mon-Sat
+
+This four-storey building offers a variety of bright and modern studio, one bedroom and two bedroom apartments. Each suite includes a stove, EnergyStar refrigerator and dishwasher (except studios), along with colour coordinated window blinds, carpeting in the primary living spaces, and resilient flooring in the kitchen and bathroom. Some of the apartments have enclosed balconies, ideal for an office space. Others have large patios or open balconies, many with views of the North Shore mountains and city. Beautifully designed landscaping surrounds the complex.
+
+The building has been designed with safety in mind; there are smoke detectors and sprinklers in addition to computer controlled building access and a video surveillance system. A bright central laundry facility, equipped with SmartCard technology, makes doing laundry easy and convenient. Vehicle parking, storage lockers and bicycle storage are also provided in a well-lit and gated underground parking facility with computer-controlled card access. A comprehensive recycling station helps residents minimize their environmental footprint.
+
+Concert's professional on-site staff maintains the building premises and grounds, and is dedicated to making your Concert living experience a pleasant one. Our site office is open noon to 5 pm Monday to Saturday for your convenience, with on-call service after hours to respond to your emergency needs.
+
+Please note: This is a non-smoking building. Residents who moved in prior to this policy are exempt.]]>
+      </property_description>
+      <property_highlights>
+      </property_highlights>
+      <property_features>
+        <property_feature>Common BBQ Facilities</property_feature>
+        <property_feature>Courtyard</property_feature>
+        <property_feature>Laundry Room</property_feature>
+      </property_features>
+      <images>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/303/Westridge_1-original.jpg?1376420586</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/304/Westridge_3-original.jpg?1376420613</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/305/Westridge_2-original.jpg?1376420613</image>
+      </images>
+      <garage_types>
+      </garage_types>
+      <included_utilities>
+      </included_utilities>
+      <parking_types>
+      </parking_types>
+      <pet_restrictions>
+      </pet_restrictions>
+      <restrictions>
+      </restrictions>
+      <units>
+      </units>
+    </property>
+    <property>
+      <active>false</active>
+      <name>The Q Apartments</name>
+      <property_manager_name/>
+      <address_1>655 Douglas Street</address_1>
+      <address_2></address_2>
+      <city>Victoria</city>
+      <province>BC</province>
+      <postal_code>V8V 2P9</postal_code>
+      <phone></phone>
+      <fax></fax>
+      <email>info@transcona.tv</email>
+      <tag_line></tag_line>
+      <property_type>Apartment</property_type>
+      <website_url>http://www.concertproperties.com/rentals/q-apartments</website_url>
+      <facebook_url></facebook_url>
+      <total_units/>
+      <neighborhood></neighborhood>
+      <neighborhood_description>
+        <![CDATA[The Q Apartments are located between Victoria’s vibrant downtown core and the tree-lined James Bay neighbourhood, just steps away from the Parliament building. This central location provides a great variety of everyday amenities, shops, restaurants and entertainment. The close proximity to the downtown core and public transit access to major schools – University of Victoria, Camosun College and Royal Roads –make The Q a highly desirable rental building.]]>
+      </neighborhood_description>
+      <neighborhood_highlights>
+      </neighborhood_highlights>
+      <property_description>
+        <![CDATA[Currently under renovation, The Q Apartments will offer studio, one and two bedroom rental homes. From compact furnished or unfurnished studios to spacious two bedroom homes, The Q Apartments will marry the mid-century modern aesthetic of this iconic 1960’s building with modern conveniences. Amenities include a resident lounge, card-operated laundry, bicycle storage and gym complete with a sauna and change rooms.
+
+Move in early 2013.]]>
+      </property_description>
+      <property_highlights>
+      </property_highlights>
+      <property_features>
+      </property_features>
+      <images>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/306/Q_1-original.JPG?1376420848</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/307/Q_2-original.jpg?1376420861</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/308/Q_3-original.jpg?1376420864</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/309/Q_4-original.JPG?1376420866</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/310/Q_5-original.JPG?1376420867</image>
+      </images>
+      <garage_types>
+      </garage_types>
+      <included_utilities>
+      </included_utilities>
+      <parking_types>
+      </parking_types>
+      <pet_restrictions>
+      </pet_restrictions>
+      <restrictions>
+      </restrictions>
+      <units>
+      </units>
+    </property>
+    <property>
+      <active>false</active>
+      <name>Prelude</name>
+      <property_manager_name/>
+      <address_1>151 Beecroft Road</address_1>
+      <address_2></address_2>
+      <city>North York</city>
+      <province>ON</province>
+      <postal_code>M2N 7C4</postal_code>
+      <phone>416.733.3969</phone>
+      <fax></fax>
+      <email>info@transcona.tv</email>
+      <tag_line></tag_line>
+      <property_type>Apartment</property_type>
+      <website_url>http://www.concertproperties.com/rentals/prelude</website_url>
+      <facebook_url></facebook_url>
+      <total_units/>
+      <neighborhood>North York</neighborhood>
+      <neighborhood_description>
+      </neighborhood_description>
+      <neighborhood_highlights>
+      </neighborhood_highlights>
+      <property_description>
+        <![CDATA[
+
+Prelude residents enjoy extensive amenities including a fitness room, theatre, games room and business centre. The building is equipped with gated underground parking and card access to the building. A dedicated recycling room helps residents to minimize their environmental footprint.
+
+Our on-site service staff is trained at repairs and maintenance to handle your every concern in a timely manner. For those really urgent situations, we offer round-the-clock service to get them looked after quickly.
+]]>
+      </property_description>
+      <property_highlights>
+      </property_highlights>
+      <property_features>
+        <property_feature>Business Centre</property_feature>
+        <property_feature>Common BBQ Facilities</property_feature>
+        <property_feature>Fitness Facility</property_feature>
+        <property_feature>Games Room</property_feature>
+        <property_feature>In-suite Laundry</property_feature>
+        <property_feature>Library</property_feature>
+        <property_feature>Social / Party Room</property_feature>
+        <property_feature>Theatre</property_feature>
+      </property_features>
+      <images>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/311/Prelude_1-original.jpg?1376423445</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/312/Prelude_5-original.jpg?1376423473</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/313/Prelude_2-original.jpg?1376423479</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/314/Prelude_4-original.jpg?1376423478</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/315/Prelude_6-original.jpg?1376423481</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/316/Prelude_3-original.jpg?1376423481</image>
+      </images>
+      <garage_types>
+      </garage_types>
+      <included_utilities>
+      </included_utilities>
+      <parking_types>
+      </parking_types>
+      <pet_restrictions>
+      </pet_restrictions>
+      <restrictions>
+      </restrictions>
+      <units>
+      </units>
+    </property>
+    <property>
+      <active>false</active>
+      <name>Jazz</name>
+      <property_manager_name/>
+      <address_1>167 Church Street</address_1>
+      <address_2></address_2>
+      <city>Toronto</city>
+      <province>ON</province>
+      <postal_code>M5B 1Y6</postal_code>
+      <phone>416.366.5299</phone>
+      <fax></fax>
+      <email>info@transcona.tv</email>
+      <tag_line></tag_line>
+      <property_type>Apartment</property_type>
+      <website_url>http://www.concertproperties.com/rentals/jazz</website_url>
+      <facebook_url></facebook_url>
+      <total_units/>
+      <neighborhood>Downtown Toronto</neighborhood>
+      <neighborhood_description>
+        <![CDATA[Located in the heart of downtown Toronto, Jazz is situated only blocks from Ryerson University, the Eaton Centre and the central business district.]]>
+      </neighborhood_description>
+      <neighborhood_highlights>
+      </neighborhood_highlights>
+      <property_description>
+        <![CDATA[Rental Office Hours: 
+Monday to Thursday 8:30 am - 7 pm
+Friday and Saturday 8:30 am - 5 pm
+Closed Sundays
+
+A heritage-inspired building, Jazz is a 28-storey highrise offering stunning views of the city and waterfront. This Concert rental community offers a variety of suites from studio to two bedroom and den. Rental homes at Jazz feature five energy-efficient appliances including dishwasher and full-size in-suite laundry, individually controlled heat and air conditioning, bright and spacious kitchens with contemporary cabinetry, closet organizers, balconies and/or terraces and energy efficient windows. High speed internet is also available. 
+
+
+
+Residents at Jazz enjoy extensive amenities including a multi-storey party room with fireplace, fitness centre, theatre, games room and business centre. The building is equipped with gated underground parking and card access to the building. A dedicated recycling room on each floor allows residents to minimize their environmental footprint.
+
+Our on-site service staff is trained at repairs and maintenance to handle your every concern in a timely manner. For those really urgent situations, we offer round-the-clock service to get them looked after quickly.]]>
+      </property_description>
+      <property_highlights>
+      </property_highlights>
+      <property_features>
+        <property_feature>Business Centre</property_feature>
+        <property_feature>Common BBQ Facilities</property_feature>
+        <property_feature>Courtyard</property_feature>
+        <property_feature>Fitness Facility</property_feature>
+        <property_feature>Games Room</property_feature>
+        <property_feature>Laundry Room</property_feature>
+        <property_feature>Library</property_feature>
+        <property_feature>Social / Party Room</property_feature>
+        <property_feature>Theatre</property_feature>
+      </property_features>
+      <images>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/317/Jazz_-_01-original.jpg?1376424092</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/318/Jazz_-_02-original.jpg?1376424102</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/319/Jazz_-_06-original.jpg?1376424110</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/320/Jazz_-_03-original.jpg?1376424111</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/321/Jazz_-_05-original.jpg?1376424113</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/322/Jazz_-_04-original.jpg?1376424113</image>
+      </images>
+      <garage_types>
+      </garage_types>
+      <included_utilities>
+      </included_utilities>
+      <parking_types>
+      </parking_types>
+      <pet_restrictions>
+      </pet_restrictions>
+      <restrictions>
+      </restrictions>
+      <units>
+      </units>
+    </property>
+    <property>
+      <active>false</active>
+      <name>Motion</name>
+      <property_manager_name/>
+      <address_1>570 Bay Street</address_1>
+      <address_2></address_2>
+      <city>Toronto</city>
+      <province>ON</province>
+      <postal_code>M5G 0B2</postal_code>
+      <phone>416.977.8400</phone>
+      <fax></fax>
+      <email>info@transcona.tv</email>
+      <tag_line></tag_line>
+      <property_type>Condo</property_type>
+      <website_url>http://www.concertproperties.com/rentals/motion</website_url>
+      <facebook_url></facebook_url>
+      <total_units/>
+      <neighborhood>Downtown Toronto</neighborhood>
+      <neighborhood_description>
+        <![CDATA[Living in the centre of this remarkable city, you can practically feel its pulse, its energy, its infectious Motion. Everything that matters is right around the corner or just up the street when you live at Motion with its close proximity to Toronto’s hottest neighbourhoods and the TTC right at your door step. Steps away from the Eaton Centre, Dundas Square, the financial district, hospitals, the University of Toronto and Ryerson University, Motion is the perfect choice for your new home.]]>
+      </neighborhood_description>
+      <neighborhood_highlights>
+      </neighborhood_highlights>
+      <property_description>
+        <![CDATA[
+Rental Office Hours: 
+Monday to Thursday 8:30 am - 7 pm
+Friday and Saturday 8:30 am - 5 pm
+Sunday 10 am - 5 pm
+
+Standing 29-storeys tall, Motion contains 463 air-conditioned homes and offers a variety of layouts – from efficient studio suites up to two bedroom plus den homes – all with modern finishes and energy-efficient appliances including dishwasher and in-suite laundry. With stylish interiors, quality construction, extensive amenities and our signature Concert On-Call customer service, you can have confidence in choosing Motion as your new home.
+
+Residents of Motion will enjoy extensive amenities including a resident lounge, games room, study/work centre, gym facility and outdoor terraces ideal for barbequing or lounging.
+
+Environmental sustainability was kept top of mind in the development of this project. Motion will target the highest level of the Toronto Green Standards (Tier 2) in addition to LEED Gold certification.
+]]>
+      </property_description>
+      <property_highlights>
+      </property_highlights>
+      <property_features>
+        <property_feature>Bicycle Parking</property_feature>
+        <property_feature>Common BBQ Facilities</property_feature>
+        <property_feature>Conference Rooms</property_feature>
+        <property_feature>Fitness Facility</property_feature>
+        <property_feature>Games Room</property_feature>
+        <property_feature>In-suite Laundry</property_feature>
+        <property_feature>Library</property_feature>
+        <property_feature>Social / Party Room</property_feature>
+        <property_feature>Storage Lockers</property_feature>
+      </property_features>
+      <images>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/323/Motion_1-original.jpg?1376426292</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/324/Motion_7-original.jpg?1376426426</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/325/Motion_5-original.jpg?1376426427</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/326/Motion_4-original.jpg?1376426428</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/327/Motion_6-original.jpg?1376426428</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/328/Motion_3-original.jpg?1376426430</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/329/Motion_2-original.jpg?1376426431</image>
+      </images>
+      <garage_types>
+      </garage_types>
+      <included_utilities>
+      </included_utilities>
+      <parking_types>
+      </parking_types>
+      <pet_restrictions>
+      </pet_restrictions>
+      <restrictions>
+      </restrictions>
+      <units>
+      </units>
+    </property>
+    <property>
+      <active>false</active>
+      <name>Serrano at Village Gate West</name>
+      <property_manager_name/>
+      <address_1>11 Dunbloor Road</address_1>
+      <address_2></address_2>
+      <city>Etobicoke</city>
+      <province>ON</province>
+      <postal_code>M9A 0B2</postal_code>
+      <phone>416.239.0008</phone>
+      <fax></fax>
+      <email>info@transcona.tv</email>
+      <tag_line></tag_line>
+      <property_type>Apartment</property_type>
+      <website_url>http://www.VillageGateWest.com</website_url>
+      <facebook_url></facebook_url>
+      <total_units/>
+      <neighborhood>Etobicoke</neighborhood>
+      <neighborhood_description>
+        <![CDATA[Located in Central Etobicoke within the historic Islington Village Serrano is conveniently located near restaurants and shopping. Both the Islington and Kippling subway stations are within a short walking distance.]]>
+      </neighborhood_description>
+      <neighborhood_highlights>
+      </neighborhood_highlights>
+      <property_description>
+        <![CDATA[Rental Office Hours: 
+Monday to Thursday 11 am - 7 pm
+Friday to Sunday 11 am - 5 pm
+
+Serrano is a 21-storey highrise consisting of 278 rental homes in Concert's Village Gate West master-planned community. Offering bright and open studio, one and two bedroom rental homes that feature five energy-efficient appliances including dishwasher and full-size in-suite laundry, individually controlled heat and air conditioning, bright and spacious contemporary kitchens, closet organizers, balconies and/or terraces and energy-efficient windows with blinds. High speed internet is also available. 
+
+Serrano residents enjoy extensive amenities including a fitness room, theatre, games room, outdoor play area, party room, patio with BBQ and business centre. The building is equipped with gated underground parking and card access to the building. A dedicated recycling room helps residents to minimize their environmental footprint.
+
+Our on-site service staff is trained at repairs and maintenance to handle your every concern in a timely manner. For those really urgent situations, we offer round-the-clock service to get them looked after quickly.
+
+]]>
+      </property_description>
+      <property_highlights>
+      </property_highlights>
+      <property_features>
+        <property_feature>Business Centre</property_feature>
+        <property_feature>Common BBQ Facilities</property_feature>
+        <property_feature>Fitness Facility</property_feature>
+        <property_feature>Games Room</property_feature>
+        <property_feature>Playground</property_feature>
+        <property_feature>Social / Party Room</property_feature>
+        <property_feature>Theatre</property_feature>
+      </property_features>
+      <images>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/330/Serrano_-_01-original.jpg?1376427020</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/331/Serrano_-_03-original.jpg?1376427050</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/332/Serrano_-_02-original.jpg?1376427052</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/333/Serrano_-_05-original.jpg?1376427053</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/334/Serrano_-_04-original.jpg?1376427054</image>
+      </images>
+      <garage_types>
+      </garage_types>
+      <included_utilities>
+      </included_utilities>
+      <parking_types>
+      </parking_types>
+      <pet_restrictions>
+      </pet_restrictions>
+      <restrictions>
+      </restrictions>
+      <units>
+      </units>
+    </property>
+    <property>
+      <active>false</active>
+      <name>Sierra at Village Gate West</name>
+      <property_manager_name/>
+      <address_1> 7 Summerland Terrace</address_1>
+      <address_2></address_2>
+      <city>Toronto</city>
+      <province>ON</province>
+      <postal_code>M9A 1C2</postal_code>
+      <phone>416.239.0008</phone>
+      <fax></fax>
+      <email>info@transcona.tv</email>
+      <tag_line></tag_line>
+      <property_type>Apartment</property_type>
+      <website_url>http://www.VillageGateWest.com</website_url>
+      <facebook_url></facebook_url>
+      <total_units/>
+      <neighborhood>Etobicoke</neighborhood>
+      <neighborhood_description>
+        <![CDATA[Located in Central Etobicoke within the historic Islington Village Sierra is conveniently located near restaurants and shopping. Both the Islington and Kippling subway stations are within a short walking distance. ]]>
+      </neighborhood_description>
+      <neighborhood_highlights>
+      </neighborhood_highlights>
+      <property_description>
+        <![CDATA[Rental Office Hours: 
+Monday to Thursday 11 am - 7 pm
+Friday to Sunday 11 am - 5 pm
+
+Sierra is a 21-storey highrise consisting of 218 rental homes in Concert's Village Gate West master-planned community. Offering brand-new bright and open studio, one and two bedroom rental homes that feature five energy-efficient appliances including dishwasher and full-size in-suite laundry, individually controlled heat and air conditioning, bright and spacious contemporary kitchens, closet organizers, balconies and/or terraces and energy-efficient windows with blinds. High speed internet is also available. 
+
+Sierra residents enjoy extensive amenities including a fitness room, theatre, games room, party room, patio with BBQ and business centre. The building is equipped with gated underground parking and card access to the building. A dedicated recycling room helps residents to minimize their environmental footprint.
+
+Our on-site service staff is trained at repairs and maintenance to handle your every concern in a timely manner. For those really urgent situations, we offer round-the-clock service to get them looked after quickly.]]>
+      </property_description>
+      <property_highlights>
+      </property_highlights>
+      <property_features>
+        <property_feature>Common BBQ Facilities</property_feature>
+        <property_feature>Courtyard</property_feature>
+        <property_feature>Fitness Facility</property_feature>
+        <property_feature>Games Room</property_feature>
+        <property_feature>Library</property_feature>
+        <property_feature>Social / Party Room</property_feature>
+        <property_feature>Theatre</property_feature>
+      </property_features>
+      <images>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/335/Sierra_1-original.jpg?1376427580</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/336/Sierra_-_2-original.jpg?1376427616</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/337/Sierra_-_6-original.jpg?1376427619</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/338/Sierra_-_3-original.jpg?1376427620</image>
+        <image>http://www.connectedlandlord.com/system/base/property_images/000/010/339/Sierra_-_4-original.jpg?1376427621</image>
+      </images>
+      <garage_types>
+      </garage_types>
+      <included_utilities>
+      </included_utilities>
+      <parking_types>
+      </parking_types>
+      <pet_restrictions>
+      </pet_restrictions>
+      <restrictions>
+      </restrictions>
+      <units>
+      </units>
+    </property>
+  </properties>
+</company>

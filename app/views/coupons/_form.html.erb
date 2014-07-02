@@ -1,0 +1,27 @@
+<%= simple_form_for([@location, @coupon]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :code_prefix %>
+    <%= f.input :howmany, as: :string %>
+    <%= f.input :description, input_html: { class: 'input-block-level wysihtml5' }  %>  
+  
+  <div class="control-group">
+    <label for="coupon_expiration" class="string optional control-label">Expiration</label>
+    <div class="input-append" id="datepicker_starts" >
+      <%= f.input_field :expiration, as: :string,  data: { format: "yyyy-MM-dd" }, value: @coupon.expiration.strftime("%Y-%m-%d ") %>
+      <span class='add-on'>
+        <i data-time-icon='icon-time' data-date-icon='icon-calendar'></i>
+      </span>
+    </div>
+  </div>
+    
+    <%= f.input :image, as: :logo_preview %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: 'btn btn-primary' %>
+    <%= link_to 'Back', :back, class: 'btn' %>
+  </div>
+<% end %>

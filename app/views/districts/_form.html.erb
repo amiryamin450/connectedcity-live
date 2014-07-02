@@ -1,0 +1,15 @@
+<%= simple_form_for @district do |f| %>
+<div class="form-inputs">
+  <%= f.input :name %>
+  <%= f.association :city %>
+  <%= f.input :description, input_html: { class: 'input-block-level wysihtml5'} %>
+  <%= f.input :home_page_image, as: :logo_preview %>
+  <%= f.input :use_carousel %>
+</div>
+
+<div class="form-actions">
+  <%= f.button :submit, class: 'btn btn-primary' %>
+  <%= link_to 'Cancel', districts_path, class: 'btn' %>
+</div>
+
+<% end -%>

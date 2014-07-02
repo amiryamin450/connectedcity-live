@@ -1,0 +1,38 @@
+<h1>New Homes for <%= @new_home_community.name %></h1>
+
+<table class="table table-bordered table-striped table-hover">
+  <tr>
+    <th>Title</th>
+    <th>Address</th>
+
+    <th>City</th>
+    <th>Province</th>
+    
+
+    
+
+    <th></th>
+  </tr>
+
+  <% @new_homes.each do |new_home| %>
+  <tr>
+
+    <td><%= new_home.title %></td>
+    <td><%= new_home.address %></td>
+    <td><%= new_home.city.name %></td>
+    <td><%= new_home.province.abbr %></td>
+    <td>
+      <div class="btn-group">
+        <%= link_to 'show', [@location, @new_home_community, new_home], class: 'btn btn-mini' %>
+        <%= link_to 'edit', edit_location_new_home_community_new_home_path(@location, @new_home_community, new_home), class: 'btn btn-mini' %>
+        <%= link_to 'delete', [@location, @new_home_community, new_home], method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+      </div>
+    </td>
+  </tr>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to 'Create New home', new_location_new_home_community_new_home_path, class: 'btn btn-primary' %>
+<%= link_to "Back to #{@new_home_community.name}",  [@location, @new_home_community], class: 'btn' %>

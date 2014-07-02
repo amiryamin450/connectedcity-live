@@ -1,0 +1,79 @@
+<h1>Listing automotive_listings</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Status</th>
+    <th>Vehicle type</th>
+    <th>Local</th>
+    <th>Accident</th>
+    <th>Price cents</th>
+    <th>Year</th>
+    <th>Make</th>
+    <th>Model</th>
+    <th>Trim level</th>
+    <th>Exterior color</th>
+    <th>Interior color</th>
+    <th>Enigine</th>
+    <th>Drivetrain</th>
+    <th>Transmission</th>
+    <th>Body</th>
+    <th>Mileage</th>
+    <th>Stock number</th>
+    <th>Description</th>
+    <th>Powertrain specs</th>
+    <th>Suspension specs</th>
+    <th>Specs</th>
+    <th>Entertainment features</th>
+    <th>Seats and trim</th>
+    <th>Convenience features</th>
+    <th>Body exterior</th>
+    <th>Lighting visibility instruments</th>
+    <th>Saftey and security</th>
+    <th>Location</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @automotive_listings.each do |automotive_listing| %>
+  <tr>
+    <td><%= automotive_listing.title %></td>
+    <td><%= automotive_listing.status %></td>
+    <td><%= automotive_listing.vehicle_type %></td>
+    <td><%= automotive_listing.local %></td>
+    <td><%= automotive_listing.accident %></td>
+    <td><%= automotive_listing.price_cents %></td>
+    <td><%= automotive_listing.year %></td>
+    <td><%= automotive_listing.make %></td>
+    <td><%= automotive_listing.model %></td>
+    <td><%= automotive_listing.trim_level %></td>
+    <td><%= automotive_listing.exterior_color %></td>
+    <td><%= automotive_listing.interior_color %></td>
+    <td><%= automotive_listing.enigine %></td>
+    <td><%= automotive_listing.drivetrain %></td>
+    <td><%= automotive_listing.transmission %></td>
+    <td><%= automotive_listing.body %></td>
+    <td><%= automotive_listing.mileage %></td>
+    <td><%= automotive_listing.stock_number %></td>
+    <td><%= automotive_listing.description %></td>
+    <td><%= automotive_listing.powertrain_specs %></td>
+    <td><%= automotive_listing.suspension_specs %></td>
+    <td><%= automotive_listing.specs %></td>
+    <td><%= automotive_listing.entertainment_features %></td>
+    <td><%= automotive_listing.seats_and_trim %></td>
+    <td><%= automotive_listing.convenience_features %></td>
+    <td><%= automotive_listing.body_exterior %></td>
+    <td><%= automotive_listing.lighting_visibility_instruments %></td>
+    <td><%= automotive_listing.saftey_and_security %></td>
+    <td><%= automotive_listing.location_id %></td>
+    <td><%= link_to 'Show', automotive_listing %></td>
+    <td><%= link_to 'Edit', edit_automotive_listing_path(automotive_listing) %></td>
+    <td><%= link_to 'Destroy', automotive_listing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Automotive listing', new_location_automotive_listing_path(@location) %>

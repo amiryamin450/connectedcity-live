@@ -1,0 +1,39 @@
+<%= simple_form_for([@location, @automotive_listing]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :title %>
+    <%= f.input :status %>
+    <%= f.input :vehicle_type %>
+    <%= f.input :local %>
+    <%= f.input :accident, label: "Has been in an accident?" %>
+    <%= f.input :price %>
+    <%= f.input :year, as: :string %>
+    <%= f.input :make %>
+    <%= f.input :model %>
+    <%= f.input :trim_level %>
+    <%= f.input :exterior_color %>
+    <%= f.input :interior_color %>
+    <%= f.input :enigine %>
+    <%= f.input :drivetrain %>
+    <%= f.input :transmission %>
+    <%= f.input :body %>
+    <%= f.input :mileage, as: :string, hint: 'Don\'t Use Commas' %>
+    <%= f.input :stock_number %>
+    <%= f.input :description, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
+    <%= f.input :powertrain_specs, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.'  %>
+    <%= f.input :suspension_specs, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.'  %>
+    <%= f.input :specs, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.'  %>
+    <%= f.input :entertainment_features, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.'  %>
+    <%= f.input :seats_and_trim, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.'  %>
+    <%= f.input :convenience_features, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.'  %>
+    <%= f.input :body_exterior, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.'  %>
+    <%= f.input :lighting_visibility_instruments, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.'  %>
+    <%= f.input :saftey_and_security, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.'  %>
+    <%= f.input :main_image, as: :logo_preview %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: 'btn btn-primary' %>
+  </div>
+<% end %>

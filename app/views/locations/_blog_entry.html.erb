@@ -1,8 +1,8 @@
-<h5>Blog Entries
+<h4>Blog Entries
  <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
  <small><%= link_to "add", new_location_blog_entry_path(@location) %> | <%= link_to "manage", location_blog_entries_path(@location) %></small>
  <% end %>
-</h5>
+</h4>
 <% if @blog_entries.size > 0 %>
   <% @blog_entries.each do |blog| %>
       <article class="teaser">

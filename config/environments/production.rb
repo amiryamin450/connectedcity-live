@@ -79,3 +79,5 @@ Connectbook::Application.configure do
   end
   
 end
+
+Rails.application.routes.default_url_options[:host] = 'www.connectbook.tv'
