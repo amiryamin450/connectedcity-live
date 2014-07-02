@@ -1,0 +1,19 @@
+development: &defaults
+  adapter: mysql2
+  encoding: utf8
+  database: connectedcity_<%= Rails.env %><% if Settings.db_password %>
+  password: <%= Settings.db_password %><% end %>
+  pool: 32
+  username: root
+  host: <%= Settings.db_host %>
+
+test: &test
+  <<: *defaults
+
+staging:
+  <<: *defaults
+
+production:
+  <<: *defaults
+  # from our rds instance:
+  pool: 296
