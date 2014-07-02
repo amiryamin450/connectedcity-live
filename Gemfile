@@ -32,7 +32,6 @@ gem 'sinatra', require: false
 gem 'slim'
 # gem 'tire'
 gem 'crummy'
-gem 'unicorn'
 gem 'truncate_html'
 gem 'dalli'
 gem 'font-awesome-rails'
@@ -48,6 +47,7 @@ gem 'cape'
 
 group :production, :staging do
   gem 'aws-sdk'
+  gem 'puma'
 end
 
 
