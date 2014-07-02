@@ -32,6 +32,9 @@ GEM
     ancestry (2.0.0)
       activerecord (>= 3.0.0)
     arel (3.0.2)
+    auto_html (1.6.0)
+      redcarpet (~> 2.0)
+      rinku (~> 1.5.0)
     aws-sdk (1.46.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
@@ -373,6 +376,7 @@ PLATFORMS
 
 DEPENDENCIES
   ancestry
+  auto_html
   aws-sdk
   better_errors
   binding_of_caller
