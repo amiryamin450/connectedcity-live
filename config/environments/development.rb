@@ -16,7 +16,6 @@ Connectbook::Application.configure do
 
 
   # ActionMailer Config
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   config.action_mailer.delivery_method = :smtp
   # change to true to allow email to be sent during development
   config.action_mailer.perform_deliveries = false
@@ -53,5 +52,4 @@ Connectbook::Application.configure do
   
 
 end
-Rails.application.routes.default_url_options[:host] = 'www.lvh.me:3000'
 #Tire::Configuration.url "http://10.10.0.55:9200"

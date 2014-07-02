@@ -83,5 +83,8 @@ module Connectbook
 
     config.exceptions_app = self.routes
 
+    config.action_mailer.default_url_options = { :host => Settings.host }
+    Rails.application.routes.default_url_options[:host] = Settings.host
+
   end
 end
