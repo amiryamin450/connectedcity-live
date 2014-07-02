@@ -3,6 +3,7 @@ set :default_stage, 'staging'
 
 
 require 'capistrano/ext/multistage'
+require "rvm/capistrano"
 require 'bundler/capistrano'
 require 'sidekiq/capistrano'
 require 'cape'

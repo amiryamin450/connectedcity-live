@@ -54,6 +54,7 @@ GEM
     builder (3.0.4)
     callsite (0.0.11)
     cancan (1.6.10)
+    cape (1.8.0)
     capistrano (2.15.4)
       highline
       net-scp (>= 1.0.0)
@@ -306,6 +307,8 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
+    rvm-capistrano (1.5.3)
+      capistrano (~> 2.15.4)
     sass (3.2.9)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -385,7 +388,8 @@ DEPENDENCIES
   bootstrap-sass
   bootstrap-wysihtml5-rails
   cancan
-  capistrano
+  cape
+  capistrano (< 3.0.0)
   capybara
   coffee-rails (~> 3.2.1)
   compass-rails
@@ -422,6 +426,7 @@ DEPENDENCIES
   rmagick (~> 2.13.2)
   rolify
   rspec-rails
+  rvm-capistrano
   sass-rails (~> 3.2.3)
   seed_dump
   sidekiq

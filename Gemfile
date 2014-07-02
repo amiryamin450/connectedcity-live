@@ -32,7 +32,6 @@ gem 'sinatra', require: false
 gem 'slim'
 # gem 'tire'
 gem 'crummy'
-gem 'capistrano'
 gem 'unicorn'
 gem 'truncate_html'
 gem 'dalli'
@@ -45,7 +44,7 @@ gem "auto_html"
 gem 'jqcloud-rails'
 
 gem 'rails_config'
-# gem 'cape'
+gem 'cape'
 
 group :production, :staging do
   gem 'aws-sdk'
@@ -89,5 +88,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request'
+  gem 'capistrano', '< 3.0.0'
+  gem 'rvm-capistrano'
 
 end
