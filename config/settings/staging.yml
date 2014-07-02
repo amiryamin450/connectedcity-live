@@ -1,0 +1,3 @@
+host: staging.connectedcity.com
+db_host: transcona-staging-rds-01.cm6qznlodypt.us-west-2.rds.amazonaws.com
+aws_region: us-west-2
