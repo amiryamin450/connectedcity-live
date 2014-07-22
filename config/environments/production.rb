@@ -79,4 +79,4 @@ Connectbook::Application.configure do
     Devise::SessionsController.layout "sessions"
   end
   
-en
+end
