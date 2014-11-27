@@ -1,4 +1,5 @@
 class BusinessImprovementAreasController < ApplicationController
+  load_and_authorize_resource
   # GET /business_improvement_areas
   # GET /business_improvement_areas.json
   def index

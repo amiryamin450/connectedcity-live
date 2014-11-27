@@ -1,4 +1,5 @@
 class ClassifiedCategoriesController < ApplicationController
+  load_and_authorize_resource
   # GET /classified_categories
   # GET /classified_categories.json
   def index

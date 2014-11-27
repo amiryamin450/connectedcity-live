@@ -1,4 +1,5 @@
 class CommunitiesController < ApplicationController
+  load_and_authorize_resource
   layout "admin"
   # GET /communities
   # GET /communities.json

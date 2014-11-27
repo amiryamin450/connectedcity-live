@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_up
 
 
-  def user_has_favorite?(location_id)    
+  def user_has_favorite?(location_id)
     @favorites.find {|f| f['location_id'] == location_id }
   end
 

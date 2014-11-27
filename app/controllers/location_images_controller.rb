@@ -1,4 +1,5 @@
 class LocationImagesController < ApplicationController
+  load_and_authorize_resource
   def destroy
     @location_image = LocationImage.find(params[:id])
     @location_image.destroy

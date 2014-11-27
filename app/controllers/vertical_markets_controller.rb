@@ -1,6 +1,6 @@
 class VerticalMarketsController < ApplicationController
   layout :resolve_layout
-
+  load_and_authorize_resource
 
 
   def resolve_layout

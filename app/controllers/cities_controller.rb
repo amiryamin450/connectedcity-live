@@ -1,5 +1,5 @@
 class CitiesController < ApplicationController
-
+  load_and_authorize_resource except: :homepage
   # GET /cities
   # GET /cities.json
   def index
@@ -23,7 +23,7 @@ class CitiesController < ApplicationController
   end
 
   def homepage
-    
+
     @city = City.find(5915022)
     @districts = @city.districts
     add_crumb '<i class="icon-home"></i> Home'.html_safe, @base_path

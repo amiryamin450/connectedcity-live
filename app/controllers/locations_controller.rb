@@ -1,5 +1,6 @@
 class LocationsController < ApplicationController
-
+  load_and_authorize_resource
+  
   layout 'location', :only => [:show]
   # GET /locations
   # GET /locations.json
@@ -34,14 +35,14 @@ class LocationsController < ApplicationController
 
     @rental_properties = @location.rental_properties.page(params[:rental_page]).per(12) if @location.vertical_market_categories.exists?(101)
     @new_home_communities = @location.new_home_communities.page(params[:communities_page]).per(12) if @location.vertical_market_categories.exists?(102)
-    
+
 
     @vertical_market = @location.vertical_market_categories.first.vertical_market if @location.vertical_market_categories.size > 0
 
     cookies[:return_to] = "#{@base_path}business/#{@location.slug}"
-     
 
-    add_crumb @district.name, district_guide_path(@district) if @district 
+
+    add_crumb @district.name, district_guide_path(@district) if @district
     add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}" if @vertical_market
     # add_crumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
     add_crumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
@@ -57,7 +58,7 @@ class LocationsController < ApplicationController
   def new
 
     if (params[:broker_id].present? )
-      @location = Location.find(params[:broker_id]).agents.new 
+      @location = Location.find(params[:broker_id]).agents.new
       @location.vertical_market_categories = [VerticalMarketCategory.find(99)]
     else
       @location = Location.new
@@ -128,13 +129,13 @@ class LocationsController < ApplicationController
     if current_user
       @location.user = current_user
       @location.save
-      redirect_to @location 
+      redirect_to @location
     end
   end
 
   def release
     @location = Location.find(params[:id])
-    @location.user = nil 
+    @location.user = nil
     @location.save
     redirect_to @location
   end
