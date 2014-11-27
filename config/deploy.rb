@@ -22,7 +22,7 @@ set :rvm_ruby_string, :release_path
 set :bundle_dir, ''
 set :bundle_flags, '--system --quiet'
 
-set :cmd_prefix, -> { path_to_bin_rvm(:with_ruby => "in #{fetch(:current_path)}") }  
+set :cmd_prefix, -> { path_to_bin_rvm(:with_ruby => "in #{fetch(:current_path)}") }
 set :sidekiq_cmd, -> { "#{fetch(:cmd_prefix)} bundle exec sidekiq" }
 set :sidekiqctl_cmd, -> { "#{fetch(:cmd_prefix)} bundle exec sidekiqctl" }
 
@@ -40,6 +40,9 @@ set :branch, 'master'
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
+
+# before 'deploy', 'rvm:install_rvm'  # install/update RVM
+# before 'deploy', 'rvm:install_ruby' # install Ruby and create gemset (both if missing)
 
 namespace :deploy do
   %w[start stop restart].each do |command|
