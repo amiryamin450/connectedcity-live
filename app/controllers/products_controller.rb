@@ -1,7 +1,6 @@
 class ProductsController < ApplicationController
-  load_and_authorize_resource :location
-  load_and_authorize_resource :product
-
+  load_resource :location
+  load_and_authorize_resource :product, through: [:location]
 
   def index
     @products = @location.products

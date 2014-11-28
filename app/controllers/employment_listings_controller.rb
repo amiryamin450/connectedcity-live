@@ -1,7 +1,7 @@
 class EmploymentListingsController < ApplicationController
 
   load_and_authorize_resource :location, except: [:guide]
-  load_and_authorize_resource :employment_listing
+  load_and_authorize_resource :employment_listing, through: [:location], except: [:guide]
 
 
   # GET /employment_listings
@@ -49,7 +49,7 @@ class EmploymentListingsController < ApplicationController
 
   # GET /employment_listings/1/edit
   def edit
-    
+
   end
 
   # POST /employment_listings

@@ -1,6 +1,6 @@
 class AutomotiveListingsController < ApplicationController
-  load_and_authorize_resource :location
-  load_and_authorize_resource :automotive_listing  
+  load_resource :location
+  load_and_authorize_resource :automotive_listing, through: [:location]  
   # GET /automotive_listings
   # GET /automotive_listings.json
   def index
@@ -15,9 +15,9 @@ class AutomotiveListingsController < ApplicationController
   # GET /automotive_listings/1
   # GET /automotive_listings/1.json
   def show
-    
+
    @vertical_market = @location.vertical_market_categories.first.vertical_market
-    
+
 
     add_crumb @district.name, district_guide_path(@district) if @district
     add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
@@ -34,7 +34,7 @@ class AutomotiveListingsController < ApplicationController
   # GET /automotive_listings/new
   # GET /automotive_listings/new.json
   def new
-    @automotive_listing = @location.automotive_listings.new 
+    @automotive_listing = @location.automotive_listings.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -44,7 +44,7 @@ class AutomotiveListingsController < ApplicationController
 
   # GET /automotive_listings/1/edit
   def edit
-   
+
   end
 
   # POST /automotive_listings

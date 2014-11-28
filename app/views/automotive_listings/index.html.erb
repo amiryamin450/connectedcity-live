@@ -67,9 +67,9 @@
     <td><%= automotive_listing.lighting_visibility_instruments %></td>
     <td><%= automotive_listing.saftey_and_security %></td>
     <td><%= automotive_listing.location_id %></td>
-    <td><%= link_to 'Show', automotive_listing %></td>
-    <td><%= link_to 'Edit', edit_automotive_listing_path(automotive_listing) %></td>
-    <td><%= link_to 'Destroy', automotive_listing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Show', [@location, automotive_listing] %></td>
+    <td><%= link_to 'Edit', edit_location_automotive_listing_path(@location, automotive_listing) %></td>
+    <td><%= link_to 'Destroy', location_automotive_listing_path(@location, automotive_listing), method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>

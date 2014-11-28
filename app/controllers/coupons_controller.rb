@@ -1,7 +1,7 @@
 class CouponsController < ApplicationController
 
   load_and_authorize_resource :location, except: [:redeem]
-  load_and_authorize_resource :coupon, except: [:redeem]
+  load_and_authorize_resource :coupon, through: [:location], except: [:redeem]
 
   # GET /coupons
   # GET /coupons.json

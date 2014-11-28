@@ -1,6 +1,7 @@
 class NewsArticlesController < ApplicationController
-  load_and_authorize_resource
-  
+  load_resource :location
+  load_and_authorize_resource :news_article, through: [:location]
+
   # GET /news_articles
   # GET /news_articles.json
   def index

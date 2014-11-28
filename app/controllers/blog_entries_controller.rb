@@ -1,6 +1,7 @@
 class BlogEntriesController < ApplicationController
-  load_and_authorize_resource :location
-  load_and_authorize_resource :blog_entry
+  load_resource :location
+  load_and_authorize_resource :blog_entry, through: [:location]
+
   # GET /blog_entries
   # GET /blog_entries.json
   def index
@@ -27,7 +28,6 @@ class BlogEntriesController < ApplicationController
   # GET /blog_entries/new.json
   def new
     @blog_entry = @location.blog_entries.new(user_id: current_user.id)
-
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @blog_entry }
@@ -82,4 +82,5 @@ class BlogEntriesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
 end

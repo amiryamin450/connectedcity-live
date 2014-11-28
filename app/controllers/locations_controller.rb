@@ -1,6 +1,6 @@
 class LocationsController < ApplicationController
-  load_and_authorize_resource
-  
+  load_and_authorize_resource except: :claim
+
   layout 'location', :only => [:show]
   # GET /locations
   # GET /locations.json

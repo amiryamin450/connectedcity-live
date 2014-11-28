@@ -1,12 +1,12 @@
 class EventsController < ApplicationController
-  load_and_authorize_resource :location
-  load_and_authorize_resource :event 
+  load_resource :location
+  load_and_authorize_resource :event, through: [:location]
 
   def index
-    @events = @location.events 
+    @events = @location.events
   end
 
-  def show    
+  def show
   end
 
   def new
@@ -19,7 +19,7 @@ class EventsController < ApplicationController
 
   def create
     @event = @location.events.new(params[:event])
-    if @event.save 
+    if @event.save
       redirect_to [@location, @event], notice: 'Event was successfully created.'
     else
       render action: :new

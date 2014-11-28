@@ -7,8 +7,32 @@ class Ability
       can :manage, :all
     else
       can :read, :all
-      can :manage, ClassifiedListing, user_id: user.id 
-      
+      can :manage, ClassifiedListing, user_id: user.id
+
+      can :manage, Location, user_id: user.id
+
+      ###########################
+      # Rules for User/Location #
+      ###########################
+      can :manage, BlogEntry do |blog|
+        blog.bloggable.user_id == user.id
+      end
+
+      can :manage, NewsArticle do |article|
+        article.newsable.user_id == user.id
+      end
+
+      can :manage, MediaAttachment do |media_attachment|
+        media_attachment.attachable.user_id == user.id
+      end
+
+      can :manage, AutomotiveListing, location: { user_id: user.id }
+      can :manage, Product, location: { user_id: user.id }
+      can :manage, Coupon, location: { user_id: user.id }
+      can :manage, Service, location: { user_id: user.id }
+      can :manage, Event, location: { user_id: user.id }
+      can :manage, EmploymentListing, location: { user_id: user.id }
+
     end
 
     # Define abilities for the passed in user here. For example:

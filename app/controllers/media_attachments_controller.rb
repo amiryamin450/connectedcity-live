@@ -1,8 +1,7 @@
 class MediaAttachmentsController < ApplicationController
 
-  load_and_authorize_resource :location
-  load_and_authorize_resource :media_attachment
-
+  load_resource :location
+  load_and_authorize_resource :media_attachment, through: [:location]
 
   def index
     @media_attachments = @location.media_attachments
@@ -22,7 +21,7 @@ class MediaAttachmentsController < ApplicationController
   end
 
   def new
-    @media_attachment = @location.media_attachments.new 
+    @media_attachment = @location.media_attachments.new
   end
 
   def edit

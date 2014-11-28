@@ -1,11 +1,11 @@
 class ServicesController < ApplicationController
-  load_and_authorize_resource :location
-  load_and_authorize_resource :service 
+  load_resource :location
+  load_and_authorize_resource :service, through: [:location]
 
   # GET /services
   # GET /services.json
   def index
-    @services = @location.services 
+    @services = @location.services
 
     respond_to do |format|
       format.html # index.html.erb
