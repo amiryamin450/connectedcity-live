@@ -14,17 +14,18 @@
       <b class="arrow icon-angle-right"></b>
     </a>
     <ul class="submenu hide" id="user-sidebar">
-      
-        <% if user_signed_in? %>
-       <li> <%= link_to '<i class="icon-pencil"></i> Edit account'.html_safe, edit_user_registration_path %> </li>
-       <li><%= link_to '<i class="icon-list"></i> My Classifieds'.html_safe, classified_listings_path %></li>
-       <li><%= link_to '<i class="icon-dollar"></i> My Coupons'.html_safe, coupons_user_path(current_user) %></li>
-        <% else %>
+
+      <% if user_signed_in? %>
+        <li> <%= link_to '<i class="icon-pencil"></i> Edit account'.html_safe, edit_user_registration_path %> </li>
+        <li><%= link_to '<i class="icon-list"></i> My Classifieds'.html_safe, classified_listings_path %></li>
+        <li><%= link_to '<i class="icon-dollar"></i> My Coupons'.html_safe, coupons_user_path(current_user) %></li>
+        <li><%= link_to '<i class="icon-off"></i> Logout'.html_safe, destroy_user_session_path, method: :delete %> </li>
+      <% else %>
         <li><%= link_to 'Login', new_user_session_path %> </li>
         <li><%= link_to 'Login with Facebook', user_omniauth_authorize_path(:facebook) %></li>
-       <li> <%= link_to 'Sign up', new_user_registration_path %></li>
-        <% end %>
-      
+        <li> <%= link_to 'Sign up', new_user_registration_path %></li>
+      <% end %>
+
     </ul>
 
   </li>
@@ -48,7 +49,7 @@
       <b class="arrow icon-angle-right"></b>
     </a>
     <ul class="submenu hide" id="admin">
-      
+
       <li class="">
         <a href="/vertical_markets">
           <i class="icon-cog"></i>
@@ -153,9 +154,9 @@
     <ul class="submenu hide" id="locations">
       <% current_user.locations.each do |location| %>
       <li class="">
-        
+
         <%= link_to location.name, location %>
-        
+
       </li>
       <% end -%>
     </ul>
@@ -163,8 +164,3 @@
 <% end %>
 
 </ul>
-
-
-
-
-
