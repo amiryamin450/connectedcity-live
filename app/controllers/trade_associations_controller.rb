@@ -1,4 +1,6 @@
 class TradeAssociationsController < ApplicationController
+  load_and_authorize_resource
+  
   # GET /trade_associations
   # GET /trade_associations.json
   def index

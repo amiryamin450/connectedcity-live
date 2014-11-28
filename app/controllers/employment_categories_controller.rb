@@ -1,4 +1,5 @@
 class EmploymentCategoriesController < ApplicationController
+  load_and_authorize_resource
   # GET /employment_categories
   # GET /employment_categories.json
   def index

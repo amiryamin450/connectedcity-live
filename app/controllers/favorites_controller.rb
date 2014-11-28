@@ -3,7 +3,7 @@ class FavoritesController < ApplicationController
 
 
   def create
-    @favorite = Favorite.create({:location_id => params[:location_id], :user_id => params[:user_id], :category => params[:category]})
+    @favorite = Favorite.create({:location_id => params[:location_id], :user_id => current_user.id, :category => params[:category]})
     current_user.connection.clear_query_cache
     @favorites = current_user.favorites.all
     @location = @favorite.location

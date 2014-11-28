@@ -1,6 +1,6 @@
 class ClassifiedListingsController < ApplicationController
 
-  load_and_authorize_resource :classified_listing
+  load_and_authorize_resource
   # GET /classified_listings
   # GET /classified_listings.json
   def index

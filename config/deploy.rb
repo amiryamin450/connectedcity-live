@@ -2,9 +2,10 @@ set :stages, %w(production staging)
 set :default_stage, 'staging'
 
 
-require 'capistrano/ext/multistage'
+
+require "capistrano/ext/multistage"
 require "rvm/capistrano"
-require 'bundler/capistrano'
+require "bundler/capistrano"
 require 'sidekiq/capistrano'
 require 'cape'
 
@@ -17,29 +18,42 @@ Cape do
   end
 end
 
+
 set :rvm_type, :system
 set :rvm_ruby_string, :release_path
 set :bundle_dir, ''
 set :bundle_flags, '--system --quiet'
 
-set :cmd_prefix, -> { path_to_bin_rvm(:with_ruby => "in #{fetch(:current_path)}") }  
+set :cmd_prefix, -> { path_to_bin_rvm(:with_ruby => "in #{fetch(:current_path)}") }
 set :sidekiq_cmd, -> { "#{fetch(:cmd_prefix)} bundle exec sidekiq" }
 set :sidekiqctl_cmd, -> { "#{fetch(:cmd_prefix)} bundle exec sidekiqctl" }
 
-set :application, 'connectedcity'
+
+set :application, "connectedcity"
+
 set :deploy_via, :remote_cache
 set :use_sudo, false
 
 
-set :scm, 'git'
-set :repository,  'git@bitbucket.org:deversus/connectedcity.git'
+set :scm, "git"
+set :git_enable_submodules, 1
+set :repository,  "git@bitbucket.org:deversus/connectedcity.git"
 set :deploy_to, "/var/www/#{application}"
 set :shared_children, shared_children + %w{config/settings.local.yml}
-set :branch, 'master'
+set :branch, "master"
 
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
+
+
+task :uname do
+  run "uname -a"
+end
+
+after "deploy", "deploy:cleanup" # keep only the last 5 releases
+after 'deploy:finished', 'deploy:restart'
+# after 'deploy:update_code', 'deploy:migrate'
 
 namespace :deploy do
   %w[start stop restart].each do |command|
@@ -60,7 +74,6 @@ namespace :deploy do
   before "deploy", "deploy:check_revision"
 end
 
-
 namespace :solr do
   desc "start solr"
   task :start, :roles => :app, :except => { :no_release => true } do
@@ -78,4 +91,3 @@ namespace :solr do
     run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec rake sunspot:solr:reindex[,,true]"
   end
 end
-# after 'deploy:setup', 'deploy:setup_solr_data_dir'

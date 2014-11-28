@@ -5,7 +5,7 @@ $(function() {
     map = L.map('map', {scrollWheelZoom: false}).setView([49.249935,-123.112457],9);
     //1c76eefca5954c5abfa169b96dc96a35
     L.Icon.Default.imagePath = '/assets/';
-    L.tileLayer('http://{s}.tile.cloudmade.com/1c76eefca5954c5abfa169b96dc96a35/997/256/{z}/{x}/{y}.png', {
+    L.tileLayer('//{s}.tiles.mapbox.com/v3/grt777.j18k947c/{z}/{x}/{y}.png', {
         attribution: '', detectRetina: true
     }).addTo(map);
 
@@ -14,7 +14,7 @@ $(function() {
     var markers = new L.MarkerClusterGroup();
     var bounds = new L.LatLngBounds();
 
-    
+
     //for(var i = 0; i < categories.length; i++) {
         //console.log("category name - " + $categories[$i]['name'] );
         var locations = window.locations;//categories[i]['locations'];
@@ -42,7 +42,7 @@ $(function() {
         map = L.map('profile-map', {scrollWheelZoom: false}).setView([49.249935,-123.112457],12);
         L.Icon.Default.imagePath = '/assets/';
         //1c76eefca5954c5abfa169b96dc96a35
-        tiles = L.tileLayer('http://{s}.tile.cloudmade.com/1c76eefca5954c5abfa169b96dc96a35/997/256/{z}/{x}/{y}.png', {
+        tiles = L.tileLayer('//{s}.tiles.mapbox.com/v3/grt777.j18k947c/{z}/{x}/{y}.png', {
             attribution: '',
             maxZoom: 18
         })
@@ -57,7 +57,7 @@ $(function() {
 
         $('#map-tab').click(function(){
            map.invalidateSize(false);
-            
+
             // var loc = Window.profile_marker;
             // var pt = new L.LatLng(loc['lat'], loc['long']);
             // map.setView(pt, 16, true);

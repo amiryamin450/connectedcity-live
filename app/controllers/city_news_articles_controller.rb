@@ -1,4 +1,6 @@
 class CityNewsArticlesController < ApplicationController
+  load_and_authorize_resource
+  
   # GET /city_news_articles
   # GET /city_news_articles.json
   def index

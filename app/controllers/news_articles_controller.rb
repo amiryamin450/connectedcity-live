@@ -1,11 +1,13 @@
 class NewsArticlesController < ApplicationController
+  load_and_authorize_resource
+  
   # GET /news_articles
   # GET /news_articles.json
   def index
 
     @location = Location.find(params[:location_id])
     @news_articles = @location.news_articles
-    
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @news_articles }
@@ -48,7 +50,7 @@ class NewsArticlesController < ApplicationController
 
     @location = Location.find(params[:location_id])
     @news_article = @location.news_articles.new(params[:news_article])
-    
+
     respond_to do |format|
       if @news_article.save
         format.html { redirect_to location_news_article_url(@location, @news_article), notice: 'News article was successfully created.' }

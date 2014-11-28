@@ -1,5 +1,5 @@
 class NeighborhoodsController < ApplicationController
-  load_and_authorize_resource :neighborhood 
+  load_and_authorize_resource
 
   def index
     @q = Neighborhood.search(params[:q])

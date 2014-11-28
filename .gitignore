@@ -81,3 +81,13 @@ config/settings/*.local.yml
 config/environments/*.local.yml
 
 /public/system
+solr/conf/admin-extra.html
+solr/conf/elevate.xml
+solr/conf/mapping-ISOLatin1Accent.txt
+solr/conf/protwords.txt
+solr/conf/schema.xml
+solr/conf/scripts.conf
+solr/conf/solrconfig.xml
+solr/conf/spellings.txt
+solr/conf/stopwords.txt
+solr/conf/synonyms.txt

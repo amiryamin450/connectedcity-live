@@ -1,4 +1,5 @@
 class CityNewsCategoriesController < ApplicationController
+  load_and_authorize_resource
   # GET /city_news_categories
   # GET /city_news_categories.json
   def index
@@ -14,7 +15,7 @@ class CityNewsCategoriesController < ApplicationController
   # GET /city_news_categories/1.json
   def show
     @city_news_category = CityNewsCategory.find(params[:id])
-    
+
     add_crumb 'City News', city_news_guide_path
     add_crumb @city_news_category.name
 
