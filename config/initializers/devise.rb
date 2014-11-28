@@ -210,7 +210,7 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
   #ENV['FACEBOOK_KEY'] = '116899878458040'
   #ENV['FACEBOOK_SECRET'] = 'ccb6ac58c2009e241be8c95e5c77766e'
-  config.omniauth :facebook, "116899878458040", "ccb6ac58c2009e241be8c95e5c77766e", :display => 'popup' #, :client_options => {:ssl => {:ca_path => "/usr/local/etc/openssl/certs"}}
+  # config.omniauth :facebook, "116899878458040", "ccb6ac58c2009e241be8c95e5c77766e", :display => 'popup' #, :client_options => {:ssl => {:ca_path => "/usr/local/etc/openssl/certs"}}
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
@@ -235,5 +235,3 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = "/my_engine/users/auth"
 end
-
-
