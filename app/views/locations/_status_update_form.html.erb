@@ -9,6 +9,8 @@
     <div>
       <%= b.label 'Update Text' %>
       <%= b.text_area :content, :rows => 3, style: 'width: 515px' %>
+      <%= b.label 'Optional Image' %>
+      <%= b.file_field :image %>
     </div>
     <% end %>
   </div>

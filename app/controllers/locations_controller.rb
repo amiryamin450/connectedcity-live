@@ -99,6 +99,7 @@ class LocationsController < ApplicationController
   # PUT /locations/1
   # PUT /locations/1.json
   def update
+    binding.pry
     @location = Location.find(params[:id])
 
     respond_to do |format|
