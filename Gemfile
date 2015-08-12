@@ -1,89 +1,91 @@
 source 'https://rubygems.org'
-
-# gem 'tire'
-gem "auto_html"
-gem 'activerecord-mysql2spatial-adapter'
-gem 'ancestry'
-gem 'bootstrap-datetimepicker-rails'
-gem 'bootstrap-wysihtml5-rails'
-gem 'cancan'
-gem 'cape'
-gem 'crummy'
-gem 'dalli'
-gem 'devise'
-gem 'font-awesome-rails'
-gem 'friendly_id'
-gem 'geocoder'
-gem 'jqcloud-rails'
-gem 'jquery-fileupload-rails'
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
-gem 'kaminari'
-gem 'mechanize'
-gem 'money-rails'
-gem 'mysql2'
-gem 'nokogiri'
-gem 'omniauth-facebook'
-gem 'paperclip'
-gem 'progress_bar'
 gem 'rails'
-gem 'rails_config'
-gem 'ransack'
-gem 'rgeo'
-gem 'rgeo-activerecord'
-gem 'rmagick', '~> 2.13.2'
+gem 'mysql2'
+
+
+gem 'jquery-rails'
+gem 'bootstrap-wysihtml5-rails'
+gem 'jquery-ui-rails'
+
+
+
+
+gem 'devise'
+gem 'cancan'
 gem 'rolify'
-gem 'sidekiq'
 gem 'simple_form'
+gem 'friendly_id'
+gem 'paperclip'
+gem 'jquery-fileupload-rails'
+gem 'kaminari'
+gem 'geocoder'
+gem 'omniauth-facebook'
+gem 'rmagick', '~> 2.13.2'
+gem 'ancestry'
+gem 'ransack'
+gem 'bootstrap-datetimepicker-rails'
+gem 'mechanize'
+gem 'nokogiri'
+gem 'yaml_db'
+gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim'
+# gem 'tire'
+gem 'crummy'
+gem 'truncate_html'
+gem 'dalli'
+gem 'font-awesome-rails'
+gem 'money-rails'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
-gem 'truncate_html'
-gem 'yaml_db'
+gem 'progress_bar'
+gem "auto_html"
+gem 'jqcloud-rails'
+
+gem 'rails_config'
+gem 'cape'
 
 group :production, :staging do
   gem 'aws-sdk'
   gem 'puma'
 end
 
+
 group :assets do
-  gem 'bootstrap-colorpicker-rails'
-  gem 'bootstrap-sass'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'compass-rails'
   gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
+  gem 'bootstrap-sass'
   gem 'uglifier', '>= 1.0.3'
+  gem 'compass-rails'
+  gem 'bootstrap-colorpicker-rails'
 end
 
 group :development, :test do
-  # gem 'activerecord-postgis-adapter'
-  # gem 'pg'
+  gem 'factory_girl_rails'
+  gem 'rspec-rails'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'factory_girl_rails'
   gem 'meta_request'
-  gem 'rspec-rails'
+  # gem 'activerecord-postgis-adapter'
+  # gem 'pg'
+
 end
 
 group :test do
-  gem 'capybara'
   gem 'database_cleaner'
+  gem 'capybara'
   gem 'email_spec'
-  gem 'faker'
   gem 'guard-rspec'
-  gem 'launchy'
   gem 'rb-fsevent'
+  gem 'faker'
+  gem 'launchy'
 end
 
 group :development do
-  gem 'byebug'
-  gem 'capistrano', '< 3.0.0'
-  gem 'pry'
-  gem 'pry-byebug'
-  gem 'pry-rails'
   gem 'quiet_assets'
-  gem 'rvm-capistrano', require: false
-  gem 'seed_dump'
   gem 'thin'
+  gem 'seed_dump'
+  gem 'capistrano', '< 3.0.0'
+  gem 'rvm-capistrano'
+
 end
