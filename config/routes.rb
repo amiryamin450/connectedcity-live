@@ -63,7 +63,7 @@ Connectbook::Application.routes.draw do
   end
 
   resources :locations, path: 'business', as: :locations do 
-    resources :status_updates
+    resources :status_updates, path: 'status-updates', only: [:new, :create]
     resources :news_articles, path: 'news'
     resources :blog_entries, path: 'blog'
     resources :products

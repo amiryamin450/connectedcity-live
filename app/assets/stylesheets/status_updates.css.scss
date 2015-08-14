@@ -26,6 +26,12 @@
 
 }
 
+#status_update {
+  .dz-message {
+    line-height: 4em;
+  }
+}
+
   .date {
     width: 100%;
     @include border-radius(5px);

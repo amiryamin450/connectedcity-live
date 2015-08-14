@@ -286,6 +286,9 @@
 </div>
 
 <!--- Modals -->
+
+<%= render 'status_updates/show_image' %>
+
 <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
 
 

@@ -1,3 +1,4 @@
+# TODO: remove, no longer used
 class SubRegionsController < ApplicationController
   def homepage
     set_region
