@@ -49,10 +49,15 @@
             <% end %>
 
             
-            <% if !@location.user.present? and user_signed_in? %>
+            <% if !@location.user.present? and user_signed_in? and !@location.claim_pending %>
               <%= link_to "Claim Business", claim_location_path(@location), class: 'btn btn-mini btn-success' %>
-            <% elsif @location.user.present? and current_user == @location.user %>
+            <% elsif @location.user.present? and current_user == @location.user and !@location.claim_pending %>
               <%= link_to "Release Business", release_location_path(@location), class: 'btn btn-mini btn-danger' %>
+            <% elsif @location.user.present? and current_user == @location.user and @location.claim_pending %>  
+              <span class="btn btn-mini btn-info">Claim Pending</span>
+              <div class="processing-claim">
+                We have recieved your claim and are processing it.
+              </div>
             <% end -%>
       
         </div>
@@ -286,6 +291,9 @@
 </div>
 
 <!--- Modals -->
+
+<%= render 'status_updates/show_image' %>
+
 <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
 
 

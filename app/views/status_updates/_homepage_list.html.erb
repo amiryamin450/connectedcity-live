@@ -1,0 +1,13 @@
+<div class="span6">
+  <div class="holder pad10">
+    <h5>Market Updates</h5>
+    <% if zone.status_updates.size > 0 %>
+      <%= render zone.status_updates.where(statusable_type: 'Location').order(:created_at) %>
+    <% else %>
+    <div class="alert">No Market Updates found.</div>
+    <% end %>
+  </div>
+</div>
+
+<!--- Modals -->
+<%= render 'status_updates/show_image' %>

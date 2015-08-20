@@ -1,3 +1,4 @@
+# TODO: remove, no longer used
 class Region < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]

@@ -22,6 +22,9 @@ GEM
       activesupport (= 3.2.13)
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
+    activerecord-mysql2spatial-adapter (0.4.3)
+      mysql2 (>= 0.2.13)
+      rgeo-activerecord (~> 0.4.5)
     activeresource (3.2.13)
       activemodel (= 3.2.13)
       activesupport (= 3.2.13)
@@ -52,6 +55,9 @@ GEM
     bootstrap-wysihtml5-rails (0.3.1.20)
       railties (>= 3.0)
     builder (3.0.4)
+    byebug (2.7.0)
+      columnize (~> 0.3)
+      debugger-linecache (~> 1.2)
     callsite (0.0.11)
     cancan (1.6.10)
     cape (1.8.0)
@@ -82,6 +88,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.2)
+    columnize (0.9.0)
     compass (0.12.2)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
@@ -94,6 +101,7 @@ GEM
     dalli (2.6.4)
     database_cleaner (1.0.1)
     debug_inspector (0.0.2)
+    debugger-linecache (1.2.0)
     devise (2.2.4)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -102,6 +110,8 @@ GEM
     diff-lcs (1.2.4)
     domain_name (0.5.11)
       unf (>= 0.0.5, < 1.0.0)
+    dropzonejs-rails (0.7.1)
+      rails (> 3.1)
     email_spec (1.4.0)
       launchy (~> 2.1)
       mail (~> 2.2)
@@ -239,6 +249,11 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
+    pry-byebug (1.3.2)
+      byebug (~> 2.7)
+      pry (~> 0.9.12)
+    pry-rails (0.3.4)
+      pry (>= 0.9.10)
     puma (2.9.0)
       rack (>= 1.1, < 2.0)
     quiet_assets (1.0.2)
@@ -287,6 +302,11 @@ GEM
     redis (3.0.4)
     redis-namespace (1.3.0)
       redis (~> 3.0.0)
+    rgeo (0.3.20)
+    rgeo-activerecord (0.4.6)
+      activerecord (>= 3.0.3)
+      arel (>= 2.0.6)
+      rgeo (>= 0.3.20)
     rinku (1.5.1)
     rmagick (2.13.2)
     rolify (3.2.0)
@@ -374,6 +394,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord-mysql2spatial-adapter
   ancestry
   auto_html
   aws-sdk
@@ -383,6 +404,7 @@ DEPENDENCIES
   bootstrap-datetimepicker-rails
   bootstrap-sass
   bootstrap-wysihtml5-rails
+  byebug
   cancan
   cape
   capistrano (< 3.0.0)
@@ -393,6 +415,7 @@ DEPENDENCIES
   dalli
   database_cleaner
   devise
+  dropzonejs-rails
   email_spec
   factory_girl_rails
   faker
@@ -414,12 +437,17 @@ DEPENDENCIES
   omniauth-facebook
   paperclip
   progress_bar
+  pry
+  pry-byebug
+  pry-rails
   puma
   quiet_assets
   rails
   rails_config
   ransack
   rb-fsevent
+  rgeo
+  rgeo-activerecord
   rmagick (~> 2.13.2)
   rolify
   rspec-rails
@@ -436,3 +464,6 @@ DEPENDENCIES
   truncate_html
   uglifier (>= 1.0.3)
   yaml_db
+
+BUNDLED WITH
+   1.10.6

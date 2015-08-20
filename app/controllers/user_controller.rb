@@ -1,6 +1,6 @@
 class UserController < ApplicationController
   before_filter :authenticate_user!
-  load_and_authorize_resource except: [:release_coupon]
+  load_and_authorize_resource except: [:release_coupon, :coupons, :favorites]
 
   skip_before_filter :require_no_authentication, :only => [:new, :create]
 
@@ -81,9 +81,9 @@ class UserController < ApplicationController
 
   def make_admin
     user = User.find(params[:id])
-    user.add_role :admin 
+    user.add_role :admin
     user.save
-    
+
     redirect_to user_index_path
   end
 
@@ -91,11 +91,11 @@ class UserController < ApplicationController
     user = User.find(params[:id])
     user.remove_role :admin
     user.save
-    redirect_to user_index_path 
+    redirect_to user_index_path
   end
 
   def favorites
-    @vertical_markets = VerticalMarket.all 
+    @vertical_markets = VerticalMarket.all
     @user = User.find(params[:id])
 
   end

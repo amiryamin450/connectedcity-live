@@ -24,4 +24,5 @@
 //= require jquery.cookie.js
 //= require bootstrap-colorpicker
 //= require jqcloud
+//= require dropzone
 //= require_tree .

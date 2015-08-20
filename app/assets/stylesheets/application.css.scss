@@ -20,6 +20,7 @@
 @import "classified_listings";
 @import "bootstrap-colorpicker";
 @import "jqcloud";
+@import "dropzone/basic";
 
 
 body {
@@ -409,6 +410,7 @@ article {
     margin-bottom: 1.5em;
     .article-title { font-weight: bold;}
     .article-published { font-style: italic; font-size: .8em;}
+    .article-image { float: left; margin-right: 5px; }
   }
 }
 .location-nav {

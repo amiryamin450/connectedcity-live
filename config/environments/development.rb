@@ -18,7 +18,15 @@ Connectbook::Application.configure do
   # ActionMailer Config
   config.action_mailer.delivery_method = :smtp
   # change to true to allow email to be sent during development
-  config.action_mailer.perform_deliveries = false
+  config.action_mailer.perform_deliveries = true
+
+  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.smtp_settings = {
+    :address => 'localhost',
+    :domain => 'localhost',
+    :port => 25
+  }  
+
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default :charset => "utf-8"
 

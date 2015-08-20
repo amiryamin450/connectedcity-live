@@ -10,11 +10,19 @@ class StatusUpdate < ActiveRecord::Base
 
   default_scope order('created_at DESC')
 
-  attr_accessible :content, :provider, :district_id, :neighborhood_id, :latitude, :longitude, :city_id, :province_id, 
-                  :vertical_markets, :vertical_market_categories
-  validates_presence_of :content
+  has_attached_file :image, :styles => { :thumb => "40x40#", :large => "320x>"},
+                    :url => "/assets/status_update/:id/:style/:basename.:extension",
+                    :path => ":rails_root/public/assets/status_update/:id/:style/:basename.:extension"
 
-  before_validation do 
+  attr_accessible :content, :provider, :district_id, :neighborhood_id, :latitude, :longitude, :city_id, :province_id, 
+                  :vertical_markets, :vertical_market_categories, :image
+
+  validates_presence_of :content, message: "Content can't be blank"
+  validates_length_of :content, maximum: 255
+  validates_attachment_size :image, less_than: 3.megabytes
+  validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/, message: "Please upload a valid image. Accepted types include jpg, png and gif."
+
+  before_save do 
     self.district_id = self.statusable.district_id
     self.neighborhood_id = self.statusable.neighborhood_id
     self.latitude = self.statusable.latitude

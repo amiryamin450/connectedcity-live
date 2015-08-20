@@ -1,14 +1,19 @@
-<%= simple_form_for(@status_update) do |f| %>
-  <%= f.error_notification %>
-
-  <div class="form-inputs">
-    <%= f.input :title %>
-    <%= f.input :content %>
-    <%= f.input :provider %>
-    <%= f.input :location_id %>
+<%= simple_form_for [@location, @status_update], remote: true do |f| %>
+  <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="status_update_label">What's Happening?</h3>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <div class="modal-body">
+    <%= f.error_notification %>
+    <div class="form-inputs">
+      <%= f.label 'Content' %>
+      <%= f.text_area :content, :rows => 3, style: 'width: 515px' %>
+      <div class="dropzone">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+      <input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="Cancel" />
+      <%= f.button :submit, :class => 'btn btn-primary', id: 'status-update-submit' %>
   </div>
 <% end %>

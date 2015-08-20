@@ -1,5 +1,9 @@
 <h1>Listing locations</h1>
 
+<div class="pull-right">
+  <%= link_to 'Show Pending Claims', pending_claims_locations_path %>
+</div>
+
 <%= search_form_for @search, class: 'form-search' do |f| %>
   <div class="input-append">
       <%= f.text_field :name_cont, class: 'search-query' %>
