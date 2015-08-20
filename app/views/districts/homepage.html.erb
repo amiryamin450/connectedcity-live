@@ -88,16 +88,7 @@
       </div>
     </div>
     <div class="row-fluid">
-      <div class="span6">
-        <div class="holder pad10">
-          <h5>Market Updates</h5>
-          <% if @district.status_updates.size > 0 %>
-          <%= render @district.status_updates.where(statusable_type: 'Location').order(:created_at) %>
-          <% else %>
-          <div class="alert">No Market Updates found.</div>
-          <% end %>
-        </div>
-      </div>
+      <%= render 'status_updates/homepage_list', zone: @district %>
 
       <div class="span6">
 

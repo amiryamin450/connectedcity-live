@@ -1,3 +1,4 @@
+# TODO: remove, no longer used
 class SubRegion < ActiveRecord::Base
 
   belongs_to :region

@@ -1,20 +1,3 @@
 <div class='modal hide fade' id="status_update" tabindex="-1" role="dialog" aria-labelledby="status_update_label" aria-hidden="true">
-  <%= simple_form_for @location, :html => {:style => 'margin-bottom: 0;'} do |f| %>
-  <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h3 id="status_update_label">What's Happening?</h3>
-  </div>
-  <div class="modal-body">
-    <%= f.fields_for :status_updates, @location.status_updates.build() do |b| %>
-    <div>
-      <%= b.label 'Update Text' %>
-      <%= b.text_area :content, :rows => 3, style: 'width: 515px' %>
-    </div>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-      <input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="Cancel" />
-      <%= f.button :submit, :class => 'btn btn-primary' %>
-  </div>
-  <% end %>
+  <%= render 'status_updates/form' %>
 </div>

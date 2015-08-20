@@ -1,10 +1,13 @@
 <div class="row-fluid status-update">
   <div class="span2">
       <%= image_tag status_update.statusable.logo.url %>
-
   </div>
   <div class="span10">
     <div class="name"><%= link_to status_update.statusable.name, statusable_path(status_update.statusable) %> <span class="time-ago"> <%= "#{time_ago_in_words(status_update.created_at)} ago" %></span></div>
-    <div><%= status_update.content %></div>
+    <div><%= status_update.content %> 
+    <% if status_update.image? %>
+      <%= link_to(content_tag(:span, "[image]", class: "status-update-image", data: {"large-image" => status_update.image.url, "location-name" => status_update.statusable.name}), '#status_update_image', data: {toggle: 'modal'}) %>
+    <% end %>
+    </div>
   </div>
 </div>

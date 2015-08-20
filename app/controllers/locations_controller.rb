@@ -35,7 +35,9 @@ class LocationsController < ApplicationController
 
     @rental_properties = @location.rental_properties.page(params[:rental_page]).per(12) if @location.vertical_market_categories.exists?(101)
     @new_home_communities = @location.new_home_communities.page(params[:communities_page]).per(12) if @location.vertical_market_categories.exists?(102)
-
+  
+    # TODO - should only happen if user is logged in and can post a status update
+    @status_update = @location.status_updates.build
 
     @vertical_market = @location.vertical_market_categories.first.vertical_market if @location.vertical_market_categories.size > 0
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131118235049) do
+ActiveRecord::Schema.define(:version => 20150812185427) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -845,6 +845,10 @@ ActiveRecord::Schema.define(:version => 20131118235049) do
     t.integer  "province_id"
     t.string   "vertical_markets"
     t.string   "vertical_market_categories"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   add_index "status_updates", ["statusable_type", "statusable_id"], :name => "index_status_updates_on_statusable_type_and_statusable_id"

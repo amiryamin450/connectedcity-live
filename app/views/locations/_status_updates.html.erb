@@ -10,6 +10,11 @@
   
   <% @status_updates.each do |s| %>
   <article class="teaser">      
+    <% if s.image? %>
+      <div class="article-image">
+        <%= link_to(image_tag(s.image.url(:thumb), class: 'status-update-image', data: {"large-image" => s.image.url, "location-name" => @location.name}), '#status_update_image', data: {toggle: 'modal'}) %>
+      </div>
+    <% end -%> 
     <div class="article-content"><%= truncate(s.content, length: 200, seperator: ' ') %></div>
     <div class="article-published"><%= "#{time_ago_in_words(s.created_at)} ago" %></div>
   </article>
