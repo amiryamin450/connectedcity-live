@@ -9,7 +9,7 @@ class Ability
       can :read, :all
       can :manage, ClassifiedListing, user_id: user.id
 
-      can :manage, Location, user_id: user.id, claim_pending: 0
+      can :manage, Location, user_id: user.id, claim_pending: false
 
       ###########################
       # Rules for User/Location #
