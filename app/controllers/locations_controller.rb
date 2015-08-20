@@ -2,24 +2,18 @@ class LocationsController < ApplicationController
   load_and_authorize_resource except: :claim
 
   layout 'location', :only => [:show]
-  # GET /locations
-  # GET /locations.json
+
   def index
 
     @search = Location.search(params[:q])
     @locations = @search.result.order(:name).page(params[:page])
 
     respond_to do |format|
-      format.html # index.html.erb
-      # format.json { render json: @locations.where("name like ?", "%#{params[:q]}%") }
+      format.html 
     end
   end
 
-  # GET /locations/1
-  # GET /locations/1.json
   def show
-
-
 
     @location = Location.includes(:location_images).find(params[:id])
     @status_updates = @location.status_updates.page(params[:status_page]).per(7)
@@ -130,9 +124,32 @@ class LocationsController < ApplicationController
     @location = Location.find(params[:id])
     if current_user
       @location.user = current_user
-      @location.save
+      @location.claim_pending = 1
+      if @location.save
+        LocationMailer.pending_claim_email(@location, current_user).deliver
+      end
       redirect_to @location
     end
+  end
+
+  def approve_claim
+    @location = Location.find(params[:id])
+    @location.claim_pending = 0
+    if @location.save
+      LocationMailer.claim_approved_email(@location, @location.user).deliver
+    end
+    redirect_to pending_claims_locations_path
+  end
+
+  def reject_claim
+    @location = Location.find(params[:id])
+    user = @location.user
+    @location.user = nil
+    @location.claim_pending = 0
+    if @location.save
+      LocationMailer.claim_rejected_email(@location, user).deliver
+    end
+    redirect_to pending_claims_locations_path
   end
 
   def release
@@ -140,6 +157,14 @@ class LocationsController < ApplicationController
     @location.user = nil
     @location.save
     redirect_to @location
+  end
+
+  def pending_claims
+    @locations = Location.all(:conditions => { :claim_pending => 1})
+
+    respond_to do |format|
+      format.html
+    end
   end
 
 end

@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
   end
 
   def can_manage_location?(location)
-    self.locations.where(id: location.id).exists?
+    self.locations.where(id: location.id, claim_pending: 0).exists?
   end
 
   def has_locations?
