@@ -1,5 +1,5 @@
 class BrandsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource except: [:autocomplete]
   # GET /brands
   # GET /brands.json
   def index
@@ -13,6 +13,7 @@ class BrandsController < ApplicationController
   end
 
   def autocomplete
+    @brands = Brand
     respond_to do |format|
       format.json { render json: @brands.where("name like ?", "%#{params[:q]}%")  }
     end

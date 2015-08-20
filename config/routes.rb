@@ -1,132 +1,176 @@
-require 'sidekiq/web'
-
 Connectbook::Application.routes.draw do
-
-  
-
-
-  resources :city_news_articles, path: 'city-news'
-
-
-  resources :city_news_categories
-
-
-   mount Sidekiq::Web, at: "/sidekiq"
-
-
-
   devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks'}
-  devise_scope :user do 
+  devise_scope :user do
     get '/login' => 'devise/sessions#new'
     get '/logout' => 'devise/sessions#destroy'
   end
 
-  resources :user, controller: 'user' do
-    member do
-      get :make_admin
-      get :remove_admin
-      get :favorites
-      get :coupons
+  # Routes that require authentication.
+  authenticate :user do
+    resources :classified_images, only: [:destroy]
+    resources :classified_listings, except: [:index, :show]
+    resources :favorites, only: [:create, :destroy]
+    resources :location_images, only: [:destroy]
+
+    resources :business_improvement_areas, path: 'bia', only: [] do
+      resources :carousel_images, defaults: { carouselable: 'business_improvement_area' }
     end
-  end
 
-
-  match ':status', to: 'errors#show', constraints: { status: /\d{3}/ }, as: :error_page
-  resources :businesses, path: 'account'
-
-
-
-
-  resources :cities, :communities, :regions, :provinces, :countries
-  resources :location_images, :only => [:destroy]
-  resources :favorites, :only => [:create, :destroy]
-  resources :vertical_market_categories, :vertical_markets, :neighborhoods
-  resources :brands
-  resources :classified_categories
-  resources :classified_listings, :classified_images
-  resources :trade_associations
-
-  resources :employment_categories
-
-  resources :business_improvement_areas, path: 'bia' do 
-    resources :carousel_images, defaults: { carouselable: 'business_improvement_area' }
-  end
-
-  resources :districts do 
-    resources :carousel_images, defaults: { carouselable: 'district' }
-  end
-
-  resources :businesses do
-    member do
-      put 'user_add(/:user_id)', action: :user_add, as: :user_add
-    end
-  end
-
-  resources :locations, path: 'business', as: :locations do 
-    resources :status_updates, path: 'status-updates', only: [:new, :create]
-    resources :news_articles, path: 'news'
-    resources :blog_entries, path: 'blog'
-    resources :products
-    resources :services
-    resources :events
-    resources :automotive_listings
-    resources :coupons do 
-      member do 
+    resources :coupons, only: [] do
+      member do
         get :claim
       end
     end
-    resources :media_attachments
-    resources :real_estate_listings, path: 'listings' do 
-      resources :real_estate_listings_images
-    end
-    resources :employment_listings
-    resources :rental_properties do
-      resources :rental_units
-    end
-    
-    resources :new_home_communities do
-      resources :new_homes
+
+    resources :districts, only: [] do
+      resources :carousel_images, defaults: { carouselable: 'district' }
     end
 
-    member do
-      get 'claim', action: :claim, as: :claim
-      get 'release', action: :release, as: :release
+    resources :locations, path: 'business', as: :locations, only: [:edit, :update] do
+      resources :automotive_listings, except: [:show]
+      resources :blog_entries, path: 'blog', except: [:show]
+      resources :coupons, except: [:show]
+      resources :employment_listings, except: [:show]
+      resources :events, except: [:show]
+      resources :media_attachments, only: [:new, :create]
+      resources :news_articles, path: 'news', except: [:show]
+      resources :products, except: [:show]
+      resources :services, except: [:show]
+      resources :real_estate_listings, path: 'listings', except: [:show]
+      resources :status_updates, path: 'status-updates', only: [:new, :create]
+
+      resources :real_estate_listings, path: 'listings', except: [:show] do
+        resources :real_estate_listings_images, only: [:destroy]
+      end
+
+      member do
+        get 'claim', action: :claim, as: :claim
+        get 'release', action: :release, as: :release
+      end
     end
 
+    resources :user, controller: 'user', only: [] do
+      member do
+        get :coupons
+        get :favorites
+      end
+    end
+
+    get 'brands_autocomplete' => 'brands#autocomplete'
+    get 'profile' => 'profile#show'
+    get 'redeem/coupon/:id', to: 'coupons#redeem', as: :redeem_coupon
+    get 'release/coupon/:id', to: 'user#release_coupon', as: :release_coupon
+
+    # This isn't being called anywhere and requires users to be logged in.
+    # ^FD 2015-08-14
+    # get 'js/autocomplete/users' => 'autocomplete#users', as: :users_autocomplete
   end
 
+  # Routes that require an authenticated administrator.
+  authenticated :user, lambda { |u| u.has_role? :admin } do
+    require 'sidekiq/web'
+    mount Sidekiq::Web, at: '/sidekiq'
+
+    resources :brands, except: [:show]
+    resources :businesses, path: 'account'
+    resources :cities
+    resources :city_news_articles, path: 'city-news', except: [:show]
+    resources :city_news_categories, except: [:show]
+    resources :classified_categories, except: [:show]
+    resources :communities
+    resources :countries
+    resources :employment_categories, except: [:show]
+    resources :neighborhoods
+    resources :provinces
+    resources :regions
+    resources :trade_associations, except: [:show]
+    resources :vertical_market_categories
+    resources :vertical_markets
+    resources :business_improvement_areas, path: 'bia', except: [:show]
+    resources :districts, except: [:show]
+
+    resources :businesses do
+      member do
+        put 'user_add(/:user_id)', action: :user_add, as: :user_add
+      end
+    end
+
+    resources :user, controller: 'user' do
+      member do
+        get :make_admin
+        get :remove_admin
+      end
+    end
+
+    resources :locations, path: 'business', as: :locations, except: [:show] do
+      resources :status_updates, path: 'status-updates', except: [:new, :create]
+    end
+
+    resources :new_home_communities, except: [:show] do
+      resources :new_homes, except: [:show]
+    end
+
+    get 'admin/connected_advertiser' => 'home#connected_advertiser', as: :connected_advertiser
+  end
+
+  # Unauthenticated routes
+  resources :brands, only: [:show]
+  resources :business_improvement_areas, path: 'bia', only: [:show]
+  resources :city_news_articles, path: 'city-news', only: [:show]
+  resources :city_news_categories, only: [:show]
+  resources :classified_categories, only: [:show]
+  resources :classified_listings, only: [:index, :show]
+  resources :districts, only: [:show]
+  resources :employment_categories, only: [:show]
+  resources :trade_associations, only: [:show]
+
+  resources :locations, path: 'business', as: :locations, only: [:show] do
+    resources :automotive_listings, only: [:show]
+    resources :blog_entries, path: 'blog', only: [:show]
+    resources :coupons, only: [:show]
+    resources :employment_listings, only: [:show]
+    resources :events, only: [:show]
+    resources :media_attachments, only: [:show]
+    resources :news_articles, path: 'news', only: [:show]
+    resources :products, only: [:show]
+    resources :real_estate_listings, path: 'listings', only: [:show]
+    resources :services, only: [:show]
+
+    resources :new_home_communities, only: [:show] do
+      resources :new_homes, only: [:show]
+    end
+
+    resources :rental_properties, only: [:show] do
+      resources :rental_units, only: [:show]
+    end
+  end
+
+  # These actions don't expect a sub_market parameters so I removed them for
+  # now. ^FD 2015-08-14
+  # get 'search/:market/:sub_market' => 'vertical_markets#search', as: :region_sub_market_search
+  # get 'guide/:market/:sub_market' => 'vertical_markets#guide', as: :region_sub_market_guide
+  # get ':district_route/search/:market/:sub_market' => 'vertical_markets#search'
 
   get ':district_route/guide/:market' => 'vertical_markets#guide'
+  get 'guide/:market' => 'vertical_markets#guide', as: :region_market_guide
+
   get ':district_route/business/:id' => 'locations#show', as: :district_location_path
   get ':district_route/:neighborhood/guide/:market' => 'vertical_markets#guide', as: :district_neighborhood_guide
   get ':district_route/:neighborhood/business/:id' => 'locations#show', as: :district_neighborhood_location
-  get 'admin/connected_advertiser' => 'home#connected_advertiser', as: :connected_advertiser
 
   get 'search' => 'vertical_markets#search'
-  get 'search/:market/:sub_market' => 'vertical_markets#search', as: :region_sub_market_search
-  get 'guide/:market/:sub_market' => 'vertical_markets#guide', as: :region_sub_market_guide
-
+  get 'search/:market' => 'vertical_markets#search', as: :region_market_search
   get ':district_route/search' => 'vertical_markets#search'
   get ':district_route/search/:market' => 'vertical_markets#search'
-  get ':district_route/search/:market/:sub_market' => 'vertical_markets#search'
-  get 'search/:market' => 'vertical_markets#search', as: :region_market_search
-  get 'guide/:market' => 'vertical_markets#guide', as: :region_market_guide
 
   get 'employment-opportunities' => 'employment_listings#guide', as: :employment_opportunity
-  get 'classifieds' => 'classified_listings#guide', as: :classifieds 
+  get 'classifieds' => 'classified_listings#guide', as: :classifieds
   get ':district_route/category/:id' => 'vertical_market_categories#show'
   get 'category/:id' => 'vertical_market_categories#show'
   get 'city-news-guide' => 'city_news_articles#guide', as: :city_news_guide
 
-  get 'profile' => 'profile#show'
-  get 'brands_autocomplete' => 'brands#autocomplete'
-  get '/js/autocomplete/users' => 'autocomplete#users', :as => :users_autocomplete
-
-#ActiveAdmin.routes(self)
-
   root to: 'cities#homepage'
-  get '/release/coupon/:id', to: 'user#release_coupon', as: :release_coupon
-  get '/redeem/coupon/:id', to: 'coupons#redeem', as: :redeem_coupon
-  get ":district_route", to: 'districts#homepage', as: :district_guide
 
+  get ':district_route', to: 'districts#homepage', as: :district_guide
+  match ':status', to: 'errors#show', constraints: { status: /\d{3}/ }, as: :error_page
 end

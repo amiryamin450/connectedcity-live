@@ -1,6 +1,6 @@
 class CityNewsArticlesController < ApplicationController
-  load_and_authorize_resource
-  
+  load_and_authorize_resource except: [:guide]
+
   # GET /city_news_articles
   # GET /city_news_articles.json
   def index
