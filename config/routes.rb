@@ -104,6 +104,13 @@ Connectbook::Application.routes.draw do
 
     resources :locations, path: 'business', as: :locations, except: [:show] do
       resources :status_updates, path: 'status-updates', except: [:new, :create]
+      collection do
+        get :pending_claims
+      end
+      member do
+        get :approve_claim
+        get :reject_claim
+      end
     end
 
     resources :new_home_communities, except: [:show] do
@@ -150,7 +157,6 @@ Connectbook::Application.routes.draw do
   # get 'search/:market/:sub_market' => 'vertical_markets#search', as: :region_sub_market_search
   # get 'guide/:market/:sub_market' => 'vertical_markets#guide', as: :region_sub_market_guide
   # get ':district_route/search/:market/:sub_market' => 'vertical_markets#search'
-
   get ':district_route/guide/:market' => 'vertical_markets#guide'
   get 'guide/:market' => 'vertical_markets#guide', as: :region_market_guide
 
