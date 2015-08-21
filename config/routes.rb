@@ -54,6 +54,7 @@ Connectbook::Application.routes.draw do
       member do
         get 'claim', action: :claim, as: :claim
         get 'release', action: :release, as: :release
+        get :connected_advertiser
       end
 
       resources :social_profiles, path: "social-profiles", only: [:index, :destroy] do
@@ -142,8 +143,7 @@ Connectbook::Application.routes.draw do
     resources :new_home_communities, except: [:show] do
       resources :new_homes, except: [:show]
     end
-
-    get 'admin/connected_advertiser' => 'home#connected_advertiser', as: :connected_advertiser
+    
   end
 
   # resources :city_news_articles, path: 'news', only: [:guide] do
