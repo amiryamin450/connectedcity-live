@@ -5,6 +5,7 @@ jQuery ->
     dictDefaultMessage: "Click, or drop a file here to upload.",
     paramName: 'status_update[image]',
     maxFiles: 1,
+    addRemoveLinks: true,
     sending: (file, xhr, formData) ->
       formData.append('authenticity_token', $('#new_status_update input[name=authenticity_token]').val())
       formData.append('status_update[content]', $('#new_status_update #status_update_content').val())
