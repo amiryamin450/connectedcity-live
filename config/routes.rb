@@ -37,7 +37,7 @@ Connectbook::Application.routes.draw do
       resources :products, except: [:show]
       resources :services, except: [:show]
       resources :real_estate_listings, path: 'listings', except: [:show]
-      resources :status_updates, path: 'status-updates', only: [:new, :create]
+      resources :status_updates, path: 'status-updates', only: [:new, :create, :destroy]
 
       resources :real_estate_listings, path: 'listings', except: [:show] do
         resources :real_estate_listings_images, only: [:destroy]
