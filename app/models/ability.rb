@@ -11,9 +11,10 @@ class Ability
 
       can :manage, Location, user_id: user.id, claim_pending: false
 
-      ###########################
-      # Rules for User/Location #
-      ###########################
+      can :manage, LocationImage do |location_image|
+        can? :manage, location_image.location
+      end
+
       can :manage, BlogEntry do |blog|
         blog.bloggable.user_id == user.id
       end

@@ -6,11 +6,32 @@
     <div class="pad10 holder clearfix">
       <div class="row-fluid">    
         <div class="span12">
-          <% if @location.cover_photo %>
+          <% if @location.cover_photo and @location_images.present? %>
+            <div id="myCarousel" class="carousel slide">
+              <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <% @location_images.each_with_index do |image, index| %>
+                  <li data-target="#myCarousel" data-slide-to="<%= index+1 %>"></li>  
+                <% end %>                
+              </ol>
+              <div class="carousel-inner">
+                <div class="active item">
+                  <%= image_tag @location.cover_photo.url(:cover) %>
+                </div>
+                <% @location_images.each do |image| %>
+                  <div class="item">
+                    <%= image_tag image.image.url %>
+                  </div>
+                <% end %>
+              </div>
+              <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+              <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+            </div>          
+          <% elsif @location.cover_photo %>
             <%= image_tag @location.cover_photo.url(:cover) %>
           <% else %>
-          <%= image_tag "http://placehold.it/1280x400" %>
-          <% end -%>
+            <%= image_tag "http://placehold.it/1280x400" %>
+          <% end %>
         </div>
       </div>
 
@@ -63,19 +84,6 @@
         </div>
       </div>
 
-      <% if @location.location_images.size > 0 %>
-      <div class="row-fluid gallery-wrap">
-        <ul>
-          <% @location.location_images.each do |image| %>
-          <li>
-            <a href="#" class="">
-              <%= image_tag image.image.url(:thumb) %>
-            </a>
-          </li>
-          <% end %>
-        </ul>
-      </div>
-      <% end %>
       <% if @location.content.present? %>
       <div class="row-fluid" style="margin-top: 1em;">
         <div class="span12 description">

@@ -42,7 +42,9 @@ jQuery ->
     $.cookie("sidebar_class", $('#sidebar').attr('class'))
     return false
 
-
+  $('.carousel').carousel({
+    interval: false
+  })
 
   $('.dropdown-toggle').click ->
     $target = $('#' + $(this).data('toggle'))

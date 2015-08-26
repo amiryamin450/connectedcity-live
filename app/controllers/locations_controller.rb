@@ -15,7 +15,8 @@ class LocationsController < ApplicationController
 
   def show
 
-    @location = Location.includes(:location_images).find(params[:id])
+    @location = Location.find(params[:id])
+    @location_images = @location.location_images.size
     @status_updates = @location.status_updates.page(params[:status_page]).per(7)
     @articles = @location.news_articles.page(params[:article_page]).per(5)
     @blog_entries = @location.blog_entries.page(params[:blog_page]).per(5)
