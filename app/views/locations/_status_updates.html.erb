@@ -7,10 +7,10 @@
 <div id="status_updates">
   <% if @location.status_updates.size > 0 %>
 
-  
+
   <% @status_updates.each do |s| %>
-  <article class="teaser">      
-    <% if (user_signed_in? and current_user.can_manage_location? @location) %>
+  <article class="teaser">
+    <% if can? :manage, s %>
     <div style="float:right">
       <button type="button" class="close">
         <%= link_to '×', location_status_update_path(@location, s), method: :delete, data: { confirm: 'Are you sure?' }, class: 'delete' %>
@@ -20,7 +20,7 @@
       <div class="article-image">
         <%= link_to(image_tag(s.image.url(:thumb), class: 'status-update-image', data: {"large-image" => s.image.url, "location-name" => @location.name}), '#status_update_image', data: {toggle: 'modal'}) %>
       </div>
-    <% end %> 
+    <% end %>
     <div class="article-content"><%= truncate(s.content, length: 200, seperator: ' ') %></div>
     <div class="article-published"><%= "#{time_ago_in_words(s.created_at)} ago" %></div>
 
@@ -28,7 +28,7 @@
 
   <% end %>
   <%= paginate @status_updates, param_name: 'status_page' %>
-  
+
   <% else %>
   <div class="alert">No Status Updates found.</div>
   <% end %>
