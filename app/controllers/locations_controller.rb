@@ -9,21 +9,19 @@ class LocationsController < ApplicationController
     @locations = @search.result.order(:name).page(params[:page])
 
     respond_to do |format|
-      format.html 
+      format.html
     end
   end
 
   def show
 
-    @location = Location.find(params[:id])
-    @location_images = @location.location_images
+    @location = Location.includes(:location_images).find(params[:id])
 
     # because we have two sources for the location carousel images (cover photo and location images),
     # get them into one collection for ease of display
-    @location_carousel_images = @location_images.collect{ |li| li.image }
+    @location_carousel_images = @location.location_images.collect{ |li| li.image }
     @location_carousel_images.unshift(@location.cover_photo) if @location.cover_photo.exists?
 
-    # binding.pry
     @status_updates = @location.status_updates.page(params[:status_page]).per(7)
     @articles = @location.news_articles.page(params[:article_page]).per(5)
     @blog_entries = @location.blog_entries.page(params[:blog_page]).per(5)
@@ -37,7 +35,7 @@ class LocationsController < ApplicationController
 
     @rental_properties = @location.rental_properties.page(params[:rental_page]).per(12) if @location.vertical_market_categories.exists?(101)
     @new_home_communities = @location.new_home_communities.page(params[:communities_page]).per(12) if @location.vertical_market_categories.exists?(102)
-  
+
     # TODO - should only happen if user is logged in and can post a status update
     @status_update = @location.status_updates.build
 
