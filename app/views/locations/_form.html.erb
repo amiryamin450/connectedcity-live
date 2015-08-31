@@ -1,87 +1,88 @@
 <div class="pad10 holder" style="padding-left: 30px;">
-
-<%= simple_form_for(@location, :html => { :multipart => true, class: 'form-horizontal', id: 'fileupload' }) do |f| %>
-<%= f.error_notification %>
-
-<div class="tabbable">
-  <ul class="nav nav-pills">
-    <% if current_user.has_role? :admin %>
-    <li class="active"><a href="#location" data-toggle="tab">Location</a></li>
-    <li><a href="#info" data-toggle="tab">Info</a></li>
-    <% else %>
-    <li class="active"><a href="#info" data-toggle="tab">Info</a></li>
-    <% end %>
-    <li><a href="#profile" data-toggle="tab">Profile</a></li>
-    <li><a href="#images" data-toggle="tab">Images</a></li>
-    <% if @location.vertical_market_categories.exists?(100) %>
-    <li><a href="#agents" data-toggle="tab">Real Estate Agents</a></li>
-    <% end -%>
-  </ul>
-
-  <div class="tab-content">
-
-
-      <% if current_user.has_role? :admin %>
-        <div class="tab-pane active" id="location">          
-          <%= f.association :country %>
-          <%= f.association :province %>
-          <%= f.association :city %>
-          <%= f.association :district %>
-          <%= f.association :vertical_market_categories %>
-          
-        </div>
-        <div class="tab-pane" id="agents">
-          <%= link_to 'Create New Agent', new_location_path(broker_id: @location.id), class: 'btn'  %>
-        </div>
-      <% end -%>  
-      <div class="tab-pane <%= 'active' unless current_user.has_role? :admin %>" id="info">  
-        <%= f.input :broker_id, as: :hidden %>
-        <%= f.input :name %>
-        <%= f.input :address %>
-        <%= f.input :address_1 %>
-        <%= f.input :postal_code %>
-        <%= f.association :business_improvement_area, prompt: 'None' %>
-        <%= f.association :trade_associations %>
-        <%= f.input :phone %>
-        <%= f.input :show_phone %>
-        <%= f.input :toll_free %>
-        <%= f.input :show_toll_free %>
-        <%= f.input :fax %>
-        <%= f.input :show_fax %>
-      
-        <div class="control-group string optional">
-          <label class="string optional control-label" for="location_brand_ids">Brands</label>
-          <div class="controls">
-            <%= f.text_field :brand_tokens, data: {load: @location.brands} %>
+  <%= simple_form_for(@location, :html => { :multipart => true, class: 'form-horizontal', id: 'fileupload' }) do |f| %>
+    <%= f.error_notification %>
+    <div class="tabbable">
+      <ul class="nav nav-pills">
+        <% if current_user.has_role? :admin %>
+          <li class="active">
+            <a href="#location" data-toggle="tab">Location</a></li>
+          <li>
+            <a href="#info" data-toggle="tab">Info</a>
+          </li>
+        <% else %>
+          <li class="active">
+            <a href="#info" data-toggle="tab">Info</a>
+          </li>
+        <% end %>
+        <li>
+          <a href="#profile" data-toggle="tab">Profile</a>
+        </li>
+        <li>
+          <a href="#images" data-toggle="tab">Images</a>
+        </li>
+        <li>
+          <a href="#managers" data-toggle="tab">Managers</a>
+        </li>
+        <% if @location.vertical_market_categories.exists?(100) %>
+          <li>
+            <a href="#agents" data-toggle="tab">Real Estate Agents</a>
+          </li>
+        <% end -%>
+      </ul>
+      <div class="tab-content">
+        <% if current_user.has_role? :admin %>
+          <div class="tab-pane active" id="location">          
+            <%= f.association :country %>
+            <%= f.association :province %>
+            <%= f.association :city %>
+            <%= f.association :district %>
+            <%= f.association :vertical_market_categories %>
+          </div>
+          <div class="tab-pane" id="agents">
+            <%= link_to 'Create New Agent', new_location_path(broker_id: @location.id), class: 'btn'  %>
+          </div>
+        <% end -%>  
+        <div class="tab-pane <%= 'active' unless current_user.has_role? :admin %>" id="info">  
+          <%= f.input :broker_id, as: :hidden %>
+          <%= f.input :name %>
+          <%= f.input :address %>
+          <%= f.input :address_1 %>
+          <%= f.input :postal_code %>
+          <%= f.association :business_improvement_area, prompt: 'None', disabled: true %>
+          <%= f.association :trade_associations %>
+          <%= f.input :phone %>
+          <%= f.input :show_phone %>
+          <%= f.input :toll_free %>
+          <%= f.input :show_toll_free %>
+          <%= f.input :fax %>
+          <%= f.input :show_fax %>
+          <div class="control-group string optional">
+            <label class="string optional control-label" for="location_brand_ids">Brands</label>
+            <div class="controls">
+              <%= f.text_field :brand_tokens, data: {load: @location.brands} %>
+            </div>
           </div>
         </div>
+        <div class="tab-pane" id="profile">        
+          <%= f.input :content, input_html: {class: '', style: 'width: 810px; height: 350px;', placeholder: 'Enter text ...'} %>
+          <%= f.input :website_url %>
+          <%= f.input :email %>
+          <%= f.input :logo, as: :logo_preview %>
+          <%= f.input :delete_logo, as: :boolean %>
+          <%= f.input :cover_photo, as: :logo_preview %>
+          <%= f.input :delete_cover_photo, as: :boolean %>
+        </div>
+        <div class="tab-pane" id="images">
+          <%= render 'location_images', :f => f  %>
+        </div>
+        <div class="tab-pane" id="managers">
+          <%= render 'managers'  %>    
+        </div>          
       </div>
-
-      <div class="tab-pane" id="profile">        
-        <%= f.input :content, input_html: {class: '', style: 'width: 810px; height: 350px;', placeholder: 'Enter text ...'} %>
-        <%= f.input :website_url %>
-        <%= f.input :email %>
-        <%= f.input :logo, as: :logo_preview %>
-        <%= f.input :delete_logo, as: :boolean %>
-        <%= f.input :cover_photo, as: :logo_preview %>
-        <%= f.input :delete_cover_photo, as: :boolean %>
-
-      </div>
-      <div class="tab-pane" id="images">
-
-        <%= render 'location_images', :f => f  %>
-
-      </div>
-
-
-
-
-  </div>
-</div>
-
-<div class="form-actions">
-  <%= f.button :submit, class: 'btn-primary' %>
-  <%= link_to 'Back', @location, class: 'btn' %>
-</div>
-<% end %>
+    </div>
+    <div class="form-actions">
+      <%= f.button :submit, class: 'btn-primary' %>
+      <%= link_to 'Back', @location, class: 'btn' %>
+    </div>
+  <% end %>
 </div>

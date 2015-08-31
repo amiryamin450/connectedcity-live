@@ -9,22 +9,26 @@ class Ability
       can :read, :all
       can :manage, ClassifiedListing, user_id: user.id
 
-      can :manage, Location, user_id: user.id, claim_pending: false
+      can :manage, Location do |location|
+        location.user_can_manage?(user)
+      end
+
+      can :manage, Manager, location: { id: user.location_ids }
 
       can :manage, LocationImage do |location_image|
         can? :manage, location_image.location
       end
 
       can :manage, BlogEntry do |blog|
-        blog.bloggable.user_id == user.id
+        blog.bloggable.user_can_manage?(user)
       end
 
       can :manage, NewsArticle do |article|
-        article.newsable.user_id == user.id
+        article.newsable.user_can_manage?(user)
       end
 
       can :manage, MediaAttachment do |media_attachment|
-        media_attachment.attachable.user_id == user.id
+        media_attachment.attachable.user_can_manage?(user)
       end
 
       can :manage, StatusUpdate do |status_update|
@@ -32,11 +36,26 @@ class Ability
       end
 
       can :manage, AutomotiveListing, location: { user_id: user.id }
-      can :manage, Product, location: { user_id: user.id }
-      can :manage, Coupon, location: { user_id: user.id }
-      can :manage, Service, location: { user_id: user.id }
-      can :manage, Event, location: { user_id: user.id }
-      can :manage, EmploymentListing, location: { user_id: user.id }
+
+      can :manage, Product do |product|
+        product.location.user_can_manage?(user)
+      end
+
+      can :manage, Coupon do |coupon|
+        coupon.location.user_can_manage?(user)
+      end
+
+      can :manage, Service do |service|
+        service.location.user_can_manage?(user)
+      end
+
+      can :manage, Event do |event|
+        event.location.user_can_manage?(user)
+      end
+
+      can :manage, EmploymentListing do |employmentListing|
+        employmentListing.location.user_can_manage?(user)
+      end
 
     end
 
