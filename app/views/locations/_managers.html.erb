@@ -8,7 +8,7 @@
   <% @managers.each do |manager| %>
       <tr>
         <td><%= manager.user.name %></td>
-        <td><%= link_to manager.user.email, "mailto:".concat(manager.user.email) %></td>
+        <td><%= mail_to manager.user.email %></td>
         <td><%= link_to 'Remove', location_manager_path(@location, manager), method: :delete, data: { confirm: 'Are you sure you want to remove this manager?' }, class: 'btn btn-mini' %></td>
       </tr>
   <% end %>
