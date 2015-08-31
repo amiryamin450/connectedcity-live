@@ -26,6 +26,10 @@ class Ability
         media_attachment.attachable.user_id == user.id
       end
 
+      can :manage, StatusUpdate do |status_update|
+        can? :manage, status_update.statusable
+      end
+
       can :manage, AutomotiveListing, location: { user_id: user.id }
       can :manage, Product, location: { user_id: user.id }
       can :manage, Coupon, location: { user_id: user.id }
