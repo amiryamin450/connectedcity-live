@@ -15,6 +15,7 @@ class ManagersController < ApplicationController
     @manager.assign_attributes(new_manager_email: params[:manager][:new_manager_email])
 
     if @manager.save
+      ManagerMailer.new_manager_email(@location, @manager.user).deliver
       redirect_to edit_location_path(@location), flash: { success: "Success!" } and return
     else
       handle_breadcrumbs
