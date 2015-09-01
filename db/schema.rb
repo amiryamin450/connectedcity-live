@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150812185427) do
+ActiveRecord::Schema.define(:version => 20150831201412) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -453,8 +453,8 @@ ActiveRecord::Schema.define(:version => 20150812185427) do
     t.string   "slug"
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
@@ -473,7 +473,7 @@ ActiveRecord::Schema.define(:version => 20150812185427) do
     t.integer  "neighborhood_id"
     t.integer  "broker_id"
     t.integer  "business_improvement_area_id"
-    t.integer  "user_id"
+    t.boolean  "claim_pending",                :default => false, :null => false
   end
 
   add_index "locations", ["city_id"], :name => "city_id"
@@ -492,6 +492,13 @@ ActiveRecord::Schema.define(:version => 20150812185427) do
   create_table "locations_vertical_market_categories", :id => false, :force => true do |t|
     t.integer "vertical_market_category_id"
     t.integer "location_id"
+  end
+
+  create_table "managers", :force => true do |t|
+    t.integer  "location_id", :null => false
+    t.integer  "user_id",     :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 # Could not dump table "maponics_division" because of following StandardError

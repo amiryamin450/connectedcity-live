@@ -1,15 +1,14 @@
 class User < ActiveRecord::Base
   rolify
 
-
-
   has_many :locations
   has_many :favorites
   has_many :classified_listings
   has_many :redemptions
   has_many :coupons, through: :redemptions
-  
   has_many :business_improvement_areas
+  has_many :managers
+  has_many :locations, through: :managers
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,

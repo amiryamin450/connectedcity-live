@@ -13,7 +13,7 @@
 
   <% @locations.each do |location| %>
       <tr>
-        <td><%= link_to location.user.name, "mailto:".concat(location.user.email) %></td>
+        <td><%= mail_to location.users.first.email, location.users.first.name %></td>
         <td><%= location.name %></td>
         <td><%= location.address %></td>
         <td><%= location.city.name if location.city.present? %></td>

@@ -1,0 +1,5 @@
+<%= simple_form_for @manager, url: location_managers_path(@location) do |m| %>
+  <%= m.error_notification %>
+  <%= m.input :new_manager_email, label: 'New manager email:' %>
+  <%= m.button :submit, value: 'Add New Manager' %>
+<% end %>
