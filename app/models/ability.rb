@@ -20,15 +20,15 @@ class Ability
       end
 
       can :manage, BlogEntry do |blog|
-        blog.bloggable.user_can_manage?(user)
+        can? :manage, blog.bloggable
       end
 
       can :manage, NewsArticle do |article|
-        article.newsable.user_can_manage?(user)
+        can? :manage, article.newsable
       end
 
       can :manage, MediaAttachment do |media_attachment|
-        media_attachment.attachable.user_can_manage?(user)
+        can? :manage, media_attachment.attachable
       end
 
       can :manage, StatusUpdate do |status_update|
@@ -38,23 +38,23 @@ class Ability
       can :manage, AutomotiveListing, location: { user_id: user.id }
 
       can :manage, Product do |product|
-        product.location.user_can_manage?(user)
+        can? :manage, product.location
       end
 
       can :manage, Coupon do |coupon|
-        coupon.location.user_can_manage?(user)
+        can? :manage, coupon.location
       end
 
       can :manage, Service do |service|
-        service.location.user_can_manage?(user)
+        can? :manage, service.location
       end
 
       can :manage, Event do |event|
-        event.location.user_can_manage?(user)
+        can? :manage, event.location
       end
 
-      can :manage, EmploymentListing do |employmentListing|
-        employmentListing.location.user_can_manage?(user)
+      can :manage, EmploymentListing do |employment_listing|
+        can? :manage, employment_listing.location
       end
 
     end
