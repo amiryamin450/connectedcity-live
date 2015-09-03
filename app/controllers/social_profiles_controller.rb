@@ -1,28 +1,26 @@
 class SocialProfilesController < ApplicationController
+  load_resource :location, instance_name: :owner, class: "Location"
+  load_and_authorize_resource :social_profile, through: :owner
+
   # GET /owner_class/:id/social-profiles
   def index
-    @owner = Location.find params[:location_id]
-    @social_profiles = @owner.social_profiles
-
     add_crumb @owner.name, url_for(@owner)
     add_crumb "Social Profiles"
   end
 
   def new
-    owner = Location.find params[:location_id]
-
     redirect_to case params[:social_network].to_sym
                 when :facebook
-                  facebook_oauth(polymorphic_url([owner, :social_profiles], social_network: :facebook, action: :create)).url_for_oauth_code permissions: "manage_pages,publish_pages"
+                  facebook_oauth(polymorphic_url([@owner, :social_profiles], social_network: :facebook, action: :create)).url_for_oauth_code permissions: "manage_pages,publish_pages"
                 when :twitter
-                  request_token = twitter_consumer.get_request_token oauth_callback: polymorphic_url([owner, :social_profiles], social_network: :twitter, action: :create)
+                  request_token = twitter_consumer.get_request_token oauth_callback: polymorphic_url([@owner, :social_profiles], social_network: :twitter, action: :create)
 
                   session[:request_token] = request_token.token
                   session[:request_token_secret] = request_token.secret
 
                   request_token.authorize_url force_login: "true"
                 when :instagram
-                  Instagram.authorize_url redirect_uri: social_profiles_url(redirect_to: polymorphic_path([owner, :social_profiles], social_network: :instagram, action: :create))
+                  Instagram.authorize_url redirect_uri: social_profiles_url(redirect_to: polymorphic_path([@owner, :social_profiles], social_network: :instagram, action: :create))
                 else
                   flash[:error] = "You have selected an invalid social network."
 
@@ -34,8 +32,6 @@ class SocialProfilesController < ApplicationController
   # GET /owner_class/:id/social-profiles/:social_network?access_token=:access_token&access_token_secret=:access_token_secret
   # PUT /owner_class/:id/social-profiles/:social_network
   def create
-    @owner = Location.find params[:location_id]
-
     case params[:social_network].to_sym
     when :facebook
       raise StandardError unless params.has_key?(:code)
@@ -102,9 +98,7 @@ class SocialProfilesController < ApplicationController
 
   # DELETE /owner_class/:id/social-profiles/:id
   def destroy
-    social_profile = SocialProfile.find params[:id]
-    social_profile.destroy
-
+    @social_profile.destroy
     redirect_to action: :index
   end
 
