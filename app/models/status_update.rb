@@ -37,16 +37,12 @@ class StatusUpdate < ActiveRecord::Base
   after_create do
     if statusable.respond_to?(:social_profiles) && statusable.social_profiles.any?
       statusable.social_profiles.each do |social_profile|
-        # Twitter
-        # Facebook
         case social_profile.social_network
         when :twitter
-          require "twitter"
-
           begin
             client = Twitter::REST::Client.new do |config|
-              config.consumer_key = "umyAJ3kCQf8WNWH2wywYKcXOS"
-              config.consumer_secret = "ubK9hstQdIcbX6Ly2gXLAMQLU28dWJX4wwyMoNJ7GvEh0lVRl9"
+              config.consumer_key = Settings.twitter_consumer_key
+              config.consumer_secret = Settings.twitter_consumer_secret
               config.access_token = social_profile.access_token
               config.access_token_secret = social_profile.access_token_secret
             end
@@ -59,8 +55,6 @@ class StatusUpdate < ActiveRecord::Base
           rescue
           end
         when :facebook
-          require "koala"
-
           begin
             api = Koala::Facebook::API.new social_profile.access_token
 

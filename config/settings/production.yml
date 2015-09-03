@@ -1,3 +1,15 @@
 host: production.connectedcity.com
 db_host: transcona-production-rds-01.cm6qznlodypt.us-west-2.rds.amazonaws.com
 aws_region: us-west-2
+
+# Facebook
+facebook_app_id: ""
+facebook_app_secret: ""
+
+# Twitter
+twitter_consumer_key: ""
+twitter_consumer_secret: ""
+
+# Instagram
+instagram_client_id: ""
+instagram_client_secret: ""

@@ -15,18 +15,18 @@ gem 'dropzonejs-rails'
 gem 'font-awesome-rails'
 gem 'friendly_id'
 gem 'geocoder'
-gem 'instagram', require: false
+gem 'instagram'
 gem 'jqcloud-rails'
 gem 'jquery-fileupload-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'kaminari'
-gem 'koala', require: false
+gem 'koala'
 gem 'mechanize'
 gem 'money-rails'
 gem 'mysql2'
 gem 'nokogiri'
-gem 'oauth', require: false
+gem 'oauth'
 gem 'omniauth-facebook'
 gem 'paperclip'
 gem 'progress_bar'
@@ -44,7 +44,7 @@ gem 'slim'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
 gem 'truncate_html'
-gem 'twitter', require: false
+gem 'twitter'
 gem 'yaml_db'
 
 group :production, :staging do
