@@ -33,6 +33,7 @@ class Location < ActiveRecord::Base
   has_many :automotive_listings, dependent: :destroy
   has_many :managers
   has_many :users, through: :managers
+  has_many :social_profiles, as: :owner, dependent: :destroy
 
   has_and_belongs_to_many :vertical_market_categories
   has_and_belongs_to_many :brands

@@ -48,6 +48,17 @@ Connectbook::Application.routes.draw do
         get 'claim', action: :claim, as: :claim
         get 'release', action: :release, as: :release
       end
+
+      resources :social_profiles, path: "social-profiles", only: [:index, :destroy] do
+        new do
+          get ":social_network" => :new, as: ""
+        end
+
+        collection do
+          get "" => :create, constraints: ->(request) { request.params[:code] }
+          get "" => :create, constraints: ->(request) { request.params[:oauth_token] && request.params[:oauth_verifier] }
+        end
+      end
     end
 
     resources :user, controller: 'user', only: [] do

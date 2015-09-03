@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
 # gem 'tire'
-gem "auto_html"
 gem 'activerecord-mysql2spatial-adapter'
 gem 'ancestry'
+gem 'auto_html'
 gem 'bootstrap-datetimepicker-rails'
 gem 'bootstrap-wysihtml5-rails'
 gem 'cancan'
@@ -20,18 +20,20 @@ gem 'jquery-fileupload-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'kaminari'
+gem 'koala', require: false
 gem 'mechanize'
 gem 'money-rails'
 gem 'mysql2'
 gem 'nokogiri'
+gem 'oauth', require: false
 gem 'omniauth-facebook'
 gem 'paperclip'
 gem 'progress_bar'
-gem 'rails'
 gem 'rails_config'
+gem 'rails'
 gem 'ransack'
-gem 'rgeo'
 gem 'rgeo-activerecord'
+gem 'rgeo'
 gem 'rmagick', '~> 2.13.2'
 gem 'rolify'
 gem 'sidekiq'
@@ -41,6 +43,7 @@ gem 'slim'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
 gem 'truncate_html'
+gem 'twitter', require: false
 gem 'yaml_db'
 
 group :production, :staging do

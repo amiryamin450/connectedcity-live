@@ -1,6 +1,7 @@
 <h4 class="title">Status Updates
  <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
- <small><%= link_to "add", "#status_update", class: 'small', role: :button, data: {toggle: 'modal'} %></small>
+ <small><%= link_to "add", "#status_update", class: 'small', role: :button, data: {toggle: 'modal'} %> |
+ <%= link_to "manage social profiles", polymorphic_path([@location, :social_profiles]), class: 'small', role: :button %></small>
  <% end %>
 </h4>
 

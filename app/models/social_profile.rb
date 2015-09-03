@@ -1,5 +1,5 @@
 class SocialProfile < ActiveRecord::Base
-  attr_accessible :access_token, :access_token_secret, :owner, :social_network
+  attr_accessible :access_token, :access_token_secret, :owner, :social_network, :uid
 
   belongs_to :owner, polymorphic: true
 
