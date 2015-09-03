@@ -15,6 +15,7 @@ gem 'dropzonejs-rails'
 gem 'font-awesome-rails'
 gem 'friendly_id'
 gem 'geocoder'
+gem 'instagram', require: false
 gem 'jqcloud-rails'
 gem 'jquery-fileupload-rails'
 gem 'jquery-rails'

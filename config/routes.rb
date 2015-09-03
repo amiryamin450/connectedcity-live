@@ -7,6 +7,12 @@ Connectbook::Application.routes.draw do
 
   # Routes that require authentication.
   authenticate :user do
+    resources :social_profiles, path: "social-profiles", only: [] do
+      collection do
+        get "", to: redirect { |_, request| "#{request.params[:redirect_to]}?#{request.params.except(:redirect_to, :social_network).to_query}" }, constraints: ->(request) { request.params[:code] }, as: ""
+      end
+    end
+
     resources :classified_images, only: [:destroy]
     resources :classified_listings, except: [:index, :show]
     resources :favorites, only: [:create, :destroy]
@@ -55,8 +61,8 @@ Connectbook::Application.routes.draw do
         end
 
         collection do
-          get "" => :create, constraints: ->(request) { request.params[:code] }
-          get "" => :create, constraints: ->(request) { request.params[:oauth_token] && request.params[:oauth_verifier] }
+          get ":social_network" => :create, constraints: ->(request) { request.params[:code] }, as: :create
+          get ":social_network" => :create, constraints: ->(request) { request.params[:oauth_token] && request.params[:oauth_verifier] }
         end
       end
     end

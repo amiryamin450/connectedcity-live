@@ -15,7 +15,7 @@
           <td><%= account[:name] %></td>
           <td><%= account[:id] %></td>
           <td>
-            <%= link_to "Select", polymorphic_url([@owner, :social_profiles], code: params[:code], uid: account[:id]), class: "btn btn-mini" %>
+            <%= link_to "Select", polymorphic_url([@owner, :social_profiles], social_network: :facebook, action: :create, code: params[:code], uid: account[:id]), class: "btn btn-mini" %>
           </td>
         </tr>
       <% end %>

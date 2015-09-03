@@ -4,7 +4,7 @@ class SocialProfile < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
 
   def self.social_networks
-    { facebook: 0, twitter: 1 }
+    { facebook: 0, twitter: 1, instagram: 2 }
   end
 
   def social_network
