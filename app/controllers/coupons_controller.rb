@@ -1,7 +1,7 @@
 class CouponsController < ApplicationController
-
-  load_and_authorize_resource :location, except: [:redeem]
-  load_and_authorize_resource :coupon, through: [:location], except: [:redeem]
+  before_filter :authenticate_user!, only: [:redeem, :claim]
+  load_and_authorize_resource :location, except: [:redeem, :claim]
+  load_and_authorize_resource :coupon, through: [:location], except: [:redeem, :claim]
 
   # GET /coupons
   # GET /coupons.json
@@ -90,7 +90,7 @@ class CouponsController < ApplicationController
   end
 
   def redeem
-    redemption = Redemption.find(params[:id])
+    redemption = current_user.redemptions.find(params[:id])
     redemption.redeemed = true
     redemption.save
     location = redemption.coupon.location
