@@ -4,7 +4,10 @@
   <div class="form-inputs">
     <%= f.input :title %>
     <%= f.association :city_news_category, prompt: 'select category' %>
-    <%= f.input :content, input_html: { class: 'input-block-level wysihtml5'} %>    
+    <%= f.hidden_field :city_id, :value => 5915022 %>
+    <%= f.association :district, collection: @districts, prompt: 'please select (optional)' %>
+    <%= f.association :neighborhood, collection: [], prompt: 'please select (optional)', disabled: true, input_html: {'data-selected' => @city_news_article.neighborhood_id} %>
+    <%= f.input :content, input_html: { class: 'input-block-level wysihtml5'} %>
     <%= f.input :image, as: :logo_preview %>
   </div>
 

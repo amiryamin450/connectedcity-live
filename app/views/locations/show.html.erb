@@ -67,9 +67,9 @@
 
             <% if !@location.user_ids.present? and user_signed_in? and !@location.claim_pending %>
               <%= link_to "Claim Business", claim_location_path(@location), class: 'btn btn-mini btn-success' %>
-            <% elsif @location.users.present? and @location.user_can_manage?(current_user) %>
+            <% elsif @location.users.present? and user_signed_in? and @location.user_can_manage?(current_user) %>
               <%= link_to "Release Business", release_location_path(@location), class: 'btn btn-mini btn-danger' %>
-            <% elsif @location.users.present? and @location.user_owns?(current_user) and !@location.user_can_manage?(current_user) %>
+            <% elsif @location.users.present? and user_signed_in? and @location.user_owns?(current_user) and !@location.user_can_manage?(current_user) %>
               <span class="btn btn-mini btn-info">Claim Pending</span>
               <div class="processing-claim">
                 We have recieved your claim and are processing it.

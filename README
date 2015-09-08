@@ -21,3 +21,9 @@ License
 General Notes
 
 Regions / Sub-regions are no longer used.
+
+City > District > Neighbourhood.
+
+District would be “Vancouver Downtown”, for example.
+
+District and Neighbourhood have their own database tables, cities use the “maponics_subdivisions” table.
