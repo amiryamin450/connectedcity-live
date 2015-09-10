@@ -1,0 +1,33 @@
+<h1>Social Profiles</h1>
+
+<%= render "messages" %>
+
+<% if @social_profiles.any? %>
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Id</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @social_profiles.each do |social_profile| %>
+      <tr>
+        <td><%= social_profile.social_network.to_s.humanize %></td>
+        <td><%= social_profile.uid %></td>
+        <td>
+          <%= link_to "Delete", polymorphic_path([@owner, social_profile]), class: "btn btn-mini",  data: { confirm: "Are you sure you want to remove this social profile?" }, method: :delete %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+  <div class="alert notice">No social profiles found.</div>
+<% end %>
+
+<%= link_to "Add Facebook", polymorphic_path([:new, @owner, :social_profile], social_network: :facebook), class: "btn btn-primary" unless @social_profiles.facebook.any? %>
+<%= link_to "Add Twitter", polymorphic_path([:new, @owner, :social_profile], social_network: :twitter), class: "btn btn-primary" unless @social_profiles.twitter.any? %>
+<%= link_to "Add Instagram", polymorphic_path([:new, @owner, :social_profile], social_network: :instagram), class: "btn btn-primary" unless @social_profiles.instagram.any? %>
+<%= link_to "Return to #{@owner.name}", @owner, class: "btn" %>

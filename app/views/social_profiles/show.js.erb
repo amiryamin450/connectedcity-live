@@ -1,0 +1,2 @@
+<%= render partial: 'message', collection: @messages %>
+<p><b><a href="<%= @me[:url] %>">View <%= @me[:name] %> on <%= @social_profile.social_network.to_s.humanize %></a></b></p>

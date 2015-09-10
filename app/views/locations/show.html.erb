@@ -141,6 +141,16 @@
       </div>
     </div>
 
+    <% @location.social_profiles.each do |social_profile| %>
+      <div class="pad10 holder clearfix social-profile social-profile--<%= social_profile.social_network %>">
+        <h4 class="title"><%= social_profile.social_network.to_s.humanize %></h4>
+        <div></div>
+        <script>
+          $('.social-profile--<%= social_profile.social_network %> div').load('<%= polymorphic_path([@location, social_profile]) %>?_=<%= Time.now.to_i %>');
+        </script>
+      </div>
+    <% end %>
+
     <div class="social-feed">
       <div class="pad10 holder clearfix">
         <div class="fb-comments" data-href="<%= request.fullpath %>" data-num-posts="5" data-width="530"></div>
