@@ -186,6 +186,8 @@ Connectbook::Application.routes.draw do
     resources :rental_properties, only: [:show] do
       resources :rental_units, only: [:show]
     end
+
+    resources :social_profiles, path: "social-profiles", only: [:show]
   end
 
   # get '/districts/:district_id/news' => action: :guide

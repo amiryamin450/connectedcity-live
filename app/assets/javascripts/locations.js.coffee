@@ -19,7 +19,7 @@ jQuery ->
     $active = $($links.filter('[href="' + location.hash + '"]')[0] || $links[0])
     $active.addClass 'active'
     $content = $($active.attr 'href')
-    
+
     $links.not($active).each ->
       $($(this).attr 'href').hide()
 
@@ -49,7 +49,7 @@ jQuery ->
   $('.dropdown-toggle').click ->
     $target = $('#' + $(this).data('toggle'))
     $('#sidebar').removeClass('menu-min')
-    if $target.is(':visible') 
+    if $target.is(':visible')
       $(this).find('b').removeClass('icon-angle-down').addClass('icon-angle-right')
       $target.slideUp(200)
       $target.toggleClass('hide')

@@ -1,6 +1,7 @@
 class SocialProfilesController < ApplicationController
   load_resource :location, instance_name: :owner, class: "Location"
-  load_and_authorize_resource :social_profile, through: :owner
+  load_and_authorize_resource :social_profile, through: :owner, except: [:show]
+  load_resource :social_profile, through: :owner, only: [:show]
 
   # GET /owner_class/:id/social-profiles
   def index
@@ -100,6 +101,52 @@ class SocialProfilesController < ApplicationController
   def destroy
     @social_profile.destroy
     redirect_to action: :index
+  end
+
+  def show
+    @messages = Rails.cache.fetch "/social_profiles/#{@social_profile.id}/messages", expires_in: 1.minute do
+                  case @social_profile.social_network
+                  when :facebook
+                    client = Koala::Facebook::API.new @social_profile.access_token
+
+                    client.get_connections("me", "feed").map do |value|
+                      {
+                        id: value["id"],
+                        text: value["message"] || value["story"],
+                        image: nil,
+                        created_at: Time.parse(value["created_time"])
+                      }
+                    end
+                  when :twitter
+                    client = Twitter::REST::Client.new do |config|
+                      config.consumer_key = Settings.twitter_consumer_key
+                      config.consumer_secret = Settings.twitter_consumer_secret
+                      config.access_token = @social_profile.access_token
+                      config.access_token_secret = @social_profile.access_token_secret
+                    end
+
+                    client.user_timeline(2172869394).map do |value|
+                      {
+                        id: value.id,
+                        text: value.text,
+                        image: value.media.any? ? value.media.first.media_url.to_s : nil,
+                        created_at: value.created_at
+                      }
+                    end
+                  when :instagram
+                    client = Instagram.client access_token: @social_profile.access_token
+                    client.user_recent_media.map do |value|
+                      {
+                        id: value.id,
+                        text: value.caption.present? ? value.caption.text : nil,
+                        image: value.images.low_resolution.url,
+                        created_at: Time.at(value.created_time.to_i)
+                      }
+                    end
+                  else
+                    {}
+                  end
+                end
   end
 
   private

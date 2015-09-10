@@ -96,7 +96,7 @@ label {
         a:hover {
           span {
             display: block;
-            
+
           }
         }
       }
@@ -108,7 +108,7 @@ label {
 #sidebar.menu-min,
 #sidebar:before  {
   transition-property: width;
-  transition-duration: .2s;  
+  transition-duration: .2s;
 }
 #main-content {
   transition: all .2s;
@@ -312,14 +312,14 @@ label {
       font-size: 14px;
     }
   }
-  
+
 }
 
 
 
 #main-content {
   margin-left: 240px;
-  min-height: 100%; 
+  min-height: 100%;
   margin-top: 0;
   margin-right: 0;
   padding: 0;
@@ -408,9 +408,22 @@ article {
     line-height: 1.25em;
     font-size: .85em;
     margin-bottom: 1.5em;
+    clear: both;
+
     .article-title { font-weight: bold;}
     .article-published { font-style: italic; font-size: .8em;}
-    .article-image { float: left; margin-right: 5px; }
+    .article-image {
+      float: left; margin-right: 5px;
+      img {
+        height: 100px;
+        margin-bottom: 1.5em;
+      }
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+      .article-image img { margin-bottom: 0; }
+    }
   }
 }
 .location-nav {
@@ -443,7 +456,7 @@ article {
     font-size: 9px;
     a {
       color: #FFF;
-      padding: 2px 6px;  
+      padding: 2px 6px;
       text-decoration: none;
       &:hover {
         text-decoration: none;
@@ -471,11 +484,11 @@ article {
     cursor: pointer;
 
 
-    .chooser-mega {   
-      text-align: left;         
+    .chooser-mega {
+      text-align: left;
       position: absolute;
       padding: 20px;
-      display: none;      
+      display: none;
       background: #FFF;
       width: 750px;
       z-index: 9000;
@@ -501,7 +514,7 @@ article {
 
         li {
           list-style: none;
-          
+
           a{
             @include border-radius(3px);
             .icon-chevron-right {
