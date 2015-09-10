@@ -415,14 +415,31 @@ article {
     .article-image {
       float: left; margin-right: 5px;
       img {
-        height: 100px;
+        box-sizing: 100%;
         margin-bottom: 1.5em;
+      }
+      .social-profile & {
+        float: none;
+        margin-right: 0;
+        img {
+          width: 100%;
+        }
       }
     }
 
     &:last-child {
       margin-bottom: 0;
       .article-image img { margin-bottom: 0; }
+    }
+  }
+
+  .social-profile & {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1.5em;
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
     }
   }
 }

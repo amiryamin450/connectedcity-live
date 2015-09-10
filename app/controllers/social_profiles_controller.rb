@@ -104,12 +104,22 @@ class SocialProfilesController < ApplicationController
   end
 
   def show
-    @messages = Rails.cache.fetch "/social_profiles/#{@social_profile.id}/messages", expires_in: 1.minute do
-                  case @social_profile.social_network
-                  when :facebook
-                    client = Koala::Facebook::API.new @social_profile.access_token
+    case @social_profile.social_network
+    when :facebook
+      client = Koala::Facebook::API.new @social_profile.access_token
 
-                    client.get_connections("me", "feed").map do |value|
+      @me = Rails.cache.fetch "/social_profiles/#{@social_profile.id}/profile", expires_in: 30.minutes do
+              value = client.get_object("me")
+
+              {
+                id: value["id"],
+                name: value["name"],
+                url: "https://www.facebook.com/#{value['id']}"
+              }
+            end
+
+      @messages = Rails.cache.fetch "/social_profiles/#{@social_profile.id}/messages", expires_in: 1.minute do
+                    client.get_connections("me", "feed", limit: 10).map do |value|
                       {
                         id: value["id"],
                         text: value["message"] || value["story"],
@@ -117,15 +127,27 @@ class SocialProfilesController < ApplicationController
                         created_at: Time.parse(value["created_time"])
                       }
                     end
-                  when :twitter
-                    client = Twitter::REST::Client.new do |config|
-                      config.consumer_key = Settings.twitter_consumer_key
-                      config.consumer_secret = Settings.twitter_consumer_secret
-                      config.access_token = @social_profile.access_token
-                      config.access_token_secret = @social_profile.access_token_secret
-                    end
+                  end
+    when :twitter
+      client = Twitter::REST::Client.new do |config|
+        config.consumer_key = Settings.twitter_consumer_key
+        config.consumer_secret = Settings.twitter_consumer_secret
+        config.access_token = @social_profile.access_token
+        config.access_token_secret = @social_profile.access_token_secret
+      end
 
-                    client.user_timeline(2172869394).map do |value|
+      @me = Rails.cache.fetch "/social_profiles/#{@social_profile.id}/profile", expires_in: 30.minutes do
+              value = client.user skip_status: true
+
+              {
+                id: value["id"],
+                name: "@#{value['screen_name']}",
+                url: value["url"]
+              }
+            end
+
+      @messages = Rails.cache.fetch "/social_profiles/#{@social_profile.id}/messages", expires_in: 1.minute do
+                    client.user_timeline(count: 10).map do |value|
                       {
                         id: value.id,
                         text: value.text,
@@ -133,9 +155,22 @@ class SocialProfilesController < ApplicationController
                         created_at: value.created_at
                       }
                     end
-                  when :instagram
-                    client = Instagram.client access_token: @social_profile.access_token
-                    client.user_recent_media.map do |value|
+                  end
+    when :instagram
+      client = Instagram.client access_token: @social_profile.access_token
+
+      @me = Rails.cache.fetch "/social_profiles/#{@social_profile.id}/profile", expires_in: 30.minutes do
+              value = client.user
+
+              {
+                id: value.id,
+                name: "@#{value.username}",
+                url: "https://instagram.com/#{value.username}"
+              }
+            end
+
+      @messages = Rails.cache.fetch "/social_profiles/#{@social_profile.id}/messages", expires_in: 1.minute do
+                    client.user_recent_media(count: 10).map do |value|
                       {
                         id: value.id,
                         text: value.caption.present? ? value.caption.text : nil,
@@ -143,10 +178,8 @@ class SocialProfilesController < ApplicationController
                         created_at: Time.at(value.created_time.to_i)
                       }
                     end
-                  else
-                    {}
                   end
-                end
+    end
   end
 
   private
