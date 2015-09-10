@@ -60,6 +60,10 @@ class Ability
       cannot :read, SocialProfile do |social_profile|
         cannot? :manage, social_profile.owner
       end
+
+      can :manage, SocialProfile do |social_profile|
+        can? :manage, social_profile.owner
+      end
     end
 
     # Define abilities for the passed in user here. For example:
