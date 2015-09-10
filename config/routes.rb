@@ -72,6 +72,8 @@ Connectbook::Application.routes.draw do
     require 'sidekiq/web'
     mount Sidekiq::Web, at: '/sidekiq'
 
+    get 'neighborhoods/list', controller: :neighborhoods, action: :list
+
     resources :brands, except: [:show]
     resources :businesses, path: 'account'
     resources :cities
@@ -121,16 +123,32 @@ Connectbook::Application.routes.draw do
     get 'admin/connected_advertiser' => 'home#connected_advertiser', as: :connected_advertiser
   end
 
+  # resources :city_news_articles, path: 'news', only: [:guide] do
+  #   member do
+  #     get 'guide', action: :guide
+  #   end
+  # end
+
   # Unauthenticated routes
+
+
   resources :brands, only: [:show]
   resources :business_improvement_areas, path: 'bia', only: [:show]
   resources :city_news_articles, path: 'city-news', only: [:show]
   resources :city_news_categories, only: [:show]
   resources :classified_categories, only: [:show]
   resources :classified_listings, only: [:index, :show]
-  resources :districts, only: [:show]
+  resources :districts, only: [] do
+    get 'news', controller: :city_news_articles, action: :guide
+  end
   resources :employment_categories, only: [:show]
   resources :trade_associations, only: [:show]
+
+  resources :cities, path: 'city', only: [] do
+    resources :city_news_articles, path: 'news', only: [:show, :index]
+  end
+
+
 
   resources :locations, path: 'business', as: :locations, only: [:show] do
     resources :automotive_listings, only: [:show]
@@ -153,6 +171,8 @@ Connectbook::Application.routes.draw do
     end
   end
 
+  # get '/districts/:district_id/news' => action: :guide
+
   # These actions don't expect a sub_market parameters so I removed them for
   # now. ^FD 2015-08-14
   # get 'search/:market/:sub_market' => 'vertical_markets#search', as: :region_sub_market_search
@@ -163,6 +183,8 @@ Connectbook::Application.routes.draw do
 
   get ':district_route/business/:id' => 'locations#show', as: :district_location_path
   get ':district_route/:neighborhood/guide/:market' => 'vertical_markets#guide', as: :district_neighborhood_guide
+  get ':district_route/:neighborhood_route/news' => 'city_news_articles#guide'
+  get ':district_route/news' => 'city_news_articles#guide'
   get ':district_route/:neighborhood/business/:id' => 'locations#show', as: :district_neighborhood_location
 
   get 'search' => 'vertical_markets#search'
@@ -174,7 +196,7 @@ Connectbook::Application.routes.draw do
   get 'classifieds' => 'classified_listings#guide', as: :classifieds
   get ':district_route/category/:id' => 'vertical_market_categories#show'
   get 'category/:id' => 'vertical_market_categories#show'
-  get 'city-news-guide' => 'city_news_articles#guide', as: :city_news_guide
+  get 'news' => 'city_news_articles#guide', as: :city_news_guide
 
   root to: 'cities#homepage'
 

@@ -1,19 +1,25 @@
 class CityNewsArticlesController < ApplicationController
-  load_and_authorize_resource except: [:guide]
+  load_and_authorize_resource except: [:guide, :index]
 
   # GET /city_news_articles
   # GET /city_news_articles.json
   def index
-    @city_news_articles = CityNewsArticle.all
+    @news_articles = CityNewsArticle.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @city_news_articles }
+      format.json { render json: @news_articles }
     end
   end
 
   def guide
-    @city_news_categories = CityNewsCategory.includes(:city_news_articles).all
+    determine_area
+    if @area.present?
+      @city_news_categories = CityNewsCategory.includes(:city_news_articles).where("city_news_articles.#{@area.class.name.downcase}_id = ?", @area.id).all
+    else
+      @city_news_categories = CityNewsCategory.includes(:city_news_articles).all
+    end
+
     add_crumb 'City News'
   end
 
@@ -36,6 +42,7 @@ class CityNewsArticlesController < ApplicationController
   # GET /city_news_articles/new.json
   def new
     @city_news_article = CityNewsArticle.new
+    districts
 
     respond_to do |format|
       format.html # new.html.erb
@@ -46,6 +53,7 @@ class CityNewsArticlesController < ApplicationController
   # GET /city_news_articles/1/edit
   def edit
     @city_news_article = CityNewsArticle.find(params[:id])
+    districts
   end
 
   # POST /city_news_articles
@@ -90,5 +98,19 @@ class CityNewsArticlesController < ApplicationController
       format.html { redirect_to city_news_articles_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def determine_area
+    klass = [Neighborhood, District, City].detect { |c| params["#{c.name.underscore}_route"]}
+    if klass
+      @area = klass.find(params["#{klass.name.underscore}_route"])
+    end
+  end
+
+  def districts
+    # because city is hardcoded everywhere already...
+    @districts = District.where("city_id = ?", 5915022)
   end
 end

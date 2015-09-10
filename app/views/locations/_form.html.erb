@@ -20,9 +20,11 @@
         <li>
           <a href="#images" data-toggle="tab">Images</a>
         </li>
+        <% if @managers.present? %>
         <li>
           <a href="#managers" data-toggle="tab">Managers</a>
         </li>
+        <% end %>
         <% if @location.vertical_market_categories.exists?(100) %>
           <li>
             <a href="#agents" data-toggle="tab">Real Estate Agents</a>
@@ -31,7 +33,7 @@
       </ul>
       <div class="tab-content">
         <% if current_user.has_role? :admin %>
-          <div class="tab-pane active" id="location">          
+          <div class="tab-pane active" id="location">
             <%= f.association :country %>
             <%= f.association :province %>
             <%= f.association :city %>
@@ -41,8 +43,8 @@
           <div class="tab-pane" id="agents">
             <%= link_to 'Create New Agent', new_location_path(broker_id: @location.id), class: 'btn'  %>
           </div>
-        <% end -%>  
-        <div class="tab-pane <%= 'active' unless current_user.has_role? :admin %>" id="info">  
+        <% end -%>
+        <div class="tab-pane <%= 'active' unless current_user.has_role? :admin %>" id="info">
           <%= f.input :broker_id, as: :hidden %>
           <%= f.input :name %>
           <%= f.input :address %>
@@ -63,7 +65,7 @@
             </div>
           </div>
         </div>
-        <div class="tab-pane" id="profile">        
+        <div class="tab-pane" id="profile">
           <%= f.input :content, input_html: {class: '', style: 'width: 810px; height: 350px;', placeholder: 'Enter text ...'} %>
           <%= f.input :website_url %>
           <%= f.input :email %>
@@ -75,9 +77,11 @@
         <div class="tab-pane" id="images">
           <%= render 'location_images', :f => f  %>
         </div>
+        <% if @managers.present? %>
         <div class="tab-pane" id="managers">
-          <%= render 'managers'  %>    
-        </div>          
+          <%= render 'managers'  %>
+        </div>
+        <% end %>
       </div>
     </div>
     <div class="form-actions">
