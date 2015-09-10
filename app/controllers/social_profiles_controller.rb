@@ -5,6 +5,8 @@ class SocialProfilesController < ApplicationController
 
   # GET /owner_class/:id/social-profiles
   def index
+    @social_profiles = @owner.social_profiles unless @social_profiles
+
     add_crumb @owner.name, url_for(@owner)
     add_crumb "Social Profiles"
   end
