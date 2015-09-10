@@ -56,7 +56,6 @@ class Ability
       can :manage, EmploymentListing do |employment_listing|
         can? :manage, employment_listing.location
       end
-
     end
 
     # Define abilities for the passed in user here. For example:
