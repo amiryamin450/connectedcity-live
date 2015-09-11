@@ -1,4 +1,6 @@
-<div class="well" id="notice"><%= notice %></div>
+<% if notice.present? %>
+  <div class="well" id="notice"><%= notice %></div>
+<% end %>
 
 
  <h1> <%= @employment_listing.title %></h1>

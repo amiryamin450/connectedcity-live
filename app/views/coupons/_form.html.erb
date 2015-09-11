@@ -4,9 +4,9 @@
   <div class="form-inputs">
     <%= f.input :name %>
     <%= f.input :code_prefix %>
-    <%= f.input :howmany, as: :string %>
-    <%= f.input :description, input_html: { class: 'input-block-level wysihtml5' }  %>  
-  
+    <%= f.input :howmany, as: :string, label: "How many?" %>
+    <%= f.input :description, input_html: { class: 'input-block-level wysihtml5' }  %>
+
   <div class="control-group">
     <label for="coupon_expiration" class="string optional control-label">Expiration</label>
     <div class="input-append" id="datepicker_starts" >
@@ -16,7 +16,7 @@
       </span>
     </div>
   </div>
-    
+
     <%= f.input :image, as: :logo_preview %>
   </div>
 

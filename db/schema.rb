@@ -839,6 +839,17 @@ ActiveRecord::Schema.define(:version => 20150902211739) do
 
   add_index "services", ["location_id"], :name => "index_services_on_location_id"
 
+  create_table "social_profiles", :force => true do |t|
+    t.integer  "social_network",      :null => false
+    t.string   "uid",                 :null => false
+    t.string   "access_token",        :null => false
+    t.string   "access_token_secret"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
   create_table "status_updates", :force => true do |t|
     t.string   "title"
     t.string   "content"

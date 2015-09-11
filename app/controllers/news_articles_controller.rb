@@ -83,10 +83,11 @@ class NewsArticlesController < ApplicationController
   # DELETE /news_articles/1.json
   def destroy
     @news_article = NewsArticle.find(params[:id])
+    @newsable = @news_article.newsable_type.constantize.find(@news_article.newsable_id)
     @news_article.destroy
 
     respond_to do |format|
-      format.html { redirect_to news_articles_url }
+      format.html { redirect_to polymorphic_url([@newsable, :news_articles]) }
       format.json { head :no_content }
     end
   end

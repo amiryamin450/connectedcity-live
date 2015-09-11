@@ -5,6 +5,12 @@ class VerticalMarketCategory < ActiveRecord::Base
 
   has_and_belongs_to_many :locations
   has_many :status_updates,     :through => :locations, uniq: true
+  has_many :media_attachments,  :through => :locations, uniq: true
+  has_many :coupons,            :through => :locations, uniq: true
+  has_many :products,           :through => :locations, uniq: true
+  has_many :events,             :through => :locations, uniq: true
+  has_many :news_articles,      :through => :locations, uniq: true
+  has_many :blog_entries,       :through => :locations, uniq: true
 
   default_scope order('vertical_market_categories.name')
 

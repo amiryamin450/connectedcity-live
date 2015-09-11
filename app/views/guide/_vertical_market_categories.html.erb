@@ -30,7 +30,7 @@ r = 0
       markers |= @new_home_communities
       render 'new_home'
     else
-      
+
     end
 
    %>
@@ -52,7 +52,7 @@ r = 0
         </div>
         <div style=" margin-top: 5px; margin-bottom: 5px; "> <%= humanized_money_with_symbol listing.price %></div>
         <div style="width: 168px;font-size: 12px; min-height:24px;"><strong><%= link_to "#{listing.year} #{listing.make} #{listing.model}", [listing.location, listing] %></strong></div>
-        
+
         <div style="width: 168px; margin-top: 5px; font-weight: bold;"><%= link_to(listing.location.name, listing.location) %></div>
       </div>
 
@@ -64,9 +64,9 @@ r = 0
 
 
  <% @vertical_market.categories.each do |category| %>
- <% 
- locations = category.get_locations(@city, @district, @neighborhood, {params: params}) 
- markers |= locations 
+ <%
+ locations = category.get_locations(@city, @district, @neighborhood, {params: params})
+ markers |= locations
  %>
  <% if locations.size > 0 %>
  <div class="category">
