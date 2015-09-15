@@ -4,7 +4,7 @@ class NewHomeCommunitiesController < ApplicationController
   # GET /new_home_communities
   # GET /new_home_communities.json
   def index
-    @new_home_communities = location.new_home_communities
+    @new_home_communities = @location.new_home_communities
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @new_home_communities }
@@ -89,9 +89,4 @@ class NewHomeCommunitiesController < ApplicationController
     end
   end
 
-  private
-
-  def location
-    location = Location.find(params[:location_id])
-  end
 end

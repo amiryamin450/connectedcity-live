@@ -5,8 +5,8 @@ class NewHomesController < ApplicationController
   # GET /new_homes
   # GET /new_homes.json
   def index
-    @location = new_home_community.location
-    @new_homes = new_home_community.new_homes
+    @location = @new_home_community.location
+    @new_homes = @new_home_community.new_homes
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @new_homes }
@@ -16,9 +16,8 @@ class NewHomesController < ApplicationController
   # GET /new_homes/1
   # GET /new_homes/1.json
   def show
-    @location = new_home_community.location
+    @location = @new_home_community.location
     @vertical_market = @location.vertical_market_categories.first.vertical_market
-
 
     add_crumb @district.name, district_guide_path(@district) if @district
     add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
@@ -93,9 +92,4 @@ class NewHomesController < ApplicationController
     end
   end
 
-  private
-
-  def new_home_community
-    new_home_community = NewHomeCommunity.find(params[:new_home_community_id])
-  end
 end
