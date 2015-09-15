@@ -40,6 +40,7 @@ Connectbook::Application.routes.draw do
       resources :events, except: [:show]
       resources :media_attachments, only: [:new, :create]
       resources :news_articles, path: 'news', except: [:show]
+      resources :new_home_communities
       resources :products, except: [:show]
       resources :services, except: [:show]
       resources :real_estate_listings, path: 'listings', except: [:show]
@@ -65,6 +66,10 @@ Connectbook::Application.routes.draw do
           get ":social_network" => :create, constraints: ->(request) { request.params[:oauth_token] && request.params[:oauth_verifier] }
         end
       end
+    end
+
+    resources :new_home_communities, except: [:show] do
+      resources :new_homes, except: [:show]
     end
 
     resources :user, controller: 'user', only: [] do
@@ -124,6 +129,7 @@ Connectbook::Application.routes.draw do
 
     resources :locations, path: 'business', as: :locations, except: [:show] do
       resources :status_updates, path: 'status-updates', except: [:new, :create]
+      resources :new_home_communities
       collection do
         get :pending_claims
       end
@@ -148,24 +154,23 @@ Connectbook::Application.routes.draw do
 
   # Unauthenticated routes
 
-
   resources :brands, only: [:show]
   resources :business_improvement_areas, path: 'bia', only: [:show]
   resources :city_news_articles, path: 'city-news', only: [:show]
   resources :city_news_categories, only: [:show]
   resources :classified_categories, only: [:show]
   resources :classified_listings, only: [:index, :show]
+
   resources :districts, only: [] do
     get 'news', controller: :city_news_articles, action: :guide
   end
+
   resources :employment_categories, only: [:show]
   resources :trade_associations, only: [:show]
 
   resources :cities, path: 'city', only: [] do
     resources :city_news_articles, path: 'news', only: [:show, :index]
   end
-
-
 
   resources :locations, path: 'business', as: :locations, only: [:show] do
     resources :automotive_listings, only: [:show]

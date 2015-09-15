@@ -35,6 +35,14 @@ class Ability
         can? :manage, status_update.statusable
       end
 
+      can :manage, NewHomeCommunity do |new_home_community|
+        can? :manage, new_home_community.location
+      end
+
+      can :manage, NewHome do |new_home|
+        can? :manage, new_home.new_home_community
+      end
+
       can :manage, AutomotiveListing, location: { user_id: user.id }
 
       can :manage, Product do |product|

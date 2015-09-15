@@ -26,7 +26,7 @@ class StatusUpdatesController < ApplicationController
     redirect_to location
   end
 
-  private 
+  private
   def location
     @location ||= Location.find(params[:location_id])
   end
