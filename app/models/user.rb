@@ -67,4 +67,8 @@ class User < ActiveRecord::Base
   def has_locations?
     self.locations.size > 0
   end
+
+  def mailboxer_email
+    ""
+  end
 end
