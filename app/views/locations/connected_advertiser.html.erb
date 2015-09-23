@@ -2,7 +2,7 @@
 <h3><%= @location.name %></h3>
 <div class="row-fluid">
   <div class="span3">
-    <a href="<%=  %>">
+    <a href="<%= location_status_updates_path(@location) %>">
       <div class="pad10 holder" style="background: #95a7bf">
         <div class='line-one'>Status</div>
         <div class='line-two'>Updater</div>
@@ -37,7 +37,7 @@
 
 <div class="row-fluid">
   <div class="span3">
-    <a href="<%= location_news_articles_path(@location) %>">
+    <a href="<%= location_coupons_path(@location) %>">
       <div class="pad10 holder" style="background: #aad6e3">
         <div class='line-one'>Deal</div>
         <div class='line-two'>Promoter</div>
@@ -45,7 +45,7 @@
     </a>
   </div>
   <div class="span3">
-    <a href="<%= location_news_articles_path(@location) %>">
+    <a href="<%= location_events_path(@location) %>">
       <div class="pad10 holder" style="background: #cfcfcf">
         <div class='line-one'>Event</div>
         <div class='line-two'>Organizer</div>
@@ -53,7 +53,7 @@
     </a>
   </div>
   <div class="span3">
-    <a href="<%= location_news_articles_path(@location) %>">
+    <a href="<%= location_products_path(@location) %>">
       <div class="pad10 holder" style="background: #95a7bf">
         <div class='line-one'>Product</div>
         <div class='line-two'>Retailer</div>
@@ -61,7 +61,7 @@
     </a>
   </div>
   <div class="span3">
-    <a href="<%= location_news_articles_path(@location) %>">
+    <a href="<%= location_services_path(@location) %>">
       <div class="pad10 holder" style="background: #a3a297">
         <div class='line-one'>Service</div>
         <div class='line-two'>Provider</div>
@@ -72,7 +72,7 @@
 
 <div class="row-fluid">
   <div class="span3">
-    <a href="<%= location_news_articles_path(@location) %>">
+    <a href="<%= edit_location_path(@location) %>">
       <div class="pad10 holder" style="background: #ffff49">
         <div class='line-one'>Profile</div>
         <div class='line-two'>Manager</div>
@@ -80,7 +80,7 @@
     </a>
   </div>
   <div class="span3">
-    <a href="<%= location_news_articles_path(@location) %>">
+    <a href="<%= location_employment_listings_path(@location) %>">
       <div class="pad10 holder" style="background: #fbb200">
         <div class='line-one'>Job</div>
         <div class='line-two'>Employer</div>

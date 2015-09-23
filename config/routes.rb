@@ -44,7 +44,7 @@ Connectbook::Application.routes.draw do
       resources :products, except: [:show]
       resources :services, except: [:show]
       resources :real_estate_listings, path: 'listings', except: [:show]
-      resources :status_updates, path: 'status-updates', only: [:new, :create, :destroy]
+      resources :status_updates, path: 'status-updates', only: [:index, :new, :create, :destroy]
       resources :managers, only: [:new, :create, :destroy]
 
       resources :real_estate_listings, path: 'listings', except: [:show] do
@@ -129,7 +129,7 @@ Connectbook::Application.routes.draw do
     end
 
     resources :locations, path: 'business', as: :locations, except: [:show] do
-      resources :status_updates, path: 'status-updates', except: [:new, :create]
+      resources :status_updates, path: 'status-updates', except: [:index, :new, :create]
       resources :new_home_communities
       collection do
         get :pending_claims
@@ -143,7 +143,7 @@ Connectbook::Application.routes.draw do
     resources :new_home_communities, except: [:show] do
       resources :new_homes, except: [:show]
     end
-    
+
   end
 
   # resources :city_news_articles, path: 'news', only: [:guide] do

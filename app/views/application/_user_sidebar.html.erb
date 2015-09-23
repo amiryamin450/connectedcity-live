@@ -154,7 +154,7 @@
       <% current_user.locations.each do |location| %>
       <li class="">
 
-        <%= link_to location.name, location %>
+        <%= link_to location.name, connected_advertiser_location_path(location) %>
 
       </li>
       <% end -%>

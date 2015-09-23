@@ -1,29 +1,18 @@
-<h1>Listing status_updates</h1>
+<h1>Manage <%= @location.name %>'s Status Updates</h1>
 
-<table>
+<table class="table table-bordered table-striped table-hover">
   <tr>
-    <th>Title</th>
     <th>Content</th>
-    <th>Provider</th>
-    <th>Location</th>
-    <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
 <% @status_updates.each do |status_update| %>
   <tr>
-    <td><%= status_update.title %></td>
     <td><%= status_update.content %></td>
-    <td><%= status_update.provider %></td>
-    <td><%= @location.name %></td>
-    <td><%= link_to 'Show', location_status_update_path(@location, status_update) %></td>
-    <td><%= link_to 'Edit', edit_location_status_update_path(@location, status_update) %></td>
-    <td></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Status update', new_location_status_update_path %>
+<%= link_to 'New Status Update', new_location_status_update_path(@location), class: 'btn btn-primary' %>
+<%= link_to "Back to #{@location.name}", @location, class: 'btn'  %>
