@@ -9,23 +9,19 @@
     </div>
    <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
 
-      
+
       <%= link_to 'Edit Article', edit_location_news_article_path(@location, @news_article), class: 'btn btn-primary'  %>
       <%= link_to 'Create New Article', new_location_news_article_path(@location), class: 'btn' %>
    <% end %>
 
   </div>
   <div class="span3">
-    <div class="thumbnail">
-        <% if @news_article.image.exists? %>
-            <%= image_tag @news_article.image.url %>
-        <% else %>
-            <%= image_tag "http://placehold.it/360x240" %>
-        <% end %>
+    <% if @news_article.image.exists? %>
+      <div class="thumbnail">
+        <%= image_tag @news_article.image.url %>
+      </div>
+    <% end %>
 
-
-    </div>
-    
     <div class="info" style="margin-top: 1em;">
       <address>
         <strong><%= link_to @location.name, @location %></strong><br />
@@ -33,7 +29,7 @@
         <%= "#{@location.city.name} #{@location.province.abbr}, #{@location.postal_code}" %><br />
       </address>
     </div>
-    
+
     <% if @location.news_articles.size > 1 %>
     <div class="blog-entries" >
       <h5>Recent News Articles</h5>
@@ -43,9 +39,8 @@
             <li><%= link_to article.title, [@location, article] %></li>
           <% end %>
         <% end %>
-      </ul>      
+      </ul>
     </div>
     <% end %>
-  </div>  
+  </div>
 </div>
-

@@ -14,7 +14,7 @@
 
       <div id="carousel" class="carousel slide" data-interval="8000">
         <ol class="carousel-indicators">
-          
+
             <li data-target="#carousel" data-slide-to="0"></li>
             <li data-target="#carousel" data-slide-to="1"></li>
             <li data-target="#carousel" data-slide-to="2"></li>
@@ -22,28 +22,28 @@
             <li data-target="#carousel" data-slide-to="4"></li>
         </ol>
         <div class="carousel-inner">
-         
+
           <div class="item active">
-            <%=  image_tag "van_downtown_pano_moon.jpg" %>            
-            <div class="carousel-caption"><h4>Coal Harbour Marina</h4><small>Vancouver is the marine gateway to BC’s breathtaking west coast scenery.</small></div>            
+            <%=  image_tag "van_downtown_pano_moon.jpg" %>
+            <div class="carousel-caption"><h4>Coal Harbour Marina</h4><small>Vancouver is the marine gateway to BC’s breathtaking west coast scenery.</small></div>
           </div>
           <div class="item">
-            <%=  image_tag "van_convention_center.jpg" %>            
-            <div class="carousel-caption"><h4>Vancouver Trade and Convention Centre</h4><small>World class business networking event facilities.</small></div>            
+            <%=  image_tag "van_convention_center.jpg" %>
+            <div class="carousel-caption"><h4>Vancouver Trade and Convention Centre</h4><small>World class business networking event facilities.</small></div>
           </div>
           <div class="item">
-            <%=  image_tag "rebgv.jpg" %>            
-            <div class="carousel-caption"><h4>Residential Real Estate</h4><small>Consistently ranked among the best places to live in the world.</small></div>            
+            <%=  image_tag "rebgv.jpg" %>
+            <div class="carousel-caption"><h4>Residential Real Estate</h4><small>Consistently ranked among the best places to live in the world.</small></div>
           </div>
           <div class="item">
-            <%=  image_tag "bc_place_stadium.jpg" %>            
-            <div class="carousel-caption"><h4>BC Place Stadium </h4><small>Open air sporting and concert events.</small></div>            
+            <%=  image_tag "bc_place_stadium.jpg" %>
+            <div class="carousel-caption"><h4>BC Place Stadium </h4><small>Open air sporting and concert events.</small></div>
           </div>
           <div class="item">
-            <%=  image_tag "vancouver_dining.jpg" %>            
-            <div class="carousel-caption"><h4>Vancouver Dining</h4><small>Home to top chefs and world class restaurants.</small></div>            
+            <%=  image_tag "vancouver_dining.jpg" %>
+            <div class="carousel-caption"><h4>Vancouver Dining</h4><small>Home to top chefs and world class restaurants.</small></div>
           </div>
-          
+
         </div>
         <!-- Carousel nav -->
         <a class="carousel-control left" href="#carousel" data-slide="prev">&lsaquo;</a>
@@ -65,13 +65,13 @@
                   <%= link_to(image_tag(bia.logo.url(:list)), bia) %>
                   </div>
                 <div style="font-size: 11px; font-weight: bold; text-align: center;"><%= link_to bia.name, bia %></div>
-                
+
               </div>
             </div>
             <% end %>
 
           </div>
-          
+
         </div>
       </div>
     </div>
@@ -80,7 +80,7 @@
       <div class="span6">
         <div class="holder pad10">
           <h5>News</h5>
-          <% if @city.events.size > 0 %>
+          <% if @city.news_articles.size > 0 %>
           <%= render @city.news_articles.limit(3).order(:created_at) %>
           <% else %>
           <div class="alert">No News Articles found.</div>
@@ -103,7 +103,7 @@
     <div class="row-fluid">
       <div class="holder pad10">
         <h5>Join Now</h5>
-        
+
       </div>
     </div>
 

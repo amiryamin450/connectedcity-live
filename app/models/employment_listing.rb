@@ -1,9 +1,9 @@
 class EmploymentListing < ActiveRecord::Base
 
   belongs_to :location
-  belongs_to :employment_category 
+  belongs_to :employment_category
 
-  attr_accessible :advantages, :application_deadline, :description, :locations, :number, 
+  attr_accessible :advantages, :application_deadline, :description, :locations, :number,
                   :number_of_positions, :qualifications, :title, :location_id, :employment_category_id,
                   :cover_photo
 
@@ -13,4 +13,5 @@ class EmploymentListing < ActiveRecord::Base
                     :url => "/system/employment_listing/image/:id/:style/:basename.:extension",
                     :path => ":rails_root/public/system/employment_listing/image/:id/:style/:basename.:extension"
 
+  default_scope where("application_deadline >= ?", Date.today)
 end

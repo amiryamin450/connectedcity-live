@@ -110,4 +110,6 @@ r = 0
 window.locations = <%= raw markers.collect { |m| {:name => m.name, :latitude => m.latitude, :longitude => m.longitude}}.to_json %>;
 <% end %>
 
+<%= render 'status_updates/show_image' %>
+
 <%# render '_facets' %>
