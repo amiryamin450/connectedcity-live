@@ -1,7 +1,7 @@
 jQuery ->
-  myDropzone = $("#new_status_update .dropzone").dropzone({ 
+  myDropzone = $("#new_status_update .dropzone").dropzone({
     url: $("#new_status_update").attr('action'),
-    autoProcessQueue: false, 
+    autoProcessQueue: false,
     dictDefaultMessage: "Click, or drop a file here to upload.",
     paramName: 'status_update[image]',
     maxFiles: 1,
@@ -17,11 +17,11 @@ jQuery ->
       new_status_update_fail(data)
 
       imageFail = Object.keys(data.errors).reduce (a, b) ->
-        if(/^image/.test(b)) 
+        if(/^image/.test(b))
           a.push(b)
         return a
       , []
-      
+
       imageFail = imageFail.length > 0
 
       if(imageFail)
@@ -31,7 +31,7 @@ jQuery ->
         file.status = Dropzone.QUEUED
   })
 
-  $('#status-update-submit').click (event) ->
+  $('.modal #status-update-submit').click (event) ->
     event.preventDefault()
     if(myDropzone[0].dropzone.getQueuedFiles().length > 0)
       myDropzone[0].dropzone.processQueue()

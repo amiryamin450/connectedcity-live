@@ -1,1 +1,10 @@
-<%= render 'form' %>
+<%= simple_form_for [@location, @status_update] do |f| %>
+  <%= f.error_notification %>
+    <div class="form-inputs">
+      <%= f.label 'Content' %>
+      <%= f.input :content, as: :text, input_html: { :rows => 3, style: 'width: 90%' } %>
+      <%= f.input :image, as: :file %>
+    </div>
+  </div>
+  <%= f.button :submit, :class => 'btn btn-primary', id: 'status-update-submit' %>
+<% end %>

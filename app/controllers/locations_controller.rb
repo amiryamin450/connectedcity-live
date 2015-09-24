@@ -171,4 +171,8 @@ class LocationsController < ApplicationController
       format.html
     end
   end
+
+  def connected_advertiser
+    @location = Location.find(params[:id])
+  end
 end

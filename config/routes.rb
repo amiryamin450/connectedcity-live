@@ -44,7 +44,7 @@ Connectbook::Application.routes.draw do
       resources :products, except: [:show]
       resources :services, except: [:show]
       resources :real_estate_listings, path: 'listings', except: [:show]
-      resources :status_updates, path: 'status-updates', only: [:new, :create, :destroy]
+      resources :status_updates, path: 'status-updates', only: [:index, :new, :create, :destroy]
       resources :managers, only: [:new, :create, :destroy]
 
       resources :real_estate_listings, path: 'listings', except: [:show] do
@@ -54,6 +54,7 @@ Connectbook::Application.routes.draw do
       member do
         get 'claim', action: :claim, as: :claim, constraints: ->(request) { Location.find(request.params[:id]).user_ids.empty? }
         get 'release', action: :release, as: :release
+        get :connected_advertiser
       end
 
       resources :social_profiles, path: "social-profiles", only: [:index, :destroy] do
@@ -135,7 +136,7 @@ Connectbook::Application.routes.draw do
     end
 
     resources :locations, path: 'business', as: :locations, except: [:show] do
-      resources :status_updates, path: 'status-updates', except: [:new, :create]
+      resources :status_updates, path: 'status-updates', except: [:index, :new, :create]
       resources :new_home_communities
       collection do
         get :pending_claims
@@ -150,7 +151,6 @@ Connectbook::Application.routes.draw do
       resources :new_homes, except: [:show]
     end
 
-    get 'admin/connected_advertiser' => 'home#connected_advertiser', as: :connected_advertiser
   end
 
   # resources :city_news_articles, path: 'news', only: [:guide] do

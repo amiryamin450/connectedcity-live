@@ -12,10 +12,21 @@ class StatusUpdatesController < ApplicationController
 
   def create
     @status_update = location.status_updates.build params[:status_update]
-    if @status_update.save
-      render json: {success: true}
-    else
-      render json: {success: false, errors: @status_update.errors}, status: :unprocessable_entity
+    respond_to do |format|
+      format.json {
+        if @status_update.save
+          render json: {success: true}
+        else
+          render json: {success: false, errors: @status_update.errors}, status: :unprocessable_entity
+        end
+      }
+      format.html {
+        if !@status_update.save
+          render :new
+        else
+          redirect_to action: :index
+        end
+      }
     end
   end
 
@@ -23,7 +34,7 @@ class StatusUpdatesController < ApplicationController
     @status_update = StatusUpdate.find(params[:id])
     @status_update.destroy
 
-    redirect_to location
+    redirect_to :back
   end
 
   private
