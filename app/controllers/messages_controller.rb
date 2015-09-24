@@ -110,6 +110,6 @@ class MessagesController < ApplicationController
   private
     def manager(conversation, managers)
       return false if managers.empty?
-      managers.first do |manager| conversation.is_participant? manager.location end.location
+      managers.select do |manager| conversation.is_participant? manager.location end.first.location
     end
 end
