@@ -34,7 +34,7 @@ class StatusUpdatesController < ApplicationController
     @status_update = StatusUpdate.find(params[:id])
     @status_update.destroy
 
-    redirect_to location
+    redirect_to :back
   end
 
   private
