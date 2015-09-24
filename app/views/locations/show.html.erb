@@ -65,6 +65,10 @@
 
             <% end %>
 
+            <% if user_signed_in? %>
+                <%= link_to "Send a message", "#", class: "btn btn-mini btn-success", role: "button", data: { toggle: "modal", target: "#new_message" } %>
+            <% end %>
+
             <% if !@location.user_ids.present? and user_signed_in? and !@location.claim_pending %>
               <%= link_to "Claim Business", claim_location_path(@location), class: 'btn btn-mini btn-success' %>
             <% elsif @location.users.present? and user_signed_in? and @location.user_can_manage?(current_user) %>
@@ -301,6 +305,18 @@
 </div>
 
 <!--- Modals -->
+
+<div class="modal fade hide" id="new_message" tabindex="-1" role="dialog" aria-labelledby="new_message" aria-hidden="true" data-remote="/messages/new?location_id=<%= @location.id %>">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Send a message</h3>
+  </div>
+  <div class="modal-body"></div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary">Send</button>
+  </div>
+</div>
 
 <%= render 'status_updates/show_image' %>
 

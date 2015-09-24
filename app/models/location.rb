@@ -1,6 +1,7 @@
 class Location < ActiveRecord::Base
   extend FriendlyId
 
+  acts_as_messageable
 
   before_validation :clear_images?
 

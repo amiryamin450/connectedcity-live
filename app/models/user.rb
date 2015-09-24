@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   rolify
 
+  acts_as_messageable
+
   has_many :locations
   has_many :favorites
   has_many :classified_listings
@@ -35,7 +37,6 @@ class User < ActiveRecord::Base
     end
   end
 
-
   def self.new_with_session(params, session)
     if session["devise.user_attributes"]
       new(session["devise.user_attributes"], without_protection: true) do |user|
@@ -46,7 +47,6 @@ class User < ActiveRecord::Base
       super
     end
   end
-
 
   def password_required?
     super && provider.blank?
@@ -68,4 +68,7 @@ class User < ActiveRecord::Base
     self.locations.size > 0
   end
 
+  def mailboxer_email
+    ""
+  end
 end

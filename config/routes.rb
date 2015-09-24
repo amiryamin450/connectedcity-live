@@ -79,6 +79,13 @@ Connectbook::Application.routes.draw do
       end
     end
 
+    resources :messages, only: [:index, :new, :create, :destroy] do
+      collection do
+        get ":folder" => :index, constraints: { folder: /sent|trash/ }
+      end
+    end
+    resources :messages, as: :mailboxer_conversations, only: [:show]
+
     get 'brands_autocomplete' => 'brands#autocomplete'
     get 'profile' => 'profile#show'
     get 'redeem/coupon/:id', to: 'coupons#redeem', as: :redeem_coupon

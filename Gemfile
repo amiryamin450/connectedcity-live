@@ -22,6 +22,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'kaminari'
 gem 'koala'
+gem 'mailboxer'
 gem 'mechanize'
 gem 'money-rails'
 gem 'mysql2'
@@ -46,6 +47,7 @@ gem 'sunspot_solr'
 gem 'truncate_html'
 gem 'twitter'
 gem 'yaml_db'
+gem "auto_html"
 
 group :production, :staging do
   gem 'aws-sdk'

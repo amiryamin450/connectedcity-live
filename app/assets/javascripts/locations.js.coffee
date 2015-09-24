@@ -46,6 +46,9 @@ jQuery ->
     interval: false
   })
 
+  $('#new_message .modal-footer .btn-primary').click ->
+    $('#new_message form').submit()
+
   $('.dropdown-toggle').click ->
     $target = $('#' + $(this).data('toggle'))
     $('#sidebar').removeClass('menu-min')
