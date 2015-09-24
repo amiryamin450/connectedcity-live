@@ -4,6 +4,8 @@ class Event < ActiveRecord::Base
   friendly_id :name, use: [:slugged, :history]
   attr_accessible :description, :email, :ends_at, :name, :starts_at, :url, :slug, :location_id, :image
 
+  default_scope where("ends_at > ?", Time.now)
+
   validates_presence_of :description, :email, :ends_at, :name, :starts_at
 
     has_attached_file :image, styles: {

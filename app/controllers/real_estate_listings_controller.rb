@@ -1,10 +1,10 @@
 class RealEstateListingsController < ApplicationController
   load_and_authorize_resource :location
-  load_and_authorize_resource :real_estate_listing
+  load_and_authorize_resource :real_estate_listing, through: :location
 
   # GET /real_estate_listings
   # GET /real_estate_listings.json
-  def index 
+  def index
     @real_estate_listings = @location.real_estate_listings
     respond_to do |format|
       format.html # index.html.erb
@@ -15,9 +15,9 @@ class RealEstateListingsController < ApplicationController
   # GET /real_estate_listings/1
   # GET /real_estate_listings/1.json
   def show
-    
+
     @vertical_market = @location.vertical_market_categories.first.vertical_market
-    
+
 
     add_crumb @district.name, district_guide_path(@district) if @district
     add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
@@ -82,7 +82,7 @@ class RealEstateListingsController < ApplicationController
   # DELETE /real_estate_listings/1
   # DELETE /real_estate_listings/1.json
   def destroy
-    
+
     @real_estate_listing.destroy
 
     respond_to do |format|

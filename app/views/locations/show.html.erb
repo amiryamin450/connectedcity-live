@@ -4,32 +4,32 @@
 
 
     <div class="pad10 holder clearfix">
-      <div class="row-fluid">
-        <div class="span12">
-          <% if @location_carousel_images.count > 1 %>
-            <div id="locationCarousel" class="carousel slide">
-              <ol class="carousel-indicators">
-                <% @location_carousel_images.each_with_index do |image, index| %>
-                  <li data-target="#locationCarousel" data-slide-to="<%= index %>" class="<%= index == 0 ? 'active' : ''  %>"></li>
-                <% end %>
-              </ol>
-              <div class="carousel-inner">
-                <% @location_carousel_images.each_with_index do |image, index| %>
-                  <div class="item <%= index == 0 ? 'active' : '' %>">
-                    <%= image_tag image.url %>
-                  </div>
-                <% end %>
+      <% if @location_carousel_images.count > 1 || @location_carousel_images.any? %>
+        <div class="row-fluid">
+          <div class="span12">
+            <% if @location_carousel_images.count > 1 %>
+              <div id="locationCarousel" class="carousel slide">
+                <ol class="carousel-indicators">
+                  <% @location_carousel_images.each_with_index do |image, index| %>
+                    <li data-target="#locationCarousel" data-slide-to="<%= index %>" class="<%= index == 0 ? 'active' : ''  %>"></li>
+                  <% end %>
+                </ol>
+                <div class="carousel-inner">
+                  <% @location_carousel_images.each_with_index do |image, index| %>
+                    <div class="item <%= index == 0 ? 'active' : '' %>">
+                      <%= image_tag image.url %>
+                    </div>
+                  <% end %>
+                </div>
+                <a class="carousel-control left" href="#locationCarousel" data-slide="prev">&lsaquo;</a>
+                <a class="carousel-control right" href="#locationCarousel" data-slide="next">&rsaquo;</a>
               </div>
-              <a class="carousel-control left" href="#locationCarousel" data-slide="prev">&lsaquo;</a>
-              <a class="carousel-control right" href="#locationCarousel" data-slide="next">&rsaquo;</a>
-            </div>
-          <% elsif @location_carousel_images.any? %>
-            <%= image_tag @location_carousel_images.first.url %>
-          <% else %>
-            <%= image_tag "http://placehold.it/1280x400" %>
-          <% end %>
+            <% elsif @location_carousel_images.any? %>
+              <%= image_tag @location_carousel_images.first.url %>
+            <% end %>
+          </div>
         </div>
-      </div>
+      <% end %>
 
       <div class="row-fluid" style="margin-top: 5px;">
         <div class="span3">
@@ -120,6 +120,9 @@
           <div class="status-tabs clearfix">
             <ul class="clearfix">
               <li><a href="#status_updates">Status Updates</a></li>
+              <% @location.social_profiles.each do |social_profile| %>
+                <li><%= link_to social_profile.social_network.to_s.humanize, "##{social_profile.social_network}" %></li>
+              <% end %>
               <li><a href="#news_articles">News Articles</a></li>
               <li><a href="#blog_entries">Blog Entries</a></li>
             </ul>
@@ -136,24 +139,18 @@
             <%= render 'blog_entry' %>
           </div>
 
+          <% @location.social_profiles.each do |social_profile| %>
+            <div id="<%= social_profile.social_network %>" class="social-profile social-profile--<%= social_profile.social_network %>">
+              <h4><%= social_profile.social_network.to_s.humanize %></h4>
+              <div></div>
+              <script>
+                $('.social-profile--<%= social_profile.social_network %> div').load('<%= polymorphic_path([@location, social_profile]) %>?_=<%= Time.now.to_i %>');
+              </script>
+            </div>
+          <% end %>
+
 
         </div>
-      </div>
-    </div>
-
-    <% @location.social_profiles.each do |social_profile| %>
-      <div class="pad10 holder clearfix social-profile social-profile--<%= social_profile.social_network %>">
-        <h4 class="title"><%= social_profile.social_network.to_s.humanize %></h4>
-        <div></div>
-        <script>
-          $('.social-profile--<%= social_profile.social_network %> div').load('<%= polymorphic_path([@location, social_profile]) %>?_=<%= Time.now.to_i %>');
-        </script>
-      </div>
-    <% end %>
-
-    <div class="social-feed">
-      <div class="pad10 holder clearfix">
-        <div class="fb-comments" data-href="<%= request.fullpath %>" data-num-posts="5" data-width="530"></div>
       </div>
     </div>
   </div>

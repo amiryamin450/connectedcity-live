@@ -52,7 +52,7 @@ Connectbook::Application.routes.draw do
       end
 
       member do
-        get 'claim', action: :claim, as: :claim
+        get 'claim', action: :claim, as: :claim, constraints: ->(request) { Location.find(request.params[:id]).user_ids.empty? }
         get 'release', action: :release, as: :release
       end
 
@@ -213,6 +213,8 @@ Connectbook::Application.routes.draw do
 
   get 'search' => 'vertical_markets#search'
   get 'search/:market' => 'vertical_markets#search', as: :region_market_search
+  get ':district_route/:neighborhood/search' => 'vertical_markets#search'
+  get ':district_route/:neighborhood/search/:market' => 'vertical_markets#search'
   get ':district_route/search' => 'vertical_markets#search'
   get ':district_route/search/:market' => 'vertical_markets#search'
 
