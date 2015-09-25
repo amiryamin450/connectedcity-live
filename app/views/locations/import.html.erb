@@ -1,0 +1,13 @@
+<% if @response.present? && !@response.success? %>
+  <div class="alert alert-error">
+    <%= @response.error %>
+  </div>
+<% end %>
+
+<h1>Business Import</h1>
+
+<%= simple_form_for @location, :html => { :multipart => true}, url: import_locations_path do |l| %>
+  <%= l.input :csv, label: "CSV", as: :file %>
+  <%= l.button :submit, value: 'Upload Businesses', class: 'btn-primary' %>
+  <%= link_to 'Back', locations_path, class: 'btn' %>
+<% end %>

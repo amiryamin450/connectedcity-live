@@ -1,7 +1,8 @@
 <h1>Listing locations</h1>
 
 <div class="pull-right">
-  <%= link_to 'Show Pending Claims', pending_claims_locations_path %>
+  <%= link_to 'Show Pending Claims', pending_claims_locations_path %><br />
+  <%= link_to 'Import Businesses', import_locations_path %>
 </div>
 
 <%= search_form_for @search, class: 'form-search' do |f| %>

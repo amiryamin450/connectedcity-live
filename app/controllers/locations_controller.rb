@@ -175,4 +175,16 @@ class LocationsController < ApplicationController
   def connected_advertiser
     @location = Location.find(params[:id])
   end
+
+  def import
+    @location = Location.new
+  end
+
+  def do_import
+    @response = ImportService.new(params[:location]).import_businesses
+    if !@response.success?
+      @location = Location.new
+      render action: "import"
+    end
+  end
 end
