@@ -15,7 +15,9 @@ class StatusUpdate < ActiveRecord::Base
                     :path => ":rails_root/public/assets/status_update/:id/:style/:basename.:extension"
 
   attr_accessible :content, :provider, :district_id, :neighborhood_id, :latitude, :longitude, :city_id, :province_id,
-                  :vertical_markets, :vertical_market_categories, :image
+                  :vertical_markets, :vertical_market_categories, :image, :social_profile_ids
+
+  attr_accessor :social_profile_ids
 
   validates_presence_of :content, message: "Content can't be blank"
   validates_length_of :content, maximum: 255
@@ -35,8 +37,12 @@ class StatusUpdate < ActiveRecord::Base
 
   # TODO Should this be done asynchronously?
   after_create do
+    return if social_profile_ids.nil? || social_profile_ids.empty?
+
     if statusable.respond_to?(:social_profiles) && statusable.social_profiles.any?
       statusable.social_profiles.each do |social_profile|
+        next unless social_profile_ids.include?(social_profile.id.to_s)
+
         case social_profile.social_network
         when :twitter
           begin

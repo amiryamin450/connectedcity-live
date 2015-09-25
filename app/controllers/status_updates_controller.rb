@@ -8,6 +8,7 @@ class StatusUpdatesController < ApplicationController
 
   def new
     @status_update = location.status_updates.build
+    @status_update.social_profile_ids = location.social_profiles.pluck(:id).map(&:to_s)
   end
 
   def create

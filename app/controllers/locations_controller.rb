@@ -37,6 +37,7 @@ class LocationsController < ApplicationController
 
     # TODO - should only happen if user is logged in and can post a status update
     @status_update = @location.status_updates.build
+    @status_update.social_profile_ids = @location.social_profiles.pluck(:id).map(&:to_s)
 
     @vertical_market = @location.vertical_market_categories.first.vertical_market if @location.vertical_market_categories.size > 0
 
