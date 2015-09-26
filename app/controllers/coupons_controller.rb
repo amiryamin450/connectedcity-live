@@ -3,7 +3,7 @@ class CouponsController < ApplicationController
 
   # These must remain in this order.
   load_and_authorize_resource :location, except: [:redeem, :claim]
-  before_filter :load_coupon, except: [:redeem, :claim, :index]
+  before_filter :load_coupon, except: [:redeem, :claim, :index, :new, :create]
   load_and_authorize_resource :coupon, through: [:location], except: [:redeem, :claim]
 
   # GET /coupons

@@ -1,4 +1,4 @@
-host: connectedcity.dev
+host: localhost:3000
 
 # Facebook
 facebook_app_id: 1644731362434230
