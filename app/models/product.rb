@@ -10,7 +10,7 @@ class Product < ActiveRecord::Base
                               thumb: "50x50#", list: "320", display: "640"
                               },
                     :url => "/system/products/image/:id/:style/:basename.:extension",
-                    :path => ":rails_root/public/system/products/image/:id/:style/:basename.:extension",          
+                    :path => ":rails_root/public/system/products/image/:id/:style/:basename.:extension",
                     default_url: "http://placehold.it/50x50"
 
   validates_presence_of :description, :name, :price

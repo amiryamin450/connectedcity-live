@@ -1,5 +1,5 @@
 <h1>Connected Advertiser</h1>
-<h3><%= @location.name %></h3>
+<h3><%= link_to @location.name, @location %></h3>
 <div class="row-fluid">
   <div class="span3">
     <a href="<%= location_status_updates_path(@location) %>">

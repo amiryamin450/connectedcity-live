@@ -1,7 +1,9 @@
 <h1><%= @service.name %></h1>
 
-<div><%= image_tag @service.image.url :thumb %></div>
-<div><%= @service.sku %></div>
+<div><%= image_tag @service.image.url %></div>
+<% if user_signed_in? and current_user.can_manage_location? @location %>
+  <div><strong>SKU:</strong> <%= @service.sku %></div>
+<% end %>
 <div><%= number_to_currency @service.price %></div>
 <div><%= @service.description.html_safe %></div>
 
