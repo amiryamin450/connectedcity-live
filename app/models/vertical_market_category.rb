@@ -8,6 +8,7 @@ class VerticalMarketCategory < ActiveRecord::Base
   has_many :media_attachments,  :through => :locations, uniq: true
   has_many :coupons,            :through => :locations, uniq: true
   has_many :products,           :through => :locations, uniq: true
+  has_many :services,           :through => :locations, uniq: true
   has_many :events,             :through => :locations, uniq: true
   has_many :news_articles,      :through => :locations, uniq: true
   has_many :blog_entries,       :through => :locations, uniq: true

@@ -3,10 +3,10 @@
   <div class="span6">
     <div class=""><%= image_tag @product.image.url(:display), class: 'thumbnail' %></div>
 
-    <% if @product.sku.present? %>
+    <% if @product.sku.present? && (user_signed_in? and current_user.can_manage_location? @location) %>
       <div><strong>Sku: </strong><%= @product.sku %></div>
     <% end %>
-    
+
     <div><strong>Price: </strong><%= number_to_currency @product.price %></div>
     <div><%= @product.description.html_safe %></div>
 

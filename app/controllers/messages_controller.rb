@@ -68,7 +68,7 @@ class MessagesController < ApplicationController
 
       receipt = current_manager.reply_to_conversation @conversation, @message.body
     else
-      @message.recipients = Location.where(id: @message.recipients.split(',')) if @message.recipients
+      @message.recipients = Location.where(id: @message.recipients.to_s.split(',')) if @message.recipients
 
       unless @message.valid?
         @message.recipients = @message.recipients.map(&:id).join(",")

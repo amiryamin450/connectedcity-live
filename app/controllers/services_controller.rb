@@ -18,6 +18,10 @@ class ServicesController < ApplicationController
   def show
     @service = Service.find(params[:id])
 
+    set_location_dependent_crumbs
+    add_crumb 'Services'
+    add_crumb @service.name
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @service }
