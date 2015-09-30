@@ -1,4 +1,4 @@
-<%= simple_form_for message, remote: true, html: { class: "messaging-message-reply" } do |f| %>
+<%= simple_form_for message, url: @path, remote: true, html: { class: "messaging-message-reply" } do |f| %>
   <%= f.input :recipients, as: :hidden %>
   <%= f.input :subject %>
   <%= f.input :body, as: :text, label: "Your message" %>

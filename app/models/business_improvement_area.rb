@@ -1,11 +1,14 @@
 class BusinessImprovementArea < ActiveRecord::Base
   extend FriendlyId
 
+  acts_as_messageable
+
   default_scope order(:name)
 
   belongs_to :district
+  belongs_to :user
   has_many :status_updates, as: :statusable, dependent: :destroy
-  
+
   has_many :locations
   has_many :location_status_updates, through: :locations, source: :status_updates, uniq: true
   has_many :events, through: :locations, uniq: true
@@ -23,7 +26,7 @@ class BusinessImprovementArea < ActiveRecord::Base
   friendly_id :name, use: [:slugged, :history]
 
   def neighborhood_id
-    nil 
+    nil
   end
 
   def latitude
@@ -38,7 +41,7 @@ class BusinessImprovementArea < ActiveRecord::Base
     nil
   end
 
-  def province_id 
+  def province_id
     nil
   end
 

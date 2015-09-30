@@ -1,11 +1,16 @@
 <div class="row-fluid">
   <div class="span8">
     <h3><%= @business_improvement_area.name %>
-      <% if user_signed_in? and current_user.has_role? :admin %>
+      <% if user_signed_in? && (current_user.has_role?(:admin) || current_user.business_improvement_area_ids.include?(@business_improvement_area.id)) %>
       <small>
-        <%= link_to 'edit', edit_business_improvement_area_path(@business_improvement_area) %>
-        <% if @business_improvement_area.use_carousel %>
-        | <%= link_to 'edit carousel', polymorphic_path([@business_improvement_area, :carousel_images])  %>
+        <% if current_user.has_role? :admin %>
+          <%= link_to 'edit', edit_business_improvement_area_path(@business_improvement_area) %>
+          <% if @business_improvement_area.use_carousel %>
+          | <%= link_to 'edit carousel', polymorphic_path([@business_improvement_area, :carousel_images])  %>
+          <% end %>
+        <% end %>
+        <% if current_user.business_improvement_area_ids.include? @business_improvement_area.id %>
+          | <%= link_to "message members", "#", role: "button", data: { toggle: "modal", target: "#new_message" } %>
         <% end %>
       </small>
       <% end -%>
@@ -171,6 +176,19 @@
 
 <% if user_signed_in? and current_user.has_role? :admin %>
 <%############# status update ###############%>
+
+<div class="modal fade hide" id="new_message" tabindex="-1" role="dialog" aria-labelledby="new_message" aria-hidden="true" data-remote="<%= url_for([:new, @business_improvement_area, :message]) %>">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Message members</h3>
+  </div>
+  <div class="modal-body"></div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary">Send</button>
+  </div>
+</div>
+
 
 <%= render 'status_update_form' %>
 
