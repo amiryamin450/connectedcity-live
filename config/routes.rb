@@ -58,6 +58,7 @@ Connectbook::Application.routes.draw do
       end
 
       resources :social_profiles, path: "social-profiles", only: [:index, :destroy] do
+        # eg. social_profiles/new/action
         new do
           get ":social_network" => :new, as: ""
         end
@@ -138,9 +139,13 @@ Connectbook::Application.routes.draw do
     resources :locations, path: 'business', as: :locations, except: [:show] do
       resources :status_updates, path: 'status-updates', except: [:index, :new, :create]
       resources :new_home_communities
+      # eg. business/action
       collection do
         get :pending_claims
+        get :import
+        post "import", action: :do_import
       end
+      # eg. business/:id/action
       member do
         get :approve_claim
         get :reject_claim
