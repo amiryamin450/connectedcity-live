@@ -95,7 +95,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def set_location_dependent_crumbs
+  def set_location_dependent_vertical_market_crumbs
     @vertical_market = @location.vertical_market_categories.first.vertical_market
     add_crumb '<i class="icon-home"></i> Home'.html_safe, @base_path
     add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
