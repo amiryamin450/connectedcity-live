@@ -1,13 +1,16 @@
 <h1><%= @event.name %></h1>
 <div class="dates">
-  <%=  "<strong>Starts:</strong> #{@event.starts_at.strftime('%m/%d/%Y %l:%M %p')}".html_safe if @event.starts_at.present? %>
-  <%=  " | <strong>Ends:</strong> #{@event.ends_at.strftime('%m/%d/%Y %l:%M %p')}".html_safe if @event.ends_at.present? %>
+  <%=  "<strong>Starts:</strong> #{@event.starts_at.strftime('%b. %d, %Y %l:%M %p')}".html_safe if @event.starts_at.present? %>
+  <%=  " | <strong>Ends:</strong> #{@event.ends_at.strftime('%b. %d, %Y %l:%M %p')}".html_safe if @event.ends_at.present? %>
 </div>
 <div class="event-info">
-  <%= link_to "Event Website", @event.url if @event.url? %>
-  <%= "#{@event.url? ? '|' : ''} #{mail_to(@event.email)}".html_safe if @event.email.present? %>
+  <%= link_to "Event Website", @event.url, target: "_blank" if @event.url? %>
+  <%= "#{@event.url? ? '|' : ''} #{mail_to(@event.email, 'Email Event Organizer')}".html_safe if @event.email.present? %>
+  <% if user_signed_in? %>
+    <%= link_to "| Send a message", "#", data: { toggle: "modal", target: "#new_message" } %>
+  <% end %>
 </div>
-<div><%= image_tag @event.image.url :thumb if @event.image.present? %></div>
+<div><%= image_tag @event.image.url if @event.image.present? %></div>
 <div>
   <p>
     <%= @event.description.html_safe %>
@@ -21,3 +24,5 @@
   <%= link_to "Back to #{@location.name}", @location, class: 'btn' %>
 </div>
 <% end %>
+
+<%= render 'messages/modal_new' %>

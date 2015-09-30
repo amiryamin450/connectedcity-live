@@ -25,7 +25,7 @@
           <a href="#managers" data-toggle="tab">Managers</a>
         </li>
         <% end %>
-        <% if @location.vertical_market_categories.exists?(100) %>
+        <% if @location.vertical_market_category_ids.include?(100) %>
           <li>
             <a href="#agents" data-toggle="tab">Real Estate Agents</a>
           </li>

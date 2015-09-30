@@ -1,0 +1,8 @@
+<div class="row-fluid service">
+  <div class="img-thumb span2">
+    <%= link_to(image_tag(service.image.url), [service.location, service]) if service.image? %>
+  </div>
+  <div class="span10">
+    <div><strong><%= link_to(service.name, [service.location, service]) %></strong> <%= raw " <span class='price' >$#{service.price}</span>" if service.price.present? %></div>
+  </div>
+</div>

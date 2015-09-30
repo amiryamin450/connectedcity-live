@@ -6,6 +6,7 @@ class VerticalMarket < ActiveRecord::Base
   has_many :locations,          :through => :vertical_market_categories
   has_many :status_updates,     :through => :locations, uniq: true
   has_many :products,           :through => :locations, uniq: true
+  has_many :services,           :through => :locations, uniq: true
   has_many :blog_entries,       :through => :locations, uniq: true
   has_many :events,             :through => :locations, uniq: true
   has_many :news_articles,      :through => :locations, uniq: true
@@ -89,11 +90,19 @@ class VerticalMarket < ActiveRecord::Base
   end
 
   def get_products(city = nil, district = nil, neighbrhd = nil)
-    result = VerticalMarketCategory.includes(:products).where(vertical_market_id: self.subtree_ids)
-    result = result.where('locations.city_id = ?', 5915022)
-    result = result.where('locations.district_id = ?', district.id) if district
-    result = result.where('locations.neighborhood_id = ?', neighbrhd.id) if neighbrhd.present?
-    result = result.map(&:products).compact.flatten.sort_by(&:created_at).reverse.uniq.first(10)
+    products_results = VerticalMarketCategory.includes(:products).where(vertical_market_id: self.subtree_ids)
+    products_results = products_results.where('locations.city_id = ?', 5915022)
+    products_results = products_results.where('locations.district_id = ?', district.id) if district
+    products_results = products_results.where('locations.neighborhood_id = ?', neighbrhd.id) if neighbrhd.present?
+    products_results = products_results.map(&:products)
+
+    services_results = VerticalMarketCategory.includes(:services).where(vertical_market_id: self.subtree_ids)
+    services_results = services_results.where('locations.city_id = ?', 5915022)
+    services_results = services_results.where('locations.district_id = ?', district.id) if district
+    services_results = services_results.where('locations.neighborhood_id = ?', neighbrhd.id) if neighbrhd.present?
+    services_results = services_results.map(&:services)
+
+    products_and_services = (products_results << services_results).compact.flatten.sort_by(&:created_at).reverse.uniq.first(10)
   end
 
   def get_blog_entries(city = nil, district = nil, neighbrhd = nil)
@@ -106,10 +115,12 @@ class VerticalMarket < ActiveRecord::Base
   end
 
   def get_events(city = nil, district = nil, neighbrhd = nil)
-    result = VerticalMarketCategory.includes(:events).where(vertical_market_id: self.subtree_ids)
+    result = VerticalMarketCategory.joins(:events).where(vertical_market_id: self.subtree_ids)
     result = result.where('locations.city_id = ?', 5915022)
     result = result.where('locations.district_id = ?', district.id) if district
     result = result.where('locations.neighborhood_id = ?', neighbrhd.id) if neighbrhd.present?
+    # using joins above enables this next where clause to work, but when it maps does it re-query?
+    result = result.where('events.ends_at > ?', Time.current)
     result = result.map(&:events).compact.flatten.sort_by(&:created_at).reverse.uniq.first(10)
     result
   end
