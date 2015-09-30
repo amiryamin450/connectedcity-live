@@ -1,13 +1,13 @@
 <h1><%= @service.name %></h1>
 
 <div><%= image_tag @service.image.url %></div>
-<% if user_signed_in? and current_user.can_manage_location? @location %>
+<% if user_signed_in? && current_user.can_manage_location? @location %>
   <div><strong>SKU:</strong> <%= @service.sku %></div>
 <% end %>
 <div><%= number_to_currency @service.price %></div>
 <div><%= @service.description.html_safe %></div>
 
-<% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+<% if (user_signed_in? && current_user.has_role? :admin) or (user_signed_in? && current_user.can_manage_location? @location) %>
 <div style="margin-top: 1.5em">
   <%= link_to "Edit", edit_location_service_path(@location, @service), class: 'btn btn-primary' %>
   <%= link_to "Create New service", new_location_service_path(@location), class: 'btn' %>

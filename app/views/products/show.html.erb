@@ -3,14 +3,14 @@
   <div class="span6">
     <div class=""><%= image_tag @product.image.url(:display), class: 'thumbnail' %></div>
 
-    <% if @product.sku.present? && (user_signed_in? and current_user.can_manage_location? @location) %>
+    <% if @product.sku.present? && (user_signed_in? && current_user.can_manage_location? @location) %>
       <div><strong>Sku: </strong><%= @product.sku %></div>
     <% end %>
 
     <div><strong>Price: </strong><%= number_to_currency @product.price %></div>
     <div><%= @product.description.html_safe %></div>
 
-    <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+    <% if (user_signed_in? && current_user.has_role? :admin) or (user_signed_in? && current_user.can_manage_location? @location) %>
     <div style="margin-top: 1.5em">
       <%= link_to "Edit", edit_location_product_path(@location, @product), class: 'btn btn-primary' %>
       <%= link_to "Create New Product", new_location_product_path(@location), class: 'btn' %>
