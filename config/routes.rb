@@ -19,6 +19,7 @@ Connectbook::Application.routes.draw do
     resources :location_images, only: [:destroy]
 
     resources :business_improvement_areas, path: 'bia', only: [] do
+      resources :messages, only: [:new, :create]
       resources :carousel_images, defaults: { carouselable: 'business_improvement_area' }
     end
 
@@ -46,6 +47,7 @@ Connectbook::Application.routes.draw do
       resources :real_estate_listings, path: 'listings', except: [:show]
       resources :status_updates, path: 'status-updates', only: [:index, :new, :create, :destroy]
       resources :managers, only: [:new, :create, :destroy]
+      resources :messages, only: [:new, :create]
 
       resources :real_estate_listings, path: 'listings', except: [:show] do
         resources :real_estate_listings_images, only: [:destroy]
@@ -81,7 +83,7 @@ Connectbook::Application.routes.draw do
       end
     end
 
-    resources :messages, only: [:index, :new, :create, :destroy] do
+    resources :messages, only: [:index, :create, :destroy] do
       collection do
         get ":folder" => :index, constraints: { folder: /sent|trash/ }
       end

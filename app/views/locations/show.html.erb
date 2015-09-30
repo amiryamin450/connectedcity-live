@@ -306,7 +306,7 @@
 
 <!--- Modals -->
 
-<div class="modal fade hide" id="new_message" tabindex="-1" role="dialog" aria-labelledby="new_message" aria-hidden="true" data-remote="/messages/new?location_id=<%= @location.id %>">
+<div class="modal fade hide" id="new_message" tabindex="-1" role="dialog" aria-labelledby="new_message" aria-hidden="true" data-remote="<%= url_for([:new, @location, :message]) %>">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel">Send a message</h3>

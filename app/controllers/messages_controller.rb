@@ -3,13 +3,13 @@ class MessagesController < ApplicationController
     @folder = params[:folder] || "inbox"
 
     @conversations = case @folder
-                    when "inbox"
-                      current_user.mailbox.inbox + current_user.managers.map do |manager| manager.location.mailbox.inbox end.flatten
-                    when "sent"
-                      current_user.mailbox.sentbox + current_user.managers.map do |manager| manager.location.mailbox.sentbox end.flatten
-                    when "trash"
-                      current_user.mailbox.trash + current_user.managers.map do |manager| manager.location.mailbox.trash end.flatten
-                    end
+                     when "inbox"
+                       current_user.mailbox.inbox + current_user.managers.map do |manager| manager.location.mailbox.inbox end.flatten + current_user.business_improvement_areas.map do |bia| bia.mailbox.inbox end.flatten
+                     when "sent"
+                       current_user.mailbox.sentbox + current_user.managers.map do |manager| manager.location.mailbox.sentbox end.flatten + current_user.business_improvement_areas.map do |bia| bia.mailbox.sentbox end.flatten
+                     when "trash"
+                       current_user.mailbox.trash + current_user.managers.map do |manager| manager.location.mailbox.trash end.flatten + current_user.business_improvement_areas.map do |bia| bia.mailbox.trash end.flatten
+                     end
     @conversations = @conversations.sort_by(&:updated_at).reverse unless @conversations.nil?
 
     add_crumb "Messaging"
@@ -21,7 +21,7 @@ class MessagesController < ApplicationController
 
     current_manager = current_user
     if !@conversation.is_participant? current_manager
-      current_manager = manager @conversation, current_user.managers
+      current_manager = manager @conversation, current_user.managers.map(&:location) + current_user.business_improvement_areas
     end
 
     unless @conversation.is_participant? current_manager
@@ -40,15 +40,15 @@ class MessagesController < ApplicationController
   def new
     @message = Message.new
 
-    if params[:location_id]
-      @message.recipients = Location.find(params[:location_id]).id
-    end
+    setup_recipients_and_path
 
     render :new, layout: false
   end
 
   def create
     @message = Message.new params[:message]
+
+    setup_recipients_and_path
 
     if @message.conversation_id.present?
       @conversation = Mailboxer::Conversation.find @message.conversation_id
@@ -59,7 +59,7 @@ class MessagesController < ApplicationController
 
       current_manager = current_user
       if !@conversation.is_participant? current_manager
-        current_manager = manager @conversation, current_user.managers
+        current_manager = manager @conversation, current_user.managers.map(&:location) + current_user.business_improvement_areas
       end
 
       unless @conversation.is_participant? current_manager
@@ -68,14 +68,14 @@ class MessagesController < ApplicationController
 
       receipt = current_manager.reply_to_conversation @conversation, @message.body
     else
-      @message.recipients = Location.find @message.recipients if @message.recipients
+      @message.recipients = Location.where(id: @message.recipients.split(',')) if @message.recipients
 
       unless @message.valid?
-        @message.recipients = @message.recipients.id if @message.recipients
+        @message.recipients = @message.recipients.map(&:id).join(",")
         return render :new, layout: false
       end
 
-      receipt = current_user.send_message @message.recipients, @message.body, @message.subject
+      receipt = @from.send_message @message.recipients, @message.body, @message.subject
     end
 
     respond_to do |format|
@@ -95,7 +95,7 @@ class MessagesController < ApplicationController
       end
     end
 
-    current_manager = manager conversation, current_user.managers
+    current_manager = manager conversation, current_user.managers.map(&:location) + current_user.business_improvement_areas
     if current_manager
       if conversation.is_trashed? current_manager
         current_manager.mark_as_deleted conversation
@@ -108,8 +108,24 @@ class MessagesController < ApplicationController
   end
 
   private
+    def setup_recipients_and_path
+      if params[:location_id]
+        location = Location.find(params[:location_id])
+        @message.recipients = location.id
+        @path = url_for([location, :messages])
+        @from = current_user
+      elsif params[:business_improvement_area_id]
+        bia = BusinessImprovementArea.find(params[:business_improvement_area_id])
+        @message.recipients = bia.location_ids.join(",")
+        @path = url_for([bia, :messages])
+        @from = bia
+      else
+        @path = url_for([:messages])
+      end
+    end
+
     def manager(conversation, managers)
       return false if managers.empty?
-      managers.select do |manager| conversation.is_participant? manager.location end.first.location
+      managers.select do |manager| conversation.is_participant? manager end.first
     end
 end
