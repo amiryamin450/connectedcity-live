@@ -82,8 +82,8 @@
                   <%= operating_hour.object.day.to_s.humanize %></h4>
                   <%= operating_hour.input_field :day, as: :hidden %>
                 </th>
-                <td><%= operating_hour.input_field :starts_at, as: :time, label: false, style: "width: auto;" %></td>
-                <td><%= operating_hour.input_field :ends_at, as: :time, label: false, style: "width: auto;" %></td>
+                <td><%= operating_hour.input_field :starts_at, as: :time, label: false, style: "width: auto;", default: Time.parse('0:00') %></td>
+                <td><%= operating_hour.input_field :ends_at, as: :time, label: false, style: "width: auto;", default: Time.parse('0:00') %></td>
                 <td><%= operating_hour.input_field :closed, label: false %></td>
               </tr>
             <% end %>

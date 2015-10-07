@@ -3,6 +3,10 @@ class OperatingHour < ActiveRecord::Base
 
   attr_accessible :starts_at, :ends_at, :closed, :day
 
+  before_validation do
+    self.starts_at = self.ends_at = nil if starts_at == ends_at
+  end
+
   def open?
     !closed?
   end
