@@ -36,7 +36,7 @@ class StatusUpdate < ActiveRecord::Base
   end
 
   # TODO Should this be done asynchronously?
-  after_create do
+  def push
     return if social_profile_ids.nil? || social_profile_ids.empty?
 
     if statusable.respond_to?(:social_profiles) && statusable.social_profiles.any?
@@ -54,7 +54,7 @@ class StatusUpdate < ActiveRecord::Base
             end
 
             if image.present? && image.is_a?(Paperclip::Attachment)
-              client.update_with_media content, image.path
+              client.update_with_media content, open(image.path)
             else
               client.update content
             end
@@ -75,4 +75,5 @@ class StatusUpdate < ActiveRecord::Base
       end
     end
   end
+  after_create :push
 end
