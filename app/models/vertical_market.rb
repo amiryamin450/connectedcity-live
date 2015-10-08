@@ -63,7 +63,7 @@ class VerticalMarket < ActiveRecord::Base
     result = result.where('locations.city_id = ?', 5915022)
     result = result.where('locations.district_id = ?', district.id) if district.present?
     result = result.where('locations.neighborhood_id = ?', neighbrhd.id) if neighbrhd.present?
-    result = result.map(&:coupons).compact.flatten.sort_by(&:expiration).uniq.first(10)
+    result = result.map(&:coupons).compact.flatten.sort_by(&:created_at).reverse.uniq.first(10)
 
   end
 
