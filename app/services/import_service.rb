@@ -20,9 +20,6 @@ class ImportService
         # first check for duplicates (matching name and address)
         name, address, _, district_suffix, _, _, postal_code, _, _, phone, _, _, vertical_market_category, website_url = row
 
-        binding.pry
-        break
-
         if Location.exists?(name: name, address: address)
           messages << "Row #{$.}: Duplicate listing for #{row[0]} at #{row[1]}."
           next
