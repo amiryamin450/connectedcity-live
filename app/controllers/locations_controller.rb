@@ -64,6 +64,10 @@ class LocationsController < ApplicationController
       @location.vertical_market_categories = [VerticalMarketCategory.find(99)]
     else
       @location = Location.new
+
+      OperatingHour.days.keys.each do |day|
+        @location.operating_hours.build day: day
+      end
     end
 
     # 3.times { @location.location_images.build }
@@ -78,6 +82,13 @@ class LocationsController < ApplicationController
 
     cookies[:return_to] ||= request.referer
     @location = Location.find(params[:id])
+
+    unless @location.operating_hours.any?
+      OperatingHour.days.keys.each do |day|
+        @location.operating_hours.build day: day
+      end
+    end
+
     @managers = @location.managers.includes(:user)
     add_crumb @location.name, "#{@base_path}business/#{@location.slug}"
     add_crumb "Editing #{@location.name}"
@@ -109,6 +120,9 @@ class LocationsController < ApplicationController
         format.html { redirect_to cookies[:return_to].present? ? cookies[:return_to] : @location, notice: 'Location was successfully updated.' }
         format.json { render json: { files: [@location.location_images.last.to_jq_upload]}, status: :created, location: @location }
       else
+        puts params[:location].to_yaml
+        puts @location.errors.to_yaml
+
         format.html { render action: "edit" }
         format.json { render json: @location.errors, status: :unprocessable_entity }
       end

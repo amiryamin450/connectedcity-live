@@ -36,6 +36,9 @@ class Location < ActiveRecord::Base
   has_many :users, through: :managers
   has_many :social_profiles, as: :owner, dependent: :destroy
 
+  has_many :operating_hours, order: :day, dependent: :destroy
+  accepts_nested_attributes_for :operating_hours
+
   has_and_belongs_to_many :vertical_market_categories
   has_and_belongs_to_many :brands
   has_and_belongs_to_many :trade_associations
@@ -51,7 +54,8 @@ class Location < ActiveRecord::Base
     :blog_entries_attributes, :news_articles_attributes, :products_attributes, :services_attributes, :events_attributes,
     :brand_ids, :brand_tokens, :content, :vertical_market_categories, :district, :yp_lid, :yp_categories, :yp_neighborhoods,
     :city, :province, :district_id, :neighborhood, :country, :cover_photo, :neighborhood_id, :broker_id, :business_improvement_area_id,
-    :user, :trade_association_ids, :media_attachments_attributes, :delete_cover_photo, :delete_logo
+    :user, :trade_association_ids, :media_attachments_attributes, :delete_cover_photo, :delete_logo,
+    :operating_hours_attributes
 
   has_attached_file :logo, :styles => { :thumb => "70x55", :list => "168x80", :bia_display => "250x100"},
     :url => "/system/location/logo/:id/:style/:basename.:extension",

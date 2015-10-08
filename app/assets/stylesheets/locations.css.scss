@@ -82,7 +82,7 @@
     line-height: 1.5em;
   }
   .logo {
-    
+
   }
 
   a.add-favorite {
@@ -132,7 +132,7 @@ h5 {
   .sku, .dates { font-size: .8em; font-style: italic; }
   .price {
    font-size: .8em;
-   
+
  }
  .event-info {
   padding: 5px 0;
@@ -149,5 +149,45 @@ h5 {
 .caption {
   h6 {
     margin: 0;
+  }
+}
+
+.operating-hours {
+  margin: 10px 0;
+
+  h2 {
+    font-size: 100%;
+    line-height: 14px;
+    margin: 0;
+  }
+
+  dl {
+    margin: 0;
+
+    &:before,
+    &:after {
+      display: table;
+      content: "";
+      line-height: 0;
+    }
+
+    &:after {
+      clear: both;
+    }
+  }
+
+  dt {
+    float: left;
+    width: 80px;
+    clear: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 14px;
+  }
+
+  dd {
+    margin-left: 100px;
+    line-height: 14px;
   }
 }

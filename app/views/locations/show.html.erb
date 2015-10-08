@@ -54,6 +54,8 @@
 
 
            </div>
+
+            <%= render 'operating_hours' %>
          </div>
          <div id="favorite-<%= @location.id %>" class="favorite">
               <%= render 'favorites/like_button', :location_id => @location.id, :vertical_market_slug => @location.vertical_markets.first.slug if user_signed_in? and @location.vertical_markets.present? %>
