@@ -1,7 +1,9 @@
-<div class="well" id="notice"><%= notice %></div>
-
-
- <h1> <%= @employment_listing.title %></h1>
+<h1> <%= @employment_listing.title %></h1>
+<% if (user_signed_in? and current_user.can_manage_location? @location) %>
+<div>
+  <%= link_to "Edit", edit_location_employment_listing_path(@location, @employment_listing) %>
+</div>
+<% end %>
 
 <div style="margin: 15px 0;">
   <%= image_tag @employment_listing.cover_photo.url(:display), class: 'thumbnail' %>
@@ -27,4 +29,4 @@
 <div><strong>Job Number:</strong> <%= @employment_listing.number %></div>
 <div><strong>Locations:</strong> <%= @employment_listing.locations %></div>
 <div><strong>Number of Positions:</strong> <%= @employment_listing.number_of_positions %></div>
-<div><strong>Application Deadline:</strong> <%= @employment_listing.application_deadline %></div>
+<div><strong>Application Deadline:</strong> <%= @employment_listing.application_deadline.strftime("%b %d, %Y") %></div>

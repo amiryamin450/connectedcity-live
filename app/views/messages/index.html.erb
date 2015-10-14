@@ -1,0 +1,32 @@
+<h1><%= t "messaging.#{@folder}" %></h1>
+
+<% if @conversations.any? %>
+<table class="messaging-conversations">
+  <thead>
+    <tr>
+      <th><input type="checkbox"></th>
+      <th>Participants</th>
+      <th>Subject</th>
+      <th>Messages</th>
+      <th>Updated</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @conversations.each do |conversation| %>
+      <tr class="messaging-conversation<% if conversation.is_unread?(current_user) %> messaging-conversation--unread<% end %>">
+        <td><input type="checkbox"></td>
+        <td><%= conversation.recipients.map(&:name).join(", ") %></td>
+        <td><%= link_to conversation.subject, conversation %></td>
+        <td><%= conversation.count_messages %></td>
+        <td><%= time_ago_in_words conversation.updated_at %> ago</td>
+        <td>
+          <%= link_to @folder == "trash" ? "Delete Permanently" : "Trash", conversation, method: :delete, class: "btn btn-mini" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+  <div class="alert notice">No conversations found.</div>
+<% end %>

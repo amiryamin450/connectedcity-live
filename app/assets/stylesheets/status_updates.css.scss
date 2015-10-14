@@ -3,7 +3,7 @@
   padding-bottom: 10px;
   margin-bottom: 5px;
   border-bottom: 1px solid $darkGrey;
-  &:last-child { 
+  &:last-child {
     border-bottom: none;
     margin-bottom: 0;
   }
@@ -26,6 +26,10 @@
 
 }
 
+a.delete {
+  text-decoration: none;
+}
+
 #status_update {
   .dz-message {
     line-height: 4em;
@@ -37,8 +41,8 @@
     @include border-radius(5px);
     @include background(linear-gradient(color-stops(#fcfcfc, #dad8d8)));
     @include box-shadow(#666 0px 0px 9px);
-    div { 
-      margin: 0; 
+    div {
+      margin: 0;
       padding-top: 5px;
       font-family: Helvetica, sans-serif;
       font-size: 12px;

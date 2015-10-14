@@ -9,30 +9,69 @@ class Ability
       can :read, :all
       can :manage, ClassifiedListing, user_id: user.id
 
-      can :manage, Location, user_id: user.id, claim_pending: false
+      can :manage, Location do |location|
+        location.user_can_manage?(user)
+      end
 
-      ###########################
-      # Rules for User/Location #
-      ###########################
+      can :manage, Manager, location: { id: user.location_ids }
+
+      can :manage, LocationImage do |location_image|
+        can? :manage, location_image.location
+      end
+
       can :manage, BlogEntry do |blog|
-        blog.bloggable.user_id == user.id
+        can? :manage, blog.bloggable
       end
 
       can :manage, NewsArticle do |article|
-        article.newsable.user_id == user.id
+        can? :manage, article.newsable
       end
 
       can :manage, MediaAttachment do |media_attachment|
-        media_attachment.attachable.user_id == user.id
+        can? :manage, media_attachment.attachable
+      end
+
+      can :manage, StatusUpdate do |status_update|
+        can? :manage, status_update.statusable
+      end
+
+      can :manage, NewHomeCommunity do |new_home_community|
+        can? :manage, new_home_community.location
+      end
+
+      can :manage, NewHome do |new_home|
+        can? :manage, new_home.new_home_community
       end
 
       can :manage, AutomotiveListing, location: { user_id: user.id }
-      can :manage, Product, location: { user_id: user.id }
-      can :manage, Coupon, location: { user_id: user.id }
-      can :manage, Service, location: { user_id: user.id }
-      can :manage, Event, location: { user_id: user.id }
-      can :manage, EmploymentListing, location: { user_id: user.id }
 
+      can :manage, Product do |product|
+        can? :manage, product.location
+      end
+
+      can :manage, Coupon do |coupon|
+        can? :manage, coupon.location
+      end
+
+      can :manage, Service do |service|
+        can? :manage, service.location
+      end
+
+      can :manage, Event do |event|
+        can? :manage, event.location
+      end
+
+      can :manage, EmploymentListing do |employment_listing|
+        can? :manage, employment_listing.location
+      end
+
+      cannot :read, SocialProfile do |social_profile|
+        cannot? :manage, social_profile.owner
+      end
+
+      can :manage, SocialProfile do |social_profile|
+        can? :manage, social_profile.owner
+      end
     end
 
     # Define abilities for the passed in user here. For example:

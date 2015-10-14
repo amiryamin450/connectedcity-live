@@ -75,6 +75,7 @@ class VerticalMarketsController < ApplicationController
     vm = nil
     vm = VerticalMarket.find(params[:market]) if params[:market].present?
     district = District.find(params[:district_route]) if params[:district_route].present?
+    neighborhood = Neighborhood.find(params[:neighborhood]) if params[:neighborhood].present?
     @vertical_market = vm if vm.present?
 
 
@@ -95,6 +96,7 @@ class VerticalMarketsController < ApplicationController
       with(:city_id, 5915022)
       with(:vertical_market_ids, ids) if vm.present?
       with(:district_id, district.id) if district.present?
+      with(:neighborhood_id, neighborhood.id) if neighborhood.present?
     end
 
     @results = @search.results

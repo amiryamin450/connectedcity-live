@@ -16,6 +16,7 @@ class Coupon < ActiveRecord::Base
   validates :expiration, presence: true
   validates :howmany, presence: true,  numericality: { only_integer: true, greater_than: 0 }
 
+  default_scope where("expiration >= ?", Date.today)
 
   def current_coupon_code
     "#{code_prefix}-#{location.id}-#{how_many_left}"

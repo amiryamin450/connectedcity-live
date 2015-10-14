@@ -1,5 +1,4 @@
 jQuery ->
-  console.log 'test'
   if $('form .tabbable .error').length > 0
     console.log 'errror tab'
     href = $('form .error').first().closest('.tab-pane').attr 'id'

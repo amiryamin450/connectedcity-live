@@ -1,0 +1,21 @@
+<h1>Business Import</h1>
+
+<div>
+  <p>
+    Your import was a success. Details as follows:
+  </p>
+  <hr />
+  <% @response.data.each do |message| %>
+    <span>
+      <%= message %>
+    </span><br />
+  <% end %>
+  <hr />
+  <strong>
+    <%= @response.success_count %> rows imported.
+  </strong>
+</div>
+<hr />
+<div>
+  <%= link_to 'Back', locations_path, class: 'btn' %>
+</div>

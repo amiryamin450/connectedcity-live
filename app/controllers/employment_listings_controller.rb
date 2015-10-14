@@ -1,13 +1,18 @@
 class EmploymentListingsController < ApplicationController
 
   load_and_authorize_resource :location, except: [:guide]
+  before_filter :load_employment_listing, except: [:guide, :index, :new, :create]
   load_and_authorize_resource :employment_listing, through: [:location], except: [:guide]
 
 
   # GET /employment_listings
   # GET /employment_listings.json
   def index
-    @employment_listings = @location.employment_listings
+    if user_signed_in? && @location.user_ids.include?(current_user.id)
+      @employment_listings = EmploymentListing.unscoped.where(location_id: @location.id)
+    else
+      @employment_listings = @location.employment_listings
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -71,8 +76,6 @@ class EmploymentListingsController < ApplicationController
   # PUT /employment_listings/1
   # PUT /employment_listings/1.json
   def update
-    @employment_listing = EmploymentListing.find(params[:id])
-
     respond_to do |format|
       if @employment_listing.update_attributes(params[:employment_listing])
         format.html { redirect_to [@location, @employment_listing], notice: 'Employment listing was successfully updated.' }
@@ -87,12 +90,20 @@ class EmploymentListingsController < ApplicationController
   # DELETE /employment_listings/1
   # DELETE /employment_listings/1.json
   def destroy
-    @employment_listing = EmploymentListing.find(params[:id])
     @employment_listing.destroy
 
     respond_to do |format|
       format.html { redirect_to location_employment_listings_url }
       format.json { head :no_content }
+    end
+  end
+
+  private
+  def load_employment_listing
+    if user_signed_in? && @location.user_ids.include?(current_user.id)
+      @employment_listing = EmploymentListing.unscoped.where(location_id: @location.id).find(params[:id])
+    else
+      @employment_listing = @location.employment_listings.find params[:id]
     end
   end
 end

@@ -1,11 +1,10 @@
 class NewHomeCommunitiesController < ApplicationController
-  load_and_authorize_resource :location
-  load_and_authorize_resource :new_home_community
+  load_resource :location
+  load_and_authorize_resource :new_home_community, through: [:location]
   # GET /new_home_communities
   # GET /new_home_communities.json
   def index
-   
-
+    @new_home_communities = @location.new_home_communities
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @new_home_communities }
@@ -16,7 +15,7 @@ class NewHomeCommunitiesController < ApplicationController
   # GET /new_home_communities/1.json
   def show
     @vertical_market = @location.vertical_market_categories.first.vertical_market
-    
+
 
     add_crumb @district.name, district_guide_path(@district) if @district
     add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
@@ -89,4 +88,5 @@ class NewHomeCommunitiesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
 end

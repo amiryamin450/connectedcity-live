@@ -3,9 +3,10 @@ class Neighborhood < ActiveRecord::Base
 
   self.primary_key = 'nid'
 
-  belongs_to :district 
+  belongs_to :district
   belongs_to :city, foreign_key: "placecode"
   has_many :locations
+  has_many :city_news_articles
 
   default_scope order(:neighborhd)
 
@@ -16,7 +17,7 @@ class Neighborhood < ActiveRecord::Base
   def name
     neighborhd
   end
-  
+
   def wkt
     Neighborhood.select(%q{AsText(geom) as geom}).where(:nid => nid).map(&:geom).first
   end
@@ -30,4 +31,3 @@ class Neighborhood < ActiveRecord::Base
   end
 
 end
-

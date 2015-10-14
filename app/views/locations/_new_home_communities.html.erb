@@ -16,7 +16,7 @@
         <div class="thumbnail">
           <%= link_to(image_tag(community.cover_photo.url), [@location, community]) %>
           <div class="caption">
-            <h6><%= link_to community.name, [@location, community] %></h6>            
+            <h6><%= link_to community.name, [@location, community] %></h6>
           </div>
         </div>
         <% end -%>
@@ -25,7 +25,7 @@
   </ul>
 </div>
 
-<% end -%>   
+<% end -%>
 
   <%= paginate @new_home_communities, param_name: 'communities_page' %>
 <% else %>

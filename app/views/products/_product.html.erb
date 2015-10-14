@@ -1,9 +1,8 @@
 <div class="row-fluid product">
   <div class="img-thumb span2">
-    <%= image_tag product.image.url if product.image? %>
+    <%= link_to(image_tag(product.image.url), [product.location, product]) if product.image? %>
   </div>
   <div class="span10">
-    <div><strong><%= product.name %></strong> <%= raw " <span class='price' >$#{product.price}</span>" if product.price.present? %></div>
-    <div class="sku"><%= "SKU: #{product.sku}" if product.sku.present? %></div>
+    <div><strong><%= link_to(product.name, [product.location, product]) %></strong> <%= raw " <span class='price' >$#{product.price}</span>" if product.price.present? %></div>
   </div>
 </div>

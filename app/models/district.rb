@@ -9,6 +9,7 @@ class District < ActiveRecord::Base
   has_many :news_articles, through: :locations, uniq: true
   has_many :events, through: :locations, uniq: true
   has_many :carousel_images, as: :carouselable
+  has_many :city_news_articles
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]

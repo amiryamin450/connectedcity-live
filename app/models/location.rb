@@ -1,7 +1,8 @@
 class Location < ActiveRecord::Base
   extend FriendlyId
 
-  
+  acts_as_messageable
+
   before_validation :clear_images?
 
   belongs_to :business
@@ -11,7 +12,6 @@ class Location < ActiveRecord::Base
   belongs_to :district
   belongs_to :neighborhood
   belongs_to :business_improvement_area
-  belongs_to :user
 
   has_many :agents, class_name: 'Location', foreign_key: 'broker_id', dependent: :destroy
   belongs_to :broker, class_name: 'Location'
@@ -32,12 +32,17 @@ class Location < ActiveRecord::Base
   has_many :employment_listings
   has_many :coupons, dependent: :destroy
   has_many :automotive_listings, dependent: :destroy
+  has_many :managers
+  has_many :users, through: :managers
+  has_many :social_profiles, as: :owner, dependent: :destroy
+
+  has_many :operating_hours, order: :day, dependent: :destroy
+  accepts_nested_attributes_for :operating_hours
 
   has_and_belongs_to_many :vertical_market_categories
   has_and_belongs_to_many :brands
   has_and_belongs_to_many :trade_associations
 
-  
   friendly_id :name, use: [:slugged, :history]
   attr_reader :brand_tokens
   attr_accessor :delete_cover_photo, :delete_logo
@@ -49,10 +54,8 @@ class Location < ActiveRecord::Base
     :blog_entries_attributes, :news_articles_attributes, :products_attributes, :services_attributes, :events_attributes,
     :brand_ids, :brand_tokens, :content, :vertical_market_categories, :district, :yp_lid, :yp_categories, :yp_neighborhoods,
     :city, :province, :district_id, :neighborhood, :country, :cover_photo, :neighborhood_id, :broker_id, :business_improvement_area_id,
-    :user, :user_id, :trade_association_ids, :media_attachments_attributes, :delete_cover_photo, :delete_logo
-
-
-
+    :user, :trade_association_ids, :media_attachments_attributes, :delete_cover_photo, :delete_logo,
+    :operating_hours_attributes
 
   has_attached_file :logo, :styles => { :thumb => "70x55", :list => "168x80", :bia_display => "250x100"},
     :url => "/system/location/logo/:id/:style/:basename.:extension",
@@ -75,11 +78,17 @@ class Location < ActiveRecord::Base
 
   validates_presence_of :address, :name
 
-  geocoded_by :full_street_address 
-  
+  geocoded_by :full_street_address
+
   after_validation :geocode
 
+  def user_owns?(user)
+    self.users.where(id: user.id).any?
+  end
 
+  def user_can_manage?(user)
+    self.users.where(id: user.id).any? and self.claim_pending == false
+  end
 
   def clear_images?
     logo.clear if delete_logo == '1'
@@ -111,19 +120,19 @@ class Location < ActiveRecord::Base
   end
 
 
-  before_save do 
+  before_save do
     self.neighborhood_id = Neighborhood.calculate(self.longitude, self.latitude).id if self.geocoded?
     self.district_id = self.neighborhood.district.id if self.neighborhood.present? and self.neighborhood.district.present?
   end
 
 
-  searchable do 
+  searchable do
     text :name, boost: 5
     text :address, boost: 3
 
     text :content, :phone
 
-    text :brand, boost: 3 do 
+    text :brand, boost: 3 do
       brands.map(&:name)
     end
 
@@ -135,7 +144,7 @@ class Location < ActiveRecord::Base
       services.map(&:name)
     end
 
-    text :category do 
+    text :category do
       vertical_market_categories.map(&:name)
     end
 
@@ -143,18 +152,18 @@ class Location < ActiveRecord::Base
       vertical_markets.map(&:name)
     end
 
-    text :city do 
+    text :city do
       city.name if city.present?
     end
 
-    integer :vertical_market_ids, :multiple => true do 
+    integer :vertical_market_ids, :multiple => true do
       vertical_markets.map(&:id)
     end
 
 
-    
+
     integer :district_id
-    integer :city_id 
+    integer :city_id
     integer :neighborhood_id
 
 

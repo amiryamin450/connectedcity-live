@@ -208,9 +208,10 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
-  #ENV['FACEBOOK_KEY'] = '116899878458040'
-  #ENV['FACEBOOK_SECRET'] = 'ccb6ac58c2009e241be8c95e5c77766e'
-  # config.omniauth :facebook, "116899878458040", "ccb6ac58c2009e241be8c95e5c77766e", :display => 'popup' #, :client_options => {:ssl => {:ca_path => "/usr/local/etc/openssl/certs"}}
+  # TODO: update this to the live FB app settings
+  ENV['FACEBOOK_KEY'] = '1644731362434230'
+  ENV['FACEBOOK_SECRET'] = '914d1116cc5a6b665ed4f7c1292b4074'
+  config.omniauth :facebook, ENV['FACEBOOK_KEY'], ENV['FACEBOOK_SECRET'], :scope => 'public_profile,email', :info_fields => 'email,name', :setup => true #, :client_options => {:ssl => {:ca_path => "/usr/local/etc/openssl/certs"}}
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

@@ -1,1 +1,13 @@
-host: connectedcity.dev
+host: localhost:3000
+
+# Facebook
+facebook_app_id: 1644731362434230
+facebook_app_secret: 914d1116cc5a6b665ed4f7c1292b4074
+
+# Twitter
+twitter_consumer_key: umyAJ3kCQf8WNWH2wywYKcXOS
+twitter_consumer_secret: ubK9hstQdIcbX6Ly2gXLAMQLU28dWJX4wwyMoNJ7GvEh0lVRl9
+
+# Instagram
+instagram_client_id: 2bf1a3f3b3c7433c814532675cdc4e02
+instagram_client_secret: 3941d2e0288e4d79abafa131f6dfcc27

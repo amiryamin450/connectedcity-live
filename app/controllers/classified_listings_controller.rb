@@ -56,6 +56,7 @@ class ClassifiedListingsController < ApplicationController
   # POST /classified_listings.json
   def create
     @classified_listing = ClassifiedListing.new(params[:classified_listing])
+    @classified_listing.user_id = current_user.id
     respond_to do |format|
       if @classified_listing.save
         format.html { render action: "edit" }

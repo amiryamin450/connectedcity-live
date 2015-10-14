@@ -1,0 +1,23 @@
+<h1><%= @conversation.subject %></h1>
+
+<%= render "messages" %>
+
+<% @conversation.messages.each do |message| %>
+  <div class="messaging-message row-fluid">
+    <dl class="span3">
+      <dt>Sender</dt>
+      <dd class="messaging-message-sender"><%= message.sender.name %></dd>
+      <dt>Date Sent</dt>
+      <dd class="messaging-message-date"><%= time_ago_in_words message.created_at %> ago</dd>
+    </dl>
+    <div class="span9"><%= simple_format message.body %></div>
+  </div>
+<% end %>
+
+<div class="row-fluid">
+  <%= simple_form_for @message, html: { class: "messaging-message-reply offset3 span9" } do |f| %>
+    <%= f.input :conversation_id, as: :hidden %>
+    <%= f.input :body, as: :text, label: "Your reply" %>
+    <%= f.submit "Reply", class: "btn btn-primary" %>
+  <% end %>
+</div>

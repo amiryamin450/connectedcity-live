@@ -1,21 +1,23 @@
 class User < ActiveRecord::Base
   rolify
 
-
+  acts_as_messageable
 
   has_many :locations
   has_many :favorites
   has_many :classified_listings
   has_many :redemptions
   has_many :coupons, through: :redemptions
-  
   has_many :business_improvement_areas
+  has_many :managers
+  has_many :locations, through: :managers
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable,
+         omniauth_providers: [:facebook]
 
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :role_ids, :as => :admin
@@ -35,7 +37,6 @@ class User < ActiveRecord::Base
     end
   end
 
-
   def self.new_with_session(params, session)
     if session["devise.user_attributes"]
       new(session["devise.user_attributes"], without_protection: true) do |user|
@@ -46,7 +47,6 @@ class User < ActiveRecord::Base
       super
     end
   end
-
 
   def password_required?
     super && provider.blank?
@@ -68,4 +68,7 @@ class User < ActiveRecord::Base
     self.locations.size > 0
   end
 
+  def mailboxer_email
+    ""
+  end
 end

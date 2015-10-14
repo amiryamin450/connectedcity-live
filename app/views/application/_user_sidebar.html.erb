@@ -40,6 +40,32 @@
     </ul>
   </li>
 
+<% if user_signed_in? %>
+<li>
+  <a href="#" data-toggle="messaging" class="dropdown-toggle">
+    <i class="icon-envelope"></i>
+    <span>Messaging</span>
+    <b class="arrow icon-angle-right"></b>
+  </a>
+  <ul class="submenu hide" id="messaging">
+    <li>
+      <%= link_to messages_path do %>
+        <i class="icon-envelope"></i>
+        <span><%= t "messages.inbox" %></span>
+      <% end %>
+    </li>
+    <% ["sent", "trash"].each do |folder| %>
+      <li>
+        <%= link_to messages_path(folder: folder) do %>
+          <i class="icon-envelope"></i>
+          <span><%= t "messaging.#{folder}" %></span>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</li>
+<% end %>
+
 <% if user_signed_in? and current_user.has_role? :admin %>
 <li>
    <a href="#" data-toggle="admin" class="dropdown-toggle" >
@@ -154,7 +180,7 @@
       <% current_user.locations.each do |location| %>
       <li class="">
 
-        <%= link_to location.name, location %>
+        <%= link_to location.name, connected_advertiser_location_path(location) %>
 
       </li>
       <% end -%>

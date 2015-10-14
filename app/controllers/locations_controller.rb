@@ -9,13 +9,18 @@ class LocationsController < ApplicationController
     @locations = @search.result.order(:name).page(params[:page])
 
     respond_to do |format|
-      format.html 
+      format.html
     end
   end
 
   def show
-
     @location = Location.includes(:location_images).find(params[:id])
+
+    # because we have two sources for the location carousel images (cover photo and location images),
+    # get them into one collection for ease of display
+    @location_carousel_images = @location.location_images.collect{ |li| li.image }
+    @location_carousel_images.unshift(@location.cover_photo) if @location.cover_photo.exists?
+
     @status_updates = @location.status_updates.page(params[:status_page]).per(7)
     @articles = @location.news_articles.page(params[:article_page]).per(5)
     @blog_entries = @location.blog_entries.page(params[:blog_page]).per(5)
@@ -29,9 +34,10 @@ class LocationsController < ApplicationController
 
     @rental_properties = @location.rental_properties.page(params[:rental_page]).per(12) if @location.vertical_market_categories.exists?(101)
     @new_home_communities = @location.new_home_communities.page(params[:communities_page]).per(12) if @location.vertical_market_categories.exists?(102)
-  
+
     # TODO - should only happen if user is logged in and can post a status update
     @status_update = @location.status_updates.build
+    @status_update.social_profile_ids = @location.social_profiles.pluck(:id).map(&:to_s)
 
     @vertical_market = @location.vertical_market_categories.first.vertical_market if @location.vertical_market_categories.size > 0
 
@@ -58,6 +64,10 @@ class LocationsController < ApplicationController
       @location.vertical_market_categories = [VerticalMarketCategory.find(99)]
     else
       @location = Location.new
+
+      OperatingHour.days.keys.each do |day|
+        @location.operating_hours.build day: day
+      end
     end
 
     # 3.times { @location.location_images.build }
@@ -72,6 +82,14 @@ class LocationsController < ApplicationController
 
     cookies[:return_to] ||= request.referer
     @location = Location.find(params[:id])
+
+    unless @location.operating_hours.any?
+      OperatingHour.days.keys.each do |day|
+        @location.operating_hours.build day: day
+      end
+    end
+
+    @managers = @location.managers.includes(:user)
     add_crumb @location.name, "#{@base_path}business/#{@location.slug}"
     add_crumb "Editing #{@location.name}"
   end
@@ -102,6 +120,9 @@ class LocationsController < ApplicationController
         format.html { redirect_to cookies[:return_to].present? ? cookies[:return_to] : @location, notice: 'Location was successfully updated.' }
         format.json { render json: { files: [@location.location_images.last.to_jq_upload]}, status: :created, location: @location }
       else
+        puts params[:location].to_yaml
+        puts @location.errors.to_yaml
+
         format.html { render action: "edit" }
         format.json { render json: @location.errors, status: :unprocessable_entity }
       end
@@ -123,7 +144,7 @@ class LocationsController < ApplicationController
   def claim
     @location = Location.find(params[:id])
     if current_user
-      @location.user = current_user
+      @location.users << current_user
       @location.claim_pending = 1
       if @location.save
         LocationMailer.pending_claim_email(@location, current_user).deliver
@@ -136,15 +157,15 @@ class LocationsController < ApplicationController
     @location = Location.find(params[:id])
     @location.claim_pending = 0
     if @location.save
-      LocationMailer.claim_approved_email(@location, @location.user).deliver
+      LocationMailer.claim_approved_email(@location, @location.users.first).deliver
     end
     redirect_to pending_claims_locations_path
   end
 
   def reject_claim
     @location = Location.find(params[:id])
-    user = @location.user
-    @location.user = nil
+    user = @location.users.first
+    @location.users.destroy_all
     @location.claim_pending = 0
     if @location.save
       LocationMailer.claim_rejected_email(@location, user).deliver
@@ -154,8 +175,7 @@ class LocationsController < ApplicationController
 
   def release
     @location = Location.find(params[:id])
-    @location.user = nil
-    @location.save
+    @location.users.destroy_all
     redirect_to @location
   end
 
@@ -167,4 +187,19 @@ class LocationsController < ApplicationController
     end
   end
 
+  def connected_advertiser
+    @location = Location.find(params[:id])
+  end
+
+  def import
+    @location = Location.new
+  end
+
+  def do_import
+    @response = ImportService.new(params[:location]).import_businesses
+    if !@response.success?
+      @location = Location.new
+      render action: "import"
+    end
+  end
 end

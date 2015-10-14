@@ -6,6 +6,7 @@ class VerticalMarket < ActiveRecord::Base
   has_many :locations,          :through => :vertical_market_categories
   has_many :status_updates,     :through => :locations, uniq: true
   has_many :products,           :through => :locations, uniq: true
+  has_many :services,           :through => :locations, uniq: true
   has_many :blog_entries,       :through => :locations, uniq: true
   has_many :events,             :through => :locations, uniq: true
   has_many :news_articles,      :through => :locations, uniq: true
@@ -49,21 +50,23 @@ class VerticalMarket < ActiveRecord::Base
   end
 
   def get_media_attachments(city = nil, district = nil, neighbrhd = nil)
-    result = media_attachments.limit(10)
+    result = VerticalMarketCategory.includes(:media_attachments).where(vertical_market_id: self.subtree_ids)
     result = result.where('locations.city_id = ?', 5915022)
     result = result.where('locations.district_id = ?', district.id) if district.present?
     result = result.where('locations.neighborhood_id = ?', neighbrhd.id) if neighbrhd.present?
-    result
+    result = result.map(&:media_attachments).compact.flatten.sort_by(&:created_at).uniq.first(10)
   end
 
   def get_coupons(city = nil, district = nil, neighbrhd = nil)
-    result = coupons.where('coupons.redemptions_count < coupons.howmany').limit(10)
+    result = VerticalMarketCategory.includes(:coupons).where(vertical_market_id: self.subtree_ids)
+    result = result.where('coupons.redemptions_count < coupons.howmany').limit(10)
     result = result.where('locations.city_id = ?', 5915022)
     result = result.where('locations.district_id = ?', district.id) if district.present?
     result = result.where('locations.neighborhood_id = ?', neighbrhd.id) if neighbrhd.present?
-    result
+    result = result.map(&:coupons).compact.flatten.sort_by(&:created_at).reverse.uniq.first(10)
+
   end
-  
+
   def get_status_updates(city = nil, district = nil, neighbrhd = nil, add_subtrees = true, vertical_market_category = nil)
     result = VerticalMarketCategory.includes(:status_updates)
     result = result.where(vertical_market_id: self.subtree_ids) if add_subtrees
@@ -78,7 +81,7 @@ class VerticalMarket < ActiveRecord::Base
       second_result = StatusUpdate.where(statusable_type: ['RealEstateListing','NewHomeCommunity','RentalProperty']).where(city_id: 5915022).where(vertical_markets: self.subtree_ids)
       second_result = second_result.where(district_id: district.id) if district.present?
       second_result = second_result.where(neighborhood_id: neighbrhd.id) if neighbrhd.present?
-      
+
       result += second_result.flatten
       result = result.sort_by { |obj| obj.created_at }.uniq.reverse!.first(10)
     end
@@ -87,38 +90,47 @@ class VerticalMarket < ActiveRecord::Base
   end
 
   def get_products(city = nil, district = nil, neighbrhd = nil)
-    result = products.limit(10)
+    products_results = VerticalMarketCategory.includes(:products).where(vertical_market_id: self.subtree_ids)
+    products_results = products_results.where('locations.city_id = ?', 5915022)
+    products_results = products_results.where('locations.district_id = ?', district.id) if district
+    products_results = products_results.where('locations.neighborhood_id = ?', neighbrhd.id) if neighbrhd.present?
+    products_results = products_results.map(&:products)
 
-    result = result.where('locations.city_id = ?', 5915022) 
-    result = result.where('locations.district_id = ?', district.id) if district
-    result = result.where('locations.neighborhood_id = ?', neighbrhd.id) if neighbrhd.present?
-    result
+    services_results = VerticalMarketCategory.includes(:services).where(vertical_market_id: self.subtree_ids)
+    services_results = services_results.where('locations.city_id = ?', 5915022)
+    services_results = services_results.where('locations.district_id = ?', district.id) if district
+    services_results = services_results.where('locations.neighborhood_id = ?', neighbrhd.id) if neighbrhd.present?
+    services_results = services_results.map(&:services)
+
+    products_and_services = (products_results << services_results).compact.flatten.sort_by(&:created_at).reverse.uniq.first(10)
   end
 
   def get_blog_entries(city = nil, district = nil, neighbrhd = nil)
-    result = blog_entries.limit(10)
-
+    result = VerticalMarketCategory.includes(:blog_entries).where(vertical_market_id: self.subtree_ids)
     result = result.where('locations.city_id = ?', city.id) if city
     result = result.where('locations.district_id = ?', district.id) if district
     result = result.where('locations.neighborhood_id = ?', neighbrhd.id) if neighbrhd.present?
+    result = result.map(&:blog_entries).compact.flatten.sort_by(&:created_at).reverse.uniq.first(10)
     result
   end
 
   def get_events(city = nil, district = nil, neighbrhd = nil)
-    result = events.limit(10)
-
-    result = result.where('locations.city_id = ?', 5915022) 
+    result = VerticalMarketCategory.joins(:events).where(vertical_market_id: self.subtree_ids)
+    result = result.where('locations.city_id = ?', 5915022)
     result = result.where('locations.district_id = ?', district.id) if district
     result = result.where('locations.neighborhood_id = ?', neighbrhd.id) if neighbrhd.present?
+    # using joins above enables this next where clause to work, but when it maps does it re-query?
+    result = result.where('events.ends_at > ?', Time.current)
+    result = result.map(&:events).compact.flatten.sort_by(&:created_at).reverse.uniq.first(10)
     result
   end
 
   def get_news_articles(city = nil, district = nil, neighbrhd = nil)
-    result = news_articles.limit(10)
-
-    result = result.where('locations.city_id = ?', 5915022) 
+    result = VerticalMarketCategory.includes(:news_articles).where(vertical_market_id: self.subtree_ids)
+    result = result.where('locations.city_id = ?', 5915022)
     result = result.where('locations.district_id = ?', district.id) if district
     result = result.where('locations.neighborhood_id = ?', neighbrhd.id) if neighbrhd.present?
+    result = result.map(&:news_articles).compact.flatten.sort_by(&:created_at).reverse.uniq.first(10)
     result
   end
 

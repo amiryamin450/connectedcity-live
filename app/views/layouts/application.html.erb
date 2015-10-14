@@ -45,12 +45,13 @@
           <div class="row-fluid">
             <div id="breadcrumbs">
               <div class="breadcrumb">
-                <%= render_crumbs separator: "<span class='divider'><i class='icon-angle-right'></i></span>".html_safe %>
+                <%= render_crumbs(separator: "<span class='divider'><i class='icon-angle-right'></i></span>".html_safe).html_safe %>
               </div>
             </div>
           </div>
           <div class="container-fluid content-holder">
           <div class="row-fluid">
+            <%= render 'messages' %>
             <%= yield %>
           </div>
           <div style="margin-bottom: 1.5em;"></div>

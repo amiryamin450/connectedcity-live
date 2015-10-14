@@ -27,7 +27,7 @@
 
 
               <div class="location-chooser">
-                <%= render 'location_chooser' %>               
+                <%= render 'location_chooser' %>
               </div>
 
             </div>
@@ -38,9 +38,9 @@
     </nav>
 
     <div>
-      
 
-      
+
+
 
       <div id="sidebar"  class="<%= @sidebar_class %>">
         <%= render 'user_sidebar' %>
@@ -53,24 +53,25 @@
             </div>
           </div>
         </div>
-        <div class="container-fluid content-holder">            
+        <div class="container-fluid content-holder">
           <div class="row-fluid">
+            <%= render 'messages' %>
             <%= yield %>
           </div>
         </div>
 
-      </div>      
+      </div>
 
 
 
 
 
 
-      
-      
+
+
     </div>
   </div>
-  
+
   <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5088b5ab602f3daf"></script>
 </body>
 </html>

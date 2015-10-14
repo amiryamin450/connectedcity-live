@@ -7,12 +7,19 @@ Connectbook::Application.routes.draw do
 
   # Routes that require authentication.
   authenticate :user do
+    resources :social_profiles, path: "social-profiles", only: [] do
+      collection do
+        get "", to: redirect { |_, request| "#{request.params[:redirect_to]}?#{request.params.except(:redirect_to, :social_network).to_query}" }, constraints: ->(request) { request.params[:code] }, as: ""
+      end
+    end
+
     resources :classified_images, only: [:destroy]
     resources :classified_listings, except: [:index, :show]
     resources :favorites, only: [:create, :destroy]
     resources :location_images, only: [:destroy]
 
     resources :business_improvement_areas, path: 'bia', only: [] do
+      resources :messages, only: [:new, :create]
       resources :carousel_images, defaults: { carouselable: 'business_improvement_area' }
     end
 
@@ -32,21 +39,41 @@ Connectbook::Application.routes.draw do
       resources :coupons, except: [:show]
       resources :employment_listings, except: [:show]
       resources :events, except: [:show]
-      resources :media_attachments, only: [:new, :create]
+      resources :media_attachments, only: [:new, :create, :index, :destroy]
       resources :news_articles, path: 'news', except: [:show]
+      resources :new_home_communities
       resources :products, except: [:show]
       resources :services, except: [:show]
       resources :real_estate_listings, path: 'listings', except: [:show]
-      resources :status_updates, path: 'status-updates', only: [:new, :create]
+      resources :status_updates, path: 'status-updates', only: [:index, :new, :create, :destroy]
+      resources :managers, only: [:new, :create, :destroy]
+      resources :messages, only: [:new, :create]
 
       resources :real_estate_listings, path: 'listings', except: [:show] do
         resources :real_estate_listings_images, only: [:destroy]
       end
 
       member do
-        get 'claim', action: :claim, as: :claim
+        get 'claim', action: :claim, as: :claim, constraints: ->(request) { Location.find(request.params[:id]).user_ids.empty? }
         get 'release', action: :release, as: :release
+        get :connected_advertiser
       end
+
+      resources :social_profiles, path: "social-profiles", only: [:index, :destroy] do
+        # eg. social_profiles/new/action
+        new do
+          get ":social_network" => :new, as: ""
+        end
+
+        collection do
+          get ":social_network" => :create, constraints: ->(request) { request.params[:code] }, as: :create
+          get ":social_network" => :create, constraints: ->(request) { request.params[:oauth_token] && request.params[:oauth_verifier] }
+        end
+      end
+    end
+
+    resources :new_home_communities, except: [:show] do
+      resources :new_homes, except: [:show]
     end
 
     resources :user, controller: 'user', only: [] do
@@ -55,6 +82,13 @@ Connectbook::Application.routes.draw do
         get :favorites
       end
     end
+
+    resources :messages, only: [:index, :create, :destroy] do
+      collection do
+        get ":folder" => :index, constraints: { folder: /sent|trash/ }
+      end
+    end
+    resources :messages, as: :mailboxer_conversations, only: [:show]
 
     get 'brands_autocomplete' => 'brands#autocomplete'
     get 'profile' => 'profile#show'
@@ -70,6 +104,8 @@ Connectbook::Application.routes.draw do
   authenticated :user, lambda { |u| u.has_role? :admin } do
     require 'sidekiq/web'
     mount Sidekiq::Web, at: '/sidekiq'
+
+    get 'neighborhoods/list', controller: :neighborhoods, action: :list
 
     resources :brands, except: [:show]
     resources :businesses, path: 'account'
@@ -103,10 +139,15 @@ Connectbook::Application.routes.draw do
     end
 
     resources :locations, path: 'business', as: :locations, except: [:show] do
-      resources :status_updates, path: 'status-updates', except: [:new, :create]
+      resources :status_updates, path: 'status-updates', except: [:index, :new, :create]
+      resources :new_home_communities
+      # eg. business/action
       collection do
         get :pending_claims
+        get :import
+        post "import", action: :do_import
       end
+      # eg. business/:id/action
       member do
         get :approve_claim
         get :reject_claim
@@ -117,19 +158,33 @@ Connectbook::Application.routes.draw do
       resources :new_homes, except: [:show]
     end
 
-    get 'admin/connected_advertiser' => 'home#connected_advertiser', as: :connected_advertiser
   end
 
+  # resources :city_news_articles, path: 'news', only: [:guide] do
+  #   member do
+  #     get 'guide', action: :guide
+  #   end
+  # end
+
   # Unauthenticated routes
+
   resources :brands, only: [:show]
   resources :business_improvement_areas, path: 'bia', only: [:show]
   resources :city_news_articles, path: 'city-news', only: [:show]
   resources :city_news_categories, only: [:show]
   resources :classified_categories, only: [:show]
   resources :classified_listings, only: [:index, :show]
-  resources :districts, only: [:show]
+
+  resources :districts, only: [] do
+    get 'news', controller: :city_news_articles, action: :guide
+  end
+
   resources :employment_categories, only: [:show]
   resources :trade_associations, only: [:show]
+
+  resources :cities, path: 'city', only: [] do
+    resources :city_news_articles, path: 'news', only: [:show, :index]
+  end
 
   resources :locations, path: 'business', as: :locations, only: [:show] do
     resources :automotive_listings, only: [:show]
@@ -137,7 +192,7 @@ Connectbook::Application.routes.draw do
     resources :coupons, only: [:show]
     resources :employment_listings, only: [:show]
     resources :events, only: [:show]
-    resources :media_attachments, only: [:show]
+    resources :media_attachments, only: [:show, :index]
     resources :news_articles, path: 'news', only: [:show]
     resources :products, only: [:show]
     resources :real_estate_listings, path: 'listings', only: [:show]
@@ -150,7 +205,11 @@ Connectbook::Application.routes.draw do
     resources :rental_properties, only: [:show] do
       resources :rental_units, only: [:show]
     end
+
+    resources :social_profiles, path: "social-profiles", only: [:show]
   end
+
+  # get '/districts/:district_id/news' => action: :guide
 
   # These actions don't expect a sub_market parameters so I removed them for
   # now. ^FD 2015-08-14
@@ -162,10 +221,14 @@ Connectbook::Application.routes.draw do
 
   get ':district_route/business/:id' => 'locations#show', as: :district_location_path
   get ':district_route/:neighborhood/guide/:market' => 'vertical_markets#guide', as: :district_neighborhood_guide
+  get ':district_route/:neighborhood_route/news' => 'city_news_articles#guide'
+  get ':district_route/news' => 'city_news_articles#guide'
   get ':district_route/:neighborhood/business/:id' => 'locations#show', as: :district_neighborhood_location
 
   get 'search' => 'vertical_markets#search'
   get 'search/:market' => 'vertical_markets#search', as: :region_market_search
+  get ':district_route/:neighborhood/search' => 'vertical_markets#search'
+  get ':district_route/:neighborhood/search/:market' => 'vertical_markets#search'
   get ':district_route/search' => 'vertical_markets#search'
   get ':district_route/search/:market' => 'vertical_markets#search'
 
@@ -173,7 +236,7 @@ Connectbook::Application.routes.draw do
   get 'classifieds' => 'classified_listings#guide', as: :classifieds
   get ':district_route/category/:id' => 'vertical_market_categories#show'
   get 'category/:id' => 'vertical_market_categories#show'
-  get 'city-news-guide' => 'city_news_articles#guide', as: :city_news_guide
+  get 'news' => 'city_news_articles#guide', as: :city_news_guide
 
   root to: 'cities#homepage'
 

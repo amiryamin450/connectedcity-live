@@ -22,4 +22,13 @@ class NeighborhoodsController < ApplicationController
     end
   end
 
+  def list
+    if params[:district_id].present?
+      neighborhoods = Neighborhood.select("nid, neighborhd").where(district_id: params[:district_id])
+    else
+      neighborhoods = Neighborhood.select("nid, neighborhd").where("district_id IS NOT NULL")
+    end
+    render json: neighborhoods
+  end
+
 end

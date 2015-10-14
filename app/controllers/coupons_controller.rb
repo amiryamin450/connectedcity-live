@@ -1,12 +1,19 @@
 class CouponsController < ApplicationController
+  before_filter :authenticate_user!, only: [:redeem, :claim]
 
-  load_and_authorize_resource :location, except: [:redeem]
-  load_and_authorize_resource :coupon, through: [:location], except: [:redeem]
+  # These must remain in this order.
+  load_and_authorize_resource :location, except: [:redeem, :claim]
+  before_filter :load_coupon, except: [:redeem, :claim, :index, :new, :create]
+  load_and_authorize_resource :coupon, through: [:location], except: [:redeem, :claim]
 
   # GET /coupons
   # GET /coupons.json
   def index
-    @coupons = @location.coupons
+    if user_signed_in? && @location.user_ids.include?(current_user.id)
+      @coupons = Coupon.unscoped.where(location_id: @location.id)
+    else
+      @coupons = @location.coupons
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -17,6 +24,12 @@ class CouponsController < ApplicationController
   # GET /coupons/1
   # GET /coupons/1.json
   def show
+    if user_signed_in? && @location.user_ids.include?(current_user.id)
+      @coupons = Coupon.unscoped.where(location: @location)
+    else
+      @coupons = @location.coupons
+    end
+
     add_crumb '<i class="icon-home"></i> Home'.html_safe, @base_path
     add_crumb @location.name, "#{@base_path}business/#{@location.slug}"
     add_crumb @coupon.name
@@ -90,11 +103,19 @@ class CouponsController < ApplicationController
   end
 
   def redeem
-    redemption = Redemption.find(params[:id])
+    redemption = current_user.redemptions.find(params[:id])
     redemption.redeemed = true
     redemption.save
     location = redemption.coupon.location
     redirect_to location_url(location)
   end
 
+  private
+  def load_coupon
+    if user_signed_in? && @location.user_ids.include?(current_user.id)
+      @coupon = Coupon.unscoped.where(location_id: @location.id).find(params[:id])
+    else
+      @coupon = @location.coupons.find params[:id]
+    end
+  end
 end

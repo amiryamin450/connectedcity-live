@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150812185427) do
+ActiveRecord::Schema.define(:version => 20150930223134) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -224,6 +224,9 @@ ActiveRecord::Schema.define(:version => 20150812185427) do
     t.text     "content"
     t.string   "title"
     t.integer  "city_news_category_id"
+    t.integer  "city_id"
+    t.integer  "district_id"
+    t.integer  "neighborhood_id"
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
     t.string   "image_file_name"
@@ -453,8 +456,8 @@ ActiveRecord::Schema.define(:version => 20150812185427) do
     t.string   "slug"
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
@@ -473,7 +476,7 @@ ActiveRecord::Schema.define(:version => 20150812185427) do
     t.integer  "neighborhood_id"
     t.integer  "broker_id"
     t.integer  "business_improvement_area_id"
-    t.integer  "user_id"
+    t.boolean  "claim_pending",                :default => false, :null => false
   end
 
   add_index "locations", ["city_id"], :name => "city_id"
@@ -492,6 +495,66 @@ ActiveRecord::Schema.define(:version => 20150812185427) do
   create_table "locations_vertical_market_categories", :id => false, :force => true do |t|
     t.integer "vertical_market_category_id"
     t.integer "location_id"
+  end
+
+  create_table "mailboxer_conversation_opt_outs", :force => true do |t|
+    t.integer "unsubscriber_id"
+    t.string  "unsubscriber_type"
+    t.integer "conversation_id"
+  end
+
+  add_index "mailboxer_conversation_opt_outs", ["conversation_id"], :name => "index_mailboxer_conversation_opt_outs_on_conversation_id"
+  add_index "mailboxer_conversation_opt_outs", ["unsubscriber_id", "unsubscriber_type"], :name => "index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type"
+
+  create_table "mailboxer_conversations", :force => true do |t|
+    t.string   "subject",    :default => ""
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+  end
+
+  create_table "mailboxer_notifications", :force => true do |t|
+    t.string   "type"
+    t.text     "body"
+    t.string   "subject",              :default => ""
+    t.integer  "sender_id"
+    t.string   "sender_type"
+    t.integer  "conversation_id"
+    t.boolean  "draft",                :default => false
+    t.string   "notification_code"
+    t.integer  "notified_object_id"
+    t.string   "notified_object_type"
+    t.string   "attachment"
+    t.datetime "updated_at",                              :null => false
+    t.datetime "created_at",                              :null => false
+    t.boolean  "global",               :default => false
+    t.datetime "expires"
+  end
+
+  add_index "mailboxer_notifications", ["conversation_id"], :name => "index_mailboxer_notifications_on_conversation_id"
+  add_index "mailboxer_notifications", ["notified_object_id", "notified_object_type"], :name => "index_mailboxer_notifications_on_notified_object_id_and_type"
+  add_index "mailboxer_notifications", ["sender_id", "sender_type"], :name => "index_mailboxer_notifications_on_sender_id_and_sender_type"
+  add_index "mailboxer_notifications", ["type"], :name => "index_mailboxer_notifications_on_type"
+
+  create_table "mailboxer_receipts", :force => true do |t|
+    t.integer  "receiver_id"
+    t.string   "receiver_type"
+    t.integer  "notification_id",                                  :null => false
+    t.boolean  "is_read",                       :default => false
+    t.boolean  "trashed",                       :default => false
+    t.boolean  "deleted",                       :default => false
+    t.string   "mailbox_type",    :limit => 25
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
+  end
+
+  add_index "mailboxer_receipts", ["notification_id"], :name => "index_mailboxer_receipts_on_notification_id"
+  add_index "mailboxer_receipts", ["receiver_id", "receiver_type"], :name => "index_mailboxer_receipts_on_receiver_id_and_receiver_type"
+
+  create_table "managers", :force => true do |t|
+    t.integer  "location_id", :null => false
+    t.integer  "user_id",     :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 # Could not dump table "maponics_division" because of following StandardError
@@ -597,6 +660,15 @@ ActiveRecord::Schema.define(:version => 20150812185427) do
   end
 
   add_index "news_articles", ["newsable_id", "newsable_type"], :name => "index_news_articles_on_newsable_id_and_newsable_type"
+
+  create_table "operating_hours", :force => true do |t|
+    t.integer  "day",         :null => false
+    t.time     "starts_at",   :null => false
+    t.time     "ends_at",     :null => false
+    t.integer  "location_id", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "products", :force => true do |t|
     t.string   "name"
@@ -829,6 +901,17 @@ ActiveRecord::Schema.define(:version => 20150812185427) do
 
   add_index "services", ["location_id"], :name => "index_services_on_location_id"
 
+  create_table "social_profiles", :force => true do |t|
+    t.integer  "social_network",                      :null => false
+    t.string   "uid",                 :default => "", :null => false
+    t.string   "access_token",        :default => "", :null => false
+    t.string   "access_token_secret"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+  end
+
   create_table "status_updates", :force => true do |t|
     t.string   "title"
     t.string   "content"
@@ -951,5 +1034,11 @@ ActiveRecord::Schema.define(:version => 20150812185427) do
 
   add_index "vertical_markets", ["ancestry"], :name => "index_vertical_markets_on_ancestry"
   add_index "vertical_markets", ["slug"], :name => "index_vertical_markets_on_slug", :unique => true
+
+  add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
+
+  add_foreign_key "mailboxer_notifications", "mailboxer_conversations", name: "notifications_on_conversation_id", column: "conversation_id"
+
+  add_foreign_key "mailboxer_receipts", "mailboxer_notifications", name: "receipts_on_notification_id", column: "notification_id"
 
 end

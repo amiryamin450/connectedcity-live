@@ -1,0 +1,13 @@
+<article class="teaser">
+  <% if message[:image] %>
+    <div class="article-image">
+      <%= image_tag message[:image] %>
+    </div>
+  <% end %>
+  <% if message[:text].present? %>
+    <div class="article-content">
+      <%= message[:text] %>
+    </div>
+  <% end %>
+  <div class="article-published"><%= time_ago_in_words message[:created_at] %> ago</dov>
+</article>

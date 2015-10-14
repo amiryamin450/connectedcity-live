@@ -10,6 +10,10 @@
       <%= f.text_area :content, :rows => 3, style: 'width: 515px' %>
       <div class="dropzone">
       </div>
+      <% if @location.respond_to?(:social_profiles) && @location.social_profiles.any? %>
+        <% social_profiles = @location.social_profiles.reject(&:instagram?).map do |social_profile| [social_profile.social_network.to_s.humanize, social_profile.id.to_s] end %>
+        <%= f.input :social_profile_ids, as: :check_boxes, collection: social_profiles, label: "Also publish to" %>
+      <% end %>
     </div>
   </div>
   <div class="modal-footer">

@@ -63,10 +63,10 @@
       </div>
       <% end %>
 
-      
 
 
-      
+
+
     </div>
 
     <div class="row-fluid">
@@ -94,7 +94,7 @@
 
         <div class="holder pad10">
           <h5>News</h5>
-          <% if @district.events.size > 0 %>
+          <% if @district.news_articles.size > 0 %>
           <%= render @district.news_articles.limit(3).order(:created_at) %>
           <% else %>
           <div class="alert">No News Articles found.</div>
@@ -110,7 +110,7 @@
           <% end %>
         </div>
 
-        
+
 
       </div>
     </div>
@@ -132,7 +132,7 @@
               <li><%= link_to bia.name, bia %></li>
             <% end -%>
           </ul>
-          
+
         <% else %>
         <% end -%>
       </div>

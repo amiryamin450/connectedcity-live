@@ -8,12 +8,7 @@
     <div class="name"><strong><%= link_to event.name, [event.location, event] %></strong></div>
 
     <div class="dates">
-      <%= raw "<strong>Starts:</strong> #{event.starts_at.strftime('%m/%d/%Y %l:%M %p')}" if event.starts_at.present? %>
-      <%= raw " | <strong>Ends:</strong> #{event.ends_at.strftime('%m/%d/%Y %l:%M %p')}" if event.ends_at.present? %>
-    </div>
-    <div class="event-info">
-      <%= link_to "Event Website", event.url if event.url? %>
-      <%= raw " | #{mail_to event.email}" if event.email.present? %>
+      <%= raw "#{event.starts_at.strftime('%b. %d, %Y %l:%M %p')}" if event.starts_at.present? %>
     </div>
     <div><%= truncate_html(event.description, length: 150) %></div>
     <div class="row-fluid">

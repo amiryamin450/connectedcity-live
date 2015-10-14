@@ -1,7 +1,7 @@
 class City < ActiveRecord::Base
+    include FriendlyId
 
     self.table_name = "maponics_subdivisions"
-    self.primary_key = "csduid"
 
     has_many :neighborhoods, class_name: "Neighborhood", foreign_key: "placecode"
     has_many :districts
@@ -10,21 +10,18 @@ class City < ActiveRecord::Base
     has_many :news_articles, through: :locations, uniq: true
     has_many :events, through: :locations, uniq: true
     has_many :business_improvement_areas, through: :districts
+    has_many :city_news_articles
 
     belongs_to :maponics_division, class_name: "MaponicsDivision", foreign_key: "cduid"
     belongs_to :province, foreign_key: "pruid"
 
     default_scope where(csdtype: 'CY').order(:csdname)
 
-    attr_accessible :csdname, :csduid, :csdtype
-
+    friendly_id :csdname, use: [:slugged]
+    attr_accessible :csdname, :id, :csdtype, :slug
 
     def name
       csdname
-    end
-
-    def id 
-      csduid
     end
 
     def label
@@ -36,11 +33,11 @@ class City < ActiveRecord::Base
     end
 
     def wkt
-      MaponicsSubdivision.select(%q{AsText(geom) as geom}).where(:csduid => csduid).map(&:geom).first
+      MaponicsSubdivision.select(%q{AsText(geom) as geom}).where(:id => id).map(&:geom).first
     end
 
 
     has_attached_file :home_page_image, styles: {thumb: "100x100>"},
-                    default_url: '/assets/home_page_image/default.jpg'
+                        default_url: '/assets/home_page_image/default.jpg'
 
 end

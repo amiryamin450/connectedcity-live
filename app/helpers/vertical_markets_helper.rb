@@ -8,7 +8,7 @@ module VerticalMarketsHelper
 
     # make sure that parents of child tabs are marked as active
     vms.each_with_index do |vm, i|
-      if @vertical_market 
+      if @vertical_market
         if vm.slug == @vertical_market.slug or vm.children.where(slug: @vertical_market.slug).exists?
           vm.menu_li_class = 'active'
           vm.menu_link_class = 'active'
@@ -22,7 +22,7 @@ module VerticalMarketsHelper
     if request.path == '/employment-opportunities'
       vms.last.menu_li_class = 'before-active'
     end
-    
+
     # last = vms.pop
     output = ""
     output += "<li class='first #{"active " if request.path == @base_path }#{"before-active" if vms[0].menu_li_class == 'active' }'><a href='#{@base_path}' class='#{"active " if request.path == @base_path }'><i class='icon-home'></i> Home</a></li>"
@@ -40,7 +40,11 @@ module VerticalMarketsHelper
     end
     output += "<li class='#{"active" if request.path == '/employment-opportunities'}#{"before-active" if request.path == '/classifieds'}'><a href='/employment-opportunities' class='#{"active" if request.path == '/employment-opportunities'}'>Employment</a></li>"
     output += "<li class='#{"active" if request.path == '/classifieds'}#{"before-active" if request.path == '/city-news-guide'}'><a href='/classifieds' class='#{"active" if request.path == '/classifieds'}'>Classifieds</a></li>"
-    output += "<li class='last #{"active" if request.path == '/city-news-guide'}'><a href='/city-news-guide' class='#{"active" if request.path == '/city-news-guide'}'>City News</a></li>"
+
+    output += "<li class='last #{"active" if request.path == "#{@base_path}news" or request.path == '/city-news-guide'}'><a href='#{@base_path}news' class='#{"active" if request.path == "#{@base_path}news" or request.path == '/city-news-guide'}'>City News</a></li>"
+
+    # binding.pry
+
     render :inline => output
 
   end

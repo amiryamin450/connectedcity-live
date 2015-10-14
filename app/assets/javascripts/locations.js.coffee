@@ -19,7 +19,7 @@ jQuery ->
     $active = $($links.filter('[href="' + location.hash + '"]')[0] || $links[0])
     $active.addClass 'active'
     $content = $($active.attr 'href')
-    
+
     $links.not($active).each ->
       $($(this).attr 'href').hide()
 
@@ -42,12 +42,17 @@ jQuery ->
     $.cookie("sidebar_class", $('#sidebar').attr('class'))
     return false
 
+  $('.carousel').carousel({
+    interval: false
+  })
 
+  $('#new_message .modal-footer .btn-primary').click ->
+    $('#new_message form').submit()
 
   $('.dropdown-toggle').click ->
     $target = $('#' + $(this).data('toggle'))
     $('#sidebar').removeClass('menu-min')
-    if $target.is(':visible') 
+    if $target.is(':visible')
       $(this).find('b').removeClass('icon-angle-down').addClass('icon-angle-right')
       $target.slideUp(200)
       $target.toggleClass('hide')
