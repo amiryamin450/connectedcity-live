@@ -81,6 +81,8 @@ GEM
       mime-types (>= 1.16)
     celluloid (0.14.1)
       timers (>= 1.0.0)
+    childprocess (0.5.6)
+      ffi (~> 1.0, >= 1.0.11)
     chunky_png (1.2.8)
     climate_control (0.0.3)
       activesupport (>= 3.0)
@@ -359,6 +361,7 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
+    rubyzip (1.1.7)
     rvm-capistrano (1.5.3)
       capistrano (~> 2.15.4)
     sass (3.2.9)
@@ -367,6 +370,11 @@ GEM
       sass (>= 3.1.10)
       tilt (~> 1.3)
     seed_dump (0.6.0)
+    selenium-webdriver (2.48.1)
+      childprocess (~> 0.5)
+      multi_json (~> 1.0)
+      rubyzip (~> 1.0)
+      websocket (~> 1.0)
     sidekiq (2.12.1)
       celluloid (>= 0.14.1)
       connection_pool (>= 1.0.0)
@@ -431,6 +439,7 @@ GEM
     warden (1.2.1)
       rack (>= 1.0)
     webrobots (0.1.1)
+    websocket (1.2.2)
     xpath (2.0.0)
       nokogiri (~> 1.3)
     yaml_db (0.2.3)
@@ -503,6 +512,7 @@ DEPENDENCIES
   rvm-capistrano
   sass-rails (~> 3.2.3)
   seed_dump
+  selenium-webdriver
   sidekiq
   simple_form
   sinatra
