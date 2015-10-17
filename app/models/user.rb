@@ -21,7 +21,9 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :role_ids, :as => :admin
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me
+  attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :first_name, :last_name
+
+  before_save :save_fullname
 
   def has_favorite? location
     favorites.find_by_location_id location.id
@@ -48,6 +50,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.fullname(first, last)
+    if first.present? and last.present?
+      first + " " + last
+    else
+      self.name
+    end
+  end
+
   def password_required?
     super && provider.blank?
   end
@@ -71,4 +81,13 @@ class User < ActiveRecord::Base
   def mailboxer_email
     ""
   end
+
+  protected
+
+  def save_fullname
+    if self.first_name.present? and self.last_name.present?
+      self.name = User.fullname(self.first_name, self.last_name)
+    end
+  end
+
 end
