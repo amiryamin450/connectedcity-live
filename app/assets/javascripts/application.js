@@ -26,3 +26,4 @@
 //= require jqcloud
 //= require dropzone
 //= require_tree .
+//= require social-share-button

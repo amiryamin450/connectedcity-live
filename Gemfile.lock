@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/cuterxy/social-share-button.git
+  revision: 35e1920af4ae6eeb91bed0eaa8da625f236aee54
+  specs:
+    social-share-button (0.1.9)
+      coffee-rails
+      sass-rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -507,6 +515,7 @@ DEPENDENCIES
   simple_form
   sinatra
   slim
+  social-share-button (~> 0.1.8)!
   sunspot_rails
   sunspot_solr
   thin
