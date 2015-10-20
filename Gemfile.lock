@@ -1,6 +1,6 @@
 GIT
-  remote: https://github.com/cuterxy/social-share-button.git
-  revision: 35e1920af4ae6eeb91bed0eaa8da625f236aee54
+  remote: https://github.com/dmarges/social-share-button.git
+  revision: 05f5d1d260009cf02b42096789c6341382a9b38f
   specs:
     social-share-button (0.1.9)
       coffee-rails
