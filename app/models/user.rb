@@ -23,6 +23,9 @@ class User < ActiveRecord::Base
   # attr_accessible :role_ids, :as => :admin
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :first_name, :last_name
 
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+
   before_save :save_fullname
 
   def has_favorite? location
