@@ -9,7 +9,7 @@ r = 0
  markers = []
  %>
 
- 
+
 
 
 
@@ -27,7 +27,7 @@ r = 0
    <% if fav_count_num(vm) > 0 %>
    <div class="category">
     <div class="heading index-<%= r += 1 %>">
-      <h5><%= vm.name %></h5>   
+      <h5><%= vm.name %></h5>
       <a href="#" class="see-more" data-element="<%= vm.id %>">More +</a>
     </div>
 
@@ -62,6 +62,5 @@ r = 0
 
 
 <%= javascript_tag do %>
-window.locations = <%= raw markers.collect { |m| {:name => m.name, :latitude => m.latitude, :longitude => m.longitude}}.to_json %>;
+window.locations = <%= raw markers.collect { |m| {:name => m.name, :latitude => m.latitude, :longitude => m.longitude, :thumb => m.logo.url(:thumb)}}.to_json %>;
 <% end %>
-

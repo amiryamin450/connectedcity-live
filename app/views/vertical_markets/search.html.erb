@@ -32,7 +32,7 @@
 </div>
 
 <%= javascript_tag do %>
-window.locations = <%= raw @results.collect { |m| {:name => m.name, :latitude => m.latitude, :longitude => m.longitude}}.to_json %>;
+window.locations = <%= raw @results.collect { |m| {:name => m.name, :latitude => m.latitude, :longitude => m.longitude, :thumb => m.logo.url(:thumb)}}.to_json %>;
 <% end %>
 
 <%# render 'facets' %>
