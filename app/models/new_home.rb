@@ -1,7 +1,7 @@
 class NewHome < ActiveRecord::Base
 
   belongs_to :city
-  belongs_to :province 
+  belongs_to :province
   belongs_to :new_home_community
 
   extend FriendlyId
@@ -9,9 +9,9 @@ class NewHome < ActiveRecord::Base
 
 
 
-  attr_accessible :address, :address_suite, :association_fee, :association_fee_period, :bathroom_comment, 
-                  :bathrooms, :bedroom_comment, :bedrooms, :city_id, :country_id, :description, :detail_view_url, 
-                  :latitude, :living_area, :location_id, :longitude, :neighborhood_id, :postal_code, :province_id, :slug, :style, :title, 
+  attr_accessible :address, :address_suite, :association_fee, :association_fee_period, :bathroom_comment,
+                  :bathrooms, :bedroom_comment, :bedrooms, :city_id, :country_id, :description, :detail_view_url,
+                  :latitude, :living_area, :location_id, :longitude, :neighborhood_id, :postal_code, :province_id, :slug, :style, :title,
                   :virtual_tour_url, :year_built, :new_home_community_id, :list_price, :tax_amount, :cover_photo
 
 
@@ -20,10 +20,10 @@ class NewHome < ActiveRecord::Base
     :url => "/assets/new_homes/cover_photo/:id/:style/:basename.:extension",
     :path => ":rails_root/public/assets/new_homes/cover_photo/:id/:style/:basename.:extension"
 
-  geocoded_by :full_street_address 
+  geocoded_by :full_street_address
 
   validates_presence_of :address, :title, :city, :province, :postal_code
-  
+
   after_validation :geocode
 
   def full_street_address
@@ -38,4 +38,9 @@ class NewHome < ActiveRecord::Base
     "#{address} #{city.name} #{province.abbr}"
   end
 
+  searchable do
+    text :title, boost: 5
+    text :address, boost: 3
+    text :description
+  end
 end

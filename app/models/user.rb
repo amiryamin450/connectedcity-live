@@ -21,7 +21,9 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :role_ids, :as => :admin
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me
+  attr_accessible :name, :first_name, :last_name, :postal_code, :email, :password, :password_confirmation, :remember_me
+
+  validates :first_name, :last_name, :postal_code, presence: true
 
   def has_favorite? location
     favorites.find_by_location_id location.id
@@ -70,5 +72,13 @@ class User < ActiveRecord::Base
 
   def mailboxer_email
     ""
+  end
+
+  def name
+    [first_name, last_name].reject(&:blank?).join(" ")
+  end
+
+  def name=(name)
+    self.first_name, self.last_name = name.split(" ", 2)
   end
 end

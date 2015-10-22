@@ -45,16 +45,20 @@ class NewHomeCommunity < ActiveRecord::Base
       ''
     end
   end
-  
+
   def geo_location
     {:lat => latitude, :long => longitude}
   end
 
 
-  before_save do 
+  before_save do
     self.neighborhood = Neighborhood.calculate(self.longitude, self.latitude) if self.geocoded?
     self.district = self.neighborhood.district if self.neighborhood.present? and self.neighborhood.district.present?
   end
 
-
+  searchable do
+    text :name, boost: 5
+    text :address, boost: 3
+    text :description, :highlights
+  end
 end
