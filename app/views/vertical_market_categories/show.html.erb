@@ -1,12 +1,12 @@
 <h4><%= @vertical_market_category.name %></h4>
 
 
-<% 
+<%
   # categories = @facets['categories']
   # neighborhoods = @facets['neighborhoods']
   # brands = @facets['brands']
   markers = []
-  locations = @vertical_market_category.get_locations_paged(@city, @district, @neighborhood, params[:page]) 
+  locations = @vertical_market_category.get_locations_paged(@city, @district, @neighborhood, params[:page])
   markers |= locations
   # has_filters = (request.parameters[:category].present? or request.parameters[:neighborhood].present? or request.parameters[:brand].present?) ? true : false
 %>
@@ -34,6 +34,6 @@
 </div>
 
 <%= javascript_tag do %>
-window.locations = <%= raw markers.collect { |m| {:name => m.name, :latitude => m.latitude, :longitude => m.longitude}}.to_json %>;
+window.locations = <%= raw markers.collect { |m| {:name => m.name, :latitude => m.latitude, :longitude => m.longitude, :thumb => m.logo.url(:thumb)}}.to_json %>;
 <% end %>
 <%# render 'facets' %>

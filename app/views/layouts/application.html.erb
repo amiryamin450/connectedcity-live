@@ -20,7 +20,7 @@
       <div class="row-fluid" id="header">
           <div class="row-fluid">
             <div class="logo span6">
-              <a href="/" title="Connectbook.tv"><%= image_tag 'logo.png' %></a>
+              <a href="/" title="Connectbook.tv"><%= image_tag 'logo.png', width: 524 %></a>
             </div>
             <div class="span6">
               <div class="location-chooser">
@@ -50,8 +50,8 @@
             </div>
           </div>
           <div class="container-fluid content-holder">
+          <%= render 'messages' %>
           <div class="row-fluid">
-            <%= render 'messages' %>
             <%= yield %>
           </div>
           <div style="margin-bottom: 1.5em;"></div>

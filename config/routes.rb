@@ -18,7 +18,7 @@ Connectbook::Application.routes.draw do
     resources :favorites, only: [:create, :destroy]
     resources :location_images, only: [:destroy]
 
-    resources :business_improvement_areas, path: 'bia', only: [] do
+    resources :business_improvement_areas, path: 'bia', except: [:show] do
       resources :messages, only: [:new, :create]
       resources :carousel_images, defaults: { carouselable: 'business_improvement_area' }
     end
@@ -122,7 +122,6 @@ Connectbook::Application.routes.draw do
     resources :trade_associations, except: [:show]
     resources :vertical_market_categories
     resources :vertical_markets
-    resources :business_improvement_areas, path: 'bia', except: [:show]
     resources :districts, except: [:show]
 
     resources :businesses do
@@ -141,6 +140,10 @@ Connectbook::Application.routes.draw do
     resources :locations, path: 'business', as: :locations, except: [:show] do
       resources :status_updates, path: 'status-updates', except: [:index, :new, :create]
       resources :new_home_communities
+      resources :rental_properties, except: [:show] do
+        resources :rental_units, except: [:show]
+      end
+
       # eg. business/action
       collection do
         get :pending_claims
@@ -234,6 +237,7 @@ Connectbook::Application.routes.draw do
 
   get 'employment-opportunities' => 'employment_listings#guide', as: :employment_opportunity
   get 'classifieds' => 'classified_listings#guide', as: :classifieds
+  get ':district_route/:neighborhood/category/:id' => 'vertical_market_categories#show'
   get ':district_route/category/:id' => 'vertical_market_categories#show'
   get 'category/:id' => 'vertical_market_categories#show'
   get 'news' => 'city_news_articles#guide', as: :city_news_guide
