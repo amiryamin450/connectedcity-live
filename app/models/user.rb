@@ -21,12 +21,10 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :role_ids, :as => :admin
-  attr_accessible :name, :first_name, :last_name, :email, :password, :password_confirmation, :remember_me
+  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me
 
   validates :first_name, presence: true
   validates :last_name, presence: true
-
-  before_save :save_fullname
 
   def has_favorite? location
     favorites.find_by_location_id location.id
@@ -50,14 +48,6 @@ class User < ActiveRecord::Base
       end
     else
       super
-    end
-  end
-
-  def self.fullname(first, last)
-    if first.present? and last.present?
-      first + " " + last
-    else
-      self.name
     end
   end
 
@@ -85,11 +75,13 @@ class User < ActiveRecord::Base
     ""
   end
 
-  protected
+  def name
+    [self.first_name, self.last_name].reject(&:blank?).join(" ")
+  end
 
-  def save_fullname
-    if self.first_name.present? and self.last_name.present?
-      self.name = User.fullname(self.first_name, self.last_name)
+  def name=(name)
+    if name.present?
+      self.first_name, self.last_name = name.split(" ", 2) 
     end
   end
 
