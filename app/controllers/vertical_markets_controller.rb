@@ -36,36 +36,25 @@ class VerticalMarketsController < ApplicationController
   end
 
   def guide
-
-    @vertical_market = VerticalMarket.find(params[:market])
+    @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).find(params[:market])
 
     case @vertical_market.id
     when 17
-      @rental_properties = if @district
-        RentalProperty.where(district_id: @district.id).where(city_id: 5915022).order(:name)
-      else
-        RentalProperty.where(city_id: 5915022).order(:name)
-      end
-    when 18
-      @listings = if @district
-        RealEstateListing.where(property_type: 'Residential').where(district_id: @district.id).where(city_id: 5915022).order(:title)
-      else
-        RealEstateListing.where(property_type: 'Residential').where(city_id: 5915022).order(:title)
-      end
-    when 20
-      @listings = if @district
-        RealEstateListing.where(property_type: 'Commercial').where(district_id: @district.id).where(city_id: 5915022).order(:title)
-      else
-        RealEstateListing.where(property_type: 'Commercial').where(city_id: 5915022).order(:title)
-      end
+      @rental_properties = RentalProperty.where city_id: @city.id
+      @rental_properties = @rental_properties.where district_id: @district.id if @district
+      @rental_properties.order :name
+    when 18, 20
+      property_type = @vertical_market.id == 18 ? 'Residential' : 'Commercial'
+      @listings = RealEstateListing.where property_type: property_type,
+                                          city_id: @city.id
+      @listings = @listings.where district_id: @district.id if @district
+      @listings = @listings.order :title
     when 19
-      @new_home_communities = if @district
-        NewHomeCommunity.where(district_id: @district.id).where(city_id: 5915022).order(:name)
-      else
-        NewHomeCommunity.where(city_id: 5915022).order(:name)
-      end
-    else
+      @new_home_communities = NewHomeCommunity.where city_id: @city.id
+      @new_home_communities = @new_home_communities.where district_id: @district.id if @district
+      @new_home_communities = @new_home_communities.order :name
     end
+
     add_crumb '<i class="icon-home"></i> Home'.html_safe, @base_path
     add_crumb @district.name, district_guide_path(@district) if params[:district_route].present?
     add_crumb "#{@vertical_market.name} Guide"
@@ -97,6 +86,7 @@ class VerticalMarketsController < ApplicationController
       with(:vertical_market_ids, ids) if vm.present?
       with(:district_id, district.id) if district.present?
       with(:neighborhood_id, neighborhood.id) if neighborhood.present?
+      paginate :page => params[:page]
     end
 
     @results = @search.results

@@ -14,11 +14,9 @@
     <h4>Market Updates</h4>
     <div class="primary-content">
       <% current_user.favorites.collect { |f| f.location_status_updates.includes(:statusable) if f.location_status_updates.size > 0 }.compact.each do |status_update| %>
-              <div class="row-fluid status-update">
+        <div class="row-fluid status-update">
           <div class="span1">
-            <% if status_update.first.statusable.logo.blank? %>
-
-            <% else %>
+            <% unless status_update.first.statusable.logo.blank? %>
               <%= image_tag status_update.first.statusable.logo.url(:thumb) if status_update.first.statusable.logo? %>
             <% end %>
 
@@ -39,7 +37,7 @@
 
   <div id="events">
     <h4>Events</h4>
-    
+
   </div>
   <div id="news">
     <h4>News Articles</h4>
@@ -47,7 +45,7 @@
   </div>
   <div id="blogs">
     <h4>Blog Entries</h4>
-    
+
   </div>
   <div id="coupons">
     <h4>Coupons</h4>
