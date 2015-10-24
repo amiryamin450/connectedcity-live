@@ -48,7 +48,6 @@ gem 'truncate_html'
 gem 'twitter'
 gem 'yaml_db'
 gem "auto_html"
-gem 'social-share-button', '~> 0.1.8', git: 'https://github.com/dmarges/social-share-button.git'
 
 group :production, :staging do
   gem 'aws-sdk'
