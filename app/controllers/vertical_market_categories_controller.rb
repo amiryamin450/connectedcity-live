@@ -33,6 +33,7 @@ class VerticalMarketCategoriesController < ApplicationController
     set_subregion
     set_city
     set_district
+    set_neighborhood
 
     @vertical_market_category = VerticalMarketCategory.find(params[:id])
     @vertical_market = @vertical_market_category.vertical_market
