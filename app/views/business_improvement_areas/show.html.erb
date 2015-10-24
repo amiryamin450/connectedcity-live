@@ -1,13 +1,11 @@
 <div class="row-fluid">
   <div class="span8">
     <h3><%= @business_improvement_area.name %>
-      <% if user_signed_in? && (current_user.has_role?(:admin) || current_user.business_improvement_area_ids.include?(@business_improvement_area.id)) %>
+      <% if user_signed_in? && (current_user.has_role?(:admin) || @business_improvement_area.user_id == current_user.id) %>
       <small>
-        <% if current_user.has_role? :admin %>
-          <%= link_to 'edit', edit_business_improvement_area_path(@business_improvement_area) %>
-          <% if @business_improvement_area.use_carousel %>
-          | <%= link_to 'edit carousel', polymorphic_path([@business_improvement_area, :carousel_images])  %>
-          <% end %>
+        <%= link_to 'edit', edit_business_improvement_area_path(@business_improvement_area) %>
+        <% if @business_improvement_area.use_carousel %>
+        | <%= link_to 'edit carousel', polymorphic_path([@business_improvement_area, :carousel_images])  %>
         <% end %>
         <% if current_user.business_improvement_area_ids.include? @business_improvement_area.id %>
           | <%= link_to "message members", "#", role: "button", data: { toggle: "modal", target: "#new_message" } %>
@@ -86,7 +84,7 @@
       <div class="span6">
         <div class="holder pad10">
           <h5>Status Updates
-           <% if user_signed_in? and current_user.has_role? :admin %>
+           <% if user_signed_in? && (current_user.has_role?(:admin) || @business_improvement_area.user_id == current_user.id) %>
            <small><%= link_to "(add)", "#status_update", class: 'small', role: :button, data: {toggle: 'modal'} %></small>
            <% end %>
          </h5>
@@ -170,11 +168,7 @@
 </div>
 </div>
 
-
-
-
-
-<% if user_signed_in? and current_user.has_role? :admin %>
+<% if user_signed_in? && (current_user.has_role?(:admin) || @business_improvement_area.user_id == current_user.id) %>
 <%############# status update ###############%>
 
 <div class="modal fade hide" id="new_message" tabindex="-1" role="dialog" aria-labelledby="new_message" aria-hidden="true" data-remote="<%= url_for([:new, @business_improvement_area, :message]) %>">
