@@ -11,7 +11,7 @@ class AddFirstAndLastNamesToUser < ActiveRecord::Migration
   def down
     add_column :users, :name, :string
 
-    User.connection.execute("UPDATE users SET name = CONCAT(first_name,'',last_name)")
+    User.connection.execute("UPDATE users SET name = CONCAT(first_name,' ',last_name)")
 
     remove_column :users, :first_name
     remove_column :users, :last_name
