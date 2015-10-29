@@ -52,8 +52,8 @@ class ImportService
                                       district_id: district_id,
                                       phone: row[9],
                                       website_url: row[13]
-        rescue RuntimeError => e
-          messages << "Row #{$.}: Unable to save #{row[0]} at #{row[1]} - #{e}"
+        rescue => e
+          messages << "Row #{$.}: Unable to save #{row[0]} at #{row[1]} - #{e.message}"
           next
         end
 
@@ -66,9 +66,9 @@ class ImportService
 
       response = Success.new(messages, success_count)
     rescue RuntimeError => e
-      response = Error.new("There was an error during import – #{e}")
-    rescue
-      response = Error.new("There was an error during import – please ensure you upload a valid CSV file, and try again.")
+      response = Error.new("There was an error during import – #{e.message}")
+    rescue => e
+      response = Error.new("There was an error during import – please ensure you upload a valid CSV file, and try again. #{e.message}")
     end
   end
 end
