@@ -1,10 +1,18 @@
+<%
+
+meta title: "#{@neighborhood.try(:name) || @district.try(:name) || @city.try(:name)} Employment Opportunities".strip,
+     description: "",
+     canonical: url_for(Rails.application.routes.recognize_path(request.path).merge({only_path: false}))
+
+%>
+
 <h1>Employment Opportunities</h1>
 
 <% @employment_categories.each do |category| %>
 <% if category.employment_listings.size > 0 %>
 <div class="row-fluid classified-category">
   <div class="row-fluid classified-header" style="background-color: <%= "#{category.heading_color}" %>">
-    
+
     <div class="span5 head-cell"><%= category.name %></div>
     <div class="span2 head-cell">Company</div>
     <div class="span1 head-cell">Job Number</div>

@@ -1,3 +1,22 @@
+<%
+
+# Dynamically constructed title for guide/vertical market pages can consist of
+# one of more of these 4 different pieces of information depending on what is
+# available:
+#
+# - vertical market
+# - neighborhood
+# - district
+# - city
+guide = @vertical_market ? "#{@vertical_market.name} Guide" : nil
+meta title: ["Search results for \"#{params[:search]}\"", "#{@neighborhood.try(:name) || @district.try(:name) || @city.try(:name)} #{guide}".strip],
+     description: "",
+     canonical: "",
+     robots: "noindex, follow"
+
+%>
+
+
 <h3>Search Results <em><%= "for #{params[:search].present? ? params[:search] : 'All Records'}"  %></em></h3>
 
 <div class="result-numbers">Showing <%= "#{params[:page].present? ? @results.count * params[:page].to_i : '1'} to #{ params[:page].present? ? (@results.count * params[:page].to_i) + @results.count : @results.count }"  %> of <%= @results.total_entries %> results</div>

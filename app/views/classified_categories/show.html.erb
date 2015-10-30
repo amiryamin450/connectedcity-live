@@ -1,9 +1,17 @@
+<%
+
+meta title: "#{@neighborhood.try(:name) || @district.try(:name) || @city.try(:name)} #{@classified_category.name} Classifieds".strip,
+     description: "",
+     canonical: url_for(Rails.application.routes.recognize_path(request.path).merge({only_path: false}))
+
+%>
+
 <h1>Classifieds - <%= @classified_category.name %> </h1>
 
 <% if @classified_category.classified_listings.size > 0 %>
 <div class="row-fluid classified-category">
   <div class="row-fluid classified-header" style="background-color: <%= "#{@classified_category.heading_color}" %>">
-    
+
     <div class="span7 head-cell"><%= @classified_category.name %></div>
     <div class="span1 head-cell">Price</div>
     <div class="span1 head-cell">Photos?</div>
