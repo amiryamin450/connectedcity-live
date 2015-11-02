@@ -205,6 +205,9 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    mail_form (1.5.1)
+      actionmailer (>= 3.2, < 5)
+      activemodel (>= 3.2, < 5)
     mailboxer (0.13.0)
       carrierwave (>= 0.5.8)
       foreigner (>= 0.9.1)
@@ -476,6 +479,7 @@ DEPENDENCIES
   kaminari
   koala
   launchy
+  mail_form
   mailboxer
   mechanize
   meta_request

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body class="">
+  <div class="wrapper">
+    <nav>
+      <div class="row-fluid" id="header">
+          <div class="row-fluid">
+            <div class="logo span6">
+              <a href="/" title="Connectbook.tv"><%= image_tag 'logo.png', width: 524 %></a>
+            </div>
+          </div>
+      </div>
+    </nav>
+    <div id="main-content">
+      <div class="container-fluid content-holder">
+      <div class="row-fluid">
+        <%= yield %>
+      </div>
+      <div style="margin-bottom: 1.5em;"></div>
+      </div>
+    </div>
+    <div class="push"></div>
+  </div>
+  <%= render 'application/footer' %>
+  <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5088b5ab602f3daf"></script>
+</body>
+</html>

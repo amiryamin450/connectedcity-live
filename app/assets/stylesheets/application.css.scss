@@ -23,6 +23,21 @@
 @import "dropzone/basic";
 @import "messaging";
 
+* {
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+.wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -4em;
+}
+
 body {
   background-color: #f2f2f2;
 }
@@ -634,4 +649,8 @@ div.other-junk {
     color: white;
     text-decoration: none;
   }
+}
+
+.footer, .push {
+  height: 4em;
 }
