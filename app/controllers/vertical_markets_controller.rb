@@ -55,8 +55,14 @@ class VerticalMarketsController < ApplicationController
       @new_home_communities = @new_home_communities.order :name
     end
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, @base_path
-    add_crumb @district.name, district_guide_path(@district) if params[:district_route].present?
+    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_crumb @district.name, district_guide_path(@district) if @district
+    add_crumb @neighborhood.name if @neighborhood
+
+    @vertical_market.ancestors.each do |ancestor|
+      add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
+    end
+
     add_crumb "#{@vertical_market.name} Guide"
   end
 
@@ -90,6 +96,15 @@ class VerticalMarketsController < ApplicationController
     end
 
     @results = @search.results
+
+    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_crumb @district.name, district_guide_path(@district) if @district
+
+    @vertical_market.ancestors.each do |ancestor|
+      add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
+    end
+
+    add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}" if @vertical_market
 
     add_crumb 'Search Results'
 

@@ -17,14 +17,20 @@ class RentalPropertiesController < ApplicationController
   def show
 
    @vertical_market = @location.vertical_market_categories.first.vertical_market
-    
 
-    add_crumb @district.name, district_guide_path(@district) if @district
+    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
+
+    # FIXME Cities don't currently work but should be part of the breadcrumbs.
+    #       Once support for more than once city has been added, fix this.
+    add_crumb @city.name, root_path if @city
+    add_crumb @location.district.name, district_guide_path(@location.district) if @location.district
+    add_crumb @location.business_improvement_area.name, business_improvement_area_path(@location.business_improvement_area) if @location.business_improvement_area
+
     add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
     add_crumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
     add_crumb @location.name, "#{@base_path}business/#{@location.slug}"
     add_crumb @rental_property.name
-    
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @rental_property }
@@ -44,7 +50,7 @@ class RentalPropertiesController < ApplicationController
 
   # GET /rental_properties/1/edit
   def edit
-    
+
   end
 
   # POST /rental_properties
