@@ -20,6 +20,8 @@ class ClassifiedListingsController < ApplicationController
 
   def guide
     @classified_categories = ClassifiedCategory.includes(:classified_listings).all
+
+    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb 'Classifieds'
   end
 
@@ -27,6 +29,7 @@ class ClassifiedListingsController < ApplicationController
   # GET /classified_listings/1.json
   def show
 
+    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb 'Classifieds', classifieds_path
     add_crumb @classified_listing.classified_category.name, classified_category_path(@classified_listing.classified_category)
     add_crumb @classified_listing.title
