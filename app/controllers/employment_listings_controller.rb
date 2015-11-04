@@ -22,6 +22,8 @@ class EmploymentListingsController < ApplicationController
 
   def guide
     @employment_categories = EmploymentCategory.includes(:employment_listings).all
+
+    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb 'Employment Opportunities'
   end
 

@@ -1,3 +1,11 @@
+<%
+
+meta title: @news_article.title.strip,
+     description: "",
+     canonical: url_for(Rails.application.routes.recognize_path(request.path).merge({only_path: false}))
+
+%>
+
 <div class="row-fluid">
   <div class="span9">
     <h1><%= @news_article.title %></h1>

@@ -9,6 +9,8 @@ class Ability
       can :read, :all
       can :manage, ClassifiedListing, user_id: user.id
 
+      can :manage, BusinessImprovementArea, user_id: user.id
+
       can :manage, Location do |location|
         location.user_can_manage?(user)
       end

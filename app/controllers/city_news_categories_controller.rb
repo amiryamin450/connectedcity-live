@@ -16,6 +16,7 @@ class CityNewsCategoriesController < ApplicationController
   def show
     @city_news_category = CityNewsCategory.find(params[:id])
 
+    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb 'City News', city_news_guide_path
     add_crumb @city_news_category.name
 

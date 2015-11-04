@@ -1,115 +1,133 @@
-
 <%
-r = 0
- # categories = @facets['categories']
- # neighborhoods = @facets['neighborhoods']
- # brands = @facets['brands']
- # has_filters = (request.parameters[:category].present? or request.parameters[:neighborhood].present? or request.parameters[:brand].present?) ? true : false
- markers = []
- %>
- <% content_for :page_title do  %>
- <h4><%= "#{@page_title_part} #{@vertical_market.name} #{@vertical_market.parent.name if @vertical_market.parent} Guide" %></h4>
- <% end %>
 
+# Dynamically constructed title for guide/vertical market pages can consist of
+# one of more of these 4 different pieces of information depending on what is
+# available:
+#
+# - vertical market
+# - neighborhood
+# - district
+# - city
+guide = @vertical_market ? "#{@vertical_market.name} Guide" : nil
+meta title: "#{@neighborhood.try(:name) || @district.try(:name) || @city.try(:name)} #{guide}".strip,
+     description: "",
+     canonical: url_for(Rails.application.routes.recognize_path(request.path).merge({only_path: false}))
 
+%>
+<%
 
+markers = []
 
- <% if [17,18,19,20].include?(@vertical_market.id) %>
+content_for :title do [@page_title_part, @vertical_market.name, (@vertical_market.parent.name if @vertical_market.parent), 'Guide'].reject(&:blank?).join ' ' end
+
+%>
+
+<%#
+
+NOTE Rental (rental)
+     Resale (resale)
+     New Home (newhome)
+     Commercial (commercial)
+
+%>
+<% if [17, 18, 19, 20].include?(@vertical_market.id) %>
+  <%# TODO Optimize %>
   <%=
-    case @vertical_market.id
-    when 17
-      markers |= @rental_properties
-      render 'rental'
-    when 18
-      markers |= @listings
-      render 'resale'
-    when 20
-      markers |= @listings
-      render 'commercial'
-    when 19
-      markers |= @new_home_communities
-      render 'new_home'
-    else
 
-    end
+  case @vertical_market.id
+  when 17
+    markers |= @rental_properties
+    render 'rental'
+  when 18
+    markers |= @listings
+    render 'resale'
+  when 20
+    markers |= @listings
+    render 'commercial'
+  when 19
+    markers |= @new_home_communities
+    render 'new_home'
+  end
 
-   %>
- <% else %>
+  %>
+<% else %>
+  <%# TODO Optimize %>
+  <%# NOTE Automotive (automotive) %>
+  <% if @vertical_market.id == 1 %>
+    <div class="category">
+      <div class="heading index-11">
+        <h5>Automotive Listings</h5>
 
-<% if @vertical_market.id == 1 %>
- <div class="category">
-  <div class="heading index-11">
-    <h5>Automotive Listings</h5>
-    <a href="#" class="see-more" data-element="auto-listings">More +</a>&nbsp;<%= link_to "See All", "#" %>
-  </div>
-   <div class="location-holder" id="auto-listings">
-    <div class="clearfix">
-      <% @vertical_market.automotive_listings.each do |listing| %>
-
-      <div class="location-teaser clearfix">
-        <div style="min-height: 80px; text-align: center;">
-          <%= link_to(image_tag(listing.main_image.url(:hp_list)), [listing.location, listing])%>
-        </div>
-        <div style=" margin-top: 5px; margin-bottom: 5px; "> <%= humanized_money_with_symbol listing.price %></div>
-        <div style="width: 168px;font-size: 12px; min-height:24px;"><strong><%= link_to "#{listing.year} #{listing.make} #{listing.model}", [listing.location, listing] %></strong></div>
-
-        <div style="width: 168px; margin-top: 5px; font-weight: bold;"><%= link_to(listing.location.name, listing.location) %></div>
+        <%= link_to 'More +', '#', class: 'see-more', data: { element: 'auto-listings' } %>
+        <%= link_to "See All", "#" %>
       </div>
+      <div class="location-holder" id="auto-listings">
+        <div class="clearfix">
+          <% @vertical_market.automotive_listings.each do |listing| %>
+            <%# FIXME Move inline styles to a stylesheet %>
+            <div class="location-teaser clearfix">
+              <div style="min-height: 80px; text-align: center;">
+                <%= link_to image_tag(listing.main_image.url(:hp_list)), [listing.location, listing] %>
+              </div>
 
-      <% end %>
+              <div style="margin-top: 5px; margin-bottom: 5px;"><%= humanized_money_with_symbol listing.price %></div>
+              <div style="width: 168px; font-size: 12px; min-height:24px;"><strong><%= link_to [listing.year, listing.make, listing.model].reject(&:blank?).join(' '), [listing.location, listing] %></strong></div>
+              <div style="width: 168px; margin-top: 5px; font-weight: bold;"><%= link_to listing.location.name, listing.location %></div>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<% end -%>
+  <% end %>
 
+  <% @vertical_market.categories.each_with_index do |category, r| %>
+    <%
 
- <% @vertical_market.categories.each do |category| %>
- <%
- locations = category.get_locations(@city, @district, @neighborhood, {params: params})
- markers |= locations
- %>
- <% if locations.size > 0 %>
- <div class="category">
-  <div class="heading index-<%= r += 1 %>">
-    <h5><%= category.name %></h5>
+    locations = category.get_locations @city, @district, @neighborhood
+    markers |= locations
 
-    <a href="#" class="see-more" data-element="<%= category.id %>">More +</a>&nbsp;<%= link_to "See All", "#{@base_path}category/#{category.slug}" unless locations.size < 20 %>
-    <% if user_signed_in? and current_user.has_role? :admin %>
-    <%= link_to "Edit - #{category.name}", edit_vertical_market_category_path(category), class: 'admin-link' %>
+    %>
+
+    <% if locations.any? %>
+      <div class="category">
+        <div class="heading index-<%= r %>">
+          <h5><%= category.name %></h5>
+
+          <%= link_to 'More +', '#', class: 'see-more', data: { element: category.id } %>
+          <%= link_to 'See All', "#{@base_path}category/#{category.slug}" %>
+
+          <% if user_signed_in? && current_user.has_role?(:admin) %>
+            <%= link_to 'Edit', edit_vertical_market_category_path(category), class: 'admin-link' %>
+          <% end %>
+        </div>
+
+        <div class="location-holder" id="cat-<%= category.id %>">
+          <div class="clearfix">
+            <% locations.each do |location| %>
+              <div class="location-teaser clearfix">
+                <%# FIXME Move inline styles to a stylesheet %>
+                <div style="min-height: 80px; text-align: center;">
+                  <%= link_to image_tag(get_location_image_url(location)), location %>
+                </div>
+
+                <div style="width: 168px; margin-top: 5px; margin-bottom: 5px; font-size: 12px; min-height:24px;"><strong><%= link_to location.name, location %></strong></div>
+                <div style="width: 168px;"><%= "#{location.address}".html_safe %></div>
+                <div style="width: 168px;"><%= "#{location.city.name if location.city.present? } #{location.province.abbr} #{location.postal_code}".html_safe %></div>
+                <div style="width: 168px; color: #1c3656;"><%= location.phone %></div>
+                <div id="favorite-<%= location.id %>" class="favorite" style="margin-top: 5px;">
+                  <%= render 'favorites/like_button', :location_id => location.id, :vertical_market_slug => location.vertical_markets.first.slug if user_signed_in? %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
     <% end %>
-  </div>
-
-  <div class="location-holder" id="cat-<%= category.id %>">
-    <div class="clearfix">
-      <% locations.each do |location| %>
-
-      <div class="location-teaser clearfix">
-        <div style="min-height: 80px; text-align: center;">
-          <%= link_to(image_tag(get_location_image_url(location)), location)%>
-        </div>
-        <div style="width: 168px; margin-top: 5px; margin-bottom: 5px; font-size: 12px; min-height:24px;"><strong><%= link_to location.name, location %></strong></div>
-        <div style="width: 168px;"><%= "#{location.address}".html_safe %></div>
-        <div style="width: 168px;"><%= "#{location.city.name if location.city.present? } #{location.province.abbr} #{location.postal_code}".html_safe %></div>
-        <div style="width: 168px; color: #1c3656;"><%= location.phone %></div>
-        <div id="favorite-<%= location.id %>" class="favorite" style="margin-top: 5px;">
-              <%= render 'favorites/like_button', :location_id => location.id, :vertical_market_slug => location.vertical_markets.first.slug if user_signed_in? %>
-        </div>
-      </div>
-
-      <% end %>
-    </div>
-  </div>
-</div>
+  <% end %>
 <% end %>
-<% end %>
-<% end -%>
-
-
 
 <%= javascript_tag do %>
-window.locations = <%= raw markers.collect { |m| {:name => m.name, :latitude => m.latitude, :longitude => m.longitude}}.to_json %>;
+  window.locations = <%= raw markers.collect { |m| {:name => m.name, :latitude => m.latitude, :longitude => m.longitude, :thumb => m.logo.url(:thumb)}}.to_json %>;
 <% end %>
 
 <%= render 'status_updates/show_image' %>
-
-<%# render '_facets' %>

@@ -226,6 +226,8 @@ GEM
       callsite
       rack-contrib
       railties
+    metamagic (3.1.7)
+      rails (>= 3.0.0)
     method_source (0.8.1)
     mime-types (1.23)
     money (5.1.1)
@@ -488,6 +490,7 @@ DEPENDENCIES
   mailboxer
   mechanize
   meta_request
+  metamagic
   money-rails
   mysql2
   nokogiri

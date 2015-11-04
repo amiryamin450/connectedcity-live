@@ -10,11 +10,11 @@ class RentalProperty < ActiveRecord::Base
   has_many :rental_units
   has_many :status_updates, as: :statusable, dependent: :destroy
 
-  attr_accessible :active, :address_1, :address_2, :city_id, :description, 
-  :email, :facebook_url, :fax, :garage_types, :included_utilities, 
-  :latitude, :longitude, :name, :neighborhood_description, :neighborhood_highlights, 
-  :neighborhood_id, :pet_restrictions, :phone, :phone_count, :postal_code, :pov, 
-  :property_features, :property_highlights, :province_id, :restrictions, :slug, :tag_line, 
+  attr_accessible :active, :address_1, :address_2, :city_id, :description,
+  :email, :facebook_url, :fax, :garage_types, :included_utilities,
+  :latitude, :longitude, :name, :neighborhood_description, :neighborhood_highlights,
+  :neighborhood_id, :pet_restrictions, :phone, :phone_count, :postal_code, :pov,
+  :property_features, :property_highlights, :province_id, :restrictions, :slug, :tag_line,
   :website_url, :location_id, :location, :cover_photo, :district_id, :status_updates_attributes
 
   friendly_id :name, use: [:slugged, :history]
@@ -55,9 +55,14 @@ class RentalProperty < ActiveRecord::Base
     {:lat => latitude, :long => longitude}
   end
 
-  before_save do 
+  before_save do
     self.neighborhood = Neighborhood.calculate(self.longitude, self.latitude) if self.geocoded?
     self.district = self.neighborhood.district if self.neighborhood.present? and self.neighborhood.district.present?
   end
 
+  searchable do
+    text :name, boost: 5
+    text :address_1, boost: 3
+    text :description
+  end
 end

@@ -1,3 +1,11 @@
+<%
+
+meta title: "#{@neighborhood.try(:name) || @district.try(:name) || @city.try(:name)} City News".strip,
+     description: "",
+     canonical: url_for(Rails.application.routes.recognize_path(request.path).merge({only_path: false}))
+
+%>
+
 <h1><%= @area.present? ? @area.name : 'City' %> News</h1>
 
 <% @city_news_categories.each do |category| %>
