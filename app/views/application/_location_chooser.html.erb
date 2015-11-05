@@ -1,8 +1,19 @@
 
 
 <div class="location-nav">
-  <a href='/<%= "guide/#{params[:market]}" if params[:market].present? %>'>Vancouver</a> |
-  <a href='/vancouver-downtown/<%= "guide/#{params[:market]}" if params[:market].present? %>'>Vancouver Downtown</a> | 
-  <a href='/vancouver-eastside/<%= "guide/#{params[:market]}" if params[:market].present? %>'>Vancouver Eastside</a> | 
-  <a href='/vancouver-westside/<%= "guide/#{params[:market]}" if params[:market].present? %>'>Vancouver Westside</a>
-</div>      
+  <%
+
+  url_suffix = if params[:market].present?
+                 "guide/#{params[:market]}"
+               elsif params[:controller] == "vertical_market_categories" && params[:id]
+                 "category/#{params[:id]}"
+               else
+                 ""
+               end
+
+  %>
+  <a href='/<%= url_suffix %>'>Vancouver</a> |
+  <a href='/vancouver-downtown/<%= url_suffix %>'>Vancouver Downtown</a> |
+  <a href='/vancouver-eastside/<%= url_suffix %>'>Vancouver Eastside</a> |
+  <a href='/vancouver-westside/<%= url_suffix %>'>Vancouver Westside</a>
+</div>
