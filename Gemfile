@@ -81,6 +81,7 @@ group :test do
   gem 'guard-rspec'
   gem 'launchy'
   gem 'rb-fsevent'
+  gem 'selenium-webdriver'
 end
 
 group :development do

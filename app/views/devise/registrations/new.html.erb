@@ -3,6 +3,7 @@
   <%= f.error_notification %>
   <%= f.input :name, :autofocus => true %>
   <%= f.input :email, :required => true %>
+  <%= f.input :postal_code, :required => true %>
   <% if f.object.password_required? %>
   <%= f.input :password, :required => true %>
   <%= f.input :password_confirmation, :required => true %>
