@@ -213,10 +213,10 @@ Connectbook::Application.routes.draw do
   end
 
   #Static Pages
-  match 'about', to: 'StaticPages#about'
-  match 'terms', to: 'StaticPages#terms'
-  match 'privacy', to: 'StaticPages#privacy'
-  match 'contact', to: 'contacts#new'
+  get 'about' => 'StaticPages#about'
+  get 'terms' => 'StaticPages#terms'
+  get 'privacy' => 'StaticPages#privacy'
+  get 'contact' => 'contacts#new'
 
   resources 'contacts', only: [:new, :create]
 

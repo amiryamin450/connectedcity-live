@@ -1,10 +1,7 @@
-class StaticPagesController < ActionController::Base
-  include NavigationHelper
+class StaticPagesController < ApplicationController
 
   layout "static"
-
-  before_filter :setup_navigation
-  
+ 
   def about
   end
 
