@@ -83,7 +83,9 @@ class User < ActiveRecord::Base
 
   def name=(name)
     if name.present?
-      self.first_name, self.last_name = name.split(" ", 2) 
+      self.first_name, self.last_name = name.split(" ", 2)
+    else
+      self.first_name, self.last_name = nil
     end
   end
 
