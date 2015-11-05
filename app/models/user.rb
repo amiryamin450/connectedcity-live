@@ -21,8 +21,10 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :role_ids, :as => :admin
-  attr_accessible :name, :email, :password, :password_confirmation, :postal_code, :remember_me
+  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me
 
+  validates :first_name, presence: true
+  validates :last_name, presence: true
   validates :postal_code, presence: true, format: { with: /\A[a-zA-Z][0-9][a-zA-Z][\ ][0-9][a-zA-Z][0-9]\z/,
                                                     message: "Postal Code must be in format of A1A 1A1" }
 
@@ -76,4 +78,17 @@ class User < ActiveRecord::Base
   def mailboxer_email
     ""
   end
+
+  def name
+    [self.first_name, self.last_name].reject(&:blank?).join(" ")
+  end
+
+  def name=(name)
+    if name.present?
+      self.first_name, self.last_name = name.split(" ", 2)
+    else
+      self.first_name, self.last_name = nil
+    end
+  end
+
 end

@@ -6,7 +6,7 @@ class UserController < ApplicationController
 
   def index
 
-    @users = User.order(:name)
+    @users = User.order(:first_name)
     respond_to do |format|
       format.html
       format.json { render json: @users.order(:email).where("email like ?", "%#{params[:q]}%") }
