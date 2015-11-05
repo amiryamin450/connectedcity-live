@@ -37,11 +37,11 @@
       <div class="tab-content">
         <% if current_user.has_role? :admin %>
           <div class="tab-pane active" id="location">
-            <%= f.association :country %>
-            <%= f.association :province %>
-            <%= f.association :city %>
+            <%= f.association :country, disabled: true %>
+            <%= f.association :province, disabled: true %>
+            <%= f.association :city, disabled: true %>
             <%= f.association :district %>
-            <%= f.association :vertical_market_categories %>
+            <%= f.association :vertical_market_categories, disabled: !current_user.has_role?(:admin) %>
           </div>
           <div class="tab-pane" id="agents">
             <%= link_to 'Create New Agent', new_location_path(broker_id: @location.id), class: 'btn'  %>
@@ -53,7 +53,7 @@
           <%= f.input :address %>
           <%= f.input :address_1 %>
           <%= f.input :postal_code %>
-          <%= f.association :business_improvement_area, prompt: 'None', disabled: true %>
+          <%= f.association :business_improvement_area, prompt: 'None', disabled: !current_user.has_role?(:admin) %>
           <%= f.association :trade_associations %>
           <%= f.input :phone %>
           <%= f.input :show_phone %>
