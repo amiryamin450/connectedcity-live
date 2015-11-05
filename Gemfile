@@ -24,6 +24,7 @@ gem 'kaminari'
 gem 'koala'
 gem 'mailboxer'
 gem 'mechanize'
+gem 'metamagic'
 gem 'money-rails'
 gem 'mysql2'
 gem 'nokogiri'
@@ -48,6 +49,8 @@ gem 'truncate_html'
 gem 'twitter'
 gem 'yaml_db'
 gem "auto_html"
+gem 'sitemap_generator'
+gem 'whenever'
 
 group :production, :staging do
   gem 'aws-sdk'

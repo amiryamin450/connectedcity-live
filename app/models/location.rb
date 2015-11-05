@@ -59,8 +59,9 @@ class Location < ActiveRecord::Base
 
   has_attached_file :logo, :styles => { :thumb => "70x55", :list => "168x80", :bia_display => "250x100"},
     :url => "/system/location/logo/:id/:style/:basename.:extension",
-    :path => ":rails_root/public/system/location/logo/:id/:style/:basename.:extension",
-    :default_url => "http://placehold.it/250x150"
+    :path => ":rails_root/public/system/location/logo/:id/:style/:basename.:extension"
+    # ,
+    # :default_url => "http://placehold.it/250x150"
 
   has_attached_file :cover_photo, :styles => { :thumb => "100x178", :cover => "1280" },
     :url => "/system/location/cover_photo/:id/:style/:basename.:extension",

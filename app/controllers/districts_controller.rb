@@ -38,8 +38,11 @@ class DistrictsController < ApplicationController
     redirect_to districts_path, notice: 'The District was deleted successfully.'
   end
 
+  # FIXME Why is this homepage and not show?
   def homepage
     @district = District.find(params[:district_route])
+
+    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb @district.name
   end
 end

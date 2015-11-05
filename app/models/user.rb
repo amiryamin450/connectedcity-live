@@ -25,6 +25,8 @@ class User < ActiveRecord::Base
 
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates :postal_code, presence: true, format: { with: /\A[a-zA-Z][0-9][a-zA-Z][\ ][0-9][a-zA-Z][0-9]\z/,
+                                                    message: "Postal Code must be in format of A1A 1A1" }
 
   def has_favorite? location
     favorites.find_by_location_id location.id

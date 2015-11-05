@@ -20,6 +20,7 @@ class CityNewsArticlesController < ApplicationController
       @city_news_categories = CityNewsCategory.includes(:city_news_articles).all
     end
 
+    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb 'City News'
   end
 
@@ -28,6 +29,7 @@ class CityNewsArticlesController < ApplicationController
   def show
     @city_news_article = CityNewsArticle.find(params[:id])
 
+    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb 'City News', city_news_guide_path
     add_crumb @city_news_article.city_news_category.name, city_news_category_path(@city_news_article.city_news_category)
     add_crumb @city_news_article.title

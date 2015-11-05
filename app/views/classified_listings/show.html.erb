@@ -1,3 +1,11 @@
+<%
+
+meta title: @classified_listing.title,
+     description: "",
+     canonical: url_for(Rails.application.routes.recognize_path(request.path).merge({only_path: false}))
+
+%>
+
 <p id="notice"><%= notice %></p>
 <h1>
   <%= @classified_listing.title %>
@@ -31,4 +39,3 @@
 <%= link_to 'Delete', @classified_listing, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn' if can? :destroy, @classified_listing %>
   </div>
 </div>
-

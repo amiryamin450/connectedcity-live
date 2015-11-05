@@ -39,17 +39,23 @@ class ImportService
           next
         end
 
-        # light error checking done (feature is admin use only), build the location
-        location = Location.create  name: row[0],
-                                    address: row[1],
-                                    city_id: 5915022,
-                                    province_id: 59,
-                                    country_id: 1,
-                                    postal_code: row[6],
-                                    vertical_market_category_ids: [vertical_market_category_id],
-                                    district_id: district_id,
-                                    phone: row[9],
-                                    website_url: row[13]
+        # works to specifically catch issues matching a lat/lng with a neighbourhood so the import can continue
+        begin
+          # light error checking done (feature is admin use only), build the location
+          location = Location.create  name: row[0],
+                                      address: row[1],
+                                      city_id: 5915022,
+                                      province_id: 59,
+                                      country_id: 1,
+                                      postal_code: row[6],
+                                      vertical_market_category_ids: [vertical_market_category_id],
+                                      district_id: district_id,
+                                      phone: row[9],
+                                      website_url: row[13]
+        rescue => e
+          messages << "Row #{$.}: Unable to save #{row[0]} at #{row[1]} - #{e.message}"
+          next
+        end
 
         if location.persisted?
           success_count+=1
@@ -61,8 +67,8 @@ class ImportService
       response = Success.new(messages, success_count)
     rescue RuntimeError => e
       response = Error.new("There was an error during import – #{e.message}")
-    rescue
-      response = Error.new("There was an error during import – please ensure you upload a valid CSV file, and try again.")
+    rescue => e
+      response = Error.new("There was an error during import – please ensure you upload a valid CSV file, and try again. #{e.message}")
     end
   end
 end
