@@ -37,7 +37,7 @@ set :use_sudo, false
 
 set :scm, "git"
 set :git_enable_submodules, 1
-set :repository,  "git@bitbucket.org:deversus/connectedcity.git"
+set :repository,  "git@bitbucket.org:transcona/connectedcity.git"
 set :deploy_to, "/var/www/#{application}"
 set :shared_children, shared_children + %w{config/settings.local.yml}
 set :branch, "master"

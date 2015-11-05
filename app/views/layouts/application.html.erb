@@ -1,18 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!--[if lt IE 9]>
-  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
+<html>
+  <%= render 'head' %>
 
-  <title><%= content_for?(:title) ? yield(:title) : "ConnectedCity" %></title>
-  <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Connectbook" %>">
-  <%= stylesheet_link_tag "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-  <%= yield(:head) %>
-</head>
+
 <body class="">
   <%= render 'facebook' %>
   <div class="wrapper">
@@ -56,6 +46,13 @@
         </div>
     </div>
   </div>
+<<<<<<< HEAD
    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560968f4cf5a990a" async="async"></script>
+=======
+
+  <%# FIXME Move this to a partial so it can be re-used in the other layouts %>
+  <%= javascript_include_tag "application" %>
+  <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5088b5ab602f3daf"></script>
+>>>>>>> develop
 </body>
 </html>

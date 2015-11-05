@@ -1,124 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--[if lt IE 9]>
-        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+<html>
+  <%= render 'head' %>
 
-        <title><%= content_for?(:title) ? yield(:title) : "Connectbook" %></title>
-        <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Connectbook" %>">
-        <%= stylesheet_link_tag "application", :media => "all" %>
-        <%= javascript_include_tag "application" %>
-        <%= csrf_meta_tags %>
-        <%= yield(:head) %>
-      </head>
-      <body class="">
-        <div class="wrapper">
-          <nav>
-            <div class="row-fluid" id="header">
-                <div class="row-fluid">
-                  <div class="logo span6">
-                    <a href="/" title="Connectbook.tv"><img src="/assets/logo.png" alt="" width="524" height=""/></a>
-                  </div>
-                  <div class="span6">
-<!--                     <div class="user-nav">
-                      <%= render 'top_nav' %>
-                    </div>
--->
-                    <div class="location-chooser">
-                      <%= render 'location_chooser' %>
-                    </div>
-
-                  </div>
-
-                </div>
-              <%= render 'main_menu' %>
+  <body class="">
+    <div class="wrapper">
+      <nav>
+        <div class="row-fluid" id="header">
+          <div class="row-fluid">
+            <div class="logo span6">
+              <a href="/" title="Connected City"><img src="/assets/logo.png" alt="" width="" height=""></a>
             </div>
-          </nav>
-
-
-
-
-          <div class="">
-            <div id="sidebar" class="<%= @sidebar_class %>" >
-              <%= render 'user_sidebar' %>
-            </div>
-            <div id="main-content">
-              <div class="row-fluid">
-                <div id="breadcrumbs">
-                  <div class="breadcrumb">
-                    <%= render_crumbs separator: "<span class='divider'><i class='icon-angle-right'></i></span>".html_safe %>
-                    <%= render 'social_media' %>
-                  </div>
-                </div>
+            <div class="span6">
+              <div class="location-chooser">
+                <%= render 'location_chooser' %>
               </div>
-              <div class="container-fluid content-holder">
+            </div>
+          </div>
+          <%= render 'main_menu' %>
+        </div>
+      </nav>
+
+      <div class="">
+        <div id="sidebar" class="<%= @sidebar_class %>" >
+          <%= render 'user_sidebar' %>
+        </div>
+        <div id="main-content">
+          <div class="row-fluid">
+            <div id="breadcrumbs">
+              <div class="breadcrumb">
+                <%= render_crumbs separator: "<span class='divider'><i class='icon-angle-right'></i></span>".html_safe %>
+                <%= render 'social_media' %>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid content-holder">
+            <div class="row-fluid">
+              <div class="container-fluid">
                 <div class="row-fluid">
-                  <div class="container-fluid">
+                  <div class="span4">
+                    <div id="map-holder">
+                      <div id="map"></div>
+                    </div>
+                    <div id="status_updates"><%= render :partial => 'status_updates' %></div>
+                  </div>
+                  <div class="span8">
                     <div class="row-fluid">
-                      <div class="span4">
-                        <div id="map-holder">
-                          <div id="map"></div>
-                        </div>
-                        <div id="status_updates"><%= render :partial => 'status_updates' %></div>
+                      <%= form_tag "#{@base_path}search/#{@vertical_market.slug if @vertical_market}", method: :get do %>
+                      <div class="input-append" style="display: inline;">
+
+                        <%= text_field_tag :search, params[:search], class: 'span8', placeholder: "Search #{@vertical_market.name if @vertical_market}#{(" in " + @district.name) if @district}#{(" in " + @city.name) if @city && !@district}" %>
+                        <button class="btn btn-warning" type="submit">Search!</button>
                       </div>
-                      <div class="span8">
+                      <% end %>
+                    </div>
+                    <% if params[:district_route].present? and params[:market].present? and @district and @district.neighborhoods.size > 0 and ![17,18,19,20].include?(@vertical_market.id) %>
+                    <div class="row-fluid">
+                      <div class="facets well" id="facet-block" style="margin-bottom: 1.5em;">
+
                         <div class="row-fluid">
-                          <%= form_tag "#{@base_path}search/#{@vertical_market.slug if @vertical_market}", method: :get do %>
-                          <div class="input-append" style="display: inline;">
 
-                            <%= text_field_tag :search, params[:search], class: 'span8', placeholder: "Search #{@vertical_market.name if @vertical_market}#{(" in " + @district.name) if @district}#{(" in " + @city.name) if @city && !@district}" %>
-                            <button class="btn btn-warning" type="submit">Search!</button>
+                          <% count = (@district.neighborhoods.size / 5).ceil > 0 ? (@district.neighborhoods.size / 5).ceil : 1 %>
+                          <% @district.neighborhoods.in_groups_of(count) do |group| %>
+
+                          <div class="span2">
+                            <ul class="unstyled">
+                              <% group.each do |n| %>
+                                <% if n %>
+                                  <% if n.slug == params[:neighborhood] %>
+                                    <li><%= link_to "#{n.name}", district_neighborhood_guide_path(params[:district_route], n.slug, params[:market]), class: 'active' %></li>
+                                  <% else %>
+                                  <li><%= link_to "#{n.name}", district_neighborhood_guide_path(params[:district_route], n.slug, params[:market]) %></li>
+                                  <% end -%>
+                                <% end %>
+                              <% end %>
+                            </ul>
                           </div>
-
-                         <!--  <button id="btn-facet" class="btn" type="button" style="margin-left: .75em;">Filter Neighborhoods</button> -->
                           <% end %>
                         </div>
-                        <% if params[:district_route].present? and params[:market].present? and @district and @district.neighborhoods.size > 0 and ![17,18,19,20].include?(@vertical_market.id) %>
-                        <div class="row-fluid">
-                          <div class="facets well" id="facet-block" style="margin-bottom: 1.5em;">
-
-
-                            <div class="row-fluid">
-                              <% count = (@district.neighborhoods.size / 5).ceil > 0 ? (@district.neighborhoods.size / 5).ceil : 1 %>
-                              <% @district.neighborhoods.in_groups_of(count) do |group| %>
-
-                              <div class="span2">
-                                <ul class="unstyled">
-                                  <% group.each do |n| %>
-                                  <% if n %>
-                                    <% if n.slug == params[:neighborhood] %>
-                                      <li><%= link_to "#{n.name}", district_neighborhood_guide_path(params[:district_route], n.slug, params[:market]), class: 'active' %></li>
-                                    <% else %>
-                                    <li><%= link_to "#{n.name}", district_neighborhood_guide_path(params[:district_route], n.slug, params[:market]) %></li>
-                                    <% end -%>
-
-                                  <% end %>
-
-                                  <% end %>
-                                </ul>
-                              </div>
-                              <% end %>
-                            </div>
-                          </div>
-                        </div>
-                        <% end %>
-
-                        <div class="row-fluid">
-                          <%= yield %>
-                        </div>
                       </div>
                     </div>
+                    <% end %>
+                    <div class="row-fluid">
+                      <%= yield %>
+                    </div>
                   </div>
-
                 </div>
               </div>
-
             </div>
           </div>
         </div>
-         <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560968f4cf5a990a" async="async"></script>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560968f4cf5a990a" async="async"></script>
+    <%# FIXME Move this to a partial so it can be re-used in the other layouts %>
+    <%= javascript_include_tag "application" %>
+  </body>
+</html>
 
-      </body>
-      </html>

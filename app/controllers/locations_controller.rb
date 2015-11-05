@@ -44,9 +44,16 @@ class LocationsController < ApplicationController
     cookies[:return_to] = "#{@base_path}business/#{@location.slug}"
 
 
+    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb @district.name, district_guide_path(@district) if @district
+    add_crumb @location.business_improvement_area.name, business_improvement_area_path(@location.business_improvement_area) if @location.business_improvement_area
+
+    @vertical_market.ancestors.each do |ancestor|
+      add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
+    end
+
     add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}" if @vertical_market
-    # add_crumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
+
     add_crumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
     add_crumb @location.name
     respond_to do |format|

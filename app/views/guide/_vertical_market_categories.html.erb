@@ -1,5 +1,21 @@
 <%
 
+# Dynamically constructed title for guide/vertical market pages can consist of
+# one of more of these 4 different pieces of information depending on what is
+# available:
+#
+# - vertical market
+# - neighborhood
+# - district
+# - city
+guide = @vertical_market ? "#{@vertical_market.name} Guide" : nil
+meta title: "#{@neighborhood.try(:name) || @district.try(:name) || @city.try(:name)} #{guide}".strip,
+     description: "",
+     canonical: url_for(Rails.application.routes.recognize_path(request.path).merge({only_path: false}))
+
+%>
+<%
+
 markers = []
 
 content_for :title do [@page_title_part, @vertical_market.name, (@vertical_market.parent.name if @vertical_market.parent), 'Guide'].reject(&:blank?).join ' ' end
