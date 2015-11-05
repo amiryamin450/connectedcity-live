@@ -23,7 +23,7 @@ class Neighborhood < ActiveRecord::Base
   end
 
   def self.calculate( lon, lat, type = 'N')
-    self.where("MBRWITHIN(POINT(#{lon}, #{lat}), geom) AND nbr_type = '#{type}'").first
+    self.where("ST_WITHIN(POINT(#{lon}, #{lat}), geom)").first
   end
 
   def id
