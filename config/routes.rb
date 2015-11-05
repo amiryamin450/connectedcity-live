@@ -212,6 +212,14 @@ Connectbook::Application.routes.draw do
     resources :social_profiles, path: "social-profiles", only: [:show]
   end
 
+  #Static Pages
+  get 'about' => 'StaticPages#about'
+  get 'terms' => 'StaticPages#terms'
+  get 'privacy' => 'StaticPages#privacy'
+  get 'contact' => 'contacts#new'
+
+  resources 'contacts', only: [:new, :create]
+
   # get '/districts/:district_id/news' => action: :guide
 
   # These actions don't expect a sub_market parameters so I removed them for
@@ -246,4 +254,6 @@ Connectbook::Application.routes.draw do
 
   get ':district_route', to: 'districts#homepage', as: :district_guide
   match ':status', to: 'errors#show', constraints: { status: /\d{3}/ }, as: :error_page
+
+
 end
