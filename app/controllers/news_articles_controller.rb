@@ -21,6 +21,14 @@ class NewsArticlesController < ApplicationController
     @location = Location.find(params[:location_id])
     @news_article = NewsArticle.find(params[:id])
 
+    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_crumb @location.district.name, district_guide_path(@location.district) if @location.district
+    add_crumb @location.business_improvement_area.name, business_improvement_area_path(@location.business_improvement_area) if @location.business_improvement_area
+
+    add_crumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
+    add_crumb @location.name, location_path(@location)
+    add_crumb "News"
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @news_article }

@@ -24,6 +24,7 @@ gem 'kaminari'
 gem 'koala'
 gem 'mailboxer'
 gem 'mechanize'
+gem 'metamagic'
 gem 'money-rails'
 gem 'mysql2'
 gem 'nokogiri'
@@ -83,6 +84,7 @@ group :test do
   gem 'guard-rspec'
   gem 'launchy'
   gem 'rb-fsevent'
+  gem 'selenium-webdriver'
 end
 
 group :development do

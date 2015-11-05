@@ -1,3 +1,11 @@
+<%
+
+meta title: "#{@neighborhood.try(:name) || @district.try(:name) || @city.try(:name)} #{@city_news_category.name} City News".strip,
+     description: "",
+     canonical: url_for(Rails.application.routes.recognize_path(request.path).merge({only_path: false}))
+
+%>
+
 <h1>Classifieds - <%= @city_news_category.name %> </h1>
 
 <% if @city_news_category.city_news_articles.size > 0 %>
