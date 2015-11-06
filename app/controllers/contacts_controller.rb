@@ -1,9 +1,6 @@
 class ContactsController < ActionController::Base
-  include NavigationHelper
   
   layout "static"
-
-  before_filter :setup_navigation
 
   def new
   	@contact = Contact.new
