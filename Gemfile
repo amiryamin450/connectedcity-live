@@ -49,7 +49,6 @@ gem 'sunspot_solr'
 gem 'truncate_html'
 gem 'twitter'
 gem 'yaml_db'
-gem "auto_html"
 gem 'sitemap_generator'
 gem 'whenever'
 

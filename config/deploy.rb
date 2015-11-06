@@ -22,7 +22,7 @@ end
 set :rvm_type, :system
 set :rvm_ruby_string, :release_path
 set :bundle_dir, ''
-set :bundle_flags, '--system --quiet'
+set :bundle_flags, '--system'
 
 set :cmd_prefix, -> { path_to_bin_rvm(:with_ruby => "in #{fetch(:current_path)}") }
 set :sidekiq_cmd, -> { "#{fetch(:cmd_prefix)} bundle exec sidekiq" }
