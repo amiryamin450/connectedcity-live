@@ -13,7 +13,8 @@ class VerticalMarketCategory < ActiveRecord::Base
   has_many :news_articles,      :through => :locations, uniq: true
   has_many :blog_entries,       :through => :locations, uniq: true
 
-  default_scope order('vertical_market_categories.name')
+  # This is actually broken in MySQL 5.7
+  # default_scope order('vertical_market_categories.name')
 
   attr_accessible :description, :name, :slug, :vertical_market_id, :default_logo, :search_term
   friendly_id :name, use: [:slugged, :history]
