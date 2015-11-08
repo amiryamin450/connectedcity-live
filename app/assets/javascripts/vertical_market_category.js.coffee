@@ -14,4 +14,5 @@ jQuery ->
       $(this).html "More +"
     return false
 
-
+  if word_list
+    $('#tag_cloud').jQCloud(word_list);
