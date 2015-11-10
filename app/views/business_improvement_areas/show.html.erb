@@ -157,9 +157,6 @@
         <div id="tag_cloud" style="min-height: 450px;"></div>
         <%= javascript_tag do %>
           var word_list = <%= raw @tag_cloud.to_json %>
-          $(function(){
-            $('#tag_cloud').jQCloud(word_list);
-          });
         <% end %>
       </div>
     </div>

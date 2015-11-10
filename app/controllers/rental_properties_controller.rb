@@ -24,7 +24,7 @@ class RentalPropertiesController < ApplicationController
     #       Once support for more than once city has been added, fix this.
     add_crumb @city.name, root_path if @city
     add_crumb @location.district.name, district_guide_path(@location.district) if @location.district
-    add_crumb @location.business_improvement_area.name, business_improvement_area_path(@location.business_improvement_area) if @location.business_improvement_area
+    add_crumb @location.neighborhood.name, neighborhood_path(@location.neighborhood) if @location.neighborhood
 
     add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
     add_crumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
