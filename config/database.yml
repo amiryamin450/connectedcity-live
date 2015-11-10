@@ -16,4 +16,4 @@ staging:
 production:
   <<: *defaults
   # from our rds instance:
-  pool: 296
+  pool: 16
