@@ -100,8 +100,10 @@ class VerticalMarketsController < ApplicationController
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb @district.name, district_guide_path(@district) if @district
 
-    @vertical_market.ancestors.each do |ancestor|
-      add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
+    if @vertical_market.present?
+      @vertical_market.ancestors.each do |ancestor|
+        add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
+      end
     end
 
     add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}" if @vertical_market
