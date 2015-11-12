@@ -21,11 +21,11 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :role_ids, :as => :admin
-  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me
+  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :postal_code
 
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :postal_code, presence: true, format: { with: /\A[a-zA-Z][0-9][a-zA-Z][\ ][0-9][a-zA-Z][0-9]\z/,
+  validates :postal_code, presence: true, format: { with: /^[ABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Z]{1} *\d{1}[A-Z]{1}\d{1}$/,
                                                     message: "Postal Code must be in format of A1A 1A1" }
 
   def has_favorite? location
