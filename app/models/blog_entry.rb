@@ -1,5 +1,6 @@
 class BlogEntry < ActiveRecord::Base
   belongs_to :bloggable, polymorphic: true
+  belongs_to :location, foreign_key: "bloggable_id", conditions: { blog_entries: { bloggable_type: "Location" } }
   belongs_to :user
 
   extend FriendlyId

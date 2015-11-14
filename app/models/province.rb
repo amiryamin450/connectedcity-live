@@ -1,5 +1,4 @@
 class Province < ActiveRecord::Base
-
     self.table_name = "maponics_provinces"
     self.primary_key = "pruid"
     attr_accessible :prename, :preabbr, :geom, :pruid
@@ -10,7 +9,7 @@ class Province < ActiveRecord::Base
     def name
       prename
     end
-    
+
     def abbr
       preabbr
     end

@@ -80,48 +80,16 @@ NOTE Rental (rental)
     </div>
   <% end %>
 
-  <% @vertical_market.categories.each_with_index do |category, r| %>
+  <% @vertical_market.categories_new(@city, @district, @neighborhood).each_with_index do |category, r| %>
     <%
 
-    locations = category.get_locations @city, @district, @neighborhood
-    markers |= locations
+    locations = category.locations[0..19]
+    markers |= category.locations
 
     %>
 
     <% if locations.any? %>
-      <div class="category">
-        <div class="heading index-<%= r %>">
-          <h5><%= category.name %></h5>
-
-          <%= link_to 'More +', '#', class: 'see-more', data: { element: category.id } %>
-          <%= link_to 'See All', "#{@base_path}category/#{category.slug}" %>
-
-          <% if user_signed_in? && current_user.has_role?(:admin) %>
-            <%= link_to 'Edit', edit_vertical_market_category_path(category), class: 'admin-link' %>
-          <% end %>
-        </div>
-
-        <div class="location-holder" id="cat-<%= category.id %>">
-          <div class="clearfix">
-            <% locations.each do |location| %>
-              <div class="location-teaser clearfix">
-                <%# FIXME Move inline styles to a stylesheet %>
-                <div style="min-height: 80px; text-align: center;">
-                  <%= link_to image_tag(get_location_image_url(location)), location %>
-                </div>
-
-                <div style="width: 168px; margin-top: 5px; margin-bottom: 5px; font-size: 12px; min-height:24px;"><strong><%= link_to location.name, location %></strong></div>
-                <div style="width: 168px;"><%= "#{location.address}".html_safe %></div>
-                <div style="width: 168px;"><%= "#{location.city.name if location.city.present? } #{location.province.abbr} #{location.postal_code}".html_safe %></div>
-                <div style="width: 168px; color: #1c3656;"><%= location.phone %></div>
-                <div id="favorite-<%= location.id %>" class="favorite" style="margin-top: 5px;">
-                  <%= render 'favorites/like_button', :location_id => location.id, :vertical_market_slug => location.vertical_markets.first.slug if user_signed_in? %>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      </div>
+      <%= render 'guide/category', category: category, r: r, locations: locations %>
     <% end %>
   <% end %>
 <% end %>

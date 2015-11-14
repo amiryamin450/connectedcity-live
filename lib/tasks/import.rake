@@ -29,7 +29,7 @@ task :import_locations, [:path] => :environment do |t, args|
     next if File.directory? file
     puts file
     CSV.foreach(file, :headers => false) do |row|
-      
+
       next if row[4].nil?
       next if row[6].nil?
       next if row[7].nil?
