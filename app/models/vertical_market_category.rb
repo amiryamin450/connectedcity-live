@@ -30,7 +30,7 @@ class VerticalMarketCategory < ActiveRecord::Base
   validates_presence_of :vertical_market_id, :message => 'Please Select a Vertical Market.'
 
   def get_locations(city = nil, district = nil, neighborhood = nil, options={})
-    result = locations.order("logo_updated_at DESC").order("name ASC").limit(1)
+    result = locations.order("logo_updated_at DESC").order("name ASC").limit(20)
     result = result.where('locations.city_id = 5915022')
     result = result.where('locations.district_id = ?', district.id) if district.present?
     result = result.where('locations.neighborhood_id = ?', neighborhood.id) if neighborhood.present?
