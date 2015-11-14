@@ -241,7 +241,7 @@ end
 task :fix_neighborhood => :environment do
   Location.find_each do |location|
 
-    n = Neighborhood.unscoped.where("ST_Intersects(geom, ST_SetSRID(ST_MakePoint(#{location.longitude}, #{location.latitude}),4326))").first if location.longitude and location.latitude
+    n = Neighborhood.where("ST_Intersects(geom, ST_SetSRID(ST_MakePoint(#{location.longitude}, #{location.latitude}),4326))").first if location.longitude and location.latitude
     if n
       location.neighborhood = n.neighborhd
       location.save
