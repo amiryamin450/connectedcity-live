@@ -30,6 +30,7 @@ NOTE Rental (rental)
      Commercial (commercial)
 
 %>
+<% cache "#{@vertical_market.id}_#{@city.try(:id)}_#{@district.try(:id)}_#{@neighborhood.try(:id)}_locations", expires_in: 60.minutes do %>
 <% if [17, 18, 19, 20].include?(@vertical_market.id) %>
   <%# TODO Optimize %>
   <%=
@@ -96,6 +97,7 @@ NOTE Rental (rental)
 
 <%= javascript_tag do %>
   window.locations = <%= raw markers.collect { |m| {:name => m.name, :url => url_for(m), :latitude => m.latitude, :longitude => m.longitude, :thumb => m.logo.file? ? m.logo.url(:bia_display) : nil}}.to_json %>;
+<% end %>
 <% end %>
 
 <%= render 'status_updates/show_image' %>
