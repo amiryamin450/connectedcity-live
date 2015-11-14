@@ -12,7 +12,7 @@ Connectbook::Application.configure do
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
-  config.action_controller.perform_caching = false
+  config.action_controller.perform_caching = true
 
 
   # ActionMailer Config
@@ -25,7 +25,7 @@ Connectbook::Application.configure do
     :address => 'localhost',
     :domain => 'localhost',
     :port => 25
-  }  
+  }
 
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default :charset => "utf-8"
@@ -57,7 +57,7 @@ Connectbook::Application.configure do
 
   Paperclip.options[:command_path] = '/usr/local/bin/'
 
-  
+
 
 end
 #Tire::Configuration.url "http://10.10.0.55:9200"
