@@ -1,5 +1,6 @@
 class StatusUpdate < ActiveRecord::Base
   belongs_to :statusable, polymorphic: true
+  belongs_to :location, foreign_key: "statusable_id", conditions: { status_updates: { statusable_type: "Location" } }
   belongs_to :district
   belongs_to :neighborhood
   belongs_to :city

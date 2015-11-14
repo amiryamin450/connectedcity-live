@@ -83,6 +83,10 @@ class Location < ActiveRecord::Base
 
   after_validation :geocode
 
+  def self.find_by_vertical_market
+    vertical_market_categories
+  end
+
   def user_owns?(user)
     self.users.where(id: user.id).any?
   end

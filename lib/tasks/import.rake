@@ -29,7 +29,7 @@ task :import_locations, [:path] => :environment do |t, args|
     next if File.directory? file
     puts file
     CSV.foreach(file, :headers => false) do |row|
-      
+
       next if row[4].nil?
       next if row[6].nil?
       next if row[7].nil?
@@ -241,7 +241,7 @@ end
 task :fix_neighborhood => :environment do
   Location.find_each do |location|
 
-    n = Neighborhood.where("ST_Intersects(geom, ST_SetSRID(ST_MakePoint(#{location.longitude}, #{location.latitude}),4326))").first if location.longitude and location.latitude
+    n = Neighborhood.unscoped.where("ST_Intersects(geom, ST_SetSRID(ST_MakePoint(#{location.longitude}, #{location.latitude}),4326))").first if location.longitude and location.latitude
     if n
       location.neighborhood = n.neighborhd
       location.save

@@ -1,11 +1,31 @@
 class MediaAttachment < ActiveRecord::Base
 
   before_save :set_fields
+
   belongs_to :attachable, polymorphic: true
+  belongs_to :location, foreign_key: "attachable_id", conditions: { media_attachments: { attachable_type: "Location" } }
+
   attr_accessible :attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source
 
 
   validates_presence_of :attachment
+
+  def self.find_by_locations(locations, limit = 10)
+    # TODO Remove me
+    locations = Location.where city_id: 5915022
+    # locations = locations.where district_id: district.id if district
+    # locations = locations.where neighborhood_id: neighborhood.id if neighborhood
+
+    # SELECT `vertical_market_categories`.* FROM `vertical_market_categories`  WHERE `vertical_market_categories`.`vertical_market_id` IN (3) AND (locations.city_id = 5915022)
+
+    where(attachable: locations).limit(limit)
+
+    # 2 steps:
+    # - find all locations
+    # - find media attachments for that location
+    #
+    # MediaAttachment.where(attachable_type: "Location")
+  end
 
   protected
   def set_fields

@@ -1,5 +1,6 @@
 class NewsArticle < ActiveRecord::Base
   belongs_to :newsable, polymorphic: true
+  belongs_to :location, foreign_key: "newsable_id", conditions: { news_articles: { newsable_type: "Location" } }
   belongs_to :user
 
   extend FriendlyId
