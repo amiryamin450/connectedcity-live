@@ -37,9 +37,9 @@
       <div class="tab-content">
         <% if current_user.has_role? :admin %>
           <div class="tab-pane active" id="location">
-            <%= f.association :country, disabled: true %>
-            <%= f.association :province, disabled: true %>
-            <%= f.association :city, disabled: true %>
+            <%= f.association :country %>
+            <%= f.association :province %>
+            <%= f.association :city %>
             <%= f.association :district %>
             <%= f.association :vertical_market_categories, disabled: !current_user.has_role?(:admin) %>
           </div>
