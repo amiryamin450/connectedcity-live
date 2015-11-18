@@ -8,7 +8,7 @@ class MediaAttachment < ActiveRecord::Base
   attr_accessible :attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source
 
 
-  validates_presence_of :attachment3
+  validates_presence_of :attachment
 
   protected
   def set_fields
