@@ -18,7 +18,6 @@ class ServicesController < ApplicationController
   def show
     @service = Service.find(params[:id])
 
-    set_location_dependent_crumbs
     add_crumb 'Services'
     add_crumb @service.name
 

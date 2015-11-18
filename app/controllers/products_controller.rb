@@ -7,7 +7,6 @@ class ProductsController < ApplicationController
   end
 
   def show
-    set_location_dependent_crumbs
     add_crumb 'Products'
     add_crumb @product.name
   end
