@@ -14,4 +14,8 @@ class Product < ActiveRecord::Base
                     default_url: "http://placehold.it/50x50"
 
   validates_presence_of :description, :name, :price
+
+  after_save do |product|
+    Sunspot.index! product.location if product.location
+  end
 end
