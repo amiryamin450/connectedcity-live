@@ -14,5 +14,5 @@ jQuery ->
       $(this).html "More +"
     return false
 
-  if word_list
+  if typeof word_list != 'undefined'
     $('#tag_cloud').jQCloud(word_list);
