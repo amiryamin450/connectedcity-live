@@ -47,17 +47,6 @@
     </div>
     <%= render 'footer' %>
   </div>
-  <%# FIXME Move this to a partial so it can be re-used in the other layouts %>
-  <%= javascript_include_tag "application" %>
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-560968f4cf5a990a" async="async"></script>
-  <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-70132021-1', 'auto');
-      ga('send', 'pageview');
-  </script>
+  <%= render 'js_footer_includes' %>
 </body>
 </html>
