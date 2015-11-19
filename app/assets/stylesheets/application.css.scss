@@ -34,9 +34,10 @@ html, body {
 
 .wrapper {
   min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 auto -4em;
+  // height: auto !important;
+  // height: 100%;
+  position: relative;
+  // margin: 0 auto -4em;
 }
 
 body {
@@ -338,8 +339,12 @@ label {
   min-height: 100%;
   margin-top: 0;
   margin-right: 0;
-  padding: 0;
+  padding: 0 0 100px 0;
   // background: #e9e7df;
+}
+
+.static #main-content {
+  margin-left: 0;
 }
 
 
@@ -653,7 +658,7 @@ div.other-junk {
 }
 
 .footer, .push {
-  height: 4em;
+  // height: 4em;
 }
 
 .social-share-button {
