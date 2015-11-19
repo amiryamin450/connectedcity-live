@@ -12,7 +12,6 @@ class Service < ActiveRecord::Base
   }
 
   after_save do |service|
-    Sunspot.index! service.location
+    Sunspot.index! service.location if service.location
   end
-
 end

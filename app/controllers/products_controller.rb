@@ -22,7 +22,7 @@ class ProductsController < ApplicationController
   def create
     @product = @location.products.new(params[:product])
     if @product.save
-      redirect_to [@location, @product], notice: 'Product was successfully created.'
+      redirect_to [@location], notice: 'Product was successfully created.'
     else
       render action: :new
     end
