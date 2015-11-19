@@ -39,7 +39,7 @@ class Location < ActiveRecord::Base
   has_many :operating_hours, order: :day, dependent: :destroy
   accepts_nested_attributes_for :operating_hours
 
-  has_and_belongs_to_many :vertical_market_categories
+  has_and_belongs_to_many :vertical_market_categories, :order => 'name ASC'
   has_and_belongs_to_many :brands
   has_and_belongs_to_many :trade_associations
 
