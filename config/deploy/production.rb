@@ -1,4 +1,4 @@
-set :user, "ubuntu"
+set :user, "connectedcity"
 set :branch, 'master'
 set :rails_env, "production"
 
