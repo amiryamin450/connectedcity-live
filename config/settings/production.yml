@@ -3,13 +3,13 @@ db_host: transcona-production-rds-01.cm6qznlodypt.us-west-2.rds.amazonaws.com
 aws_region: us-west-2
 
 # Facebook
-facebook_app_id: ""
-facebook_app_secret: ""
+facebook_app_id: 1644731249100908
+facebook_app_secret: 9d921e661e6735a80a4acecacf63d259
 
 # Twitter
-twitter_consumer_key: ""
-twitter_consumer_secret: ""
+twitter_consumer_key: ZvXPWJ3fLPp3QFDtBg1BGqQNW
+twitter_consumer_secret: TJs4vxlbwmyuK8GbTk7Jp5af4DUfD1jiANLPu2wEuUVDUeCLib
 
 # Instagram
-instagram_client_id: ""
-instagram_client_secret: ""
+instagram_client_id: 6fa3ae8a968c47d19613e85edec30d84
+instagram_client_secret: 13245565f2e7468d9ee6be4d4a4bd1a4
