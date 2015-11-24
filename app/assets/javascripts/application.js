@@ -25,5 +25,4 @@
 //= require bootstrap-colorpicker
 //= require jqcloud
 //= require dropzone
-//= require location_chooser
 //= require_tree .

@@ -3,23 +3,25 @@
   <%= render 'head' %>
 
 
-<body>
+<body class="">
   <%= render 'facebook' %>
   <div class="wrapper">
-    <div class="row-fluid" id="header">
-      <div class="row-fluid">
-        <div class="logo span6">
-          <a href="/" title="ConnectedCity"><%= image_tag 'logo.png', width: 524 %></a>
-        </div>
-        <div class="span6">
-          <div class="location-chooser">
-            <%= render 'location_chooser' %>
-          </div>
+    <nav>
+      <div class="row-fluid" id="header">
+          <div class="row-fluid">
+            <div class="logo span6">
+              <a href="/" title="ConnectedCity"><%= image_tag 'logo.png', width: 524 %></a>
+            </div>
+            <div class="span6">
+              <div class="location-chooser">
+                <%= render 'location_chooser' %>
+              </div>
 
-        </div>
+            </div>
+          </div>
+        <%= render 'main_menu' %>
       </div>
-    <%= render 'main_menu' %>
-    </div>
+    </nav>
     <div class="">
       <div id="sidebar" class="<%= @sidebar_class %>">
           <%= render 'user_sidebar' %>
