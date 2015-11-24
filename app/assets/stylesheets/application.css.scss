@@ -23,6 +23,8 @@
 @import "dropzone/basic";
 @import "messaging";
 @import "connected_advertiser";
+@import "location_chooser";
+@import "navigation";
 
 * {
   margin: 0;
@@ -40,6 +42,24 @@ html, body {
 body {
   background-color: #f2f2f2;
 }
+
+body.active #wrapper {
+  position: fixed;
+
+}
+
+body.active #nav .drop {
+  left: 0;
+  right: 0;
+  z-index: 40;
+}
+
+body.active #nav .drop .drop-holder {
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+}
+
 div.jqcloud {
   line-height: normal;
 }
