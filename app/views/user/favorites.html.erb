@@ -62,5 +62,13 @@ r = 0
 
 
 <%= javascript_tag do %>
-window.locations = <%= raw markers.collect { |m| {:name => m.name, :url => url_for(m), :latitude => m.latitude, :longitude => m.longitude, :thumb => m.logo.file? ? m.logo.url(:bia_display) : nil}}.to_json %>;
+  window.locations = <%= raw markers.collect { |m|
+    u = if m.respond_to?(:location)
+      url_for([m.location, m])
+    else
+      url_for(m)
+    end
+
+    {:name => m.name, :url => u, :latitude => m.latitude, :longitude => m.longitude, :thumb => m.logo.file? ? m.logo.url(:bia_display) : nil}
+  }.to_json %>;
 <% end %>
