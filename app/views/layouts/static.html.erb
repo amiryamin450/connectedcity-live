@@ -8,7 +8,7 @@
   <%= stylesheet_link_tag "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
-  <%= render 'head' %>
+  <%= render 'application/head' %>
 </head>
 <body class="static">
   <div class="wrapper">
@@ -20,15 +20,15 @@
             </div>
             <div class="span6">
               <div class="location-chooser">
-                <%= render 'location_chooser' %>
+                <%= render 'application/location_chooser' %>
               </div>
             </div>
           </div>
-          <%= render 'main_menu' %>
+          <%= render 'application/main_menu' %>
       </div>
     </nav>
     <div id="sidebar" class="<%= @sidebar_class %>">
-      <%= render 'user_sidebar' %>
+      <%= render 'application/user_sidebar' %>
     </div>
     <div id="main-content">
       <div class="container-fluid content-holder">
@@ -37,8 +37,8 @@
       </div>
       <div style="margin-bottom: 1.5em;"></div>
       </div>
-      <%= render 'application/footer' %>
     </div>
+    <%= render 'application/footer' %>
   </div>
   <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5088b5ab602f3daf"></script>
   <%= render 'application/google_analytics' %>
