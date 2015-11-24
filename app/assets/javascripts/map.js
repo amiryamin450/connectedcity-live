@@ -1,21 +1,17 @@
 var map, tiles;
 $(function() {
-
     if($('#map').length > 0) {
-    map = L.map('map', {scrollWheelZoom: false}).setView([49.249935,-123.112457],9);
-    //1c76eefca5954c5abfa169b96dc96a35
-    L.Icon.Default.imagePath = '/assets/';
-    L.tileLayer('//{s}.tiles.mapbox.com/v3/grt777.j18k947c/{z}/{x}/{y}.png', {
-        attribution: '', detectRetina: true
-    }).addTo(map);
+        map = L.map('map', {scrollWheelZoom: false}).setView([49.249935,-123.112457],9);
+        //1c76eefca5954c5abfa169b96dc96a35
+        L.Icon.Default.imagePath = '/assets/';
+        L.tileLayer('//{s}.tiles.mapbox.com/v3/grt777.j18k947c/{z}/{x}/{y}.png', {
+            attribution: '', detectRetina: true
+        }).addTo(map);
 
-    //var categories = []; //window.categories;
+        var markers = new L.MarkerClusterGroup();
+        var bounds = new L.LatLngBounds();
 
-    var markers = new L.MarkerClusterGroup();
-    var bounds = new L.LatLngBounds();
-
-
-    //for(var i = 0; i < categories.length; i++) {
+        //for(var i = 0; i < categories.length; i++) {
         //console.log("category name - " + $categories[$i]['name'] );
         var locations = window.locations;//categories[i]['locations'];
         for(var x = 0; x < locations.length; x++) {
@@ -29,12 +25,14 @@ $(function() {
                 markers.addLayer(marker);
                 bounds.extend(pt);
             }
-
         }
 
-   // }
-    map.addLayer(markers);
-    map.fitBounds(bounds);
+        console.log(markers);
+        map.addLayer(markers);
+
+        if(Object.keys(bounds).length > 0) {
+            map.fitBounds(bounds);
+        }
     }
 
     if($('#profile-map').length > 0) {
@@ -49,6 +47,7 @@ $(function() {
         tiles.addTo(map);
 
         var loc = Window.profile_marker;
+        console.log(loc);
 
         var pt = new L.LatLng(loc['lat'], loc['long']);
         var marker = new L.Marker(pt);
