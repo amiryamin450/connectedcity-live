@@ -1,7 +1,11 @@
 class StatusUpdatesController < ApplicationController
-  load_resource :location, :business_improvement_area
-  load_and_authorize_resource :status_update, through: [:location, :business_improvement_area], except: :index
 
+  #TODO I'm a little unclear as to what is going on with the load resources
+
+  #load_resource :location, :business_improvement_area
+  #load_and_authorize_resource :status_update, through: [:location, :business_improvement_area], except: :index
+
+  load_and_authorize_resource
   def index
     @status_updates = location.status_updates
   end

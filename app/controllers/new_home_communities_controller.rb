@@ -1,6 +1,7 @@
 class NewHomeCommunitiesController < ApplicationController
   load_resource :location
   load_and_authorize_resource :new_home_community, through: [:location]
+
   # GET /new_home_communities
   # GET /new_home_communities.json
 
