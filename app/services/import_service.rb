@@ -41,6 +41,11 @@ class ImportService
 
         # works to specifically catch issues matching a lat/lng with a neighbourhood so the import can continue
         begin
+
+          row.map! do |row_item|
+            row_item.force_encoding('UTF-8')
+          end
+
           # light error checking done (feature is admin use only), build the location
           location = Location.create  name: row[0],
                                       address: row[1],
