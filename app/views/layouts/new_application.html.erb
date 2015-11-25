@@ -399,25 +399,19 @@
           </ul>
         </aside>
         <div id="content">
-          <div class="gap"></div>
-          <div class="form-holder">
-            <form class="search-form" action="#">
-              <fieldset>
-                <div class="row">
-                  <input type="search" placeholder="Search in...">
-                </div>
-                <div class="row">
-                  <select class="category">
-                    <option>all categories</option>
-                    <option>all categories1</option>
-                    <option>all categories2</option>
-                  </select>
-                </div>
-                <div class="submit-wrap">
-                  <input type="submit" value="submit">
-                </div>
-              </fieldset>
-            </form>
+          <div class="gap">
+            <div id="breadcrumbs">
+              <div class="breadcrumb">
+                <%= render_crumbs(separator: "<span class='divider'><i class='icon-angle-right'></i></span>".html_safe).html_safe %>
+                <%= render 'social_media' %>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid content-holder">
+            <%= render 'messages' %>
+            <div class="row-fluid">
+              <%= yield %>
+            </div>
           </div>
         </div>
       </main>

@@ -1552,7 +1552,7 @@ img {
 }
 
 #main {
-	padding: 121px 0 0;
+	padding: 134px 0 0;
 }
 
 #content {
@@ -1569,8 +1569,7 @@ img {
 #content .form-holder {
 	float: right;
 	width: 38%;
-	padding: 26px 10px 0 0;
-	text-align: right;
+	padding: 0px 10px 0 0;
 }
 
 .search-form {
