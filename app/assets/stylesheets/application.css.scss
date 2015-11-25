@@ -160,7 +160,7 @@ label {
 .nav-list > li > a {
   display: block;
   height: 38px;
-  line-height: 36px;
+  line-height: 27px;
   padding: 0 16px 0 7px;
   text-shadow: none !important;
   text-decoration: none;
@@ -248,12 +248,12 @@ label {
     }
     a {
       display: block;
-      height: 20px;
+      //height: 20px;
       line-height: 20px;
-      padding: 7px 0 8px 37px;
+      padding: 0px 0 8px 18px;
       text-shadow: none !important;
       text-decoration: none;
-      margin: 0 !important;
+      //margin: 0 !important;
       color: #1c3656;
     }
   }
@@ -326,7 +326,7 @@ label {
       font-size: 14px;
     }
   }
-
+  margin-left: 40px;
 }
 
 
@@ -659,4 +659,8 @@ div.other-junk {
   vertical-align: middle;
   padding: 2px;
   float: right;
+}
+
+.container-fluid {
+  padding-left: 62px;
 }

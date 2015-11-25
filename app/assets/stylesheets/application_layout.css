@@ -1568,8 +1568,9 @@ img {
 
 #content .form-holder {
 	float: right;
-	width: 38%;
-	padding: 0px 10px 0 0;
+	/*width: 38%;
+	padding: 0px 10px 0 0;*/
+    margin-right: -63px;
 }
 
 .search-form {
@@ -1736,7 +1737,7 @@ img {
 .aside ul li a {
 	display: block;
 	height: 39px;
-	text-align: center;
+	/*text-align: center;*/
 }
 
 .aside ul li a:after {
@@ -1754,7 +1755,7 @@ img {
 	display: inline-block;
 	vertical-align: middle;
 	white-space: normal;
-	background: url('sprite.png') no-repeat;
+	/*background: url('sprite.png') no-repeat;*/
 	height: 16px;
 }
 
@@ -1935,6 +1936,10 @@ img {
 }
 
 @media (max-width: 767px) {
+    .row {
+        margin-left: 0px;
+    }
+
 	.header-top {
 		padding: 16px 10px 50px 50px;
 		background: #1c3656;
@@ -2161,13 +2166,17 @@ img {
 	}
 
 	#main {
-		padding: 111px 0 0;
+		padding: 124px 0 0;
 	}
+
+    .addthis_sharing_toolbox {
+        display: none;
+    }
 
 	#content .form-holder {
 		width: 100%;
 		position: fixed;
-		top: 72px;
+		top: 80px;
 		left: 50px;
 		padding: 0;
 		text-align: left;

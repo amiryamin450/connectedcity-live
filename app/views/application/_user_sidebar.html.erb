@@ -1,5 +1,5 @@
 <div id="sidebar-shortcuts">
-  <a href="#" class="menu-toggle"><i class="icon-chevron-sign-left"></i><span>Menu</span></a>
+  <a href="#" class="menu-toggle"><i class="icon-chevron-sign-left"></i><!--<span>Menu</span>--></a>
 </div>
 <div id="sidebar-shortcuts-mini">
   <a href="#" class="menu-toggle"><i class="icon-chevron-sign-right"></i></a>
@@ -8,9 +8,9 @@
   <li>
     <a href="#" data-toggle="user-sidebar" class="dropdown-toggle">
       <i class="icon-user"></i>
-      <span>
+      <!--<span>
         Account
-      </span>
+      </span>-->
       <b class="arrow icon-angle-right"></b>
     </a>
     <ul class="submenu hide" id="user-sidebar">
@@ -32,7 +32,7 @@
   <li>
     <a href="#" data-toggle="favorites" class="dropdown-toggle" >
       <i class="icon-star"></i>
-      <span>Favorites</span>
+      <!--<span>Favorites</span>-->
       <b class="arrow icon-angle-right"></b>
     </a>
     <ul class="submenu hide" id="favorites">
@@ -44,7 +44,7 @@
 <li>
   <a href="#" data-toggle="messaging" class="dropdown-toggle">
     <i class="icon-envelope"></i>
-    <span>Messaging</span>
+    <!--<span>Messaging</span>-->
     <b class="arrow icon-angle-right"></b>
   </a>
   <ul class="submenu hide" id="messaging">
@@ -58,7 +58,7 @@
       <li>
         <%= link_to messages_path(folder: folder) do %>
           <i class="icon-envelope"></i>
-          <span><%= t "messaging.#{folder}" %></span>
+          <!--<span><%= t "messaging.#{folder}" %></span>-->
         <% end %>
       </li>
     <% end %>
@@ -70,7 +70,7 @@
 <li>
    <a href="#" data-toggle="admin" class="dropdown-toggle" >
       <i class="icon-gears"></i>
-      <span>Admin</span>
+      <!--<span>Admin</span>-->
       <b class="arrow icon-angle-right"></b>
     </a>
     <ul class="submenu hide" id="admin">

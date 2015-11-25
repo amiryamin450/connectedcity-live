@@ -20,17 +20,9 @@
       </header>
       <main id="main" role="main">
         <aside class="aside">
-          <ul>
-            <li>
-              <a href="#"><i class="arrow"></i></a>
-            </li>
-            <li>
-              <a href="#"><i class="user"></i></a>
-            </li>
-            <li>
-              <a href="#"><i class="star"></i></a>
-            </li>
-          </ul>
+          <div id="sidebar" class="<%= @sidebar_class %>">
+            <%= render 'user_sidebar' %>
+          </div>
         </aside>
         <div id="content">
           <div class="gap">

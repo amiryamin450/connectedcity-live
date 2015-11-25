@@ -5,6 +5,22 @@ module VerticalMarketsHelper
 
     output = ""
     output += "<ul class='main-nav'>"
+    output += "<li class='small active'>"
+    output += "<div>"
+    output += "<a href='#'><i class='account'></i>account</a>"
+    output += "<div class='sub-drop'>"
+    output += "<ul>"
+    output += "<li>"
+    output += "<a href='#{new_user_session_path}'>login</a>"
+    output += "</li>"
+    output += "<li>"
+    output += "<a href='#{new_user_registration_path}'>sign up</a>"
+    output += "</li>"
+    output += "</ul>"
+    output += "</div>"
+    output += "</div>"
+    output += "</li>"
+
       output += "<li><div><a href='#{@base_path}' class='#{"active " if request.path == @base_path }'>Home</a>"
       vms.each_with_index do |vm, index|
         if index == 4
