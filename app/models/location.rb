@@ -47,6 +47,8 @@ class Location < ActiveRecord::Base
   attr_reader :brand_tokens
   attr_accessor :delete_cover_photo, :delete_logo
 
+  default_scope
+
   attr_accessible :address, :address_1, :business_id, :city_id, :community_id, :country_id, :email, :fax, :import_hash,
     :imported, :latitude, :longitude, :name, :phone, :postal_code, :region_id, :show_fax, :show_phone,
     :show_toll_free, :slug, :province_id, :toll_free, :website_url, :logo,
