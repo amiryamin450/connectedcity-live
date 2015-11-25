@@ -1,51 +1,49 @@
 <!DOCTYPE html>
 <html>
   <%= render 'head' %>
+    <body class="">
+      <%= render 'facebook' %>
+      <div class="wrapper">
+        <nav>
+          <div class="row-fluid" id="header">
+              <div class="row-fluid">
+                <div class="logo span6">
+                  <a href="/" title="ConnectedCity"><%= image_tag 'logo.png', width: 524 %></a>
+                </div>
+                <div class="span6">
+                  <div class="location-chooser">
+                    <%= render 'location_chooser' %>
+                  </div>
 
-
-<body class="">
-  <%= render 'facebook' %>
-  <div class="wrapper">
-    <nav>
-      <div class="row-fluid" id="header">
-          <div class="row-fluid">
-            <div class="logo span6">
-              <a href="/" title="ConnectedCity"><%= image_tag 'logo.png', width: 524 %></a>
-            </div>
-            <div class="span6">
-              <div class="location-chooser">
-                <%= render 'location_chooser' %>
+                </div>
               </div>
-
-            </div>
+            <%= render 'main_menu' %>
           </div>
-        <%= render 'main_menu' %>
+        </nav>
+        <div class="">
+          <div id="sidebar" class="<%= @sidebar_class %>">
+              <%= render 'user_sidebar' %>
+            </div>
+            <div id="main-content">
+              <div class="row-fluid">
+                <div id="breadcrumbs">
+                  <div class="breadcrumb">
+                    <%= render_crumbs(separator: "<span class='divider'><i class='icon-angle-right'></i></span>".html_safe).html_safe %>
+                    <%= render 'social_media' %>
+                  </div>
+                </div>
+              </div>
+              <div class="container-fluid content-holder">
+              <%= render 'messages' %>
+              <div class="row-fluid">
+                <%= yield %>
+              </div>
+              <div style="margin-bottom: 1.5em;"></div>
+              </div>
+              <%= render 'footer' %>
+            </div>
+        </div>
       </div>
-    </nav>
-    <div class="">
-      <div id="sidebar" class="<%= @sidebar_class %>">
-          <%= render 'user_sidebar' %>
-        </div>
-        <div id="main-content">
-          <div class="row-fluid">
-            <div id="breadcrumbs">
-              <div class="breadcrumb">
-                <%= render_crumbs(separator: "<span class='divider'><i class='icon-angle-right'></i></span>".html_safe).html_safe %>
-                <%= render 'social_media' %>
-              </div>
-            </div>
-          </div>
-          <div class="container-fluid content-holder">
-          <%= render 'messages' %>
-          <div class="row-fluid">
-            <%= yield %>
-          </div>
-          <div style="margin-bottom: 1.5em;"></div>
-          </div>
-          <%= render 'footer' %>
-        </div>
-    </div>
-  </div>
-  <%= render 'js_footer_includes' %>
-</body>
+      <%= render 'js_footer_includes' %>
+    </body>
 </html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+    <html>
+    <%= render 'head' %>
+    <body>
+    <div id="wrapper">
+      <header id="header">
+        <div class="header-top">
+          <div class="logo-block">
+            <div class="logo">
+              <a href="#">
+                <a href="/" title="ConnectedCity"><%= image_tag 'logo.svg', width: 524 %></a>
+                <!--<img src="images/logo.svg" alt="Connectedcity" width="283" height="48">-->
+              </a>
+            </div>
+            <span class="tagline">for everything local</span>
+          </div>
+          <div class="location-block">
+            <a class="open" href="#">Select Location</a>
+            <div class="dropdown">
+              <ul>
+                <li>
+                  <a href="#">Vancouver</a>
+                </li>
+                <li class="active">
+                  <a href="#">Vancouver Downtown</a>
+                </li>
+                <li>
+                  <a href="#">Vancouver Eastside</a>
+                </li>
+                <li>
+                  <a href="#">Vancouver Westside</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="active">
+                  <a href="#">Downtown Vancouver</a>
+                </li>
+                <li>
+                  <a href="#">Gastown</a>
+                </li>
+                <li>
+                  <a href="#">Robson Street</a>
+                </li>
+                <li>
+                  <a href="#">West End</a>
+                </li>
+                <li>
+                  <a href="#">Yaletown</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <nav id="nav">
+          <a href="#" class="opener"><span></span></a>
+          <div class="drop win-height">
+            <div class="drop-holder">
+              <ul class="main-nav">
+                <li class="small active">
+                  <div>
+                    <a href="#"><i class="account"></i>account</a>
+                    <div class="sub-drop">
+                      <ul>
+                        <li>
+                          <a href="#">login</a>
+                        </li>
+                        <li>
+                          <a href="#">sign up</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li><div><a href="#"><i class="home"></i>home</a></div></li>
+                <li class="small">
+                  <div><a href="#"><i class="location"></i>location</a>
+                    <div class="sub-drop">
+                      <ul>
+                        <li>
+                          <a href="#">Vancouver</a>
+                        </li>
+                        <li>
+                          <a href="#">Vancouver Downtown</a>
+                        </li>
+                        <li>
+                          <a href="#">Vancouver Eastside</a>
+                        </li>
+                        <li><a href="#">Vancouver Westside</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div><a href="#"><i class="auto"></i>auto</a>
+                    <div class="sub-drop">
+                      <ul>
+                        <li>
+                          <a href="#">Auto Dealers</a>
+                        </li>
+                        <li>
+                          <a href="#">Auto Parts &amp; Services</a>
+                        </li>
+                        <li>
+                          <a href="#">Motorsports &amp; Marine</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li><div><a href="#"><i class="business"></i>business</a></div></li>
+                <li>
+                  <div><a href="#"><i class="electronics"></i>electronics</a>
+                    <div class="sub-drop">
+                      <ul>
+                        <li>
+                          <a href="#">Audio &amp; Video Store</a>
+                        </li>
+                        <li>
+                          <a href="#">Cellular Telephones &amp; Services</a>
+                        </li>
+                        <li>
+                          <a href="#">Computers</a>
+                        </li>
+                        <li>
+                          <a href="#">Home Technology Consultant</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div><a href="#"><i class="entertainment"></i>entertainment</a>
+                    <div class="sub-drop">
+                      <ul>
+                        <li>
+                          <a href="#">Bars and Pubs</a>
+                        </li>
+                        <li>
+                          <a href="#">Night Clubs</a>
+                        </li>
+                        <li>
+                          <a href="#">Sports Teams</a>
+                        </li>
+                        <li>
+                          <a href="#">Theatre - Cinemas</a>
+                        </li>
+                        <li>
+                          <a href="#">Theatre - Live</a>
+                        </li>
+                        <li>
+                          <a href="#">Tourist Attractions</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div><a href="#"><i class="fashion"></i>fashion</a>
+                    <div class="sub-drop">
+                      <ul>
+                        <li>
+                          <a href="#">Clothing for Children</a>
+                        </li>
+                        <li>
+                          <a href="#">Clothing for Men</a>
+                        </li>
+                        <li>
+                          <a href="#">Clothing for Women</a>
+                        </li>
+                        <li>
+                          <a href="#">Eyewear and Optical</a>
+                        </li>
+                        <li>
+                          <a href="#">Jewellery and Watches</a>
+                        </li>
+                        <li>
+                          <a href="#">Shoes &amp; Shoe Repair</a>
+                        </li>
+                        <li>
+                          <a href="#">Sportwear</a>
+                        </li>
+                        <li>
+                          <a href="#">Z Cleaners</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <div class="add-nav">
+                <a href="#" class="add-opener">more</a>
+                <div class="add-drop">
+                  <ul>
+                    <li>
+                      <div><a href="#"><i class="food"></i>food &amp; dining</a>
+                        <div class="sub-drop">
+                          <ul>
+                            <li>
+                              <a href="#">Asian</a>
+                            </li>
+                            <li>
+                              <a href="#">Coffee &amp; Desserts</a>
+                            </li>
+                            <li>
+                              <a href="#">European</a>
+                            </li>
+                            <li>
+                              <a href="#">North American</a>
+                            </li>
+                            <li>
+                              <a href="#">Middle Eastern</a>
+                            </li>
+                            <li>
+                              <a href="#">Fast Food</a>
+                            </li>
+                            <li>
+                              <a href="#">Latin American</a>
+                            </li>
+                            <li>
+                              <a href="#">African</a>
+                            </li>
+                            <li>
+                              <a href="#">Pet Food</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div><a href="#"><i class="health"></i>health &amp; beauty</a>
+                        <div class="sub-drop">
+                          <ul>
+                            <li>
+                              <a href="#">Fitness &amp; Sports</a>
+                            </li>
+                            <li>
+                              <a href="#">Health Products &amp; Services</a>
+                            </li>
+                            <li>
+                              <a href="#">Beauty Products &amp; Services</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div><a href="#"><i class="home-improve"></i>home improvement</a>
+                        <div class="sub-drop">
+                          <ul>
+                            <li>
+                              <a href="#">Renovation &amp; Repair</a>
+                            </li>
+                            <li>
+                              <a href="#">Home Interiors</a>
+                            </li>
+                            <li>
+                              <a href="#">Home Outdoors</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div><a href="#"><i class="money"></i>money</a></div>
+                    </li>
+                    <li>
+                      <div><a href="#"><i class="real-estate"></i>real estate</a>
+                        <div class="sub-drop">
+                          <ul>
+                            <li>
+                              <a href="#">Rental</a>
+                            </li>
+                            <li>
+                              <a href="#">Resale</a>
+                            </li>
+                            <li>
+                              <a href="#">New Homes</a>
+                            </li>
+                            <li>
+                              <a href="#">Commercial</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="bottom">
+                      <div><a href="#"><i class="travel"></i>travel</a>
+                        <div class="sub-drop">
+                          <ul>
+                            <li>
+                              <a href="#">3 Star + Hotels</a>
+                            </li>
+                            <li>
+                              <a href="#">4 Star + Hotels</a>
+                            </li>
+                            <li>
+                              <a href="#">5 Star + Hotels</a>
+                            </li>
+                            <li>
+                              <a href="#">Bed &amp; Breakfast</a>
+                            </li>
+                            <li>
+                              <a href="#">Hostel</a>
+                            </li>
+                            <li>
+                              <a href="#">Hotels - Budget</a>
+                            </li>
+                            <li>
+                              <a href="#">Motel</a>
+                            </li>
+                            <li>
+                              <a href="#">Travel Agent</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <ul class="side-nav">
+                <li>
+                  <div><a href="#"><i class="jobs"></i>jobs</a>
+                    <div class="sub-drop">
+                      <ul>
+                        <li>
+                          <a href="#">Financial Services</a>
+                        </li>
+                        <li>
+                          <a href="#">Retail In-Store</a>
+                        </li>
+                        <li>
+                          <a href="#">Real Estate</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li class="right bottom">
+                  <div><a href="#"><i class="classified"></i>classifieds</a>
+                    <div class="sub-drop">
+                      <ul>
+                        <li>
+                          <a href="#">Furniture</a>
+                        </li>
+                        <li>
+                          <a href="#">Appliances</a>
+                        </li>
+                        <li>
+                          <a href="#">Electronics</a>
+                        </li>
+                        <li>
+                          <a href="#">Sporting Goods</a>
+                        </li>
+                        <li>
+                          <a href="#">Cars and Trucks</a>
+                        </li>
+                        <li>
+                          <a href="#">Clothing and Accessories</a>
+                        </li>
+                        <li>
+                          <a href="#">Musical Instruments</a>
+                        </li>
+                        <li>
+                          <a href="#">Antiques and Collectables</a>
+                        </li>
+                        <li>
+                          <a href="#">Yard and Garage Sales</a>
+                        </li>
+                        <li>
+                          <a href="#">Motorcycles and Scooters</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li class="right">
+                  <div><a href="#"><i class="city"></i>city news</a>
+
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <main id="main" role="main">
+        <aside class="aside">
+          <ul>
+            <li>
+              <a href="#"><i class="arrow"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="user"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="star"></i></a>
+            </li>
+          </ul>
+        </aside>
+        <div id="content">
+          <div class="gap"></div>
+          <div class="form-holder">
+            <form class="search-form" action="#">
+              <fieldset>
+                <div class="row">
+                  <input type="search" placeholder="Search in...">
+                </div>
+                <div class="row">
+                  <select class="category">
+                    <option>all categories</option>
+                    <option>all categories1</option>
+                    <option>all categories2</option>
+                  </select>
+                </div>
+                <div class="submit-wrap">
+                  <input type="submit" value="submit">
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+    <%= render 'js_footer_includes' %>
+    </body>
+</html>
