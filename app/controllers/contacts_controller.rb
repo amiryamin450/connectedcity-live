@@ -1,4 +1,4 @@
-class ContactsController < ActionController::Base
+class ContactsController < ApplicationController
   
   layout "static"
 

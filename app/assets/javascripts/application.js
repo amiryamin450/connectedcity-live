@@ -15,6 +15,7 @@
 //= require jquery.ui.all
 //= require jquery-fileupload
 //= require jquery-tokeninput/jquery.tokeninput
+//= require jquery.flexslider-min.js
 //= require bootstrap
 //= require bootstrap-datetimepicker
 //= require leaflet/leaflet
