@@ -2,33 +2,34 @@
 <html>
 <%= render 'head' %>
 
-<body class="">
-<div class="wrapper">
-  <nav>
-    <div class="row-fluid" id="header">
-      <div class="row-fluid">
-        <div class="logo span6">
-          <a href="/" title="Connected City"><img src="/assets/logo.png" alt="" width="" height=""></a>
+<body>
+<div id="wrapper">
+  <header id="header">
+    <div class="header-top">
+      <div class="logo-block">
+        <div class="logo">
+          <a href="#">
+            <a href="/" title="ConnectedCity"><%= image_tag 'logo.svg', width: 524 %></a>
+            <!--<img src="images/logo.svg" alt="Connectedcity" width="283" height="48">-->
+          </a>
         </div>
-        <div class="span6">
-          <div class="location-chooser">
-            <%= render 'location_chooser' %>
-          </div>
-        </div>
+        <span class="tagline">for everything local</span>
       </div>
-      <%= render 'main_menu' %>
+      <%= render 'location_chooser' %>
     </div>
-  </nav>
-
-  <div class="">
-    <div id="sidebar" class="<%= @sidebar_class %>" >
-      <%= render 'user_sidebar' %>
-    </div>
-    <div id="main-content">
-      <div class="row-fluid">
+    <%= render 'main_menu' %>
+  </header>
+  <main id="main" role="main">
+    <aside class="aside">
+      <div id="sidebar" class="<%= @sidebar_class %>">
+        <%= render 'user_sidebar' %>
+      </div>
+    </aside>
+    <div id="content">
+      <div class="gap">
         <div id="breadcrumbs">
           <div class="breadcrumb">
-            <%= render_crumbs separator: "<span class='divider'><i class='icon-angle-right'></i></span>".html_safe %>
+            <%= render_crumbs(separator: "<span class='divider'><i class='icon-angle-right'></i></span>".html_safe).html_safe %>
             <%= render 'social_media' %>
           </div>
         </div>
@@ -45,13 +46,7 @@
               </div>
               <div class="span8">
                 <div class="row-fluid">
-                  <%= form_tag "#{@base_path}search/#{@vertical_market.slug if @vertical_market}", method: :get do %>
-                      <div class="input-append" style="display: inline;">
-
-                        <%= text_field_tag :search, params[:search], class: 'span8', placeholder: "Search #{@vertical_market.name if @vertical_market}#{(" in " + @district.name) if @district}#{(" in " + @city.name) if @city && !@district}" %>
-                        <button class="btn btn-warning" type="submit">Search!</button>
-                      </div>
-                  <% end %>
+                  <%= render 'search_form' %>
                 </div>
                 <% if params[:district_route].present? and params[:market].present? and @district and @district.neighborhoods.size > 0 and ![17,18,19,20].include?(@vertical_market.id) %>
                     <div class="row-fluid">
@@ -88,8 +83,10 @@
           </div>
         </div>
       </div>
-      <%= render 'footer' %>
     </div>
-    <%= render 'js_footer_includes' %>
+  </main>
+</div>
+<%= render 'footer' %>
+<%= render 'js_footer_includes' %>
 </body>
 </html>
