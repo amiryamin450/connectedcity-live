@@ -47,7 +47,7 @@ class VerticalMarket < ActiveRecord::Base
     # FIXME MySQL 5.7 needs this to work properly.
     ActiveRecord::Base.connection.execute("SET sql_mode = ''")
 
-    VerticalMarketCategory.joins(locations: [:city]).includes(locations: [:city]).where(vertical_market_id: self.subtree_ids, locations: location_params(city, district, neighborhood), maponics_subdivisions: { csdtype: 'CY' }).group("`vertical_market_categories`.`id`, `locations`.`id`").order("`vertical_market_categories`.`name` ASC")
+    VerticalMarketCategory.joins(locations: [:city]).includes(locations: [:city]).where(vertical_market_id: self.subtree_ids, locations: location_params(city, district, neighborhood), maponics_subdivisions: { csdtype: 'CY' }).group("`vertical_market_categories`.`id`, `locations`.`id`").order("`vertical_market_categories`.`name` ASC, IF(`locations`.`logo_file_name` IS NULL, 0, 1) DESC, `locations`.`updated_at` DESC")
   end
 
   def get_media_attachments(city = nil, district = nil, neighborhood = nil)
@@ -71,7 +71,7 @@ class VerticalMarket < ActiveRecord::Base
 
     if [17, 18, 19, 20].include? self.id
       status_updates += StatusUpdate.where(statusable_type: ["RealEstateListing", "NewHomeCommunity", "RentalProperty"], vertical_markets: self.subtree_ids).where(location_params(city, district, neighborhood)).order("`status_updates`.`created_at` DESC").limit 10
-      status_updates = status_updates.sort_by(&:created_at).last(10)
+      status_updates = status_updates.sort_by(&:created_at).last(10).reverse
     end
 
     status_updates
@@ -80,7 +80,7 @@ class VerticalMarket < ActiveRecord::Base
   def get_products(city = nil, district = nil, neighborhood = nil)
     products = Product.joins(location: :vertical_market_categories).where(locations: location_params(city, district, neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`products`.`created_at` DESC").limit 10
     products += Service.joins(location: :vertical_market_categories).where(locations: location_params(city, district, neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`services`.`created_at` DESC").limit 10
-    products.sort_by(&:created_at).last(10)
+    products.sort_by(&:created_at).last(10).reverse
   end
 
   def get_blog_entries(city = nil, district = nil, neighborhood = nil)

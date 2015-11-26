@@ -1,18 +1,12 @@
-<div class="row-fluid">
+<div class="row-fluid article">
   <div class="span2">
     <%= link_to(image_tag(event.image.url), [event.location, event]) %>
   </div>
 
 
   <div class="span10">
-    <div class="name"><strong><%= link_to event.name, [event.location, event] %></strong></div>
-
-    <div class="dates">
-      <%= raw "#{event.starts_at.strftime('%b. %d, %Y %l:%M %p')}" if event.starts_at.present? %>
-    </div>
-    <div><%= truncate_html(event.description, length: 150) %></div>
-    <div class="row-fluid">
-      <div><small style="font-size: 10px;">by <%= link_to event.location.name, event.location %></small></div>
-    </div>
+    <div class="name"><%= link_to event.name, [event.location, event] %></div>
+    <div style="margin-bottom: 5px;"><% if event.starts_at.present? %><span class="time-ago">in <%= "#{time_ago_in_words(event.starts_at)}" %><% end %> by <%= link_to event.location.name, event.location %></span></div>
+    <div><%= truncate_html( event.description, :length => 150 ) %></div>
   </div>
 </div>

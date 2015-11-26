@@ -23,7 +23,7 @@ class NewsArticlesController < ApplicationController
 
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb @location.district.name, district_guide_path(@location.district) if @location.district
-    add_crumb @location.neighborhood.name, neighborhood_path(@location.neighborhood) if @location.neighborhood
+    add_crumb @location.neighborhood.name if @location.neighborhood
 
     add_crumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
     add_crumb @location.name, location_path(@location)

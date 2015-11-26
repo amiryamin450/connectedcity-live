@@ -41,7 +41,7 @@ Connectbook::Application.routes.draw do
       resources :events, except: [:show]
       resources :media_attachments, only: [:new, :create, :index, :destroy]
       resources :news_articles, path: 'news', except: [:show]
-      resources :new_home_communities
+      resources :new_home_communities, except: [:show]
       resources :products, except: [:show]
       resources :services, except: [:show]
       resources :real_estate_listings, path: 'listings', except: [:show]
@@ -139,7 +139,9 @@ Connectbook::Application.routes.draw do
 
     resources :locations, path: 'business', as: :locations, except: [:show] do
       resources :status_updates, path: 'status-updates', except: [:index, :new, :create]
-      resources :new_home_communities
+      resources :new_home_communities, except: [:show] do
+        resources :new_homes, except: [:show]
+      end
       resources :rental_properties, except: [:show] do
         resources :rental_units, except: [:show]
       end
