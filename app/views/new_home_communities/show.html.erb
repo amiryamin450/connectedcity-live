@@ -103,7 +103,7 @@
       <article class="teaser">
         <div style="float:right">
             <button type="button" class="close">
-                <%= link_to '×', location_status_update_path(@new_home_community.location.id, s), method: :delete, data: { confirm: 'Are you sure?' }, class: 'delete' %>
+                <%= link_to '×', [s.statusable.location, s.statusable, s], method: :delete, data: { confirm: 'Are you sure?' }, class: 'delete' %>
             </button>
         </div>
         <div class="article-content"><%= truncate(s.content, length: 200, seperator: ' ') %></div>

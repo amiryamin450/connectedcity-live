@@ -1,4 +1,8 @@
 class NewHomeCommunitiesController < ApplicationController
+  before_filter do
+    @new_home_community = NewHomeCommunity.find(params[:new_home_community_id]) if params[:new_home_community_id]
+  end
+
   load_resource :location
   load_and_authorize_resource :new_home_community, through: [:location]
 
@@ -91,4 +95,11 @@ class NewHomeCommunitiesController < ApplicationController
     end
   end
 
+  def destroy_status_update
+    @status_update = StatusUpdate.find(params[:id])
+    @status_update.destroy
+
+    redirect_to :back
+  end
 end
+
