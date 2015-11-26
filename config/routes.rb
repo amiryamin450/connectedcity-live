@@ -41,7 +41,7 @@ Connectbook::Application.routes.draw do
       resources :events, except: [:show]
       resources :media_attachments, only: [:new, :create, :index, :destroy]
       resources :news_articles, path: 'news', except: [:show]
-      resources :new_home_communities, except: [:show]
+      resources :new_home_communities, except: [:show] do
         resources :status_updates, only: [] do
           member do
             delete "destroy_status_update", to: "new_home_communities#destroy_status_update", as: "", path: ""
