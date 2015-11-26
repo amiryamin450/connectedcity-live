@@ -1734,8 +1734,7 @@ img {
 
 .aside ul li a {
 	display: block;
-	height: 39px;
-	/*text-align: center;*/
+	height: 40px;
 }
 
 .aside ul li a:after {
@@ -1751,9 +1750,7 @@ img {
 
 .aside ul li a i {
 	display: inline-block;
-	vertical-align: middle;
 	white-space: normal;
-	height: 16px;
 }
 
 .aside ul li a i.arrow {
