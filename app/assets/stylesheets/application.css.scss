@@ -24,6 +24,8 @@
 @import "messaging";
 @import "connected_advertiser";
 @import "application_layout";
+@import "flexslider";
+@import "static_about_page";
 
 * {
   margin: 0;
@@ -660,6 +662,16 @@ div.other-junk {
   float: right;
 }
 
+
 .container-fluid {
   padding-left: 62px;
+}
+
+.sign-up-promo {
+  text-align: right;
+  padding: 15px 15px 15px 0;
+
+  h3 a{
+    color: white;
+  }
 }

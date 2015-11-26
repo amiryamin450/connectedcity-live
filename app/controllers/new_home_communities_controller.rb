@@ -3,6 +3,7 @@ class NewHomeCommunitiesController < ApplicationController
   load_and_authorize_resource :new_home_community, through: [:location]
   # GET /new_home_communities
   # GET /new_home_communities.json
+
   def index
     @new_home_communities = @location.new_home_communities
     respond_to do |format|
