@@ -27,7 +27,6 @@ $(function() {
             }
         }
 
-        console.log(markers);
         map.addLayer(markers);
 
         if(Object.keys(bounds).length > 0) {
@@ -47,7 +46,6 @@ $(function() {
         tiles.addTo(map);
 
         var loc = Window.profile_marker;
-        console.log(loc);
 
         var pt = new L.LatLng(loc['lat'], loc['long']);
         var marker = new L.Marker(pt);
