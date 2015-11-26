@@ -1,7 +1,7 @@
 class CitiesController < ApplicationController
   load_and_authorize_resource except: :homepage
 
-  layout "new_application"
+  layout "application"
 
   # GET /cities
   # GET /cities.json
