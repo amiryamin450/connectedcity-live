@@ -21,7 +21,7 @@ module VerticalMarketsHelper
     output += "</div>"
     output += "</li>"
 
-      output += "<li><div><a href='#{@base_path}' class='#{"active " if request.path == @base_path }'>Home</a>"
+      output += "<li><div><a href='#{@base_path}' class='#{"active " if request.path == @base_path }'><i class='home'></i>Home</a>"
       vms.each_with_index do |vm, index|
         if index == 4
           output += "</div>"
@@ -34,7 +34,8 @@ module VerticalMarketsHelper
           output += "<div class='add-drop'>"
           output += "<ul>"
         end
-        output += "<li><div><a href='#{@base_path}guide/#{vm.slug}'><i class='#{vm.name}'></i>#{vm.name}</a>"
+
+        output += "<li><div><a href='#{@base_path}guide/#{vm.slug}'><i class='#{vm.name.downcase}'></i>#{vm.name}</a>"
         if vm.has_children?
           output += "<div class='sub-drop'>"
           output += "<ul>"

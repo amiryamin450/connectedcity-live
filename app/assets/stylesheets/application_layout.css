@@ -1055,7 +1055,7 @@ img {
 	background-position: -49px -50px;
 }
 
-#nav ul > li.active > div > a i.auto {
+#nav ul > li.active > div > a i.automotive {
 	background-position: -77px -51px;
 }
 
@@ -1091,7 +1091,7 @@ img {
 	background-position: -121px -99px;
 }
 
-#nav ul > li.active > div > a i.real-estate {
+#nav ul > li.active > div > a i.real {
 	background-position: -149px -97px;
 }
 
@@ -1136,8 +1136,8 @@ img {
 	background-position: -49px -50px;
 }
 
-#nav ul > li > div:hover > a i.auto,
-#nav ul > li > div.hover > a i.auto {
+#nav ul > li > div:hover > a i.automotive,
+#nav ul > li > div.hover > a i.automotive {
 	background-position: -77px -51px;
 }
 
@@ -1181,8 +1181,8 @@ img {
 	background-position: -121px -99px;
 }
 
-#nav ul > li > div:hover > a i.real-estate,
-#nav ul > li > div.hover > a i.real-estate {
+#nav ul > li > div:hover > a i.real,
+#nav ul > li > div.hover > a i.real {
 	background-position: -149px -97px;
 }
 
@@ -1247,7 +1247,7 @@ img {
 	height: 21px;
 }
 
-#nav ul > li > div > a i.auto {
+#nav ul > li > div > a i.automotive {
 	background-position: -76px -26px;
 	width: 20px;
 	height: 17px;
@@ -1301,7 +1301,7 @@ img {
 	height: 20px;
 }
 
-#nav ul > li > div > a i.real-estate {
+#nav ul > li > div > a i.real {
 	background-position: -149px -71px;
 	width: 24px;
 	height: 22px;
