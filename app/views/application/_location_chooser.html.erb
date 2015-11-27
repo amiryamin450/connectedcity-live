@@ -8,18 +8,14 @@
     <a class="open" href="#">Select Location</a>
     <div class="dropdown">
       <ul>
-        <li>
-          <a href='/'>Vancouver</a>
-        </li>
-        <li>
-          <a href='/vancouver-downtown/'>Vancouver Downtown</a>
-        </li>
-        <li>
-          <a href='/vancouver-eastside/'>Vancouver Eastside</a>
-        </li>
-        <li>
-          <a href='/vancouver-westside/'>Vancouver Westside</a>
-        </li>
+        <%= content_tag(:li, class: (current_district.name.eql?("Vancouver")) ? "active" : "") { link_to "Vancouver", root_path } %>
+        <% District.all.each do |district|  %>
+            <%= is_active = "" %>
+            <% if current_district.name.eql?(district.name) %>
+                <% is_active = "active" %>
+            <% end %>
+            <%= content_tag(:li, class: is_active) { link_to district.name, district.slug } %>
+        <% end %>
       </ul>
       <ul>
         <% current_district.business_improvement_areas.each do |bia| %>

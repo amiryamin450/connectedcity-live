@@ -945,7 +945,7 @@ img {
 }
 
 .location-block .dropdown ul li {
-	margin: 0 0 21px;
+	margin: 0 0 5px;
 }
 
 .location-block .dropdown ul li:last-child {
@@ -966,6 +966,7 @@ img {
 
 .location-block .dropdown ul li.active > a {
 	color: #1c3656;
+    font-weight: bold;
 }
 
 #nav {
