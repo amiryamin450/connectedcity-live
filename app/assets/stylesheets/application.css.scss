@@ -23,9 +23,9 @@
 @import "dropzone/basic";
 @import "messaging";
 @import "connected_advertiser";
+@import "application_layout";
 @import "flexslider";
 @import "static_about_page";
-
 
 * {
   margin: 0;
@@ -134,7 +134,6 @@ label {
 
 .nav-list>li>a>[class*="icon-"]:first-child {
   display: inline-block;
-  vertical-align: middle;
   min-width: 30px;
   text-align: center;
   font-size: 18px;
@@ -162,7 +161,7 @@ label {
 .nav-list > li > a {
   display: block;
   height: 38px;
-  line-height: 36px;
+  line-height: 27px;
   padding: 0 16px 0 7px;
   text-shadow: none !important;
   text-decoration: none;
@@ -250,12 +249,12 @@ label {
     }
     a {
       display: block;
-      height: 20px;
+      //height: 20px;
       line-height: 20px;
-      padding: 7px 0 8px 37px;
+      padding: 0px 0 8px 42px;
       text-shadow: none !important;
       text-decoration: none;
-      margin: 0 !important;
+      //margin: 0 !important;
       color: #1c3656;
     }
   }
@@ -315,7 +314,6 @@ label {
 
 #breadcrumbs {
   position: relative;
-  z-index: 13;
   border-bottom: 1px solid #ccc;
   min-height: 40px;
   background-color: #e3e3e3;
@@ -329,7 +327,7 @@ label {
       font-size: 14px;
     }
   }
-
+  margin-left: 40px;
 }
 
 
@@ -664,11 +662,20 @@ div.other-junk {
   float: right;
 }
 
+
+.container-fluid {
+  padding-left: 62px;
+}
+
 .sign-up-promo {
-  text-align: right;
+  text-align: left;
   padding: 15px 15px 15px 0;
 
   h3 a{
-    color: white;
+    color: #39f;
+  }
+
+  a:hover {
+    color: #0088cc;
   }
 }

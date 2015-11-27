@@ -1,35 +1,30 @@
 <!DOCTYPE html>
-<html>
-  <%= render 'head' %>
-
-
-<body class="">
-  <%= render 'facebook' %>
-  <div class="wrapper">
-    <nav>
-      <div class="row-fluid" id="header">
-          <div class="row-fluid">
-            <div class="logo span6">
-              <a href="/" title="ConnectedCity"><%= image_tag 'logo.png', width: 524 %></a>
+    <html>
+    <%= render 'head' %>
+    <body>
+    <div id="wrapper">
+      <header id="header">
+        <div class="header-top">
+          <div class="logo-block">
+            <div class="logo">
+              <a href="#">
+                <a href="/" title="ConnectedCity"><%= image_tag 'logo.svg', width: 524 %></a>
+              </a>
             </div>
-            <div class="span6">
-              <div class="location-chooser">
-                <%= render 'location_chooser' %>
-              </div>
-              <div class="sign-up-promo">
-                <h3><%= link_to ('Sign-up for a free ConnectedShopper&trade; account').html_safe, new_user_registration_path %></h3>
-              </div>
-            </div>
+            <span class="tagline">for everything local</span>
           </div>
-        <%= render 'main_menu' %>
-      </div>
-    </nav>
-    <div class="">
-      <div id="sidebar" class="<%= @sidebar_class %>">
-          <%= render 'user_sidebar' %>
+          <%= render 'location_chooser' %>
         </div>
-        <div id="main-content">
-          <div class="row-fluid">
+        <%= render 'main_menu' %>
+      </header>
+      <main id="main" role="main">
+        <aside class="aside">
+          <div id="sidebar" class="<%= @sidebar_class %>">
+            <%= render 'user_sidebar' %>
+          </div>
+        </aside>
+        <div id="content">
+          <div class="gap">
             <div id="breadcrumbs">
               <div class="breadcrumb">
                 <%= render_crumbs(separator: "<span class='divider'><i class='icon-angle-right'></i></span>".html_safe).html_safe %>
@@ -38,16 +33,15 @@
             </div>
           </div>
           <div class="container-fluid content-holder">
-          <%= render 'messages' %>
-          <div class="row-fluid">
-            <%= yield %>
+            <%= render 'messages' %>
+            <div class="row-fluid">
+              <%= yield %>
+            </div>
           </div>
-          <div style="margin-bottom: 1.5em;"></div>
-          </div>
-          <%= render 'footer' %>
         </div>
+      </main>
     </div>
-  </div>
-  <%= render 'js_footer_includes' %>
-</body>
+    <%= render 'footer' %>
+    <%= render 'js_footer_includes' %>
+    </body>
 </html>

@@ -1,53 +1,65 @@
 module VerticalMarketsHelper
 
   def vm_menu(vertical_markets)
-
     vms = vertical_markets.dup
 
-    index = nil
-
-    # make sure that parents of child tabs are marked as active
-    vms.each_with_index do |vm, i|
-      if @vertical_market
-        if vm.slug == @vertical_market.slug or vm.children.where(slug: @vertical_market.slug).exists?
-          vm.menu_li_class = 'active'
-          vm.menu_link_class = 'active'
-          index = i-1 if i != 0
-        end
-      end
-    end
-
-    vms[index].menu_li_class = 'before-active' unless index.nil?
-
-    if request.path == '/employment-opportunities'
-      vms.last.menu_li_class = 'before-active'
-    end
-
-    # last = vms.pop
     output = ""
-    output += "<li class='first #{"active " if request.path == @base_path }#{"before-active" if vms[0].menu_li_class == 'active' }'><a href='#{@base_path}' class='#{"active " if request.path == @base_path }'><i class='icon-home'></i> Home</a></li>"
-    vms.each do |vm|
-      output += "<li class='#{ vm.menu_li_class }'><a href='#{@base_path}guide/#{vm.slug}' class='#{ vm.menu_link_class }'>#{vm.name}</a>"
-      if vm.has_children?
-        output += "<ul id='vm-#{vm.id}' class='child-menu' style='display: #{"none" unless (@vertical_market && vm.children.find {|f| f[:slug] == @vertical_market.slug}) or (@vertical_market && vm.slug == @vertical_market.slug)};'>"
-        vm.children.each do |child|
-          sub_path = "#{@base_path}guide/#{child.slug}"
-          output += "<li><a class='#{"sub-active" if request.path == sub_path }' href='#{sub_path}'>#{child.name}</a></li>"
+    output += "<ul class='main-nav'>"
+    output += "<li class='small active'>"
+    output += "<div>"
+    output += "<a href='#'><i class='account'></i>account</a>"
+    output += "<div class='sub-drop'>"
+    output += "<ul>"
+    output += "<li>"
+    output += "<a href='#{new_user_session_path}'>login</a>"
+    output += "</li>"
+    output += "<li>"
+    output += "<a href='#{new_user_registration_path}'>sign up</a>"
+    output += "</li>"
+    output += "</ul>"
+    output += "</div>"
+    output += "</div>"
+    output += "</li>"
+
+      output += "<li><div><a href='#{@base_path}' class='#{"active " if request.path == @base_path }'><i class='home'></i>Home</a>"
+      vms.each_with_index do |vm, index|
+        if index == 4
+          output += "</div>"
+          output += "</li>"
+
+          output += "</ul>"
+
+          output += "<div class='add-nav'>"
+          output += "<a href='#' class='add-opener'>more</a>"
+          output += "<div class='add-drop'>"
+          output += "<ul>"
         end
-        output += "</ul>"
+
+        output += "<li><div><a href='#{@base_path}guide/#{vm.slug}'><i class='#{vm.name.downcase}'></i>#{vm.name}</a>"
+        if vm.has_children?
+          output += "<div class='sub-drop'>"
+          output += "<ul>"
+          vm.children.each do |child, index|
+            sub_path = "#{@base_path}guide/#{child.slug}"
+            output += "<li><a href='#{sub_path}'>#{child.name}</a></li>"
+          end
+          output += "</ul>"
+          output += "</div>"
+        end
       end
+      output += "</div>"
       output += "</li>"
-    end
-    output += "<li class='#{"active" if request.path == '/employment-opportunities'}#{"before-active" if request.path == '/classifieds'}'><a href='/employment-opportunities' class='#{"active" if request.path == '/employment-opportunities'}'>Employment</a></li>"
-    output += "<li class='#{"active" if request.path == '/classifieds'}#{"before-active" if request.path == '/city-news-guide'}'><a href='/classifieds' class='#{"active" if request.path == '/classifieds'}'>Classifieds</a></li>"
 
-    output += "<li class='last #{"active" if request.path == "#{@base_path}news" or request.path == '/city-news-guide'}'><a href='#{@base_path}news' class='#{"active" if request.path == "#{@base_path}news" or request.path == '/city-news-guide'}'>City News</a></li>"
-
-    # binding.pry
+    output += "</ul>"
+    output += "</div>"
+    output += "</div>"
+    output += "<ul class='side-nav'>"
+    output += "<li><div><a href='/employment-opportunities'><i class='jobs'></i>Jobs</a></div></li>"
+    output += "<li class='right bottom'><div><a href='/classifieds'><i class='classified'></i>Classifieds</a></div></li>"
+    output += "<li class='right'><div><a href='#{@base_path}news'><i class='city'></i>City News</a></div></li>"
+    output += "</ul>"
 
     render :inline => output
-
   end
-
 
 end
