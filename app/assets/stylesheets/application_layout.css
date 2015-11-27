@@ -1569,6 +1569,7 @@ img {
 #content .form-holder {
 	float: right;
     margin-right: -63px;
+    z-index: 11;
 }
 
 .search-form {
@@ -2174,7 +2175,7 @@ img {
 		left: 50px;
 		padding: 0;
 		text-align: left;
-		z-index: 3;
+		z-index: 11;
 	}
 
 	.search-form {

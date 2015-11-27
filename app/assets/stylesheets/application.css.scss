@@ -668,10 +668,14 @@ div.other-junk {
 }
 
 .sign-up-promo {
-  text-align: right;
+  text-align: left;
   padding: 15px 15px 15px 0;
 
   h3 a{
-    color: white;
+    color: #39f;
+  }
+
+  a:hover {
+    color: #0088cc;
   }
 }
