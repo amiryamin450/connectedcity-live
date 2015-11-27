@@ -11,7 +11,7 @@ class ProductsController < ApplicationController
     add_crumb @product.location.district.name, district_guide_path(@product.location.district) if @product.location.district
     add_crumb @product.location.neighborhood.name if @product.location.neighborhood
     add_crumb @product.location.broker.name, "#{@base_path}business/#{@product.location.broker.slug}" if @product.location.broker.present?
-    add_crumb @product.location.name, "#{@base_path}business/#{@product.slug}"
+    add_crumb @product.location.name, "#{@base_path}business/#{@product.location.slug}"
     add_crumb @product.name
   end
 
