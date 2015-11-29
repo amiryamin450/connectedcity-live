@@ -13,7 +13,7 @@ function initCustomForms() {
 		wrapNative: false,
 		wrapNativeOnMobile: false
 	});
-	jcf.replaceAll();
+	jcf.replaceAll('#header, .search-form');
 }
 
 // popups init
@@ -2054,7 +2054,7 @@ TouchNav.prototype = {
 		// handle changes in style rules
 		var currentWindowHeight = getWindowHeight(),
 			styleRules = styleSheet.cssRules || styleSheet.rules;
-		
+
 		jQuery.each(styleRules, function(index, currentRule) {
 			var currentProperty = currentRule.selectorText.toLowerCase().replace('.win-', '').replace('-h','H');
 			currentRule.style[currentProperty] = currentWindowHeight + 'px';

@@ -34,10 +34,17 @@ class VerticalMarketCategoriesController < ApplicationController
     set_city
     set_district
     set_neighborhood
+    set_bia
 
     @vertical_market_category = VerticalMarketCategory.find(params[:id])
     @vertical_market = @vertical_market_category.vertical_market
 
+    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
+
+    if @bia
+      add_crumb @bia.district.name, district_guide_path(@bia.district) if @bia.district
+      add_crumb @bia.name, url_for(@bia)
+    end
 
     add_crumb @vertical_market_category.vertical_market.parent.name, "#{@base_path}guide/#{@vertical_market_category.vertical_market.parent.slug}" unless @vertical_market_category.vertical_market.parent.nil?
     add_crumb @vertical_market_category.vertical_market.name, "#{@base_path}guide/#{@vertical_market_category.vertical_market.slug}"
