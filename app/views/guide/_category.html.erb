@@ -13,7 +13,7 @@
   <div class="location-holder" id="cat-<%= category.id %>">
     <div class="clearfix">
       <% locations.each do |location| %>
-        <% cache "location_#{location.id}_#{location.updated_at}" do %>
+        <% cache "#{user_signed_in? ? "in" : "out"}_location_#{location.id}_#{location.updated_at}" do %>
         <%= render 'guide/location', location: location %>
         <% end %>
       <% end %>

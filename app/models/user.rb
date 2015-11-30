@@ -23,10 +23,11 @@ class User < ActiveRecord::Base
   # attr_accessible :role_ids, :as => :admin
   attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :postal_code
 
-  validates :first_name, presence: true
-  validates :last_name, presence: true
+  validates :first_name, presence: true, unless: ->(u) { u.persisted? && u.first_name_changed? }
+  validates :last_name, presence: true, unless: ->(u) { u.persisted? && u.last_name_changed? }
   validates :postal_code, presence: true, format: { with: /^[ABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Z]{1} *\d{1}[A-Z]{1}\d{1}$/,
-                                                    message: "Postal Code must be in format of A1A 1A1" }
+                                                    message: "Postal Code must be in format of A1A 1A1" },
+                                          unless: ->(u) { u.persisted? && u.postal_code_changed? }
 
   def has_favorite? location
     favorites.find_by_location_id location.id

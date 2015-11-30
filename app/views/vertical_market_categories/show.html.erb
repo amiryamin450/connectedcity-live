@@ -6,7 +6,7 @@
   # neighborhoods = @facets['neighborhoods']
   # brands = @facets['brands']
   markers = []
-  locations = @vertical_market_category.get_locations_paged(@city, @district, @neighborhood, params[:page])
+  locations = @vertical_market_category.get_locations_paged(@city, @district, @neighborhood, params[:page], @bia)
   markers |= locations
   # has_filters = (request.parameters[:category].present? or request.parameters[:neighborhood].present? or request.parameters[:brand].present?) ? true : false
 %>
