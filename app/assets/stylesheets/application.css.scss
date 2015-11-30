@@ -683,3 +683,7 @@ div.other-junk {
 .sub-district {
   padding-left: 5px;
 }
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
