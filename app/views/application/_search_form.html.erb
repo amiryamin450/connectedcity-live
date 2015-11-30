@@ -1,10 +1,10 @@
 <div class="form-holder <%= locals[:css_class] %>">
   <%= form_tag "#{@base_path}search", class: 'search-form', method: :get do %>
     <fieldset>
-      <div class="row">
+      <div class="search-row">
         <%= search_field_tag :search, params[:search], placeholder: "Search" %>
       </div>
-      <div class="row">
+      <div class="search-row">
         <%= select_tag 'market', options_from_collection_for_select(@vertical_markets_all, 'id', 'name'), prompt: 'all categories', class: 'category' %>
       </div>
       <div class="submit-wrap">

@@ -1567,7 +1567,7 @@ img {
 
 #content .form-holder {
 	float: right;
-    margin-right: -63px;
+    margin-right: -5px;
 }
 
 .search-form {
@@ -1580,7 +1580,7 @@ img {
 	letter-spacing: -4px;
 }
 
-.search-form .row {
+.search-form .search-row {
 	display: inline-block;
 	vertical-align: top;
 	letter-spacing: 0;
@@ -1937,7 +1937,7 @@ img {
 }
 
 @media (max-width: 767px) {
-    .row {
+    .search-row {
         margin-left: 0px;
     }
 
