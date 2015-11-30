@@ -14,7 +14,12 @@
             <% if current_district.name.eql?(district.name) %>
                 <% is_active = "active" %>
             <% end %>
-            <%= content_tag(:li, class: is_active + " sub-district") { link_to district.name, district.slug } %>
+            <%= content_tag(:li, class: is_active + " sub-district") do %>
+                <%= link_to(district.name, district.slug)%>
+                <% if is_active == "active"%>
+                    <%= content_tag(:span, ">", class: "location-dropdown-arrow") %>
+                <% end %>
+            <% end %>
         <% end %>
       </ul>
       <ul>
