@@ -253,6 +253,7 @@ Connectbook::Application.routes.draw do
 
   get 'employment-opportunities' => 'employment_listings#guide', as: :employment_opportunity
   get 'classifieds' => 'classified_listings#guide', as: :classifieds
+  get 'bia/:business_improment_area_id/category/:id' => 'vertical_market_categories#show', as: :business_improvement_area_vertical_market_category
   get ':district_route/:neighborhood/category/:id' => 'vertical_market_categories#show'
   get ':district_route/category/:id' => 'vertical_market_categories#show'
   get 'category/:id' => 'vertical_market_categories#show'

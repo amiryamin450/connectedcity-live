@@ -91,7 +91,12 @@ class ApplicationController < ActionController::Base
   def set_neighborhood
     if params[:neighborhood].present?
       @neighborhood = Neighborhood.find(params[:neighborhood])
-      add_crumb @neighborhood.name, '#'
+    end
+  end
+
+  def set_bia
+    if params[:business_improment_area_id].present?
+      @bia = BusinessImprovementArea.find params[:business_improment_area_id]
     end
   end
 

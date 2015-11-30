@@ -16,7 +16,7 @@ class BusinessImprovementAreasController < ApplicationController
   def show
     @business_improvement_area = BusinessImprovementArea.find(params[:id])
     @status_updates = @business_improvement_area.status_updates + @business_improvement_area.location_status_updates
-    @tag_cloud = @business_improvement_area.vertical_market_categories.map { |vm| { text: vm.name, weight: vm.locations.where(business_improvement_area_id: @business_improvement_area.id).size, link: vertical_market_category_path(vm) }}.compact
+    @tag_cloud = @business_improvement_area.vertical_market_categories.map { |vm| { text: vm.name, weight: vm.locations.where(business_improvement_area_id: @business_improvement_area.id).size, link: url_for([@business_improvement_area, vm]) }}.compact
 
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb @business_improvement_area.district.name, district_guide_path(@business_improvement_area.district) if @business_improvement_area.district

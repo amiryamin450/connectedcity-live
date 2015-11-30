@@ -38,10 +38,11 @@ class VerticalMarketCategory < ActiveRecord::Base
   end
 
 
-  def get_locations_paged(city = nil, district = nil, neighborhood = nil, page = 0)
+  def get_locations_paged(city = nil, district = nil, neighborhood = nil, page = 0, bia = nil)
 
     result = locations.order("IF(logo_file_name IS NULL, 0, 1) DESC").order("updated_at DESC").order("name ASC").limit(25)
     result = result.where('locations.city_id = 5915022')
+    result = result.where(business_improvement_area_id: bia.id) if bia.present?
     result = result.where('locations.district_id = ?', district.id) if district.present?
     result = result.where('locations.neighborhood_id = ?', neighborhood.id) if neighborhood.present?
     # result = result.where
