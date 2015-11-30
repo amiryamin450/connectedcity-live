@@ -167,10 +167,17 @@ body > .jcf-select-drop.jcf-drop-flipped {
 }
 
 .ellipsis {
-	white-space: nowrap; /* 1 */
-	text-overflow: ellipsis; /* 2 */
-	overflow: hidden;
+    white-space: nowrap; /* 1 */
+    text-overflow: ellipsis; /* 2 */
+    overflow: hidden;
 }
+
+.location-block {
+    box-sizing: border-box;
+}
+
+
+
 
 #wrapper {
 	width: 100%;
@@ -262,23 +269,23 @@ body > .jcf-select-drop.jcf-drop-flipped {
 }
 
 .location-block .dropdown {
-	position: absolute;
-	top: 44px;
-	right: -11px;
-	display: none;
-	background: #fff;
-	box-shadow: 0 0 8px rgba(0, 0, 0, .4);
-	width: 373px;
+    position: absolute;
+    top: 44px;
+    right: -11px;
+    display: none;
+    background: #fff;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .4);
+    width: 405px;
     z-index: 11;
 }
 
 .location-block .dropdown:after {
-	content: "";
-	position: absolute;
-	top: -12px;
-	left: 0;
-	right: 0;
-	height: 12px;
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 0;
+    right: 0;
+    height: 12px;
 }
 
 .location-block .dropdown:before {

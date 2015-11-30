@@ -31,6 +31,35 @@
   margin: 0;
 }
 
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.resize-active #nav ul,
+.resize-active #nav .drop {
+  -webkit-transition: none !important;
+  transition: none !important;
+}
+
+body {
+  min-width: 320px !important;
+}
+
+body.active #wrapper {
+  position: fixed;
+}
+
+body.active #nav .drop {
+  left: 0;
+  right: 0;
+}
+
+body.active #nav .drop .drop-holder {
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+}
+
 html, body {
   height: 100%;
 }
@@ -684,6 +713,3 @@ div.other-junk {
   padding-left: 5px;
 }
 
-*, *:before, *:after {
-  box-sizing: inherit;
-}
