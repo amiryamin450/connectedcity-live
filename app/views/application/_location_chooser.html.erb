@@ -35,7 +35,7 @@ district_url_suffix = if params[:market].present?
             <%
 
             bia_url = if params[:market].present?
-                         ("/#{@district.slug}" if @district) + "/#{bia.slug}/guide/#{params[:market]}"
+                         (@district ? "/#{@district.slug}" : "") + "/#{bia.slug}/guide/#{params[:market]}"
                        elsif params[:controller] == "vertical_market_categories" && params[:id]
                          "/bia/#{bia.slug}/category/#{params[:id]}"
                        else
