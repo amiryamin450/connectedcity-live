@@ -1417,7 +1417,7 @@ img {
 }
 
 .main-nav > li > div > a {
-	font-size: 18px;
+	font-size: 15px;
 	line-height: 22px;
 	text-align: center;
 	padding: 9px 6px;
@@ -1437,7 +1437,7 @@ img {
 .add-nav .add-opener {
 	display: none;
 	text-decoration: none;
-	font-size: 18px;
+	font-size: 15px;
 	line-height: 22px;
 	font-weight: bold;
 	position: relative;
@@ -1483,7 +1483,7 @@ img {
 
 .add-nav .add-drop > ul > li > div > a {
 	display: block;
-	font-size: 18px;
+	font-size: 15px;
 	font-weight: bold;
 	line-height: 22px;
 	padding: 9px 6px;
@@ -1539,7 +1539,7 @@ img {
 
 .side-nav > li > div > a {
 	text-decoration: none;
-	font-size: 18px;
+	font-size: 15px;
 	font-weight: bold;
 	line-height: 22px;
 	color: rgba(28, 54, 86, .65);
@@ -2202,4 +2202,3 @@ img {
 		width: 34px;
 	}
 }
-
