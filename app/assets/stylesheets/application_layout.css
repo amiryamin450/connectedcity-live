@@ -846,9 +846,10 @@ img {
 }
 
 .logo-block .logo {
-	display: inline-block;
-	vertical-align: middle;
-	max-width: 283px;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    z-index: 6;
 }
 
 .logo-block .logo img {
@@ -876,7 +877,7 @@ img {
 	text-align: right;
 	position: relative;
 	padding: 14px 0 0;
-	z-index: 5;
+	z-index: 11;
 }
 
 .location-block .open {
@@ -901,10 +902,6 @@ img {
 	background: url('sprite.png') no-repeat;
 }
 
-.location-block .open:hover {
-	opacity: .7;
-}
-
 .location-block .dropdown {
 	position: absolute;
 	top: 44px;
@@ -913,6 +910,7 @@ img {
 	background: #fff;
 	box-shadow: 0 0 8px rgba(0, 0, 0, .4);
 	width: 373px;
+    z-index: 11;
 }
 
 .location-block .dropdown:after {
@@ -1553,7 +1551,7 @@ img {
 }
 
 #main {
-	padding: 119px 0 0;
+	padding: 150px 0 0;
 }
 
 #content {
@@ -1570,7 +1568,6 @@ img {
 #content .form-holder {
 	float: right;
     margin-right: -63px;
-    z-index: 11;
 }
 
 .search-form {
@@ -1929,6 +1926,14 @@ img {
 	#content .form-holder {
 		width: 55%;
 	}
+
+    #main {
+        padding: 215px 0 0;
+    }
+
+    .hidden-mobile {
+        display: none;
+    }
 }
 
 @media (max-width: 767px) {
@@ -1937,7 +1942,7 @@ img {
     }
 
 	.header-top {
-		padding: 16px 10px 50px 50px;
+		padding: 8px 10px 0px 50px;
 		background: #1c3656;
 	}
 
@@ -1946,16 +1951,31 @@ img {
 	}
 
 	.logo-block .logo {
-		max-width: 261px;
+		max-width: 260px;
 	}
 
 	.logo-block .tagline {
 		display: none;
 	}
 
-	.location-block {
-		display: none;
-	}
+    .location-block {
+        width: 100%;
+        padding: 0;
+        margin: -30px 0 0;
+    }
+
+    .location-block .open span {
+        display: none;
+    }
+
+    .location-block .dropdown {
+        right: -10px;
+        width: 320px;
+    }
+
+    .location-block .dropdown ul {
+        padding: 20px 10px;
+    }
 
 	#nav {
 		background: none;
@@ -2162,7 +2182,7 @@ img {
 	}
 
 	#main {
-		padding: 109px 0 0;
+		padding: 111px 0 0;
 	}
 
     .addthis_sharing_toolbox {
@@ -2176,7 +2196,6 @@ img {
 		left: 50px;
 		padding: 0;
 		text-align: left;
-		z-index: 11;
 	}
 
 	.search-form {
@@ -2202,4 +2221,5 @@ img {
 		width: 34px;
 	}
 }
+
 

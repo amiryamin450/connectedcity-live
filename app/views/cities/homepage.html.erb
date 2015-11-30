@@ -4,7 +4,7 @@
     <h3><%= @city.name %></h3>
   </div>
   <div class="span4">
-    <%= render 'search_form' %>
+    <%= render 'search_form', { locals: {css_class: 'hidden-mobile'} } %>
   </div>
 </div>
 
@@ -95,7 +95,7 @@
       <div class="holder pad10">
         <h5>Join Now</h5>
         <div class="sign-up-promo">
-          <h3><%= link_to ('Sign-up for a free ConnectedShopper&trade; account').html_safe, new_user_registration_path %></h3>
+          <a href="<%= new_user_registration_path %>">Sign-up</a> for a free ConnectedShopper&trade; account
         </div>
       </div>
     </div>

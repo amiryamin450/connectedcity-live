@@ -6,15 +6,7 @@
 <div id="wrapper">
   <header id="header">
     <div class="header-top">
-      <div class="logo-block">
-        <div class="logo">
-          <a href="#">
-            <a href="/" title="ConnectedCity"><%= image_tag 'logo.svg', width: 524 %></a>
-            <!--<img src="images/logo.svg" alt="Connectedcity" width="283" height="48">-->
-          </a>
-        </div>
-        <span class="tagline">for everything local</span>
-      </div>
+      <%= render 'logo' %>
       <%= render 'location_chooser' %>
     </div>
     <%= render 'main_menu' %>
@@ -46,7 +38,7 @@
               </div>
               <div class="span8">
                 <div class="row-fluid">
-                  <%= render 'search_form' %>
+                  <%= render 'search_form', { locals: {css_class: 'hidden-mobile'} } %>
                 </div>
                 <% if params[:district_route].present? and params[:market].present? and @district and @district.neighborhoods.size > 0 and ![17,18,19,20].include?(@vertical_market.id) %>
                     <div class="row-fluid">

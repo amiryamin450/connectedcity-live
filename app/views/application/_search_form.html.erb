@@ -1,4 +1,4 @@
-<div class="form-holder">
+<div class="form-holder <%= locals[:css_class] %>">
   <%= form_tag "#{@base_path}search", class: 'search-form', method: :get do %>
     <fieldset>
       <div class="row">
