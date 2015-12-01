@@ -1,18 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-      <![endif]-->
-
-      <title><%= content_for?(:title) ? yield(:title) : "ConnectedCity" %></title>
-      <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "ConnectedCity" %>">
-      <%= stylesheet_link_tag "application", :media => "all" %>
-      <%= javascript_include_tag "application" %>
-      <%= csrf_meta_tags %>
-      <%= yield(:head) %>
-    </head>
+    <%= render 'head' %>
     <body class="admin">
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
@@ -23,7 +11,7 @@
     </div>
 
     <div class="container">
-      <div class="row">
+      <div class="search-row">
         <div class="span9">
           <%= render 'messages' %>
           <%= yield %>
@@ -35,8 +23,7 @@
         </div>
       </div>
     </div>
-    <footer>
-      <p>&copy; Company 2012</p>
-    </footer>
+    <%= render 'footer' %>
+    <%= render 'js_footer_includes' %>
     </body>
 </html>

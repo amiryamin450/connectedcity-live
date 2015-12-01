@@ -1,0 +1,931 @@
+.pricing-holder {
+  padding: 78px 0 0;
+}
+
+.complex-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.complex-table td,
+.complex-table th {
+  border: 1px solid #aeafaf;
+}
+
+.complex-table td:first-child,
+.complex-table th:first-child {
+  border-left-color: transparent;
+}
+
+.complex-table td:last-child,
+.complex-table th:last-child {
+  border-right-color: transparent;
+}
+
+.complex-table .connected-row th,
+.complex-table .connected-row td {
+  border-top: 0;
+  padding: 30px 10px 8px;
+  color: #fff;
+  background: #1c3656;
+}
+
+.complex-table .connected-row th:first-child,
+.complex-table .connected-row td:first-child {
+  border-left: 1px solid transparent;
+  background: none;
+}
+
+.complex-table .connected-row .icon {
+  position: relative;
+  margin: 0 auto;
+  width: 58px;
+  height: 0;
+}
+
+.complex-table .connected-row .icon img {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  left: 0;
+  max-width: 100%;
+}
+
+.complex-table .yearly-row .title {
+  padding: 30px 10px 11px;
+  line-height: 42px;
+  font-size: 34px;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: top;
+  color: #1c3656;
+  background: #d6dce7;
+}
+
+.complex-table .yearly-row .title .icon {
+  position: relative;
+  margin: 0 auto;
+  width: 72px;
+  height: 0;
+}
+
+.complex-table .yearly-row .title .icon img {
+  position: absolute;
+  right: 0;
+  bottom: -8px;
+  left: 0;
+}
+
+.complex-table .yearly-row .title .tall {
+  display: block;
+  line-height: 76px;
+  font-size: 76px;
+  font-weight: normal;
+}
+
+.complex-table .yearly-row .plan {
+  padding: 16px 20px;
+  text-align: center;
+}
+
+.complex-table .yearly-row .plan .number {
+  display: block;
+  margin: 0 0 6px;
+  color: #1c3656;
+}
+
+.complex-table .yearly-row .plan .number .price {
+  position: relative;
+  line-height: 55px;
+  font-size: 55px;
+  font-weight: bold;
+  letter-spacing: 5px;
+}
+
+.complex-table .yearly-row .plan .number .price span {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  line-height: 36px;
+  font-size: 21px;
+  letter-spacing: 0;
+}
+
+.complex-table .yearly-row .plan .number .period {
+  line-height: 22px;
+  font-size: 19px;
+}
+
+.complex-table .yearly-row .plan .note {
+  display: block;
+  line-height: 33px;
+  font-size: 25px;
+}
+
+.complex-table .yearly-row .plan.green {
+  color: #fff;
+  background: #21b24d;
+}
+
+.complex-table .yearly-row .plan.blue {
+  color: #fff;
+  background: #02b0c8;
+}
+
+.complex-table .bonus-row th:last-child,
+.complex-table .bonus-row td:last-child {
+  border-right-color: #aeafaf;
+}
+
+.complex-table .bonus-row .title {
+  padding: 26px 10px 30px;
+  line-height: 39px;
+  font-size: 34px;
+  font-weight: normal;
+  text-align: center;
+  color: #1c3656;
+}
+
+.complex-table .bonus-row .free {
+  padding: 21px 20px 26px;
+  line-height: 18px;
+  font-size: 15px;
+  letter-spacing: .4px;
+  text-align: center;
+  color: #1c3656;
+}
+
+.complex-table .bonus-row .free strong {
+  display: block;
+  line-height: 30px;
+  font-size: 23px;
+  letter-spacing: 0;
+}
+
+.complex-table .monthly-row th:last-child,
+.complex-table .monthly-row td:last-child {
+  border-right-color: #aeafaf;
+}
+
+.complex-table .monthly-row .title {
+  padding: 4px 10px 5px;
+  line-height: 42px;
+  font-size: 34px;
+  font-weight: normal;
+  text-align: center;
+  color: #1c3656;
+  background: #d6dce7;
+}
+
+.complex-table .monthly-row .title .tall {
+  display: block;
+  line-height: 76px;
+  font-size: 76px;
+  font-weight: normal;
+}
+
+.complex-table .monthly-row .plan {
+  padding: 20px 20px 18px;
+  text-align: center;
+}
+
+.complex-table .monthly-row .plan .number {
+  display: block;
+  margin: 0 0 6px;
+  color: #1c3656;
+}
+
+.complex-table .monthly-row .plan .number .price {
+  position: relative;
+  line-height: 55px;
+  font-size: 55px;
+  font-weight: bold;
+  letter-spacing: 5px;
+}
+
+.complex-table .monthly-row .plan .number .price span {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  line-height: 36px;
+  font-size: 21px;
+  letter-spacing: 0;
+}
+
+.complex-table .monthly-row .plan .number .period {
+  line-height: 22px;
+  font-size: 19px;
+}
+
+.complex-table .monthly-row .plan .note {
+  display: block;
+  line-height: 28px;
+  font-size: 19px;
+  color: #1c3656;
+}
+
+.complex-table .monthly-row .plan.green {
+  background: #21b24d;
+}
+
+.complex-table .monthly-row .plan.blue {
+  background: #02b0c8;
+}
+
+.complex-table .contact .contact-box {
+  padding: 0 10px 70px;
+  line-height: 25px;
+  font-size: 25px;
+  letter-spacing: -.4px;
+  text-align: center;
+}
+
+.complex-table .contact .contact-box strong {
+  display: block;
+}
+
+.complex-table .contact .contact-box strong a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.complex-table .contact .contact-box strong a:hover {
+  text-decoration: underline;
+}
+
+.complex-table .contact.lilac {
+  color: #fff;
+  background: #6d67af;
+}
+
+.complex-table .contact.red {
+  color: #fff;
+  background: #ee2630;
+}
+
+.complex-table .contact.yellow {
+  color: #fff;
+  background: #fda720;
+}
+
+.complex-table .heading-row th {
+  padding: 5px 21px;
+  line-height: 21px;
+  font-size: 17px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  text-align: left;
+  color: #1c3656;
+  background: #eec11f;
+}
+
+.complex-table tbody tr th,
+.complex-table tbody tr td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 6px 21px;
+}
+
+.complex-table tbody tr th:first-child,
+.complex-table tbody tr td:first-child {
+  font-weight: normal;
+  text-align: left;
+  letter-spacing: .5px;
+  color: #fff;
+  background: #1c3656;
+}
+
+.complex-table tbody tr th img,
+.complex-table tbody tr td img {
+  vertical-align: middle;
+}
+
+.complex-table tbody tr:nth-child(2n) th:first-child,
+.complex-table tbody tr:nth-child(2n) td:first-child {
+  background: #2a456b;
+}
+
+.complex-table tbody tr:nth-child(2n) th.green,
+.complex-table tbody tr:nth-child(2n) td.green {
+  background: #c8e5d1;
+}
+
+.complex-table tbody tr:nth-child(2n) th.blue,
+.complex-table tbody tr:nth-child(2n) td.blue {
+  background: #c2e5ea;
+}
+
+.complex-table tbody tr:nth-child(2n) th.lilac,
+.complex-table tbody tr:nth-child(2n) td.lilac {
+  background: #d7d6e5;
+}
+
+.complex-table tbody tr:nth-child(2n) th.red,
+.complex-table tbody tr:nth-child(2n) td.red {
+  background: #f1c9cb;
+}
+
+.complex-table tbody tr:nth-child(2n) th.yellow,
+.complex-table tbody tr:nth-child(2n) td.yellow {
+  background: #f4e3c8;
+}
+
+.complex-table tfoot tr th,
+.complex-table tfoot tr td {
+  border-bottom: 0;
+  padding: 31px 20px;
+  text-align: center;
+}
+
+.complex-table .btn {
+  display: inline-block;
+  padding: 0 5px;
+  min-width: 160px;
+  line-height: 32px;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  text-decoration: none;
+  vertical-align: top;
+  color: #fff;
+  background: #1c3656;
+}
+
+.complex-table .btn:hover {
+  opacity: .9;
+}
+
+.complex-table .green .btn {
+  background: #21b24d;
+}
+
+.complex-table .blue .btn {
+  background: #02b0c8;
+}
+
+.complex-table .lilac .btn {
+  background: #6d67af;
+}
+
+.complex-table .red .btn {
+  background: #ee2630;
+}
+
+.complex-table .yellow .btn {
+  background: #fda720;
+}
+
+@media (min-width: 768px) {
+  #nav .drop {
+    height: auto !important;
+  }
+
+  .hidden-desktop {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  a[href^=tel],
+  a[href^=skype],
+  a[href^=sms] {
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 1800px) {
+  .complex-table .yearly-row .title .tall {
+    line-height: 60px;
+    font-size: 60px;
+  }
+
+  .complex-table .yearly-row .plan {
+    padding: 16px 10px;
+  }
+
+  .complex-table .bonus-row .free {
+    padding: 21px 10px 26px;
+  }
+
+  .complex-table .monthly-row .title .tall {
+    line-height: 60px;
+    font-size: 60px;
+  }
+
+  .complex-table .monthly-row .plan {
+    padding: 20px 10px 18px;
+  }
+
+  .complex-table .heading-row th {
+    padding: 5px 10px;
+  }
+
+  .complex-table tbody tr th,
+  .complex-table tbody tr td {
+    padding: 6px 10px;
+  }
+
+  .complex-table tfoot tr th,
+  .complex-table tfoot tr td {
+    padding: 31px 10px;
+  }
+}
+
+@media (max-width: 1600px) {
+  .complex-table .yearly-row .title {
+    line-height: 36px;
+    font-size: 26px;
+  }
+
+  .complex-table .yearly-row .title .tall {
+    line-height: 40px;
+    font-size: 40px;
+  }
+
+  .complex-table .yearly-row .plan .number .price {
+    margin: 0 25px 0 0;
+    line-height: 36px;
+    font-size: 30px;
+    letter-spacing: 0;
+  }
+
+  .complex-table .yearly-row .plan .number .price span {
+    line-height: 24px;
+    font-size: 18px;
+  }
+
+  .complex-table .yearly-row .plan .note {
+    line-height: 24px;
+    font-size: 20px;
+  }
+
+  .complex-table .bonus-row .title {
+    line-height: 36px;
+    font-size: 29px;
+  }
+
+  .complex-table .bonus-row .free {
+    font-size: 12px;
+  }
+
+  .complex-table .bonus-row .free strong {
+    line-height: 24px;
+    font-size: 20px;
+  }
+
+  .complex-table .monthly-row .title {
+    line-height: 36px;
+    font-size: 26px;
+  }
+
+  .complex-table .monthly-row .title .tall {
+    line-height: 40px;
+    font-size: 40px;
+  }
+
+  .complex-table .monthly-row .plan .number .price {
+    margin: 0 25px 0 0;
+    line-height: 36px;
+    font-size: 30px;
+    letter-spacing: 0;
+  }
+
+  .complex-table .monthly-row .plan .number .price span {
+    line-height: 24px;
+    font-size: 18px;
+  }
+
+  .complex-table .monthly-row .plan .note {
+    line-height: 20px;
+    font-size: 20px;
+  }
+
+  .complex-table .contact .contact-box {
+    padding: 0 10px;
+    line-height: 24px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 1539px) {
+  .add-nav .add-opener {
+    display: block;
+  }
+
+  .add-nav .add-drop {
+    display: none !important;
+    position: absolute;
+    top: 100%;
+    left: 3px;
+    background: #fff;
+    width: 181px;
+    text-align: left;
+    padding: 19px 0 0;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .4);
+  }
+
+  .add-nav .add-drop:after {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 27px;
+    width: 20px;
+    height: 20px;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    box-shadow: 0 0 8px rgba(0, 0, 0, .4);
+    z-index: -1;
+  }
+
+  .add-nav .add-drop:before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 27px;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  .add-nav .add-drop > ul > li {
+    border-right: none;
+    margin: 0 0 22px;
+    width: 100%;
+  }
+
+  .add-nav .add-drop > ul > li > div {
+    display: block !important;
+  }
+
+  .add-nav .add-drop > ul > li > div > a {
+    font-size: 15px;
+    line-height: 18px;
+    text-align: left;
+    font-weight: normal;
+    text-decoration: none;
+    color: #666;
+    padding: 0 16px 0 21px;
+  }
+
+  .add-nav .add-drop > ul .sub-drop {
+    top: 0 !important;
+    left: auto !important;
+    right: -181px !important;
+  }
+
+  .add-nav .add-drop > ul .sub-drop:before,
+  .add-nav .add-drop > ul .sub-drop:after {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1539px) and (max-width: 767px) {
+  .add-nav .add-drop:after {
+    display: none;
+  }
+
+  .add-nav .add-drop:before {
+    display: none;
+  }
+}
+
+@media (max-width: 1399px) {
+  #nav ul .sub-drop:after {
+    left: 15px;
+  }
+
+  #nav ul .sub-drop:before {
+    left: 15px;
+  }
+
+  #nav ul .sub-drop {
+    left: 6px;
+  }
+}
+
+@media (max-width: 1199px) {
+  .logo-block {
+    width: 60%;
+  }
+
+  .add-nav .add-drop > ul > li.bottom .sub-drop {
+    top: auto !important;
+    bottom: -20px !important;
+  }
+
+  .content-inner {
+    padding: 20px;
+  }
+
+  .complex-table .yearly-row .title {
+    line-height: 24px;
+    font-size: 20px;
+  }
+
+  .complex-table .yearly-row .title .tall {
+    line-height: 40px;
+    font-size: 30px;
+  }
+
+  .complex-table .yearly-row .plan .number .price {
+    margin: 0 20px 0 0;
+    line-height: 24px;
+    font-size: 20px;
+  }
+
+  .complex-table .yearly-row .plan .number .price span {
+    line-height: 16px;
+    font-size: 14px;
+  }
+
+  .complex-table .yearly-row .plan .number .period {
+    line-height: 20px;
+    font-size: 16px;
+  }
+
+  .complex-table .yearly-row .plan .note {
+    line-height: 20px;
+    font-size: 16px;
+  }
+
+  .complex-table .bonus-row .title {
+    line-height: 28px;
+    font-size: 24px;
+  }
+
+  .complex-table .bonus-row .free {
+    font-size: 13px;
+  }
+
+  .complex-table .monthly-row .title {
+    line-height: 24px;
+    font-size: 20px;
+  }
+
+  .complex-table .monthly-row .title .tall {
+    line-height: 40px;
+    font-size: 30px;
+  }
+
+  .complex-table .monthly-row .plan .number .price {
+    margin: 0 20px 0 0;
+    line-height: 24px;
+    font-size: 20px;
+  }
+
+  .complex-table .monthly-row .plan .number .price span {
+    line-height: 18px;
+    font-size: 14px;
+  }
+
+  .complex-table .monthly-row .plan .number .period {
+    line-height: 20px;
+    font-size: 16px;
+  }
+
+  .complex-table .monthly-row .plan .note {
+    line-height: 20px;
+    font-size: 16px;
+  }
+
+  .complex-table .contact .contact-box {
+    line-height: 20px;
+    font-size: 16px;
+  }
+
+  .complex-table .heading-row th {
+    line-height: 18px;
+    font-size: 14px;
+  }
+
+  .complex-table tbody tr th,
+  .complex-table tbody tr td {
+    line-height: 18px;
+    font-size: 14px;
+  }
+
+  .complex-table .btn {
+    min-width: 120px;
+    font-size: 12px;
+    letter-spacing: 0;
+  }
+}
+
+@media (max-width: 1023px) {
+  /*.logo-block {
+    width: 100%;
+  }*/
+
+  .location-block {
+    width: 24%;
+  }
+
+  #nav ul .sub-drop {
+    left: 0;
+  }
+
+  .main-nav > li > div > a {
+    font-size: 15px;
+    padding: 9px 5px;
+  }
+
+  .add-nav .add-opener {
+    font-size: 15px;
+  }
+
+  .add-nav .add-drop > ul > li > div > a:hover {
+    color: #1c3656 !important;
+  }
+
+  .add-nav .add-drop > ul .sub-drop {
+    right: auto !important;
+    left: -181px !important;
+  }
+
+  .side-nav > li > div > a {
+    font-size: 15px;
+  }
+
+  .form-holder {
+    width: 55%;
+  }
+
+  .content-inner {
+    padding: 10px;
+  }
+
+  .pricing-holder {
+    padding: 50px 0 0;
+  }
+
+  .complex-table .connected-row th,
+  .complex-table .connected-row td {
+    padding: 20px 5px 5px;
+  }
+
+  .complex-table .connected-row .icon {
+    width: 30px;
+  }
+
+  .complex-table .connected-row .icon img {
+    bottom: 6px;
+  }
+
+  .complex-table .yearly-row .title {
+    padding: 20px 5px 5px;
+    line-height: 20px;
+    font-size: 16px;
+  }
+
+  .complex-table .yearly-row .title .icon {
+    width: 40px;
+  }
+
+  .complex-table .yearly-row .title .icon img {
+    bottom: -1px;
+  }
+
+  .complex-table .yearly-row .title .tall {
+    line-height: 24px;
+    font-size: 20px;
+  }
+
+  .complex-table .yearly-row .plan {
+    padding: 5px;
+  }
+
+  .complex-table .yearly-row .plan .number .price {
+    margin: 0 15px 0 0;
+    line-height: 20px;
+    font-size: 16px;
+  }
+
+  .complex-table .yearly-row .plan .number .price span {
+    line-height: 16px;
+    font-size: 11px;
+  }
+
+  .complex-table .yearly-row .plan .number .period {
+    line-height: 18px;
+    font-size: 14px;
+  }
+
+  .complex-table .yearly-row .plan .note {
+    line-height: 18px;
+    font-size: 13px;
+  }
+
+  .complex-table .bonus-row .title {
+    padding: 5px;
+    line-height: 20px;
+    font-size: 17px;
+  }
+
+  .complex-table .bonus-row .free {
+    padding: 5px;
+    line-height: 16px;
+    font-size: 12px;
+  }
+
+  .complex-table .bonus-row .free strong {
+    line-height: 22px;
+    font-size: 16px;
+  }
+
+  .complex-table .monthly-row .title {
+    padding: 5px;
+    line-height: 20px;
+    font-size: 16px;
+  }
+
+  .complex-table .monthly-row .title .tall {
+    line-height: 24px;
+    font-size: 20px;
+  }
+
+  .complex-table .monthly-row .plan {
+    padding: 5px;
+  }
+
+  .complex-table .monthly-row .plan .number .price {
+    margin: 0 15px 0 0;
+    line-height: 20px;
+    font-size: 16px;
+  }
+
+  .complex-table .monthly-row .plan .number .price span {
+    line-height: 16px;
+    font-size: 11px;
+  }
+
+  .complex-table .monthly-row .plan .number .period {
+    line-height: 18px;
+    font-size: 14px;
+  }
+
+  .complex-table .monthly-row .plan .note {
+    line-height: 18px;
+    font-size: 14px;
+  }
+
+  .complex-table .contact .contact-box {
+    line-height: 18px;
+    font-size: 14px;
+  }
+
+  .complex-table .heading-row th {
+    padding: 5px;
+    letter-spacing: 0;
+  }
+
+  .complex-table tbody tr th,
+  .complex-table tbody tr td {
+    padding: 5px;
+    font-size: 13px;
+  }
+
+  .complex-table tfoot tr th,
+  .complex-table tfoot tr td {
+    padding: 10px 5px;
+  }
+
+  .complex-table .btn {
+    min-width: 100px;
+    line-height: 30px;
+    font-size: 10px;
+  }
+
+  .pricing-holder {
+    padding: 20px 0 0;
+  }
+
+  .table-responsive {
+    margin: 0 0 20px;
+    padding: 20px 0 0;
+    border: 1px solid #aeafaf;
+    overflow-y: hidden;
+    width: 100%;
+  }
+
+  .table-responsive table {
+    table-layout: auto;
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .table-responsive table th,
+  .table-responsive table td {
+    white-space: nowrap;
+  }
+
+  .complex-table .connected-row img {
+    max-width: 120px;
+  }
+}

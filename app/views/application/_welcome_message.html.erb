@@ -1,0 +1,5 @@
+<div class="current-user-block">
+    <% if user_signed_in? %>
+        <p>Welcome <%= @current_user.name %>! You are now searching <%= (get_current_bia.eql?(nil) ? link_to(get_current_district.name, "/" + get_current_district.slug) : get_current_bia.name) %></p>
+    <% end %>
+</div>

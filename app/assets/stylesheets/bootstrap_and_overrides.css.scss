@@ -52,8 +52,6 @@ body.admin .footer, body.admin footer {
   background: #eeeeee;
 }
 
-
-
 .hp-search-form {
   select {
     width: auto !important;
@@ -98,15 +96,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #header {
-
-  // background: transparent image-url('header_bg.png') repeat-x;
   background: $blue;
   color: $white;
 
-
-  .logo {
-    padding-left: 10px;
-  }
   .user-nav {
     text-align: right;
     padding-right: 30px;
@@ -688,5 +680,10 @@ ul.location-list {
 }
 
 input, textarea, select {
-  max-width: 80%;
+  max-width: 100%;
 }
+
+.hidden-desktop {
+  display: none;
+}
+

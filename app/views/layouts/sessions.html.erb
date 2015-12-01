@@ -5,14 +5,8 @@
 <div id="wrapper">
   <header id="header">
     <div class="header-top">
-      <div class="logo-block">
-        <div class="logo">
-          <a href="#">
-            <a href="/" title="ConnectedCity"><%= image_tag 'logo.svg', width: 524 %></a>
-          </a>
-        </div>
-        <span class="tagline">for everything local</span>
-      </div>
+      <%= render 'logo' %>
+      <%= render 'welcome_message' %>
     </div>
      <%= render 'main_menu' %>
   </header>
