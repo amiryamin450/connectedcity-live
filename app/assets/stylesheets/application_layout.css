@@ -237,6 +237,13 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	max-width: 260px;
 }
 
+.current-user-block {
+    float: right;
+    width: 30%;
+    text-align: right;
+    position: relative;
+}
+
 .location-block {
 	float: right;
 	width: 30%;
@@ -1308,6 +1315,10 @@ body > .jcf-select-drop.jcf-drop-flipped {
 }
 
 @media (max-width: 767px) {
+    .current-user-block {
+        display: none;
+    }
+
     .search-row {
         margin-left: 0px;
     }

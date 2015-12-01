@@ -1,9 +1,4 @@
-<% if @district == nil
-     current_district = @city
-   else
-     current_district = @district
-   end
-%>
+<% current_district = get_current_district %>
 <div class="location-block">
     <a class="open" href="#"><span>Select Location</span></a>
     <div class="dropdown">
@@ -15,7 +10,7 @@
                 <% is_active = "active" %>
             <% end %>
             <%= content_tag(:li, class: is_active + " sub-district") do %>
-                <%= link_to(district.name, district.slug)%>
+                <%= link_to(district.name, "/" + district.slug)%>
                 <% if is_active == "active"%>
                     <%= content_tag(:span, ">", class: "location-dropdown-arrow") %>
                 <% end %>
