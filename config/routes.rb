@@ -224,6 +224,7 @@ Connectbook::Application.routes.draw do
   get 'about' => 'StaticPages#about'
   get 'terms' => 'StaticPages#terms'
   get 'privacy' => 'StaticPages#privacy'
+  get 'advertise' => 'StaticPages#advertise'
   get 'contact' => 'contacts#new'
 
   resources 'contacts', only: [:new, :create]

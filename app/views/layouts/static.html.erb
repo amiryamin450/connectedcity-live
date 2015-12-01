@@ -1,46 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!--[if lt IE 9]>
-  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-  <%= stylesheet_link_tag "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-  <%= render 'application/head' %>
-</head>
-<body class="static">
-  <div class="wrapper">
-    <nav>
-      <div class="row-fluid" id="header">
-          <div class="row-fluid">
-            <div class="logo span6">
-              <a href="/" title="ConnectedCity"><%= image_tag 'logo.png', width: 524 %></a>
-            </div>
-            <div class="span6">
-              <div class="location-chooser">
-                <%= render 'application/location_chooser' %>
+    <html>
+    <%= render 'head' %>
+    <body>
+    <div id="wrapper">
+      <header id="header">
+        <div class="header-top">
+          <%= render 'logo' %>
+          <%= render 'location_chooser' %>
+          <%= render 'search_form', { locals: {css_class: 'hidden-desktop'} } %>
+        </div>
+        <%= render 'main_menu' %>
+      </header>
+      <main id="main" role="main">
+        <aside class="aside">
+          <div id="sidebar" class="<%= @sidebar_class %>">
+            <%= render 'user_sidebar' %>
+          </div>
+        </aside>
+        <div id="content">
+          <div class="gap">
+            <div id="breadcrumbs">
+              <div class="breadcrumb">
+                <%= render_crumbs(separator: "<span class='divider'><i class='icon-angle-right'></i></span>".html_safe).html_safe %>
+                <%= render 'social_media' %>
               </div>
             </div>
           </div>
-          <%= render 'application/main_menu' %>
-      </div>
-    </nav>
-    <div id="sidebar" class="<%= @sidebar_class %>">
-      <%= render 'application/user_sidebar' %>
+          <div class="container-fluid content-holder">
+            <div class="row-fluid">
+              <%= yield %>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
-    <div id="main-content">
-      <div class="container-fluid content-holder">
-      <div class="row-fluid">
-        <%= yield %>
-      </div>
-      <div style="margin-bottom: 1.5em;"></div>
-      </div>
-    </div>
-    <%= render 'application/footer' %>
-  </div>
-  <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5088b5ab602f3daf"></script>
-  <%= render 'application/google_analytics' %>
-</body>
+    <%= render 'footer' %>
+    <%= render 'js_footer_includes' %>
+    </body>
 </html>
