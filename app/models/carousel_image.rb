@@ -6,9 +6,9 @@ class CarouselImage < ActiveRecord::Base
   validates_presence_of :title
   validates_attachment :image, :presence => true
 
-  has_attached_file :image, :styles => { thumb: "150", default: "1650x500#" },
+  has_attached_file :image, :styles => { thumb: "150", default: "1960x714#" },
     url: "/system/carousel/image/:id/:style/:basename.:extension",
     path: ":rails_root/public/system/carousel/image/:id/:style/:basename.:extension",
-    default_url: "/system/carousel/image/missing.png" 
+    default_url: "/system/carousel/image/missing.png"
 
 end

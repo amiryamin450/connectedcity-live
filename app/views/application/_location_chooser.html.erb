@@ -4,6 +4,19 @@
      current_district = @district
    end
 %>
+
+<%
+
+district_url_suffix = if params[:market].present?
+                        "/guide/#{params[:market]}"
+                      elsif params[:controller] == "vertical_market_categories" && params[:id]
+                        "/category/#{params[:id]}"
+                      else
+                        ""
+                      end
+
+%>
+
 <div class="location-block">
     <a class="open" href="#">Select Location</a>
     <div class="dropdown">
@@ -14,12 +27,23 @@
             <% if current_district.name.eql?(district.name) %>
                 <% is_active = "active" %>
             <% end %>
-            <%= content_tag(:li, class: is_active) { link_to district.name, district.slug } %>
+            <%= content_tag(:li, class: is_active) { link_to district.name, "/#{district.slug}#{district_url_suffix}" } %>
         <% end %>
       </ul>
       <ul>
         <% current_district.business_improvement_areas.each do |bia| %>
-            <li><%= link_to bia.name, bia %></li>
+            <%
+
+            bia_url = if params[:market].present?
+                         (@district ? "/#{@district.slug}" : "") + "/#{bia.slug}/guide/#{params[:market]}"
+                       elsif params[:controller] == "vertical_market_categories" && params[:id]
+                         "/bia/#{bia.slug}/category/#{params[:id]}"
+                       else
+                         "/bia/#{bia.slug}"
+                       end
+
+            %>
+            <li><%= link_to bia.name, bia_url %></li>
         <% end %>
       </ul>
     </div>
