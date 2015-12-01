@@ -27,6 +27,7 @@
 	font-size: 13px;
 	line-height: 26px;
 	margin: 0 35px 0 8px;
+    color: #666;
 }
 
 .jcf-select .jcf-select-opener {
@@ -1267,6 +1268,10 @@ body > .jcf-select-drop.jcf-drop-flipped {
 }
 
 @media (max-width: 1023px) {
+    .current-user-block {
+        display: none;
+    }
+
 	.logo-block {
 		width: 76%;
 	}
