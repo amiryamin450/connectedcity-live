@@ -280,7 +280,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
     background: #fff;
     box-shadow: 0 0 8px rgba(0, 0, 0, .4);
     width: 430px;
-    z-index: 11;
+    z-index: 101;
 }
 
 .location-block .dropdown:after {
@@ -348,7 +348,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	background: -webkit-linear-gradient(top, #ffd701 0%, #ffd701 49%, #ffcb00 50%, #fc9c00 100%);
 	background: linear-gradient(to bottom, #ffd701 0%, #ffd701 49%, #ffcb00 50%, #fc9c00 100%);
 
-    z-index: 10000;
+    z-index: 10;
     position: relative;
 }
 
@@ -794,7 +794,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 }
 
 .main-nav > li > div > a {
-	font-size: 18px;
+	font-size: 15px;
 	line-height: 22px;
 	text-align: center;
 	padding: 9px 6px;
@@ -814,7 +814,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 .add-nav .add-opener {
 	display: none;
 	text-decoration: none;
-	font-size: 18px;
+	font-size: 15px;
 	line-height: 22px;
 	font-weight: bold;
 	position: relative;
@@ -860,7 +860,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 
 .add-nav .add-drop > ul > li > div > a {
 	display: block;
-	font-size: 18px;
+	font-size: 15px;
 	font-weight: bold;
 	line-height: 22px;
 	padding: 9px 6px;
@@ -916,7 +916,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 
 .side-nav > li > div > a {
 	text-decoration: none;
-	font-size: 18px;
+	font-size: 15px;
 	font-weight: bold;
 	line-height: 22px;
 	color: rgba(28, 54, 86, .65);
@@ -1615,6 +1615,3 @@ body > .jcf-select-drop.jcf-drop-flipped {
         height: inherit;
 	}
 }
-
-
-
