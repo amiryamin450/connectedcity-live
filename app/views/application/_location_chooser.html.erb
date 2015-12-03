@@ -33,20 +33,11 @@ district_url_suffix = if params[:market].present?
       <ul>
         <% current_district.business_improvement_areas.each do |bia| %>
             <%
-
-            bia_url = if params[:market].present?
-                         #(@district ? "/#{@district.slug}" : "") + "/#{bia.slug}/guide/#{params[:market]}"
-                         if @district.present?
-                           "/bia/#{bia.slug}"
+               bia_url = if params[:controller] == "vertical_market_categories" && params[:id]
+                           "/bia/#{bia.slug}/category/#{params[:id]}"
                          else
-                           "/#{bia.slug}/guide/#{params[:market]}"
+                           "/bia/#{bia.slug}"
                          end
-                       elsif params[:controller] == "vertical_market_categories" && params[:id]
-                         "/bia/#{bia.slug}/category/#{params[:id]}"
-                       else
-                         "/bia/#{bia.slug}"
-                       end
-
             %>
             <li><%= link_to bia.name, bia_url %></li>
         <% end %>
