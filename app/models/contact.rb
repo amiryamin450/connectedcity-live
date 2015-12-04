@@ -9,7 +9,8 @@ class Contact < MailForm::Base
     {
       :subject => "ConnectedCity Customer Contact",
       :to => "info@connectedcity.com",
-      :from => %("#{name}" <#{email}>)
+      # needs to be from an email address associated with the Amazon SES account otherwise we can't send
+      :from => "donotreply@connectedcity.com"
     }
   end
 end
