@@ -78,19 +78,25 @@
         });
         //
         // Load existing files:
-        $.getJSON($('#fileupload').prop('action'), function (data) {
-            var fu = $('#fileupload').data('blueimpFileupload'),
-                    template;
-            fu._adjustMaxNumberOfFiles(-data.length);
-            console.log(data);
-            template = fu._renderDownload(data)
-                    .appendTo($('#fileupload .files'));
-            // Force reflow:
-            fu._reflow = fu._transition && template.length &&
-                    template[0].offsetWidth;
-            template.addClass('in');
-            $('#loading').remove();
-        });
+        // fix below for browser back/forward buttons when erroneous AJAX call was made to action
+        // when $('#fileupload').prop('action') was returning undefined. 
+        // # TODO: This partial should only be rendered when it's actually needed, instead of in the application layout.
+        var url = $('#fileupload').prop('action');
+        if(jQuery.type( url ) !== "undefined")
+        {
+          $.getJSON($('#fileupload').prop('action'), function (data) {
+              var fu = $('#fileupload').data('blueimpFileupload'),
+                      template;
+              fu._adjustMaxNumberOfFiles(-data.length);
+              template = fu._renderDownload(data)
+                      .appendTo($('#fileupload .files'));
+              // Force reflow:
+              fu._reflow = fu._transition && template.length &&
+                      template[0].offsetWidth;
+              template.addClass('in');
+              $('#loading').remove();
+          });
+        }
 
     });
 </script>
