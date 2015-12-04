@@ -20,9 +20,8 @@ module VerticalMarketCategoryHelper
     elsif location.vertical_market_categories.any? && location.vertical_market_categories.first.default_logo.present?
       location.vertical_market_categories.first.default_logo.url :list
     else
-      "http://placehold.it/160x80"
+       "/logos/original/missing.png"
     end
-
   end
 
 end
