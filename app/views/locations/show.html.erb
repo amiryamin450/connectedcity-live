@@ -2,7 +2,6 @@
 <div class="span6">
   <div class="profile">
 
-
     <div class="pad10 holder clearfix">
       <% if @location_carousel_images.count > 1 || @location_carousel_images.any? %>
         <div class="row-fluid">
@@ -34,7 +33,7 @@
       <div class="row-fluid" style="margin-top: 5px;">
         <div class="span3">
           <div class="thumbnail logo">
-            <%= image_tag @location.logo.url %>
+            <%= image_tag get_location_image_url @location %>
           </div>
 
         </div>
