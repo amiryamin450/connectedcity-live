@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151021210344) do
+ActiveRecord::Schema.define(:version => 20151211184400) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -497,8 +497,6 @@ ActiveRecord::Schema.define(:version => 20151021210344) do
     t.integer "location_id"
   end
 
-  add_index "locations_vertical_market_categories", ["vertical_market_category_id", "location_id"], :name => "lvmc_vertical_market_category_id_location_id", :unique => true
-
   create_table "mailboxer_conversation_opt_outs", :force => true do |t|
     t.integer "unsubscriber_id"
     t.string  "unsubscriber_type"
@@ -580,8 +578,6 @@ ActiveRecord::Schema.define(:version => 20151021210344) do
     t.string   "media_source_id"
     t.string   "media_source"
   end
-
-  add_index "media_attachments", ["attachable_id", "attachable_type"], :name => "index_media_attachments_on_attachable_id_and_attachable_type"
 
 # Could not dump table "neighborhoods" because of following StandardError
 #   Unknown type 'geometry' for column 'geom'
@@ -679,15 +675,16 @@ ActiveRecord::Schema.define(:version => 20151021210344) do
     t.string   "name"
     t.string   "sku"
     t.text     "description"
-    t.decimal  "price",              :precision => 10, :scale => 0
+    t.string   "price"
     t.string   "slug"
     t.integer  "location_id"
-    t.datetime "created_at",                                        :null => false
-    t.datetime "updated_at",                                        :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.boolean  "custom_pricing"
   end
 
   add_index "products", ["location_id"], :name => "index_products_on_location_id"
@@ -1002,6 +999,7 @@ ActiveRecord::Schema.define(:version => 20151021210344) do
     t.string   "postal_code"
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "name"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
@@ -1027,8 +1025,6 @@ ActiveRecord::Schema.define(:version => 20151021210344) do
     t.datetime "default_logo_updated_at"
     t.string   "search_term"
   end
-
-  add_index "vertical_market_categories", ["vertical_market_id"], :name => "index_vertical_market_categories_on_vertical_market_id"
 
   create_table "vertical_markets", :force => true do |t|
     t.string   "name"
