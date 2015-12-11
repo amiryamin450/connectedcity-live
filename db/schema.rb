@@ -497,6 +497,8 @@ ActiveRecord::Schema.define(:version => 20151211184400) do
     t.integer "location_id"
   end
 
+  add_index "locations_vertical_market_categories", ["vertical_market_category_id", "location_id"], :name => "lvmc_vertical_market_category_id_location_id", :unique => true
+
   create_table "mailboxer_conversation_opt_outs", :force => true do |t|
     t.integer "unsubscriber_id"
     t.string  "unsubscriber_type"
@@ -578,6 +580,8 @@ ActiveRecord::Schema.define(:version => 20151211184400) do
     t.string   "media_source_id"
     t.string   "media_source"
   end
+
+  add_index "media_attachments", ["attachable_id", "attachable_type"], :name => "index_media_attachments_on_attachable_id_and_attachable_type"
 
 # Could not dump table "neighborhoods" because of following StandardError
 #   Unknown type 'geometry' for column 'geom'
@@ -675,7 +679,7 @@ ActiveRecord::Schema.define(:version => 20151211184400) do
     t.string   "name"
     t.string   "sku"
     t.text     "description"
-    t.string   "price"
+    t.decimal   "price"
     t.string   "slug"
     t.integer  "location_id"
     t.datetime "created_at",         :null => false
@@ -1025,6 +1029,8 @@ ActiveRecord::Schema.define(:version => 20151211184400) do
     t.datetime "default_logo_updated_at"
     t.string   "search_term"
   end
+
+  add_index "vertical_market_categories", ["vertical_market_id"], :name => "index_vertical_market_categories_on_vertical_market_id"
 
   create_table "vertical_markets", :force => true do |t|
     t.string   "name"
