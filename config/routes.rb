@@ -133,7 +133,7 @@ Connectbook::Application.routes.draw do
     resources :provinces
     resources :regions
     resources :trade_associations, except: [:show]
-    resources :vertical_market_categories
+    resources :vertical_market_categories, except: [:show]
     resources :vertical_markets
     resources :districts, except: [:show]
 
