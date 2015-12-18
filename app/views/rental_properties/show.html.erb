@@ -128,7 +128,12 @@
 
 
       <% @rental_property.status_updates.each do |s| %>
-      <article class="teaser">      
+      <article class="teaser">
+        <div style="float:right">
+          <button type="button" class="close">
+            <%= link_to '×', [s.statusable.location, s.statusable, s], method: :delete, data: { confirm: 'Are you sure?' }, class: 'delete' %>
+          </button>
+        </div>
         <div class="article-content"><%= truncate(s.content, length: 200, seperator: ' ') %></div>
         <div class="article-published"><%= "#{time_ago_in_words(s.created_at)} ago" %></div>
       </article>
