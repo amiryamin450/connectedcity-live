@@ -3,7 +3,7 @@
     <h5><%= category.name %></h5>
 
     <%= link_to 'More +', '#', class: 'see-more', data: { element: category.id } %>
-    <%= link_to 'See All', "#{@base_path}category/#{category.slug}" %>
+    <%= link_to 'See All', "#{@base_path}category/#{category.slug}", class: 'see-all' %>
 
     <% if user_signed_in? && current_user.has_role?(:admin) %>
       <%= link_to 'Edit', edit_vertical_market_category_path(category), class: 'admin-link' %>
