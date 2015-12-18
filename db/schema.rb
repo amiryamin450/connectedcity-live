@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151021210344) do
+ActiveRecord::Schema.define(:version => 20151211184400) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -679,15 +679,16 @@ ActiveRecord::Schema.define(:version => 20151021210344) do
     t.string   "name"
     t.string   "sku"
     t.text     "description"
-    t.decimal  "price",              :precision => 10, :scale => 0
+    t.decimal   "price"
     t.string   "slug"
     t.integer  "location_id"
-    t.datetime "created_at",                                        :null => false
-    t.datetime "updated_at",                                        :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.boolean  "custom_pricing"
   end
 
   add_index "products", ["location_id"], :name => "index_products_on_location_id"
@@ -1002,6 +1003,7 @@ ActiveRecord::Schema.define(:version => 20151021210344) do
     t.string   "postal_code"
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "name"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
