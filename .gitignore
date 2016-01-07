@@ -92,6 +92,5 @@ solr/conf/spellings.txt
 solr/conf/stopwords.txt
 solr/conf/synonyms.txt
 
-install.sh
-Vagrantfile
 .vagrant/
+**.sql
