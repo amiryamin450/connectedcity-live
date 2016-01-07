@@ -77,7 +77,7 @@ class Location < ActiveRecord::Base
   accepts_nested_attributes_for :events, allow_destroy: true
   accepts_nested_attributes_for :media_attachments, allow_destroy: true
 
-  validates_presence_of :address, :name
+  validates_presence_of :address, :name, :vertical_market_category_ids
 
   geocoded_by :full_street_address
 

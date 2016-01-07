@@ -1,6 +1,10 @@
 class RentalPropertiesController < ApplicationController
+  before_filter do
+    @rental_property = RentalProperty.find(params[:rental_property_id]) if params[:rental_property_id]
+  end
+
   load_and_authorize_resource :location
-  load_and_authorize_resource :rental_property
+  load_and_authorize_resource :rental_property, through: [:location]
 
   # GET /rental_properties
   # GET /rental_properties.json
@@ -95,5 +99,12 @@ class RentalPropertiesController < ApplicationController
       format.html { redirect_to rental_properties_url }
       format.json { head :no_content }
     end
+  end
+
+  def destroy_status_update
+    @status_update = StatusUpdate.find(params[:id])
+    @status_update.destroy
+
+    redirect_to :back
   end
 end

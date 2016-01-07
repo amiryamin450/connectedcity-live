@@ -48,6 +48,13 @@ Connectbook::Application.routes.draw do
           end
         end
       end
+      resources :rental_properties, except: [:show] do
+        resources :status_updates, only: [] do
+          member do
+            delete "destroy_status_update", to: "rental_properties#destroy_status_update", as: "", path: ""
+          end
+        end
+      end
       resources :products, except: [:show]
       resources :services, except: [:show]
       resources :real_estate_listings, path: 'listings', except: [:show]
@@ -126,7 +133,7 @@ Connectbook::Application.routes.draw do
     resources :provinces
     resources :regions
     resources :trade_associations, except: [:show]
-    resources :vertical_market_categories
+    resources :vertical_market_categories, except: [:show]
     resources :vertical_markets
     resources :districts, except: [:show]
 

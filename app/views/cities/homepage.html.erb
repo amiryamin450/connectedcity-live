@@ -95,7 +95,7 @@
 
     <div class="row-fluid">
       <div class="holder pad10">
-        <h5>Districts in <%= @city.name %></h5>
+        <h5>Communities in <%= @city.name %></h5>
         <ul class="list-none">
           <% @districts.each do |district| %>
           <li><%= link_to district.name, district_guide_path(district) %></li>
@@ -106,7 +106,7 @@
 
     <div class="row-fluid">
       <div class="holder pad10">
-        <h5>Business Improvement Areas</h5>
+        <h5>Shopping Districts</h5>
         <ul class="list-none">
           <% @city.business_improvement_areas.each do |bia| %>
           <li><%= link_to bia.name, bia %></li>

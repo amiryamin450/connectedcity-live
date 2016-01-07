@@ -84,7 +84,7 @@ class VerticalMarket < ActiveRecord::Base
   end
 
   def get_blog_entries(city = nil, district = nil, neighborhood = nil)
-    BlogEntry.joins(location: :vertical_market_categories).where(locations: location_params(city, district, neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`blog_entries`.`created_at` DESC").limit 10
+    BlogEntry.joins(location: :vertical_market_categories).where(locations: location_params(city, district, neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`blog_entries`.`created_at` DESC").uniq.limit 10
   end
 
   def get_events(city = nil, district = nil, neighborhood = nil)

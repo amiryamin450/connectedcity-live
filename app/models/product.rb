@@ -4,7 +4,7 @@ class Product < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
 
-  attr_accessible :description, :name, :price, :sku, :slug, :product_id, :image
+  attr_accessible :description, :name, :price, :sku, :slug, :product_id, :image, :custom_pricing
 
   has_attached_file :image, styles: {
                               thumb: "50x50#", list: "320", display: "640"
