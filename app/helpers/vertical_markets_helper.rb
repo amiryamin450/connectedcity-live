@@ -39,10 +39,19 @@ module VerticalMarketsHelper
         if vm.has_children?
           output += "<div class='sub-drop'>"
           output += "<ul>"
-          vm.children.each do |child, index|
+          
+          children_array = []
+
+          vm.children.each do |child|
+            children_array.push child
+          end
+          
+          children_array.sort_by! {|child| child.name}
+          children_array.each do |child, index|
             sub_path = "#{@base_path}guide/#{child.slug}"
             output += "<li><a href='#{sub_path}'>#{child.name}</a></li>"
           end
+          
           output += "</ul>"
           output += "</div>"
         end
