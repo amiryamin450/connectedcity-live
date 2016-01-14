@@ -7,7 +7,7 @@
       <div><strong>Sku: </strong><%= @product.sku %></div>
     <% end %>
 
-    <div><strong>Price: </strong><%= display_pricing %></div>
+    <div><strong>Price: </strong><%= display_pricing @product %></div>
     <div><%= @product.description.html_safe %></div>
 
     <% if (user_signed_in? && current_user.has_role?(:admin)) or (user_signed_in? && current_user.can_manage_location?(@location)) %>
