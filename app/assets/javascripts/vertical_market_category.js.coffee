@@ -16,3 +16,10 @@ jQuery ->
 
   if typeof word_list != 'undefined'
     $('#tag_cloud').jQCloud(word_list);
+
+  product_descriptions = $('.featured-product-description')
+
+  for product_desc in product_descriptions
+    $clamp(product_desc, {clamp: 3})
+
+  
