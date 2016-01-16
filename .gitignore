@@ -93,5 +93,4 @@ solr/conf/stopwords.txt
 solr/conf/synonyms.txt
 
 **.sql
-
 .vagrant/
