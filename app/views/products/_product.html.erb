@@ -5,7 +5,7 @@
   <div class="span10">
     <div class="name"><%= link_to(product.name, [product.location, product]) %></div>
     <div style="margin-bottom: 5px;"><span class="time-ago"><%= "#{time_ago_in_words(product.created_at)} ago" %> by <%= link_to product.location.name, product.location %></span></div>
-    <div><%= truncate_html( product.description, :length => 300 ) %></div>
+    <div class="featured-product-description"><%= truncate_html( product.description, :length => 300 ) %></div>
     <div><%= raw "<span class='price' >$#{product.price}</span>" if product.price.present? %></div>
   </div>
 </div>

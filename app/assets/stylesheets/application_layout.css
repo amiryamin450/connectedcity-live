@@ -194,8 +194,20 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	z-index: 10;
 }
 
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	#header {
+	    position: static;
+		background: #1c3656;
+		width: 100%;
+		right: 0;
+		left: 0;
+		top: 0;
+		z-index: 10;
+	}
+}
+
 .header-top {
-	padding: 16px 10px 16px 31px;
+	padding: 0 10px 0 31px;
 }
 
 .header-top:after {

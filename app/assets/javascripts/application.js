@@ -27,4 +27,5 @@
 //= require jqcloud
 //= require dropzone
 //= require application_layout
+//= require clamp.min
 //= require_tree .
