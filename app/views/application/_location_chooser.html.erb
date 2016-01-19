@@ -34,9 +34,9 @@ district_url_suffix = if params[:market].present?
         <% current_district.business_improvement_areas.each do |bia| %>
             <%
                bia_url = if params[:controller] == "vertical_market_categories" && params[:id]
-                           "/bia/#{bia.slug}/category/#{params[:id]}"
+                           "/neighbourhoods/#{bia.slug}/category/#{params[:id]}"
                          else
-                           "/bia/#{bia.slug}"
+                           "/neighbourhoods/#{bia.slug}"
                          end
             %>
             <li><%= link_to bia.name, bia_url %></li>

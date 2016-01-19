@@ -92,5 +92,5 @@ solr/conf/spellings.txt
 solr/conf/stopwords.txt
 solr/conf/synonyms.txt
 
-**.sql
 .vagrant/
+**.sql

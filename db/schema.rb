@@ -679,11 +679,11 @@ ActiveRecord::Schema.define(:version => 20151211184400) do
     t.string   "name"
     t.string   "sku"
     t.text     "description"
-    t.decimal   "price"
+    t.decimal  "price",              :precision => 10, :scale => 0
     t.string   "slug"
     t.integer  "location_id"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
@@ -1003,7 +1003,6 @@ ActiveRecord::Schema.define(:version => 20151211184400) do
     t.string   "postal_code"
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "name"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
