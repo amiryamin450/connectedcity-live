@@ -8,8 +8,7 @@ module LocationsHelper
     content_tag(:div, content_tag(:strong, "#{label}: ") + @location.send(field)) if @location.send(field).present?
   end
 
-
-
-
-
+  def show_save_button? user_signed_in, vertical_markets_present
+  	vertical_markets_present unless !vertical_markets_present
+  end
 end
