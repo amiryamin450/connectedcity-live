@@ -11,4 +11,14 @@ module LocationsHelper
   def show_save_button? user_signed_in, vertical_markets_present
   	vertical_markets_present unless !vertical_markets_present
   end
+
+  def show_edit_button?(user_signed_in, current_user, location = nil)
+    if user_signed_in and current_user.has_role? :admin
+      true
+    elsif user_signed_in and location and current_user.can_manage_location? location
+      true
+    else
+      false
+    end
+  end
 end
