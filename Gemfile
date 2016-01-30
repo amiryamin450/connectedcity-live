@@ -51,6 +51,7 @@ gem 'twitter'
 gem 'yaml_db'
 gem 'sitemap_generator'
 gem 'whenever'
+gem 'underscore-rails'
 
 group :production, :staging do
   gem 'aws-sdk'
