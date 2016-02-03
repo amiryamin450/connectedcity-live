@@ -1,8 +1,60 @@
 <nav id="nav">
   <a href="#" class="opener"><span></span></a>
+
   <div class="drop win-height">
     <div class="drop-holder">
-      <%= vm_menu(@vertical_markets_all) %>
+
+      <ul class="main-nav">
+        <li class="small active">
+          <div>
+            <a href="#"><i class="account"></i>account</a>
+            <div class="sub-drop">
+              <ul>
+                <li>
+                  <%= link_to "Login", new_user_session_path %>
+                </li>
+                <li>
+                  <%= link_to "Sign Up", new_user_registration_path %>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+
+        <li>
+          <div><%= link_to @base_path, class: request.path == @base_path ? "active" : nil do %><i class="home"></i>Home<% end %></div>
+        </li>
+
+        <% @vertical_markets_all.each_with_index do |vm, index| %>
+          <li>
+            <div>
+              <%= link_to "#{@base_path}guide/#{vm.slug}" do %><i class="<%= vm.name.parameterize("_") %>"></i><%= vm.name %><% end %>
+              <% if vm.has_children? %>
+                <div class="sub-drop">
+                  <ul>
+                    <% vm.children.sort_by(&:name).each do |child| %>
+                      <li><%= link_to child.name, "#{@base_path}guide/#{child.slug}" %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+
+      <div class="add-nav">
+        <a href="#" class="add-opener">more</a>
+        <div class="add-drop">
+          <ul></ul>
+        </div>
+      </div>
+
+      <ul class="side-nav">
+        <li><div><a href="/employment-opportunities"><i class="jobs"></i>Jobs</a></div></li>
+        <li class="right bottom"><div><a href="/classifieds"><i class="classified"></i>Classifieds</a></div></li>
+        <li class="right"><div><a href="#{@base_path}news"><i class="city"></i>City News</a></div></li>
+      </ul>
     </div>
   </div>
 </nav>

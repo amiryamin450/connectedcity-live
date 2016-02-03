@@ -199,13 +199,20 @@ class LocationsController < ApplicationController
   end
 
   def import
-    @location = Location.new
+    @location = ImportRequest.new kind: "businesses"
   end
 
   def do_import
-    @response = ImportService.new(params[:location]).import_businesses
+    request = ImportRequest.new params[:import_request]
+
+    unless request.valid?
+      @location = request
+      return render action: :import
+    end
+
+    @response = ImportService.new(request).import!
     if !@response.success?
-      @location = Location.new
+      @location = request
       render action: "import"
     end
   end

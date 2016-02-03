@@ -441,6 +441,7 @@ GEM
     uglifier (2.1.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
+    underscore-rails (1.8.3)
     unf (0.1.1)
       unf_ext
     unf_ext (0.0.6)
@@ -536,6 +537,7 @@ DEPENDENCIES
   truncate_html
   twitter
   uglifier (>= 1.0.3)
+  underscore-rails
   whenever
   yaml_db
 

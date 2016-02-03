@@ -1,5 +1,5 @@
 
-jQuery ->   
+jQuery ->
   redirect = window.redirectURL
   open = false
 
@@ -46,6 +46,3 @@ jQuery ->
 
   $('#btn-facet').click ->
     $('#facet-block').toggle()
-
-
-

@@ -55,19 +55,34 @@
               </th>
               <td class="plan green">
                 <div class="number">
-                  <span class="price">$199<span>95*</span></span> <span class="period">/year</span>
+                  <span class="price">$199<span>.95*</span></span> <span class="period">/year</span>
                 </div>
                 <div class="note">Save $39.45/year (16%)</div>
               </td>
               <td class="plan blue">
                 <div class="number">
-                  <span class="price">$199<span>95*</span></span> <span class="period">/year</span>
+                  <span class="price">$199<span>.95*</span></span> <span class="period">/year</span>
                 </div>
                 <div class="note">Save $39.45/year (16%)</div>
               </td>
-              <td class="contact lilac" rowspan="3"><div class="contact-box"><strong><%= link_to "Contact us", contact_path %></strong> for a custom quote</div></td>
-              <td class="contact red" rowspan="3"><div class="contact-box"><strong><%= link_to "Contact us", contact_path %></strong> for a custom quote</div></td>
-              <td class="contact yellow" rowspan="3"><div class="contact-box"><strong><%= link_to "Contact us", contact_path %>  </strong> for a custom quote</div></td>
+              <td class="plan lilac">
+                <div class="number">
+                  <span class="price">$199<span>.95*</span></span> <span class="period">/year</span>
+                </div>
+                <div class="note">Save $39.45/year (16%)</div>
+              </td>
+              <td class="plan red">
+                <div class="number">
+                  from <span class="price">$199<span>.95*</span></span> <span class="period">/year</span>
+                </div>
+                <div class="note">Save $39.45/year (16%)</div>
+              </td>
+              <td class="plan yellow">
+                <div class="number">
+                  from <span class="price">$79<span>.95*</span></span> <span class="period">/year</span>
+                </div>
+                <div class="note">Save $20.00/year (16%)</div>
+              </td>
             </tr>
             <tr class="bonus-row">
               <th class="title">
@@ -81,6 +96,16 @@
                 <strong>1 month free</strong>
                 when you buy a yearly plan
               </td>
+              <td class="free">
+                Generate revenue from your Agents' sign-ups.
+              </td>
+              <td class="free">
+                1 Free Custom New Home Profile.
+              </td>
+              <td class="free">
+                5 Free Rental Ads. <br />
+                $8.40 Tenant Credit Checks.
+              </td>
             </tr>
             <tr class="monthly-row">
               <th class="title">
@@ -89,13 +114,25 @@
               </th>
               <td class="plan green">
                 <div class="number">
-                  <span class="price">$19<span>95*</span></span> <span class="period">/month</span>
+                  <span class="price">$19<span>.95*</span></span> <span class="period">/month</span>
                 </div>
                 <div class="note">* Plus tax</div>
               </td>
               <td class="plan blue">
                 <div class="number">
-                  <span class="price">$19<span>95*</span></span> <span class="period">/month</span>
+                  <span class="price">$19<span>.95*</span></span> <span class="period">/month</span>
+                </div>
+                <div class="note">* Plus tax</div>
+              </td>
+              <td class="plan lilac">
+                <div class="note"><%= link_to "Contact us", contact_path %> for more details.</div>
+              </td>
+              <td class="plan red">
+                <div class="note"><%= link_to "Contact us", contact_path %> for a custom quote.</div>
+              </td>
+              <td class="plan yellow">
+                <div class="number">
+                  <span class="price">$19<span>.95*</span></span> <span class="period">/apt bldg/month</span>
                 </div>
                 <div class="note">* Plus tax</div>
               </td>

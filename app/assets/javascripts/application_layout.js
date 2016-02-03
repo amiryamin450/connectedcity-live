@@ -2258,3 +2258,42 @@ lib = {
 		return function() {return f.apply(scope, typeof forceArgs !== 'undefined' ? [forceArgs] : arguments);};
 	}
 };
+
+var $nav = $('#nav');
+var $sidenav = $('#nav .side-nav');
+var $btn = $('#nav .add-nav .add-opener');
+var $vlinks = $('#nav .main-nav');
+var $hlinks = $('#nav .add-nav .add-drop ul');
+
+var breaks = [];
+
+function updateNav() {
+  var availableSpace = ($btn.hasClass('hidden') ? $nav.width() : $nav.width() - $btn.width() - 30) - $sidenav.width() - 200;
+
+  if ($vlinks.width() > availableSpace) {
+    breaks.push($vlinks.width());
+    $vlinks.children().last().prependTo($hlinks);
+
+    if ($btn.parent().is(':hidden')) {
+      $btn.parent().show();
+    }
+  } else {
+    if (availableSpace > breaks[breaks.length-1]) {
+      $hlinks.children().first().appendTo($vlinks);
+      breaks.pop();
+    }
+
+    if (breaks.length < 1) {
+      $btn.parent().hide();
+    }
+  }
+
+  if ($vlinks.width() > availableSpace) {
+    debouncedUpdateNav();
+  }
+}
+
+var debouncedUpdateNav = _.debounce(updateNav, 5);
+$(window).resize(debouncedUpdateNav);
+
+updateNav();
