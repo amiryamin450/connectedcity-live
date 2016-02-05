@@ -62,27 +62,26 @@
               <% end %>
          </div>
 
-            <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+          <% if show_edit_button?(user_signed_in?, current_user, @location) %>
+            <%= link_to "Edit", edit_location_path(@location), class: 'btn btn-mini btn-primary' %>
+          <% end %>
 
-                <%= link_to "Edit", edit_location_path(@location), class: 'btn btn-mini btn-primary' %>
+          <%= render_message_button(user_signed_in?) %>
 
-            <% end %>
+          <% if show_claim_button?(user_signed_in?, @location) %>
+            <%= link_to "Claim Business", claim_location_path(@location), class: 'btn btn-mini btn-success' %>
+          <% end %>
 
-            <% if user_signed_in? %>
-                <%= link_to "Send a message", "#", class: "btn btn-mini btn-success", role: "button", data: { toggle: "modal", target: "#new_message" } %>
-            <% end %>
+          <% if show_release_business_button?(user_signed_in?, current_user, @location) %>
+            <%= link_to "Release Business", release_location_path(@location), class: 'btn btn-mini btn-danger' %>
+          <% end %>
 
-            <% if !@location.user_ids.present? and user_signed_in? and !@location.claim_pending %>
-              <%= link_to "Claim Business", claim_location_path(@location), class: 'btn btn-mini btn-success' %>
-            <% elsif @location.users.present? and user_signed_in? and @location.user_can_manage?(current_user) %>
-              <%= link_to "Release Business", release_location_path(@location), class: 'btn btn-mini btn-danger' %>
-            <% elsif @location.users.present? and user_signed_in? and @location.user_owns?(current_user) and !@location.user_can_manage?(current_user) %>
-              <span class="btn btn-mini btn-info">Claim Pending</span>
-              <div class="processing-claim">
-                We have recieved your claim and are processing it.
-              </div>
-            <% end -%>
-
+          <% if show_claim_pending?(user_signed_in?, current_user, @location) %>
+            <span class="btn btn-mini btn-info">Claim Pending</span>
+            <div class="processing-claim">
+              We have recieved your claim and are processing it.
+            </div>
+          <% end %>
         </div>
       </div>
 
