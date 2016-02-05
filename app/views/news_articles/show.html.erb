@@ -10,7 +10,7 @@ meta title: @news_article.title.strip,
   <div class="span9">
     <h1><%= @news_article.title %></h1>
     <div class="submitted">
-      author: <%= @news_article.user.name %> - <%= l @news_article.created_at, format: :display %>
+      <%= l @news_article.created_at, format: :display %>
     </div>
     <div>
     <%= @news_article.content.html_safe %>
