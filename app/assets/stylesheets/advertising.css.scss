@@ -122,14 +122,14 @@
   font-size: 25px;
 }
 
-.complex-table .yearly-row .plan.green {
+.complex-table .yearly-row .plan {
   color: #fff;
-  background: #21b24d;
-}
 
-.complex-table .yearly-row .plan.blue {
-  color: #fff;
-  background: #02b0c8;
+  &.lilac { background: #6d67af; }
+  &.red { background: #ee2630; }
+  &.yellow { background: #fda720; }
+  &.green { background: #21b24d; }
+  &.blue { background: #02b0c8; }
 }
 
 .complex-table .bonus-row th:last-child,
@@ -224,12 +224,28 @@
   color: #1c3656;
 }
 
-.complex-table .monthly-row .plan.green {
-  background: #21b24d;
+.complex-table .monthly-row .plan {
+  &.lilac { background: #6d67af; }
+  &.red { background: #ee2630; }
+  &.yellow { background: #fda720; }
+  &.green { background: #21b24d; }
+  &.blue { background: #02b0c8; }
 }
 
-.complex-table .monthly-row .plan.blue {
-  background: #02b0c8;
+.complex-table .monthly-row .plan.lilac .note {
+  color: #fff;
+}
+
+.complex-table .monthly-row .plan.lilac .note a {
+  color: #fff;
+}
+
+.complex-table .monthly-row .plan.red .note {
+  color: #fff;
+}
+
+.complex-table .monthly-row .plan.red .note a {
+  color: #fff;
 }
 
 .complex-table .contact .contact-box {
