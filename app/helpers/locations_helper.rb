@@ -46,6 +46,14 @@ module LocationsHelper
     link_to "Send a message", "#", class: "btn btn-mini btn-success", role: "button", data: { toggle: "modal", target: "#new_message" } if show_message_button?(user_signed_in)
   end
 
+  def render_login_popup
+    link_to "Save", "#", class: "btn btn-mini btn-success", role: "button", data: { toggle: "modal", target: "#login_for_save" }
+  end
+
+  def render_claim_button_for_modal
+    link_to "Claim Business", "#", class: 'btn btn-mini btn-success', role: "button", data: { toggle: "modal", target: "#claim_login" }
+  end
+
   def render_claim_pending(user_signed_in, current_user, location)
     return '<span class="btn btn-mini btn-info">Claim Pending</span>
     <div class="processing-claim">
