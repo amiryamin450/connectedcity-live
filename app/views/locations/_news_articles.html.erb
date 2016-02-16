@@ -7,7 +7,7 @@
   <% @articles.each do |article| %>
       <article class="teaser">
         <div class="article-title"><%=  link_to article.title, [@location, article] %></div>
-        <div class="article-published"><%= "#{time_ago_in_words(article.created_at)} ago - by #{article.user.name}" %></div>
+        <div class="article-published"><%= "#{time_ago_in_words(article.created_at)} ago" %></div>
         <div class="article-content"><%= raw(truncate article.content, seperator: ' ', :length => 200, :omission => "... #{link_to('[more]', [@location,article])}") %></div>
       </article>
   <% end %>
