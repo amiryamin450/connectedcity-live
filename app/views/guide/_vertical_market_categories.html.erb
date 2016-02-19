@@ -73,7 +73,7 @@ NOTE Rental (rental)
               <div style="margin-top: 5px; margin-bottom: 5px;"><%= humanized_money_with_symbol listing.price %></div>
               <div style="width: 168px; font-size: 12px; min-height:24px;"><strong><%= link_to [listing.year, listing.make, listing.model].reject(&:blank?).join(' '), [listing.location, listing] %></strong></div>
               <div style="width: 168px; margin-top: 5px; font-weight: bold;"><%= link_to listing.location.name, listing.location %></div>
-            </div>
+          </div>
           <% end %>
         </div>
       </div>
@@ -104,6 +104,7 @@ NOTE Rental (rental)
     {:name => m.name, :url => u, :latitude => m.latitude, :longitude => m.longitude, :thumb => m.logo.file? ? m.logo.url(:bia_display) : nil}
   }.to_json %>;
 <% end %>
-<% end %>
 
+<%= render 'locations/modal_show' %>
 <%= render 'status_updates/show_image' %>
+<% end %>
