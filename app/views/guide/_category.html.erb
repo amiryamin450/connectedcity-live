@@ -14,7 +14,7 @@
     <div class="clearfix">
       <% locations.each do |location| %>
         <% cache "#{user_signed_in? ? "in" : "out"}_location_#{location.id}_#{location.updated_at}" do %>
-        <%= render 'guide/location', location: location %>
+          <%= render 'guide/location', location: location %>
         <% end %>
       <% end %>
     </div>
