@@ -9,6 +9,7 @@
       <%= link_to(content_tag(:span, "View Image", class: "status-update-image", data: {"large-image" => status_update.image.url, "location-name" => status_update.statusable.name}), '#status_update_image', data: {toggle: 'modal'}) %>
     <% end %>
     </div>
-    <div><%= render 'social_media' %></div>
+    <% status_update = {url: location_url(status_update.statusable), title: status_update.statusable.name, content: status_update.content} %>
+    <%= render_social_media_buttons(status_update) %>
   </div>
 </div>
