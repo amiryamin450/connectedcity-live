@@ -8,5 +8,7 @@
     <div class="name"><%= link_to event.name, [event.location, event] %></div>
     <div style="margin-bottom: 5px;"><% if event.starts_at.present? %><span class="time-ago">in <%= "#{time_ago_in_words(event.starts_at)}" %><% end %> by <%= link_to event.location.name, event.location %></span></div>
     <div><%= truncate_html( event.description, :length => 150 ) %></div>
+    <% event = {url: polymorphic_url([event.location, event]), title: event.location.name, content: truncate_html(event.description, :length => 150)} %>
+    <%= render_social_media_buttons(event) %>
   </div>
 </div>
