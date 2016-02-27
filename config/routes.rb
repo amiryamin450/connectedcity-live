@@ -1,4 +1,7 @@
 Connectbook::Application.routes.draw do
+  resources :location_menus
+
+
   devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks'}
   devise_scope :user do
     get '/login' => 'devise/sessions#new'
