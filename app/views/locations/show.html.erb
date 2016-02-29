@@ -159,8 +159,6 @@
               </script>
             </div>
           <% end %>
-
-
         </div>
       </div>
     </div>
@@ -182,46 +180,6 @@
 
 <%####### column right #######%>
 <div class="span6">
-
-    <!--MENU-->
-    <% if @location_menu_images.count > 1 || @location_menu_images.any? %>
-      <% if is_food_and_dining(@location) %>
-        <div class="row-fluid">
-          <div class="span12">
-
-            <div class="pad10 holder">
-
-                <h1>Menu</h1>
-                <div class="row-fluid">
-                  <div class="span12">
-                    <% if @location_menu_images.count > 1 %>
-                      <div id="locationMenuCarousel" class="carousel slide">
-                        <ol class="carousel-indicators">
-                          <% @location_menu_images.each_with_index do |image, index| %>
-                            <li data-target="#locationMenuCarousel" data-slide-to="<%= index %>" class="<%= index == 0 ? 'active' : ''  %>"></li>
-                          <% end %>
-                        </ol>
-                        <div class="carousel-inner">
-                          <% @location_menu_images.each_with_index do |image, index| %>
-                            <div class="item <%= index == 0 ? 'active' : '' %>">
-                              <%= image_tag image.url %>
-                            </div>
-                          <% end %>
-                        </div>
-                        <a class="carousel-control left" href="#locationMenuCarousel" data-slide="prev">&lsaquo;</a>
-                        <a class="carousel-control right" href="#locationMenuCarousel" data-slide="next">&rsaquo;</a>
-                      </div>
-                    <% elsif @location_menu_images.any? %>
-                      <%= image_tag @location_menu_images.first.url %>
-                    <% end %>
-                  </div>
-                </div>
-            </div>
-          
-          </div>
-        </div>
-      <% end %>
-    <% end %>
     <div class="row-fluid">
       <div class="span12">
         <div class="pad10 holder">
@@ -229,6 +187,51 @@
         </div>
       </div>
     </div>
+
+    <!--MENU-->
+    <% if @location_menu_images.count > 1 || @location_menu_images.any? %>
+      <% if is_food_and_dining(@location) %>
+        <div class="category">
+          <div class="heading index-1">
+            <h5>Menu</h5>
+              <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+                <small><%= link_to "add", new_location_menu_path(@location), class: 'small' %> | <%= link_to 'manage', location_menus_path(@location) %></small>
+              <% end %>
+          </div>
+        </div>
+        <div class="row-fluid">
+          <div class="span12">
+            <div class="">
+              <div class="row-fluid">
+                <div class="span12">
+                  <% if @location_menu_images.count > 1 %>
+                    <b>Click to view larger</b>
+                    <div id="locationMenuCarousel" class="carousel slide">
+                      <ol class="carousel-indicators">
+                        <% @location_menu_images.each_with_index do |image, index| %>
+                            <li data-target="#locationMenuCarousel" data-slide-to="<%= index %>" class="<%= index == 0 ? 'active' : ''  %>"></li>
+                        <% end %>
+                      </ol>
+                      <div class="carousel-inner">
+                        <% @location_menu_images.each_with_index do |image, index| %>
+                          <div class="item <%= index == 0 ? 'active' : '' %>">
+                            <%= link_to(image_tag(image.url), location_menu_path(image.instance)) %>
+                          </div>
+                        <% end %>
+                      </div>
+                      <a class="carousel-control left" href="#locationMenuCarousel" data-slide="prev">&lsaquo;</a>
+                      <a class="carousel-control right" href="#locationMenuCarousel" data-slide="next">&rsaquo;</a>
+                    </div>
+                  <% elsif @location_menu_images.any? %>
+                    <%= image_tag @location_menu_images.first.url %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
     <div class="row-fluid">
       <div class="span12">
         <div class="">
