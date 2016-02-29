@@ -45,7 +45,9 @@ class Ability
         can? :manage, new_home.new_home_community
       end
 
-      can :manage, AutomotiveListing, location: { user_id: user.id }
+      can :manage, AutomotiveListing do |automotive_listing|
+        can? :manage, automotive_listing.location
+      end      
 
       can :manage, Product do |product|
         can? :manage, product.location
