@@ -1,5 +1,9 @@
 module SocialMediaHelper
   def render_social_media_buttons(status_update)
-      "<div class=\"addthis_native_toolbox\" style=\"float: right;\" data-url=\"#{status_update[:url]}\" data-title=\"#{status_update[:title]}\" data-description=\"#{status_update[:content]}\"></div>".html_safe
+  	  status_update_url		= status_update[:url].html_safe
+  	  status_update_title 	= status_update[:title].html_safe
+  	  status_update_content = status_update[:content].html_safe
+
+      "<div class=\"addthis_native_toolbox\" style=\"float: right;\" data-url=\"#{status_update_url}\" data-title=\"#{status_update_title}\" data-description=\"#{status_update_content}\"></div>".html_safe
   end
 end
