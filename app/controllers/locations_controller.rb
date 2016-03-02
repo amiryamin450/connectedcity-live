@@ -15,11 +15,14 @@ class LocationsController < ApplicationController
 
   def show
     @location = Location.includes(:location_images).find(params[:id])
+    @location_menus = Location.includes(:location_menu).find(params[:id])
 
     # because we have two sources for the location carousel images (cover photo and location images),
     # get them into one collection for ease of display
     @location_carousel_images = @location.location_images.collect{ |li| li.image }
     @location_carousel_images.unshift(@location.cover_photo) if @location.cover_photo.exists?
+
+    @location_menu_images = @location_menus.location_menu.collect{ |location_menu| location_menu.image }
 
     @status_updates = @location.status_updates.page(params[:status_page]).per(7)
     @articles = @location.news_articles.page(params[:article_page]).per(5)

@@ -23,6 +23,9 @@
         <li>
           <a href="#images" data-toggle="tab">Images</a>
         </li>
+        <li>
+          <a href="#menus" data-toggle="tab">Menus</a>
+        </li>
         <% if @managers.present? %>
         <li>
           <a href="#managers" data-toggle="tab">Managers</a>
@@ -100,6 +103,9 @@
         </div>
         <div class="tab-pane" id="images">
           <%= render 'location_images', :f => f  %>
+        </div>
+        <div class="tab-pane" id="menus">
+          <%= render 'location_menu', :f => f  %>
         </div>
         <% if @managers.present? %>
         <div class="tab-pane" id="managers">
