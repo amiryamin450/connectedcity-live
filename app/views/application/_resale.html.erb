@@ -9,7 +9,7 @@
       <div class="location-teaser clearfix">
 
 
-        <div style="max-height: 74px; text-align: center;">
+        <div style="height: 74px; text-align: center;">
           <% if listing.main_image.present? %>
             <%= link_to(image_tag(listing.main_image.url(:list)), [listing.location, listing])%>
           <% else %>
