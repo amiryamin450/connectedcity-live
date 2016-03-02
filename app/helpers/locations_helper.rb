@@ -47,7 +47,8 @@ module LocationsHelper
   end
 
   def render_login_popup
-    link_to "<i class='icon-star-empty'></i> Save".html_safe, "#", class: "btn btn-mini btn-success", role: "button", data: { toggle: "modal", target: "#login_for_save" }
+    #link_to "<i class='icon-star-empty'></i> Save".html_safe, "#", class: "btn btn-mini btn-success", role: "button", data: { toggle: "modal", target: "#login_for_save" }
+    link_to(image_tag("button_follow.jpg"), "#", role: "button", data: { toggle: "modal", target: "#login_for_save" })
   end
 
   def render_claim_button_for_modal
