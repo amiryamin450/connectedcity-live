@@ -14,15 +14,23 @@
   <div class="location-holder">
     <div class="clearfix">
       <% locations.each do |location| %>
-      <div class="location-teaser clearfix">
-        <div style="height: 74px; text-align: center;">
-          <%= link_to(image_tag(get_location_image_url(location)), location)%>
+        <div class="location-teaser clearfix">
+          <div style="height: 74px; text-align: center;">
+            <%= link_to(image_tag(get_location_image_url(location)), location)%>
+          </div>
+          <div style="width: 168px; margin-top: 5px; margin-bottom: 5px; font-size: 12px; min-height:24px;"><strong><%= link_to location.name, location %></strong></div>
+          <div style="width: 168px;"><%= "#{location.address}".html_safe %></div>
+          <div style="width: 168px;"><%= "#{location.city.name if location.city.present? } #{location.province.abbr} #{location.postal_code}".html_safe %></div>
+          <div style="width: 168px; color: #1c3656;"><%= location.phone %></div>
+          <div id="favorite-<%= location.id %>" class="favorite">
+            <% if show_save_button?(user_signed_in?, location.vertical_markets.present?) %>
+              <%= render 'favorites/like_button', :location_id => location.id, :vertical_market_slug => location.vertical_markets.first.slug if user_signed_in? and location.vertical_markets.present? %>
+            <% end %>
+            <% if !user_signed_in? %>
+                <%= render_login_popup %>
+            <% end %>
+          </div>
         </div>
-        <div style="width: 168px; margin-top: 5px; margin-bottom: 5px; font-size: 12px; min-height:24px;"><strong><%= link_to location.name, location %></strong></div>
-        <div style="width: 168px;"><%= "#{location.address}".html_safe %></div>
-        <div style="width: 168px;"><%= "#{location.city.name if location.city.present? } #{location.province.abbr} #{location.postal_code}".html_safe %></div>
-        <div style="width: 168px; color: #1c3656;"><%= location.phone %></div>
-      </div>
       <% end %>
     </div>
   </div>
