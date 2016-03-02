@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151211184400) do
+ActiveRecord::Schema.define(:version => 20160226222514) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -432,6 +432,17 @@ ActiveRecord::Schema.define(:version => 20151211184400) do
 
   add_index "location_images", ["location_id"], :name => "location_id"
 
+  create_table "location_menus", :force => true do |t|
+    t.string   "caption"
+    t.integer  "location_id"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
   create_table "locations", :force => true do |t|
     t.integer  "business_id"
     t.integer  "country_id"
@@ -679,7 +690,7 @@ ActiveRecord::Schema.define(:version => 20151211184400) do
     t.string   "name"
     t.string   "sku"
     t.text     "description"
-    t.decimal  "price",              :precision => 10, :scale => 0
+    t.decimal  "price",              :precision => 10, :scale => 2
     t.string   "slug"
     t.integer  "location_id"
     t.datetime "created_at",                                        :null => false
@@ -1003,6 +1014,7 @@ ActiveRecord::Schema.define(:version => 20151211184400) do
     t.string   "postal_code"
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "name"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
