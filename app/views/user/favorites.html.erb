@@ -37,7 +37,7 @@ r = 0
         <% fav_categories(vm).each  do |f| %>
         <% markers << f.location %>
         <div class="location-teaser clearfix">
-          <div style="min-height: 80px; text-align: center;">
+          <div style="height: 74px; text-align: center;">
             <%= link_to(image_tag(get_location_image_url(f.location)), f.location)%>
           </div>
           <div style="width: 168px; margin-top: 5px; margin-bottom: 5px; font-size: 12px; min-height:24px;"><strong><%= link_to f.location.name, f.location %></strong></div>
