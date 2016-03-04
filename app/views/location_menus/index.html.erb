@@ -1,5 +1,9 @@
-<h1>Listing location_menus</h1>
-
+<h1>Menus</h1>
+<br />
+<br />
+<%= link_to 'New Menu Image', new_location_menu_path, class: 'btn btn-primary' %>
+<br />
+<br />
 <table>
   <tr>
     <th></th>
@@ -9,13 +13,15 @@
 
 <% @location_menus.each do |location_menu| %>
   <tr>
-    <td><%= link_to 'Show', location_menu %></td>
-    <td><%= link_to 'Edit', edit_location_menu_path(location_menu) %></td>
-    <td><%= link_to 'Destroy', location_menu, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to(image_tag("#{@base_url}/assets/location_menu/#{location_menu.id}/display/#{location_menu.image_file_name}"), location_menu) %></td>
+    <td><%= link_to 'Edit', edit_location_menu_path(location_menu), class: 'btn btn-primary' %></td>
+    <td><%= link_to 'Delete', location_menu, class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
   </tr>
 <% end %>
 </table>
-
 <br />
-
-<%= link_to 'New Location menu', new_location_menu_path %>
+<br />
+<br />
