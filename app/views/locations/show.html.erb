@@ -76,7 +76,7 @@
 
           <% if show_claim_button?(user_signed_in?, @location) %>
             <%= link_to "Claim Business", claim_location_path(@location), class: 'btn btn-mini btn-success' %>
-          <% else %>
+          <% elsif !user_signed_in? || @location.user_ids.empty? || !@location.user_ids.include?(current_user.id) %>
             <%= render_claim_button_for_modal %>
           <% end %>
 

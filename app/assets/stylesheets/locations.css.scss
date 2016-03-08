@@ -191,3 +191,12 @@ h5 {
     line-height: 14px;
   }
 }
+
+.claimed-address {
+  background-color: #fff;
+  padding: 10px;
+}
+
+.payment-errors:empty {
+   display: none;
+}

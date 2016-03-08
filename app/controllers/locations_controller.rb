@@ -153,13 +153,42 @@ class LocationsController < ApplicationController
 
   def claim
     @location = Location.find(params[:id])
-    if current_user
-      @location.users << current_user
-      @location.claim_pending = 1
-      if @location.save
-        LocationMailer.pending_claim_email(@location, current_user).deliver
+    @location.stripe_plan_id = 'yearly'
+  end
+
+  def claim_process
+    @location = Location.find(params[:id])
+    @location.assign_attributes params[:location].slice(:stripe_plan_id)
+    @location.payment_user = current_user
+
+    begin
+      if @location.payment_user.stripe_customer_id
+        customer = Stripe::Customer.retrieve @location.payment_user.stripe_customer_id
+      else
+        customer = Stripe::Customer.create email: @location.payment_user.email
+
+        @location.payment_user.stripe_customer_id = customer.id
+        @location.payment_user.save validate: false
       end
-      redirect_to @location
+    rescue => e
+      flash[:error] = e.message
+      return render :claim
+    end
+
+    begin
+      subscription = customer.subscriptions.create plan: @location.stripe_plan_id,
+                                                   source: params[:stripeToken]
+
+      @location.stripe_subscription_id = subscription.id
+      @location.users << current_user
+      @location.save validate: false
+
+      LocationMailer.claim_approved_email(@location, current_user).deliver
+
+      redirect_to connected_advertiser_location_path(@location)
+    rescue => e
+      flash[:error] = e.message
+      return render :claim
     end
   end
 
@@ -185,7 +214,21 @@ class LocationsController < ApplicationController
 
   def release
     @location = Location.find(params[:id])
-    @location.users.destroy_all
+    @location.claim_pending = false
+    @location.user_ids = nil
+    @location.stripe_plan_id = nil
+    @location.stripe_subscription_id = nil
+    @location.payment_user = nil
+
+    if @location.stripe_subscription_id
+      begin
+        customer = Stripe::Customer.retrieve @location.payment_user.stripe_customer_id
+        customer.subscriptions.retrieve(@location.stripe_subscription_id).delete
+      rescue
+      end
+    end
+
+    @location.save
     redirect_to @location
   end
 

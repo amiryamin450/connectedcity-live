@@ -12,6 +12,7 @@ class Location < ActiveRecord::Base
   belongs_to :district
   belongs_to :neighborhood
   belongs_to :business_improvement_area
+  belongs_to :payment_user, class_name: 'User'
 
   has_many :agents, class_name: 'Location', foreign_key: 'broker_id', dependent: :destroy
   belongs_to :broker, class_name: 'Location'
@@ -56,7 +57,7 @@ class Location < ActiveRecord::Base
     :brand_ids, :brand_tokens, :content, :vertical_market_categories, :district, :yp_lid, :yp_categories, :yp_neighborhoods,
     :city, :province, :district_id, :neighborhood, :country, :cover_photo, :neighborhood_id, :broker_id, :business_improvement_area_id,
     :user, :trade_association_ids, :media_attachments_attributes, :delete_cover_photo, :delete_logo,
-    :operating_hours_attributes
+    :operating_hours_attributes, :stripe_plan_id
 
   has_attached_file :logo, :styles => { :thumb => "70x55", :list => "168x80", :bia_display => "250x100"},
     :url => "/system/location/logo/:id/:style/:basename.:extension",
@@ -94,7 +95,7 @@ class Location < ActiveRecord::Base
   end
 
   def user_can_manage?(user)
-    self.users.where(id: user.id).any? and self.claim_pending == false
+    self.users.where(id: user.id).any? && self.claim_pending == false
   end
 
   def clear_images?
