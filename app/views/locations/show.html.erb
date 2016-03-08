@@ -198,7 +198,7 @@
           <div class="heading index-1">
             <h5>Menu</h5>
               <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
-                <small><%= link_to "add", new_location_menu_path(@location), class: 'small' %> | <%= link_to 'manage', location_menus_path(@location) %></small>
+                <small><%= link_to "add", new_location_location_menu_path(@location.id), class: 'small' %> | <%= link_to 'manage', location_location_menus_path(@location) %></small>
               <% end %>
           </div>
         </div>
@@ -208,7 +208,6 @@
               <div class="row-fluid">
                 <div class="span12">
                   <% if @location_menu_images.count > 1 %>
-                    <b>Click to view larger</b>
                     <div id="locationMenuCarousel" class="carousel slide">
                       <ol class="carousel-indicators">
                         <% @location_menu_images.each_with_index do |image, index| %>
@@ -216,9 +215,10 @@
                         <% end %>
                       </ol>
                       <div class="carousel-inner">
-                        <% @location_menu_images.each_with_index do |image, index| %>
+                        <% @location_menu_images.each_with_index do |menu_image, index| %>
                           <div class="item <%= index == 0 ? 'active' : '' %>">
-                            <%= link_to(image_tag(image.url), location_menu_path(image.instance)) %>
+                            <%= link_to(image_tag(menu_image.url), location_location_menu_path(@location, menu_image.instance)) %>
+                            <p class="flex-caption">Click image to view larger</p>
                           </div>
                         <% end %>
                       </div>
