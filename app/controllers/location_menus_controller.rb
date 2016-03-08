@@ -3,7 +3,6 @@ class LocationMenusController < ApplicationController
   load_and_authorize_resource :location_menu, through: [:location]
 
   def index
-    #@location_menus = LocationMenu.where('location_id', params[:location_id])
     @location_menus = @location.location_menus
   end
 
