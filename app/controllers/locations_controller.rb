@@ -1,5 +1,5 @@
 class LocationsController < ApplicationController
-  load_and_authorize_resource except: :claim
+  load_and_authorize_resource
 
   layout 'location', :only => [:show]
 
