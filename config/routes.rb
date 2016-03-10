@@ -69,9 +69,12 @@ Connectbook::Application.routes.draw do
       end
 
       member do
-        get 'claim', action: :claim, as: :claim, constraints: ->(request) { Location.find(request.params[:id]).user_ids.empty? }
+        with_options constraints: ->(request) { Location.find(request.params[:id]).user_ids.empty? } do
+          get 'claim', action: :claim, as: :claim
+          put 'claim', action: :claim_process
+        end
         get 'release', action: :release, as: :release
-        get :connected_advertiser
+        get :connected_advertiser, as: :connected_advertiser
       end
 
       resources :social_profiles, path: "social-profiles", only: [:index, :destroy] do
