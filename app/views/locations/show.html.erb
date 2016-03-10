@@ -192,7 +192,7 @@
     </div>
 
     <!--MENU-->
-    <% if @location_menu_images.count > 1 || @location_menu_images.any? %>
+    <% if @location_menu_images.any? %>
       <% if is_food_and_dining(@location) %>
         <div class="category">
           <div class="heading index-1">
@@ -207,7 +207,7 @@
             <div class="">
               <div class="row-fluid">
                 <div class="span12">
-                  <% if @location_menu_images.count > 1 %>
+                  <% if @location_menu_images.any? %>
                     <div id="locationMenuCarousel" class="carousel slide">
                       <ol class="carousel-indicators">
                         <% @location_menu_images.each_with_index do |image, index| %>
@@ -225,8 +225,6 @@
                       <a class="carousel-control left" href="#locationMenuCarousel" data-slide="prev">&lsaquo;</a>
                       <a class="carousel-control right" href="#locationMenuCarousel" data-slide="next">&rsaquo;</a>
                     </div>
-                  <% elsif @location_menu_images.any? %>
-                    <%= image_tag @location_menu_images.first.url %>
                   <% end %>
                 </div>
               </div>
