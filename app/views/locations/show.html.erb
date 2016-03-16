@@ -192,16 +192,16 @@
     </div>
 
     <!--MENU-->
-    <% if @location_menu_images.any? %>
-      <% if is_food_and_dining(@location) %>
-        <div class="category">
-          <div class="heading index-1">
-            <h5>Menu</h5>
-              <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
-                <small><%= link_to "add", new_location_location_menu_path(@location.id), class: 'small' %> | <%= link_to 'manage', location_location_menus_path(@location) %></small>
-              <% end %>
-          </div>
+    <% if is_food_and_dining(@location) %>
+      <div class="category">
+        <div class="heading index-1">
+          <h5>Menu</h5>
+            <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+              <small><%= link_to "add", new_location_location_menu_path(@location.id), class: 'small' %> | <%= link_to 'manage', location_location_menus_path(@location) %></small>
+            <% end %>
         </div>
+      </div>
+      <% if @location_menu_images.any? %>
         <div class="row-fluid">
           <div class="span12">
             <div class="">
@@ -217,7 +217,7 @@
                       <div class="carousel-inner">
                         <% @location_menu_images.each_with_index do |menu_image, index| %>
                           <div class="item <%= index == 0 ? 'active' : '' %>">
-                            <%= link_to(image_tag(menu_image.url), location_location_menu_path(@location, menu_image.instance)) %>
+                            <%= link_to(image_tag(menu_image.url, class: 'location-menu-image', data: {"image" => menu_image.url, "location-name" => @location.name}), '#menu_image', data: {toggle: 'modal'})%>
                             <p class="flex-caption">Click image to view larger</p>
                           </div>
                         <% end %>
@@ -230,6 +230,10 @@
               </div>
             </div>
           </div>
+        </div>
+      <% else %>
+        <div class="alert">
+          No Menus found.
         </div>
       <% end %>
     <% end %>
@@ -348,6 +352,8 @@
 <%= render 'locations/modal_show' %>
 
 <%= render 'locations/modal_claim_login' %>
+
+<%= render 'locations/modal_menu_image' %>
 
 <%= render 'messages/modal_new' %>
 
