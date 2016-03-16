@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<h1><%= link_to(@location.name, location_path(@location)) %></h1>
+
 <div>
 	<%= image_tag "#{@base_url}/assets/location_menu/#{@location_menu.id}/original/#{@location_menu.image_file_name}" %>
 </div>
