@@ -715,6 +715,11 @@ main {
   margin-top: 120px;
 }
 
+.location-menu-modal {
+  width: 80% !important;
+  left: 20% !important;
+}
+
 @media (min-width: 768px) and (max-width: 979px) {
   main {
     margin-top: 177px;
@@ -766,5 +771,19 @@ main {
 @media (min-width: 438px) and (max-width: 590px) {
   main {
     margin-top: 150px;
+  }
+}
+
+@media (max-width: 1440px) {
+  .location-menu-modal {
+    width: 560px !important;
+    left: 50% !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .location-menu-modal {
+    width: 320px !important;
+    left: 0px !important;
   }
 }
