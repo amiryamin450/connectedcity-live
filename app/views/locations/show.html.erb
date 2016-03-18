@@ -217,7 +217,7 @@
                       <div class="carousel-inner">
                         <% @location_menu_images.each_with_index do |menu_image, index| %>
                           <div class="item <%= index == 0 ? 'active' : '' %>">
-                            <%= link_to(image_tag(menu_image.url, class: 'location-menu-image', data: {"image" => menu_image.url, "location-name" => @location.name}), '#menu_image', data: {toggle: 'modal'})%>
+                            <%= link_to(image_tag(menu_image.url), location_location_menu_path(@location, menu_image.instance)) %>
                             <p class="flex-caption">Click image to view larger</p>
                           </div>
                         <% end %>
@@ -352,8 +352,6 @@
 <%= render 'locations/modal_show' %>
 
 <%= render 'locations/modal_claim_login' %>
-
-<%= render 'locations/modal_menu_image' %>
 
 <%= render 'messages/modal_new' %>
 
