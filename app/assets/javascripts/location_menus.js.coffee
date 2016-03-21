@@ -1,3 +1,5 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+jQuery ->
+  $('.location-menu-image').click (event) ->
+    # dynamically set location name and image src by grabbing clicked element's corresponding data attributes
+    $('#menu_image .location-name').html($(this).data('location-name'))
+    $('#menu_image .location-menu-modal-body').html('<img src="' + $(this).data('image') + '" />')

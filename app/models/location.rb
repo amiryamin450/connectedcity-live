@@ -12,6 +12,7 @@ class Location < ActiveRecord::Base
   belongs_to :district
   belongs_to :neighborhood
   belongs_to :business_improvement_area
+  belongs_to :payment_user, class_name: 'User'
 
   has_many :agents, class_name: 'Location', foreign_key: 'broker_id', dependent: :destroy
   belongs_to :broker, class_name: 'Location'
@@ -23,7 +24,7 @@ class Location < ActiveRecord::Base
   has_many :news_articles, as: :newsable, dependent: :destroy
   has_many :products, dependent: :destroy
   has_many :location_images, dependent: :destroy
-  has_many :location_menu, dependent: :destroy
+  has_many :location_menus, dependent: :destroy
   has_many :services, dependent: :destroy
   has_many :events, dependent: :destroy
   has_many :real_estate_listings, dependent: :destroy
@@ -51,12 +52,12 @@ class Location < ActiveRecord::Base
   attr_accessible :address, :address_1, :business_id, :city_id, :community_id, :country_id, :email, :fax, :import_hash,
     :imported, :latitude, :longitude, :name, :phone, :postal_code, :region_id, :show_fax, :show_phone,
     :show_toll_free, :slug, :province_id, :toll_free, :website_url, :logo,
-    :location_images_attributes, :location_menu_attributes, :vertical_market_category_ids, :status_updates_attributes,
+    :location_images_attributes, :location_menus_attributes, :vertical_market_category_ids, :status_updates_attributes,
     :blog_entries_attributes, :news_articles_attributes, :products_attributes, :services_attributes, :events_attributes,
     :brand_ids, :brand_tokens, :content, :vertical_market_categories, :district, :yp_lid, :yp_categories, :yp_neighborhoods,
     :city, :province, :district_id, :neighborhood, :country, :cover_photo, :neighborhood_id, :broker_id, :business_improvement_area_id,
     :user, :trade_association_ids, :media_attachments_attributes, :delete_cover_photo, :delete_logo,
-    :operating_hours_attributes
+    :operating_hours_attributes, :stripe_plan_id
 
   has_attached_file :logo, :styles => { :thumb => "70x55", :list => "168x80", :bia_display => "250x100"},
     :url => "/system/location/logo/:id/:style/:basename.:extension",
@@ -70,7 +71,7 @@ class Location < ActiveRecord::Base
     :default_url => "/default_images/location/cover_photo/cover/missing.jpg"
 
   accepts_nested_attributes_for :location_images, :reject_if => lambda { |a| a[:image].nil? }, :allow_destroy => true
-  accepts_nested_attributes_for :location_menu, :reject_if => lambda { |a| a[:image].nil? }, :allow_destroy => true
+  accepts_nested_attributes_for :location_menus, :reject_if => lambda { |a| a[:image].nil? }, :allow_destroy => true
   accepts_nested_attributes_for :status_updates, allow_destroy: true
   accepts_nested_attributes_for :news_articles, allow_destroy: true
   accepts_nested_attributes_for :blog_entries, allow_destroy: true
@@ -94,7 +95,7 @@ class Location < ActiveRecord::Base
   end
 
   def user_can_manage?(user)
-    self.users.where(id: user.id).any? and self.claim_pending == false
+    self.users.where(id: user.id).any? && self.claim_pending == false
   end
 
   def clear_images?

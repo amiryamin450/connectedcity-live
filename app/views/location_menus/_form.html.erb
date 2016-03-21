@@ -1,8 +1,10 @@
 
-<%= simple_form_for(@location_menu, :html => { :multipart => true, class: 'form-horizontal', id: 'fileupload' }) do |f| %>
-	<%= f.error_notification %>
-	<%= f.fields_for :location_menu, @location_menu do |builder| %>
-	    <%= f.input :image, as: :file %>
-	    <%= f.button :submit, "Update Menu", class: 'btn-primary' %>
-	<% end %>    
+<%= simple_form_for [@location, @location_menu] do |f| %>
+<div class="form-inputs">
+	<%= f.input :image %>
+</div>
+<div class="form-actions">
+  <%= f.button :submit, class: 'btn btn-primary' %>
+  <%= link_to 'Cancel', location_location_menus_path, class: 'btn'  %>
+</div>
 <% end %>

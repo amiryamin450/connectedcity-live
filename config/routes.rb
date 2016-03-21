@@ -1,6 +1,4 @@
 Connectbook::Application.routes.draw do
-  resources :location_menus
-
 
   devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks'}
   devise_scope :user do
@@ -43,6 +41,7 @@ Connectbook::Application.routes.draw do
       resources :employment_listings, except: [:show]
       resources :events, except: [:show]
       resources :media_attachments, only: [:new, :create, :index, :destroy]
+      resources :location_menus, except: [:show]
       resources :news_articles, path: 'news', except: [:show]
       resources :new_home_communities, except: [:show] do
         resources :status_updates, only: [] do
@@ -70,9 +69,12 @@ Connectbook::Application.routes.draw do
       end
 
       member do
-        get 'claim', action: :claim, as: :claim, constraints: ->(request) { Location.find(request.params[:id]).user_ids.empty? }
+        with_options constraints: ->(request) { Location.find(request.params[:id]).user_ids.empty? } do
+          get 'claim', action: :claim, as: :claim
+          put 'claim', action: :claim_process
+        end
         get 'release', action: :release, as: :release
-        get :connected_advertiser
+        get :connected_advertiser, as: :connected_advertiser
       end
 
       resources :social_profiles, path: "social-profiles", only: [:index, :destroy] do
@@ -214,6 +216,7 @@ Connectbook::Application.routes.draw do
     resources :employment_listings, only: [:show]
     resources :events, only: [:show]
     resources :media_attachments, only: [:show, :index]
+    resources :location_menus, only: [:show]
     resources :news_articles, path: 'news', only: [:show]
     resources :products, only: [:show]
     resources :real_estate_listings, path: 'listings', only: [:show]

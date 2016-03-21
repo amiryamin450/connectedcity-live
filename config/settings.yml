@@ -1,9 +1,11 @@
 host: connectedcity.com
 db_host: 127.0.0.1
+stripe_secret_key: sk_test_w65x5wfT8ltR8xfeLcQNkbbg
+stripe_publishable_key: pk_test_vfjZ7zddqhirjKvOj5OGOTpi
 
 # Please set the following secrets in settings.local.yml:
 #
-# secret_key_base: 
+# secret_key_base:
 #   Generate: rake secret
 ##
 # db_password:

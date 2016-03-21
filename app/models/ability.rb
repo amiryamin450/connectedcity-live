@@ -7,6 +7,11 @@ class Ability
       can :manage, :all
     else
       can :read, :all
+      
+      can [:claim, :claim_process], Location do |l|
+        user.persisted?
+      end
+
       can :manage, ClassifiedListing, user_id: user.id
 
       can :manage, BusinessImprovementArea, user_id: user.id
@@ -47,7 +52,7 @@ class Ability
 
       can :manage, AutomotiveListing do |automotive_listing|
         can? :manage, automotive_listing.location
-      end      
+      end
 
       can :manage, Product do |product|
         can? :manage, product.location

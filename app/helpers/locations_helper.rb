@@ -35,11 +35,11 @@ module LocationsHelper
   end
 
   def show_release_business_button?(user_signed_in, current_user, location)
-    true if location.users.present? and user_signed_in and location.user_can_manage?(current_user)
+    true if location.user_ids.any? and user_signed_in and location.user_ids.include?(current_user.id) && location.claim_pending?
   end
 
   def show_claim_pending?(user_signed_in, current_user, location)
-    true if user_signed_in and location.users.present? and location.user_can_manage?(current_user) and location.user_owns?(current_user)
+    true if user_signed_in and location.user_ids.any? and location.user_ids.include?(current_user.id) && location.claim_pending?
   end
 
   def render_message_button(user_signed_in)

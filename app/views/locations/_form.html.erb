@@ -23,6 +23,11 @@
         <li>
           <a href="#images" data-toggle="tab">Images</a>
         </li>
+        <% if is_food_and_dining(@location) %>
+          <li>
+            <%= link_to("Menus", location_location_menus_path(@location)) %>
+          </li>
+        <% end %>
         <% if @managers.present? %>
         <li>
           <a href="#managers" data-toggle="tab">Managers</a>
