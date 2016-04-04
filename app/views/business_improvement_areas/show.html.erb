@@ -98,6 +98,8 @@
             <div class="name"><%= link_to update.statusable.name, update.statusable %> <span class="time-ago"> <%= "#{time_ago_in_words(update.created_at)} ago" %></span></div>
             <div><%= update.content %></div>
           </div>
+          <% status_update = {url: location_url(update.statusable), title: update.statusable.name, content: update.content} %>
+          <%= render_social_media_buttons(status_update) %>
         </div>
         <% end %>
         <% else %>
