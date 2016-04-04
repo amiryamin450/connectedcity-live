@@ -20,7 +20,9 @@ jQuery ->
       center: {
         x: 150,
         y: 150
-      }
+      },
+      removeOverflowing: false,
+      sortByWeight: false
     });
 
   product_descriptions = $('.featured-product-description')
