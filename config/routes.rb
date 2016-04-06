@@ -275,7 +275,41 @@ Connectbook::Application.routes.draw do
 
   root to: 'cities#homepage'
 
+  #I'm hard-coding these Marketing URLs for now...
+  #The idea is to have connectedcity.com/kitsilano but having this interferes with the district route.
+  get 'arbutus-ridge', to: redirect('/neighbourhoods/arbutus-ridge')
+  get 'coal-harbour', to: redirect('/neighbourhoods/coal-harbour')
+  get 'downtown-eastside', to: redirect('/neighbourhoods/downtown-eastside')
+  get 'downtown-vancouver', to: redirect('/neighbourhoods/downtown-vancouver')
+  get 'dunbar-southlands', to: redirect('/neighbourhoods/dunbar-southlands')
+  get 'fairview', to: redirect('/neighbourhoods/fairview')
+  get 'gastown', to: redirect('/neighbourhoods/gastown')
+  get 'grandview-woodland', to: redirect('/neighbourhoods/grandview-woodland')
+  get 'granville-island', to: redirect('/neighbourhoods/granville-island')
+  get 'hastings-sunrise', to: redirect('/neighbourhoods/hastings-sunrise')
+  get 'kensington-cedar-cottage', to: redirect('/neighbourhoods/kensington-cedar-cottage')
+  get 'kerrisdale', to: redirect('/neighbourhoods/kerrisdale')
+  get 'killarney', to: redirect('/neighbourhoods/killarney')
+  get 'kitsilano', to: redirect('/neighbourhoods/kitsilano')
+  get 'marpole', to: redirect('/neighbourhoods/marpole')
+  get 'mount-pleasant', to: redirect('/neighbourhoods/mount-pleasant')
+  get 'oakridge', to: redirect('/neighbourhoods/oakridge')
+  get 'point-grey', to: redirect('/neighbourhoods/point-grey')
+  get 'renfrew-collingwood', to: redirect('/neighbourhoods/renfrew-collingwood')
+  get 'riley-park', to: redirect('/neighbourhoods/riley-park-little-mtn')
+  get 'shaughnessy', to: redirect('/neighbourhoods/shaughnessy')
+  get 'south-cambie', to: redirect('/neighbourhoods/south-cambie')
+  get 'strathcona', to: redirect('/neighbourhoods/strathcona')
+  get 'sunset', to: redirect('/neighbourhoods/sunset--2')
+  get 'ubc', to: redirect('/neighbourhoods/ubc')
+  get 'victoria-fraserview', to: redirect('/neighbourhoods/victoria-fraserview')
+  get 'west-end', to: redirect('/neighbourhoods/west-end')
+  get 'yaletown', to: redirect('/neighbourhoods/yaletown')
+
+  #End Marketing URLs
+
   get ':district_route', to: 'districts#homepage', as: :district_guide
+
   match ':status', to: 'errors#show', constraints: { status: /\d{3}/ }, as: :error_page
 
 
