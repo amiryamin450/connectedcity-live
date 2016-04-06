@@ -152,7 +152,7 @@
     <div class="holder pad10 clearfix">
       <h5>Tag Cloud</h5>
       <div class="pad10 clearfix">
-        <div id="tag_cloud" style="min-height: 450px; height: auto;"></div>
+        <div id="tag_cloud" style="height: auto;"></div>
         <%= javascript_tag do %>
           var word_list = <%= raw @tag_cloud.sort_by!{ |tag| tag[:text].downcase }.to_json %>
         <% end %>
