@@ -275,7 +275,12 @@ Connectbook::Application.routes.draw do
 
   root to: 'cities#homepage'
 
+  #I'm hard-coding these Marketing URLs for now
+  get 'chinatown', to: redirect('/neighbourhoods/chinatown')
+  #End Marketing URLs
+
   get ':district_route', to: 'districts#homepage', as: :district_guide
+
   match ':status', to: 'errors#show', constraints: { status: /\d{3}/ }, as: :error_page
 
 
