@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/dmarges/jqcloud-rails.git
-  revision: c24e22b539b27a1a2fd6254bd02fa771463897ab
+  revision: 89ada734b5d405d579727f01f2248354f0ecae2f
   specs:
-    jqcloud-rails (1.0.12)
+    jqcloud-rails (1.0.14)
       jquery-rails
 
 GEM
@@ -501,7 +501,7 @@ DEPENDENCIES
   geocoder
   guard-rspec
   instagram
-  jqcloud-rails (= 1.0.12)!
+  jqcloud-rails (= 1.0.14)!
   jquery-fileupload-rails
   jquery-rails
   jquery-ui-rails
