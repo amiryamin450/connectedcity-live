@@ -697,3 +697,12 @@ input, textarea, select {
   display: none;
 }
 
+.modal {
+  width: 70%;
+  left: 25%;
+}
+
+.modal-body {
+  height: auto;
+  max-height: none;
+}
