@@ -17,8 +17,8 @@ class NewHome < ActiveRecord::Base
 
 
   has_attached_file :cover_photo, :styles => { :thumb => "100x178" },
-    :url => "/assets/new_homes/cover_photo/:id/:style/:basename.:extension",
-    :path => ":rails_root/public/assets/new_homes/cover_photo/:id/:style/:basename.:extension"
+    :url => "/system/new_homes/cover_photo/:id/:style/:basename.:extension",
+    :path => ":rails_root/public/system/new_homes/cover_photo/:id/:style/:basename.:extension"
 
   geocoded_by :full_street_address
 
