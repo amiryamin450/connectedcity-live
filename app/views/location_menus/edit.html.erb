@@ -1,7 +1,7 @@
 <h1>Editing <%= Location.find(@location_menu.location_id).name %> Menu</h1>
 
 <div>
-	<%= image_tag "#{@base_url}/assets/location_menu/#{@location_menu.id}/display/#{@location_menu.image_file_name}" %>
+	<%= image_tag "#{@base_url}/system/location_menu/#{@location_menu.id}/display/#{@location_menu.image_file_name}" %>
 </div>
 
 <%= render 'form' %>

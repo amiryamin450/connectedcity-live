@@ -12,8 +12,8 @@ class StatusUpdate < ActiveRecord::Base
   default_scope order('created_at DESC')
 
   has_attached_file :image, :styles => { :thumb => "40x40#", :large => "320x>"},
-                    :url => "/assets/status_update/:id/:style/:basename.:extension",
-                    :path => ":rails_root/public/assets/status_update/:id/:style/:basename.:extension"
+                    :url => "/system/status_update/:id/:style/:basename.:extension",
+                    :path => ":rails_root/public/system/status_update/:id/:style/:basename.:extension"
 
   attr_accessible :content, :provider, :district_id, :neighborhood_id, :latitude, :longitude, :city_id, :province_id,
                   :vertical_markets, :vertical_market_categories, :image, :social_profile_ids

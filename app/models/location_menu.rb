@@ -4,8 +4,8 @@ class LocationMenu < ActiveRecord::Base
   attr_accessible :caption, :location_id, :image
 
   has_attached_file :image, :styles => { :thumb => "75x75#", :large => "320x240#", :display => "360x270#"},
-                    :url => "/assets/location_menu/:id/:style/:basename.:extension",
-                    :path => ":rails_root/public/assets/location_menu/:id/:style/:basename.:extension"
+                    :url => "/system/location_menu/:id/:style/:basename.:extension",
+                    :path => ":rails_root/public/system/location_menu/:id/:style/:basename.:extension"
 
   validates_attachment_presence :image
   validates_attachment_size :image, :less_than => 5.megabytes
