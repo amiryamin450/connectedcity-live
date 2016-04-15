@@ -81,7 +81,7 @@
         <div class="holder pad10">
           <h5>Events</h5>
           <% if @city.news_articles.size > 0 %>
-          <%= render @city.events.limit(3).order(:created_at) %>
+          <%= render @city.events.limit(200).order(:created_at) %>
           <% else %>
           <div class="alert">No News Articles found.</div>
           <% end %>
