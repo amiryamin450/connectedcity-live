@@ -954,14 +954,12 @@ body > .jcf-select-drop.jcf-drop-flipped {
 }
 
 #content .form-holder {
-	float: right;
     margin-right: -5px;
 }
 
 .search-form {
 	display: inline-block;
 	vertical-align: top;
-	width: 360px;
 }
 
 .search-form fieldset {
@@ -983,7 +981,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	font-size: 15px;
 	line-height: 18px;
 	color: #666;
-	width: 190px;
+	width: 140px;
 	box-sizing: border-box;
 	padding: 5px 13px;
 	outline: none;
@@ -1170,6 +1168,19 @@ body > .jcf-select-drop.jcf-drop-flipped {
 		pointer-events: none;
 	}
 }
+
+@media (min-width: 1868px) {
+	.search-form input[type="search"] {
+		width: 400px;
+	}
+}
+
+@media (min-width: 1540px) and (max-width: 1867px) {
+	.search-form input[type="search"] {
+		width: 260px;
+	}
+}
+
 
 @media (max-width: 1539px) {
 	.add-nav .add-opener {
