@@ -67,7 +67,7 @@ class VerticalMarket < ActiveRecord::Base
       status_updates = status_updates.where(vertical_market_categories: { id: vertical_market_category.id })
     end
 
-    status_updates = status_updates.order("`status_updates`.`created_at` DESC").limit 10
+    status_updates = status_updates.order("`status_updates`.`created_at` DESC").limit 200
 
     if [17, 18, 19, 20].include? self.id
       status_updates += StatusUpdate.where(statusable_type: ["RealEstateListing", "NewHomeCommunity", "RentalProperty"], vertical_markets: self.subtree_ids).where(location_params(city, district, neighborhood)).order("`status_updates`.`created_at` DESC").limit 10
