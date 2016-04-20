@@ -13,7 +13,7 @@
 
 <% @location_menus.each do |location_menu| %>
   <tr>
-    <td><%= link_to(image_tag("#{@base_url}/assets/location_menu/#{location_menu.id}/display/#{location_menu.image_file_name}"), location_location_menu_path(@location, location_menu)) %></td>
+    <td><%= link_to(image_tag("#{@base_url}/system/location_menu/#{location_menu.id}/display/#{location_menu.image_file_name}"), location_location_menu_path(@location, location_menu)) %></td>
     <td><%= link_to 'Edit', edit_location_location_menu_path(@location, location_menu), class: 'btn btn-primary' %></td>
     <td><%= link_to 'Delete', location_location_menu_path(@location, location_menu), class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>

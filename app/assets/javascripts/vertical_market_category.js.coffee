@@ -15,7 +15,15 @@ jQuery ->
     return false
 
   if typeof word_list != 'undefined'
-    $('#tag_cloud').jQCloud(word_list);
+    $('#tag_cloud').jQCloud(word_list, {
+      shape: 'rectangle',
+      center: {
+        x: 150,
+        y: 150
+      },
+      removeOverflowing: false,
+      sortByWeight: false
+    });
 
   product_descriptions = $('.featured-product-description')
 

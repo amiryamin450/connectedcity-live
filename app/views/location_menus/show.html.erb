@@ -4,7 +4,7 @@
 <%= link_to("Back to #{@location.name}", location_path(@location)) %>
 
 <div>
-	<%= image_tag "#{@base_url}/assets/location_menu/#{@location_menu.id}/original/#{@location_menu.image_file_name}" %>
+	<%= image_tag "#{@base_url}/system/location_menu/#{@location_menu.id}/original/#{@location_menu.image_file_name}" %>
 </div>
 
 <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
