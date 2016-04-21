@@ -166,7 +166,7 @@
   <% end %>
 </div>
 </div>
-
+<%= render 'status_updates/show_image' %>
 <% if user_signed_in? && (current_user.has_role?(:admin) || @business_improvement_area.user_id == current_user.id) %>
 <%############# status update ###############%>
 
@@ -182,7 +182,6 @@
   </div>
 </div>
 
-<%= render 'status_updates/show_image' %>
 <%= render 'status_update_form' %>
 
 <% end %>
