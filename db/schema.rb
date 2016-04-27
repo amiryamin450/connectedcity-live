@@ -489,6 +489,8 @@ ActiveRecord::Schema.define(:version => 20160308083457) do
     t.integer  "business_improvement_area_id"
     t.boolean  "claim_pending",                :default => false, :null => false
     t.string   "stripe_subscription_id"
+    t.integer  "payment_user_id"
+    t.string   "stripe_plan_id"
   end
 
   add_index "locations", ["city_id"], :name => "city_id"

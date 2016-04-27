@@ -16,6 +16,27 @@ class RealEstateListing < ActiveRecord::Base
 
     geocoded_by :full_street_address
 
+    searchable do
+      text :regional_mls_number, boost: 5
+      text :address, boost: 5
+      text :title, boost: 3
+      text :city
+      text :description
+      text :lot_comment
+      text :lot_legal
+      text :bedroom_comment
+      text :bathroom_comment
+      text :garage_comment
+
+      text :city do
+        city.name if city.present?
+      end
+
+      integer :district_id
+      integer :city_id
+      integer :neighborhood_id
+    end
+
     attr_accessible  :listing_source,
                      :email,
                      :web_bug_url,
@@ -128,7 +149,7 @@ class RealEstateListing < ActiveRecord::Base
     [address, city.name].compact.join(', ')
   end
 
-  before_save do 
+  before_save do
     self.neighborhood = Neighborhood.calculate(self.longitude, self.latitude) if self.geocoded?
     self.district = self.neighborhood.district if self.neighborhood.present? and self.neighborhood.district.present?
   end

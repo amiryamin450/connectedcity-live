@@ -1,11 +1,30 @@
 class AutomotiveListing < ActiveRecord::Base
-  
+
   belongs_to :location
 
-  attr_accessible :accident, :body, :body_exterior, :convenience_features, :description, :drivetrain, :enigine, 
-                  :entertainment_features, :exterior_color, :interior_color, :lighting_visibility_instruments, 
-                  :local, :location_id, :make, :mileage, :model, :powertrain_specs, :price_cents, :saftey_and_security, 
-                  :seats_and_trim, :specs, :status, :stock_number, :suspension_specs, :title, :transmission, :trim_level, 
+  searchable do
+    text :title, boost: 3
+    text :vehicle_type
+    text :make
+    text :model
+    text :trim_level
+    text :description
+
+    text :city do
+      location.city.name if location && location.city
+    end
+
+    [:district_id, :city_id, :neighborhood_id].each { |a|
+      integer a do
+        location.send(a).presence
+      end
+    }
+  end
+
+  attr_accessible :accident, :body, :body_exterior, :convenience_features, :description, :drivetrain, :enigine,
+                  :entertainment_features, :exterior_color, :interior_color, :lighting_visibility_instruments,
+                  :local, :location_id, :make, :mileage, :model, :powertrain_specs, :price_cents, :saftey_and_security,
+                  :seats_and_trim, :specs, :status, :stock_number, :suspension_specs, :title, :transmission, :trim_level,
                   :vehicle_type, :year, :price, :main_image
 
   monetize :price_cents

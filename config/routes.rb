@@ -169,6 +169,7 @@ Connectbook::Application.routes.draw do
         get :pending_claims
         get :import
         post "import", action: :do_import
+        get :export
       end
       # eg. business/:id/action
       member do
