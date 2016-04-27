@@ -125,7 +125,7 @@
         <div class="holder pad10">
           <h5>Events</h5>
           <% if @business_improvement_area.events.size > 0 %>
-          <%= render @business_improvement_area.events.limit(200).order(:created_at) %>
+          <%= render @business_improvement_area.events.limit(200).order(:starts_at) %>
           <% else %>
           <div class="alert">No News Articles found.</div>
           <% end %>
