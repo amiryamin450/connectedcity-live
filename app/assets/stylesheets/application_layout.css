@@ -1177,10 +1177,15 @@ body > .jcf-select-drop.jcf-drop-flipped {
 
 @media (min-width: 1540px) and (max-width: 1867px) {
 	.search-form input[type="search"] {
-		width: 260px;
+		width: 305px;
 	}
 }
 
+@media (min-width: 1280px) and (max-width: 1540px) {
+	.search-form input[type="search"] {
+		width: 205px;
+	}
+}
 
 @media (max-width: 1539px) {
 	.add-nav .add-opener {
