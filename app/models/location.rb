@@ -168,11 +168,10 @@ class Location < ActiveRecord::Base
       vertical_markets.map(&:id)
     end
 
-
-
     integer :district_id
     integer :city_id
-    integer :neighborhood_id
+    integer :business_improvement_area_id
+    #integer :neighborhood_id
 
 
   end
