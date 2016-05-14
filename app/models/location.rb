@@ -171,7 +171,7 @@ class Location < ActiveRecord::Base
     integer :district_id
     integer :city_id
     integer :business_improvement_area_id
-    #integer :neighborhood_id
+    integer :neighborhood_id
 
 
   end

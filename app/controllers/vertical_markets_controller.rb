@@ -93,7 +93,7 @@ class VerticalMarketsController < ApplicationController
       with(:vertical_market_ids, ids) if vm.present?
       with(:district_id, district.id) if district.present?
       with(:business_improvement_area_id, @bia.id) if @bia.present?
-      #with(:neighborhood_id, neighborhood.id) if neighborhood.present?     
+      with(:neighborhood_id, neighborhood.id) if neighborhood.present?     
       paginate :page => params[:page]
     end
 
