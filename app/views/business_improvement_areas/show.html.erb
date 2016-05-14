@@ -150,20 +150,6 @@
       </div>
     </div>
   </div>
-
-  <% if @tag_cloud.present? and @tag_cloud.size > 0 %>
-  <div class="row-fluid">
-    <div class="holder pad10 clearfix">
-      <h5>Tag Cloud</h5>
-      <div class="pad10 clearfix">
-        <div id="tag_cloud" style="min-height: 600px; overflow-y: auto;"></div>
-        <%= javascript_tag do %>
-          var word_list = <%= raw @tag_cloud.sort_by!{ |tag| tag[:text].downcase }.to_json %>
-        <% end %>
-      </div>
-    </div>
-  </div>
-  <% end %>
 </div>
 </div>
 <%= render 'status_updates/show_image' %>
