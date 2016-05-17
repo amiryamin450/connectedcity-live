@@ -1,5 +1,7 @@
 <%
-  meta title: @location.name
+  metamagic site: "Connected City",
+            title: ["#{@location.name} in #{@neighborhood.try(:name) || @location.district.try(:name)}, #{@city.try(:name)}", :site],
+            separator: " — "
 %>
 <%######## view content ########%>
 <div class="span6">
