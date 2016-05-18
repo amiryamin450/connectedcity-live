@@ -960,6 +960,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 .search-form {
 	display: inline-block;
 	vertical-align: top;
+	width: 100%;
 }
 
 .search-form fieldset {
@@ -971,6 +972,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	vertical-align: top;
 	letter-spacing: 0;
     height: 35px;
+    width: 45%;
 }
 
 .search-form input[type="search"] {
@@ -981,7 +983,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	font-size: 15px;
 	line-height: 18px;
 	color: #666;
-	width: 140px;
+	width: 100%;
 	box-sizing: border-box;
 	padding: 5px 13px;
 	outline: none;
@@ -1012,7 +1014,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	border-color: #b9b9b9;
 	height: 37px;
 	margin: 0 0 0 -1px;
-	width: 126px;
+	width: 100%;
 	min-width: 0;
 	text-align: left;
 }
@@ -1166,24 +1168,6 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	a[href^=sms] {
 		cursor: default;
 		pointer-events: none;
-	}
-}
-
-@media (min-width: 1868px) {
-	.search-form input[type="search"] {
-		width: 400px;
-	}
-}
-
-@media (min-width: 1540px) and (max-width: 1867px) {
-	.search-form input[type="search"] {
-		width: 305px;
-	}
-}
-
-@media (min-width: 1280px) and (max-width: 1540px) {
-	.search-form input[type="search"] {
-		width: 205px;
 	}
 }
 
@@ -1344,7 +1328,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
     .search-form .jcf-select {
         margin: 0;
         height: 35px;
-        width: 120px;
+        width: 100%;
     }
 }
 
@@ -1625,10 +1609,11 @@ body > .jcf-select-drop.jcf-drop-flipped {
 
 	.search-form {
 		text-align: left;
+		width: 85%;
 	}
 
 	.search-form input[type="search"] {
-		width: 90px;
+		width: 100%;
 		padding: 5px 10px;
         height: 37px;
 	}
@@ -1636,7 +1621,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	.search-form .jcf-select {
 		margin: 0;
         height: 35px;
-        width: 120px;
+        width: 100%;
 	}
 
 	.search-form .submit-wrap {

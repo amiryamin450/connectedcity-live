@@ -19,9 +19,6 @@ metamagic site: "ConnectedCity",
   <% end %>
   </h3>
   </div>
-  <div class="span4">
-    <%= render 'search_form', { locals: {css_class: 'hidden-mobile'} } %>
-  </div>
 </div>
 
 
@@ -29,9 +26,6 @@ metamagic site: "ConnectedCity",
 <div class="row-fluid">
   <div class="span8">
     <div class="row-fluid">
-
-
-
       <% if @district.use_carousel and @district.carousel_images.present? and @district.carousel_images.size > 0 %>
       <div id="carousel" class="carousel slide" data-interval="8000">
         <ol class="carousel-indicators">
@@ -117,7 +111,9 @@ metamagic site: "ConnectedCity",
     </div>
   </div>
 
-
+  <div class="span4">
+    <%= render 'search_form', { locals: {css_class: 'hidden-mobile'} } %>
+  </div>
   <div class="span4">
     <%= render 'application/join_now' %>
     <div class="row-fluid">

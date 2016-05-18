@@ -3,9 +3,7 @@
   <div class="span8">
     <h3><%= @city.name %></h3>
   </div>
-  <div class="span4">
-    <%= render 'search_form', { locals: {css_class: 'hidden-mobile'} } %>
-  </div>
+
 </div>
 
 <div class="row-fluid">
@@ -89,7 +87,11 @@
       </div>
     </div>
   </div>
-
+  <div class="span4">
+    <div class="row-fluid">
+    <%= render 'search_form', { locals: {css_class: 'hidden-mobile'} } %>
+    </div>
+  </div>
 
   <div class="span4">
     <%= render 'application/join_now' %>
