@@ -469,11 +469,19 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	background-position: -31px -98px;
 }
 
+#nav ul > li.active > div > a i.food_dining {
+	background-position: -31px -98px;
+}
+
 #nav ul > li.active > div > a i.health {
 	background-position: -59px -98px;
 }
 
-#nav ul > li.active > div > a i.home-improve {
+#nav ul > li.active > div > a i.health_beauty {
+	background-position: -59px -98px;
+}
+
+#nav ul > li.active > div > a i.home_improvement {
 	background-position: -85px -99px;
 }
 
@@ -481,7 +489,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	background-position: -121px -99px;
 }
 
-#nav ul > li.active > div > a i.real {
+#nav ul > li.active > div > a i.real_estate {
 	background-position: -149px -97px;
 }
 
@@ -556,13 +564,24 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	background-position: -31px -98px;
 }
 
+#nav ul > li > div:hover > a i.food_dining,
+#nav ul > li > div.hover > a i.food_dining {
+	background-position: -31px -98px;
+}
+
 #nav ul > li > div:hover > a i.health,
 #nav ul > li > div.hover > a i.health {
 	background-position: -59px -98px;
 }
 
-#nav ul > li > div:hover > a i.home-improve,
-#nav ul > li > div.hover > a i.home-improve {
+#nav ul > li > div:hover > a i.health_beauty,
+#nav ul > li > div.hover > a i.health_beauty {
+	background-position: -59px -98px;
+}
+
+
+#nav ul > li > div:hover > a i.home_improvement,
+#nav ul > li > div.hover > a i.home_improvement {
 	background-position: -85px -99px;
 }
 
@@ -571,8 +590,8 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	background-position: -121px -99px;
 }
 
-#nav ul > li > div:hover > a i.real,
-#nav ul > li > div.hover > a i.real {
+#nav ul > li > div:hover > a i.real_estate,
+#nav ul > li > div.hover > a i.real_estate {
 	background-position: -149px -97px;
 }
 
@@ -673,13 +692,25 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	height: 19px;
 }
 
+#nav ul > li > div > a i.food_dining {
+	background-position: -30px -74px;
+	width: 21px;
+	height: 19px;
+}
+
 #nav ul > li > div > a i.health {
 	background-position: -59px -75px;
 	width: 19px;
 	height: 20px;
 }
 
-#nav ul > li > div > a i.home-improve {
+#nav ul > li > div > a i.health_beauty {
+	background-position: -59px -75px;
+	width: 19px;
+	height: 20px;
+}
+
+#nav ul > li > div > a i.home_improvement {
 	background-position: -85px -73px;
 	width: 29px;
 	height: 19px;
@@ -691,7 +722,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	height: 20px;
 }
 
-#nav ul > li > div > a i.real {
+#nav ul > li > div > a i.real_estate {
 	background-position: -149px -71px;
 	width: 24px;
 	height: 22px;
