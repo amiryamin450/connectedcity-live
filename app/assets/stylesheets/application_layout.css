@@ -1333,6 +1333,19 @@ body > .jcf-select-drop.jcf-drop-flipped {
 }
 
 @media (max-width: 767px) {
+
+	/*span.jcf-select  {
+		display: none !important;
+	}*/
+
+	.search-form .search-row {
+		width: 80%;
+	}
+
+	#search-select-field {
+		display: none;
+	}	
+
     .current-user-block {
         display: none;
     }
