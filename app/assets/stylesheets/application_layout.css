@@ -1003,7 +1003,15 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	vertical-align: top;
 	letter-spacing: 0;
     height: 35px;
-    width: 45%;
+    width: 50%;
+}
+
+.search-form .search-row#search-select-field {
+	display: inline-block;
+	vertical-align: top;
+	letter-spacing: 0;
+    height: 35px;
+    width: 30%;
 }
 
 .search-form input[type="search"] {
@@ -1365,9 +1373,10 @@ body > .jcf-select-drop.jcf-drop-flipped {
 
 @media (max-width: 767px) {
 
-	/*span.jcf-select  {
-		display: none !important;
-	}*/
+	.location-chooser-scroll-container {
+		height: 320px;
+		overflow: scroll;
+	}
 
 	.search-form .search-row {
 		width: 80%;
