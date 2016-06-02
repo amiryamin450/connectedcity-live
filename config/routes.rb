@@ -1,6 +1,11 @@
 Connectbook::Application.routes.draw do
 
-  devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks'}
+  devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations"}
+  
+  devise_for :users do
+    get 'business_sign_up', :to => 'devise/registrations#new'
+  end
+  
   devise_scope :user do
     get '/login' => 'devise/sessions#new'
     get '/logout' => 'devise/sessions#destroy'
@@ -238,6 +243,8 @@ Connectbook::Application.routes.draw do
   get 'terms' => 'StaticPages#terms'
   get 'privacy' => 'StaticPages#privacy'
   get 'advertise' => 'StaticPages#advertise'
+  get 'thankyou' => 'StaticPages#shopper_thank_you', as: :shopper_thank_you_path
+  get 'businessthankyou' => 'StaticPages#business_thank_you', as: :business_thank_you_path
   get 'contact' => 'contacts#new'
 
   resources 'contacts', only: [:new, :create]
@@ -311,6 +318,4 @@ Connectbook::Application.routes.draw do
   get ':district_route', to: 'districts#homepage', as: :district_guide
 
   match ':status', to: 'errors#show', constraints: { status: /\d{3}/ }, as: :error_page
-
-
 end

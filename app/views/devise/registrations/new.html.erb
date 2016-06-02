@@ -1,8 +1,12 @@
 <div style="text-align: center;">
-	<h2>Sign up for a Free ConnectedShopper™ Membership</h2>
+	<% if request.fullpath.include?('business_sign_up') %>
+		<h2>Sign up for a ConnectedAdvertiser™ Business Membership</h2>
+	<% else %>
+		<h2>Sign up for a Free ConnectedShopper™ Membership</h2>
+	<% end %>
 </div>
 
-<div style="width: 85%;">
+<div style="width: 90%;">
 	<div style="float: left; display: inline;">
 		<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:class => 'form-vertical' }) do |f| %>
 		  <%= f.error_notification %>
@@ -19,13 +23,24 @@
 	</div>
 
 	<div style="float: right; display: inline;">
-		<h2>Get the most out of your shopping experience:</h2>
-		<ul>
-			<li>Personalize your shopping experience</li>
-			<li>Receive updates of every kind</li>
-			<li>Claim deals & coupons</li>
-			<li>Earn loyalty rewards</li>
-			<li>Win free stuff!</li>
-		</ul>
+		<% if request.fullpath.include?('business_sign_up') %>
+			<h2>Save time & money connecting with local shoppers.</h2>
+			<ul>
+				<li>Lower your advertising costs</li>
+				<li>Easily manage your marketing</li>
+				<li>Compete with major brands</li>
+				<li>Generate repeat purchases</li>
+				<li>Create happy customers</li>
+			</ul>
+		<% else %>
+			<h2>Get the most out of your shopping experience:</h2>
+			<ul>
+				<li>Personalize your shopping experience</li>
+				<li>Receive updates of every kind</li>
+				<li>Claim deals & coupons</li>
+				<li>Earn loyalty rewards</li>
+				<li>Win free stuff!</li>
+			</ul>
+		<% end %>
 	</div>
 </div>
