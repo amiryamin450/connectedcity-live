@@ -14,4 +14,9 @@ class StaticPagesController < ApplicationController
   def terms
   end
 
+  def shopper_thank_you
+  end
+
+  def business_thank_you
+  end
 end
