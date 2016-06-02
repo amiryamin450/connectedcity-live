@@ -25,7 +25,7 @@
   <div class="alert notice">No social profiles found.</div>
 <% end %>
 
-<%= link_to "Add Facebook", polymorphic_path([:new, @owner, :social_profile], social_network: :facebook), class: "btn btn-primary" unless @social_profiles.facebook.any? %>
+<%# link_to "Add Facebook", polymorphic_path([:new, @owner, :social_profile], social_network: :facebook), class: "btn btn-primary" unless @social_profiles.facebook.any? %>
 <%= link_to "Add Twitter", polymorphic_path([:new, @owner, :social_profile], social_network: :twitter), class: "btn btn-primary" unless @social_profiles.twitter.any? %>
-<%= link_to "Add Instagram", polymorphic_path([:new, @owner, :social_profile], social_network: :instagram), class: "btn btn-primary" unless @social_profiles.instagram.any? %>
+<%# link_to "Add Instagram", polymorphic_path([:new, @owner, :social_profile], social_network: :instagram), class: "btn btn-primary" unless @social_profiles.instagram.any? %>
 <%= link_to "Return to #{@owner.name}", @owner, class: "btn" %>

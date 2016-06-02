@@ -491,6 +491,8 @@ ActiveRecord::Schema.define(:version => 20160427222927) do
     t.integer  "payment_user_id"
     t.string   "stripe_plan_id"
     t.string   "stripe_subscription_id"
+    t.integer  "payment_user_id"
+    t.string   "stripe_plan_id"
   end
 
   add_index "locations", ["city_id"], :name => "city_id"

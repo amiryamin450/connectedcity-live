@@ -87,8 +87,9 @@ class VerticalMarketsController < ApplicationController
     end
 
 
-    @search = Location.solr_search do
+    @search = Sunspot.search Location, AutomotiveListing, RealEstateListing do
       fulltext params[:search]
+
       with(:city_id, 5915022)
       with(:vertical_market_ids, ids) if vm.present?
       with(:district_id, district.id) if district.present?
