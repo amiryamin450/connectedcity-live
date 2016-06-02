@@ -3,7 +3,7 @@ Connectbook::Application.routes.draw do
   devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations"}
   
   devise_for :users do
-    get 'business_sign_up', :to => 'devise/registrations#new'
+    get 'business_sign_up', :to => 'devise/registrations#new', as: :business_sign_up
   end
   
   devise_scope :user do
