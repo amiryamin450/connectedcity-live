@@ -29,6 +29,7 @@ meta title: ["Search results for \"#{params[:search]}\"", "#{@neighborhood.try(:
   <div class="clearfix">
     <% @results.each do |location| %>
 
+      <% if location.is_a? Location %>
       <div class="location-teaser clearfix">
         <div style="height: 74px; text-align: center;">
           <%= link_to(image_tag(get_location_image_url(location)), location)%>
@@ -41,6 +42,14 @@ meta title: ["Search results for \"#{params[:search]}\"", "#{@neighborhood.try(:
               <%= render 'favorites/like_button', :location_id => location.id, :vertical_market_slug => location.vertical_markets.first.try(:slug) if user_signed_in? %>
         </div>
       </div>
+      <% else %>
+      <div class="location-teaser clearfix">
+        <div style="height: 74px; text-align: center;">
+          <%= link_to(image_tag(location.main_image.url(:display)), [location.location, location])%>
+        </div>
+        <div style="width: 168px; margin-top: 5px; margin-bottom: 5px; font-size: 12px; min-height:24px;"><strong><%= link_to location.title, [location.location, location] %></strong></div>
+      </div>
+      <% end %>
 
     <% end %>
   </div>
@@ -51,7 +60,7 @@ meta title: ["Search results for \"#{params[:search]}\"", "#{@neighborhood.try(:
 </div>
 
 <%= javascript_tag do %>
-window.locations = <%= raw @results.collect { |m| {:name => m.name, :url => url_for(m), :latitude => m.latitude, :longitude => m.longitude, :thumb => m.logo.file? ? m.logo.url(:bia_display) : nil}}.to_json %>;
+window.locations = <%= raw @results.select { |m| m.is_a? Location }.collect { |m| {:name => m.name, :url => url_for(m), :latitude => m.latitude, :longitude => m.longitude, :thumb => m.logo.file? ? m.logo.url(:bia_display) : nil}}.to_json %>;
 <% end %>
 
 <%# render 'facets' %>

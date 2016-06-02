@@ -262,4 +262,30 @@ class LocationsController < ApplicationController
       render action: "import"
     end
   end
+
+  def export
+    respond_to do |format|
+      format.any {
+        location_attributes = ['id', 'name', 'address', 'address_1', 'postal_code', 'phone']
+        neighborhood_attributes = ['nid', 'neighborhd']
+        vertical_market_attributes = ['id', 'name']
+        vertical_market_category_attributes = ['id', 'name']
+
+        data = CSV.generate(headers: true) do |csv|
+          csv << location_attributes + ['neighborhood', 'vertical_market', 'vertical_market_category'].map { |a| eval("#{a}_attributes").map { |b| "#{a}_#{b}" } }.flatten
+
+          Location.includes(:neighborhood).select(location_attributes + neighborhood_attributes.map { |a| "neighborhoods.#{a}" }).limit(30).each do |location|
+            vertical_market_category = location.vertical_market_categories.first
+
+            csv << location_attributes.map { |a| location.send(a).presence } +
+                   neighborhood_attributes.map { |a| location.neighborhood.send(a).presence if location.neighborhood } +
+                   vertical_market_attributes.map { |a| vertical_market_category.send(a).presence if vertical_market_category } +
+                   vertical_market_category_attributes.map { |a| vertical_market_category.vertical_market.send(a).presence if vertical_market_category }
+          end
+        end
+
+        send_data data, filename: 'businesses.csv', type: 'text/csv', disposition: :attachment
+      }
+    end
+  end
 end

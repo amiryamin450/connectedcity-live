@@ -11,6 +11,10 @@ class City < ActiveRecord::Base
     has_many :events, through: :locations, uniq: true
     has_many :business_improvement_areas, through: :districts
     has_many :city_news_articles
+    has_many :coupons, through: :locations, uniq: true
+    has_many :services, through: :locations, uniq: true
+    has_many :products, through: :locations, uniq: true
+    has_many :media_attachments, through: :locations, uniq: true
 
     belongs_to :maponics_division, class_name: "MaponicsDivision", foreign_key: "cduid"
     belongs_to :province, foreign_key: "pruid"
