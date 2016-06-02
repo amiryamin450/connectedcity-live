@@ -1378,12 +1378,16 @@ body > .jcf-select-drop.jcf-drop-flipped {
 		overflow: scroll;
 	}
 
+	.search-form {
+		text-align: center;
+	}
+
 	.search-form .search-row {
 		width: 80%;
 	}
 
 	.search-row#search-select-field {
-		display: none;
+		display: none !important;
 	}	
 
     .current-user-block {
@@ -1661,7 +1665,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
     }
 
 	.search-form {
-		text-align: left;
+		text-align: center;
 		width: 85%;
 	}
 
