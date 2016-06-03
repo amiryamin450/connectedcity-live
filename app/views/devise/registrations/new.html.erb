@@ -1,13 +1,15 @@
-<div style="text-align: center;">
-	<% if request.fullpath.include?('business_sign_up') %>
-		<h2>Sign up for a ConnectedAdvertiser™ Business Membership</h2>
-	<% else %>
-		<h2>Sign up for a Free ConnectedShopper™ Membership</h2>
-	<% end %>
+<div class="row-fluid">
+	<div class="span12" style="text-align: center;">
+		<% if request.fullpath.include?('business_sign_up') %>
+			<h2>Sign up for a ConnectedAdvertiser™ Business Membership</h2>
+		<% else %>
+			<h2>Sign up for a Free ConnectedShopper™ Membership</h2>
+		<% end %>
+	</div>
 </div>
 
-<div style="width: 90%;">
-	<div style="float: left; display: inline;">
+<div class="row-fluid">
+	<div class="span4">
 		<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:class => 'form-vertical' }) do |f| %>
 		  <%= f.error_notification %>
 		  <%= f.input :first_name, :required => true %>
@@ -22,7 +24,7 @@
 		<%= render "devise/shared/links" %>
 	</div>
 
-	<div style="float: right; display: inline;">
+	<div class="span4">
 		<% if request.fullpath.include?('business_sign_up') %>
 			<h2>Save time & money connecting with local shoppers.</h2>
 			<ul>

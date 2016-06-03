@@ -7,7 +7,7 @@ class Ability
       can :manage, :all
     else
       can :read, :all
-      rails
+
       can [:claim, :claim_process], Location do |l|
         user.persisted?
       end
