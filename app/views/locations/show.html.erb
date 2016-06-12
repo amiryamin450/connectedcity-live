@@ -1,6 +1,6 @@
 <%
   metamagic site: "ConnectedCity",
-            title: ["#{@location.name} in #{@neighborhood.try(:name) || @location.district.try(:name)}, #{@city.try(:name)}", :site],
+            title: ["#{@location.name} in #{@location.business_improvement_area.name || @neighborhood.try(:name) || @location.district.try(:name)}, #{@city.try(:name)}", :site],
             separator: " — "
 %>
 <%######## view content ########%>
