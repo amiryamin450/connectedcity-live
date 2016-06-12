@@ -1378,6 +1378,13 @@ body > .jcf-select-drop.jcf-drop-flipped {
 		overflow: scroll;
 	}
 
+	.location-block .dropdown ul {
+		float: left;
+		width: auto;
+		text-align: left;
+		padding: 20px;
+	}
+
 	.search-form {
 		text-align: center;
 	}

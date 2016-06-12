@@ -1,7 +1,7 @@
 module SocialMediaHelper
   def render_social_media_buttons(status_update)
   	  status_update_url		= status_update[:url].html_safe
-  	  status_update_title 	= html_escape(status_update[:title])
+  	  status_update_title 	= html_escape(status_update[:title]) + " - ConnectedCity"
   	  status_update_content = html_escape(status_update[:content])
   	  status_update_image 	= status_update[:image] || ""
 
