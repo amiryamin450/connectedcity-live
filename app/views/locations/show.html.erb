@@ -1,7 +1,13 @@
 <%
   metamagic site: "ConnectedCity",
-            title: ["#{@location.name} in #{@location.business_improvement_area.name || @neighborhood.try(:name) || @location.district.try(:name)}, #{@city.try(:name)}", :site],
-            separator: " — "
+            title: ["#{@location.name} in #{@location.business_improvement_area.try(:name) || @neighborhood.try(:name) || @location.district.try(:name)}, #{@city.try(:name)}", :site],
+            separator: " — ",
+            og: {
+              title: @location.name + " - ConnectedCity",
+              description: @location.try(:content).html_safe,
+              image: @location_carousel_images.first.try(:url),
+              url: location_url(@location)
+            }
 %>
 <%######## view content ########%>
 <div class="span6">
