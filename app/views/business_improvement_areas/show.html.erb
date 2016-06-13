@@ -140,25 +140,38 @@
   </div>
 </div>
 
-<div class="span4">
-  <%= render 'search_form', { locals: {css_class: 'hidden-mobile'} } %>
-</div>
-<div class="span4">
-  <%= render 'application/join_now' %>
+  <div class="span4">
+    <%= render 'search_form', { locals: {css_class: 'hidden-mobile'} } %>
+  </div>
+  <div class="span4">
+    <%= render 'application/join_now' %>
 
-  <div class="row-fluid">
-    <div class="holder pad10 clearfix">
-      <h5>About <%= @business_improvement_area.name %></h5>
-      <div class="pull-left clearfix" style="margin-right: 10px; margin-bottom: 10px;">
-        <%= image_tag(@business_improvement_area.logo.url(:display), class: '') %>
-      </div>
-      <%= @business_improvement_area.description.html_safe %>
-      <div class="" style="margin-top: 10px; clear: both;">
-        <%= link_to "Visit us online!", @business_improvement_area.website_url, class: 'btn btn-success input-block-level' if @business_improvement_area.website_url.present? %>
+    <div class="row-fluid">
+      <div class="holder pad10 clearfix">
+        <h5>About <%= @business_improvement_area.name %></h5>
+        <div class="pull-left clearfix" style="margin-right: 10px; margin-bottom: 10px;">
+          <%= image_tag(@business_improvement_area.logo.url(:display), class: '') %>
+        </div>
+        <%= @business_improvement_area.description.html_safe %>
+        <div class="" style="margin-top: 10px; clear: both;">
+          <%= link_to "Visit us online!", @business_improvement_area.website_url, class: 'btn btn-success input-block-level' if @business_improvement_area.website_url.present? %>
+        </div>
       </div>
     </div>
   </div>
-</div>
+  <div class="span4">
+    <div class="holder pad10">
+      <h5>Videos</h5>
+      <% if @business_improvement_area.media_attachments.any? %>
+        <%= render @business_improvement_area.media_attachments.limit(3).order(:created_at) %>
+        <div class="row-fluid article">
+          <p class="text-right"><%= link_to "See all", "#" %></p>
+        </div>
+      <% else %>
+        <div class="alert">No Videos found.</div>
+      <% end %>
+    </div>
+  </div>
 </div>
 <%= render 'status_updates/show_image' %>
 <% if user_signed_in? && (current_user.has_role?(:admin) || @business_improvement_area.user_id == current_user.id) %>
