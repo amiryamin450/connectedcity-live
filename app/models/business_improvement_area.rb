@@ -16,6 +16,7 @@ class BusinessImprovementArea < ActiveRecord::Base
   has_many :vertical_market_categories, through: :locations, uniq: true
   has_many :news_articles, through: :locations, uniq: true
   has_many :carousel_images, as: :carouselable
+  has_many :media_attachments, through: :locations, uniq: true
 
   attr_accessible :description, :district_id, :name, :slug, :home_page_image, :district, :status_updates, :status_updates_attributes, :logo,
                   :website_url, :use_carousel
