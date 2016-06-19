@@ -461,6 +461,10 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	background-position: -159px -47px;
 }
 
+#nav ul > li.active > div > a i.education {
+	background-position: -121px -98px;
+}
+
 #nav ul > li.active > div > a i.fashion {
 	background-position: -1px -98px;
 }
@@ -509,6 +513,10 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	background-position: -88px -146px;
 }
 
+#nav ul > li.active > div > a i.specialty {
+	background-position: -149px -98px;
+}
+
 #nav ul > li > div {
 	display: inline-block;
 	vertical-align: top;
@@ -552,6 +560,11 @@ body > .jcf-select-drop.jcf-drop-flipped {
 #nav ul > li > div:hover > a i.entertainment,
 #nav ul > li > div.hover > a i.entertainment {
 	background-position: -159px -47px;
+}
+
+#nav ul > li > div:hover > a i.education,
+#nav ul > li > div.hover > a i.education {
+	background-position: -121px -147px;
 }
 
 #nav ul > li > div:hover > a i.fashion,
@@ -613,6 +626,11 @@ body > .jcf-select-drop.jcf-drop-flipped {
 #nav ul > li > div:hover > a i.city,
 #nav ul > li > div.hover > a i.city {
 	background-position: -88px -146px;
+}
+
+#nav ul > li > div:hover > a i.specialty,
+#nav ul > li > div.hover > a i.specialty {
+	background-position: -149px -147px;
 }
 
 #nav ul > li > div:hover .sub-drop:before,
@@ -678,6 +696,12 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	background-position: -159px -22px;
 	width: 19px;
 	height: 21px;
+}
+
+#nav ul > li > div > a i.education {
+	background-position: -121px -122px;
+	width: 20px;
+	height: 17px;
 }
 
 #nav ul > li > div > a i.fashion {
@@ -750,6 +774,12 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	background-position: -87px -122px;
 	width: 28px;
 	height: 18px;
+}
+
+#nav ul > li > div > a i.specialty {
+	background-position: -149px -122px;
+	width: 20px;
+	height: 17px;
 }
 
 #nav ul > li > div > a:hover {
