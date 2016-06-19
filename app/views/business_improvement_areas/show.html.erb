@@ -1,3 +1,12 @@
+  <%=
+  metamagic site: "ConnectedCity",
+            title: ["Find Businesses in #{@business_improvement_area.name}, #{@city.name}", :site],
+            separator: " — ",
+            charset: "utf-8",
+            viewport: "width=device-width, initial-scale=1.0"
+
+  %>
+
 <div class="row-fluid">
   <div class="span8">
     <h3><%= @business_improvement_area.name %>
@@ -13,9 +22,6 @@
       </small>
       <% end -%>
     </h3>
-  </div>
-  <div class="span4">
-    <%= render 'search_form', { locals: {css_class: 'hidden-mobile'} } %>
   </div>
 </div>
 
@@ -89,17 +95,21 @@
            <% end %>
          </h5>
          <% if @status_updates.size > 0 %>
-         <% @status_updates.sort_by(&:created_at).reverse!.each do |update| %>
+         <% @status_updates.sort_by(&:created_at).reverse!.each do |status_update| %>
          <div class="row-fluid status-update">
-          <div class="span2">
-            <%= image_tag update.statusable.logo.url if update.statusable.logo? %>
-          </div>
-          <div class="span10">
-            <div class="name"><%= link_to update.statusable.name, update.statusable %> <span class="time-ago"> <%= "#{time_ago_in_words(update.created_at)} ago" %></span></div>
-            <div><%= update.content %></div>
-          </div>
-          <% status_update = {url: location_url(update.statusable), title: update.statusable.name, content: update.content} %>
-          <%= render_social_media_buttons(status_update) %>
+            <div class="span2">
+                <%= image_tag status_update.statusable.logo.url %>
+            </div>
+            <div class="span10">
+              <div class="name"><%= link_to status_update.statusable.name, statusable_path(status_update.statusable) %> <span class="time-ago"> <%= "#{time_ago_in_words(status_update.created_at)} ago" %></span></div>
+              <div><%= status_update.content %> 
+              <% if status_update.image? %>
+                <%= link_to(content_tag(:span, "View Image", class: "status-update-image", data: {"large-image" => status_update.image.url, "location-name" => status_update.statusable.name}), '#status_update_image', data: {toggle: 'modal'}) %>
+              <% end %>
+              </div>
+              <% status_update = {url: location_url(status_update.statusable), title: status_update.statusable.name, content: status_update.content, image: status_update.image.url} %>
+              <%= render_social_media_buttons(status_update) %>
+            </div>
         </div>
         <% end %>
         <% else %>
@@ -121,7 +131,7 @@
         <div class="holder pad10">
           <h5>Events</h5>
           <% if @business_improvement_area.events.size > 0 %>
-          <%= render @business_improvement_area.events.limit(200).order(:created_at) %>
+          <%= render @business_improvement_area.events.limit(200).order(:starts_at) %>
           <% else %>
           <div class="alert">No News Articles found.</div>
           <% end %>
@@ -130,39 +140,40 @@
   </div>
 </div>
 
+  <div class="span4">
+    <%= render 'search_form', { locals: {css_class: 'hidden-mobile'} } %>
+  </div>
+  <div class="span4">
+    <%= render 'application/join_now' %>
 
-<div class="span4">
-  <%= render 'application/join_now' %>
-
-  <div class="row-fluid">
-    <div class="holder pad10 clearfix">
-      <h5>About <%= @business_improvement_area.name %></h5>
-      <div class="pull-left clearfix" style="margin-right: 10px; margin-bottom: 10px;">
-        <%= image_tag(@business_improvement_area.logo.url(:display), class: '') %>
-      </div>
-      <%= @business_improvement_area.description.html_safe %>
-      <div class="" style="margin-top: 10px; clear: both;">
-        <%= link_to "Visit us online!", @business_improvement_area.website_url, class: 'btn btn-success input-block-level' if @business_improvement_area.website_url.present? %>
+    <div class="row-fluid">
+      <div class="holder pad10 clearfix">
+        <h5>About <%= @business_improvement_area.name %></h5>
+        <div class="pull-left clearfix" style="margin-right: 10px; margin-bottom: 10px;">
+          <%= image_tag(@business_improvement_area.logo.url(:display), class: '') %>
+        </div>
+        <%= @business_improvement_area.description.html_safe %>
+        <div class="" style="margin-top: 10px; clear: both;">
+          <%= link_to "Visit us online!", @business_improvement_area.website_url, class: 'btn btn-success input-block-level' if @business_improvement_area.website_url.present? %>
+        </div>
       </div>
     </div>
   </div>
-
-  <% if @tag_cloud.present? and @tag_cloud.size > 0 %>
-  <div class="row-fluid">
-    <div class="holder pad10 clearfix">
-      <h5>Tag Cloud</h5>
-      <div class="pad10 clearfix">
-        <div id="tag_cloud" style="min-height: 600px; overflow-y: auto;"></div>
-        <%= javascript_tag do %>
-          var word_list = <%= raw @tag_cloud.sort_by!{ |tag| tag[:text].downcase }.to_json %>
-        <% end %>
-      </div>
+  <div class="span4">
+    <div class="holder pad10">
+      <h5>Videos</h5>
+      <% if @business_improvement_area.media_attachments.any? %>
+        <%= render @business_improvement_area.media_attachments.limit(3).order(:created_at) %>
+        <div class="row-fluid article">
+          <p class="text-right"><%= link_to "See all", "#" %></p>
+        </div>
+      <% else %>
+        <div class="alert">No Videos found.</div>
+      <% end %>
     </div>
   </div>
-  <% end %>
 </div>
-</div>
-
+<%= render 'status_updates/show_image' %>
 <% if user_signed_in? && (current_user.has_role?(:admin) || @business_improvement_area.user_id == current_user.id) %>
 <%############# status update ###############%>
 
@@ -177,7 +188,6 @@
     <button class="btn btn-primary">Send</button>
   </div>
 </div>
-
 
 <%= render 'status_update_form' %>
 

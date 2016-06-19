@@ -71,6 +71,7 @@ class VerticalMarketsController < ApplicationController
     vm = VerticalMarket.find(params[:market]) if params[:market].present?
     district = District.find(params[:district_route]) if params[:district_route].present?
     neighborhood = Neighborhood.find(params[:neighborhood]) if params[:neighborhood].present?
+    @bia = BusinessImprovementArea.find(params[:business_improvement_area]) if params[:business_improvement_area].present?
     @vertical_market = vm if vm.present?
 
 
@@ -86,12 +87,14 @@ class VerticalMarketsController < ApplicationController
     end
 
 
-    @search = Location.solr_search do
+    @search = Sunspot.search Location, AutomotiveListing, RealEstateListing do
       fulltext params[:search]
+
       with(:city_id, 5915022)
       with(:vertical_market_ids, ids) if vm.present?
       with(:district_id, district.id) if district.present?
-      with(:neighborhood_id, neighborhood.id) if neighborhood.present?
+      with(:business_improvement_area_id, @bia.id) if @bia.present?
+      with(:neighborhood_id, neighborhood.id) if neighborhood.present?     
       paginate :page => params[:page]
     end
 

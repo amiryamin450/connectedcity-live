@@ -1,10 +1,11 @@
+<%=
+metamagic site: "ConnectedCity",
+          title: ["Find Businesses in #{@district.name}, #{@city.name}", :site],
+          separator: " — ",
+          charset: "utf-8",
+          viewport: "width=device-width, initial-scale=1.0"
 
-
-
-
-
-
-
+%>
 
 <div class="row-fluid">
   <div class="span8">
@@ -18,9 +19,6 @@
   <% end %>
   </h3>
   </div>
-  <div class="span4">
-    <%= render 'search_form', { locals: {css_class: 'hidden-mobile'} } %>
-  </div>
 </div>
 
 
@@ -28,9 +26,6 @@
 <div class="row-fluid">
   <div class="span8">
     <div class="row-fluid">
-
-
-
       <% if @district.use_carousel and @district.carousel_images.present? and @district.carousel_images.size > 0 %>
       <div id="carousel" class="carousel slide" data-interval="8000">
         <ol class="carousel-indicators">
@@ -116,7 +111,9 @@
     </div>
   </div>
 
-
+  <div class="span4">
+    <%= render 'search_form', { locals: {css_class: 'hidden-mobile'} } %>
+  </div>
   <div class="span4">
     <%= render 'application/join_now' %>
     <div class="row-fluid">

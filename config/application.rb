@@ -86,5 +86,6 @@ module Connectbook
     config.action_mailer.default_url_options = { :host => Settings.host }
     Rails.application.routes.default_url_options[:host] = Settings.host
 
+    config.paths['app/views'] << "app/views/devise"
   end
 end

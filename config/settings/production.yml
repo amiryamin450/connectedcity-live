@@ -1,4 +1,4 @@
-host: production.connectedcity.com
+host: connectedcity.com
 db_host: transcona-production-rds-01.cm6qznlodypt.us-west-2.rds.amazonaws.com
 aws_region: us-west-2
 

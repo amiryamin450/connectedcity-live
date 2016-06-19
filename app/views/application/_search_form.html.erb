@@ -1,13 +1,16 @@
 <div class="form-holder <%= locals[:css_class] %>">
   <%= form_tag "#{@base_path}search", class: 'search-form', method: :get do %>
     <fieldset>
-      <div class="search-row">
+      <div class="search-row" id="search-field">
         <%= search_field_tag :search, params[:search], placeholder: "Search" %>
       </div>
-      <div class="search-row">
+      <div class="search-row" id="search-select-field">
         <%= select_tag 'market', options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), prompt: 'all categories', class: 'category' %>
       </div>
       <div class="submit-wrap">
+        <% if @business_improvement_area.present? %>
+          <%= hidden_field_tag(:business_improvement_area, @business_improvement_area.id) %>
+        <% end %>
         <input type="submit" value="submit">
       </div>
     </fieldset>
