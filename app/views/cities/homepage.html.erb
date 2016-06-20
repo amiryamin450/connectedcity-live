@@ -90,17 +90,6 @@
           <% end %>
         </div>
         <div class="holder pad10">
-          <h5>Videos</h5>
-          <% if @city.media_attachments.any? %>
-            <%= render @city.media_attachments.limit(3).order(:created_at) %>
-            <div class="row-fluid article">
-              <p class="text-right"><%= link_to "See all", "#" %></p>
-            </div>
-          <% else %>
-            <div class="alert">No Videos found.</div>
-          <% end %>
-        </div>
-        <div class="holder pad10">
           <h5>News</h5>
           <% if @city.news_articles.any? %>
             <%= render @city.news_articles.limit(3).order(:created_at) %>
