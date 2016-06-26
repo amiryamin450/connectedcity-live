@@ -68,17 +68,6 @@
       <%= render 'status_updates/homepage_list', zone: @city %>
       <div class="span6">
         <div class="holder pad10">
-          <h5>Offers &amp; Coupons</h5>
-          <% if @city.coupons.any? %>
-            <%= render @city.coupons.limit(3).order(:created_at) %>
-            <div class="row-fluid article">
-              <p class="text-right"><%= link_to "See all", "#" %></p>
-            </div>
-          <% else %>
-            <div class="alert">No Offers &amp; Coupons found.</div>
-          <% end %>
-        </div>
-        <div class="holder pad10">
           <h5>Events</h5>
           <% if @city.events.any? %>
             <%= render @city.events.limit(3).order(:created_at) %>
@@ -98,17 +87,6 @@
             </div>
           <% else %>
             <div class="alert">No News Articles found.</div>
-          <% end %>
-        </div>
-        <div class="holder pad10">
-          <h5>Featured Products &amp; Services</h5>
-          <% if @city.products.any? || @city.services.any? %>
-            <%= render (@city.products.limit(3).order(:created_at) + @city.services.limit(3).order(:created_at)).sort_by(&:created_at).take(3) %>
-            <div class="row-fluid article">
-              <p class="text-right"><%= link_to "See all", "#" %></p>
-            </div>
-          <% else %>
-            <div class="alert">No Featured Products &amp; Services found.</div>
           <% end %>
         </div>
       </div>
