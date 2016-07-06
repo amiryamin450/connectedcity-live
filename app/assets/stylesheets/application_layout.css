@@ -1045,10 +1045,10 @@ body > .jcf-select-drop.jcf-drop-flipped {
 }
 
 .search-form input[type="search"] {
-	border-color: #b9b9b9;
+	border-color: #f68220;
 	height: 37px;
 	border-radius: 2px;
-	box-shadow: 0 0 5px rgba(0, 0, 0, .4) inset;
+	box-shadow: 0 0 5px rgba(246, 130, 32, .4) inset;
 	font-size: 15px;
 	line-height: 18px;
 	color: #666;
@@ -1080,7 +1080,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 }
 
 .search-form .jcf-select {
-	border-color: #b9b9b9;
+	border-color: #f68220;
 	height: 37px;
 	margin: 0 0 0 -1px;
 	width: 100%;
@@ -1092,14 +1092,14 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	font-size: 15px;
 	line-height: 34px;
 	height: 100%;
-	box-shadow: 0 0 5px rgba(0, 0, 0, .4) inset;
+	box-shadow: 0 0 5px rgba(246, 130, 32, .4) inset;
 	margin: 0;
 	padding: 0 20px 0 10px;
 }
 
 .search-form .jcf-select .jcf-select-opener {
-	background: #ebebeb;
-	border-left: 1px solid #acacac;
+	background: #fee1b2;
+	border-left: 1px solid #f68220;
 	width: 16px;
 }
 
@@ -1116,14 +1116,14 @@ body > .jcf-select-drop.jcf-drop-flipped {
 }
 
 .search-form .submit-wrap {
-	height: 37px;
+	height: 38px;
 	width: 42px;
-	background: #afafb3 url('search.jpg') no-repeat 11px 6px;
+	background: #afafb3 url('search-button.png');
 	display: inline-block;
 	vertical-align: top;
 	letter-spacing: 0;
 	position: relative;
-	margin: 0 0 0 -1px;
+	margin: -1px 0 0 -1px;
 }
 
 .search-form .submit-wrap:hover {
