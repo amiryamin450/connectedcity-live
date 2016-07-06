@@ -2,11 +2,8 @@
   <div class="holder pad10">
     <h5>Join Now</h5>
     <div class="sign-up-promo">
-      <ul>
-        <li><a href="<%= new_user_registration_path %>">Sign-up</a> for a free ConnectedShopper&trade; account</li>
-        <li><a href="<%= business_sign_up_path%>">Claim</a> your ConnectedAdvertiser&trade; media channel</li>
-        <li><a href="<%= contact_path%>">Add</a> your Business</li>
-      </ul>
+      <%= link_to(image_tag("shopper-button.png", size: "190x68"), new_user_registration_path) %>
+      <%= link_to(image_tag("business-sign-up.png", size: "190x68", style: 'padding-top: 1px;'), business_sign_up_path) %>
     </div>
   </div>
 </div>
