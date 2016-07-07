@@ -2,7 +2,7 @@
 
 meta title: @classified_listing.title,
      description: "",
-     canonical: url_for(Rails.application.routes.recognize_path(request.path).merge({only_path: false}))
+     canonical: url_for(Rails.application.routes.recognize_path(request.path).merge({only_path: false, protocol: 'https'}))
 
 %>
 
