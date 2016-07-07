@@ -43,6 +43,7 @@ gem 'rolify'
 gem 'sidekiq'
 gem 'simple_form'
 gem 'sinatra', require: false
+gem 'sitemap_generator'
 gem 'slim'
 gem 'stripe'
 gem 'sunspot_rails'
@@ -56,7 +57,6 @@ gem 'yaml_db'
 group :production, :staging do
   gem 'aws-sdk'
   gem 'puma'
-  gem 'sitemap_generator'
 end
 
 group :assets do
