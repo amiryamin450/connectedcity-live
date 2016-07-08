@@ -141,7 +141,7 @@
         <div class="holder pad10">
         <h5>Videos</h5>
         <% if @business_improvement_area.media_attachments.any? %>
-          <%= render @business_improvement_area.media_attachments.limit(3).order(:created_at) %>
+          <%= render @business_improvement_area.media_attachments.limit(200).order(:created_at) %>
           <div class="row-fluid article">
             <p class="text-right"><%= link_to "See all", "#" %></p>
           </div>
