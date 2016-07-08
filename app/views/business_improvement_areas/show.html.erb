@@ -9,7 +9,7 @@
 
 <div class="row-fluid">
   <div class="span8">
-    <h3><%= @business_improvement_area.name %>
+    <h1><%= @business_improvement_area.name %>
       <% if user_signed_in? && (current_user.has_role?(:admin) || @business_improvement_area.user_id == current_user.id) %>
       <small>
         <%= link_to 'edit', edit_business_improvement_area_path(@business_improvement_area) %>
@@ -21,7 +21,7 @@
         <% end %>
       </small>
       <% end -%>
-    </h3>
+    </h1>
   </div>
 </div>
 

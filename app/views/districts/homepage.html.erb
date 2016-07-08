@@ -9,7 +9,7 @@ metamagic site: "ConnectedCity",
 
 <div class="row-fluid">
   <div class="span8">
-  <h3><%= @district.name %>
+  <h1><%= @district.name %>
   <% if user_signed_in? and current_user.has_role? :admin %>
       <small><%= link_to 'edit', edit_district_path(@district) %>
       <% if @district.use_carousel %>
@@ -17,7 +17,7 @@ metamagic site: "ConnectedCity",
       <% end %>
       </small>
   <% end %>
-  </h3>
+  </h1>
   </div>
 </div>
 
