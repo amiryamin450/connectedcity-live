@@ -70,7 +70,7 @@
         <div class="holder pad10">
           <h5>Events</h5>
           <% if @city.events.any? %>
-            <%= render @city.events.limit(3).order(:created_at) %>
+            <%= render @city.events.limit(200).order(:starts_at) %>
             <div class="row-fluid article">
               <p class="text-right"><%= link_to "See all", "#" %></p>
             </div>
@@ -78,7 +78,7 @@
             <div class="alert">No Events found.</div>
           <% end %>
         </div>
-        <div class="holder pad10">
+        <!--<div class="holder pad10">
           <h5>News</h5>
           <% if @city.news_articles.any? %>
             <%= render @city.news_articles.limit(3).order(:created_at) %>
@@ -88,7 +88,7 @@
           <% else %>
             <div class="alert">No News Articles found.</div>
           <% end %>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
