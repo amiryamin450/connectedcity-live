@@ -40,6 +40,8 @@ class ApplicationController < ActionController::Base
                     @district = District.find(params[:district_route])
                     @neighborhood = Neighborhood.find(params[:neighborhood])
                     "/#{params[:district_route]}/#{params[:neighborhood]}/"
+                  elsif request.fullpath.include? "sitemap.xml"
+                    
                   elsif params[:district_route].present?
                     cookies[:base_path] = "/#{params[:district_route]}/#{params[:neighborhood]}/"
                     cookies[:district_route] = params[:district_route]

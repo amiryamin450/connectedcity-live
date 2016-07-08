@@ -40,9 +40,13 @@ class DistrictsController < ApplicationController
 
   # FIXME Why is this homepage and not show?
   def homepage
-    @district = District.find(params[:district_route])
+    if !request.fullpath.include? "sitemap.xml"
+      @district = District.find(params[:district_route])
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb @district.name
+      add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
+      add_crumb @district.name
+    else
+        send_file("#{Rails.root}/public/sitemap.xml", filename: "sitemap.xml", type: "application/xml")
+    end
   end
 end
