@@ -9,7 +9,7 @@
 
 <div class="row-fluid">
   <div class="span8">
-    <h3><%= @business_improvement_area.name %>
+    <h1><%= @business_improvement_area.name %>
       <% if user_signed_in? && (current_user.has_role?(:admin) || @business_improvement_area.user_id == current_user.id) %>
       <small>
         <%= link_to 'edit', edit_business_improvement_area_path(@business_improvement_area) %>
@@ -21,7 +21,7 @@
         <% end %>
       </small>
       <% end -%>
-    </h3>
+    </h1>
   </div>
 </div>
 
@@ -87,7 +87,7 @@
       </div>
     </div>
     <div class="row-fluid">
-      <div class="span6">
+      <div class="span4">
         <div class="holder pad10">
           <h5>Status Updates
            <% if user_signed_in? && (current_user.has_role?(:admin) || @business_improvement_area.user_id == current_user.id) %>
@@ -118,7 +118,7 @@
 
       </div>
     </div>
-    <div class="span6">
+    <div class="span4">
         <!--<div class="holder pad10">
           <h5>News</h5>
           <% if @business_improvement_area.news_articles.size > 0 %>
@@ -136,6 +136,19 @@
           <div class="alert">No News Articles found.</div>
           <% end %>
         </div>
+    </div>
+    <div class="span4">
+        <div class="holder pad10">
+        <h5>Videos</h5>
+        <% if @business_improvement_area.media_attachments.any? %>
+          <%= render @business_improvement_area.media_attachments.limit(200).order(:created_at) %>
+          <div class="row-fluid article">
+            <p class="text-right"><%= link_to "See all", "#" %></p>
+          </div>
+        <% else %>
+          <div class="alert">No Videos found.</div>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
