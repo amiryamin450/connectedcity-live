@@ -71,9 +71,6 @@
           <h5>Events</h5>
           <% if @city.events.any? %>
             <%= render @city.events.limit(200).order(:starts_at) %>
-            <div class="row-fluid article">
-              <p class="text-right"><%= link_to "See all", "#" %></p>
-            </div>
           <% else %>
             <div class="alert">No Events found.</div>
           <% end %>
@@ -95,9 +92,6 @@
           <h5>Videos</h5>
           <% if @city.media_attachments.any? %>
             <%= render @city.media_attachments.limit(200).order(:created_at) %>
-            <div class="row-fluid article">
-              <p class="text-right"><%= link_to "See all", "#" %></p>
-            </div>
           <% else %>
             <div class="alert">No Videos found.</div>
           <% end %>

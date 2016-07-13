@@ -18,7 +18,6 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_up
-
     @vertical_markets_all = VerticalMarket.order(:name).at_depth 0
     user_signed_in? ? @favorites = current_user.favorites.all : @favorites = []
 
@@ -34,7 +33,7 @@ class ApplicationController < ActionController::Base
       cookies.delete(:district_route)
     end
 
-    @base_path = if params[:district_route].present? and params[:neighborhood].present?
+    @base_path = if params[:district_route].present? and params[:neighborhood].present? and !request.fullpath.include? "guide"
                     cookies[:base_path] = "/#{params[:district_route]}/#{params[:neighborhood]}/"
                     cookies[:district_route] = params[:district_route]
                     @district = District.find(params[:district_route])

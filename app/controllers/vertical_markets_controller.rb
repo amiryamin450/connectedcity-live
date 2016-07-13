@@ -35,6 +35,8 @@ class VerticalMarketsController < ApplicationController
     end
   end
 
+
+  #This is the action that controls the vertical market category pages. Not sure why it's an action called Guide when there is a Guide controller...sigh... -Don Marges
   def guide
     @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).find(params[:market])
 
