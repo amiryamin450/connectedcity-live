@@ -31,7 +31,7 @@ NOTE Rental (rental)
      Commercial (commercial)
 
 %>
-<% cache "#{user_signed_in? ? "in" : "out"}_#{@vertical_market.id}_#{@city.try(:id)}_#{@district.try(:id)}_#{@neighborhood.try(:id)}_locations", expires_in: 60.minutes do %>
+<% cache "#{user_signed_in? ? "in" : "out"}_#{@vertical_market.id}_#{@city.try(:id)}_#{@district.try(:id)}_#{@neighborhood.try(:id)}_locations", expires_in: 1.minutes do %>
 <% if [17, 18, 19, 20].include?(@vertical_market.id) %>
   <%# TODO Optimize %>
   <%=

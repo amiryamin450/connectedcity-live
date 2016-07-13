@@ -18,7 +18,6 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_up
-
     @vertical_markets_all = VerticalMarket.order(:name).at_depth 0
     user_signed_in? ? @favorites = current_user.favorites.all : @favorites = []
 
