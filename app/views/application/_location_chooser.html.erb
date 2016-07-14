@@ -40,7 +40,7 @@ district_url_suffix = if params[:market].present?
                            else
                               @district_link = District.find(bia.district_id)
                              if @vertical_market
-                               district_neighborhood_guide_path(@district_link.slug, bia.slug, @vertical_market.name)
+                               district_neighborhood_guide_path(@district_link.slug, bia.slug, @vertical_market.slug)
                              else
                                "/neighbourhoods/#{bia.slug}"
                              end

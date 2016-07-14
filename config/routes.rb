@@ -257,7 +257,7 @@ Connectbook::Application.routes.draw do
   # get 'search/:market/:sub_market' => 'vertical_markets#search', as: :region_sub_market_search
   # get 'guide/:market/:sub_market' => 'vertical_markets#guide', as: :region_sub_market_guide
   # get ':district_route/search/:market/:sub_market' => 'vertical_markets#search'
-  get ':district_route/guide/:market' => 'vertical_markets#guide', as: :district_guide
+  get ':district_route/guide/:market' => 'vertical_markets#guide', as: :top_district_guide
   get 'guide/:market' => 'vertical_markets#guide', as: :region_market_guide
 
   get ':district_route/business/:id' => 'locations#show', as: :district_location_path
