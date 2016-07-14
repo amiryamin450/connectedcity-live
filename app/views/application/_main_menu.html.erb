@@ -52,7 +52,7 @@
                   <ul>
                     <% vm.children.sort_by(&:name).each do |child| %>
                       <% if @business_improvement_area %>
-                        <li><%= link_to child.name, district_neighborhood_guide_path(@district_name, @slug, vm.slug) %></li>
+                        <li><%= link_to child.name, district_neighborhood_guide_path(@district_name, @slug, child.slug) %></li>
                       <% else %>
                         <li><%= link_to child.name, "#{@base_path}guide/#{child.slug}" %></li>
                       <% end %>
