@@ -13,6 +13,20 @@
   end
 %>
 
+
+<%
+  @neighbourhood_param = params[:neighborhood]
+  @neighbourhood_slug = params[:neighborhood]
+
+  if @neighbourhood_param
+    
+    if @neighbourhood_param.include? "kitsilano"
+      @neighbourhood_slug = "kitsilano"
+    end
+    
+    @neighbourhood = Neighborhood.where('slug LIKE ?', @neighbourhood_slug).first
+  end
+%>
 <nav id="nav">
   <a href="#" class="opener"><span></span></a>
   <div class="drop win-height">
@@ -54,7 +68,15 @@
                       <% if @business_improvement_area %>
                         <li><%= link_to child.name, district_neighborhood_guide_path(@district_name, @slug, child.slug) %></li>
                       <% else %>
-                        <li><%= link_to child.name, "#{@base_path}guide/#{child.slug}" %></li>
+                        <% if @neighbourhood %>
+                          <li><%= link_to child.name, district_neighborhood_guide_path(@district, @neighbourhood.slug, child.slug) %></li>
+                        <% else %>
+                          <% if @district %>
+                            <li><%= link_to child.name, top_district_guide_path(@district, child.slug) %></li>
+                          <% else %>
+                            <li><%= link_to child.name, "#{@base_path}guide/#{child.slug}" %></li>
+                          <% end %>
+                        <% end %>
                       <% end %>
                     <% end %>
                   </ul>
