@@ -1,5 +1,5 @@
 # Set the host name for URL creation
-SitemapGenerator::Sitemap.default_host = "http://www.connectedcity.com"
+SitemapGenerator::Sitemap.default_host = "https://www.connectedcity.com"
 
 SitemapGenerator::Sitemap.create do
 

@@ -38,7 +38,12 @@ district_url_suffix = if params[:market].present?
                  bia_url = if params[:controller] == "vertical_market_categories" && params[:id]
                              "/neighbourhoods/#{bia.slug}/category/#{params[:id]}"
                            else
-                             "/neighbourhoods/#{bia.slug}"
+                              @district_link = District.find(bia.district_id)
+                             if @vertical_market
+                               district_neighborhood_guide_path(@district_link.slug, bia.slug, @vertical_market.slug)
+                             else
+                               "/neighbourhoods/#{bia.slug}"
+                             end
                            end
               %>
               <li><%= link_to bia.name, bia_url %></li>

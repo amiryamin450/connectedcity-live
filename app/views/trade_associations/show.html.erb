@@ -1,13 +1,13 @@
 
 <div class="row-fluid">
   <div class="span8">
-    <h3><%= @trade_association.name %>
+    <h1><%= @trade_association.name %>
       <% if user_signed_in? and current_user.has_role? :admin %>
       <small>
         <%= link_to 'edit', edit_trade_association_path(@trade_association) %>
       </small>
       <% end -%>  
-    </h3>
+    </h1>
   </div>
   <div class="span4">
     <%= render 'search_form', { locals: {css_class: 'hidden-mobile'} } %>

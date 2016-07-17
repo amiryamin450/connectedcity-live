@@ -8,7 +8,6 @@ class GuideController < ApplicationController
   end
 
   def country
-
     @country = params[:country]
     @arg_type = 'country'
 

@@ -1,6 +1,34 @@
+<%
+  if @business_improvement_area
+    @district = District.find(@business_improvement_area.district_id)
+    @district_name = @district.slug
+
+    @slug = @business_improvement_area.slug
+
+    if @business_improvement_area.slug.include? "kitsilano"
+      @slug = "kitsilano"
+    end
+
+    @neighbourhood = Neighborhood.where('slug LIKE ?', @slug)
+  end
+%>
+
+
+<%
+  @neighbourhood_param = params[:neighborhood]
+  @neighbourhood_slug = params[:neighborhood]
+
+  if @neighbourhood_param
+    
+    if @neighbourhood_param.include? "kitsilano"
+      @neighbourhood_slug = "kitsilano"
+    end
+    
+    @neighbourhood = Neighborhood.where('slug LIKE ?', @neighbourhood_slug).first
+  end
+%>
 <nav id="nav">
   <a href="#" class="opener"><span></span></a>
-
   <div class="drop win-height">
     <div class="drop-holder">
 
@@ -28,12 +56,28 @@
         <% @vertical_markets_all.each_with_index do |vm, index| %>
           <li>
             <div>
-              <%= link_to "#{@base_path}guide/#{vm.slug}" do %><i class="<%= vm.name.parameterize("_") %>"></i><%= vm.name %><% end %>
+              <% if @business_improvement_area %>
+                <%= link_to district_neighborhood_guide_path(@district_name, @slug, vm.slug) do %><i class="<%= vm.name.parameterize("_") %>"></i><%= vm.name %><% end %>
+              <% else %>
+                <%= link_to "#{@base_path}guide/#{vm.slug}" do %><i class="<%= vm.name.parameterize("_") %>"></i><%= vm.name %><% end %>
+              <% end %>
               <% if vm.has_children? %>
                 <div class="sub-drop">
                   <ul>
                     <% vm.children.sort_by(&:name).each do |child| %>
-                      <li><%= link_to child.name, "#{@base_path}guide/#{child.slug}" %></li>
+                      <% if @business_improvement_area %>
+                        <li><%= link_to child.name, district_neighborhood_guide_path(@district_name, @slug, child.slug) %></li>
+                      <% else %>
+                        <% if @neighbourhood %>
+                          <li><%= link_to child.name, district_neighborhood_guide_path(@district, @neighbourhood.slug, child.slug) %></li>
+                        <% else %>
+                          <% if @district %>
+                            <li><%= link_to child.name, top_district_guide_path(@district, child.slug) %></li>
+                          <% else %>
+                            <li><%= link_to child.name, "#{@base_path}guide/#{child.slug}" %></li>
+                          <% end %>
+                        <% end %>
+                      <% end %>
                     <% end %>
                   </ul>
                 </div>

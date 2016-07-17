@@ -1,67 +1,83 @@
 <%= render 'messages' %>
-<div class="row-fluid">
-  <div class="span4">
-    <%= image_tag "connected_advertiser.png" %>
-  </div>
-  <div class="span8">
-    <h4>For Business Owners/Managers:</h4>
-    <p>Claim your <b>ConnectedMerchant&trade;</b> Media Channel</p>
-    <ul>
-      <li>Promote your business to reach local shoppers.</li>
-      <li>Add your logo, photos, videos, email &amp; website address</li>
-      <li>Add your products, services, events and jobs</li>
-      <li>Promote special offers, deals and coupons</li>
-      <li>Promote the brands you sell.</li>
-    </ul>
+<div class="container">
+  <div class="span12">
+    <div class="row-fluid">
+      <h2>For Business Owners & Managers</h2>
+    </div>  
+    <div class="row-fluid">
+      <div class="span6">
+        <!--<p>Claim your <b>ConnectedMerchant&trade;</b> Media Channel</p>
+        <ul>
+          <li>Promote your business to reach local shoppers.</li>
+          <li>Add your logo, photos, videos, email &amp; website address</li>
+          <li>Add your products, services, events and jobs</li>
+          <li>Promote special offers, deals and coupons</li>
+          <li>Promote the brands you sell.</li>
+        </ul>-->
+        <%= image_tag("claim-image.png", size: "629x241") %>
 
-    <p>Your business:</p>
-
-    <address class="claimed-address">
-      <b><%= @location.name %></b><br>
-      <%= @location.address %><br>
-      <%= @location.city.name %>, <%= @location.province.abbr %>, <%= @location.postal_code %><br>
-      <%= @location.phone %><br>
-    </address>
-
-    <%= simple_form_for @location, url: claim_location_path(@location), html: { class: 'edit_location form-horizontal' } do |f| %>
-      <div class="payment-errors alert alert-error"></div>
-
-      <%= f.input :stripe_plan_id, as: :radio, collection: [['Monthly ($19.95/month)', 'monthly'], ['Yearly ($199.95/year)', 'yearly']], label: "Payment Plan Options" %>
-
-      <div class="control-group string required">
-        <label class="string required control-label" for="stripe_number"><abbr title="required">*</abbr> Card Number</label>
-        <div class="controls">
-          <input class="string required" id="stripe_number" data-stripe="number" maxlength="16">
+        <div class="row-fluid">
+          <div class="span11">
+            <hr>
+            <h3 style="color: #1c3656;">Your business:</h3>
+          
+            <address style="color: #1c3656;">
+              <b><%= @location.name %></b><br>
+              <%= @location.address %><br>
+              <%= @location.city.name %>, <%= @location.province.abbr %>, <%= @location.postal_code %><br>
+              <%= @location.phone %><br>
+            </address>
+            <hr>
+          </div>
         </div>
-      </div>
-      <div class="control-group string required">
-        <label class="string required control-label" for="stripe_cvc"><abbr title="required">*</abbr> CVV</label>
-        <div class="controls">
-          <input class="string required" id="stripe_cvc" data-stripe="cvc" maxlength="4">
-        </div>
-      </div>
-      <div class="control-group select required">
-        <label class="string required control-label" for="stripe_exp_month"><abbr title="required">*</abbr> Expiry Date</label>
-        <div class="controls">
-          <select class="select required" id="stripe_exp_month" data-stripe="exp-month">
-            <option value="0">Month</option>
-            <% (1..12).each do |i| %>
-              <option value="<%= i %>"><%= i %></option>
-            <% end %>
-          </select>
-          <select class="select required" id="stripe_exp_year" data-stripe="exp-year">
-            <option value="0">Year</option>
-            <% (Date.today.year..Date.today.year+10).each do |i| %>
-              <option value="<%= i %>"><%= i %></option>
-            <% end %>
-          </select>
-        </div>
-      </div>
+        
+        <%= simple_form_for @location, url: claim_location_path(@location), html: { class: 'edit_location form-horizontal' } do |f| %>
+          <div class="payment-errors alert alert-error"></div>
 
-      <div class="form-actions">
-        <%= f.submit 'Purchase', class: 'btn btn btn-primary' %>
-        <%= link_to 'Cancel', @location %>
+          <%= f.input :stripe_plan_id, as: :radio, collection: [['Monthly ($19.95/month)', 'monthly'], ['Yearly ($199.95/year)', 'yearly']], label: "Payment Plan Options:" %>
+
+          <div style="background-color: #c7ccd3; padding: 20px; text-align: left;">
+            <div class="control-group string required">
+              <label class="string required control-label" style="text-align: left;" for="stripe_number"><abbr title="required">*</abbr> Card Number</label>
+              <div class="">
+                <input class="string required" style="width: 300px;" id="stripe_number" data-stripe="number" maxlength="16">
+              </div>
+            </div>
+            <div class="control-group string required">
+              <label class="string required control-label" style="text-align: left;" for="stripe_cvc"><abbr title="required">*</abbr> CVV</label>
+              <div class="">
+                <input class="string required" style="width: 300px;" id="stripe_cvc" data-stripe="cvc" maxlength="4">
+              </div>
+            </div>
+            <div class="control-group select required">
+              <label class="string required control-label" style="text-align: left;" for="stripe_exp_month"><abbr title="required">*</abbr> Expiry Date</label>
+              <div class="">
+                <select class="select required" style="width: 150px;" id="stripe_exp_month" data-stripe="exp-month">
+                  <option value="0">Month</option>
+                  <% (1..12).each do |i| %>
+                    <option value="<%= i %>"><%= i %></option>
+                  <% end %>
+                </select>
+                <select class="select required" style="width: 150px;" id="stripe_exp_year" data-stripe="exp-year">
+                  <option value="0">Year</option>
+                  <% (Date.today.year..Date.today.year+10).each do |i| %>
+                    <option value="<%= i %>"><%= i %></option>
+                  <% end %>
+                </select>
+              </div>
+            </div>
+            <div class="control-group">
+              <div style="margin-left: 160px;">
+                <%= f.submit 'Purchase', style: "color: white; background-color: #1c3656; border: none; width: 150px; height: 35px;" %>
+                <%= link_to(content_tag(:div, 'Cancel', style: "display: inline-block; text-align: center; vertical-align: middle; padding-top: 7px; color: #1c3656; background-color: #939fad; border: none; width: 150px; height: 35px;"), @location) %>
+              </div>
+            </div>
+          </div>
+        <% end %>
       </div>
-    <% end %>
+      <div class="span6">
+        <%= image_tag "connected_advertiser.png" %>
+      </div>
+    </div>
   </div>
 </div>
