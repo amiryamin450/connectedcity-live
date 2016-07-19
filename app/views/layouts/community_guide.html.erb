@@ -45,7 +45,7 @@
                 @neighbourhood = Neighborhood.where('slug LIKE ?', @neighbourhood_slug).first
               end
 
-              @current_district = @district ? @district.name : "Vancouver" 
+              @current_district = @district != nil ? @district.name : "Vancouver" 
             %>
             <h1>Browse <%= @current_market.name %> in <%= @neighbourhood ? @neighbourhood.name : @current_district %></h1>
           </div>
