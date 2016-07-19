@@ -31,7 +31,7 @@
       <div class="container-fluid content-holder">
         <div class="row-fluid">
           <div class="span12">
-            <% @current_market = VerticalMarket.where(slug: params[:market]).first %>
+            <% @current_market = VerticalMarket.where(slug: params[:market]).first || @vertical_market %>
             <%
               @neighbourhood_param = params[:neighborhood]
               @neighbourhood_slug = params[:neighborhood]
