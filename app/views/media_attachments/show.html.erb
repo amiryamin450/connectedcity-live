@@ -2,7 +2,7 @@
 <h1><%= @media_attachment.title %></h1>
 <div class="row-fluid">
   <div class="span12">
-    <iframe width='853' height='480' src='http://www.youtube.com/embed/<%= @media_attachment.media_source_id %>' frameborder='0' allowfullscreen></iframe>
+    <iframe width='853' height='480' src='https://www.youtube.com/embed/<%= @media_attachment.media_source_id %>' frameborder='0' allowfullscreen></iframe>
   </div>
 </div>
 
@@ -12,7 +12,7 @@
 <div class="row-fluid">
     <% @other_media.each do |media| %>
       <div class="span2">
-        <div><%= link_to(image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media]) %></div>
+        <div><%= link_to(image_tag("https://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media]) %></div>
         <div><%= link_to media.title, [@location, media] %></div>
       </div>
     <% end -%>
