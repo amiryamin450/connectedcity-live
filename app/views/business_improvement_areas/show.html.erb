@@ -141,7 +141,7 @@
         <div class="holder pad10">
         <h5>Videos</h5>
         <% if @business_improvement_area.media_attachments.any? %>
-          <%= render @business_improvement_area.media_attachments.limit(200).order(:created_at) %>
+          <%= render @business_improvement_area.media_attachments.limit(200).order('created_at DESC') %>
         <% else %>
           <div class="alert">No Videos found.</div>
         <% end %>
