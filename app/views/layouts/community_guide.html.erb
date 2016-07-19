@@ -30,8 +30,8 @@
       </div>
       <div class="container-fluid content-holder">
         <div class="row-fluid">
-          <div class="span12">
-            <% @current_market = params[:market].present? ? VerticalMarket.where(slug: params[:market]).first.name : @vertical_market %>
+          <div class="span12">          
+            <% @current_market = @vertical_market.respond_to?(:name) ? @vertical_market.name : @vertical_market %>
             <%
               @neighbourhood_param = params[:neighborhood]
               @neighbourhood_slug = params[:neighborhood]
