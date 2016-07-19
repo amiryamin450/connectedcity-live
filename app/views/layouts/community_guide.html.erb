@@ -31,7 +31,7 @@
       <div class="container-fluid content-holder">
         <div class="row-fluid">
           <div class="span12">
-            <% @current_market = VerticalMarket.where(slug: params[:market]).first || @vertical_market %>
+            <% @current_market = params[:market].present? ? VerticalMarket.where(slug: params[:market]).first.name : @vertical_market %>
             <%
               @neighbourhood_param = params[:neighborhood]
               @neighbourhood_slug = params[:neighborhood]
@@ -47,7 +47,7 @@
 
               @current_district = @district != nil ? @district.name : "Vancouver" 
             %>
-            <h1>Browse <%= @current_market.name %> in <%= @neighbourhood ? @neighbourhood.name : @current_district %></h1>
+            <h1>Browse <%= @current_market %> in <%= @neighbourhood ? @neighbourhood.name : @current_district %></h1>
           </div>
         </div>
         <div class="row-fluid">
