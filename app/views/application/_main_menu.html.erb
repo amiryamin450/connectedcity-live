@@ -58,9 +58,12 @@
             <div>
               <% if @business_improvement_area %>
                 <%= link_to district_neighborhood_guide_path(@district_name, @slug, vm.slug) do %><i class="<%= vm.name.parameterize("_") %>"></i><%= vm.name %><% end %>
+              <% elsif @district && @neighbourhood_slug %>
+                <%= link_to district_neighborhood_guide_path(@district.slug, @neighbourhood_slug, vm.slug) do %><i class="<%= vm.name.parameterize("_") %>"></i><%= vm.name %><% end %>
               <% else %>
                 <%= link_to "#{@base_path}guide/#{vm.slug}" do %><i class="<%= vm.name.parameterize("_") %>"></i><%= vm.name %><% end %>
               <% end %>
+
               <% if vm.has_children? %>
                 <div class="sub-drop">
                   <ul>
