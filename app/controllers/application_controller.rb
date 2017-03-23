@@ -33,7 +33,11 @@ class ApplicationController < ActionController::Base
       cookies.delete(:district_route)
     end
 
-    @base_path = if params[:district_route].present? and params[:neighborhood].present? and !request.fullpath.include? "guide"
+    #TODO: This needs to be cleaned up as it is far too complex
+    #the line below previously had: !request.fullpath.include? "guide"
+    #this was causing the navigation for listings at the neighbourhood level to break
+    # - Don Marges, March 22, 2017
+    @base_path = if params[:district_route].present? and params[:neighborhood].present? and request.fullpath.include? "guide"
                     cookies[:base_path] = "/#{params[:district_route]}/#{params[:neighborhood]}/"
                     cookies[:district_route] = params[:district_route]
                     @district = District.find(params[:district_route])
@@ -50,6 +54,7 @@ class ApplicationController < ActionController::Base
                   elsif cookies[:base_path].present? and params['action'] != 'guide'
                     @district = District.find(cookies[:district_route])
                     cookies[:base_path]
+                    Rails.logger.info "action: not guide"
                   else
                     cookies.delete(:base_path)
                     cookies.delete(:district_route)
