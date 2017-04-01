@@ -3,7 +3,7 @@ class AutomotiveListing < ActiveRecord::Base
   belongs_to :location
 
   searchable do
-    text :title, boost: 3
+    text :title, boost: 5
     text :vehicle_type
     text :make
     text :model

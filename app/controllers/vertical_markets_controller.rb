@@ -2,7 +2,6 @@ class VerticalMarketsController < ApplicationController
   layout :resolve_layout
   load_and_authorize_resource except: [:search, :guide]
 
-
   def resolve_layout
     case action_name
     when "guide", "search"
@@ -88,7 +87,6 @@ class VerticalMarketsController < ApplicationController
       nil
     end
 
-
     @search = Sunspot.search Location, AutomotiveListing, RealEstateListing do
       fulltext params[:search]
 
@@ -114,9 +112,6 @@ class VerticalMarketsController < ApplicationController
     add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}" if @vertical_market
 
     add_crumb 'Search Results'
-
-
-
   end
 
   # GET /vertical_markets/new
