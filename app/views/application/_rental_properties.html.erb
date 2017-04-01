@@ -7,9 +7,9 @@
   <div class="location-holder" id="cat-<%= rental_property.id %>">
     <div class="clearfix">
       <% rental_units.each do |listing| %>
-        
+        <% cache "#{user_signed_in? ? "in" : "out"}_location_#{rental_property.location.id}_#{rental_property.location.updated_at}" do %>
           <%= render 'rental', listing: listing %>
-        
+        <% end %>
       <% end %>
     </div>
   </div>
