@@ -10,8 +10,10 @@
     <div class="heading index-<%= r %>">
     <h5><%= category.name %></h5>
     <%= link_to 'More +', '#', class: 'see-more', data: { element: category.id } %>
-    <%= link_to 'See All', business_improvement_area_vertical_market_category_path(@business_improvement_area_id, category.id), class: 'see-all' %>
-
+    <% if @business_improvement_area_id %>
+      <%= link_to 'See All', business_improvement_area_vertical_market_category_path(@business_improvement_area_id, category.id), class: 'see-all' %>
+    <% end %>
+    
     <% if user_signed_in? && current_user.has_role?(:admin) %>
       <%= link_to 'Edit', edit_vertical_market_category_path(category), class: 'admin-link' %>
     <% end %>

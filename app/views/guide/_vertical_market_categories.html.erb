@@ -34,24 +34,25 @@ NOTE Rental (rental)
 
 <% if [17, 18, 19, 20].include?(@vertical_market.id) %>
   <%# TODO Optimize %>
-  <%=
-
-  case @vertical_market.id
-  when 17
-    markers |= @rental_properties
-    render 'application/rental'
-  when 18
-    markers |= @listings
-    render 'resale'
-  when 20
-    markers |= @listings
-    render 'commercial'
-  when 19
-    markers |= @new_home_communities
-    render 'new_home'
-  end
-
-  %>
+  <% case @vertical_market.id %>
+  <% when 17 %>
+    <% markers |= @rental_properties %>
+    <% render 'application/rental' %>
+  <% when 18 %>
+    <% markers |= @listings %>
+    <% render 'resale' %>
+  <% when 20 %>
+    <% markers |= @listings %>
+    <% render 'commercial' %>
+  <% when 19 %>
+    <h2>New Home Communities</h2>
+    <% markers |= @new_home_communities %>
+    <% @new_home_communities.each do |new_home_community| %>
+      <% if new_home_community.new_homes.any? %>
+        <%= render 'new_home_communities', new_home_community: new_home_community, new_homes: new_home_community.new_homes %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% else %>
   <%# TODO Optimize %>
   <%# NOTE Automotive (automotive) %>

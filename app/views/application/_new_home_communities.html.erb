@@ -1,0 +1,14 @@
+<div class="category">
+  <div class="heading index">
+    <h5><%= new_home_community.name %></h5>
+    <%= link_to 'More +', '#', class: 'see-more', data: { element: nil } %>
+  </div>
+
+  <div class="location-holder" id="cat-<% nil %>">
+    <div class="clearfix">
+      <% new_homes.each do |listing| %>
+        <%= render 'new_home', listing: listing %>
+      <% end %>
+    </div>
+  </div>
+</div>
