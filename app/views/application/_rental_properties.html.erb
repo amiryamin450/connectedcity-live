@@ -1,0 +1,16 @@
+<div class="category">
+  <div class="heading index-<%= r %>">
+    <h5><%= rental_property.name %></h5>
+    <%= link_to 'More +', '#', class: 'see-more', data: { element: rental_property.id } %>
+  </div>
+
+  <div class="location-holder" id="cat-<%= rental_property.id %>">
+    <div class="clearfix">
+      <% rental_units.each do |listing| %>
+        
+          <%= render 'rental', listing: listing %>
+        
+      <% end %>
+    </div>
+  </div>
+</div>

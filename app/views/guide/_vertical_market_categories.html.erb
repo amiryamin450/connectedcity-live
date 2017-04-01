@@ -36,8 +36,13 @@ NOTE Rental (rental)
   <%# TODO Optimize %>
   <% case @vertical_market.id %>
   <% when 17 %>
+    <h2>Rental Properties</h2>
     <% markers |= @rental_properties %>
-    <% render 'application/rental' %>
+    <% @rental_properties.each_with_index do |rental_property, r| %>
+      <% if rental_property.rental_units.any? %>
+        <%= render 'rental_properties', rental_property: rental_property, rental_units: rental_property.rental_units, r: r %>
+      <% end %>
+    <% end %>
   <% when 18 %>
     <% markers |= @listings %>
     <% render 'resale' %>
@@ -47,9 +52,9 @@ NOTE Rental (rental)
   <% when 19 %>
     <h2>New Home Communities</h2>
     <% markers |= @new_home_communities %>
-    <% @new_home_communities.each do |new_home_community| %>
+    <% @new_home_communities.each_with_index do |new_home_community, r| %>
       <% if new_home_community.new_homes.any? %>
-        <%= render 'new_home_communities', new_home_community: new_home_community, new_homes: new_home_community.new_homes %>
+        <%= render 'new_home_communities', new_home_community: new_home_community, new_homes: new_home_community.new_homes, r: r %>
       <% end %>
     <% end %>
   <% end %>

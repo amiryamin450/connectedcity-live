@@ -1,13 +1,15 @@
 <div class="category">
-  <div class="heading index">
+  <div class="heading index-<%= r %>">
     <h5><%= new_home_community.name %></h5>
-    <%= link_to 'More +', '#', class: 'see-more', data: { element: nil } %>
+    <%= link_to 'More +', '#', class: 'see-more', data: { element: new_home_community.id } %>
   </div>
 
-  <div class="location-holder" id="cat-<% nil %>">
+  <div class="location-holder" id="cat-<%= new_home_community.id %>">
     <div class="clearfix">
       <% new_homes.each do |listing| %>
-        <%= render 'new_home', listing: listing %>
+        <% cache "#{user_signed_in? ? "in" : "out"}_location_#{new_home_community.location.id}_#{new_home_community.location.updated_at}" do %>
+          <%= render 'new_home', listing: listing %>
+        <% end %>
       <% end %>
     </div>
   </div>
