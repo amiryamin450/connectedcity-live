@@ -13,7 +13,7 @@
   <tr>
     <td><%= rental_property.name %></td>
     <td><%= rental_property.address_1 %></td>
-    <td><%= rental_property.city.name %></td>
+    <td><%= rental_property.city.name if rental_property.city %></td>
     <td><%= rental_property.postal_code %></td>
     <td>
       <div class="btn-group">
