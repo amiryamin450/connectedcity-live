@@ -45,7 +45,7 @@ NOTE Rental (rental)
     <% end %>
   <% when 18 %>
     <% markers |= @listings %>
-    <% render 'resale' %>
+    <%= render 'residential', residential_units: @listings, styles: @residential_styles %>
   <% when 19 %>
     <h2>New Home Communities</h2>
     <% markers |= @new_home_communities %>

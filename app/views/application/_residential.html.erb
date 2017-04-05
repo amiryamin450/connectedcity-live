@@ -1,0 +1,14 @@
+<% styles.each_with_index do |style, r| %>
+  <div class="category">
+    <div class="heading index-<%= r %>">
+      <h5><%= style.present? ? style : 'Misc.' %></h5>
+      <%= link_to 'More +', '#', class: 'see-more', data: { element: r } %>
+    </div>
+
+    <div class="location-holder" id="cat-<%= r %>">
+      <div class="clearfix">
+        <%= render 'resale', style: style %>
+      </div>
+    </div>
+  </div>
+<% end %>
