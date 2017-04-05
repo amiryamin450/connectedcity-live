@@ -44,9 +44,8 @@ class VerticalMarketsController < ApplicationController
       @rental_properties = RentalProperty.where city_id: @city.id
       @rental_properties = @rental_properties.where district_id: @district.id if @district
       @rental_properties.order :name
-    when 18, 20
-      property_type = @vertical_market.id == 18 ? 'Residential' : 'Commercial'
-      @listings = RealEstateListing.where property_type: property_type,
+    when 18
+      @listings = RealEstateListing.where property_type: 'Residential',
                                           city_id: @city.id
       @listings = @listings.where district_id: @district.id if @district
       @listings = @listings.order :title
@@ -54,6 +53,12 @@ class VerticalMarketsController < ApplicationController
       @new_home_communities = NewHomeCommunity.where city_id: @city.id
       @new_home_communities = @new_home_communities.where district_id: @district.id if @district
       @new_home_communities = @new_home_communities.order :name
+    when 20
+      @commercial_listings = RealEstateListing.where property_type: 'Commercial',
+                                                     city_id: @city.id
+      @commercial_listings = @commercial_listings.where district_id: @district.id if @district
+      @commercial_listings = @commercial_listings.order :style
+      @commercial_styles = RealEstateListing.uniq.pluck(:style)
     end
 
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
