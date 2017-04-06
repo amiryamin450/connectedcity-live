@@ -27,6 +27,10 @@
           <li>
             <%= link_to("Menus", location_location_menus_path(@location)) %>
           </li>
+        <% else %>
+          <li>
+            <%= link_to("Flyers", location_location_menus_path(@location)) %>
+          </li>    
         <% end %>
         <% if @managers.present? %>
         <li>

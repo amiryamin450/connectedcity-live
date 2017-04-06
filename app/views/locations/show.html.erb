@@ -199,52 +199,55 @@
       </div>
     </div>
 
-    <!--MENU-->
-    <% if is_food_and_dining(@location) %>
-      <div class="category">
-        <div class="heading index-1">
-          <h5>Menu</h5>
-            <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
-              <small><%= link_to "add", new_location_location_menu_path(@location.id), class: 'small' %> | <%= link_to 'manage', location_location_menus_path(@location) %></small>
-            <% end %>
-        </div>
+    <!--MENU/FLYER-->
+    <div class="category">
+      <div class="heading index-1">
+        <% if is_food_and_dining(@location) %>
+          <h5>Menus</h5>
+        <% else %>
+          <h5>Flyers</h5>
+        <% end %>
+        <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+          <small><%= link_to "add", new_location_location_menu_path(@location.id), class: 'small' %> | <%= link_to 'manage', location_location_menus_path(@location) %></small>
+        <% end %>
       </div>
-      <% if @location_menu_images.any? %>
-        <div class="row-fluid">
-          <div class="span12">
-            <div class="">
-              <div class="row-fluid">
-                <div class="span12">
-                  <% if @location_menu_images.any? %>
-                    <div id="locationMenuCarousel" class="carousel slide">
-                      <ol class="carousel-indicators">
-                        <% @location_menu_images.each_with_index do |image, index| %>
-                            <li data-target="#locationMenuCarousel" data-slide-to="<%= index %>" class="<%= index == 0 ? 'active' : ''  %>"></li>
-                        <% end %>
-                      </ol>
-                      <div class="carousel-inner">
-                        <% @location_menu_images.each_with_index do |menu_image, index| %>
-                          <div class="item <%= index == 0 ? 'active' : '' %>">
-                            <%= link_to(image_tag(menu_image.url), location_location_menu_path(@location, menu_image.instance)) %>
-                            <p class="flex-caption">Click image to view larger</p>
-                          </div>
-                        <% end %>
-                      </div>
-                      <a class="carousel-control left" href="#locationMenuCarousel" data-slide="prev">&lsaquo;</a>
-                      <a class="carousel-control right" href="#locationMenuCarousel" data-slide="next">&rsaquo;</a>
+    </div>
+    <% if @location_menu_images.any? %>
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="">
+            <div class="row-fluid">
+              <div class="span12">
+                <% if @location_menu_images.any? %>
+                  <div id="locationMenuCarousel" class="carousel slide">
+                    <ol class="carousel-indicators">
+                      <% @location_menu_images.each_with_index do |image, index| %>
+                          <li data-target="#locationMenuCarousel" data-slide-to="<%= index %>" class="<%= index == 0 ? 'active' : ''  %>"></li>
+                      <% end %>
+                    </ol>
+                    <div class="carousel-inner">
+                      <% @location_menu_images.each_with_index do |menu_image, index| %>
+                        <div class="item <%= index == 0 ? 'active' : '' %>">
+                          <%= link_to(image_tag(menu_image.url), location_location_menu_path(@location, menu_image.instance)) %>
+                          <p class="flex-caption">Click image to view larger</p>
+                        </div>
+                      <% end %>
                     </div>
-                  <% end %>
-                </div>
+                    <a class="carousel-control left" href="#locationMenuCarousel" data-slide="prev">&lsaquo;</a>
+                    <a class="carousel-control right" href="#locationMenuCarousel" data-slide="next">&rsaquo;</a>
+                  </div>
+                <% end %>
               </div>
             </div>
           </div>
         </div>
-      <% else %>
-        <div class="alert">
-          No Menus found.
-        </div>
-      <% end %>
+      </div>
+    <% else %>
+      <div class="alert">
+        No Menus found.
+      </div>
     <% end %>
+    <!--END MENU/FLYER-->
     <div class="row-fluid">
       <div class="span12">
         <div class="">

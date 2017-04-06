@@ -1,7 +1,15 @@
-<h1>Menus</h1>
+<% if is_food_and_dining(@location) %>
+  <h1>Menus</h1>
+<% else %>
+  <h1>Flyers</h1>
+<% end %>
 <br />
 <br />
-<%= link_to 'New Menu Image', new_location_location_menu_path, class: 'btn btn-primary' %>
+<% if is_food_and_dining(@location) %>
+  <%= link_to 'New Menu Image', new_location_location_menu_path, class: 'btn btn-primary' %>
+<% else %>
+  <%= link_to 'New Flyer Image', new_location_location_menu_path, class: 'btn btn-primary' %>
+<% end %>
 <br />
 <br />
 <table>
