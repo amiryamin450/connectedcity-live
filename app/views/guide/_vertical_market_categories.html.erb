@@ -32,9 +32,12 @@ NOTE Rental (rental)
 
 %>
 
-<% if [17, 18, 19, 20].include?(@vertical_market.id) %>
+<% if [1, 17, 18, 19, 20].include?(@vertical_market.id) %>
   <%# TODO Optimize %>
   <% case @vertical_market.id %>
+  <% when 1 %>
+    <h2>Automotive Listings</h2>
+    <%= render 'automotive_listings', auto_listings: @auto_listings, auto_makes: @auto_makes %>
   <% when 17 %>
     <h2>Rental Properties</h2>
     <% markers |= @rental_properties %>
@@ -59,33 +62,6 @@ NOTE Rental (rental)
     <%= render 'commercial_properties', commercial_units: @commercial_listings, styles: @commercial_styles %>
   <% end %>
 <% else %>
-  <%# TODO Optimize %>
-  <%# NOTE Automotive (automotive) %>
-  <% if @vertical_market.id == 1 %>
-    <div class="category">
-      <div class="heading index-11">
-        <h5>Automotive Listings</h5>
-
-        <%= link_to 'More +', '#', class: 'see-more', data: { element: 'auto-listings' } %>
-        <%= link_to 'See All', "#", class: 'see-all' %>
-      </div>
-      <div class="location-holder" id="auto-listings">
-        <div class="clearfix">
-          <% @vertical_market.automotive_listings.each do |listing| %>
-            <%# FIXME Move inline styles to a stylesheet %>
-            <div class="location-teaser clearfix">
-              <div style="height: 74px; text-align: center;">
-                <%= link_to image_tag(listing.main_image.url(:hp_list)), [listing.location, listing] %>
-              </div>
-              <div style="margin-top: 5px; margin-bottom: 5px;"><%= humanized_money_with_symbol listing.price %></div>
-              <div style="width: 168px; font-size: 12px; min-height:24px;"><strong><%= link_to [listing.year, listing.make, listing.model].reject(&:blank?).join(' '), [listing.location, listing] %></strong></div>
-              <div style="width: 168px; margin-top: 5px; font-weight: bold;"><%= link_to listing.location.name, listing.location %></div>
-          </div>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  <% end %>
   <% @vertical_market.categories_new(@city, @district, @neighborhood).each_with_index do |category, r| %>
     <%
 

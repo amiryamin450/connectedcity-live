@@ -40,6 +40,9 @@ class VerticalMarketsController < ApplicationController
     @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).find(params[:market])
 
     case @vertical_market.id
+    when 1
+      @auto_listings = AutomotiveListing.all
+      @auto_makes = AutomotiveListing.uniq.pluck(:make)
     when 17
       @rental_properties = RentalProperty.where city_id: @city.id
       @rental_properties = @rental_properties.where district_id: @district.id if @district

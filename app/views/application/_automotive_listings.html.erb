@@ -1,0 +1,15 @@
+<% auto_makes.each_with_index do |make, r| %>
+  <div class="category">
+    <div class="heading index-<%= r %>">
+      <h5><%= make %></h5>
+      <%= link_to 'More +', '#', class: 'see-more', data: { element: 'auto-listings' } %>
+    </div>
+    <div class="location-holder" id="auto-listings">
+      <div class="clearfix">
+        <% auto_listings.each do |listing| %>
+          <%= render 'automotive', listing: listing, make: make %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
