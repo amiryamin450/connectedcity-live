@@ -1,4 +1,8 @@
-<h1>New Menu Image</h1>
+<% if is_food_and_dining(@location) %>
+  <h1>New Menu</h1>
+<% else %>
+  <h1>New Flyer</h1>
+<% end %>
 
 <%= render 'form' %>
 
