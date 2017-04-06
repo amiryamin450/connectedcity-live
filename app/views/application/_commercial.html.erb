@@ -1,35 +1,31 @@
-<h2>Real Estate Listings</h2>
-
- <div class="location-holder">
-    <div class="clearfix">
-      <% @listings.each do |listing| %>
-      <div class="location-teaser clearfix">
-        <div style="height: 74px; text-align: center;">
-          <% if listing.main_image.present? %>
-            <%= link_to(image_tag(listing.main_image.url(:list)), [listing.location, listing])%>
-          <% else %>
-            <%= image_tag "http://placehold.it/168x80" %>
-          <% end -%>
-        </div>
-        <div style="width: 168px; clear:both; padding-top: 5px; font-size: 12px; ">
-          <strong><%= listing.title %></strong>
-        </div>
-        <div style="width: 168px; margin-top: 5px;clearfix;">
-          <div class="pull-left">
-            <strong>
-            <%= number_to_currency listing.list_price %>
-            </strong>
-          </div>
-
-        </div>
-        <div style="width: 168px; clear:both; padding-top: 5px;">
-          <%= listing.address if listing.address_visible %><br/><%= " #{listing.city.name}, #{listing.province.abbr}" %>
-        </div>
-        <div style="width: 168px; clear:both; padding-top: 5px; font-size: 12px;">
-           <div> <%= link_to listing.location.name, listing.location %></div>
-         <div style="padding-top: 5px;"><%= link_to("#{listing.location.broker.name}", listing.location.broker) %> </div>
-        </div>
+<% @commercial_listings.each do |listing| %>
+  <% if listing.style == style  %>  
+    <div class="location-teaser clearfix">
+      <div style="height: 74px; text-align: center;">
+        <% if listing.main_image.present? %>
+          <%= link_to(image_tag(listing.main_image.url(:list)), [listing.location, listing])%>
+        <% else %>
+          <%= image_tag "http://placehold.it/168x80" %>
+        <% end -%>
       </div>
-      <% end %>
-    </div>
-  </div>
+      <div style="width: 168px; clear:both; padding-top: 5px; font-size: 12px; ">
+        <strong><%= listing.title %></strong>
+      </div>
+      <div style="width: 168px; margin-top: 5px;clearfix;">
+        <div class="pull-left">
+          <strong>
+          <%= number_to_currency listing.list_price %>
+          </strong>
+        </div>
+
+      </div>
+      <div style="width: 168px; clear:both; padding-top: 5px;">
+        <%= listing.address if listing.address_visible %><br/><%= " #{listing.city.name}, #{listing.province.abbr}" %>
+      </div>
+      <div style="width: 168px; clear:both; padding-top: 5px; font-size: 12px;">
+         <div> <%= link_to listing.location.name, listing.location %></div>
+       <div style="padding-top: 5px;"><%= link_to("#{listing.location.broker.name}", listing.location.broker) %> </div>
+      </div>
+      </div>
+  <% end %>
+<% end %>
