@@ -62,7 +62,7 @@ NOTE Rental (rental)
   <% when 20 %>
     <% markers |= @commercial_listings %>
     <%#= render 'commercial_properties', commercial_units: @commercial_listings, styles: @commercial_styles %>
-  	<%= render 'original_commercial' %>
+  	<%= render 'original_commercial', commercial_listings: @commercial_listings %>
 	<% end %>
 <% else %>
   <%# NOTE Automotive (automotive) %>
