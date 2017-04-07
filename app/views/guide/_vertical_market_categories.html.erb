@@ -52,6 +52,10 @@ NOTE Rental (rental)
     <% markers |= @listings %>
     <%#= render 'residential', residential_units: @listings, styles: @residential_styles %>
   	<%= render 'original_resale' %>
+  <% when 20 %>
+    <% markers |= @commercial_listings %>
+    <%#= render 'commercial_properties', commercial_units: @commercial_listings, styles: @commercial_styles %>
+  	<%= render 'original_commercial' %>
 	<% when 19 %>
     <!--<h2>New Home Communities</h2>-->
     <% markers |= @new_home_communities %>
@@ -61,10 +65,6 @@ NOTE Rental (rental)
       <%# end %>
     <%# end %>
 		<%= render 'original_new_home' %>
-  <% when 20 %>
-    <% markers |= @commercial_listings %>
-    <%#= render 'commercial_properties', commercial_units: @commercial_listings, styles: @commercial_styles %>
-  	<%= render 'original_commercial' %>
 	<% end %>
 <% else %>
   <%# NOTE Automotive (automotive) %>
