@@ -10,4 +10,11 @@ class RentalUnit < ActiveRecord::Base
     :url => "/system/rental_properties/cover_photo/:id/:style/:basename.:extension",
     :path => ":rails_root/public/system/rental_properties/cover_photo/:id/:style/:basename.:extension"
 
+
+  searchable do
+    text :description, boost: 5
+    text :bathrooms
+    text :bedrooms
+  end
+
 end

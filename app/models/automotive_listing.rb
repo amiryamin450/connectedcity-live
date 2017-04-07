@@ -4,9 +4,9 @@ class AutomotiveListing < ActiveRecord::Base
 
   searchable do
     text :title, boost: 5
+    text :make, boost: 3
+    text :model, boost: 3
     text :vehicle_type
-    text :make
-    text :model
     text :trim_level
     text :description
 
