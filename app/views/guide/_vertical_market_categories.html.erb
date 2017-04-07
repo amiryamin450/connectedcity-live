@@ -35,37 +35,53 @@ NOTE Rental (rental)
 <%# if [1, 17, 18, 19, 20].include?(@vertical_market.id) %>
 <% if [17, 18, 19, 20].include?(@vertical_market.id) %>
   <%# TODO Optimize %>
-  <% case @vertical_market.id %>
+  <%# case @vertical_market.id %>
   <%# when 1 %>
     <%#= render 'automotive_listings', auto_listings: @auto_listings, auto_makes: @auto_makes %>
   	<%#= render 'original_automotive' %>
-	<% when 17 %>
+	<%# when 17 %>
     <!--<h2>Rental Properties</h2>-->
-    <% markers |= @rental_properties %>
+    <%# markers |= @rental_properties %>
     <%# @rental_properties.each_with_index do |rental_property, r| %>
       <%# if rental_property.rental_units.any? %>
         <%#= render 'rental_properties', rental_property: rental_property, rental_units: rental_property.rental_units, r: r %>
       <%# end %>
     <%# end %>
-		<%= render 'original_rental' %>
-  <% when 18 %>
-    <% markers |= @listings %>
+		<%#= render 'original_rental' %>
+  <%# when 18 %>
+    <%# markers |= @listings %>
     <%#= render 'residential', residential_units: @listings, styles: @residential_styles %>
-  	<%= render 'original_resale' %>
-  <% when 20 %>
-    <% markers |= @commercial_listings %>
+  	<%#= render 'original_resale' %>
+  <%# when 20 %>
+    <%# markers |= @commercial_listings %>
     <%#= render 'commercial_properties', commercial_units: @commercial_listings, styles: @commercial_styles %>
-  	<%= render 'original_commercial' %>
-	<% when 19 %>
+  	<%#= render 'original_commercial' %>
+	<%# when 19 %>
     <!--<h2>New Home Communities</h2>-->
-    <% markers |= @new_home_communities %>
+    <%# markers |= @new_home_communities %>
     <%# @new_home_communities.each_with_index do |new_home_community, r| %>
       <%# if new_home_community.new_homes.any? %>
         <%#= render 'new_home_communities', new_home_community: new_home_community, new_homes: new_home_community.new_homes, r: r %>
       <%# end %>
     <%# end %>
-		<%= render 'original_new_home' %>
-	<% end %>
+		<%#= render 'original_new_home' %>
+	  <%=
+			case @vertical_market.id
+			when 17
+				markers |= @rental_properties
+				render 'application/original_rental'
+			when 18
+				markers |= @listings
+				render 'original_resale'
+			when 20
+				markers |= @commercial_listings
+				render 'original_commercial_listings'
+			when 19
+				markers |= @new_home_communities
+				render 'original_new_home'
+			end
+  	%>
+	<%# end %>
 <% else %>
   <%# NOTE Automotive (automotive) %>
   <% if @vertical_market.id == 1 %>
