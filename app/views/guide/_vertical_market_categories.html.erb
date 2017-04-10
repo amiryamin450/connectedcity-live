@@ -62,7 +62,7 @@ NOTE Rental (rental)
   <% when 20 %>
     <% markers |= @commercial_listings %>
     <%#= render 'commercial_properties', commercial_units: @commercial_listings, styles: @commercial_styles %>
-  	<%= render 'original_commercial', commercial_listings: @commercial_listings %>
+    <%= render 'original_commercial', commercial_listings: @commercial_listings %>
 	<% end %>
 <% else %>
   <%# NOTE Automotive (automotive) %>
@@ -70,13 +70,12 @@ NOTE Rental (rental)
     <div class="category">
       <div class="heading index-11">
         <h5>Automotive Listings</h5>
-
         <%= link_to 'More +', '#', class: 'see-more', data: { element: 'auto-listings' } %>
         <%= link_to 'See All', "#", class: 'see-all' %>
       </div>
       <div class="location-holder" id="auto-listings">
         <div class="clearfix">
-          <% @vertical_market.automotive_listings.each do |listing| %>
+          <% @auto_listings.each do |listing| %>
             <%# FIXME Move inline styles to a stylesheet %>
             <div class="location-teaser clearfix">
               <div style="height: 74px; text-align: center;">
