@@ -153,7 +153,7 @@ class LocationsController < ApplicationController
 
   def claim
     @location = Location.find(params[:id])
-    @location.stripe_plan_id = 'yearly'
+    @location.stripe_plan_id = 'yearly-new'
   end
 
   def claim_process
