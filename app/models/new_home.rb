@@ -42,5 +42,9 @@ class NewHome < ActiveRecord::Base
     text :title, boost: 5
     text :address, boost: 3
     text :description
+    text :bathroom_comment
+    text :bedroom_comment
+    integer :bathrooms
+    integer :bedrooms
   end
 end

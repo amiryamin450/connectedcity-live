@@ -2,7 +2,6 @@ class VerticalMarketsController < ApplicationController
   layout :resolve_layout
   load_and_authorize_resource except: [:search, :guide]
 
-
   def resolve_layout
     case action_name
     when "guide", "search"
@@ -41,20 +40,29 @@ class VerticalMarketsController < ApplicationController
     @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).find(params[:market])
 
     case @vertical_market.id
+    when 1
+      @auto_listings = AutomotiveListing.all
+      @auto_makes = AutomotiveListing.uniq.pluck(:make)
     when 17
       @rental_properties = RentalProperty.where city_id: @city.id
       @rental_properties = @rental_properties.where district_id: @district.id if @district
       @rental_properties.order :name
-    when 18, 20
-      property_type = @vertical_market.id == 18 ? 'Residential' : 'Commercial'
-      @listings = RealEstateListing.where property_type: property_type,
+    when 18
+      @listings = RealEstateListing.where property_type: 'Residential',
                                           city_id: @city.id
       @listings = @listings.where district_id: @district.id if @district
-      @listings = @listings.order :title
+      @listings = @listings.order :style
+      @residential_styles = RealEstateListing.uniq.pluck(:style)
     when 19
       @new_home_communities = NewHomeCommunity.where city_id: @city.id
       @new_home_communities = @new_home_communities.where district_id: @district.id if @district
       @new_home_communities = @new_home_communities.order :name
+    when 20
+      @commercial_listings = RealEstateListing.where property_type: 'Commercial',
+                                                     city_id: @city.id
+      @commercial_listings = @commercial_listings.where district_id: @district.id if @district
+      @commercial_listings = @commercial_listings.order :style
+      @commercial_styles = RealEstateListing.uniq.pluck(:style)
     end
 
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
@@ -88,7 +96,6 @@ class VerticalMarketsController < ApplicationController
       nil
     end
 
-
     @search = Sunspot.search Location, AutomotiveListing, RealEstateListing do
       fulltext params[:search]
 
@@ -114,9 +121,6 @@ class VerticalMarketsController < ApplicationController
     add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}" if @vertical_market
 
     add_crumb 'Search Results'
-
-
-
   end
 
   # GET /vertical_markets/new

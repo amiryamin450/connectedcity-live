@@ -37,7 +37,7 @@ class RealEstateListingsController < ApplicationController
   # GET /real_estate_listings/new.json
   def new
     @real_estate_listing = @location.real_estate_listings.new
-
+    @real_estate_listing_styles = get_real_estate_listing_styles 
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @real_estate_listing }
@@ -47,6 +47,11 @@ class RealEstateListingsController < ApplicationController
   # GET /real_estate_listings/1/edit
   def edit
     @real_estate_listing = RealEstateListing.find(params[:id])
+    @selected_listing_style = @real_estate_listing.style
+    @real_estate_listing_styles = get_real_estate_listing_styles
+
+    #removes empty string from array of styles
+    @real_estate_listing_styles.delete_if { |style| !style.present? }
   end
 
   # POST /real_estate_listings
@@ -91,5 +96,11 @@ class RealEstateListingsController < ApplicationController
       format.html { redirect_to location_real_estate_listings_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def get_real_estate_listing_styles
+    RealEstateListing.uniq.pluck(:style)
   end
 end

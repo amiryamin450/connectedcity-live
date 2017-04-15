@@ -24,9 +24,18 @@ class RealEstateListing < ActiveRecord::Base
       text :description
       text :lot_comment
       text :lot_legal
-      text :bedroom_comment
-      text :bathroom_comment
+      text :bedroom_comment, boost: 3
+      text :bathroom_comment, boost: 3
       text :garage_comment
+      
+      integer :bedrooms
+      integer :bathrooms
+
+      float :list_price
+      float :rental_price
+
+      text :location
+      text :property_type
 
       text :city do
         city.name if city.present?

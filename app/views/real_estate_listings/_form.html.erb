@@ -31,9 +31,12 @@
 
   <%= f.input :postal_code %>
   <%= f.input :address_visible %>
-
-
-  <%= f.input :style %>
+  
+  <%= f.input :style do %>
+    <select id="real_estate_listing_style", name="real_estate_listing[style]">
+      <%= options_for_select(@real_estate_listing_styles, @selected_listing_style) %>
+    </select>
+  <% end %>  
   <%= f.input :lot_comment, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
   <%= f.input :lot_legal, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
 

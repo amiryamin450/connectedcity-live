@@ -236,7 +236,7 @@ div.filler {
 }
 
 div.favorite {
-  min-height: 22px;
+  min-height: 15px;
 }
 
 .location-teaser {
@@ -249,6 +249,14 @@ div.favorite {
   box-shadow: 0px 0px 3px #666;
   font-size: 0.754em;
   line-height: 1.1em;
+
+  div a img {
+    max-width: 80px;
+  }
+
+  div a img[alt="missing"] {
+    max-height: 80px;
+  } 
 
   .action-links {
     margin-top: 5px;

@@ -11,6 +11,7 @@ class NewHomeCommunitiesController < ApplicationController
 
   def index
     @new_home_communities = @location.new_home_communities
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @new_home_communities }
