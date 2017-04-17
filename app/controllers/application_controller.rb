@@ -54,7 +54,6 @@ class ApplicationController < ActionController::Base
                   elsif cookies[:base_path].present? and params['action'] != 'guide'
                     @district = District.find(cookies[:district_route])
                     cookies[:base_path]
-                    Rails.logger.info "action: not guide"
                   else
                     cookies.delete(:base_path)
                     cookies.delete(:district_route)

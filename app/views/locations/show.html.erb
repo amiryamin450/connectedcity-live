@@ -4,7 +4,7 @@
             separator: " — ",
             og: {
               title: @location.name + " - ConnectedCity",
-              description: @location.try(:content).html_safe if @location.content,
+              description: @location.try(:content).html_safe,
               image: @location_carousel_images.first.try(:url),
               url: location_url(@location)
             }
