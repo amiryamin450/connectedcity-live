@@ -11,7 +11,7 @@
     <h5><%= category.name %></h5>
     <%= link_to 'More +', '#', class: 'see-more', data: { element: category.id } %>
     <% if @business_improvement_area_id %>
-      <%= link_to 'See All', business_improvement_area_vertical_market_category_path(@business_improvement_area_id, category.id), class: 'see-all' %>
+      <%= link_to 'See All', "#{@base_path}category/#{category.slug}", class: 'see-all' %>
     <% end %>
     
     <% if user_signed_in? && current_user.has_role?(:admin) %>
