@@ -65,6 +65,11 @@ class VerticalMarketsController < ApplicationController
       @commercial_styles = RealEstateListing.uniq.pluck(:style)
     end
 
+    if @vertical_market.name.include?("Auto Listing")
+      @auto_listings = AutomotiveListing.all
+      @auto_makes = AutomotiveListing.uniq.pluck(:make)
+    end
+
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb @district.name, district_guide_path(@district) if @district
     add_crumb @neighborhood.name if @neighborhood
