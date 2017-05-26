@@ -54,15 +54,21 @@ class VerticalMarketsController < ApplicationController
       @listings = @listings.order :style
       @residential_styles = RealEstateListing.uniq.pluck(:style)
     when 19
-      @new_home_communities = NewHomeCommunity.where city_id: @city.id
-      @new_home_communities = @new_home_communities.where district_id: @district.id if @district
-      @new_home_communities = @new_home_communities.order :name
+      @new_home_styles = NewHome.uniq.pluck(:style)
+      @new_homes = NewHome.where city_id: @city.id
+      @new_homes = @new_homes.where district_id: @district.id if @district
+      @new_homes = @new_homes.order :style
     when 20
       @commercial_listings = RealEstateListing.where property_type: 'Commercial',
                                                      city_id: @city.id
       @commercial_listings = @commercial_listings.where district_id: @district.id if @district
       @commercial_listings = @commercial_listings.order :style
       @commercial_styles = RealEstateListing.uniq.pluck(:style)
+    end
+
+    if @vertical_market.name.include?("Auto Listing")
+      @auto_listings = AutomotiveListing.all
+      @auto_makes = AutomotiveListing.uniq.pluck(:make)
     end
 
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path

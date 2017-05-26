@@ -1,21 +1,25 @@
-<div class="location-teaser clearfix">
-  <div style="height: 74px; text-align: center;">
-    <% if listing.cover_photo.present? %>
-      <%= link_to(image_tag(listing.new_home_community.cover_photo.url(:list)), [listing.new_home_community.location, listing.new_home_community])%>
-    <% else %>
-      <%= image_tag "http://placehold.it/168x80" %>
-    <% end -%>
-  </div>
+<% if listing.style == style %>
+  <div class="location-teaser clearfix">
+    <div style="height: 74px; text-align: center;">
+      <% if listing.cover_photo.present? %>
+        <%= link_to(image_tag(listing.new_home_community.cover_photo.url(:list)), [listing.new_home_community.location, listing.new_home_community])%>
+      <% else %>
+        <div style="margin-bottom: 5px;">
+          <%= image_tag "http://placehold.it/168x80" %>
+        </div>
+      <% end -%>
+    </div>
 
-  <div style="width: 168px; margin-top: 5px; font-size: 12px; clearfix; min-height:24px;">
-    <b><%= link_to listing.title, [listing.new_home_community.location, listing.new_home_community] %></b>
+    <div style="width: 168px; margin-top: 5px; font-size: 12px; clearfix; min-height:24px;">
+      <b><%= link_to listing.title, [listing.new_home_community.location, listing.new_home_community] %></b>
+    </div>
+    <div style="width: 168px; clear:both; padding-top: 5px;">
+      <div><%= listing.address %>&nbsp;</div>
+      <div><%= " #{listing.city.name}, #{listing.province.abbr}" %></div>
+    </div>
+    <div style="width: 168px; clear:both; padding-top: 5px; font-size: 12px;">
+      <div> <%= link_to listing.new_home_community.location.name, listing.new_home_community.location %></div>
+    </div>  
   </div>
-  <div style="width: 168px; clear:both; padding-top: 5px;">
-    <div><%= listing.address %>&nbsp;</div>
-    <div><%= " #{listing.city.name}, #{listing.province.abbr}" %></div>
-  </div>
-  <div style="width: 168px; clear:both; padding-top: 5px; font-size: 12px;">
-    <div> <%= link_to listing.new_home_community.location.name, listing.new_home_community.location %></div>
-  </div>  
-</div>
+<% end %>
 
