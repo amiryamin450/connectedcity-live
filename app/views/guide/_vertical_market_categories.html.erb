@@ -31,38 +31,25 @@ NOTE Rental (rental)
      Commercial (commercial)
 
 %>
-<%# NOTE: APRIL 7, 2017 - Commented out code will be needed for upcoming changes. Don't remove them as THEY WILL be needed shortly - Don Marges %>
-<%# if [1, 17, 18, 19, 20].include?(@vertical_market.id) %>
 <% if [17, 18, 19, 20].include?(@vertical_market.id) %>
   <%# TODO Optimize %>
   <% case @vertical_market.id %>
-  <%# when 1 %>
-    <%#= render 'automotive_listings', auto_listings: @auto_listings, auto_makes: @auto_makes %>
-  	<%#= render 'original_automotive' %>
 	<% when 17 %>
-    <% markers |= @rental_properties %>
-    <%# @rental_properties.each_with_index do |rental_property, r| %>
-      <%# if rental_property.rental_units.any? %>
-        <%#= render 'rental_properties', rental_property: rental_property, rental_units: rental_property.rental_units, r: r %>
-      <%# end %>
-    <%# end %>
-		<%= render 'original_rental' %>
+    <% @rental_properties.each_with_index do |rental_property, r| %>
+      <% if rental_property.rental_units.any? %>
+        <%= render 'rental_properties', rental_property: rental_property, rental_units: rental_property.rental_units, r: r %>
+      <% end %>
+    <% end %>
   <% when 18 %>
-    <% markers |= @listings %>
-    <%#= render 'residential', residential_units: @listings, styles: @residential_styles %>
-  	<%= render 'original_resale' %>
+    <%= render 'residential', residential_units: @listings, styles: @residential_styles %>
 	<% when 19 %>
-    <% markers |= @new_home_communities %>
-    <%# @new_home_communities.each_with_index do |new_home_community, r| %>
+    <%# @new_home_styles.each_with_index do |new_home, r| %>
       <%# if new_home_community.new_homes.any? %>
-        <%#= render 'new_home_communities', new_home_community: new_home_community, new_homes: new_home_community.new_homes, r: r %>
+        <%= render 'new_home_communities', new_homes: @new_homes, new_home_styles: @new_home_styles %>
       <%# end %>
     <%# end %>
-		<%= render 'original_new_home' %>
   <% when 20 %>
-    <% markers |= @commercial_listings %>
-    <%#= render 'commercial_properties', commercial_units: @commercial_listings, styles: @commercial_styles %>
-    <%= render 'original_commercial', commercial_listings: @commercial_listings %>
+    <%= render 'commercial_properties', commercial_units: @commercial_listings, styles: @commercial_styles %>
 	<% end %>
 <% else %>
   <%# NOTE Automotive (automotive) %>
