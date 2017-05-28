@@ -42,6 +42,10 @@ district_url_suffix = if params[:market].present?
                              @district_link = District.find(bia.district_id)
                              if @vertical_market && current_user && !current_user.has_role?(:admin)
                                district_neighborhood_guide_path(@district_link.slug, bia.slug, @vertical_market.slug)
+                               
+                             #NOTE: This check is needed if you are creating a new vertical market! @vertical_market will be valid, but is blank so that's why I have the check on line 48. - Don Marges, May 19, 2017
+                             elsif @vertical_market && @vertical_market.id == nil && current_user && current_user.has_role?(:admin)
+                               "/neighbourhoods/#{bia.slug}"
                              elsif @vertical_market
                                district_neighborhood_guide_path(@district_link.slug, bia.slug, @vertical_market.slug)
                              else
