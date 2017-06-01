@@ -9,7 +9,11 @@
     <%= f.input :accident, label: "Has been in an accident?" %>
     <%= f.input :price %>
     <%= f.input :year, as: :string %>
-    <%= f.input :make %>
+    <%= f.input :make do %>
+   	  <select id="automotive_listing_make" name="automotive_listing[make]">
+        <%= options_for_select(@auto_makers, @selected_maker) %>
+	  </select>
+	<% end %>
     <%= f.input :model %>
     <%= f.input :trim_level %>
     <%= f.input :exterior_color %>

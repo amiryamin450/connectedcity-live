@@ -38,7 +38,7 @@ class AutomotiveListingsController < ApplicationController
   # GET /automotive_listings/new.json
   def new
     @automotive_listing = @location.automotive_listings.new
-
+	@auto_makers = get_auto_makers
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @automotive_listing }
@@ -47,7 +47,9 @@ class AutomotiveListingsController < ApplicationController
 
   # GET /automotive_listings/1/edit
   def edit
-
+	@automotive_listing = AutomotiveListing.find(params[:id])
+	@auto_makers = get_auto_makers
+	@selected_maker = @automotive_listing.make
   end
 
   # POST /automotive_listings
@@ -70,6 +72,8 @@ class AutomotiveListingsController < ApplicationController
   # PUT /automotive_listings/1.json
   def update
     @automotive_listing = AutomotiveListing.find(params[:id])
+	@auto_makers = get_auto_makers
+	@selected_maker = @automotive_listing.make
 
     respond_to do |format|
       if @automotive_listing.update_attributes(params[:automotive_listing])
@@ -92,5 +96,55 @@ class AutomotiveListingsController < ApplicationController
       format.html { redirect_to location_automotive_listings_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def get_auto_makers
+	[
+		'Bugatti',
+		'Cadillac',
+		'Chevrolet',
+		'Chrysler',
+		'Dodge',
+		'Ferrari',
+		'Fiat',
+		'Fisker',
+		'Ford',
+		'GMC',
+		'Honda',
+		'Hummer',
+		'Hyundai',
+		'Infiniti',
+		'Jaguar',
+		'Jeep',
+		'Kia',
+		'Lamborghini',
+		'Land Rover',
+		'Lexus',
+		'Lotus',
+		'Maserati',
+		'Maybach',
+		'Mazda',
+		'McLaren',
+		'Mercedes-Benz',
+		'MG',
+		'Mini',
+		'Mitsubishi',
+		'Nissan',
+		'Peugeot',
+		'Porsche',
+		'Renault',
+		'Rolls-Royce',
+		'Saab',
+		'Scion',
+		'Smart',
+		'Subaru',
+		'Suzuki',
+		'Tesla',
+		'Toyota',
+		'Volkswagen',
+		'Volvo'
+	]
   end
 end
