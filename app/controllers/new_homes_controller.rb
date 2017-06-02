@@ -36,6 +36,7 @@ class NewHomesController < ApplicationController
   # GET /new_homes/new.json
   def new
     @new_home = @new_home_community.new_homes.new
+    @new_home_styles = get_new_home_styles
 
     respond_to do |format|
       format.html # new.html.erb
@@ -46,6 +47,8 @@ class NewHomesController < ApplicationController
   # GET /new_homes/1/edit
   def edit
     @new_home = NewHome.find(params[:id])
+    @new_home_styles = get_new_home_styles
+	@selected_listing_style = @new_home.style
   end
 
   # POST /new_homes
@@ -55,7 +58,7 @@ class NewHomesController < ApplicationController
 
     respond_to do |format|
       if @new_home.save
-        format.html { redirect_to [@location, @new_home_community, @new_home], notice: 'New home was successfully created.' }
+  	    format.html { redirect_to new_home_community_new_homes_path(@new_home_community), notice: 'New home was successfully created.' }
         format.json { render json: @new_home, status: :created, location: @new_home }
       else
         format.html { render action: "new" }
@@ -68,10 +71,12 @@ class NewHomesController < ApplicationController
   # PUT /new_homes/1.json
   def update
     @new_home = NewHome.find(params[:id])
+    @new_home_styles = get_new_home_styles
+	@selected_listing_style = @new_home.style
 
     respond_to do |format|
       if @new_home.update_attributes(params[:new_home])
-        format.html { redirect_to [@location, @new_home_community, @new_home], notice: 'New home was successfully updated.' }
+        format.html { redirect_to new_home_community_new_homes_path(@new_home_community), notice: 'New home was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -91,5 +96,15 @@ class NewHomesController < ApplicationController
       format.json { head :no_content }
     end
   end
-
+  
+  private
+  
+  def get_new_home_styles
+	[
+	  'Apartments',
+	  'Condominiums',
+	  'Houses',
+	  'Townhomes'
+	]
+  end
 end
