@@ -22,7 +22,11 @@
   <%= f.input :bedroom_comment, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
   <%= f.input :bathrooms, collection: [1,2,3,4,5], prompt: 'Select # of Bathrooms' %>
   <%= f.input :bathroom_comment, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
-  <%= f.input :style %>
+  <%= f.input :style do %>
+    <select id="new_home_style", name="new_home[style]">
+      <%= options_for_select(@new_home_styles, @selected_listing_style) %>
+    </select>
+  <% end %>  
   <%= f.input :living_area, as: :string, hint: 'total sq footage', wrapper: :append do %>
   <%= f.input_field :living_area %><span class="add-on"><i class="icon-superscript"></i></span>
   <% end %>

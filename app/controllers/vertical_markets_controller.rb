@@ -63,7 +63,7 @@ class VerticalMarketsController < ApplicationController
       @listings = @listings.order :style
       @residential_styles = get_rental_unit_styles
     when 19
-      @new_home_styles = NewHome.uniq.pluck(:style)
+      @new_home_styles = get_rental_unit_styles
       @new_homes = NewHome.where city_id: @city.id
       @new_homes = @new_homes.where district_id: @district.id if @district
       @new_homes = @new_homes.order :style
