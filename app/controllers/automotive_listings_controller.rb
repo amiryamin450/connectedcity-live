@@ -102,6 +102,12 @@ class AutomotiveListingsController < ApplicationController
 
   def get_auto_makers
 	[
+		'Acura',
+		'Alfa Romeo',
+		'Aston Martin',
+		'Audi',
+		'Bentley',
+		'BMW',		
 		'Bugatti',
 		'Cadillac',
 		'Chevrolet',
