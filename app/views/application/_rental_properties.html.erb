@@ -1,14 +1,14 @@
-<div class="category">
-  <div class="heading index-<%= r %>">
-    <h5><%= rental_property.name %></h5>
-    <%= link_to 'More +', '#', class: 'see-more', data: { element: rental_property.id } %>
-  </div>
+<% styles.each_with_index do |style, r| %>
+	<div class="category">
+	  <div class="heading index-<%= r %>">
+        <h5><%= style.present? ? style : 'Misc.' %></h5>
+		<%= link_to 'More +', '#', class: 'see-more', data: { element: r } %>
+	  </div>
 
-  <div class="location-holder" id="cat-<%= rental_property.id %>">
-    <div class="clearfix">
-      <% rental_units.each do |listing| %>
-        <%= render 'rental', listing: listing %>
-      <% end %>
-    </div>
-  </div>
-</div>
+	  <div class="location-holder" id="cat-<%= r %>">
+		<div class="clearfix">
+	      <%= render 'rental', style: style %>
+		</div>
+	  </div>
+	</div>
+<% end %>
