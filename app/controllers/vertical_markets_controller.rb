@@ -47,6 +47,16 @@ class VerticalMarketsController < ApplicationController
       @rental_properties = RentalProperty.where city_id: @city.id
       @rental_properties = @rental_properties.where district_id: @district.id if @district
       @rental_properties.order :name
+	  @rental_styles = get_rental_unit_styles
+	  @rental_units = []
+
+	  @rental_properties.each do |rp|
+		if rp.rental_units.any?
+		  rp.rental_units.each do |unit|
+			@rental_units << unit
+		  end
+		end
+	  end
     when 18
       @listings = RealEstateListing.where property_type: 'Residential',
                                           city_id: @city.id
@@ -189,5 +199,14 @@ class VerticalMarketsController < ApplicationController
       format.html { redirect_to vertical_markets_url }
       format.json { head :no_content }
     end
+  end
+  
+  def get_rental_unit_styles
+	[
+	  'Apartments',
+	  'Condominiums',
+	  'Houses',
+	  'Townhomes'
+	]
   end
 end

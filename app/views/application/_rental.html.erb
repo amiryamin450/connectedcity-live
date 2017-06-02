@@ -1,23 +1,26 @@
-<div class="location-teaser clearfix">
-  <div style="height: 74px; text-align: center;">
-    <% if listing.cover_photo.present? %>
-      <%= link_to(image_tag(listing.cover_photo.url(:list)), location_rental_property_rental_unit_path(listing.rental_property.location, listing.rental_property, listing))%>
-    <% else %>
-      <%= image_tag "http://placehold.it/168x80" %>
-    <% end -%>
-  </div>
+<% @rental_units.each do |listing| %>
+  <% if listing.style == style %>
+	<div class="location-teaser clearfix">
+	  <div style="height: 74px; text-align: center;">
+		<% if listing.cover_photo.present? %>
+		  <%= link_to(image_tag(listing.cover_photo.url(:list)), location_rental_property_rental_unit_path(listing.rental_property.location, listing.rental_property, listing))%>
+		<% else %>
+		  <%= image_tag "http://placehold.it/168x80" %>
+		<% end -%>
+	  </div>
 
-  <div style="width: 168px; margin-top: 5px; font-size: 12px; clearfix;min-height:24px;">
-    <b><%= link_to "#{listing.bedrooms} Bedrooms, #{listing.bathrooms} Bathrooms - $#{listing.rent_amount}", location_rental_property_rental_unit_path(listing.rental_property.location, listing.rental_property, listing) %></b>
-  </div>
+	  <div style="width: 168px; margin-top: 5px; font-size: 12px; clearfix;min-height:24px;">
+		<b><%= link_to "#{listing.bedrooms} Bedrooms, #{listing.bathrooms} Bathrooms - $#{listing.rent_amount}", location_rental_property_rental_unit_path(listing.rental_property.location, listing.rental_property, listing) %></b>
+	  </div>
 
-  <div style="width: 168px; clear:both; padding-top: 5px;">
-    <div><%= listing.rental_property.address_1 %>&nbsp;</div>
-    <div><%= " #{listing.rental_property.city.name}, #{listing.rental_property.province.abbr}" %></div>
-  </div>
-  <div style="width: 168px; clear:both; padding-top: 5px; font-size: 12px;">
-    <%= link_to listing.rental_property.location.name, listing.rental_property.location %>
-  </div>
-</div>
-</div>
-
+	  <div style="width: 168px; clear:both; padding-top: 5px;">
+		<div><%= listing.rental_property.address_1 %>&nbsp;</div>
+		<div><%= " #{listing.rental_property.city.name}, #{listing.rental_property.province.abbr}" %></div>
+	  </div>
+	  <div style="width: 168px; clear:both; padding-top: 5px; font-size: 12px;">
+		<%= link_to listing.rental_property.location.name, listing.rental_property.location %>
+	  </div>
+	</div>
+	</div>
+  <% end %>
+<% end %>
