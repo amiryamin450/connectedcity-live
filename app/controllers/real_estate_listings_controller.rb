@@ -101,6 +101,11 @@ class RealEstateListingsController < ApplicationController
   private
 
   def get_real_estate_listing_styles
-    RealEstateListing.uniq.pluck(:style)
+	[
+	  'Apartments',
+	  'Condominiums',
+	  'Houses',
+	  'Townhomes'
+	]
   end
 end
