@@ -1,8 +1,8 @@
 class RentalUnit < ActiveRecord::Base
-  
+
   belongs_to :rental_property
 
-  attr_accessible :availability, :bathrooms, :bedrooms, :date_available, :description, 
+  attr_accessible :availability, :bathrooms, :bedrooms, :date_available, :description,
   :flooring_types, :included_appliances, :living_area, :property_id, :rent_amount, :unit_number,
   :rental_property, :rental_property_id, :cover_photo, :style
 
@@ -18,4 +18,5 @@ class RentalUnit < ActiveRecord::Base
 	text :style
   end
 
+  STYLES = %w(Apartments Condominiums Houses Townhomes)
 end

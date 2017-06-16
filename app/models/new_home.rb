@@ -26,6 +26,8 @@ class NewHome < ActiveRecord::Base
 
   after_validation :geocode
 
+  STYLES = %w(Condominiums Townhomes)
+
   def full_street_address
     if city and province
       [address, city.name, province.name, 'CA', postal_code].compact.join(', ')

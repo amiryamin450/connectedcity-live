@@ -6,7 +6,7 @@ class RentalUnitsController < ApplicationController
   # GET /rental_units
   # GET /rental_units.json
   def index
-    @rental_units = @rental_property.rental_units 
+    @rental_units = @rental_property.rental_units
 
     respond_to do |format|
       format.html # index.html.erb
@@ -19,7 +19,7 @@ class RentalUnitsController < ApplicationController
   def show
 
     @vertical_market = @location.vertical_market_categories.first.vertical_market
-    
+
 
     add_crumb @district.name, district_guide_path(@district) if @district
     add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
@@ -41,7 +41,7 @@ class RentalUnitsController < ApplicationController
   # GET /rental_units/new.json
   def new
     @rental_unit = @rental_property.rental_units.new
-	@rental_unit_styles = get_rental_unit_styles
+	@rental_unit_styles = RentalUnit::STYLES
 
     respond_to do |format|
       format.html # new.html.erb
@@ -52,7 +52,7 @@ class RentalUnitsController < ApplicationController
   # GET /rental_units/1/edit
   def edit
     @rental_unit = RentalUnit.find(params[:id])
-	@rental_unit_styles = get_rental_unit_styles
+	@rental_unit_styles = RentalUnit::STYLES
 	@selected_rental_style = @rental_unit.style
   end
 
@@ -76,7 +76,7 @@ class RentalUnitsController < ApplicationController
   # PUT /rental_units/1.json
   def update
     @rental_unit = RentalUnit.find(params[:id])
-	@rental_unit_styles = get_rental_unit_styles
+	@rental_unit_styles = RentalUnit::STYLES
 	@selected_rental_style = @rental_unit.style
 
     respond_to do |format|
@@ -100,16 +100,5 @@ class RentalUnitsController < ApplicationController
       format.html { redirect_to rental_units_url }
       format.json { head :no_content }
     end
-  end
-
-  private
-
-  def get_rental_unit_styles
-	[
-	  'Apartments',
-	  'Condominiums',
-	  'Houses',
-	  'Townhomes'
-	]
   end
 end

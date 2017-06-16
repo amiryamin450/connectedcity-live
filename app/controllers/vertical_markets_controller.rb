@@ -47,32 +47,32 @@ class VerticalMarketsController < ApplicationController
       @rental_properties = RentalProperty.where city_id: @city.id
       @rental_properties = @rental_properties.where district_id: @district.id if @district
       @rental_properties.order :name
-	  @rental_styles = get_rental_unit_styles
-	  @rental_units = []
+  	  @rental_units = []
 
-	  @rental_properties.each do |rp|
-		if rp.rental_units.any?
-		  rp.rental_units.each do |unit|
-			@rental_units << unit
-		  end
-		end
-	  end
+  	  @rental_properties.each do |rp|
+    		if rp.rental_units.any?
+    		  rp.rental_units.each do |unit|
+    			  @rental_units << unit
+    		  end
+  	    end
+  	  end
+      @rental_styles = @rental_units.map(&:style).uniq
     when 18
       @listings = RealEstateListing.where city_id: @city.id
       @listings = @listings.where district_id: @district.id if @district
       @listings = @listings.order :style
       @residential_styles = get_rental_unit_styles
     when 19
-      @new_home_styles = get_rental_unit_styles
       @new_homes = NewHome.where city_id: @city.id
       @new_homes = @new_homes.where district_id: @district.id if @district
       @new_homes = @new_homes.order :style
+      @new_home_styles = @new_homes.pluck(:style).uniq
     when 20
       @commercial_listings = RealEstateListing.where property_type: 'Commercial',
                                                      city_id: @city.id
       @commercial_listings = @commercial_listings.where district_id: @district.id if @district
       @commercial_listings = @commercial_listings.order :style
-      @commercial_styles = RealEstateListing.uniq.pluck(:style)
+      @commercial_styles = @commercial_listings.uniq.pluck(:style)
     end
 
     if @vertical_market.name.include?("Auto Listing")
@@ -118,7 +118,7 @@ class VerticalMarketsController < ApplicationController
       with(:vertical_market_ids, ids) if vm.present?
       with(:district_id, district.id) if district.present?
       with(:business_improvement_area_id, @bia.id) if @bia.present?
-      with(:neighborhood_id, neighborhood.id) if neighborhood.present?     
+      with(:neighborhood_id, neighborhood.id) if neighborhood.present?
       paginate :page => params[:page]
     end
 
@@ -199,7 +199,7 @@ class VerticalMarketsController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
   def get_rental_unit_styles
 	[
 	  'Apartments',
