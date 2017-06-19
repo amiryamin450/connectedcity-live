@@ -8,7 +8,12 @@
   <%= f.input :status, collection: ["For Sale", "For Rent", "Sale Pending", "Sold", "Rented"], prompt: 'Please Select' %>
   <%= f.input :title %>
 
-  <%= f.input :property_type, collection: ["Residential", "Commercial"], prompt: "Select Property Type" %>
+  <%= f.input :property_type, collection: ["Residential", "Commercial"], placeholder: "Select Property Type" %>
+  <%= f.input :style do %>
+    <select id="real_estate_listing_style", name="real_estate_listing[style]">
+    </select>
+  <% end %>
+
   <%= f.input :description, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
 
 
@@ -31,12 +36,7 @@
 
   <%= f.input :postal_code %>
   <%= f.input :address_visible %>
-  
-  <%= f.input :style do %>
-    <select id="real_estate_listing_style", name="real_estate_listing[style]">
-      <%= options_for_select(@real_estate_listing_styles, @selected_listing_style) %>
-    </select>
-  <% end %>  
+
   <%= f.input :lot_comment, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
   <%= f.input :lot_legal, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
 
@@ -91,7 +91,7 @@
   <h4>Additional Images</h4>
   <%= render 'images', f: f %>
   <% end %>
-  
+
 </div>
 
 <div class="form-actions">
