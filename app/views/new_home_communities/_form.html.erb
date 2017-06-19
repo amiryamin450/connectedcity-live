@@ -3,6 +3,11 @@
 
   <div class="form-inputs">
     <%= f.input :name %>
+    <%= f.input :style do %>
+      <select id="new_home_community_style", name="new_home_community[style]">
+        <%= options_for_select(@new_home_community_styles, @selected_new_home_community_styles) %>
+      </select>
+    <% end %>
     <%= f.input :address %>
 
     <%= f.association :province %>

@@ -11,7 +11,7 @@ class NewHome < ActiveRecord::Base
 
   attr_accessible :address, :address_suite, :association_fee, :association_fee_period, :bathroom_comment,
                   :bathrooms, :bedroom_comment, :bedrooms, :city_id, :country_id, :description, :detail_view_url,
-                  :latitude, :living_area, :location_id, :longitude, :neighborhood_id, :postal_code, :province_id, :slug, :style, :title,
+                  :latitude, :living_area, :location_id, :longitude, :neighborhood_id, :postal_code, :province_id, :slug, :title,
                   :virtual_tour_url, :year_built, :new_home_community_id, :list_price, :tax_amount, :cover_photo
 
 
@@ -25,8 +25,6 @@ class NewHome < ActiveRecord::Base
   validates_presence_of :address, :title, :city, :province, :postal_code
 
   after_validation :geocode
-
-  STYLES = %w(Condominiums Townhomes)
 
   def full_street_address
     if city and province

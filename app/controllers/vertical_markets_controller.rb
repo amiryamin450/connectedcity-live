@@ -54,10 +54,10 @@ class VerticalMarketsController < ApplicationController
       @listings = @listings.order :style
       @residential_styles = get_rental_unit_styles
     when 19
-      @new_homes = NewHome.where city_id: @city.id
-      @new_homes = @new_homes.where district_id: @district.id if @district
-      @new_homes = @new_homes.order :style
-      @new_home_styles = @new_homes.pluck(:style).uniq
+      @new_home_communities = NewHomeCommunity.where city_id: @city.id
+      @new_home_communities = @new_home_communities.where district_id: @district.id if @district
+      @new_home_communities = @new_home_communities.order :style
+      @new_home_community_styles = @new_home_communities.pluck(:style).uniq
     when 20
       @commercial_listings = RealEstateListing.where property_type: 'Commercial',
                                                      city_id: @city.id

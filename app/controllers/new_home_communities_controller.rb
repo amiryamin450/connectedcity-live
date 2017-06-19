@@ -40,7 +40,8 @@ class NewHomeCommunitiesController < ApplicationController
   # GET /new_home_communities/new.json
   def new
     @new_home_community = @location.new_home_communities.new
-
+    @new_home_community_styles = NewHomeCommunity::STYLES
+    
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @new_home_community }
@@ -50,6 +51,8 @@ class NewHomeCommunitiesController < ApplicationController
   # GET /new_home_communities/1/edit
   def edit
     @new_home_community = NewHomeCommunity.find(params[:id])
+    @new_home_community_styles = NewHomeCommunity::STYLES
+    @selected_new_home_community_styles = @new_home_community.style
   end
 
   # POST /new_home_communities
@@ -103,4 +106,3 @@ class NewHomeCommunitiesController < ApplicationController
     redirect_to :back
   end
 end
-
