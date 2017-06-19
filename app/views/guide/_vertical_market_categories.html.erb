@@ -39,7 +39,7 @@ NOTE Rental (rental)
     <% when 18 %>
       <%= render 'residential', residential_units: @listings, styles: @residential_styles %>
 	<% when 19 %>
-      <%= render 'new_home_communities', new_homes: @new_homes, new_home_styles: @new_home_styles %>
+      <%= render 'new_home_communities', new_home_communities: @new_home_communities, new_home_community_styles: @new_home_community_styles %>
     <% when 20 %>
       <%= render 'commercial_properties', commercial_units: @commercial_listings, styles: @commercial_styles %>
   <% end %>
@@ -72,7 +72,7 @@ NOTE Rental (rental)
   <% if @vertical_market.name.include?("Auto Listing") %>
     <%= render 'automotive_listings', auto_listings: @auto_listings, auto_makes: @auto_makes %>
   <% end %>
-  
+
   <% @vertical_market.categories_new(@city, @district, @neighborhood).each_with_index do |category, r| %>
     <%
 

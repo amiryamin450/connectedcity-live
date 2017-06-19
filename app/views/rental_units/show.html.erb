@@ -21,7 +21,7 @@
       <div class="span9">
         <h4><%= @rental_property.name %></h4>
 
-        
+
         <div class="address-line">
           <div style="margin-bottom: 10px;">
            <%= "#{@rental_property.address_1} &middot;".html_safe %> <%= "#{@rental_property.address_2} &middot;".html_safe if @rental_property.address_2.present? %> <%= "#{@rental_property.city.name} #{@rental_property.province.preabbr}, #{@rental_property.postal_code}" %>
@@ -30,25 +30,19 @@
           <div class="span6" style="min-height: 0;">
             <strong>Unit Number:</strong> <%= @rental_unit.unit_number %>
           </div>
-          <div class="span6" style="min-height: 0;"></div>           
-         </div>
-         <div class="row-fluid" style="min-height: 0;">
-          <div class="span6" style="min-height: 0;">
-            <strong>Style:</strong> <%= @rental_unit.style %>
-          </div>
-          <div class="span6" style="min-height: 0;"></div>           
+          <div class="span6" style="min-height: 0;"></div>
          </div>
          <div class="row-fluid" style="min-height: 0;">
           <div class="span6" style="min-height: 0;">
             <strong>Bedrooms:</strong> <%= @rental_unit.bedrooms %>
           </div>
-          <div class="span6" style="min-height: 0;"><strong>Bathrooms:</strong> <%= @rental_unit.bathrooms %></div>           
+          <div class="span6" style="min-height: 0;"><strong>Bathrooms:</strong> <%= @rental_unit.bathrooms %></div>
          </div>
         <div class="row-fluid" style="min-height: 0;">
           <div class="span6" style="min-height: 0;">
             <strong>Square Feet:</strong> <%= @rental_unit.living_area %>
           </div>
-          <div class="span6" style="min-height: 0;"><strong>Date Available:</strong> <%= @rental_unit.date_available %></div>           
+          <div class="span6" style="min-height: 0;"><strong>Date Available:</strong> <%= @rental_unit.date_available %></div>
          </div>
          <div>
            <h4><%= number_to_currency @rental_unit.rent_amount %></h4>
@@ -144,7 +138,7 @@
  </div>
  <div class="row-fluid">
    <div class="span12">
-    
+
    </div>
  </div>
 </div>
@@ -156,4 +150,3 @@
 
 Window.profile_marker = <%= raw @rental_property.geo_location.to_json() %>
 <% end %>
-

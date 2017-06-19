@@ -15,7 +15,7 @@ class RentalProperty < ActiveRecord::Base
   :latitude, :longitude, :name, :neighborhood_description, :neighborhood_highlights,
   :neighborhood_id, :pet_restrictions, :phone, :phone_count, :postal_code, :pov,
   :property_features, :property_highlights, :province_id, :restrictions, :slug, :tag_line,
-  :website_url, :location_id, :location, :cover_photo, :district_id, :status_updates_attributes
+  :website_url, :location_id, :location, :cover_photo, :district_id, :status_updates_attributes, :style
 
   friendly_id :name, use: [:slugged, :history]
 
@@ -29,6 +29,8 @@ class RentalProperty < ActiveRecord::Base
   geocoded_by :full_street_address
   after_validation :geocode
   accepts_nested_attributes_for :status_updates, allow_destroy: true
+
+  STYLES = %w(Apartments Condominiums Houses Townhomes)
 
   def logo
     self.cover_photo

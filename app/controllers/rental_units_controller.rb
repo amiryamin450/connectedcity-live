@@ -41,7 +41,6 @@ class RentalUnitsController < ApplicationController
   # GET /rental_units/new.json
   def new
     @rental_unit = @rental_property.rental_units.new
-	@rental_unit_styles = RentalUnit::STYLES
 
     respond_to do |format|
       format.html # new.html.erb
@@ -52,8 +51,6 @@ class RentalUnitsController < ApplicationController
   # GET /rental_units/1/edit
   def edit
     @rental_unit = RentalUnit.find(params[:id])
-	@rental_unit_styles = RentalUnit::STYLES
-	@selected_rental_style = @rental_unit.style
   end
 
   # POST /rental_units
@@ -76,8 +73,6 @@ class RentalUnitsController < ApplicationController
   # PUT /rental_units/1.json
   def update
     @rental_unit = RentalUnit.find(params[:id])
-	@rental_unit_styles = RentalUnit::STYLES
-	@selected_rental_style = @rental_unit.style
 
     respond_to do |format|
       if @rental_unit.update_attributes(params[:rental_unit])

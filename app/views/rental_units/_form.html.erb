@@ -19,11 +19,6 @@
   </div>
 
   <%= f.input :description, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
-  <%= f.input :style do %>
-    <select id="rental_unit_style", name="rental_unit[style]">
-      <%= options_for_select(@rental_unit_styles, @selected_rental_style) %>
-    </select>
-  <% end %>  
   <%= f.input :rent_amount, as: :string, wrapper: :prepend do %>
   <span class="add-on"><i class="icon-dollar"></i></span><%= f.input_field :rent_amount %>
   <% end %>

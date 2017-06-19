@@ -14,7 +14,7 @@ class NewHomeCommunity < ActiveRecord::Base
 
   attr_accessible :city_id, :description, :highlights, :location_id, :name,
   :neighborhood_id, :province_id, :city, :province, :location, :neighborhood, :district_id, :cover_photo,
-  :address, :postal_code, :latitude, :longitude, :status_updates_attributes, :logo
+  :address, :postal_code, :latitude, :longitude, :status_updates_attributes, :logo, :style
 
   geocoded_by :full_street_address
   after_validation :geocode
@@ -28,7 +28,7 @@ class NewHomeCommunity < ActiveRecord::Base
   :url => "/system/new_home_communities/logo/:id/:style/:basename.:extension",
   :path => ":rails_root/public/system/new_home_communities/logo/:id/:style/:basename.:extension"
 
-
+  STYLES = %w(Condominiums Townhomes)
 
   def vertical_markets
     VerticalMarket.where(id: 19)
