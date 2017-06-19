@@ -47,16 +47,7 @@ class VerticalMarketsController < ApplicationController
       @rental_properties = RentalProperty.where city_id: @city.id
       @rental_properties = @rental_properties.where district_id: @district.id if @district
       @rental_properties.order :name
-  	  @rental_units = []
-
-  	  @rental_properties.each do |rp|
-    		if rp.rental_units.any?
-    		  rp.rental_units.each do |unit|
-    			  @rental_units << unit
-    		  end
-  	    end
-  	  end
-      @rental_styles = @rental_units.map(&:style).uniq
+      @rental_styles = @rental_properties.map(&:style).uniq
     when 18
       @listings = RealEstateListing.where city_id: @city.id
       @listings = @listings.where district_id: @district.id if @district

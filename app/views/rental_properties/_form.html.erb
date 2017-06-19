@@ -2,11 +2,16 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :name %> 
+    <%= f.input :name %>
+    <%= f.input :style do %>
+      <select id="rental_unit_style", name="rental_property[style]">
+        <%= options_for_select(@rental_property_styles, @selected_rental_property_styles) %>
+      </select>
+    <% end %>
     <%= f.input :tag_line %>
     <%= f.input :active %>
     <%= f.input :address_1 %>
-    <%= f.input :address_2 %> 
+    <%= f.input :address_2 %>
     <%= f.association :province %>
     <%= f.association :city %>
     <%= f.input :postal_code %>
@@ -20,12 +25,12 @@
 
     <%= f.input :neighborhood_description, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
 
-   
+
     <%= f.input :description, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
-    <%= f.input :neighborhood_highlights, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.' %>   
+    <%= f.input :neighborhood_highlights, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.' %>
     <%= f.input :property_features, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.' %>
     <%= f.input :garage_types, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.' %>
-    <%= f.input :included_utilities, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.' %>    
+    <%= f.input :included_utilities, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.' %>
     <%= f.input :restrictions, as: :text, input_html: { rows: 5, class: 'input-xxlarge' }, hint: 'One item per line.' %>
   </div>
 
