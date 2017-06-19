@@ -60,9 +60,15 @@ namespace :deploy do
     desc "#{command} puma server"
     task command, roles: :app, except: {no_release: true} do
       run "sudo service #{application} #{command}"
+      run "sudo chown ubuntu:puma -R #{fetch(:release_path)}/tmp"
     end
   end
 
+  task :cleanup, :except => {:no_release => true} do
+    count = fetch(:keep_releases, 5).to_i
+    run "ls -1dt #{releases_path}/* | tail -n +#{count + 1} | #{try_sudo} xargs rm -rf"
+  end
+  
   desc "Make sure local git is in sync with remote."
   task :check_revision, roles: :web do
     unless `git rev-parse HEAD` == `git rev-parse origin/#{branch}`
