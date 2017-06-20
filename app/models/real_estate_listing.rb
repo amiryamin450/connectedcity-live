@@ -122,6 +122,8 @@ class RealEstateListing < ActiveRecord::Base
    after_validation :geocode
    accepts_nested_attributes_for :status_updates, allow_destroy: true
 
+  STYLES = %w(Condominiums Houses Townhomes)
+
   def geo_location
     {:lat => latitude, :long => longitude}
   end
