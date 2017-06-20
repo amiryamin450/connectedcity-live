@@ -8,9 +8,9 @@
   <%= f.input :status, collection: ["For Sale", "For Rent", "Sale Pending", "Sold", "Rented"], prompt: 'Please Select' %>
   <%= f.input :title %>
 
-  <%= f.input :property_type, collection: ["Residential", "Commercial"], placeholder: "Select Property Type" %>
+  <%= f.input :property_type, collection: ["Residential", "Commercial"], placeholder: "Select Property Type", selected: f.object.property_type %>
 
-  <%= f.input :style, collection: @real_estate_listing_styles %>
+  <%= f.input :style, collection: @real_estate_listing_styles, selected: f.object.style %>
 
   <%= f.input :description, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
 
