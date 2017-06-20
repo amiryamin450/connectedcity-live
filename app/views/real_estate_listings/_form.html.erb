@@ -9,10 +9,8 @@
   <%= f.input :title %>
 
   <%= f.input :property_type, collection: ["Residential", "Commercial"], placeholder: "Select Property Type" %>
-  <%= f.input :style do %>
-    <select id="real_estate_listing_style", name="real_estate_listing[style]">
-    </select>
-  <% end %>
+
+  <%= f.input :style, collection: @real_estate_listing_styles %>
 
   <%= f.input :description, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
 
