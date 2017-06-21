@@ -54,5 +54,5 @@ jQuery ->
   $('#list_date_dtp').datetimepicker
     language: 'en',
     pickTime: false
-  @list = [{"id":"Residential","name":"Residential","types":[{"id":"Condominiums","name":"Condominiums"},{"id":"Houses","name":"Houses"},{"id":"Townhomes","name":"Townhomes"}]},{"id":"Commercial","name":"Commercial","types":[{"id":"Industrial","name":"Industrial"},{"id":"Office","name":"Office"},{"id":"Retail","name":"Retail"}]}]
+  @list = [{"id":"Residential","name":"Residential","types":[{"id":"Condominiums","name":"Condominiums"},{"id":"Houses","name":"Houses"},{"id":"Townhomes","name":"Townhomes"}]},{"id":"Commercial","name":"Commercial","types":[{"id":"Office","name":"Office"},{"id":"Retail","name":"Retail"},{"id":"Shared Office","name":"Shared Office"},{"id":"Co-Working","name":"Co-Working"},{"id":"Business Centre","name":"Business Centre"},{"id":"Medical","name":"Medical"},{"id":"Industrial","name":"Industrial"},{"id":"Land","name":"Land"}]}]
   new RelativeSelects($("#real_estate_listing_property_type"), $("#real_estate_listing_style"), @list, "types")

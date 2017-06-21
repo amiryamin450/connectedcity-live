@@ -193,10 +193,7 @@ class VerticalMarketsController < ApplicationController
 
   def get_rental_unit_styles
 	[
-	  'Apartments',
-	  'Condominiums',
-	  'Houses',
-	  'Townhomes'
+	  'Condominiums', 'Houses', 'Townhomes'
 	]
   end
 end

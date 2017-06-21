@@ -35,13 +35,13 @@ NOTE Rental (rental)
   <%# TODO Optimize %>
   <% case @vertical_market.id %>
 	<% when 17 %>
-      <%= render 'rental_properties', rental_properties: @rental_properties, styles: @rental_styles %>
-    <% when 18 %>
-      <%= render 'residential', residential_units: @listings, styles: @residential_styles %>
+    <%= render 'rental_properties', rental_properties: @rental_properties, styles: @rental_styles %>
+  <% when 18 %>
+    <%= render 'residential', residential_units: @listings, styles: @residential_styles %>
 	<% when 19 %>
-      <%= render 'new_home_communities', new_home_communities: @new_home_communities, new_home_community_styles: @new_home_community_styles %>
-    <% when 20 %>
-      <%= render 'commercial_properties', commercial_units: @commercial_listings, styles: @commercial_styles %>
+    <%= render 'new_home_communities', new_home_communities: @new_home_communities, new_home_community_styles: @new_home_community_styles %>
+  <% when 20 %>
+    <%= render 'commercial_properties', commercial_units: @commercial_listings, styles: @commercial_styles %>
   <% end %>
 <% else %>
   <%# NOTE Automotive (automotive) %>
