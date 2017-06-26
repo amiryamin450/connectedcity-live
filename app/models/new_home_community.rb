@@ -28,7 +28,7 @@ class NewHomeCommunity < ActiveRecord::Base
   :url => "/system/new_home_communities/logo/:id/:style/:basename.:extension",
   :path => ":rails_root/public/system/new_home_communities/logo/:id/:style/:basename.:extension"
 
-  STYLES = %w(Condominiums Townhomes)
+  STYLES = %w(Condominiums Houses Townhomes)
 
   def vertical_markets
     VerticalMarket.where(id: 19)
