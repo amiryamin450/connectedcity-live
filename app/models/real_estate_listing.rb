@@ -27,7 +27,7 @@ class RealEstateListing < ActiveRecord::Base
       text :bedroom_comment, boost: 3
       text :bathroom_comment, boost: 3
       text :garage_comment
-      
+
       integer :bedrooms
       integer :bathrooms
 
@@ -111,7 +111,7 @@ class RealEstateListing < ActiveRecord::Base
 
 
    has_attached_file :main_image, styles: {
-                              thumb: "50x50#", list: "168x80#"
+                              thumb: "50x50#", list: "168x80#", bia_display: "250x100"
                               },
                     default_url: "http://placehold.it/320x200",
                     :url => "/system/real_estate_listings/main_images/:id/:style/:basename.:extension",

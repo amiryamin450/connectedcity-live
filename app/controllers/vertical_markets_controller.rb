@@ -62,6 +62,7 @@ class VerticalMarketsController < ApplicationController
       @commercial_listings = RealEstateListing.where property_type: 'Commercial',
                                                      city_id: @city.id
       @commercial_listings = @commercial_listings.where district_id: @district.id if @district
+      @commercial_listings = @commercial_listings.where neighborhood_id: @neighborhood_id.id if @neighborhood_id
       @commercial_listings = @commercial_listings.order :style
       @commercial_styles = @commercial_listings.uniq.pluck(:style)
     end

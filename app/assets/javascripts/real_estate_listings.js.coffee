@@ -16,7 +16,6 @@ RelativeSelects:: =
     @setOriginValue()
 
   updateParentOptions: ->
-    console.log @el_parent
     parentOptions = ""
     if @el_parent.attr("placeholder")
       parentOptions += "<option value=''>"+@el_parent.attr("placeholder")+"</option>"

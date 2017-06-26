@@ -21,7 +21,7 @@ $(function() {
                 var title = location['name'];
                 var pt = new L.LatLng(location['latitude'], location['longitude']);
                 var marker = new L.Marker(pt, { title: title });
-                marker.bindPopup((location['thumb'] ? "<img src='" + location['thumb'] + "' width='157' />" : "" ) + "<div style='margin-top:5px;margin-bottom:5px;'><a href='" + location['url'] + "'>" + title + "</a></div>");
+                marker.bindPopup((location['thumb'] ? "<a href='" + location['url'] + "'>" + "<img src='" + location['thumb'] + "' width='157' />" + "</a>" : "" ) + "<div style='margin-top:5px;margin-bottom:5px;'><a href='" + location['url'] + "'>" + title + "</a></div>");
                 markers.addLayer(marker);
                 bounds.extend(pt);
             }
