@@ -71,8 +71,10 @@ class VerticalMarketsController < ApplicationController
     end
 
     if @vertical_market.name.include?("Auto Listing")
-      @auto_listings = AutomotiveListing.all
-      @auto_makes = AutomotiveListing.uniq.pluck(:make)
+      @auto_listings = AutomotiveListing.joins(:location).where(locations: { city_id: @city.id })
+      @auto_listings = @auto_listings.where(locations: { district_id: @district.id }) if @district
+      @auto_listings = @auto_listings.where(locations: { neighborhood_id: @neighborhood.id }) if @neighborhood
+      @auto_makes    = @auto_listings.uniq.pluck(:make)
     end
 
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path

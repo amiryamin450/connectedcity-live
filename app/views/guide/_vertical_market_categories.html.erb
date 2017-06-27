@@ -75,6 +75,7 @@ NOTE Rental (rental)
   <% end %>
   <% if @vertical_market.name.include?("Auto Listing") %>
     <%= render 'automotive_listings', auto_listings: @auto_listings, auto_makes: @auto_makes %>
+    <% markers = @auto_listings.map(&:location) %>
   <% end %>
 
   <% @vertical_market.categories_new(@city, @district, @neighborhood).each_with_index do |category, r| %>
