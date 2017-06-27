@@ -19,7 +19,7 @@ class RentalProperty < ActiveRecord::Base
 
   friendly_id :name, use: [:slugged, :history]
 
-  has_attached_file :cover_photo, :styles => { :thumb => "100x178", :list => "168x80" },
+  has_attached_file :cover_photo, :styles => { :thumb => "100x178", :list => "168x80", :bia_display => "250x100" },
   :url => "/system/rental_properties/cover_photo/:id/:style/:basename.:extension",
   :path => ":rails_root/public/system/rental_properties/cover_photo/:id/:style/:basename.:extension"
 
