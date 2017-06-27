@@ -46,6 +46,7 @@ class VerticalMarketsController < ApplicationController
     when 17
       @rental_properties = RentalProperty.where city_id: @city.id
       @rental_properties = @rental_properties.where district_id: @district.id if @district
+      @rental_properties = @rental_properties.where neighborhood_id: @neighborhood.id if @neighborhood
       @rental_properties = @rental_properties.order :style
       @rental_styles = @rental_properties.map(&:style).uniq
     when 18
@@ -57,6 +58,7 @@ class VerticalMarketsController < ApplicationController
     when 19
       @new_home_communities = NewHomeCommunity.where city_id: @city.id
       @new_home_communities = @new_home_communities.where district_id: @district.id if @district
+      @new_home_communities = @new_home_communities.where neighborhood_id: @neighborhood.id if @neighborhood
       @new_home_communities = @new_home_communities.order :style
       @new_home_community_styles = @new_home_communities.pluck(:style).uniq
     when 20
