@@ -14,7 +14,7 @@ district_url_suffix = if params[:market].present?
 <div class="location-block">
     <a class="open" href="#"><span>Select Location</span></a>
     <div class="dropdown">
-      
+
       <ul>
         <%= content_tag(:li, class: (current_district.name.eql?("Vancouver")) ? "active" : "") { link_to "Vancouver", root_path } %>
         <% District.all.each do |district|  %>
@@ -33,7 +33,7 @@ district_url_suffix = if params[:market].present?
       </ul>
       <div class="location-chooser-scroll-container">
         <ul>
-          <% current_district.business_improvement_areas.each do |bia| %>
+          <% current_district.neighborhoods.each do |bia| %>
             <%
                  test = ""
                  bia_url = if params[:controller] == "vertical_market_categories" && params[:id]
@@ -42,7 +42,7 @@ district_url_suffix = if params[:market].present?
                              @district_link = District.find(bia.district_id)
                              if @vertical_market && current_user && !current_user.has_role?(:admin)
                                district_neighborhood_guide_path(@district_link.slug, bia.slug, @vertical_market.slug)
-                               
+
                              #NOTE: This check is needed if you are creating a new vertical market! @vertical_market will be valid, but is blank so that's why I have the check on line 48. - Don Marges, May 19, 2017
                              elsif @vertical_market && @vertical_market.id == nil && current_user && current_user.has_role?(:admin)
                                "/neighbourhoods/#{bia.slug}"
@@ -52,8 +52,8 @@ district_url_suffix = if params[:market].present?
                                "/neighbourhoods/#{bia.slug}"
                              end
                            end
-            %> 
-            <li><%= link_to bia.name, bia_url %></li>
+            %>
+            <li><%= link_to bia.neighborhd, bia_url %></li>
           <% end %>
         </ul>
       </div>
