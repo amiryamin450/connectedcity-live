@@ -1,0 +1,29 @@
+<div class="row-fluid">
+  <div class="span6">
+    <div class="row-fluid">
+      <div class="span12">
+        <%= image_tag status_update.image.url %>
+      </div>
+    </div>
+  </div>
+  <div class="span6">
+    <div class="row-fluid" style="margin-top: 5px;">
+      <%= render 'locations/location_information', location: status_update.statusable, content: status_update.content %>
+
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="pad10 holder" style="margin-top: 1.5em;">
+             <div style="height: 200px;" class="clearfix profile-map" data-coordinates=<%= raw status_update.statusable.geo_location.to_json() %> ></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row-fluid">
+        <div class="span12">
+          <%= image_tag status_update.statusable.business_improvement_area.logo.url if status_update.statusable.business_improvement_area %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
