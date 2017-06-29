@@ -17,8 +17,8 @@
       <h2><%= location.name %></h2>
       <div class="address-line">
        <%= location.address %> &middot; <%= "#{location.city.name} #{location.province.preabbr}, #{location.postal_code}" %>
-       <%#= display_phone 'show_phone', 'phone', 'Phone' %>
-       <%#= display_phone 'show_toll_free', 'toll_free', 'Toll Free' %>
+       <%= display_phone 'show_phone', 'phone', 'Phone', location %>
+       <%= display_phone 'show_toll_free', 'toll_free', 'Toll Free', location %>
         <%= raw "<div><strong>Fax:</strong> #{location.fax}</div>" if location.fax.present? %>
         <div>
           <%= mail_to location.email if location.email.present? %>
@@ -30,7 +30,7 @@
 
        </div>
 
-        <%#= render 'operating_hours' %>
+        <%= render 'locations/operating_hours', location: location %>
      </div>
      <div class="favorite-<%= location.id %>" class="favorite" style="display: inline;">
           <% if show_save_button?(user_signed_in?, location.vertical_markets.present?) %>
