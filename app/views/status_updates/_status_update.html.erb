@@ -7,7 +7,7 @@
     <div><%= status_update.content %>
     <% if status_update.image? %>
       <%= link_to(content_tag(:span, "View Image", class: "status-update-image", data: { location: status_update.statusable.name}), '#status_update_image', data: {toggle: 'modal'}) %>
-      <div class='modal-content hidden' id="modal-content">
+      <div class='modal-content hidden'>
         <div class="row-fluid">
           <div class="span6">
             <div class="row-fluid">
@@ -22,8 +22,8 @@
 
               <div class="row-fluid">
                 <div class="span12">
-                  <div class="pad10 holder">
-                     <div id="profile-map" class="clearfix"></div>
+                  <div class="pad10 holder" style="margin-top: 1.5em;">
+                     <div style="height: 200px;" class="clearfix profile-map" data-coordinates=<%= raw status_update.statusable.geo_location.to_json() %> ></div>
                   </div>
                 </div>
               </div>

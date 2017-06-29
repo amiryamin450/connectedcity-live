@@ -35,31 +35,6 @@ $(function() {
     }
 
     if($('#profile-map').length > 0) {
-
-        map = L.map('profile-map', {scrollWheelZoom: false}).setView([49.249935,-123.112457],12);
-        L.Icon.Default.imagePath = '/assets/';
-        //1c76eefca5954c5abfa169b96dc96a35
-        tiles = L.tileLayer('//{s}.tiles.mapbox.com/v3/grt777.j18k947c/{z}/{x}/{y}.png', {
-            attribution: '',
-            maxZoom: 18
-        })
-        tiles.addTo(map);
-
-        var loc = Window.profile_marker;
-
-        var pt = new L.LatLng(loc['lat'], loc['long']);
-        var marker = new L.Marker(pt);
-        map.addLayer(marker);
-        map.setView(pt, 16, true);
-
-        $('#map-tab').click(function(){
-           map.invalidateSize(false);
-
-            // var loc = Window.profile_marker;
-            // var pt = new L.LatLng(loc['lat'], loc['long']);
-            // map.setView(pt, 16, true);
-            // tiles.redraw();
-        });
-
+        Window.helpers.initMap($('#profile-map')[0]);
     }
 });

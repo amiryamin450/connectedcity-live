@@ -48,6 +48,11 @@ jQuery ->
     content = $(this).parent().next('.modal-content')
     $('#status_update_image .modal-body').html(content.html())
     $('#status_update_image .location-name').html($(this).data('location'))
+    setTimeout (->
+      body = $('#status_update_image .modal-body')
+      Window.helpers.initMap(body.find(".profile-map")[0])
+    ), 300
+
 
   $('#status_update_image').on "click", '.btn-message', () ->
     location = $("#status_update_image .btn-message").data('location')
