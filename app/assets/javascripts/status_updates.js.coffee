@@ -1,4 +1,6 @@
 jQuery ->
+  $.fn.modal.Constructor::enforceFocus = ->
+
   myDropzone = $("#new_status_update .dropzone").dropzone({
     url: $("#new_status_update").attr('action'),
     autoProcessQueue: false,
@@ -43,9 +45,23 @@ jQuery ->
         new_status_update_fail(xhr.responseJSON)
 
   $('.status-update-image').click (event) ->
-    # dynamically set location name and image src by grabbing clicked element's corresponding data attributes
-    $('#status_update_image .location-name').html($(this).data('location-name'))
-    $('#status_update_image .modal-body').html('<img src="' + $(this).data('large-image') + '" />')
+    if $(this).data('bia') == true
+      $('#status_update_image .location-name').html($(this).data('location-name'))
+      $('#status_update_image .modal-body').html('<img src="' + $(this).data('large-image') + '" />')
+    else
+      content = $(this).parent().next('.modal-content')
+      $('#status_update_image .modal-body').html(content.html())
+      $('#status_update_image .location-name').html($(this).data('location'))
+      setTimeout (->
+        body = $('#status_update_image .modal-body')
+        Window.helpers.initMap(body.find(".profile-map")[0])
+      ), 300
+
+
+  $('#status_update_image').on "click", '.btn-message', () ->
+    location = $("#status_update_image .btn-message").data('location')
+    $("#new_message").attr("data-remote", "/business/" + location + "/messages/new")
+
 
 @new_status_update_success = () ->
   $('#status_update').modal('hide')

@@ -1,10 +1,10 @@
-<% if @location.operating_hours.where("starts_at IS NOT NULL OR closed = 1").any? %>
+<% if location.operating_hours.where("starts_at IS NOT NULL OR closed = 1").any? %>
   <section class="operating-hours">
     <header>
       <h2>Operating Hours</h2>
     </header>
     <dl>
-      <% @location.operating_hours.where("starts_at IS NOT NULL OR closed = 1").each do |operating_hour| %>
+      <% location.operating_hours.where("starts_at IS NOT NULL OR closed = 1").each do |operating_hour| %>
         <dt><%= operating_hour.day.to_s.humanize %></dt>
         <dd>
           <% if operating_hour.open? %>
