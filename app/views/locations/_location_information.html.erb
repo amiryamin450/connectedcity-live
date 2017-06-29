@@ -1,9 +1,11 @@
 <div class="row-fluid" style="margin-top: 5px;">
-  <div class="row-fluid">
-    <div class="span12">
-      <h2>"<%= content %>"</h2>
+  <% if content.present? %>
+    <div class="row-fluid">
+      <div class="span12">
+        <h3>"<%= content %>"</h3>
+      </div>
     </div>
-  </div>
+  <% end %>
   <div class="row-fluid">
     <div class="span3">
       <div class="thumbnail logo">
@@ -12,7 +14,7 @@
 
     </div>
     <div class="span9">
-      <h3><%= location.name %></h3>
+      <h2><%= location.name %></h2>
       <div class="address-line">
        <%= location.address %> &middot; <%= "#{location.city.name} #{location.province.preabbr}, #{location.postal_code}" %>
        <%#= display_phone 'show_phone', 'phone', 'Phone' %>
