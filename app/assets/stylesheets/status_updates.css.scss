@@ -73,3 +73,29 @@ a.delete {
       }
     }
   }
+
+#status_update_image .modal-body {
+  p {
+    font-size: 11px;
+  }
+
+  h2 {
+    font-size: 13px;
+    line-height: 13px;
+    margin-top: 0px;
+  }
+
+  .address-line * {
+    font-size: 9px;
+  }
+  
+  .operating-hours dl {
+    &:before {
+      display: none;
+    }
+  }
+
+  .profile-map {
+    height: 150px;
+  }
+}

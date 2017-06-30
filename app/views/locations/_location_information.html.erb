@@ -1,68 +1,76 @@
-<div class="row-fluid" style="margin-top: 5px;">
-  <% if content.present? %>
-    <div class="row-fluid">
-      <div class="span12">
-        <h3>"<%= content %>"</h3>
-      </div>
-    </div>
-  <% end %>
-  <div class="row-fluid">
-    <div class="span3">
-      <div class="thumbnail logo">
-        <%= image_tag get_location_image_url location %>
-      </div>
+<table style="border-spacing: 10px; border-collapse: separate;">
+  <tbody>
+    <% if content.present? %>
+      <tr>
+        <td colspan="2">
+          <p>"<%= content %>"</p>
+        </td>
+      </tr>
+    <% end %>
+    <tr>
+      <td style="vertical-align: top; width: 30%">
+        <div class="thumbnail logo">
+          <%= image_tag get_location_image_url location %>
+        </div>
+      </td>
+      <td rowspan="2" style="vertical-align: top">
+        <h2><%= location.name %></h2>
+        <div class="address-line">
+         <%= location.address %> &middot; <%= "#{location.city.name} #{location.province.preabbr}, #{location.postal_code}" %>
+         <%= display_phone 'show_phone', 'phone', 'Phone', location %>
+         <%= display_phone 'show_toll_free', 'toll_free', 'Toll Free', location %>
+          <%= raw "<div><strong>Fax:</strong> #{location.fax}</div>" if location.fax.present? %>
+          <div>
+            <%= mail_to location.email if location.email.present? %>
+            <%= "|" if location.email.present? and location.website_url.present? %>
+            <%= link_to('Visit us online!', location.website_url, target: :_blank) if location.website_url.present? %>
+            <%= "| Broker: " if location.vertical_market_category_ids.include?(99)%>
+            <%= link_to("#{location.broker.name}", location.broker) if location.vertical_market_categories.exists?(99) %>
 
-    </div>
-    <div class="span9">
-      <h2><%= location.name %></h2>
-      <div class="address-line">
-       <%= location.address %> &middot; <%= "#{location.city.name} #{location.province.preabbr}, #{location.postal_code}" %>
-       <%= display_phone 'show_phone', 'phone', 'Phone', location %>
-       <%= display_phone 'show_toll_free', 'toll_free', 'Toll Free', location %>
-        <%= raw "<div><strong>Fax:</strong> #{location.fax}</div>" if location.fax.present? %>
-        <div>
-          <%= mail_to location.email if location.email.present? %>
-          <%= "|" if location.email.present? and location.website_url.present? %>
-          <%= link_to('Visit us online!', location.website_url, target: :_blank) if location.website_url.present? %>
-          <%= "| Broker: " if location.vertical_market_category_ids.include?(99)%>
-          <%= link_to("#{location.broker.name}", location.broker) if location.vertical_market_categories.exists?(99) %>
 
+         </div>
 
+          <%= render 'locations/operating_hours', location: location %>
+        </div>
+       <div class="favorite-<%= location.id %>" class="favorite" style="display: inline;">
+            <% if show_save_button?(user_signed_in?, location.vertical_markets.present?) %>
+              <%= render 'favorites/like_button', :location_id => location.id, :vertical_market_slug => location.vertical_markets.first.slug if user_signed_in? and location.vertical_markets.present? %>
+            <% end %>
+            <% if !user_signed_in? %>
+                <%= render_login_popup %>
+            <% end %>
        </div>
 
-        <%= render 'locations/operating_hours', location: location %>
-     </div>
-     <div class="favorite-<%= location.id %>" class="favorite" style="display: inline;">
-          <% if show_save_button?(user_signed_in?, location.vertical_markets.present?) %>
-            <%= render 'favorites/like_button', :location_id => location.id, :vertical_market_slug => location.vertical_markets.first.slug if user_signed_in? and location.vertical_markets.present? %>
-          <% end %>
-          <% if !user_signed_in? %>
-              <%= render_login_popup %>
-          <% end %>
-     </div>
+        <% if show_edit_button?(user_signed_in?, current_user, location) %>
+          <%= link_to "Edit", edit_location_path(location), class: 'btn btn-mini btn-primary' %>
+        <% end %>
 
-      <% if show_edit_button?(user_signed_in?, current_user, location) %>
-        <%= link_to "Edit", edit_location_path(location), class: 'btn btn-mini btn-primary' %>
-      <% end %>
+        <%= render_message_button(user_signed_in?, location.slug) %>
 
-      <%= render_message_button(user_signed_in?, location.slug) %>
+        <% if show_claim_button?(user_signed_in?, location) %>
+          <%= link_to "Claim Business", claim_location_path(location), class: 'btn btn-mini btn-success' %>
+        <% elsif (!user_signed_in? || location.user_ids.empty? || !location.user_ids.include?(current_user.id)) && claim_business %>
+          <%= render_claim_button_for_modal %>
+        <% end %>
 
-      <% if show_claim_button?(user_signed_in?, location) %>
-        <%= link_to "Claim Business", claim_location_path(location), class: 'btn btn-mini btn-success' %>
-      <% elsif !user_signed_in? || location.user_ids.empty? || !location.user_ids.include?(current_user.id) %>
-        <%= render_claim_button_for_modal %>
-      <% end %>
+        <% if show_release_business_button?(user_signed_in?, current_user, location) %>
+          <%= link_to "Release Business", release_location_path(location), class: 'btn btn-mini btn-danger' %>
+        <% end %>
 
-      <% if show_release_business_button?(user_signed_in?, current_user, location) %>
-        <%= link_to "Release Business", release_location_path(location), class: 'btn btn-mini btn-danger' %>
-      <% end %>
-
-      <% if show_claim_pending?(user_signed_in?, current_user, location) %>
-        <span class="btn btn-mini btn-info">Claim Pending</span>
-        <div class="processing-claim">
-          We have recieved your claim and are processing it.
+        <% if show_claim_pending?(user_signed_in?, current_user, location) %>
+          <span class="btn btn-mini btn-info">Claim Pending</span>
+          <div class="processing-claim">
+            We have recieved your claim and are processing it.
+          </div>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: bottom">
+        <div class="thumbnail logo">
+          <%= image_tag location.business_improvement_area.logo.url if location.business_improvement_area %>
         </div>
-      <% end %>
-    </div>
-  </div>
-</div>
+      </td>
+    </tr>
+  </tbody>
+</table>
