@@ -47,9 +47,9 @@
 
         <%= render_message_button(user_signed_in?, location.slug) %>
 
-        <% if show_claim_button?(user_signed_in?, location) %>
+        <% if claim_business && show_claim_button?(user_signed_in?, location) %>
           <%= link_to "Claim Business", claim_location_path(location), class: 'btn btn-mini btn-success' %>
-        <% elsif (!user_signed_in? || location.user_ids.empty? || !location.user_ids.include?(current_user.id)) && claim_business %>
+        <% elsif claim_business && (!user_signed_in? || location.user_ids.empty? || !location.user_ids.include?(current_user.id)) %>
           <%= render_claim_button_for_modal %>
         <% end %>
 
