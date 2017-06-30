@@ -88,19 +88,14 @@ a.delete {
   .address-line * {
     font-size: 9px;
   }
-
-  .btn-claim-business {
-    display: none;
-  }
   
   .operating-hours dl {
     &:before {
       display: none;
     }
   }
-}
 
-#status_update_image.modal.fade.in {
-  height: 80%;
-  overflow-y: auto;
+  .profile-map {
+    height: 150px;
+  }
 }

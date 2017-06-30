@@ -51,7 +51,7 @@ module LocationsHelper
   end
 
   def render_claim_button_for_modal
-    link_to "Claim Business", "#", class: 'btn btn-mini btn-success btn-claim-business', role: "button", data: { toggle: "modal", target: "#claim_login" }
+    link_to "Claim Business", "#", class: 'btn btn-mini btn-success', role: "button", data: { toggle: "modal", target: "#claim_login" }
   end
 
   def render_claim_pending(user_signed_in, current_user, location)

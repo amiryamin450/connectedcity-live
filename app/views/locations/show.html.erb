@@ -41,7 +41,7 @@
         </div>
       <% end %>
 
-      <%= render 'location_information', location: @location, content: '' %>
+      <%= render 'location_information', location: @location, content: nil, claim_business: true %>
 
       <% if @location.content.present? %>
       <div class="row-fluid" style="margin-top: 1em;">
