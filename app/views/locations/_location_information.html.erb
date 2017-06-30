@@ -9,12 +9,12 @@
     <% end %>
     <tr>
       <td style="vertical-align: top; width: 30%">
-        <div class="thumbnail logo">
-          <%= image_tag get_location_image_url location %>
+        <div class="thumbnail logo text-center">
+          <%= link_to image_tag(get_location_image_url(location)), statusable_path(location) %>
         </div>
       </td>
       <td rowspan="2" style="vertical-align: top">
-        <h2><%= location.name %></h2>
+        <h2><%= link_to location.name, statusable_path(location) %></h2>
         <div class="address-line">
          <%= location.address %> &middot; <%= "#{location.city.name} #{location.province.preabbr}, #{location.postal_code}" %>
          <%= display_phone 'show_phone', 'phone', 'Phone', location %>
@@ -67,8 +67,8 @@
     </tr>
     <tr>
       <td style="vertical-align: bottom">
-        <div class="thumbnail logo">
-          <%= image_tag location.business_improvement_area.logo.url if location.business_improvement_area %>
+        <div class="thumbnail logo text-center">
+          <%= link_to image_tag(location.business_improvement_area.logo.url), location.business_improvement_area if location.business_improvement_area %>
         </div>
       </td>
     </tr>
