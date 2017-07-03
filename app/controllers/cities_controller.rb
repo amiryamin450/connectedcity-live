@@ -1,8 +1,9 @@
 class CitiesController < ApplicationController
-  load_and_authorize_resource except: :homepage
+  load_and_authorize_resource except: [:homepage, :status_updates, :events, :media_attachments]
 
   layout "application"
 
+  PER_PAGE = 10
   # GET /cities
   # GET /cities.json
   def index
@@ -27,11 +28,31 @@ class CitiesController < ApplicationController
 
   def homepage
     @city = City.find(5915022)
+    @status_updates = @city.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
+    @events = @city.events.order(:starts_at).limit(PER_PAGE)
+    @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
     @districts = @city.districts
     add_crumb '<i class="icon-home"></i> Home'.html_safe, @base_path
     add_crumb "#{@city.name} Guide"
   end
 
+  def status_updates
+    city = City.find(5915022)
+    status_updates = city.status_updates.where(statusable_type: 'Location').where("created_at < ?", params[:from]).limit(PER_PAGE)
+    render partial: 'status_updates/market_updates', locals:{ status_updates: status_updates }, layout: false
+  end
+
+  def events
+    city = City.find(5915022)
+    events = city.events.where("starts_at > ?", params[:from]).order(:starts_at).limit(PER_PAGE)
+    render partial: 'events/events_list', locals:{ events: events }, layout: false
+  end
+
+  def media_attachments
+    city = City.find(5915022)
+    media_attachments = city.media_attachments.where("media_attachments.created_at < ?", params[:from]).order('created_at DESC').limit(PER_PAGE)
+    render partial: 'media_attachments/videos_list', locals:{ media_attachments: media_attachments }, layout: false
+  end
   # GET /cities/new
   # GET /cities/new.json
   def new

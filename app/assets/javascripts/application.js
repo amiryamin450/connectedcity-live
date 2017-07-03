@@ -29,4 +29,5 @@
 //= require underscore
 //= require application_layout
 //= require clamp.min
+//= require jquery.jscroll
 //= require_tree .

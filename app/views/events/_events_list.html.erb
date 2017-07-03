@@ -1,0 +1,5 @@
+<%= render events %>
+
+<% if events.present? %>
+  <%= link_to 'next page', events_cities_path(from: events.last.created_at.utc.iso8601) %>
+<% end %>

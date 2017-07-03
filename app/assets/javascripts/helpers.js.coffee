@@ -14,3 +14,6 @@ Window.helpers =
     marker = new (L.Marker)(pt)
     map.addLayer marker
     map.setView pt, 16, true
+  
+  initJScroll: (el) ->
+    $(el).jscroll()
