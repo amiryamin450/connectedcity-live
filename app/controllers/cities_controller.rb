@@ -3,7 +3,7 @@ class CitiesController < ApplicationController
 
   layout "application"
 
-  PER_PAGE = 10
+  PER_PAGE = 20
   # GET /cities
   # GET /cities.json
   def index

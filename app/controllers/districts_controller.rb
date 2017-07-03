@@ -2,7 +2,7 @@ class DistrictsController < ApplicationController
 
   load_and_authorize_resource :district, except: :homepage
 
-  PER_PAGE = 10
+  PER_PAGE = 20
 
   def index
 
