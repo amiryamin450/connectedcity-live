@@ -41,6 +41,9 @@ a.delete {
 .videos-list {
   max-height: 500px;
   overflow-y: auto;
+  .jscroll-inner{
+    margin-bottom: 10px;
+  }
 }
 
 .date {
