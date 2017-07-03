@@ -40,7 +40,7 @@ a.delete {
 .events-list,
 .videos-list {
   max-height: 500px;
-  overflow: scroll;
+  overflow-y: auto;
 }
 
 .date {
