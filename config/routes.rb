@@ -280,9 +280,9 @@ Connectbook::Application.routes.draw do
   get ':district_route/category/:id' => 'vertical_market_categories#show'
   get 'category/:id' => 'vertical_market_categories#show'
   get 'news' => 'city_news_articles#guide', as: :city_news_guide
-  get "cities/status_updates" => 'cities#status_updates', as: :status_updates_cities
-  get "cities/events" => 'cities#events', as: :events_cities
-  get "cities/media_attachments" => 'cities#media_attachments', as: :media_attachments_cities
+  get "status_updates" => 'cities#status_updates', as: :status_updates_cities
+  get "events" => 'cities#events', as: :events_cities
+  get "media_attachments" => 'cities#media_attachments', as: :media_attachments_cities
 
   root to: 'cities#homepage'
 

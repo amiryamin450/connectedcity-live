@@ -44,7 +44,7 @@ jQuery ->
       request.fail (xhr) ->
         new_status_update_fail(xhr.responseJSON)
 
-  $('.status-update-image').click (event) ->
+  $('.market-updates').on 'click', '.status-update-image', (event) ->
     if $(this).data('bia') == true
       $('#status_update_image .location-name').html($(this).data('location-name'))
       $('#status_update_image .modal-body').html('<img src="' + $(this).data('large-image') + '" />')
