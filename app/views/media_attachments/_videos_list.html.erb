@@ -1,0 +1,5 @@
+<%= render media_attachments %>
+          
+<% if media_attachments.present? %>
+  <%= link_to 'next page', media_attachments_cities_path(from: media_attachments.last.created_at.utc.iso8601) %>
+<% end %>

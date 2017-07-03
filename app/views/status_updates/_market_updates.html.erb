@@ -1,0 +1,5 @@
+<%= render status_updates %>
+          
+<% if status_updates.present? %>
+	<%= link_to 'next page', status_updates_cities_path(from: status_updates.last.created_at.utc.iso8601) %>
+<% end %>
