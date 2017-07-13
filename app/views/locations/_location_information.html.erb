@@ -3,7 +3,7 @@
     <% if content.present? %>
       <tr>
         <td colspan="2">
-          <p>"<%= content %>"</p>
+          <p style="font-size: 0.85em;"><b><%= content %><b></p>
         </td>
       </tr>
     <% end %>
@@ -65,12 +65,14 @@
         <% end %>
       </td>
     </tr>
-    <tr>
-      <td style="vertical-align: bottom">
-        <div class="thumbnail logo text-center">
-          <%= link_to image_tag(location.business_improvement_area.logo.url), location.business_improvement_area if location.business_improvement_area %>
-        </div>
-      </td>
-    </tr>
+    <% if show_neighborhood %>
+      <tr>
+        <td style="vertical-align: bottom">
+          <div class="thumbnail logo text-center">
+            <%= link_to image_tag(location.business_improvement_area.logo.url), location.business_improvement_area if location.business_improvement_area %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
