@@ -797,3 +797,8 @@ main {
     left: 0px !important;
   }
 }
+
+.h-scroll-div {
+  max-width: 100%;
+  overflow-x: auto;
+}
