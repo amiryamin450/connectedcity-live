@@ -115,13 +115,12 @@
       $('#fileupload').fileupload({
         fileInput: $('#real_estate_listing_real_estate_listing_images_attributes_0_image')
       });
-      // 
+      //
       // Load existing files:
       $.getJSON($('#fileupload').prop('action'), function (data) {
-        var fu = $('#fileupload').data('blueimpFileupload'), 
+        var fu = $('#fileupload').data('blueimpFileupload'),
           template;
         fu._adjustMaxNumberOfFiles(-data.length);
-        console.log(data);
         template = fu._renderDownload(data)
           .appendTo($('#fileupload .files'));
         // Force reflow:

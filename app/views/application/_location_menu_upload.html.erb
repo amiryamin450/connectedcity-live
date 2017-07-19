@@ -11,7 +11,6 @@
 
 <!-- The template to display files available for upload -->
 <script id="template-upload" type="text/x-tmpl">
-  console.log("here");
   {% for (var i=0, file; file=o.files[i]; i++) { %}
 
   <tr class="template-upload fade">
@@ -81,7 +80,7 @@
         //
         // Load existing files:
         // fix below for browser back/forward buttons when erroneous AJAX call was made to action
-        // when $('#fileupload').prop('action') was returning undefined. 
+        // when $('#fileupload').prop('action') was returning undefined.
         // # TODO: This partial should only be rendered when it's actually needed, instead of in the application layout.
         var url = $('#fileupload').prop('action');
         if(jQuery.type( url ) !== "undefined")

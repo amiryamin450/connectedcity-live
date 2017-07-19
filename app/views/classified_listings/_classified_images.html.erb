@@ -116,13 +116,12 @@
       $( ".files" ).sortable({
             revert: true
         });
-      // 
+      //
       // Load existing files:
       $.getJSON($('#fileupload').prop('action'), function (data) {
-        var fu = $('#fileupload').data('blueimpFileupload'), 
+        var fu = $('#fileupload').data('blueimpFileupload'),
           template;
         fu._adjustMaxNumberOfFiles(-data.length);
-        console.log(data);
         template = fu._renderDownload(data)
           .appendTo($('#fileupload .files'));
         // Force reflow:
