@@ -41,4 +41,10 @@ class AutomotiveListing < ActiveRecord::Base
   validates :price, presence: true,  numericality: true
   validates :mileage, presence: true,  numericality: { only_integer: true, greater_than: 0 }
 
+  scope :available_in, ->(city_id, district_id = nil, neighborhood_id = nil) {
+    locations = Location.where(city_id: city_id)
+    locations = location.where(district_id: district_id) if district_id.present?
+    locations = location.where(neighborhood_id: neighborhood_id) if neighborhood_id.present?
+    req = where("location_id IN (?)", locations.select("id"))
+  }
 end

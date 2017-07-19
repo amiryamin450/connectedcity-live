@@ -20,7 +20,6 @@ metamagic title: "#{guide}".strip,
 markers = []
 
 content_for :title do [@page_title_part, @vertical_market.name, (@vertical_market.parent.name if @vertical_market.parent), 'Guide'].reject(&:blank?).join ' ' end
-
 %>
 
 <%#
@@ -54,9 +53,9 @@ NOTE Rental (rental)
       <div class="heading index-11">
         <h5>Automotive Listings</h5>
         <%= link_to 'More +', '#', class: 'see-more', data: { element: 'auto-listings' } %>
-        <%= link_to 'See All', "#", class: 'see-all' %>
+        <%= link_to 'See All', "#{@base_path}guide/auto-listings", class: 'see-all' %>
       </div>
-      <div class="location-holder" id="auto-listings">
+      <div class="location-holder" id="cat-auto-listings">
         <div class="clearfix">
           <% @auto_listings.each do |listing| %>
             <%# FIXME Move inline styles to a stylesheet %>
@@ -75,9 +74,8 @@ NOTE Rental (rental)
   <% end %>
   <% if @vertical_market.name.include?("Auto Listing") %>
     <%= render 'automotive_listings', auto_listings: @auto_listings, auto_makes: @auto_makes %>
-    <% markers = @auto_listings.map(&:location) %>
+    <% markers = @markers %>
   <% end %>
-
   <% @vertical_market.categories_new(@city, @district, @neighborhood).each_with_index do |category, r| %>
     <%
 

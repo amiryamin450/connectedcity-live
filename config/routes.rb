@@ -1,11 +1,11 @@
 Connectbook::Application.routes.draw do
 
   devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations"}
-  
+
   devise_for :users do
     get 'business_sign_up', :to => 'devise/registrations#new', as: :business_sign_up
   end
-  
+
   devise_scope :user do
     get '/login' => 'devise/sessions#new'
     get '/logout' => 'devise/sessions#destroy'
@@ -278,7 +278,8 @@ Connectbook::Application.routes.draw do
   get 'neighbourhoods/:business_improment_area_id/category/:id' => 'vertical_market_categories#show', as: :business_improvement_area_vertical_market_category
   get ':district_route/:neighborhood/category/:id' => 'vertical_market_categories#show'
   get ':district_route/category/:id' => 'vertical_market_categories#show'
-  get 'category/:id' => 'vertical_market_categories#show'
+  get 'category/auto_makes/:make' => 'vertical_market_categories#show_auto_listing_makers', as: :auto_make_show
+  get 'category/:id' => 'vertical_market_categories#show', as: :category_show
   get 'news' => 'city_news_articles#guide', as: :city_news_guide
   get "status_updates" => 'cities#status_updates', as: :status_updates_cities
   get "events" => 'cities#events', as: :events_cities

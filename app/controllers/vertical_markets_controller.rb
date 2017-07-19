@@ -36,13 +36,13 @@ class VerticalMarketsController < ApplicationController
 
 
   #This is the action that controls the vertical market category pages. Not sure why it's an action called Guide when there is a Guide controller...sigh... -Don Marges
+  # Pretty sure it was named guide because its creator is out of ideas and obviously, it guide the instance variables @abc to the right values ...sneer... -Tom Tran
   def guide
     @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).find(params[:market])
-
     case @vertical_market.id
     when 1
       @auto_listings = AutomotiveListing.all
-      @auto_makes = AutomotiveListing.uniq.pluck(:make)
+      @auto_makes = AutomotiveListing.pluck("DISTINCT make")
     when 17
       @rental_properties = RentalProperty.where city_id: @city.id
       @rental_properties = @rental_properties.where district_id: @district.id if @district
@@ -74,7 +74,9 @@ class VerticalMarketsController < ApplicationController
       @auto_listings = AutomotiveListing.joins(:location).where(locations: { city_id: @city.id })
       @auto_listings = @auto_listings.where(locations: { district_id: @district.id }) if @district
       @auto_listings = @auto_listings.where(locations: { neighborhood_id: @neighborhood.id }) if @neighborhood
-      @auto_makes    = @auto_listings.uniq.pluck(:make)
+      @markers       = @auto_listings.map(&:location)
+      @auto_listings = @auto_listings.group_by(&:make)
+      @auto_makes    = @auto_listings.keys
     end
 
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path

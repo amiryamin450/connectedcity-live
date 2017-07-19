@@ -12,7 +12,6 @@ $(function() {
         var bounds = new L.LatLngBounds();
 
         //for(var i = 0; i < categories.length; i++) {
-        //console.log("category name - " + $categories[$i]['name'] );
         var locations = window.locations;//categories[i]['locations'];
         for(var x = 0; x < locations.length; x++) {
             var location = locations[x];

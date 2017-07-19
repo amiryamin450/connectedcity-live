@@ -18,8 +18,6 @@ jQuery ->
         pleaseSelectOption = $('<option></option>').attr("value", "").text("please select (optional)")
         $('#city_news_article_neighborhood_id').empty().append(pleaseSelectOption)
         $.each data, (index, neighborhood) ->
-          console.log(selectedNeighborhood)
-          console.log(neighborhood.nid)
           if selectedNeighborhood? and selectedNeighborhood == neighborhood.nid
             newOption = $('<option selected="selected"></option>').attr("value", neighborhood.nid).text(neighborhood.neighborhd)
           else
