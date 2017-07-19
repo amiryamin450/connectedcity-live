@@ -1,0 +1,9 @@
+%h4
+  =@auto_make
+=paginate @auto_listings
+.location-holder{class: "cat-auto-listings-#{@auto_make}"}
+  .clearfix
+    =render :partial => "automotive", :collection => @auto_listings, :as => :listing
+
+:javascript
+  window.locations = #{raw @markers};

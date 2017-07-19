@@ -53,6 +53,7 @@ gem 'twitter'
 gem 'underscore-rails'
 gem 'whenever'
 gem 'yaml_db'
+gem 'haml',                       '~> 4.0.6'
 
 group :production, :staging do
   gem 'aws-sdk'
@@ -66,6 +67,7 @@ group :assets do
   gem 'compass-rails'
   gem 'sass-rails',   '~> 3.2.3'
   gem 'uglifier', '>= 1.0.3'
+  gem 'haml-rails'
 end
 
 group :development, :test do

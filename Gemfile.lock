@@ -161,6 +161,13 @@ GEM
     guard-rspec (3.0.1)
       guard (>= 1.8)
       rspec (~> 2.13)
+    haml (4.0.7)
+      tilt
+    haml-rails (0.4)
+      actionpack (>= 3.1, < 4.1)
+      activesupport (>= 3.1, < 4.1)
+      haml (>= 3.1, < 4.1)
+      railties (>= 3.1, < 4.1)
     hashie (2.0.5)
     highline (1.6.19)
     hike (1.2.3)
@@ -495,6 +502,8 @@ DEPENDENCIES
   friendly_id
   geocoder
   guard-rspec
+  haml (~> 4.0.6)
+  haml-rails
   instagram
   jqcloud-rails
   jquery-fileupload-rails
@@ -550,4 +559,4 @@ DEPENDENCIES
   yaml_db
 
 BUNDLED WITH
-   1.10.6
+   1.15.1
