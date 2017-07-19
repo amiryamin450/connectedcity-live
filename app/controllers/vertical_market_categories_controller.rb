@@ -1,6 +1,6 @@
 class VerticalMarketCategoriesController < ApplicationController
   layout :resolve_layout
-  load_and_authorize_resource
+  load_and_authorize_resource except: [:show_auto_listing_makers]
 
 
   def resolve_layout
@@ -60,6 +60,7 @@ class VerticalMarketCategoriesController < ApplicationController
     end
 
     @vertical_market = VerticalMarket.where(name: 'Auto Listings').first
+    authorize! :show, @vertical_market
     unless @vertical_market_category = @vertical_market.vertical_market_categories.where(name: params[:make]).first
       @vertical_market_category = @vertical_market.vertical_market_categories.create(name: params[:make], slug: params[:make].strip.gsub(' ', '_').downcase)
     end
