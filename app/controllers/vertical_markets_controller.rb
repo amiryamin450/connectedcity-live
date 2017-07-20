@@ -41,8 +41,7 @@ class VerticalMarketsController < ApplicationController
     @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).find(params[:market])
     case @vertical_market.id
     when 1
-      @auto_listings = AutomotiveListing.all
-      @auto_makes = AutomotiveListing.pluck("DISTINCT make")
+      @auto_listings = AutomotiveListing.limit(SEE_MORE_LIMIT)
     when 17
       @rental_properties = RentalProperty.where city_id: @city.id
       @rental_properties = @rental_properties.where district_id: @district.id if @district
@@ -71,12 +70,13 @@ class VerticalMarketsController < ApplicationController
     end
 
     if @vertical_market.name.include?("Auto Listing")
-      @auto_listings = AutomotiveListing.joins(:location).where(locations: { city_id: @city.id })
-      @auto_listings = @auto_listings.where(locations: { district_id: @district.id }) if @district
-      @auto_listings = @auto_listings.where(locations: { neighborhood_id: @neighborhood.id }) if @neighborhood
-      @markers       = @auto_listings.map(&:location)
-      @auto_listings = @auto_listings.group_by(&:make)
-      @auto_makes    = @auto_listings.keys
+      @auto_listings = {}
+      @auto_makes = AutomotiveListing.pluck("DISTINCT make")
+      @auto_makes.each do |make|
+        @auto_listings[make] = AutomotiveListing.make_by(make).
+          available_in(@city.id, @district.try(:id), @neighborhood.try(:id)).limit(SEE_MORE_LIMIT).includes(:location)
+      end
+      @markers       = @auto_listings.values.map(&:location)
     end
 
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path

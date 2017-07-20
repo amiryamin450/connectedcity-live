@@ -43,8 +43,12 @@ class AutomotiveListing < ActiveRecord::Base
 
   scope :available_in, ->(city_id, district_id = nil, neighborhood_id = nil) {
     locations = Location.where(city_id: city_id)
-    locations = location.where(district_id: district_id) if district_id.present?
-    locations = location.where(neighborhood_id: neighborhood_id) if neighborhood_id.present?
-    req = where("location_id IN (?)", locations.select("id"))
+    locations = locations.where(district_id: district_id) if district_id.present?
+    locations = locations.where(neighborhood_id: neighborhood_id) if neighborhood_id.present?
+    req = where("location_id IN (?)", locations.select(:id))
+  }
+
+  scope :make_by, ->(make) {
+    where(make: make)
   }
 end
