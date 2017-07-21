@@ -76,7 +76,7 @@ class VerticalMarketsController < ApplicationController
         @auto_listings[make] = AutomotiveListing.make_by(make).
           available_in(@city.id, @district.try(:id), @neighborhood.try(:id)).limit(SEE_MORE_LIMIT).includes(:location)
       end
-      @markers       = @auto_listings.values.map(&:location)
+      @markers = @auto_listings.values.flatten.map(&:location)
     end
 
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
