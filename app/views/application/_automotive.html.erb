@@ -5,4 +5,7 @@
     <div style="margin-top: 5px; margin-bottom: 5px;"><%= humanized_money_with_symbol listing.price %></div>
     <div style="width: 168px; font-size: 12px; min-height:24px;"><strong><%= link_to [listing.year, listing.make, listing.model].reject(&:blank?).join(' '), [listing.location, listing] %></strong></div>
     <div style="width: 168px; margin-top: 5px; font-weight: bold;"><%= link_to listing.location.name, listing.location %></div>
+    <% if current_user && current_user.has_role?(:admin)%>
+      <div style="width: 168px; margin-top: 5px; font-weight: bold;"><%= link_to "Edit Listing", [:edit, listing.location, listing] %></div>
+    <% end %>
 </div>
