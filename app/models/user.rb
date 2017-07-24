@@ -26,6 +26,12 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true, unless: ->(u) { u.persisted? && u.first_name_changed? }
   validates :last_name, presence: true, unless: ->(u) { u.persisted? && u.last_name_changed? }
 
+  rolify after_add: ->(u,_){ u.touch }, after_remove: ->(u,_){ u.touch }
+
+  def has_role?(*args)
+    Rails.cache.fetch([cache_key, 'has_role?', *args]) { super }
+  end
+
   def has_favorite? location
     favorites.find_by_location_id location.id
   end
