@@ -1,4 +1,5 @@
 jQuery ->
+
   $.fn.modal.Constructor::enforceFocus = ->
 
   myDropzone = $("#new_status_update .dropzone").dropzone({
@@ -51,6 +52,7 @@ jQuery ->
     else
       content = $(this).parent().next('.modal-content')
       $('#status_update_image .modal-body').html(content.html())
+      $('#status_update_image .modal-body p').linkify()
       $('#status_update_image .location-name').html($(this).data('location'))
       setTimeout (->
         body = $('#status_update_image .modal-body')
