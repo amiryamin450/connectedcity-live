@@ -60,7 +60,15 @@ namespace :deploy do
     desc "#{command} puma server"
     task command, roles: :app, except: {no_release: true} do
       run "sudo service #{application} #{command}"
+      if fetch(:stage) == "staging"
+        run "sudo chown ubuntu:puma -R #{fetch(:release_path)}/tmp"
+      end
     end
+  end
+
+  task :cleanup, :except => {:no_release => true} do
+    count = fetch(:keep_releases, 5).to_i
+    run "ls -1dt #{releases_path}/* | tail -n +#{count + 1} | #{try_sudo} xargs rm -rf"
   end
 
   desc "Make sure local git is in sync with remote."

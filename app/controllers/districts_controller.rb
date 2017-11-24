@@ -2,6 +2,7 @@ class DistrictsController < ApplicationController
 
   load_and_authorize_resource :district, except: :homepage
 
+  PER_PAGE = 20
 
   def index
 
@@ -43,6 +44,8 @@ class DistrictsController < ApplicationController
     if !request.fullpath.include? "sitemap.xml"
       @district = District.find(params[:district_route])
 
+      @status_updates = @district.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
+      @events = @district.events.order(:starts_at).limit(PER_PAGE)
       add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
       add_crumb @district.name
     else

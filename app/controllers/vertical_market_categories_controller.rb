@@ -1,11 +1,11 @@
 class VerticalMarketCategoriesController < ApplicationController
   layout :resolve_layout
-  load_and_authorize_resource
+  load_and_authorize_resource except: [:show_auto_listing_makers]
 
 
   def resolve_layout
     case action_name
-    when "show", "search"
+    when "show", "show_auto_listing_makers", "search"
       "community_guide"
     else
       "application"
@@ -28,7 +28,6 @@ class VerticalMarketCategoriesController < ApplicationController
   # GET /admin/vertical_market_categories/1
   # GET /admin/vertical_market_categories/1.json
   def show
-
     set_region
     set_subregion
     set_city
@@ -49,11 +48,36 @@ class VerticalMarketCategoriesController < ApplicationController
     add_crumb @vertical_market_category.vertical_market.parent.name, "#{@base_path}guide/#{@vertical_market_category.vertical_market.parent.slug}" unless @vertical_market_category.vertical_market.parent.nil?
     add_crumb @vertical_market_category.vertical_market.name, "#{@base_path}guide/#{@vertical_market_category.vertical_market.slug}"
     add_crumb @vertical_market_category.name
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @vertical_market_category }
     end
+  end
+
+  def show_auto_listing_makers
+    unless params[:make].in? AutomotiveListing.available_in(@city.id, @district.try(:id), @neighborhood.try(:id)).pluck("DISTINCT make")
+      raise Exception.new("AutoMake #{params[:make]} have not appeared in current local yet, city_id: #{@city.id}, district_id: #{@district.try(:id)}, neighborhood_id: #{@neighborhood.try(:id)}")
+    end
+
+    @vertical_market = VerticalMarket.where(name: 'Auto Listings').first
+    authorize! :show, @vertical_market
+    unless @vertical_market_category = @vertical_market.vertical_market_categories.where(name: params[:make]).first
+      @vertical_market_category = @vertical_market.vertical_market_categories.create(name: params[:make], slug: params[:make].strip.gsub(' ', '_').downcase)
+    end
+    crumb_with_fake_category @district.try(:id), @neighborhood.try(:id)
+    page = params[:page] || 1
+    @auto_make ||= params[:make]
+    @auto_listings = @vertical_market_category.get_auto_listings_paged(params[:make], @city.id, page,
+    @district.try(:id), @neighborhood.try(:id))
+    @markers = @auto_listings.map(&:location).uniq.map do |location|
+      {
+        name: location.name,
+        url: url_for(location),
+        latitude: location.latitude,
+        longitude: location.longitude,
+        thumb: location.logo.file? ? location.logo.url(:bia_display) : nil
+      }
+    end.to_json
   end
 
   # GET /admin/vertical_market_categories/new
@@ -115,4 +139,18 @@ class VerticalMarketCategoriesController < ApplicationController
       format.json { head :no_content }
     end
   end
+  private
+
+    def crumb_with_fake_category(district_id = nil, neighborhood_id = nil)
+      add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
+      add_crumb district.name, district_guide_path(district) if district_id.present? && district.where(id: district_id).first
+      add_crumb neighborhood.name if neighborhood_id.present? && neighborhood = Neighborhood.where(id: neighborhood_id).first
+
+      @vertical_market.ancestors.each do |ancestor|
+        add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
+      end
+
+      add_crumb "#{@vertical_market.name}", "#{@base_path}guide/#{@vertical_market.slug}"
+      add_crumb "#{@vertical_market_category.name} Lists"
+    end
 end

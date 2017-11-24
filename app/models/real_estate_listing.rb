@@ -27,7 +27,7 @@ class RealEstateListing < ActiveRecord::Base
       text :bedroom_comment, boost: 3
       text :bathroom_comment, boost: 3
       text :garage_comment
-      
+
       integer :bedrooms
       integer :bathrooms
 
@@ -111,7 +111,7 @@ class RealEstateListing < ActiveRecord::Base
 
 
    has_attached_file :main_image, styles: {
-                              thumb: "50x50#", list: "168x80#"
+                              thumb: "50x50#", list: "168x80#", bia_display: "250x100"
                               },
                     default_url: "http://placehold.it/320x200",
                     :url => "/system/real_estate_listings/main_images/:id/:style/:basename.:extension",
@@ -121,6 +121,8 @@ class RealEstateListing < ActiveRecord::Base
    accepts_nested_attributes_for :real_estate_listing_images, :reject_if => lambda { |a| a[:image].nil? }, :allow_destroy => true
    after_validation :geocode
    accepts_nested_attributes_for :status_updates, allow_destroy: true
+
+  STYLES = %w(Condominiums Houses Townhomes)
 
   def geo_location
     {:lat => latitude, :long => longitude}

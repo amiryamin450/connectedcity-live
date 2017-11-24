@@ -11,6 +11,8 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require linkify.min.js
+//= require linkify-jquery.min.js
 //= require jquery_ujs
 //= require jquery.ui.all
 //= require jquery-fileupload
@@ -29,4 +31,5 @@
 //= require underscore
 //= require application_layout
 //= require clamp.min
+//= require jquery.jscroll
 //= require_tree .

@@ -36,48 +36,47 @@ class VerticalMarketsController < ApplicationController
 
 
   #This is the action that controls the vertical market category pages. Not sure why it's an action called Guide when there is a Guide controller...sigh... -Don Marges
+  # Pretty sure it was named guide because its creator is out of ideas and obviously, it guide the instance variables @abc to the right values ...sneer... -Tom Tran
   def guide
     @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).find(params[:market])
-
     case @vertical_market.id
     when 1
-      @auto_listings = AutomotiveListing.all
-      @auto_makes = AutomotiveListing.uniq.pluck(:make)
+      @auto_listings = AutomotiveListing.limit(SEE_MORE_LIMIT)
     when 17
       @rental_properties = RentalProperty.where city_id: @city.id
       @rental_properties = @rental_properties.where district_id: @district.id if @district
-      @rental_properties.order :name
-	  @rental_styles = get_rental_unit_styles
-	  @rental_units = []
-
-	  @rental_properties.each do |rp|
-		if rp.rental_units.any?
-		  rp.rental_units.each do |unit|
-			@rental_units << unit
-		  end
-		end
-	  end
+      @rental_properties = @rental_properties.where neighborhood_id: @neighborhood.id if @neighborhood
+      @rental_properties = @rental_properties.order :style
+      @rental_styles = @rental_properties.map(&:style).uniq
     when 18
-      @listings = RealEstateListing.where city_id: @city.id
+      @listings = RealEstateListing.where property_type: 'Residential', city_id: @city.id
       @listings = @listings.where district_id: @district.id if @district
+      @listings = @listings.where neighborhood_id: @neighborhood.id if @neighborhood
       @listings = @listings.order :style
-      @residential_styles = get_rental_unit_styles
+      @residential_styles =  @listings.uniq.pluck(:style)
     when 19
-      @new_home_styles = get_rental_unit_styles
-      @new_homes = NewHome.where city_id: @city.id
-      @new_homes = @new_homes.where district_id: @district.id if @district
-      @new_homes = @new_homes.order :style
+      @new_home_communities = NewHomeCommunity.where city_id: @city.id
+      @new_home_communities = @new_home_communities.where district_id: @district.id if @district
+      @new_home_communities = @new_home_communities.where neighborhood_id: @neighborhood.id if @neighborhood
+      @new_home_communities = @new_home_communities.order :style
+      @new_home_community_styles = @new_home_communities.pluck(:style).uniq
     when 20
       @commercial_listings = RealEstateListing.where property_type: 'Commercial',
                                                      city_id: @city.id
       @commercial_listings = @commercial_listings.where district_id: @district.id if @district
+      @commercial_listings = @commercial_listings.where neighborhood_id: @neighborhood.id if @neighborhood
       @commercial_listings = @commercial_listings.order :style
-      @commercial_styles = RealEstateListing.uniq.pluck(:style)
+      @commercial_styles = @commercial_listings.uniq.pluck(:style)
     end
 
     if @vertical_market.name.include?("Auto Listing")
-      @auto_listings = AutomotiveListing.all
-      @auto_makes = AutomotiveListing.uniq.pluck(:make)
+      @auto_listings = {}
+      @auto_makes = AutomotiveListing.pluck("DISTINCT make")
+      @auto_makes.each do |make|
+        @auto_listings[make] = AutomotiveListing.make_by(make).
+          available_in(@city.id, @district.try(:id), @neighborhood.try(:id)).limit(SEE_MORE_LIMIT).includes(:location)
+      end
+      @markers = @auto_listings.values.flatten.map(&:location)
     end
 
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
@@ -118,7 +117,7 @@ class VerticalMarketsController < ApplicationController
       with(:vertical_market_ids, ids) if vm.present?
       with(:district_id, district.id) if district.present?
       with(:business_improvement_area_id, @bia.id) if @bia.present?
-      with(:neighborhood_id, neighborhood.id) if neighborhood.present?     
+      with(:neighborhood_id, neighborhood.id) if neighborhood.present?
       paginate :page => params[:page]
     end
 
@@ -199,13 +198,10 @@ class VerticalMarketsController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
   def get_rental_unit_styles
 	[
-	  'Apartments',
-	  'Condominiums',
-	  'Houses',
-	  'Townhomes'
+	  'Condominiums', 'Houses', 'Townhomes'
 	]
   end
 end

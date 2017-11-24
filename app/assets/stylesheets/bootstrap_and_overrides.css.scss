@@ -708,6 +708,10 @@ input, textarea, select {
 .modal {
   width: 70%;
   left: 25%;
+  &.fade.in {
+    max-height: 80%;
+    overflow-y: auto;
+  }
 }
 
 .modal-body {

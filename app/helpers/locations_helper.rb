@@ -1,7 +1,7 @@
 module LocationsHelper
 
-  def display_phone(check_field, display_field, label)
-    content_tag(:div, content_tag(:strong, "#{label}: ") + @location.send(display_field)) if @location.send(check_field) and @location.send(display_field).present?
+  def display_phone(check_field, display_field, label, location)
+    content_tag(:div, content_tag(:strong, "#{label}: ") + location.send(display_field)) if location.send(check_field) and location.send(display_field).present?
   end
 
   def display_profile_field(field, label)
@@ -42,8 +42,8 @@ module LocationsHelper
     true if user_signed_in and location.user_ids.any? and location.user_ids.include?(current_user.id) && location.claim_pending?
   end
 
-  def render_message_button(user_signed_in)
-    link_to "Send a message", "#", class: "btn btn-mini btn-success", role: "button", data: { toggle: "modal", target: "#new_message" } if show_message_button?(user_signed_in)
+  def render_message_button(user_signed_in, location)
+    link_to "Send a message", "#", class: "btn btn-mini btn-success btn-message", role: "button", data: { toggle: "modal", target: "#new_message", location: location } if show_message_button?(user_signed_in)
   end
 
   def render_login_popup

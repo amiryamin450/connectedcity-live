@@ -725,6 +725,11 @@ main {
   left: 20% !important;
 }
 
+.status-update-image {
+  font-weight: bold;
+  color: #00b0f0;
+}
+
 @media (min-width: 768px) and (max-width: 979px) {
   main {
     margin-top: 177px;
@@ -791,4 +796,9 @@ main {
     width: 320px !important;
     left: 0px !important;
   }
+}
+
+.h-scroll-div {
+  max-width: 100%;
+  overflow-x: auto;
 }

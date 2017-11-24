@@ -45,6 +45,7 @@ class RentalPropertiesController < ApplicationController
   # GET /rental_properties/new.json
   def new
     @rental_property = @location.rental_properties.new
+    @rental_property_styles = RentalProperty::STYLES
 
     respond_to do |format|
       format.html # new.html.erb
@@ -54,7 +55,8 @@ class RentalPropertiesController < ApplicationController
 
   # GET /rental_properties/1/edit
   def edit
-
+    @rental_property_styles = RentalProperty::STYLES
+    @selected_rental_property_styles = @rental_property.style 
   end
 
   # POST /rental_properties

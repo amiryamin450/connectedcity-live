@@ -30,22 +30,22 @@
       </div>
       <div class="container-fluid content-holder">
         <div class="row-fluid">
-          <div class="span12">          
+          <div class="span12">
             <% @current_market = @vertical_market.respond_to?(:name) ? @vertical_market.name : @vertical_market %>
             <%
               @neighbourhood_param = params[:neighborhood]
               @neighbourhood_slug = params[:neighborhood]
 
               if @neighbourhood_param
-                
+
                 if @neighbourhood_param.include? "kitsilano"
                   @neighbourhood_slug = "kitsilano"
                 end
-                
+
                 @neighbourhood = Neighborhood.where('slug LIKE ?', @neighbourhood_slug).first
               end
 
-              @current_district = @district != nil ? @district.name : "Vancouver" 
+              @current_district = @district != nil ? @district.name : "Vancouver"
             %>
             <h1>Browse <%= @current_market %> in <%= @neighbourhood ? @neighbourhood.name : @current_district %></h1>
           </div>
@@ -61,7 +61,7 @@
             <div class="row-fluid">
               <%= render 'search_form', { locals: {css_class: 'hidden-mobile'} } %>
             </div>
-            <% if params[:district_route].present? and params[:market].present? and @district and @district.neighborhoods.size > 0 and ![17,18,19,20].include?(@vertical_market.id) %>
+            <% if params[:district_route].present? and params[:market].present? and @district and @district.neighborhoods.size > 0 %>
                 <div class="row-fluid">
                   <div class="facets well" id="facet-block" style="margin-bottom: 1.5em;">
 

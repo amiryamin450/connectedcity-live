@@ -36,7 +36,6 @@ class NewHomesController < ApplicationController
   # GET /new_homes/new.json
   def new
     @new_home = @new_home_community.new_homes.new
-    @new_home_styles = get_new_home_styles
 
     respond_to do |format|
       format.html # new.html.erb
@@ -47,8 +46,6 @@ class NewHomesController < ApplicationController
   # GET /new_homes/1/edit
   def edit
     @new_home = NewHome.find(params[:id])
-    @new_home_styles = get_new_home_styles
-	@selected_listing_style = @new_home.style
   end
 
   # POST /new_homes
@@ -71,8 +68,6 @@ class NewHomesController < ApplicationController
   # PUT /new_homes/1.json
   def update
     @new_home = NewHome.find(params[:id])
-    @new_home_styles = get_new_home_styles
-	@selected_listing_style = @new_home.style
 
     respond_to do |format|
       if @new_home.update_attributes(params[:new_home])
@@ -95,16 +90,5 @@ class NewHomesController < ApplicationController
       format.html { redirect_to new_homes_url }
       format.json { head :no_content }
     end
-  end
-  
-  private
-  
-  def get_new_home_styles
-	[
-	  'Apartments',
-	  'Condominiums',
-	  'Houses',
-	  'Townhomes'
-	]
   end
 end
