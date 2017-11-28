@@ -85,6 +85,7 @@ class Location < ActiveRecord::Base
   geocoded_by :full_street_address
 
   after_validation :geocode
+  after_save :assign_neighborhood
 
   def self.find_by_vertical_market
     vertical_market_categories
@@ -126,13 +127,6 @@ class Location < ActiveRecord::Base
   def geo_location
     {:lat => latitude, :long => longitude}
   end
-
-
-  before_save do
-    self.neighborhood_id = Neighborhood.calculate(self.longitude, self.latitude).id if self.geocoded?
-    self.district_id = self.neighborhood.district.id if self.neighborhood.present? and self.neighborhood.district.present?
-  end
-
 
   searchable do
     text :name, boost: 5
@@ -176,5 +170,11 @@ class Location < ActiveRecord::Base
 
   end
 
-
+  private
+    def assign_neighborhood
+      if longitude_changed? || latitude_changed?
+        self.neighborhood_id = Neighborhood.calculate(self.longitude, self.latitude).id if self.geocoded?
+        self.district_id = self.neighborhood.district.id if self.neighborhood.present? and self.neighborhood.district.present?
+      end
+    end
 end
