@@ -1,4 +1,6 @@
 class BusinessImprovementAreasController < ApplicationController
+  PER_PAGE = 20
+
   load_and_authorize_resource
   # GET /business_improvement_areas
   # GET /business_improvement_areas.json
@@ -14,8 +16,7 @@ class BusinessImprovementAreasController < ApplicationController
   # GET /business_improvement_areas/1
   # GET /business_improvement_areas/1.json
   def show
-    @business_improvement_area = BusinessImprovementArea.find(params[:id])
-    @status_updates = @business_improvement_area.status_updates + @business_improvement_area.location_status_updates
+    @status_updates = @business_improvement_area.all_status_updates.limit(PER_PAGE)
     @tag_cloud = @business_improvement_area.vertical_market_categories.map { |vm| { text: vm.name, weight: vm.locations.where(business_improvement_area_id: @business_improvement_area.id).size, link: url_for([@business_improvement_area, vm]) }}.compact
 
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
@@ -26,6 +27,11 @@ class BusinessImprovementAreasController < ApplicationController
       format.html # show.html.erb
       format.json { render json: @business_improvement_area }
     end
+  end
+
+  def status_updates
+    status_updates = @business_improvement_area.all_status_updates.where("created_at < ?", params[:from]).limit(PER_PAGE)
+    render partial: 'business_improvement_areas/status_updates', locals:{ business_improvement_area: @business_improvement_area, status_updates: status_updates }, layout: false
   end
 
   # GET /business_improvement_areas/new

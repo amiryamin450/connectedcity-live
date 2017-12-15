@@ -198,7 +198,11 @@ Connectbook::Application.routes.draw do
   # Unauthenticated routes
 
   resources :brands, only: [:show]
-  resources :business_improvement_areas, path: 'neighbourhoods', only: [:show]
+  resources :business_improvement_areas, path: 'neighbourhoods', only: [:show] do
+    member do
+      get :status_updates
+    end
+  end
   resources :city_news_articles, path: 'city-news', only: [:show]
   resources :city_news_categories, only: [:show]
   resources :classified_categories, only: [:show]

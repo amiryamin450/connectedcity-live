@@ -1,0 +1,5 @@
+- status_updates.each do |status_update|
+  = render "status_updates/status_update", status_update: status_update
+
+- if status_updates.present?
+  = link_to 'next page', status_updates_business_improvement_area_path(business_improvement_area, from: status_updates.last.created_at.utc.iso8601)

@@ -58,4 +58,9 @@ class BusinessImprovementArea < ActiveRecord::Base
 
   validates_presence_of :district, :name
 
+
+  def all_status_updates
+    locations_ids = locations.pluck(:id) + [0]
+    StatusUpdate.where("(statusable_type = 'Location' AND statusable_id IN (:locations_ids)) OR (statusable_type = 'BusinessImprovementArea' AND statusable_id = :bia_id)", locations_ids: locations_ids, bia_id: id).includes(statusable: :vertical_market_categories)
+  end
 end
