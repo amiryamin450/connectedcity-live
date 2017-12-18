@@ -90,30 +90,16 @@
       <div class="span4">
         <div class="holder pad10">
           <h5>Status Updates
-           <% if user_signed_in? && (current_user.has_role?(:admin) || @business_improvement_area.user_id == current_user.id) %>
-           <small><%= link_to "(add)", "#status_update", class: 'small', role: :button, data: {toggle: 'modal'} %></small>
-           <% end %>
+          <% if user_signed_in? && (current_user.has_role?(:admin) || @business_improvement_area.user_id == current_user.id) %>
+            <small><%= link_to "(add)", "#status_update", class: 'small', role: :button, data: {toggle: 'modal'} %></small>
+          <% end %>
          </h5>
          <% if @status_updates.size > 0 %>
-         <% @status_updates.sort_by(&:created_at).reverse!.each do |status_update| %>
-         <div class="row-fluid status-update">
-            <div class="span2">
-                <%= image_tag status_update.statusable.logo.url %>
-            </div>
-            <div class="span10">
-              <div class="name"><%= link_to status_update.statusable.name, statusable_path(status_update.statusable) %> <span class="time-ago"> <%= "#{time_ago_in_words(status_update.created_at)} ago" %></span></div>
-              <div><%= status_update.content %>
-              <% if status_update.image? %>
-                <%= link_to(content_tag(:span, "View Image", class: "status-update-image", data: {"large-image" => status_update.image.url, "location-name" => status_update.statusable.name, "bia" => true}), '#status_update_image', data: {toggle: 'modal'}) %>
-              <% end %>
-              </div>
-              <% status_update = {url: location_url(status_update.statusable), title: status_update.statusable.name, content: status_update.content, image: status_update.image.url} %>
-              <%= render_social_media_buttons(status_update) %>
-            </div>
-        </div>
-        <% end %>
+          <div class="market-updates">
+            <%= render 'business_improvement_areas/status_updates', business_improvement_area: @business_improvement_area, status_updates: @status_updates %>
+          </div>
         <% else %>
-        <div class="alert">No Market Updates found.</div>
+          <div class="alert">No Market Updates found.</div>
         <% end %>
 
       </div>
@@ -188,4 +174,12 @@
 
 <%= render 'status_update_form' %>
 
+<% end %>
+
+<% content_for :js_loaded do %>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      Window.helpers.initJScroll('.market-updates');
+    });
+  </script>
 <% end %>
