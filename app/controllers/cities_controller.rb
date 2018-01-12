@@ -44,7 +44,7 @@ class CitiesController < ApplicationController
 
   def events
     city = City.find(5915022)
-    events = city.events.where("starts_at > ?", params[:from]).order(:starts_at).limit(PER_PAGE)
+    events = city.events.where("starts_at >= ? AND events.id NOT IN (?)", params[:from], params[:last_ids] + [0]).order(:starts_at).limit(PER_PAGE)
     render partial: 'events/events_list', locals:{ events: events }, layout: false
   end
 
