@@ -1,5 +1,5 @@
 <%= render events %>
 
 <% if events.present? %>
-  <%= link_to 'next page', events_cities_path(from: events.last.created_at.utc.iso8601) %>
+  <%= link_to 'next page', events_cities_path(from: events.last.starts_at.utc.iso8601, last_ids: events.select{|event| event.starts_at == events.last.starts_at}.map(&:id)) %>
 <% end %>
