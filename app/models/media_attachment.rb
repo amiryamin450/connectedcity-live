@@ -17,7 +17,7 @@ class MediaAttachment < ActiveRecord::Base
 
     # TODO: handle failure case for the call below
     self.title = JSON.load(open("https://www.googleapis.com/youtube/v3/videos?id=#{youtube_id}&key=AIzaSyBV89A5AI8esypRl9M-znIiYQ0Zkl-ldyg&part=snippet"))['items'][0]['snippet']['title']
-    self.thumb_url = "http://img.youtube.com/vi/#{youtube_id}/0.jpg"
+    self.thumb_url = "https://img.youtube.com/vi/#{youtube_id}/0.jpg"
     self.media_source = 'youtube'
     self.media_source_id = youtube_id
     self.attachment_html = "<iframe width='853' height='480' src='http://www.youtube.com/embed/#{youtube_id}' frameborder='0' allowfullscreen></iframe>"
