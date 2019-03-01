@@ -10,10 +10,12 @@ Window.helpers =
       loc = $(el).data("coordinates")
     else
       loc = Window.profile_marker
-    pt = new (L.LatLng)(loc['lat'], loc['long'])
-    marker = new (L.Marker)(pt)
-    map.addLayer marker
-    map.setView pt, 16, true
-  
+    if (loc['lat'] != null && loc['long'] != null)
+      pt = new (L.LatLng)(loc['lat'], loc['long'])
+      marker = new (L.Marker)(pt)
+      map.addLayer marker
+      map.setView pt, 16, true
+
+
   initJScroll: (el) ->
     $(el).jscroll()

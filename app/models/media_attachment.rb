@@ -16,7 +16,7 @@ class MediaAttachment < ActiveRecord::Base
     youtube_id = attachment.scan(regex)[0][2]
 
     # TODO: handle failure case for the call below
-    self.title = JSON.load(open("https://www.googleapis.com/youtube/v3/videos?id=#{youtube_id}&key=AIzaSyBV89A5AI8esypRl9M-znIiYQ0Zkl-ldyg&part=snippet"))['items'][0]['snippet']['title']
+    self.title = JSON.load(open("https://www.googleapis.com/youtube/v3/videos?id=#{youtube_id}&key=#{Settings.google_api_key}&part=snippet"))['items'][0]['snippet']['title']
     self.thumb_url = "https://img.youtube.com/vi/#{youtube_id}/0.jpg"
     self.media_source = 'youtube'
     self.media_source_id = youtube_id
