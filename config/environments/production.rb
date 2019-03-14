@@ -70,6 +70,14 @@ Connectbook::Application.configure do
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default :charset => "utf-8"
 
+  config.action_mailer.smtp_settings = {
+    :address => "email-smtp.us-west-2.amazonaws.com",
+    :port => 587,
+    :user_name => Settings.ses_smtp_username, #Your SMTP user
+    :password => Settings.ses_smtp_password, #Your SMTP password
+    :authentication => :login,
+    :enable_starttls_auto => true
+  }
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
@@ -78,5 +86,5 @@ Connectbook::Application.configure do
   config.to_prepare do
     Devise::SessionsController.layout "sessions"
   end
-  
+
 end
