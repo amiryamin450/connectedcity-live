@@ -173,8 +173,10 @@ class Location < ActiveRecord::Base
   private
     def assign_neighborhood
       if longitude_changed? || latitude_changed?
-        self.neighborhood_id = Neighborhood.calculate(self.longitude, self.latitude).id if self.geocoded?
-        self.district_id = self.neighborhood.district.id if self.neighborhood.present? and self.neighborhood.district.present?
+        if self.geocoded? && (neighborhood_obj = Neighborhood.calculate(self.longitude, self.latitude))
+          self.neighborhood_id = neighborhood_obj.id
+          self.district_id = self.neighborhood.district.id if self.neighborhood.district
+        end
       end
     end
 end
