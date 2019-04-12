@@ -55,11 +55,6 @@ district_url_suffix = if params[:market].present?
             %>
             <li><%= link_to bia.neighborhd, bia_url %></li>
           <% end %>
-          <% if current_district.name.in?(['Vancouver Westside', 'Vancouver']) && !current_district.neighborhoods.pluck(:neighborhd).include?('Granville Island') %>
-            <% if granville = BusinessImprovementArea.find_by_name('Granville Island') %>
-              <li><%= link_to granville.name, granville %></li>
-            <% end %>
-          <% end %>
         </ul>
       </div>
     </div>
