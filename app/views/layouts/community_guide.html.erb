@@ -72,13 +72,7 @@
                           <div class="span2">
                             <ul class="unstyled">
                               <% group.each do |n| %>
-                                  <% if n %>
-                                      <% if n.slug == params[:neighborhood] %>
-                                          <li><%= link_to "#{n.name}", district_neighborhood_guide_path(params[:district_route], n.slug, params[:market]), class: 'active' %></li>
-                                      <% else %>
-                                          <li><%= link_to "#{n.name}", district_neighborhood_guide_path(params[:district_route], n.slug, params[:market]) %></li>
-                                      <% end -%>
-                                  <% end %>
+                                  <%= neighborhood_link(n) %>
                               <% end %>
                             </ul>
                           </div>
