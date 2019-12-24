@@ -1,7 +1,13 @@
 
 <div class="row-fluid">
   <div class="span8">
-    <h1><%= @city.name %></h1>
+    <h1><%= @city.name %>
+      <small>
+        <% if user_signed_in? && current_user.has_role?(:admin) %>
+          <%= link_to 'edit carousel', polymorphic_path([@city, :carousel_images])  %>
+        <% end %>
+      </small>
+    </h1>
   </div>
 
 </div>
@@ -9,30 +15,20 @@
 <div class="row-fluid">
   <div class="span8">
     <div class="row-fluid">
+      <% if @city.present? && @city.carousel_images.present? %>
 
       <div id="carousel" class="carousel slide" data-interval="8000">
         <ol class="carousel-indicators">
-
-            <li data-target="#carousel" data-slide-to="0"></li>
-            <li data-target="#carousel" data-slide-to="1"></li>
-            <li data-target="#carousel" data-slide-to="2"></li>
-            <li data-target="#carousel" data-slide-to="3"></li>
-            <li data-target="#carousel" data-slide-to="4"></li>
+          <% @carousel_images.each_with_index do |img, i| %>
+            <li data-target="#carousel" data-slide-to="<%= i%>"></li>
+          <% end %>
         </ol>
         <div class="carousel-inner">
-
-          <div class="item active">
-            <%= image_tag "1.jpg", alt: "ConnectedCity - Find Everything You Crave" %>
-          </div>
-          <div class="item">
-            <%= image_tag "2.jpg", alt: "ConnectedCity - Browse Big Or Small" %>
-          </div>
-          <div class="item">
-            <%= image_tag "3.jpg", alt: "ConnectedCity - ConnectedShoppers" %>
-          </div>
-          <div class="item">
-            <%= image_tag "4.jpg", alt: "ConnectedCity - Promote Your Products" %>
-          </div>
+          <% @carousel_images.each_with_index do |img, i|  %>
+            <a href="<%=img.url%>" class="item <%= "active" if i == 0 %>">
+              <%= image_tag img.image.url(:default), alt: img.caption %>
+            </a>
+          <% end %>
         </div>
         <!-- Carousel nav -->
         <a class="carousel-control left" href="#carousel" data-slide="prev">&lsaquo;</a>
@@ -40,7 +36,7 @@
 
       </div>
     </div>
-
+    <% end %>
     <div class="row-fluid">
       <div class="span12">
         <div class="holder pad10">
@@ -139,6 +135,7 @@
 <% content_for :js_loaded do %>
   <script type="text/javascript">
     $(document).ready(function(){
+      setInterval("$('#carousel').carousel('next');", 8000);
       Window.helpers.initJScroll('.market-updates');
       Window.helpers.initJScroll('.events-list');
       Window.helpers.initJScroll('.videos-list');
