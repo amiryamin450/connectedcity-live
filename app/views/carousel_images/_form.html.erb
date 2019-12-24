@@ -5,6 +5,7 @@
     <%= f.input :title %>
     <%= f.input :caption, as: :text, input_html: { rows: 4, class: 'input-xxlarge' }, hint: 'If left blank a caption won\'t be shown' %>
     <%= f.input :image, as: :logo_preview, hint: 'Image needs to be 1600x500 in size. Otherwise it will be resized and cropped to fit those dimensions' %>
+    <%= f.input :url, label: "Page Address", hint: 'Add a page address to this image' %>
   </div>
 
   <div class="form-actions">

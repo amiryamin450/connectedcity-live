@@ -216,6 +216,7 @@ Connectbook::Application.routes.draw do
   resources :trade_associations, only: [:show]
 
   resources :cities, path: 'city', only: [] do
+    resources :carousel_images, defaults: { carouselable: 'city' }
     resources :city_news_articles, path: 'news', only: [:show, :index]
   end
 
