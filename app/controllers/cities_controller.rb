@@ -28,6 +28,7 @@ class CitiesController < ApplicationController
 
   def homepage
     @city = City.find(5915022)
+    @carousel_images = @city.carousel_images
     @status_updates = @city.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
     @events = @city.events.order(:starts_at).limit(PER_PAGE)
     @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
