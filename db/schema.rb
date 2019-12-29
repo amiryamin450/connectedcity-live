@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160427222927) do
+ActiveRecord::Schema.define(:version => 20191224104615) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -193,9 +193,22 @@ ActiveRecord::Schema.define(:version => 20160427222927) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.string   "url"
   end
 
   add_index "carousel_images", ["carouselable_id", "carouselable_type"], :name => "index_carousel_images_on_carouselable_id_and_carouselable_type"
+
+  create_table "cities", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "community_id"
+    t.integer  "state_or_province_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+    t.string   "slug"
+  end
+
+  add_index "cities", ["slug"], :name => "index_cities_on_slug"
 
   create_table "cities_old", :force => true do |t|
     t.string   "name"
@@ -491,8 +504,6 @@ ActiveRecord::Schema.define(:version => 20160427222927) do
     t.integer  "payment_user_id"
     t.string   "stripe_plan_id"
     t.string   "stripe_subscription_id"
-    t.integer  "payment_user_id"
-    t.string   "stripe_plan_id"
   end
 
   add_index "locations", ["city_id"], :name => "city_id"
@@ -626,6 +637,7 @@ ActiveRecord::Schema.define(:version => 20160427222927) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
+    t.string   "style"
   end
 
   create_table "new_homes", :force => true do |t|
@@ -695,7 +707,7 @@ ActiveRecord::Schema.define(:version => 20160427222927) do
     t.string   "name"
     t.string   "sku"
     t.text     "description"
-    t.decimal  "price",              :precision => 10, :scale => 2
+    t.decimal  "price",              :precision => 10, :scale => 0
     t.string   "slug"
     t.integer  "location_id"
     t.datetime "created_at",                                        :null => false
@@ -817,6 +829,16 @@ ActiveRecord::Schema.define(:version => 20160427222927) do
     t.boolean  "redeemed"
   end
 
+  create_table "regions", :force => true do |t|
+    t.string   "name"
+    t.integer  "state_or_province_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+    t.string   "slug"
+  end
+
+  add_index "regions", ["slug"], :name => "index_regions_on_slug"
+
   create_table "regions_old", :force => true do |t|
     t.string   "name"
     t.datetime "created_at",                   :null => false
@@ -872,6 +894,7 @@ ActiveRecord::Schema.define(:version => 20160427222927) do
     t.integer  "cover_photo_file_size"
     t.datetime "cover_photo_updated_at"
     t.integer  "district_id"
+    t.string   "style"
   end
 
   create_table "rental_units", :force => true do |t|
@@ -893,6 +916,7 @@ ActiveRecord::Schema.define(:version => 20160427222927) do
     t.string   "cover_photo_content_type"
     t.integer  "cover_photo_file_size"
     t.datetime "cover_photo_updated_at"
+    t.string   "style"
   end
 
   create_table "roles", :force => true do |t|
@@ -933,6 +957,17 @@ ActiveRecord::Schema.define(:version => 20160427222927) do
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
   end
+
+  create_table "state_or_provinces", :force => true do |t|
+    t.string   "name"
+    t.string   "abbr"
+    t.integer  "country_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "slug"
+  end
+
+  add_index "state_or_provinces", ["slug"], :name => "index_state_or_provinces_on_slug"
 
   create_table "status_updates", :force => true do |t|
     t.string   "title"
@@ -1018,7 +1053,6 @@ ActiveRecord::Schema.define(:version => 20160427222927) do
     t.string   "uid"
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "name"
     t.string   "stripe_customer_id"
   end
 
