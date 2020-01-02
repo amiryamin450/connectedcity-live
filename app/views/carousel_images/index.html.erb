@@ -4,6 +4,7 @@
   <tr>
     <th></th>
     <th>Title</th>
+    <th>Page Address</th>
     <th></th>
   </tr>
 
@@ -11,6 +12,7 @@
   <tr>
     <td style="width:160px;"><%= image_tag carousel_image.image.url(:thumb) %></td>
     <td><%= carousel_image.title %></td>
+    <td><%= carousel_image.url %></td>
     <td style="width: 200px;">
       <div class="btn-group">
         <%= link_to 'show', [@carouselable, carousel_image], class: 'btn btn-mini' %>

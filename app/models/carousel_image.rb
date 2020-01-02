@@ -1,6 +1,6 @@
 class CarouselImage < ActiveRecord::Base
 
-  attr_accessible :caption, :title, :image
+  attr_accessible :caption, :title, :image, :url
   belongs_to :carouselable, polymorphic: true
 
   validates_presence_of :title

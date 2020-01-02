@@ -42,9 +42,7 @@ jQuery ->
     $.cookie("sidebar_class", $('#sidebar').attr('class'))
     return false
 
-  $('.carousel').carousel({
-    interval: false
-  })
+  
 
   $('#new_message .modal-footer .btn-primary').click ->
     $('#new_message form').submit()
