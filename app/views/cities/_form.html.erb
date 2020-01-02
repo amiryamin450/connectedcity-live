@@ -1,7 +1,7 @@
 <%= simple_form_for @city, :html => { :class => 'form-horizontal' } do |f| %>
   <%= f.input :name %>
-  <%= f.input :description %>
-  <%= f.association :community %>
+  <%#= f.input :description %>
+  <%#= f.association :community %>
   <%= f.association :province %>
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>
