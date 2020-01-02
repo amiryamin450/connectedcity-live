@@ -1,5 +1,6 @@
 class CitiesController < ApplicationController
   load_and_authorize_resource except: [:homepage, :status_updates, :events, :media_attachments]
+  before_filter :redirect_back_home, only: [:show]
 
   layout "application"
 
@@ -112,5 +113,10 @@ class CitiesController < ApplicationController
       format.html { redirect_to cities_url }
       format.json { head :no_content }
     end
+  end
+
+  def redirect_back_home
+    #I have added this redirect to avoid broke code beacuse city model had changed to new model but code did not modified. 
+    redirect_to root_path
   end
 end
