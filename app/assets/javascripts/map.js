@@ -4,7 +4,7 @@ $(function() {
         map = L.map('map', {scrollWheelZoom: false}).setView([49.249935,-123.112457],9);
         //1c76eefca5954c5abfa169b96dc96a35
         L.Icon.Default.imagePath = '/assets/';
-        L.tileLayer('//{s}.tiles.mapbox.com/v3/grt777.j18k947c/{z}/{x}/{y}.png', {
+        L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '', detectRetina: true
         }).addTo(map);
 
