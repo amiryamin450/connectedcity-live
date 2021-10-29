@@ -34,11 +34,16 @@ class ProductsController < ApplicationController
 
   def update
     @product = Product.find(params[:id])
-    if @product.update_attributes(params[:product])
-      redirect_to [@location, @product], notice: 'Product was successfully updated.'
-    else
-      render action: :edit
-    end
+    respond_to do |format|
+      if @product.update_attributes(params[:product])
+        format.html { redirect_to [@location, @product], notice: 'Product was successfully updated.' }
+        format.json { render json: { files: [@product.product_images.last.to_jq_upload]}, status: :created, product: @product }
+      else
+
+        format.html { render action: "edit" }
+        format.json { render json: @product.errors, status: :unprocessable_entity }
+      end
+    end  
   end
 
   def destroy

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20191224104615) do
+ActiveRecord::Schema.define(:version => 20211027172157) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -703,6 +703,18 @@ ActiveRecord::Schema.define(:version => 20191224104615) do
     t.datetime "updated_at",                     :null => false
   end
 
+  create_table "product_images", :force => true do |t|
+    t.integer  "product_id"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  add_index "product_images", ["product_id"], :name => "index_product_images_on_product_id"
+
   create_table "products", :force => true do |t|
     t.string   "name"
     t.string   "sku"
@@ -717,6 +729,7 @@ ActiveRecord::Schema.define(:version => 20191224104615) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.boolean  "custom_pricing"
+    t.integer  "quantity"
   end
 
   add_index "products", ["location_id"], :name => "index_products_on_location_id"

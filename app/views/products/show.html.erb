@@ -1,7 +1,9 @@
 <h1><%= @product.name %></h1>
+<br>
+<%= render "product_images_swiper" %>
 <div class="row-fluid">
   <div class="span6">
-    <div class=""><%= image_tag @product.image.url(:display), class: 'thumbnail' %></div>
+    <div class=""><%#= image_tag @product.image.url(:display), class: 'thumbnail' %></div>
 
     <% if @product.sku.present? && (user_signed_in? && current_user.can_manage_location?(@location)) %>
       <div><strong>Sku: </strong><%= @product.sku %></div>
@@ -9,7 +11,14 @@
 
     <div><strong>Price: </strong><%= display_pricing @product %></div>
     <div><%= @product.description.html_safe %></div>
-
+    <form action="https://connected-checkout-staging.herokuapp.com/create-checkout-session?product=<%=location_product_path(@location, @product)%>" method="POST">
+      <div class="quantity-setter">
+        <button class="increment-btn" id="subtract" disabled type="button">-</button>
+        <input type="number" id="quantity-input" min="1" value="1" name="quantity" />
+        <button class="increment-btn" id="add" type="button">+</button>
+      </div>
+      <button type="submit" id="submit">Buy</button>
+    </form>
     <% if (user_signed_in? && current_user.has_role?(:admin)) or (user_signed_in? && current_user.can_manage_location?(@location)) %>
     <div style="margin-top: 1.5em">
       <%= link_to "Edit", edit_location_product_path(@location, @product), class: 'btn btn-primary' %>
@@ -19,3 +28,4 @@
 
   </div>
 </div>
+<br>
