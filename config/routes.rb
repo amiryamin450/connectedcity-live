@@ -11,6 +11,9 @@ Connectbook::Application.routes.draw do
     get '/logout' => 'devise/sessions#destroy'
   end
 
+  resources :line_items
+  resources :carts
+
   # Routes that require authentication.
   authenticate :user do
     resources :social_profiles, path: "social-profiles", only: [] do

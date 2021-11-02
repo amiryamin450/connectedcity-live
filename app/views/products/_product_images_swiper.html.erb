@@ -8,6 +8,13 @@
     <!-- SwiperJs and EasyZoom plugins start -->
     <div class="swiper-container gallery-top">
       <div class="swiper-wrapper">
+        <% if @product.image.present? %>
+          <div class="swiper-slide easyzoom easyzoom--overlay">
+            <a href="<%= @product.image.url(:display)%>">
+              <img src="<%= @product.image.url(:display)%>" alt="" />
+            </a>
+          </div>
+        <% end %>
         <% @product.product_images.each do |image|%>
           <div class="swiper-slide easyzoom easyzoom--overlay">
             <a href="<%= image.image.url(:display)%>">

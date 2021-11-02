@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   before_filter :set_up
+  before_filter :set_cart
 
 
   def user_has_favorite?(location_id)
@@ -111,6 +112,13 @@ class ApplicationController < ActionController::Base
     # add_crumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
     add_crumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
     add_crumb @location.name, location_path(@location)
+  end
+
+  def set_cart
+    @cart = Cart.find(session[:cart_id])
+    rescue ActiveRecord::RecordNotFound
+    @cart = Cart.create
+    session[:cart_id] = @cart.id
   end
 
 end
