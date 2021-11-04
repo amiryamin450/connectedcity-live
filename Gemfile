@@ -13,7 +13,6 @@ source 'https://transcona_media_network_inc_048:xVCxmZzWJ6a__s7h@gems.railslts.c
 end
 
 # gem 'tire'
-gem 'activerecord-mysql2spatial-adapter'
 gem 'ancestry'
 gem 'auto_html'
 gem 'bootstrap-datetimepicker-rails'
@@ -41,6 +40,7 @@ gem 'metamagic'
 gem 'money-rails'
 # gem 'mysql2', '~> 0.3.20'
 gem 'mysql2', git: 'https://github.com/makandra/mysql2', branch: '0.3.x-lts'
+gem 'activerecord-mysql2spatial-adapter'
 gem 'nokogiri'
 gem 'oauth'
 gem 'omniauth-facebook'
@@ -67,6 +67,7 @@ gem 'whenever'
 gem 'yaml_db'
 gem 'haml',                       '~> 4.0.6'
 
+gem 'test-unit', '~> 3.0'
 group :production, :staging do
   gem 'aws-sdk'
   gem 'puma'
