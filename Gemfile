@@ -65,12 +65,12 @@ gem 'twitter'
 gem 'underscore-rails'
 gem 'whenever'
 gem 'yaml_db'
-gem 'haml',                       '~> 4.0.6'
-
+gem 'haml', '~> 4.0.6'
+gem 'puma'
 gem 'test-unit', '~> 3.0'
+
 group :production, :staging do
   gem 'aws-sdk'
-  gem 'puma'
 end
 
 group :assets do
@@ -109,7 +109,6 @@ group :development do
   gem 'quiet_assets'
   gem 'rvm-capistrano', require: false
   gem 'seed_dump'
-  gem 'puma'
   # gem 'pry'
   # gem 'byebug'
   # gem 'pry-byebug'
