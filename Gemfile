@@ -1,5 +1,17 @@
 source 'https://rubygems.org'
 
+source 'https://transcona_media_network_inc_048:xVCxmZzWJ6a__s7h@gems.railslts.com' do
+  gem 'rails', '~> 3.2.22'
+  gem 'actionmailer',     :require => false
+  gem 'actionpack',       :require => false
+  gem 'activemodel',      :require => false
+  gem 'activerecord',     :require => false
+  gem 'activeresource',   :require => false
+  gem 'activesupport',    :require => false
+  gem 'railties',         :require => false
+  gem 'railslts-version', :require => false
+end
+
 # gem 'tire'
 gem 'activerecord-mysql2spatial-adapter'
 gem 'ancestry'
@@ -27,14 +39,14 @@ gem 'mailboxer'
 gem 'mechanize'
 gem 'metamagic'
 gem 'money-rails'
-gem 'mysql2', '~> 0.3.20'
+# gem 'mysql2', '~> 0.3.20'
+gem 'mysql2', git: 'https://github.com/makandra/mysql2', branch: '0.3.x-lts'
 gem 'nokogiri'
 gem 'oauth'
 gem 'omniauth-facebook'
 gem 'paperclip'
 gem 'progress_bar'
-gem 'rails_config'
-gem 'rails'
+gem 'config', github: 'railsconfig/config'
 gem 'ransack'
 gem 'rgeo-activerecord'
 gem 'rgeo'
@@ -92,13 +104,13 @@ group :test do
 end
 
 group :development do
-  gem 'byebug'
   gem 'capistrano', '< 3.0.0'
-  gem 'pry'
-  gem 'pry-byebug'
-  gem 'pry-rails'
   gem 'quiet_assets'
   gem 'rvm-capistrano', require: false
   gem 'seed_dump'
-  gem 'thin'
+  gem 'puma'
+  # gem 'pry'
+  # gem 'byebug'
+  # gem 'pry-byebug'
+  # gem 'pry-rails'
 end
