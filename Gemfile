@@ -68,6 +68,7 @@ gem 'yaml_db'
 gem 'haml', '~> 4.0.6'
 gem 'puma'
 gem 'test-unit', '~> 3.0'
+gem 'rake', '< 11'
 
 group :production, :staging do
   gem 'aws-sdk'
@@ -86,8 +87,6 @@ end
 group :development, :test do
   # gem 'activerecord-postgis-adapter'
   # gem 'pg'
-  gem 'better_errors'
-  gem 'binding_of_caller'
   gem 'factory_girl_rails'
   gem 'meta_request'
   gem 'rspec-rails'
