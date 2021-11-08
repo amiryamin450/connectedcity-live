@@ -1,5 +1,7 @@
 Connectbook::Application.routes.draw do
 
+  resources :home
+
   devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations"}
 
   devise_for :users do
@@ -293,7 +295,7 @@ Connectbook::Application.routes.draw do
   get "events" => 'cities#events', as: :events_cities
   get "media_attachments" => 'cities#media_attachments', as: :media_attachments_cities
 
-  root to: 'home#index'
+  root to: 'cities#homepage'
 
   #I'm hard-coding these Marketing URLs for now...
   #The idea is to have connectedcity.com/kitsilano but having this interferes with the district route.

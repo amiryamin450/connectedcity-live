@@ -1,51 +1,5 @@
-<!-- Header -->
 
-<!-- Top Bar Start -->
-<div class="top-bar landing-page-bar">
-  <div class="container-fluid">
-    <div class="row align-items-center">
-      <div class="col-lg-4 col-md-12">
-        <div class="logo">
-          <a href="index.html">
-            <img src="/cc_2.0/images/landing-page-logo.svg" alt="Logo">
-          </a>
-        </div>
-      </div>
-      <div class="col-lg-8 col-md-7 d-none d-lg-block">
-        <div class="row">
-          <div class="col-7">
-          </div>
-          <div class="col-4">
-            <div class="input-group-prepend search-box ">
-              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select Location <i class="far fa-chevron-down"></i></button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Category One</a>
-                <a class="dropdown-item" href="#">Category Two</a>
-                <a class="dropdown-item" href="#">Category Three</a>
-                <div role="separator" class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated Category</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="input-group-prepend user-dropdown dropleft">
-              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><img src="/cc_2.0/icon/landing-page-user-icon.svg"> <i class="far fa-chevron-down"></i></button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Category One</a>
-                <a class="dropdown-item" href="#">Category Two</a>
-                <a class="dropdown-item" href="#">Category Three</a>
-                <div role="separator" class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated Category</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Top Bar End -->
-
+<%= render "/layouts/application_v_2/global_header" %>
 <!-- Main Section -->
 <div class="container-fluid">
   <div class="row">
@@ -150,7 +104,9 @@
                     <li>Win Free Stuff!</li>
                   </ul>
                   <div class="card-btn">
-                    <button type="button" class="btn-primary btn"> Get Started  <i class="far fa-chevron-right"></i></button>
+                    <a href="<%= new_user_registration_path%>">
+                      <button type="button" class="btn-primary btn"> Get Started  <i class="far fa-chevron-right"></i></button>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -180,7 +136,9 @@
                     <li>Create Happy Customers</li>
                   </ul>
                   <div class="card-btn">
-                    <button type="button" class="btn-primary btn"> Get Started  <i class="far fa-chevron-right"></i></button>
+                    <a href="<%= business_sign_up_path%>">
+                      <button type="button" class="btn-primary btn"> Get Started  <i class="far fa-chevron-right"></i></button>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -198,193 +156,9 @@
   </div>
 </div>
 <!-- End -->
-<div class="landing-page-heading-filter">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="heading">
-          <h3>Neighbourhoods and Shopping Districts</h3>
-        </div>
-      </div>
-      <!--  -->
-      <div class="col-md-6">
-        <div class="row justify-content-center">
-          <div class="col-md-5">
-            <div class="filter">
-              <label>Country</label>
-              <div class="input-group-prepend search-box ">
-                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Canada <i class="far fa-chevron-down"></i></button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#">Category One</a>
-                  <a class="dropdown-item" href="#">Category Two</a>
-                  <a class="dropdown-item" href="#">Category Three</a>
-                  <div role="separator" class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Separated Category</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--  -->
-          <div class="col-md-5">
-            <div class="filter">
-              <label>City</label>
-              <div class="input-group-prepend search-box ">
-                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Vancouver <i class="far fa-chevron-down"></i></button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#">Category One</a>
-                  <a class="dropdown-item" href="#">Category Two</a>
-                  <a class="dropdown-item" href="#">Category Three</a>
-                  <div role="separator" class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Separated Category</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--  -->
-    </div>
-  </div>
-</div>
-<!-- End -->
-<div class="landing-page-tab-section">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="tab-row">
-          <nav>
-            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-              <a class="nav-item  active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Vancouver Downtown</a>
-              <a class="nav-item " id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Vancouver Eastside</a>
-              <a class="nav-item  " id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Vancouver Westside</a>
-            </div>
-          </nav>
-        </div>
-        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <div class="row">
-              <!--  -->
-              <div class="col-md-3">
-                <div class="tab-inner-card">
-                  <div class="tab-inner-card-img">
-                    <img src="/cc_2.0/images/banner01.jpg">
-                  </div>
-                  <div class="tab-inner-card-heading">
-                    <h4>Coal Harbour</h4>
-                  </div>
-                </div>
-              </div>
-              <!--  -->
-              <div class="col-md-3">
-                <div class="tab-inner-card">
-                  <div class="tab-inner-card-img">
-                    <img src="/cc_2.0/images/banner02.jpg">
-                  </div>
-                  <div class="tab-inner-card-heading">
-                    <h4>Downtown Vancouver</h4>
-                  </div>
-                </div>
-              </div>
-              <!--  -->
-              <div class="col-md-3">
-                <div class="tab-inner-card">
-                  <div class="tab-inner-card-img">
-                    <img src="/cc_2.0/images/banner01.jpg">
-                  </div>
-                  <div class="tab-inner-card-heading">
-                    <h4>Gastown</h4>
-                  </div>
-                </div>
-              </div>
-              <!--  -->
-              <div class="col-md-3">
-                <div class="tab-inner-card">
-                  <div class="tab-inner-card-img">
-                    <img src="/cc_2.0/images/banner02.jpg">
-                  </div>
-                  <div class="tab-inner-card-heading">
-                    <h4>West End</h4>
-                  </div>
-                </div>
-              </div>
-              <!--  -->
-            </div>
-            <!--  -->
-            <div class="row">
-              <!--  -->
-              <div class="col-md-3">
-                <div class="tab-inner-card">
-                  <div class="tab-inner-card-img">
-                    <img src="/cc_2.0/images/banner02.jpg">
-                  </div>
-                  <div class="tab-inner-card-heading">
-                    <h4>Yaletown</h4>
-                  </div>
-                </div>
-              </div>
-              <!--  -->
-            </div>
-            <!--  -->
-          </div>
-          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.
-          </div>
-          <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-            Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- End -->
-<div class="landing-page-shop-interest-section">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="shop-interest-slider">
-          <div class="slider-heading">
-            <h3>Shop Your Interest</h3>
-          </div>
-          <div class="inner-slider">
-            <div class="shop-interest-items">
-              <div>
-                <div class="slider-img">
-                  <img data-lazy="/cc_2.0/images/img-1.png">
-                </div>
-                <p>Fashion</p>
-              </div>
-              <div>
-                <img data-lazy="/cc_2.0/images/img-2.png">
-                <p>Entertainment</p>
-              </div>
-              <div>
-                <img data-lazy="/cc_2.0/images/img-3.png">
-                <p>Restaurants</p>
-              </div>
-              <div>
-                <img data-lazy="/cc_2.0/images/img-4.png">
-                <p>Bars</p>
-              </div>
-              <div>
-                <img data-lazy="/cc_2.0/images/img-1.png">
-                <p>Fashion</p>
-              </div>
-              <div>
-                <img data-lazy="/cc_2.0/images/img-2.png">
-                <p>Entertainment</p>
-              </div>
-              <div>
-                <img data-lazy="/cc_2.0/images/img-3.png">
-                <p>Restaurants</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render "/layouts/application_v_2/neighbourhoods_and_shopping _districts"%>
+<%= render "/layouts/application_v_2/shop_your_interest"%>
+
 <div class="landing-page-three-column-section">
   <div class="container-fluid">
     <div class="row">
@@ -393,161 +167,40 @@
           <div class="update-heading">
             <h3>Updates</h3>
           </div>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
+          <% if @status_updates.size > 0 %>
+            <% @status_updates.each do |status_update|%>
               <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Brand Name Here</h5>
+                <div class="inner-img col-md-3 col-4">
+                  <%= image_tag status_update.statusable.logo.url %>
                 </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
+                <div class="col-md-9 col-8">
+                  <div class="row">
+                    <div class="inner-card-title col-md-7">
+                      <h5><%= link_to status_update.statusable.name, statusable_path(status_update.statusable) %></h5>
+                    </div>
+                    <div class="inner-card-time col-md-5">
+                      <span><%= "#{time_ago_in_words(status_update.created_at)} ago" %></span>
+                    </div>
+                  </div>
+                  <div class="inner-card-description">
+                    <p><%= status_update.content %>
+                      <a href="#"> See More </a>
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
-              <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Brand Name Here</h5>
-                </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
+                <div class="col-md-12">
+                  <div class="update-banner">
+                    <% if status_update.image? %>
+                      <%= image_tag status_update.image.url %>
+                    <% end %>
+                  </div>
                 </div>
               </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
-              <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Brand Name Here</h5>
-                </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
-                </div>
-              </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
-              <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Brand Name Here</h5>
-                </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
-                </div>
-              </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
-              <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Brand Name Here</h5>
-                </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
-                </div>
-              </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
-              <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Brand Name Here</h5>
-                </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
-                </div>
-              </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
+              <hr>
+            <% end %>
+          <% else %>
+            <div class="alert">No Market Updates found.</div>
+          <% end %>
         </div>
       </div>
       <!-- End -->
@@ -556,161 +209,36 @@
           <div class="event-heading">
             <h3>Videos</h3>
           </div>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
+          <% if @media_attachments.size > 0 %>
+            <% @media_attachments.each do |media_attachment| %>
               <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Events Name Here</h5>
+                <div class="inner-img col-md-3 col-4">
+                  <%= image_tag media_attachment.attachable.logo.url %>
                 </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
+                <div class="col-md-9 col-8">
+                  <div class="row">
+                    <div class="inner-card-title col-md-7">
+                      <h5><%= link_to media_attachment.title, [media_attachment.attachable, media_attachment] %></h5>
+                    </div>
+                    <div class="inner-card-time col-md-5">
+                      <span><%= "#{time_ago_in_words(media_attachment.created_at)} ago" %></span>
+                    </div>
+                  </div>
+                  <div class="inner-card-description">
+                    <p>by <%= link_to media_attachment.attachable.name, media_attachment.attachable %></p>
+                  </div>
                 </div>
-              </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
-              <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Events Name Here</h5>
-                </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
+                <div class="col-md-12">
+                  <div class="update-banner">
+                    <%= link_to(image_tag(media_attachment.thumb_url), [media_attachment.attachable, media_attachment]) %>
+                  </div>
                 </div>
               </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
-              <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Events Name Here</h5>
-                </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
-                </div>
-              </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
-              <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Events Name Here</h5>
-                </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
-                </div>
-              </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
-              <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Events Name Here</h5>
-                </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
-                </div>
-              </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
-              <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Events Name Here</h5>
-                </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
-                </div>
-              </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
+              <hr>
+            <% end %>
+          <% else %>
+            <div class="alert">No Videos found.</div>
+          <% end %>
         </div>
       </div>
       <!-- End -->
@@ -719,161 +247,40 @@
           <div class="event-heading">
             <h3>Events</h3>
           </div>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
-              <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Events Name Here</h5>
+            <% if @events.any? %>
+              <% @events.each do |event|%>
+                <div class="row">
+                  <div class="inner-img col-md-3 col-4">
+                    <%= image_tag event.location.logo.url %>
+                  </div>
+                  <div class="col-md-9 col-8">
+                    <div class="row">
+                      <div class="inner-card-title col-md-7">
+                        <h5><%= link_to event.name, [event.location, event] %></h5>
+                      </div>
+                      <div class="inner-card-time col-md-5">
+                        <span><% if event.starts_at.present? %><span class="time-ago">in <%= "#{time_ago_in_words(event.starts_at)}" %><% end %></span>
+                      </div>
+                    </div>
+                    <div class="inner-card-description">
+                      <p><%= truncate_html( event.description, :length => 150 ) %>
+                        <a href="#"> See More </a>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="update-banner">
+                      <% if event.image? %>
+                        <%= image_tag event.image.url %>
+                      <% end %>
+                    </div>
+                  </div>
                 </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
-                </div>
-              </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
-              <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Events Name Here</h5>
-                </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
-                </div>
-              </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
-              <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Events Name Here</h5>
-                </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
-                </div>
-              </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
-              <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Events Name Here</h5>
-                </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
-                </div>
-              </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
-              <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Events Name Here</h5>
-                </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
-                </div>
-              </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="inner-img col-md-3 col-4">
-              <img src="/cc_2.0/images/image.jpg">
-            </div>
-            <div class="col-md-9 col-8">
-              <div class="row">
-                <div class="inner-card-title col-md-7">
-                  <h5>Events Name Here</h5>
-                </div>
-                <div class="inner-card-time col-md-5">
-                  <span>2 Hours Ago</span>
-                </div>
-              </div>
-              <div class="inner-card-description">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed tempor...
-                  <a href="#"> See More </a>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="update-banner">
-                <img src="/cc_2.0/images/update-banner.jpg">
-              </div>
-            </div>
-          </div>
+                <hr>
+              <% end %>
+            <% else %>
+              <div class="alert">No Events found.</div>
+            <% end %>
         </div>
       </div>
       <!--  -->
@@ -881,33 +288,7 @@
   </div>
 </div>
 <!-- End -->
-<div class="footer">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="footer-logo">
-          <img src="/cc_2.0/icon/footer-logo.svg">
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="copyright">
-          <p>© 2021 ConnectedCity.com. All rights reserved. Patent Pending</p>
-        </div>
-      </div>
-      <div class="col-md-9 col-12">
-        <div class="footer-link">
-          <ul>
-            <li>About</li>
-            <li>Advertise</li>
-            <li>Contact</li>
-            <li>Privacy</li>
-            <li>Terms</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render "/layouts/application_v_2/global_footer" %>
 <!-- End -->
 <!-- Script -->
 <script src="/cc_2.0/js/jquery-3.4.1.min.js"></script>
