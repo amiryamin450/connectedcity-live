@@ -1,5 +1,7 @@
 Connectbook::Application.routes.draw do
 
+  resources :home
+
   devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations"}
 
   devise_for :users do
@@ -10,6 +12,9 @@ Connectbook::Application.routes.draw do
     get '/login' => 'devise/sessions#new'
     get '/logout' => 'devise/sessions#destroy'
   end
+
+  resources :line_items
+  resources :carts
 
   # Routes that require authentication.
   authenticate :user do

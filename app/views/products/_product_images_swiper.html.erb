@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"/>
+<link rel="stylesheet" href="/swiper/css/swiper.min.css" />
+<link rel="stylesheet" href="/swiper/css/easyzoom.css" />
+<link rel="stylesheet" href="/swiper/css/main.css" />
+
+<div class="product__carousel">
+  <div class="gallery-parent">
+    <!-- SwiperJs and EasyZoom plugins start -->
+    <div class="swiper-container gallery-top">
+      <div class="swiper-wrapper">
+        <% if @product.image.present? %>
+          <div class="swiper-slide easyzoom easyzoom--overlay">
+            <a href="<%= @product.image.url(:display)%>">
+              <img src="<%= @product.image.url(:display)%>" alt="" />
+            </a>
+          </div>
+        <% end %>
+        <% @product.product_images.each do |image|%>
+          <div class="swiper-slide easyzoom easyzoom--overlay">
+            <a href="<%= image.image.url(:display)%>">
+              <img src="<%= image.image.url(:display)%>" alt="" />
+            </a>
+          </div>
+        <% end %>
+      </div>
+      <!-- Add Arrows -->
+      <div class="swiper-button-next swiper-button-white"></div>
+      <div class="swiper-button-prev swiper-button-white"></div>
+    </div>
+    <div class="swiper-container gallery-thumbs">
+      <div class="swiper-wrapper">
+        <% @product.product_images.each do |image|%>
+          <div class="swiper-slide">
+            <img src="<%= image.image.url(:display)%>" alt="" />
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+    <!-- SwiperJs and EasyZoom plugins end -->
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="/swiper/js/swiper.min.js"></script>
+<script src="/swiper/js/easyzoom.js"></script>
+<script src="/swiper/js/main.js"></script>

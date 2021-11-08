@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="249" height="60" viewBox="0 0 249 60">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1.39" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#4f5bee"/>
+      <stop offset="1" stop-color="#10375c"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_59" data-name="Group 59" transform="translate(-1010 -298)">
+    <rect id="Rectangle_27" data-name="Rectangle 27" width="249" height="60" rx="8" transform="translate(1010 298)" fill="url(#linear-gradient)"/>
+    <text id="Business_Sign_Up" data-name="Business Sign Up" transform="translate(1089 335)" fill="#fff" font-size="18" font-family="Lato-Semibold, Lato" font-weight="600"><tspan x="0" y="0">Business Sign Up</tspan></text>
+    <g id="shop" transform="translate(1033.273 316.302)">
+      <g id="Group_17" data-name="Group 17" transform="translate(0 0)">
+        <path id="Path_6" data-name="Path 6" d="M253.958,263.75H250.11a1.911,1.911,0,0,0-1.91,1.91v2.951a1.911,1.911,0,0,0,1.91,1.91h3.848a1.911,1.911,0,0,0,1.91-1.91V265.66A1.911,1.911,0,0,0,253.958,263.75Zm.521,4.861a.522.522,0,0,1-.521.521H250.11a.522.522,0,0,1-.521-.521V265.66a.522.522,0,0,1,.521-.521h3.848a.522.522,0,0,1,.521.521Z" transform="translate(-233.838 -250.284)" fill="#fff"/>
+        <path id="Path_7" data-name="Path 7" d="M28.32,39.151a.645.645,0,0,0-.093-.341L24.015,31.4a.7.7,0,0,0-.6-.353H4.9a.686.686,0,0,0-.6.353L.093,38.81A.7.7,0,0,0,0,39.151a4.062,4.062,0,0,0,2.43,3.715V55.082a.7.7,0,0,0,.694.694H25.189a.7.7,0,0,0,.694-.694V42.953a.306.306,0,0,0-.006-.075A4.073,4.073,0,0,0,28.32,39.151ZM5.306,32.445h17.7L26.3,38.237H2.02ZM20.155,39.62a2.669,2.669,0,0,1-5.254,0Zm-6.73,0a2.672,2.672,0,0,1-5.26,0Zm-11.99,0H6.7a2.672,2.672,0,0,1-5.26,0ZM11.666,54.388H7.673V46.894a.989.989,0,0,1,.99-.99h2.02a.989.989,0,0,1,.99.99v7.494Zm12.829,0H13.055V46.894a2.382,2.382,0,0,0-2.378-2.378H8.657a2.382,2.382,0,0,0-2.378,2.378v7.5H3.819V43.208c.081.006.162.006.243.006A4.057,4.057,0,0,0,7.43,41.42a4.058,4.058,0,0,0,6.736,0,4.047,4.047,0,0,0,6.724,0,4.057,4.057,0,0,0,3.368,1.794c.081,0,.156-.006.237-.006v11.18Zm-.237-12.563a2.667,2.667,0,0,1-2.627-2.2h5.26A2.684,2.684,0,0,1,24.258,41.825Z" transform="translate(0 -31.05)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

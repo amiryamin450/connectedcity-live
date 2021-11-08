@@ -1,12 +1,13 @@
-<%= simple_form_for [@location, @product] do |f| %>
+<%= simple_form_for [@location, @product], :html => { :multipart => true, class: 'form-horizontal', id: 'fileupload' } do |f| %>
 <div class="form-inputs">
   <%= f.input :name %>
   <%= f.input :description, input_html: { class: 'input-block-level wysihtml5'} %>
   <%= f.input :price, as: :string %>
   <%= f.input :custom_pricing, as: :boolean %>
   <%= f.input :sku %>
+  <%= f.input :quantity %>
   <%= f.input :image, as: :logo_preview %>
-</div>
+  <%= render "product_images_fields", f: f %>
 <div class="form-actions">
   <%= f.button :submit, class: 'btn btn-primary' %>
   <%= link_to 'Cancel', location_products_path(@location), class: 'btn'  %>

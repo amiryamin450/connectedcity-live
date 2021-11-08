@@ -1,0 +1,114 @@
+<%= form_for(cart, local: true, id: "cart_form") do |form| %>
+    <% if cart.errors.any? %>
+    <div id="error_explanation">
+        <h2><%= pluralize(cart.errors.count, "error") %> prohibited this cart from being saved:</h2>
+        <ul>
+            <% cart.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+            <% end %>
+        </ul>
+    </div>
+    <% end %>
+    <div class="table-responsive shopping-cart">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">Subtotal</th>
+                    <th class="text-center">Discount</th>
+                    <th class="text-center">
+                        <a href="<%= cart_path(@cart)%>", class="btn btn-sm btn-outline-danger", data-method="delete", data-confirm="Are you sure?">Clear Cart</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <%= form.fields_for :line_items do |line_item| %>
+                    <% product = line_item.object.product %>
+                    <% location = product.location %>
+                    <tr>
+                        <td>
+                            <div class="product-item">
+                                <a class="product-thumb" href="<%= location_product_path(location, product)%>">
+                                    <% if line_item.object.product.image.present? %>
+                                        <%= image_tag line_item.object.product.image.url(:thumb), alt: line_item.object.product.name %>
+                                    <% end %>
+                                </a>
+                                <div class="product-info">
+                                    <h4 class="product-title">
+                                        <a href="<%= location_product_path(location, product)%>"><%= line_item.object.product.name %></a>
+                                    </h4>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <%= render 'layouts/quantity_buttons', line_item: line_item %>
+                        </td>
+                        <td class="text-center text-lg"><%= number_to_currency(line_item.object.total_price, unit: '$') %></td>
+                        <td class="text-center text-lg">$0.00</td>
+                        <td class="text-center">
+                            <a class="remove-from-cart" data-method="delete", data-confirm="Are you sure?"
+                                href="<%= line_item_path(line_item.object)%>" data-toggle="tooltip" title="" data-original-title="Remove item">
+                                <i class="icon-x"></i>
+                            </a>
+                        </td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+    <div class="shopping-cart-footer">
+        <div class="column text-lg"><span class="text-muted">Subtotal:&nbsp; </span><span
+                class="text-gray-dark"><%= number_to_currency(@cart.total_price, unit: "") %></span></div>
+    </div>
+    <div class="shopping-cart-footer">
+        <br>
+        <div class="column">
+            
+        </div>
+        <br>
+        <div class="column">
+            <%# <a class="btn btn-secondary" href="#" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-check-circle" data-toast-title="Your cart" data-toast-message="is updated successfully!">
+                Update Cart
+            </a> %>
+            <a class="btn btn-outline-secondary" href="<%= root_path%>"><i class="icon-arrow-left"></i>&nbsp;Back to Shopping</a>
+            <%= form.submit "Update Cart", class: "btn btn-secondary"%>
+        </div>
+    </div>
+<% end %>
+
+    <form action="http://0.0.0.0:4242/create-checkout-session" method="POST">
+        <input type="hidden" name="success_url" value="<%=edit_cart_path(cart)%>"/>
+        <input type="hidden" name="cancel_url" value="<%=edit_cart_path(cart)%>"/>
+        <% cart.line_items.each do |item| %>
+            <input type="hidden" name="line_items[][name]" value="<%=item.product.name%>"/>
+            <input type="hidden" name="line_items[][amount]" value="<%=item.product.price%>"/>
+            <input type="hidden" name="line_items[][quantity]" value="<%=item.quantity%>"/>
+        <% end %>
+        <button type="submit" id="submit" class="btn btn-primary">Checkout</button>
+    </form>
+<script>
+    function wcqib_refresh_quantity_increments() {
+        jQuery("div.quantity:not(.buttons_added), td.quantity:not(.buttons_added)").each(function (a, b) {
+            var c = jQuery(b);
+            c.addClass("buttons_added"), c.children().first().before('<input type="button" value="-" class="minus" />'), c.children().last().after('<input type="button" value="+" class="plus" />')
+        })
+    }
+    String.prototype.getDecimals || (String.prototype.getDecimals = function () {
+        var a = this,
+            b = ("" + a).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+        return b ? Math.max(0, (b[1] ? b[1].length : 0) - (b[2] ? +b[2] : 0)) : 0
+    }), jQuery(document).ready(function () {
+        wcqib_refresh_quantity_increments()
+    }), jQuery(document).on("updated_wc_div", function () {
+        wcqib_refresh_quantity_increments()
+    }), jQuery(document).on("click", ".plus, .minus", function () {
+        var a = jQuery(this).closest(".quantity").find(".qty"),
+            b = parseFloat(a.val()),
+            c = parseFloat(a.attr("max")),
+            d = parseFloat(a.attr("min")),
+            e = a.attr("step");
+        b && "" !== b && "NaN" !== b || (b = 0), "" !== c && "NaN" !== c || (c = ""), "" !== d && "NaN" !== d || (d = 0), "any" !== e && "" !== e && void 0 !== e && "NaN" !== parseFloat(e) || (e = 1), jQuery(this).is(".plus") ? c && b >= c ? a.val(c) : a.val((b + parseFloat(e)).toFixed(e.getDecimals())) : d && b <= d ? a.val(d) : b > 0 && a.val((b - parseFloat(e)).toFixed(e.getDecimals())), a.trigger("change")
+        $("#cart_form").submit();
+    });
+</script>
