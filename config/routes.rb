@@ -1,6 +1,10 @@
 Connectbook::Application.routes.draw do
 
-  resources :home
+  resources :home do
+    collection do
+      get :city_landing
+    end
+  end
 
   devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations"}
 
