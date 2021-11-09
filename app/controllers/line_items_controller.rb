@@ -1,5 +1,6 @@
 class LineItemsController < ApplicationController
-  before_filter :set_cart, only: [:create]
+  include CurrentCartHelper
+  before_filter :set_cart, only: [:create, :destroy]
   # GET /line_items
   # GET /line_items.json
   def index
