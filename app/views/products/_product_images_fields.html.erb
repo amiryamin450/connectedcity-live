@@ -49,94 +49,11 @@
     };
 </script>
 
-<!-- The template to display files available for upload -->
-<script id="template-upload" type="text/x-tmpl">
-  {% for (var i=0, file; file=o.files[i]; i++) { %}
-  <tr class="template-upload fade">
-    <td class="preview"><span class="fade"></span></td>
-    <td class="name"><span>{%=file.name%}</span></td>
-    <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-    {% if (file.error) { %}
-    <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
-    {% } else if (o.files.valid && !i) { %}
-    <td>
-      <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
-    </td>
-    <td class="start">{% if (!o.options.autoUpload) { %}
-      <button class="btn btn-primary">
-        <i class="icon-upload icon-white"></i>
-        <span>{%=locale.fileupload.start%}</span>
-      </button>
-      {% } %}</td>
-    {% } else { %}
-    <td colspan="2"></td>
-    {% } %}
-    <td class="cancel">{% if (!i) { %}
-      <button class="btn btn-warning">
-        <i class="icon-ban-circle icon-white"></i>
-        <span>{%=locale.fileupload.cancel%}</span>
-      </button>
-      {% } %}</td>
-  </tr>
-  {% } %}
-</script>
-<!-- The template to display files available for download -->
-<script id="template-download" type="text/x-tmpl">
-  {% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-download fade">
-      {% if (file.error) { %}
-        <td></td>
-        <td class="name"><span>{%=file.image_file_name%}</span></td>
-        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-        <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
-        {% } else { %}
-        <td class="preview">{% if (file.thumbnail_url) { %}
-          <a href="{%=file.url%}" title="{%=file.image_file_name%}" rel="gallery" download="{%=file.image_file_name%}"><img src="{%=file.thumbnail_url%}"></a>
-          {% } %}</td>
-        <td class="name">
-          <a href="{%=file.url%}" title="{%=file.image_file_name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.image_file_name%}">{%=file.name%}</a>
-        </td>
-        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-        <td colspan="2"></td>
-        {% } %}
-      <td class="delete">
-        <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
-          <i class="icon-trash icon-white"></i>
-          <span>{%=locale.fileupload.destroy%}</span>
-        </button>
-        <input type="checkbox" name="delete" value="1">
-      </td>
-    </tr>
-    {% } %}
-</script>
-
 <script type="text/javascript" charset="utf-8">
-    $(function () {
-        // Initialize the jQuery File Upload widget:
-        $('#fileupload').fileupload({
-            fileInput: $('#product_product_images_attributes_0_image')
-        });
-        //
-        // Load existing files:
-        // fix below for browser back/forward buttons when erroneous AJAX call was made to action
-        // when $('#fileupload').prop('action') was returning undefined. 
-        // # TODO: This partial should only be rendered when it's actually needed, instead of in the application layout.
-        var url = $('#fileupload').prop('action');
-        if(jQuery.type( url ) !== "undefined")
-        {
-          $.getJSON($('#fileupload').prop('action'), function (data) {
-              var fu = $('#fileupload').data('blueimpFileupload'),
-                      template;
-              fu._adjustMaxNumberOfFiles(-data.length);
-              template = fu._renderDownload(data)
-                      .appendTo($('#fileupload .files'));
-              // Force reflow:
-              fu._reflow = fu._transition && template.length &&
-                      template[0].offsetWidth;
-              template.addClass('in');
-              $('#loading').remove();
-          });
-        }
-
+  $(function () {
+    // Initialize the jQuery File Upload widget:
+    $('#fileupload').fileupload({
+        fileInput: $('#product_product_images_attributes_0_image')
     });
+  });
 </script>

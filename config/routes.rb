@@ -1,6 +1,10 @@
 Connectbook::Application.routes.draw do
 
-  resources :home
+  resources :home do
+    collection do
+      get :city_landing
+    end
+  end
 
   devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations"}
 
@@ -28,6 +32,7 @@ Connectbook::Application.routes.draw do
     resources :classified_listings, except: [:index, :show]
     resources :favorites, only: [:create, :destroy]
     resources :location_images, only: [:destroy]
+    resources :product_images, only: [:destroy]
 
     resources :business_improvement_areas, path: 'neighbourhoods', except: [:show] do
       resources :messages, only: [:new, :create]

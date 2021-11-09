@@ -1,5 +1,7 @@
 class CartsController < ApplicationController
-  before_filter :set_cart, only: [:show, :edit, :update, :destroy]
+  include CurrentCartHelper
+  before_filter :set_cart
+
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
   # GET /carts
   # GET /carts.json
