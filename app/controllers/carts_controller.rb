@@ -6,12 +6,7 @@ class CartsController < ApplicationController
   # GET /carts
   # GET /carts.json
   def index
-    @carts = Cart.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @carts }
-    end
+    redirect_to @cart, notice: 'Cart was successfully cleared.'
   end
 
   # GET /carts/1
