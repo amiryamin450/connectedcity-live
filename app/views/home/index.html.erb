@@ -37,46 +37,30 @@
         </div>
         <div class="searchbox">
           <div class="container">
-            <form action="#">
+            <%= form_tag "#{@base_path}search", class: 'search-form', method: :get do %>
               <div class="row">
                 <div class="col-lg-12">
                   <div class="row">
                     <div class="col-lg-4 col-md-3 col-sm-12 divider">
                       <label>&nbsp;</label>
-                      <input type="text" class="form-control search-column" placeholder="What are you looking for?">
+                      <%= search_field_tag :search, params[:search], placeholder: "What are you looking for?", class: "form-control search-column" %>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-12 divider">
                       <label>Categories</label>
-                      <select class="form-control search-column" id="#">
-                        <option>Select Category</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                      </select>
+                      <%= select_tag 'market', options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), prompt: 'all categories', class: 'form-control search-column' %>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-12 divider">
                       <label>Area</label>
-                      <select class="form-control search-column" id="#">
-                        <option>Select Area</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                        <option>Example one</option>
-                      </select>
+                      <%= select_tag 'business_improvement_area', options_from_collection_for_select(BusinessImprovementArea.all, 'id', 'name', @vertical_market.try(:id)), prompt: 'all places', class: 'form-control search-column' %>
                     </div>
                     <div class="col-lg-1 col-md-3 col-sm-12 search-btn">
                       <label>&nbsp;</label>
-                      <button type="button" class="btn btn-primary"><img src="/cc_2.0/icon/search-icon.svg"></button>
+                      <button type="submit" value="submit" class="btn btn-primary"><img src="/cc_2.0/icon/search-icon.svg"></button>
                     </div>
                   </div>
                 </div>
               </div>
-            </form>
+            <% end %>
           </div>
         </div>
       </div>
