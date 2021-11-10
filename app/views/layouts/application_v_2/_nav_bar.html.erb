@@ -7,30 +7,50 @@
       </button>
       <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
         <div class="navbar-nav mr-auto">
-          <a href="#" class="nav-item nav-link active">Home</a>
-          <a href="#" class="nav-item nav-link">Automotive</a>
-          <a href="#" class="nav-item nav-link">Business</a>
-          <a href="#" class="nav-item nav-link">Education</a>
-          <a href="#" class="nav-item nav-link">Electronics</a>
-          <a href="#" class="nav-item nav-link">Entertainment</a>
-          <a href="#" class="nav-item nav-link">Fashion</a>
-          <a href="#" class="nav-item nav-link">Food & Dining</a>
-          <a href="#" class="nav-item nav-link">Health & Beauty</a>
-          <a href="#" class="nav-item nav-link">Home Improvement</a>
-          <div class="nav-item dropdown">
+          <% klass = request.path == @base_path ? "nav-item nav-link active" : "nav-item nav-link"%>
+          <%= link_to "Home",  @base_path, class: klass %>
+          <% @vertical_markets_all.each_with_index do |vm, index| %>
+            <% if vm.has_children? %>
+              <div class="nav-item dropdown nav-bar-menu">
+                <% if @business_improvement_area %>
+                  <a href="<%=district_neighborhood_guide_path(@district_name, @slug, vm.slug)%>" class="nav-link" data-toggle="dropdown"><%=vm.name%></a>
+                <% elsif @district && @neighbourhood_slug %>
+                  <a href="<%=district_neighborhood_guide_path(@district.slug, @neighbourhood_slug, vm.slug)%>" class="nav-link" data-toggle="dropdown"><%=vm.name%></a>
+                <% else %>
+                  <a href=<%="#{@base_path}guide/#{vm.slug}"%> class="nav-link" data-toggle="dropdown"><%=vm.name%></a>
+                <% end %>
+
+                <div class="dropdown-menu">
+                  <% vm.children.sort_by(&:name).each do |child| %>
+                    <% if @business_improvement_area %>
+                      <%= link_to child.name, district_neighborhood_guide_path(@district_name, @slug, child.slug), class: "dropdown-item" %>
+                    <% else %>
+                      <% if @neighbourhood %>
+                        <%= link_to child.name, district_neighborhood_guide_path(@district, @neighbourhood.slug, child.slug), class: "dropdown-item" %>
+                      <% else %>
+                        <% if @district %>
+                          <%= link_to child.name, top_district_guide_path(@district, child.slug), class: "dropdown-item" %>
+                        <% else %>
+                          <%= link_to child.name, "#{@base_path}guide/#{child.slug}", class: "dropdown-item" %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+          <%# <div class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">More</a>
             <div class="dropdown-menu">
               <a href="#" class="dropdown-item">Page One</a>
-              <a href="#" class="dropdown-item">Page Two</a>
-              <a href="#" class="dropdown-item">Page Three</a>
-              <a href="#" class="dropdown-item">Page Four</a>
             </div>
-          </div>
+          </div> %>
         </div>
         <div class="navbar-nav ml-auto navbar-right">
-          <a href="#" class="nav-item nav-link">Jobs</a>
-          <a href="#" class="nav-item nav-link">Classfieds</a>
-          <a href="#" class="nav-item nav-link">News</a>
+          <a href="/employment-opportunities" class="nav-item nav-link">Jobs</a>
+          <a href="/classifieds" class="nav-item nav-link">Classfieds</a>
+          <a href=<%="#{@base_path}news"%> class="nav-item nav-link">News</a>
         </div>
       </div>
     </nav>
