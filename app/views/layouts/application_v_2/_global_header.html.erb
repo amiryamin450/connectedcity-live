@@ -4,7 +4,7 @@
       <div class="col-lg-4 col-md-12">
         <div class="logo">
           <a href="<%= root_path%>">
-            <img src="/cc_2.0/images/landing-page-logo.svg" alt="Logo">
+            <img src="/cc_2.0/images/logo.svg" alt="Logo">
           </a>
         </div>
       </div>
@@ -20,31 +20,25 @@
               </div>
             </div>
           </div>
-          <% if current_user.present? %>
-            <div class="col-1">
-                <div class="input-group-prepend user-dropdown dropleft">
-                  <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><img src="/cc_2.0/icon/landing-page-user-icon.svg"> <i class="far fa-chevron-down"></i></button>
-                  <div class="dropdown-menu">
-                    <%= link_to 'Edit account', edit_user_registration_path, class: "dropdown-item" %>
-                    <%= link_to 'My Classifieds', classified_listings_path, class: "dropdown-item" %>
-                    <%= link_to 'My Coupons', coupons_user_path(current_user), class: "dropdown-item" %>
-                    <div role="separator" class="dropdown-divider"></div>
-                    <%= link_to 'Logout', destroy_user_session_path, class: "dropdown-item", method: :delete %>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <% else %>
-            <div class="col-1">
+          
+          <div class="col-1">
               <div class="input-group-prepend user-dropdown dropleft">
                 <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><img src="/cc_2.0/icon/landing-page-user-icon.svg"> <i class="far fa-chevron-down"></i></button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="<%= cart_path(@cart)%>">My Cart</a>
+                <% if current_user.present? %>
+                  <%= link_to 'Edit account', edit_user_registration_path, class: "dropdown-item" %>
+                  <%= link_to 'My Classifieds', classified_listings_path, class: "dropdown-item" %>
+                  <%= link_to 'My Coupons', coupons_user_path(current_user), class: "dropdown-item" %>
+                <% end %>
+                  <%= link_to 'My Cart', cart_path(@cart), class: "dropdown-item" %>
+                <% if current_user.present? %>
+                  <div role="separator" class="dropdown-divider"></div>
+                  <%= link_to 'Logout', destroy_user_session_path, class: "dropdown-item", method: :delete %>
+                <% end %>
                 </div>
               </div>
             </div>
           </div>
-        <% end %>
       </div>
     </div>
   </div>
