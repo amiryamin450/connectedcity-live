@@ -12,28 +12,22 @@
       <div class="col-lg-8 col-md-7 d-none d-lg-block">
         <div class="row">
           <div class="col-7">
-            <div class="search-box">
-              <form action="">
+            <div class="search-box advance-search-box">
+              <%= form_tag "#{@base_path}search", class: 'search-form', method: :get do %>
                 <div class="input-group">
-                  <input type="text" class="form-control search-input" placeholder="What are you looking for?" aria-label="Search input with dropdown button">
-                  <div class="input-group-prepend search-dropdown">
-                    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select Category <i class="far fa-chevron-down"></i></button>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#">Category One</a>
-                      <a class="dropdown-item" href="#">Category Two</a>
-                      <a class="dropdown-item" href="#">Category Three</a>
-                      <div role="separator" class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated Category</a>
-                    </div>
+                  <%# <input type="text" class="form-control search-input" placeholder="What are you looking for?" aria-label="Search input with dropdown button"> %>
+                  <%= search_field_tag :search, params[:search], placeholder: "What are you looking for?", class: "form-control search-column" %>
+                  <div class="input-group-prepend search-box ">
+                    <%= select_tag 'market', options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), prompt: 'all categories', class: 'form-control' %>
                   </div>
                   <div class="input-group-append">
-                    <button class="btn search-box-btn" type="button"><img src="/cc_2.0/icon/search-icon.svg"></button>
+                    <button class="btn search-box-btn" type="submit"><img src="/cc_2.0/icon/search-icon.svg"></button>
                   </div>
                 </div>
-              </form>
+              <% end %>
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-3">
             <div class="input-group-prepend search-box ">
               <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select Location <i class="far fa-chevron-down"></i></button>
               <div class="dropdown-menu">
@@ -46,16 +40,36 @@
             </div>
           </div>
           <div class="col-1">
-            <div class="input-group-prepend user-dropdown dropleft">
-              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><img src="/cc_2.0/icon/user-icon.svg"> <i class="far fa-chevron-down"></i></button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Category One</a>
-                <a class="dropdown-item" href="#">Category Two</a>
-                <a class="dropdown-item" href="#">Category Three</a>
-                <div role="separator" class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated Category</a>
+            <div class="header-shopping-cart">
+              <% if @cart.line_items.count > 0 %>
+                <div class="cart-counter">
+                  <span><%= @cart.line_items.count %></span>
+                </div>
+              <% end %>
+              <div class="cart-icon">
+                <a href="<%= cart_path(@cart)%>"><img src="/cc_2.0/icon/shopping-cart.svg"></a>
               </div>
             </div>
+          </div>
+          <div class="col-1">
+            <% if current_user.present? %>
+              <div class="input-group-prepend user-dropdown dropleft">
+                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><img src="/cc_2.0/icon/user-blue-icon.svg"> <i class="far fa-chevron-down"></i></button>
+                <div class="dropdown-menu">
+                    <%= link_to 'Edit account', edit_user_registration_path, class: "dropdown-item" %>
+                    <%= link_to 'My Classifieds', classified_listings_path, class: "dropdown-item" %>
+                    <%= link_to 'My Coupons', coupons_user_path(current_user), class: "dropdown-item" %>
+                    <div role="separator" class="dropdown-divider"></div>
+                    <%= link_to 'Logout', destroy_user_session_path, class: "dropdown-item", method: :delete %>
+                </div>
+              </div>
+            <% else %>
+              <div class="header-shopping-cart">
+                <div class="cart-icon">
+                  <a href="<%= cart_path(@cart)%>"><img src="/cc_2.0/icon/user-icon.svg"></a>
+                </div>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>

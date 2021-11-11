@@ -37,7 +37,9 @@
             <% @city.business_improvement_areas.unscoped.order("RAND()").limit(6).each do |bia| %>
               <div>
                 <%# <img data-lazy="/cc_2.0/icon/slider-icon-1.jpg"> %>
-                <%= link_to(image_tag(bia.logo.url(:list)), bia) %>
+                <div class="district-slider-img">
+                  <%= link_to(image_tag(bia.logo.url(:list)), bia) %>
+                </div>
                 <p><%= link_to bia.name, bia %></p>
               </div>
             <% end %>
@@ -46,7 +48,7 @@
       </div>
       <!-- End -->
       <!-- Main Section Card -->
-      <div class="container">
+      <div class="container-fluid">
         <div class="row">
           <div class="col-md-4">
             <div class="update-card">
