@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>City Page</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <!-- Fevicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <%= metamagic site: "ConnectedCity",
+                title: ["Vancouver's Local Online Shopping Community", :site],
+                separator: " — ",
+                charset: "utf-8",
+                viewport: "width=device-width, initial-scale=1.0"
+    %>
+    <%= favicon_link_tag 'favicon.ico' %>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="/cc_2.0/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/cc_2.0/css/bootstrap.min.css">
