@@ -206,8 +206,11 @@
             <input type="search" placeholder="Search Districts">
           </div>
           <ul>
-            <% @city.business_improvement_areas.each do |bia| %>
-              <li><%= link_to bia.name, bia %></li>
+            <% @districts.each do |district| %>
+              <% district.business_improvement_areas.order("RAND()").limit(6).each do |bia| %>
+              <%# @city.business_improvement_areas.each do |bia| %>
+                <li><%= link_to bia.name, "/vancouver/#{district.slug}/neighbourhoods/#{bia.slug}" %></li>
+              <% end %>
             <% end %>
           </ul>
         </div>
