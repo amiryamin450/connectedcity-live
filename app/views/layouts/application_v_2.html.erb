@@ -96,6 +96,11 @@
       
         /* not needed, prevents page reload for SO example on menu link clicked */
         $('.nav-bar-menu a').on('click tap', e => e.preventDefault());
+
+        $(document).on("click",".nv-mn-lnk",function() {
+          console.log($(this).attr("href"));
+          window.location.href = $(this).attr("href")
+        });
       });
     </script>
   </body>

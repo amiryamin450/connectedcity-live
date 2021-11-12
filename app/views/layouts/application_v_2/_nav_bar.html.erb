@@ -13,25 +13,25 @@
             <% if vm.has_children? %>
               <div class="nav-item dropdown nav-bar-menu">
                 <% if @business_improvement_area %>
-                  <a href="<%=district_neighborhood_guide_path(@district_name, @slug, vm.slug)%>" class="nav-link" data-toggle="dropdown"><%=vm.name%></a>
+                  <a href="<%=district_neighborhood_guide_path(@district_name, @slug, vm.slug)%>" class="nav-link nv-mn-lnk" data-toggle="dropdown"><%=vm.name%></a>
                 <% elsif @district && @neighbourhood_slug %>
-                  <a href="<%=district_neighborhood_guide_path(@district.slug, @neighbourhood_slug, vm.slug)%>" class="nav-link" data-toggle="dropdown"><%=vm.name%></a>
+                  <a href="<%=district_neighborhood_guide_path(@district.slug, @neighbourhood_slug, vm.slug)%>" class="nav-link nv-mn-lnk" data-toggle="dropdown"><%=vm.name%></a>
                 <% else %>
-                  <a href=<%="#{@base_path}guide/#{vm.slug}"%> class="nav-link" data-toggle="dropdown"><%=vm.name%></a>
+                  <a href=<%="#{@base_path}guide/#{vm.slug}"%> class="nav-link nv-mn-lnk" data-toggle="dropdown"><%=vm.name%></a>
                 <% end %>
 
                 <div class="dropdown-menu">
                   <% vm.children.sort_by(&:name).each do |child| %>
                     <% if @business_improvement_area %>
-                      <%= link_to child.name, district_neighborhood_guide_path(@district_name, @slug, child.slug), class: "dropdown-item" %>
+                      <%= link_to child.name, district_neighborhood_guide_path(@district_name, @slug, child.slug), class: "dropdown-item nv-mn-lnk" %>
                     <% else %>
                       <% if @neighbourhood %>
-                        <%= link_to child.name, district_neighborhood_guide_path(@district, @neighbourhood.slug, child.slug), class: "dropdown-item" %>
+                        <%= link_to child.name, district_neighborhood_guide_path(@district, @neighbourhood.slug, child.slug), class: "dropdown-item nv-mn-lnk" %>
                       <% else %>
                         <% if @district %>
-                          <%= link_to child.name, top_district_guide_path(@district, child.slug), class: "dropdown-item" %>
+                          <%= link_to child.name, top_district_guide_path(@district, child.slug), class: "dropdown-item nv-mn-lnk" %>
                         <% else %>
-                          <%= link_to child.name, "#{@base_path}guide/#{child.slug}", class: "dropdown-item" %>
+                          <%= link_to child.name, "#{@base_path}guide/#{child.slug}", class: "dropdown-item nv-mn-lnk" %>
                         <% end %>
                       <% end %>
                     <% end %>
