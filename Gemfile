@@ -1,7 +1,18 @@
 source 'https://rubygems.org'
+ruby '2.7.1'
+source 'https://transcona_media_network_inc_048:xVCxmZzWJ6a__s7h@gems.railslts.com' do
+  gem 'rails', '~> 3.2.22'
+  gem 'actionmailer',     :require => false
+  gem 'actionpack',       :require => false
+  gem 'activemodel',      :require => false
+  gem 'activerecord',     :require => false
+  gem 'activeresource',   :require => false
+  gem 'activesupport',    :require => false
+  gem 'railties',         :require => false
+  gem 'railslts-version', :require => false
+end
 
 # gem 'tire'
-gem 'activerecord-mysql2spatial-adapter'
 gem 'ancestry'
 gem 'auto_html'
 gem 'bootstrap-datetimepicker-rails'
@@ -27,14 +38,15 @@ gem 'mailboxer'
 gem 'mechanize'
 gem 'metamagic'
 gem 'money-rails'
-gem 'mysql2', '~> 0.3.20'
+# gem 'mysql2', '~> 0.3.20'
+gem 'mysql2', git: 'https://github.com/makandra/mysql2', branch: '0.3.x-lts'
+gem 'activerecord-mysql2spatial-adapter'
 gem 'nokogiri'
 gem 'oauth'
 gem 'omniauth-facebook'
 gem 'paperclip'
 gem 'progress_bar'
-gem 'rails_config'
-gem 'rails'
+gem 'config', github: 'railsconfig/config'
 gem 'ransack'
 gem 'rgeo-activerecord'
 gem 'rgeo'
@@ -53,11 +65,13 @@ gem 'twitter'
 gem 'underscore-rails'
 gem 'whenever'
 gem 'yaml_db'
-gem 'haml',                       '~> 4.0.6'
+gem 'haml', '~> 4.0.6'
+gem 'puma'
+gem 'test-unit', '~> 3.0'
+gem 'rake', '< 11'
 
 group :production, :staging do
   gem 'aws-sdk'
-  gem 'puma'
 end
 
 group :assets do
@@ -73,8 +87,6 @@ end
 group :development, :test do
   # gem 'activerecord-postgis-adapter'
   # gem 'pg'
-  gem 'better_errors'
-  gem 'binding_of_caller'
   gem 'factory_girl_rails'
   gem 'meta_request'
   gem 'rspec-rails'
@@ -92,13 +104,12 @@ group :test do
 end
 
 group :development do
-  gem 'byebug'
   gem 'capistrano', '< 3.0.0'
-  gem 'pry'
-  gem 'pry-byebug'
-  gem 'pry-rails'
   gem 'quiet_assets'
   gem 'rvm-capistrano', require: false
   gem 'seed_dump'
-  gem 'thin'
+  # gem 'pry'
+  # gem 'byebug'
+  # gem 'pry-byebug'
+  # gem 'pry-rails'
 end

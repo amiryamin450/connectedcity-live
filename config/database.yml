@@ -4,7 +4,8 @@ development: &defaults
   database: connectedcity_<%= Rails.env %><% if Settings.db_password %>
   password: <%= Settings.db_password %><% end %>
   pool: 32
-  username: root
+  username: connectedcity
+  password: password
   host: <%= Settings.db_host %>
 
 test: &test
