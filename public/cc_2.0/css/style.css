@@ -816,7 +816,7 @@ a:focus {
 }
 
 .footer::after {
-    content: url('../icon/footer-icon.svg');
+    content: url('../icon/footer-icon.png');
     position: absolute;
     right: 0;
     top: 0;
@@ -847,6 +847,11 @@ a:focus {
     color: #fff;
     font-weight: 300;
     font-size: 16px;
+    z-index: 99999;
+}
+
+.footer-link ul li a{
+    color: #fff;
 }
 
 .footer-link ul li::after {
