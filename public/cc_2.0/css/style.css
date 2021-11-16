@@ -518,6 +518,12 @@ a:focus {
     margin: 10px 0px;
     font-size: 14px;
     font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    max-height: 50px;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 }
 
 .district-slider .inner-slider .slick-slide img {
