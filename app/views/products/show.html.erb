@@ -1,9 +1,17 @@
 <!-- Breadcrumb -->
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="#">Home</a></li>
-      <li class="breadcrumb-item"><a href="#">Fashion Guide</a></li>
-      <li class="breadcrumb-item"><a href="#">Product</a></li>
+      <li class="breadcrumb-item"><a href="<%=root_path%>">Home</a></li>
+      <% if @product.location.district %>
+        <li class="breadcrumb-item"><a href="<%=district_guide_path(@product.location.district)%>"><%=@product.location.district.name%></a></li>
+      <% end %>
+      <% if @product.location.neighborhood %>
+        <li class="breadcrumb-item"><%=@product.location.neighborhood.name%></li>
+      <% end %>
+      <% if @product.location.broker.present? %>
+        <li class="breadcrumb-item"><a href=<%= "#{@base_path}business/#{@product.location.broker.slug}"%>><%=@product.location.broker.name%></a></li>
+      <% end %>
+      <li class="breadcrumb-item"><a href=<%="#{@base_path}business/#{@product.location.slug}"%>><%= @product.location.name %></a></li>
       <li class="breadcrumb-item active" aria-current="page"><a href="#"><%= @product.name %></a></li>
     </ol>
 </nav>
@@ -43,6 +51,7 @@
               <%# <button type="button" class="btn btn-primary"><img src="./icon/shopping-cart.svg">Add to Cart</button> %>
               <form action="<%=line_items_path(product_id: @product)%>" method="post">
                 <input type="hidden" name="quantity" id="line_item_quantity" value="1"/>
+                <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
                 <button type="submit" class="btn btn-primary"><img src="/cc_2.0/icon/shopping-cart.svg">Add to Cart</button>
               </form>
               <%#= link_to 'Add to Cart', line_items_path(product_id: @product, quantity: 1), id: "btn_add_to_cart", class: "btn btn-primary", method: :post %>
