@@ -118,8 +118,11 @@
                       </div>
                     </div>
                     <div class="col-md-12">
-                      <div class="update-banner">
+                      <div class="update-banner video-card">
                         <%= link_to(image_tag(media_attachment.thumb_url), [media_attachment.attachable, media_attachment]) %>
+                        <div class="card-video-box">
+                          <i class="far fa-play-circle" data-toggle="modal" data-target="#video-modal"></i>
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -15,7 +15,7 @@ class ProductsController < ApplicationController
     add_crumb @product.name
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { render layout: "application_v_2"}
       format.json { render json:  @product.product_images.map{|file| file.to_jq_upload }.to_json(include: :product_images)  }
     end
   end

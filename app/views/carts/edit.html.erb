@@ -1,18 +1,19 @@
-<%if @cart.line_items.present? %>
-    <div class="container padding-bottom-3x mb-1">
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="#">Cart</a></li>
+  </ol>
+</nav>
+<!-- Breadcrumb End -->
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <%if @cart.line_items.present? %>
         <%= render 'form', cart: @cart %>
+      <% else %>
+      <% end %>
     </div>
-<% else %>
-    <!-- Page Content-->
-    <div class="container padding-bottom-3x mb-2">
-        <div class="card text-center">
-            <div class="card-body padding-top-2x">
-            <h3 class="card-title">Your cart is empty!</h3>
-            <p class="card-text"></p>    
-            <div class="padding-top-1x padding-bottom-1x">
-                <a class="btn btn-outline-secondary" href="<%= root_path%>">Go Back Shopping</a>
-            </div>
-        </div>
-        </div>
-    </div>
-<% end %>
+  </div>
+</div>

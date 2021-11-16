@@ -1,6 +1,7 @@
 class CartsController < ApplicationController
   include CurrentCartHelper
   before_filter :set_cart
+  layout "application_v_2"
 
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
   # GET /carts

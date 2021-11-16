@@ -145,8 +145,8 @@
 
 <div class="landing-page-three-column-section">
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-4 column-1">
+    <div class="row justify-content-between">
+      <div class="col-md-3 column-1">
         <div class="update-card">
           <div class="update-heading">
             <h3>Updates</h3>
@@ -154,8 +154,10 @@
           <% if @status_updates.size > 0 %>
             <% @status_updates.each do |status_update|%>
               <div class="row">
-                <div class="inner-img col-md-3 col-4">
-                  <%= image_tag status_update.statusable.logo.url %>
+                <div class="col-md-3 col-4">
+                  <div class="inner-img">
+                    <%= image_tag status_update.statusable.logo.url %>
+                  </div>
                 </div>
                 <div class="col-md-9 col-8">
                   <div class="row">
@@ -188,7 +190,7 @@
         </div>
       </div>
       <!-- End -->
-      <div class="col-md-4 column-2">
+      <div class="col-md-3 column-2">
         <div class="event-card">
           <div class="event-heading">
             <h3>Videos</h3>
@@ -196,8 +198,10 @@
           <% if @media_attachments.size > 0 %>
             <% @media_attachments.each do |media_attachment| %>
               <div class="row">
-                <div class="inner-img col-md-3 col-4">
-                  <%= image_tag media_attachment.attachable.logo.url %>
+                <div class="col-md-3 col-4">
+                 <div class="inner-img">
+                    <%= image_tag media_attachment.attachable.logo.url %>
+                  </div>
                 </div>
                 <div class="col-md-9 col-8">
                   <div class="row">
@@ -213,8 +217,11 @@
                   </div>
                 </div>
                 <div class="col-md-12">
-                  <div class="update-banner">
+                  <div class="update-banner video-card">
                     <%= link_to(image_tag(media_attachment.thumb_url), [media_attachment.attachable, media_attachment]) %>
+                    <div class="card-video-box">
+                      <i class="far fa-play-circle" data-toggle="modal" data-target="#video-modal"></i>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -226,7 +233,7 @@
         </div>
       </div>
       <!-- End -->
-      <div class="col-md-4 column-3">
+      <div class="col-md-3 column-3">
         <div class="event-card">
           <div class="event-heading">
             <h3>Events</h3>
@@ -234,8 +241,10 @@
             <% if @events.any? %>
               <% @events.each do |event|%>
                 <div class="row">
-                  <div class="inner-img col-md-3 col-4">
-                    <%= image_tag event.location.logo.url %>
+                  <div class="col-md-3 col-4">
+                    <div class="inner-img">
+                      <%= image_tag event.location.logo.url %>
+                    </div>
                   </div>
                   <div class="col-md-9 col-8">
                     <div class="row">
@@ -275,13 +284,6 @@
 <%= render "/layouts/application_v_2/global_footer" %>
 <!-- End -->
 <!-- Script -->
-<script src="/cc_2.0/js/jquery-3.4.1.min.js"></script>
-<script src="/cc_2.0/js/jquery-3.4.1.slim.min.js"></script>
-<script src="/cc_2.0/js/popper.min.js"></script>
-<script type="text/javascript" src="/cc_2.0/js/bootstrap.js"></script>
-<script type="text/javascript" src="/cc_2.0/js/bootstrap-min.js"></script>
-<script type="text/javascript" src="/cc_2.0/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="/cc_2.0/js/slick.min.js"></script>
 <!-- Carousel -->
 <script type="text/javascript">
     $(document).ready(function(){
@@ -316,7 +318,4 @@
             ]
         });
     });
-
-
-
 </script>
