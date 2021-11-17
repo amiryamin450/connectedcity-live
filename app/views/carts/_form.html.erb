@@ -74,7 +74,10 @@
       <a href="<%= root_path%>" class="btn btn-outline-primary btn-shopping">Go Back to Shopping</a>
     </div>
     <div class="col-md-2">
-      <a href="<%= cart_path(@cart)%>" class="btn btn-outline-primary btn-clear-cart" data-method="delete" data-confirm="Are you sure?">Clear Cart</a>
+      <form action="<%= cart_path(@cart)%>" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit" class="btn btn-outline-primary btn-clear-cart">Clear Cart</button>
+      </form>
     </div>
     <div class="col-md-3">
     </div>
