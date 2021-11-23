@@ -1,0 +1,69 @@
+
+@import "leaflet/leaflet";
+@import "leaflet/MarkerCluster";
+@import "leaflet/MarkerCluster.Default";
+
+.profile-map {
+  height: 150px;
+}
+
+/*extra css */
+
+.footer-link ul li a {
+  list-style: none;
+  color: #fff;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.location-info-popup h2 a {
+  font-size: 1rem !important;
+  font-weight: bold;
+}
+
+.location-info-popup .address-line {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+.location-info-popup .operating-hours h2 {
+  font-size: 1rem !important;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.location-info-popup .operating-hours dl {
+
+}
+
+.location-info-popup .operating-hours dt {
+  float: left;
+  width: 80px;
+  clear: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 14px;
+}
+
+.location-info-popup .operating-hours dd {
+  margin-left: 100px;
+  line-height: 14px;
+}
+
+#status_update_image .modal-body .profile-map {
+  height: 150px;
+}
+
+.scrollable {
+  max-height: 1000px;
+  overflow-y: auto;
+}
+
+.location-info-popup {
+  .follow_button_image {
+    width: 90px;
+    height: 35px;
+  }
+}
+
