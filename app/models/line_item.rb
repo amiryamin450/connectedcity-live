@@ -4,6 +4,6 @@ class LineItem < ActiveRecord::Base
   attr_accessible :quantity, :product_id, :cart_id
 
   def total_price
-    product.price * quantity
+    (product.price - product.discount) * quantity
   end
 end

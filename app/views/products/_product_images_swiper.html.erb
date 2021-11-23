@@ -9,6 +9,9 @@
   <% end %>
 </div>
 <div id="thumb" class="owl-carousel product-thumb">
+  <div class="item">
+    <img src="<%= @product.image.url(:display)%>" />
+  </div>
   <% @product.product_images.each do |image|%>
     <div class="item">
       <img src="<%= image.image.url(:display)%>" />

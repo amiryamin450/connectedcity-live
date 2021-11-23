@@ -63,6 +63,16 @@ class CartsController < ApplicationController
     end
   end
 
+  def clear
+    @cart = Cart.find(params[:id])
+    @cart.line_items.delete_all
+
+    respond_to do |format|
+      format.html { redirect_to @cart }
+      format.json { head :no_content }
+    end
+  end
+
   # DELETE /carts/1
   # DELETE /carts/1.json
   def destroy

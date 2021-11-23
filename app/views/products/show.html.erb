@@ -35,7 +35,9 @@
             <div class="product-price">
               <h6>Price:</h6>
               <h5><%= display_pricing @product %></h5>
-              <h4><s>$200</s></h4>
+              <% if @product.discount > 0 %>
+                <h4><s><%= number_to_currency @product.price %></s></h4>
+              <% end %>
             </div>
             <div class="divider"></div>
             <div class="product-quanitity">

@@ -21,11 +21,15 @@
             <div class="py-2">Quanitity</div>
           </th>
           <th scope="col">
-            <div class="py-2">Subtotal</div>
+            <div class="py-2">Unit price</div>
           </th>
           <th scope="col">
             <div class="py-2">Discount</div>
           </th>
+          <th scope="col">
+            <div class="py-2">Subtotal</div>
+          </th>
+
           <th scope="col">
             <div class="py-2">Action</div>
           </th>
@@ -57,9 +61,12 @@
                 <input type='button' value='+' class='qtyplus' />
               </div>
             </td>
+            <td class="align-middle"><%= number_to_currency(product.price, unit: '$') %></td>
+            <td class="align-middle"><%= number_to_currency(product.discount, unit: '$') %></td>
             <td class="align-middle"><%= number_to_currency(line_item.object.total_price, unit: '$') %></td>
-            <td class="align-middle">$0.00</td>
-            <td class="align-middle"><a href="#" class="text-dark"><i class="far fa-trash-alt"></i></a></td>
+            <td class="align-middle">
+              <a href="<%= line_item_path(line_item.object)%>" method= "delete" class="text-dark"><i class="far fa-trash-alt"></i></a>
+            </td>
           </tr>
         <% end %>  
       </tbody>
@@ -74,8 +81,8 @@
       <a href="<%= root_path%>" class="btn btn-outline-primary btn-shopping">Go Back to Shopping</a>
     </div>
     <div class="col-md-2">
-      <form action="<%= cart_path(@cart)%>" method="post">
-        <input type="hidden" name="_method" value="DELETE">
+      <form action="<%= clear_cart_path(@cart)%>" method="POST">
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
         <button type="submit" class="btn btn-outline-primary btn-clear-cart">Clear Cart</button>
       </form>
     </div>

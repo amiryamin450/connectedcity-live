@@ -18,7 +18,11 @@ Connectbook::Application.routes.draw do
   end
 
   resources :line_items
-  resources :carts
+  resources :carts do
+    member do
+      post :clear
+    end
+  end
 
   # Routes that require authentication.
   authenticate :user do

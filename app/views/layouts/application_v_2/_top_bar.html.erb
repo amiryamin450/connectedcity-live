@@ -43,7 +43,7 @@
             <div class="header-shopping-cart">
               <% if @cart.line_items.count > 0 %>
                 <div class="cart-counter">
-                  <span><%= @cart.line_items.count %></span>
+                  <span><%= @cart.line_items.to_a.sum { |item| item.quantity } %></span>
                 </div>
               <% end %>
               <div class="cart-icon">

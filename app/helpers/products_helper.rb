@@ -4,7 +4,7 @@ module ProductsHelper
 	  if product.custom_pricing === true
 	    "Call for Details"
 	  else
-	    number_to_currency product.price
+	    number_to_currency product.price - product.discount
 	  end
 	else
 	 ""
