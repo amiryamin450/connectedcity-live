@@ -67,3 +67,24 @@
   }
 }
 
+.communities .dropdown-toggle {
+  color: #000000;
+  width: 100%;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  background-color: transparent;
+  text-align: left;
+  margin: 3px;
+  display: flex;
+  font-size: 18px;
+  justify-content: space-between;
+}
+
+.sticky-heading {
+  position: sticky;
+  top: 0px;
+  height: 50px;
+  background-color: #fff;
+  z-index: 1;
+}
