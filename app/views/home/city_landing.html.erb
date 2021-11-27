@@ -119,7 +119,7 @@
                   </div>
                 </div>
                 <div class="inner-card-description">
-                  <p><%= status_update.content.truncate(255) %>
+                  <p><%= status_update.content.truncate(255).html_safe %>
                     <%= link_to "View More", "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
                   </p>
                 </div>
@@ -208,7 +208,7 @@
                   </div>
                 </div>
                 <div class="inner-card-description">
-                  <p><%= truncate_html( event.description, :length => 255 ) %>
+                  <p><%= truncate_html( event.description, :length => 255 ).html_safe %>
                     <%= link_to "View More", "#", class: "status-update-image", data: { target: "#event-#{event.id}-model", toggle: 'modal'} %>
                   </p>
                 </div>
@@ -253,7 +253,7 @@
                   </div>
                 </div>
                 <div class="inner-card-description">
-                  <p><%= news.content.truncate(255) %>
+                  <p><%= news.content.truncate(255).html_safe %>
                     <%= link_to "View More", "#", class: "news-update-image", data: { target: "#news-#{news.id}-model", toggle: 'modal'} %>
                   </p>
                 </div>
