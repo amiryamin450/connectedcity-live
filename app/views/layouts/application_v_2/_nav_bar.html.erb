@@ -92,6 +92,12 @@
     } else {
       $('.more').css('display','none');
     }
+
+    $('.more > ul > li > ul > li').each(function( index ) {
+      if ($(this).attr('data-width') > 0 ){
+        $(this).remove();
+      }
+    });
   }
 
   $(document).ready(function(){
