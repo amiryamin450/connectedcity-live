@@ -40,7 +40,7 @@
         <div class="communities">
           <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Communities in <%= @city.name %>
+              Select Community
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <% @districts.each do |district| %>
@@ -53,11 +53,13 @@
         <div class="communities">
           <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Shopping Districts
+              Select Neighbourhood
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <% @city.business_improvement_areas.each do |bia| %>
-                <%= link_to bia.name, bia, class: "dropdown-item" %>
+              <% @districts.each do |district| %>
+                <% district.business_improvement_areas.each do |bia| %>
+                  <%= link_to bia.name, "/vancouver/#{district.slug}/neighbourhoods/#{bia.slug}", class: "dropdown-item" %>
+                <% end %>
               <% end %>
             </div>
           </div>
@@ -67,8 +69,8 @@
   </div>
 </div><br>
 <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
+  <div class="row">
+    <div class="col-md-12">
       <!-- Shopping District Slider -->
       <div class="district-slider">
         <div class="slider-heading">
@@ -80,16 +82,16 @@
               <div>
                 <%# <img data-lazy="/cc_2.0/icon/slider-icon-1.jpg"> %>
                 <div class="district-slider-img">
-                  <%= link_to(image_tag(bia.logo.url(:list)), bia) %>
+                  <%= link_to(image_tag(bia.logo.url(:list)), "/vancouver/#{bia.district.slug}/neighbourhoods/#{bia.slug}") %>
                 </div>
-                <p><%= link_to bia.name, bia %></p>
+                <p><%= link_to bia.name, "/vancouver/#{bia.district.slug}/neighbourhoods/#{bia.slug}" %></p>
               </div>
             <% end %>
           </div>
         </div>
       </div>
       <!-- End -->
-  </div>
+    </div>
   </div>
 </div>
 <!-- Main Section Card -->
@@ -142,7 +144,7 @@
     </div>
 
     <div class="col-md-3 scrollable">
-       <div class="sticky-heading">
+      <div class="sticky-heading">
         <div class="update-heading">
           <h3>Videos</h3>
         </div>
@@ -204,7 +206,7 @@
                     <h5><%= link_to event.name, [event.location, event] %></h5>
                   </div>
                   <div class="inner-card-time col-md-5">
-                    <span><% if event.starts_at.present? %><span class="time-ago">in <%= "#{time_ago_in_words(event.starts_at)}" %><% end %></span>
+                    <% if event.starts_at.present? %><span class="time-ago">in <%= "#{time_ago_in_words(event.starts_at)}" %><% end %></span>
                   </div>
                 </div>
                 <div class="inner-card-description">
@@ -229,7 +231,7 @@
         <% end %>
       </div>
     </div>
-  
+
     <div class="col-md-3 scrollable">
       <div class="sticky-heading">
         <div class="update-heading">

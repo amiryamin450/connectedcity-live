@@ -18,13 +18,16 @@ class BusinessImprovementAreasController < ApplicationController
   def show
     @status_updates = @business_improvement_area.all_status_updates.limit(PER_PAGE)
     @tag_cloud = @business_improvement_area.vertical_market_categories.map { |vm| { text: vm.name, weight: vm.locations.where(business_improvement_area_id: @business_improvement_area.id).size, link: url_for([@business_improvement_area, vm]) }}.compact
-
+    @districts = []
+    @media_attachments = []
+    @news = []
+    @events = []
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb @business_improvement_area.district.name, district_guide_path(@business_improvement_area.district) if @business_improvement_area.district
     add_crumb @business_improvement_area.name
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { render layout: "application_v_2" }
       format.json { render json: @business_improvement_area }
     end
   end

@@ -46,10 +46,13 @@ class DistrictsController < ApplicationController
 
       @status_updates = @district.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
       @events = @district.events.order(:starts_at).limit(PER_PAGE)
+      @media_attachments = []
+      @news = []
       add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
       add_crumb @district.name
     else
         send_file("#{Rails.root}/public/sitemap.xml", filename: "sitemap.xml", type: "application/xml")
     end
+    render layout: "application_v_2"
   end
 end

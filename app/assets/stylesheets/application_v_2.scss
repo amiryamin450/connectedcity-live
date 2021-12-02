@@ -1,4 +1,3 @@
-
 @import "leaflet/leaflet";
 @import "leaflet/MarkerCluster";
 @import "leaflet/MarkerCluster.Default";
@@ -33,7 +32,6 @@
 }
 
 .location-info-popup .operating-hours dl {
-
 }
 
 .location-info-popup .operating-hours dt {
@@ -61,24 +59,24 @@
 }
 
 .location-info-popup {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 
   .follow_button_image {
     width: 90px;
     height: 35px;
   }
-  
- .operating-hours h2 {
+
+  .operating-hours h2 {
     font-size: 1rem !important;
     margin-top: 15px;
     font-weight: 600;
     margin-bottom: 15px;
   }
-  
+
   b {
-    font-weight: 400;;
-    font-family: 'Lato', sans-serif;
-  } 
+    font-weight: 400;
+    font-family: "Lato", sans-serif;
+  }
 }
 
 .communities .dropdown-toggle {
@@ -103,7 +101,6 @@
   z-index: 1;
 }
 
- 
 /* custom scrollbar */
 .scrollable::-webkit-scrollbar {
   width: 20px;
@@ -122,4 +119,144 @@
 
 .scrollable::-webkit-scrollbar-thumb:hover {
   background-color: #a8bbbf;
+}
+
+// CLEARFIX
+
+#nav-main {
+  *zoom: 1;
+
+  &:before,
+  &:after {
+    display: table;
+    content: "";
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+#nav-main {
+  background: #4e84c4;
+  clear: both;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px 240px 10px 15px;
+  position: relative;
+  width: 100%;
+
+  > ul {
+    float: left;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    z-index: 5;
+  }
+
+  > ul > li {
+    color: #ffffff;
+    background: none;
+    float: left;
+    margin-bottom: 0;
+    padding: 10px 10px;
+    position: relative;
+    font-weight: 500;
+    letter-spacing: 1px;
+
+    &.hidden {
+      display: none;
+    }
+
+    &:hover {
+      background: none;
+
+      ul {
+        display: block;
+      }
+    }
+  }
+
+  a {
+    color: #fff;
+    display: block;
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  ul ul {
+    background: #ffffff;
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 15px 0 0;
+    position: absolute;
+    top: 100%;
+    right: -30;
+    z-index: 99;
+
+    a {
+      color: black;
+      margin-bottom: 15px;
+      padding: 0 15px;
+      white-space: nowrap;
+    }
+
+    :before {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: 27px;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+      display: none;
+    }
+  }
+
+  .more {
+    ul li ul {
+      display: none;
+
+      &:hover {
+  
+        ul {
+          display: block;
+        }
+      }
+    }
+
+    ul li {
+      &:hover {
+        ul {
+          display: block;
+          float: right;
+          position: absolute;
+          left: auto;
+          top: 12px;
+          right: -200px;
+        }
+      }
+    }
+
+  }
+}
+.menu-nav-right {
+  background-color: #7aaede;
+  position: absolute;
+  top: 0;
+  right: 0px;
+  bottom: 0;
+  a {
+    color: #ffffff;
+    padding: 20px 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    float: right;
+  }
 }
