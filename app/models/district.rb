@@ -7,6 +7,7 @@ class District < ActiveRecord::Base
 
   has_many :status_updates
   has_many :news_articles, through: :locations, uniq: true
+  has_many :media_attachments, through: :locations, uniq: true
   has_many :events, through: :locations, uniq: true
   has_many :carousel_images, as: :carouselable
   has_many :city_news_articles

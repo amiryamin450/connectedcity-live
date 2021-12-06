@@ -18,10 +18,9 @@ class BusinessImprovementAreasController < ApplicationController
   def show
     @status_updates = @business_improvement_area.all_status_updates.limit(PER_PAGE)
     @tag_cloud = @business_improvement_area.vertical_market_categories.map { |vm| { text: vm.name, weight: vm.locations.where(business_improvement_area_id: @business_improvement_area.id).size, link: url_for([@business_improvement_area, vm]) }}.compact
-    @districts = []
-    @events = @district.events.order(:starts_at).limit(PER_PAGE)
-    @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
-    @news = @city.news_articles.where(newsable_type: "Location").limit(PER_PAGE)
+    @events = @business_improvement_area.events.limit(200).order(:starts_at)
+    @media_attachments = @business_improvement_area.media_attachments.limit(200).order('created_at DESC')
+    @news = @business_improvement_area.news_articles.limit(PER_PAGE).order(:created_at)
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb @business_improvement_area.district.name, district_guide_path(@business_improvement_area.district) if @business_improvement_area.district
     add_crumb @business_improvement_area.name
