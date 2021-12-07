@@ -88,6 +88,7 @@ class VerticalMarketsController < ApplicationController
     end
 
     add_crumb "#{@vertical_market.name} Guide"
+    render layout: "application_v_2"
   end
 
   def search

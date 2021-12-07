@@ -1,1 +1,70 @@
-<%= render 'guide/vertical_market_categories', :type_arg => 'country' %>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="<%= root_path %>">Home</a></li>
+      <%if @district %>
+        <li class="breadcrumb-item active" aria-current="page"><a href="#"><%=@district.name%></a></li>
+      <% end %>
+      <%if @neighborhood %>
+        <li class="breadcrumb-item" aria-current="page"><%= @neighborhood.name%></li>
+      <% end %>
+      <% @vertical_market.ancestors.each do |ancestor| %>
+        add_crumb , 
+        <li class="breadcrumb-item active" aria-current="page"><a href="<%="#{@base_path}guide/#{ancestor.slug}"%>"><%=ancestor.name%></a></li>
+      <%end%>
+      <li class="breadcrumb-item" aria-current="page"><a href="#"><%= " #{@vertical_market.name} Guide" %></a></li>
+    </ol>
+</nav>
+<!-- Breadcrumb End -->
+<div class="category-body-section">
+    <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+            <!--  Category -->
+            <div class="page-title">
+                <h3>Browse Fashion In Vancouver</h3>
+            </div>
+            <!-- End -->
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-4">
+            <div class="category-sidebar">
+                <div class="map-section">
+                  <div id="map"></div>
+                </div>
+                <div class="SideBar-tabs">
+                  <%= render 'layouts/application_v_2/guide_sidebar' %>
+                </div>
+            </div>
+          </div>
+          <!-- SideBar End -->
+          <div class="col-md-8">
+            <div class="category-body">
+              <br>
+              <div class="search-box advance-search-box">
+                <form action="">
+                    <div class="input-group">
+                      <input type="text" class="form-control search-input" placeholder="What are you looking for?" aria-label="Search input with dropdown button">
+                      <div class="input-group-prepend search-dropdown">
+                          <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Automotive <i class="far fa-chevron-down"></i></button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Category One</a>
+                            <a class="dropdown-item" href="#">Category Two</a>
+                            <a class="dropdown-item" href="#">Category Three</a>
+                            <div role="separator" class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated Category</a>
+                          </div>
+                      </div>
+                      <div class="input-group-append">
+                          <button class="btn search-box-btn" type="button"><img src="./icon/search-icon.svg"></button>
+                      </div>
+                    </div>
+                </form>
+              </div>
+              <%= render 'guide/vertical_market_categories', :type_arg => 'country' %>
+            </div>
+          </div>
+      </div>
+    </div>
+</div>
+<br>

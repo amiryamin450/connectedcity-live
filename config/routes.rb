@@ -304,7 +304,7 @@ Connectbook::Application.routes.draw do
   get "events" => 'cities#events', as: :events_cities
   get "media_attachments" => 'cities#media_attachments', as: :media_attachments_cities
 
-  root to: 'cities#homepage'
+  root to: 'home#index'
 
   #I'm hard-coding these Marketing URLs for now...
   #The idea is to have connectedcity.com/kitsilano but having this interferes with the district route.
