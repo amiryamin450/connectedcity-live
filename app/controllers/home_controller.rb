@@ -10,6 +10,7 @@ class HomeController < ApplicationController
     @events = @city.events.order(:starts_at).limit(PER_PAGE)
     @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
     @districts = @city.districts
+    @news = @city.news_articles.where(newsable_type: "Location").limit(PER_PAGE)
   end
 
   def city_landing

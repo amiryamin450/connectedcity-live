@@ -54,77 +54,28 @@
           <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
               <% @districts.each_with_index do |district, index| %>
-                <a class="nav-item <%= index == 0 ? 'active' : ''%>" id="<%=district.name.underscore%>-tab" data-toggle="tab" href="#<%=district.name.underscore%>" role="tab" aria-controls="<%=district.name.underscore%>" aria-selected="true"><%=district.name%></a>
+                <a class="nav-item <%= index == 0 ? 'active' : ''%>" id="<%=district.name.parameterize%>-tab" data-toggle="tab" href="#<%=district.name.parameterize%>" role="tab" aria-controls="<%=district.name.parameterize%>" aria-selected="true"><%=district.name%></a>
               <% end %>
             </div>
           </nav>
         </div>
         <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
           <% @districts.each_with_index do |district, index| %>
-            <div class="tab-pane fade show <%= index == 0 ? 'active' : ''%>" id="<%=district.name.underscore%>" role="tabpanel" aria-labelledby="<%=district.name.underscore%>-tab">
+            <div class="tab-pane fade show <%= index == 0 ? 'active' : ''%>" id="<%=district.name.parameterize%>" role="tabpanel" aria-labelledby="<%=district.name.parameterize%>-tab">
               <div class="row">
-                <!--  -->
+                <% district.business_improvement_areas.each do |bia| %>
                 <div class="col-md-3">
                   <div class="tab-inner-card">
                     <div class="tab-inner-card-img">
-                      <img src="/cc_2.0/images/banner01.jpg">
+                      <%= link_to(image_tag(bia.logo.url(:list)), "/vancouver/#{bia.district.slug}/neighbourhoods/#{bia.slug}") %>
                     </div>
                     <div class="tab-inner-card-heading">
-                      <h4>Coal Harbour</h4>
+                      <h4><%=bia.name %></h4>
                     </div>
                   </div>
                 </div>
-                <!--  -->
-                <div class="col-md-3">
-                  <div class="tab-inner-card">
-                    <div class="tab-inner-card-img">
-                      <img src="/cc_2.0/images/banner02.jpg">
-                    </div>
-                    <div class="tab-inner-card-heading">
-                      <h4>Downtown Vancouver</h4>
-                    </div>
-                  </div>
-                </div>
-                <!--  -->
-                <div class="col-md-3">
-                  <div class="tab-inner-card">
-                    <div class="tab-inner-card-img">
-                      <img src="/cc_2.0/images/banner01.jpg">
-                    </div>
-                    <div class="tab-inner-card-heading">
-                      <h4>Gastown</h4>
-                    </div>
-                  </div>
-                </div>
-                <!--  -->
-                <div class="col-md-3">
-                  <div class="tab-inner-card">
-                    <div class="tab-inner-card-img">
-                      <img src="/cc_2.0/images/banner02.jpg">
-                    </div>
-                    <div class="tab-inner-card-heading">
-                      <h4>West End</h4>
-                    </div>
-                  </div>
-                </div>
-                <!--  -->
+                <% end %>
               </div>
-              <!--  -->
-              <div class="row">
-                <!--  -->
-                <div class="col-md-3">
-                  <div class="tab-inner-card">
-                    <div class="tab-inner-card-img">
-                      <img src="/cc_2.0/images/banner02.jpg">
-                    </div>
-                    <div class="tab-inner-card-heading">
-                      <h4>Yaletown</h4>
-                    </div>
-                  </div>
-                </div>
-                <!--  -->
-              </div>
-              <!--  -->
             </div>
           <% end %>  
 
