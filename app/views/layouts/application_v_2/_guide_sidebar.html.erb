@@ -50,7 +50,14 @@
     <div id="Featured" class="container tab-pane fade">
       <br>
       <h3>Featured</h3>
-      <%= render @vertical_market.get_products(@city, @district) %>
+      <% products = @vertical_market.get_products(@district, @neighborhood)%>
+      <% if products.size > 0 %>
+          <% products.each do |product| %>
+            <%= render 'layouts/application_v_2/product', product: product %>
+          <% end %>
+      <% else %>
+        <div class="alert">No Products found.</div>
+      <% end %>
     </div>
     <!--  -->
     <div id="Events" class="container tab-pane">
@@ -80,7 +87,14 @@
     <div id="Blogs" class="container tab-pane fade">
       <br>
       <h3>Blogs</h3><br>
-      <%= render @vertical_market.get_blog_entries(@city, @district) %>
+      <% blog_entries = @vertical_market.get_blog_entries(@city, @district)%>
+      <% if blog_entries.size > 0 %>
+          <% blog_entries.each do |blog_entry| %>
+            <%= render 'layouts/application_v_2/blog_entry', blog_entry: blog_entry %>
+          <% end %>
+      <% else %>
+        <div class="alert">No Blogs found.</div>
+      <% end %>
     </div>
     <div id="Offers" class="container tab-pane fade">
       <br>

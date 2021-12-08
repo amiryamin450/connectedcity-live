@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="inner-img col-md-3 col-4">
+    <%= link_to (image_tag product.location.logo.url), product.location %></a>
+  </div>
+  <div class="col-md-9 col-8">
+    <div class="row">
+      <div class="inner-card-title col-md-7">
+        <h5><%= link_to(product.name, [product.location, product]) %></h5>
+      </div>
+      <div class="inner-card-time col-md-5">
+        <span><%= "#{time_ago_in_words(product.created_at)} ago" %></span>
+      </div>
+      <div class="inner-card-title col-md-12">
+        by <%= link_to product.location.name, product.location %>
+      </div>
+    </div>
+    <div class="inner-card-description">
+      <p><%= truncate_html(product.description, :length => 300) %>
+        <%#= link_to "View More", "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
+      </p>
+       <p><%= raw "<span class='price' >Price: $#{product.price}</span>" if product.price.present? %></p>
+    </div>
+  </div>
+  <% if product.image? %>
+    <div class="col-md-12">
+      <div class="update-banner">
+        <%= link_to (image_tag product.image.url), "#", class: "status-update-image" %>
+      </div>
+    </div>
+  <% end %>
+  <%#= render 'status_updates/modal_content_latest', status_update: status_update %>
+</div>
+<hr>
