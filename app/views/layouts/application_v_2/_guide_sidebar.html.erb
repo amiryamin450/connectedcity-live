@@ -26,12 +26,26 @@
     <div id="Update" class="container tab-pane active">
       <br>
       <h3>Updates</h3><br>
-      <%= render @vertical_market.get_status_updates(@city, @district, @neighborhood) %>
+      <% status_updates = @vertical_market.get_status_updates(@city, @district, @neighborhood)%>
+      <% if status_updates.size > 0 %>
+          <% status_updates.each do |status_update| %>
+            <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
+          <% end %>
+      <% else %>
+        <div class="alert">No Market Updates found.</div>
+      <% end %>
     </div>
     <div id="Videos" class="container tab-pane fade">
       <br>
       <h3>Videos</h3><br>
-      <%= render @vertical_market.get_media_attachments %>
+      <% media_attachments = @vertical_market.get_media_attachments(@city, @district, @neighborhood)%>
+      <% if media_attachments.size > 0 %>
+          <% media_attachments.each do |media_attachment| %>
+            <%= render 'layouts/application_v_2/media_attachment', media_attachment: media_attachment %>
+          <% end %>
+      <% else %>
+        <div class="alert">No Videos found.</div>
+      <% end %>
     </div>
     <div id="Featured" class="container tab-pane fade">
       <br>
@@ -42,12 +56,26 @@
     <div id="Events" class="container tab-pane">
       <br>
       <h3>Events</h3><br>
-      <%= render @vertical_market.get_events(@city, @district) %>
+      <% events = @vertical_market.get_events(@city, @district, @neighborhood)%>
+      <% if events.size > 0 %>
+          <% events.each do |event| %>
+            <%= render 'layouts/application_v_2/event', event: event %>
+          <% end %>
+      <% else %>
+        <div class="alert">No Events found.</div>
+      <% end %>
     </div>
     <div id="News" class="container tab-pane fade">
       <br>
       <h3>News</h3><br>
-      <%= render @vertical_market.get_news_articles(@city, @district) %>
+      <% news_articles = @vertical_market.get_news_articles(@city, @district, @neighborhood)%>
+      <% if news_articles.size > 0 %>
+          <% news_articles.each do |news_article| %>
+            <%= render 'layouts/application_v_2/news_article', news_article: news_article %>
+          <% end %>
+      <% else %>
+        <div class="alert">No News found.</div>
+      <% end %>
     </div>
     <div id="Blogs" class="container tab-pane fade">
       <br>

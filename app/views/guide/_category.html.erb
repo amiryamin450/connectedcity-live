@@ -6,26 +6,49 @@
     <% end %>
   <% end %>
 <% end %>
-<div class="category">
-    <div class="heading index-<%= r %>">
-    <h5><%= category.name %></h5>
-    <%= link_to 'More +', '#', class: 'see-more', data: { element: category.id } %>
-    <% if @business_improvement_area_id %>
-      <%= link_to 'See All', "#{@base_path}category/#{category.slug}", class: 'see-all' %>
-    <% end %>
-    
-    <% if user_signed_in? && current_user.has_role?(:admin) %>
-      <%= link_to 'Edit', edit_vertical_market_category_path(category), class: 'admin-link' %>
-    <% end %>
-  </div>
 
-  <div class="location-holder" id="cat-<%= category.id %>">
-    <div class="clearfix">
-      <% locations.each do |location| %>
-        <% cache "#{user_signed_in? ? "in" : "out"}_location_#{location.id}_#{location.updated_at}" do %>
-          <%= render 'guide/location', location: location %>
-        <% end %>
-      <% end %>
-    </div>
+<div class="card-label-one">
+  <div class="title">
+    <h4>&nbsp;<%= category.name %>&nbsp;</h4>
+    <%= link_to 'More + ', '#', class: 'see-more', data: { element: category.id } %>
+    
+    <% if @business_improvement_area_id %>
+      &nbsp;&nbsp;&nbsp;
+      <%= link_to ' See All', "#{@base_path}category/#{category.slug}", class: 'see-all' %>
+    <% end %>
+    <% if user_signed_in? && current_user.has_role?(:admin) %>
+      &nbsp;&nbsp;&nbsp;
+      <%= link_to 'Edit', edit_vertical_market_category_path(category), class: 'badge badge-dark' %>
+    <% end %>
   </div>
+</div>
+
+<div class="row card-row location-row-holder" id="cat-<%= category.id %>">
+  <% locations.each do |location| %>
+    <% cache "#{user_signed_in? ? "in" : "out"}_location_#{location.id}_#{location.updated_at}" do %>
+      <%#= render 'guide/location', location: location %>
+      <div class="col-md-3">
+        <div class="category-body-card">
+          <div class="img">
+              <%= link_to image_tag(get_location_image_url(location)), location %>
+          </div>
+          <div class="title">
+              <h4><%= link_to location.name, location %></h4>
+          </div>
+          <hr>
+          <div class="contact-details">
+              <span><i class="fal fa-map-marker-alt"></i>
+                <%= "#{location.address}".html_safe %>
+                <%= "#{location.city.name if location.city.present? } B.C. #{location.postal_code}".html_safe %>
+              </span>
+              <br>
+              <span><i class="far fa-phone-alt"></i><%= location.phone %></span>
+          </div>
+          <div class="button">
+              <button class="btn btn-primary">Follow</button>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
 </div>
