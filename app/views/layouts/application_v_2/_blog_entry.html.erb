@@ -1,0 +1,12 @@
+
+<div class="row-fluid article">
+  <div class="span2">
+    <%= image_tag blog_entry.bloggable.logo.url if blog_entry.bloggable.logo? %>
+  </div>
+  <div class="span10">
+    <div class="name"><%= link_to blog_entry.title, [blog_entry.bloggable, blog_entry] %> </div>
+    <div style="margin-bottom: 5px;"><span class="time-ago"> <%= "#{time_ago_in_words(blog_entry.created_at)} ago" %>. by <%= link_to blog_entry.bloggable.name, blog_entry.bloggable %></span></div>
+    <div><%= truncate_html( blog_entry.content, :length => 300 ) %></div>
+    <%= render_social_media_buttons({url: polymorphic_url([blog_entry.bloggable, blog_entry]), title: blog_entry.title, content: blog_entry.content}) %>
+  </div>                
+</div>

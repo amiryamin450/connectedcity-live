@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="inner-img col-md-3 col-4">
+    <%= link_to image_tag(event.location.logo.url), event.location %></a>
+  </div>
+  <div class="col-md-9 col-8">
+    <div class="row">
+      <div class="inner-card-title col-md-7">
+        <h5><%= link_to event.name, [event.location, event] %></h5>
+      </div>
+      <div class="inner-card-time col-md-5">
+        <% if event.starts_at.present? %><span class="time-ago">in <%= "#{time_ago_in_words(event.starts_at)}" %><% end %></span>
+      </div>
+    </div>
+    <div class="inner-card-description">
+      <p><%= truncate_html( event.description, :length => 255 ) %>
+        <%= link_to "View More", "#", class: "status-update-image", data: { target: "#event-#{event.id}-model", toggle: 'modal'} %>
+      </p>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="update-banner">
+      <% if event.image? %>
+        <%= link_to (image_tag event.image.url), "#", class: "status-update-image", data: { target: "#event-#{event.id}-model", toggle: 'modal'} %>
+        <%= render 'status_updates/modal_event_latest', event: event %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<hr>

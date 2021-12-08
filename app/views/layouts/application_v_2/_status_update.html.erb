@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="inner-img col-md-3 col-4">
+    <%= link_to (image_tag status_update.statusable.logo.url), statusable_path(status_update.statusable)%></a>
+  </div>
+  <div class="col-md-9 col-8">
+    <div class="row">
+      <div class="inner-card-title col-md-7">
+        <h5><%= link_to status_update.statusable.name, statusable_path(status_update.statusable) %></h5>
+      </div>
+      <div class="inner-card-time col-md-5">
+        <span><%= "#{time_ago_in_words(status_update.created_at)} ago" %></span>
+      </div>
+    </div>
+    <div class="inner-card-description">
+      <p><%= status_update.content.truncate(255) %>
+        <%= link_to "View More", "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
+      </p>
+    </div>
+  </div>
+  <% if status_update.image? %>
+    <div class="col-md-12">
+      <div class="update-banner">
+          <%= link_to (image_tag status_update.image.url), "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
+      </div>
+    </div>
+  <% end %>
+  <%= render 'status_updates/modal_content_latest', status_update: status_update %>
+</div>
+<hr>

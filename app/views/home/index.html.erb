@@ -142,141 +142,80 @@
 <!-- End -->
 <%= render "/layouts/application_v_2/neighbourhoods_and_shopping _districts"%>
 <%= render "/layouts/application_v_2/shop_your_interest"%>
-
 <div class="landing-page-three-column-section">
-  <div class="container-fluid">
-    <div class="row justify-content-between">
-      <div class="col-md-3 column-1">
-        <div class="update-card">
-          <div class="update-heading">
-            <h3>Updates</h3>
-          </div>
+  <div class="span11" style="overflow: auto">
+    <div class="row-fluid">
+        <div class="col-lg-3">
+          <h3 class="sticky-heading">Market Updates</h3><br>
           <% if @status_updates.size > 0 %>
-            <% @status_updates.each do |status_update|%>
-              <div class="row">
-                <div class="col-md-3 col-4">
-                  <div class="inner-img">
-                    <%= image_tag status_update.statusable.logo.url %>
-                  </div>
-                </div>
-                <div class="col-md-9 col-8">
-                  <div class="row">
-                    <div class="inner-card-title col-md-7">
-                      <h5><%= link_to status_update.statusable.name, statusable_path(status_update.statusable) %></h5>
-                    </div>
-                    <div class="inner-card-time col-md-5">
-                      <span><%= "#{time_ago_in_words(status_update.created_at)} ago" %></span>
-                    </div>
-                  </div>
-                  <div class="inner-card-description">
-                    <p><%= status_update.content %>
-                      <a href="#"> See More </a>
-                    </p>
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="update-banner">
-                    <% if status_update.image? %>
-                      <%= image_tag status_update.image.url %>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
-              <hr>
-            <% end %>
+              <% @status_updates.each do |status_update| %>
+                <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
+              <% end %>
           <% else %>
             <div class="alert">No Market Updates found.</div>
           <% end %>
         </div>
-      </div>
-      <!-- End -->
-      <div class="col-md-3 column-2">
-        <div class="event-card">
-          <div class="event-heading">
-            <h3>Videos</h3>
-          </div>
+        <div class="col-lg-3">
+          <h3 class="sticky-heading">Videos</h3><br>
           <% if @media_attachments.size > 0 %>
-            <% @media_attachments.each do |media_attachment| %>
-              <div class="row">
-                <div class="col-md-3 col-4">
-                 <div class="inner-img">
-                    <%= image_tag media_attachment.attachable.logo.url %>
-                  </div>
-                </div>
-                <div class="col-md-9 col-8">
-                  <div class="row">
-                    <div class="inner-card-title col-md-7">
-                      <h5><%= link_to media_attachment.title, [media_attachment.attachable, media_attachment] %></h5>
-                    </div>
-                    <div class="inner-card-time col-md-5">
-                      <span><%= "#{time_ago_in_words(media_attachment.created_at)} ago" %></span>
-                    </div>
-                  </div>
-                  <div class="inner-card-description">
-                    <p>by <%= link_to media_attachment.attachable.name, media_attachment.attachable %></p>
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="update-banner video-card">
-                    <%= link_to(image_tag(media_attachment.thumb_url), [media_attachment.attachable, media_attachment]) %>
-                    <div class="card-video-box">
-                      <i class="far fa-play-circle" data-toggle="modal" data-target="#video-modal"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <hr>
-            <% end %>
+              <% @media_attachments.each do |media_attachment| %>
+                <%= render 'layouts/application_v_2/media_attachment', media_attachment: media_attachment %>
+              <% end %>
           <% else %>
-            <div class="alert">No Videos found.</div>
+            <div class="alert">No videos found.</div>
           <% end %>
         </div>
-      </div>
-      <!-- End -->
-      <div class="col-md-3 column-3">
-        <div class="event-card">
-          <div class="event-heading">
-            <h3>Events</h3>
-          </div>
-            <% if @events.any? %>
-              <% @events.each do |event|%>
-                <div class="row">
-                  <div class="col-md-3 col-4">
-                    <div class="inner-img">
-                      <%= image_tag event.location.logo.url %>
-                    </div>
-                  </div>
-                  <div class="col-md-9 col-8">
-                    <div class="row">
-                      <div class="inner-card-title col-md-7">
-                        <h5><%= link_to event.name, [event.location, event] %></h5>
-                      </div>
-                      <div class="inner-card-time col-md-5">
-                        <% if event.starts_at.present? %><span class="time-ago">in <%= "#{time_ago_in_words(event.starts_at)}" %><% end %></span>
-                      </div>
-                    </div>
-                    <div class="inner-card-description">
-                      <p><%= truncate_html( event.description, :length => 150 ) %>
-                        <a href="#"> See More </a>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-md-12">
-                    <div class="update-banner">
-                      <% if event.image? %>
-                        <%= image_tag event.image.url %>
-                      <% end %>
-                    </div>
-                  </div>
-                </div>
-                <hr>
+        <div class="col-lg-3">
+          <h3 class="sticky-heading">News</h3><br>
+          <% if @news.size > 0 %>
+              <% @news.each do |news_article| %>
+                <%= render 'layouts/application_v_2/news_article', news_article: news_article %>
               <% end %>
-            <% else %>
-              <div class="alert">No Events found.</div>
-            <% end %>
+          <% else %>
+            <div class="alert">No news article found.</div>
+          <% end %>
         </div>
-      </div>
-      <!--  -->
+        <div class="col-lg-3">
+          <h3 class="sticky-heading">Events</h3><br>
+          <% if @status_updates.size > 0 %>
+              <% @status_updates.each do |status_update| %>
+                <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
+              <% end %>
+          <% else %>
+            <div class="alert">No Market Updates found.</div>
+          <% end %>
+        </div>
+        <div class="col-lg-3">
+          <h3 class="sticky-heading">Featured</h3><br>
+          <% if @status_updates.size > 0 %>
+              <% @status_updates.each do |status_update| %>
+                <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
+              <% end %>
+          <% else %>
+            <div class="alert">No Market Updates found.</div>
+          <% end %>
+        </div>
+
+        <div class="col-lg-3">
+          <h3 class="sticky-heading">Blogs</h3><br>
+          <% if @news.size > 0 %>
+              <% @news.each do |news_article| %>
+                <%= render 'layouts/application_v_2/news_article', news_article: news_article %>
+              <% end %>
+          <% else %>
+            <div class="alert">No news article found.</div>
+          <% end %>
+        </div>
+        <div class="col-lg-3">
+          <h3 class="sticky-heading">Offers</h3><br>
+          <% if @status_updates.size > 0 %>
+              <% @status_updates.each do |status_update| %>
+                <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
+              <% end %>
+          <% else %>
+            <div class="alert">No Market Updates found.</div>
+          <% end %>
+        </div>
     </div>
   </div>
 </div>

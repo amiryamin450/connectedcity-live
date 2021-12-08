@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="inner-img col-md-3 col-4">
+    <%= link_to (image_tag news_article.newsable.logo.url), location_path(news_article.newsable)%></a>
+  </div>
+  <div class="col-md-9 col-8">
+    <div class="row">
+      <div class="inner-card-title col-md-7">
+        <h5><%= link_to news_article.newsable.name, location_path(news_article.newsable) %></h5>
+      </div>
+      <div class="inner-card-time col-md-5">
+        <span><%= "#{time_ago_in_words(news_article.created_at)} ago" %></span>
+      </div>
+    </div>
+    <div class="inner-card-description">
+      <p><%= news_article.content.truncate(255) %>
+        <%= link_to "View More", "#", class: "news-update-image", data: { target: "#news-#{news_article.id}-model", toggle: 'modal'} %>
+      </p>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="update-banner">
+      <% if news_article.image? %>
+        <%= link_to (image_tag news_article.image.url), "#", class: "news-update-image", data: { target: "#news-#{news_article.id}-model", toggle: 'modal'} %>
+        <%= render 'news_articles/modal_news_latest', news: news_article %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<hr>
