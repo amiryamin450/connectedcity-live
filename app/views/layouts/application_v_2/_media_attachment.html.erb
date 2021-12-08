@@ -1,28 +1,28 @@
 <div class="row">
-    <div class="inner-img col-md-3 col-4">
-      <%=link_to (image_tag media_attachment.attachable.logo.url), media_attachment.attachable %>
-    </div>
-    <div class="col-md-9 col-8">
-      <div class="row">
-        <div class="inner-card-title col-md-12">
-          <h5><%= link_to media_attachment.title, [media_attachment.attachable, media_attachment] %></h5>
-        </div>
-        <div class="inner-card-title col-md-12">
-          by <%= link_to media_attachment.attachable.name, media_attachment.attachable %>
-        </div>
-        <div class="inner-card-time col-md-12">
-          <span><%= "#{time_ago_in_words(media_attachment.created_at)} ago" %></span>
-        </div>
+  <div class="inner-img col-md-3 col-4">
+    <%=link_to (image_tag media_attachment.attachable.logo.url), media_attachment.attachable %>
+  </div>
+  <div class="col-md-9 col-8">
+    <div class="row">
+      <div class="inner-card-title col-md-12">
+        <h5><%= link_to media_attachment.title, [media_attachment.attachable, media_attachment] %></h5>
       </div>
-    </div>
-    <div class="col-md-12">
-      <div class="update-banner video-card">
-        <%= image_tag(media_attachment.thumb_url) %>
-        <div class="card-video-box">
-          <i class="far fa-play-circle" data-toggle="modal" data-target=<%="#video-#{media_attachment.attachable.id}-model"%>></i>
-        </div>
-        <%= render 'status_updates/modal_video_latest', media_attachment: media_attachment %>
+      <div class="inner-card-title col-md-12">
+        by <%= link_to media_attachment.attachable.name, media_attachment.attachable %>
+      </div>
+      <div class="inner-card-time col-md-12">
+        <span><%= "#{time_ago_in_words(media_attachment.created_at)} ago" %></span>
       </div>
     </div>
   </div>
-  <hr>
+  <div class="col-md-12">
+    <div class="update-banner video-card">
+      <%= image_tag(media_attachment.thumb_url) %>
+      <div class="card-video-box">
+        <i class="far fa-play-circle" data-toggle="modal" data-target=<%="#video-#{media_attachment.attachable.id}-model"%>></i>
+      </div>
+      <%= render 'status_updates/modal_video_latest', media_attachment: media_attachment %>
+    </div>
+  </div>
+</div>
+<hr>
