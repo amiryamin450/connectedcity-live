@@ -40,7 +40,7 @@ a:focus {
     display: flex;
     align-items: center;
     background: #10375C;
-    padding: 0px 50px;
+    /* padding: 0px 50px; */
     margin: 0px;
 }
 
