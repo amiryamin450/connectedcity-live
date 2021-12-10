@@ -1,37 +1,35 @@
-<div class="category">
-  <div class="heading index-1">
-  <h5>Videos</h5>
-   <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
- <small><%= link_to "add", new_location_media_attachment_path(@location), class: 'small' %> | <%= link_to 'manage', location_media_attachments_path(@location) %></small>
- <% end %>
+<div class="card-label-two">
+  <div class="title">
+    <h4>Video</h4>
+    <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+      <small><%= link_to "add", new_location_media_attachment_path(@location), class: 'small' %> | <%= link_to 'manage', location_media_attachments_path(@location) %></small>
+    <% end %>
+  </div>
 </div>
-</div>
-
 <% if @media_attachments.size > 0 %>
-
-<% @media_attachments.in_groups_of(4) do |group| %>
-<div class="row-fluid product">
-    <ul class="thumbnails">
-    <% group.each do |media| %>
-      <% if media %>
-      <li class="span3">
-        <div class="thumbnail">
-          <%= link_to(image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media]) %>
-          <div class="">
-            <strong><%= link_to media.title.truncate(25), [@location, media] %></strong>            
-          </div>
+  <div class="row card-row">
+    <% @media_attachments.in_groups_of(4) do |group| %>
+      <% group.each do |media| %>
+      
+        <div class="col-md-3">
+            <div class="business-body-card">
+              <div class="img">
+                <%= link_to(image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media]) %>
+              </div>
+              <div class="video-btn">
+                  <i class="far fa-play-circle" data-toggle="modal" data-target="#video-modal"></i>
+              </div>
+              <div class="title">
+                  <h3><%= link_to media.title.truncate(25), [@location, media] %></h3>
+              </div>
+            </div>
         </div>
-        <% end -%>
-      </li>
-    <% end -%>
-  </ul>
-</div>
-
-<% end -%>   
-
+      <% end %>
+    <% end %>
+  </div>
   <%= paginate @products, param_name: 'product_page' %>
 <% else %>
-<div class="alert">
-  No Media found.
-</div>
+  <div class="alert alert-dark" role="alert">
+    Nothing Found
+  </div>
 <% end %>

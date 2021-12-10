@@ -77,8 +77,12 @@
   }
 }
 
+.communities .dropdown {
+  border: 2px solid #10375C;
+  border-radius: 10px;
+}
 .communities .dropdown-toggle {
-  color: #000000;
+  color: #10375C;
   width: 100%;
   border: none;
   outline: none;
@@ -257,4 +261,9 @@
     letter-spacing: 1px;
     float: right;
   }
+}
+
+.communities .dropdown {
+  border: 2px solid #10375C;
+  border-radius: 10px;
 }

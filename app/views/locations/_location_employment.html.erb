@@ -1,37 +1,33 @@
-<div class="category">
-  <div class="heading index-5">
-    <h5>Employment Opportunities</h5>    
-       <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
- <small><%= link_to "add", new_location_employment_listing_path(@location), class: 'small' %> | <%= link_to 'manage', location_employment_listings_path(@location) %></small>
- <% end %>
+<div class="card-label-three">
+  <div class="title">
+    <h4>Employment Opportunities</h4>    
+    <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+      <small><%= link_to "add", new_location_employment_listing_path(@location), class: 'small' %> | <%= link_to 'manage', location_employment_listings_path(@location) %></small>
+    <% end %>
   </div>
 </div>
 
 <% if @location.employment_listings.size > 0 %>
-
-<%  @location.employment_listings.in_groups_of(4) do |group| %>
-<div class="row-fluid product">
-  <ul class="thumbnails">
-    <% group.each do |listing| %>
-    <% if listing %>
-    <li class="span3">
-      <div class="thumbnail">
-        <%= link_to(image_tag(listing.cover_photo.url(:large)), [@location, listing]) %>
-        <div class="caption">
-          <h6><%= link_to listing.title, [@location, listing] %></h6>
-        </div>
-      </div>
-      <% end -%>
-    </li>
-    <% end -%>
-  </ul>
-</div>
-
-<% end -%>   
-
-
+  <div class="row card-row">
+    <%  @location.employment_listings.in_groups_of(4) do |group| %>
+        <% group.each do |listing| %>
+          <% if listing %>
+            <div class="col-md-3">
+              <div class="business-body-card">
+                <div class="img">
+                  <%= link_to(image_tag(listing.cover_photo.url(:large)), [@location, listing]) %>
+                </div>
+                <div class="title">
+                  <h3><%= link_to listing.title, [@location, listing] %></h3>
+                </div>
+              </div>
+            </div>
+          <% end -%>
+        <% end -%>
+    <% end -%>   
+  </div>
 <% else %>
-<div class="alert">
-  No Employment Opportunities found.
-</div>
+  <div class="alert alert-dark" role="alert">
+    No Employment Opportunities found.
+  </div>
 <% end %>

@@ -1,35 +1,30 @@
-<div class="category">
-  <div class="heading index-6">
-    <h5>Trade Associations</h5>    
+<div class="card-label-three">
+  <div class="title">
+    <h4>Trade Associations</h4>    
   </div>
 </div>
 
 <% if @location.trade_associations.size > 0 %>
-
-<%  @location.trade_associations.in_groups_of(4) do |group| %>
-<div class="row-fluid product">
-  <ul class="thumbnails">
-    <% group.each do |association| %>
-    <% if association %>
-    <li class="span3">
-      <div class="thumbnail">
-        <%= link_to(image_tag(association.logo.url(:list)), association) %>
-        <div class="caption">
-          <h6><%= link_to association.name, association %></h6>
-
-        </div>
-      </div>
+  <div class="row card-row">
+    <%  @location.trade_associations.in_groups_of(4) do |group| %>
+      <% group.each do |association| %>
+        <% if association %>
+          <div class="col-md-3">
+            <div class="business-body-card">
+              <div class="img">
+                <%= link_to(image_tag(association.logo.url(:list)), association) %>
+              </div>
+              <div class="title">
+                <h3><%= link_to association.name, association %></h3>
+              </div>
+            </div>
+          </div>
+        <% end -%>
       <% end -%>
-    </li>
     <% end -%>
-  </ul>
-</div>
-
-<% end -%>   
-
-
+  </div>  
 <% else %>
-<div class="alert">
-  No Trade Associations found.
-</div>
+  <div class="alert alert-dark" role="alert">
+    No Trade Associations found.
+  </div>
 <% end %>

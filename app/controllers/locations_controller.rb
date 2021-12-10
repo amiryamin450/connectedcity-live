@@ -60,7 +60,7 @@ class LocationsController < ApplicationController
     add_crumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
     add_crumb @location.name
     respond_to do |format|
-      format.html # show.html.erb
+      format.html {render layout: "application_v_2"}
       format.json { render json:  @location.location_images.map{|file| file.to_jq_upload }.to_json(include: :location_images)  }
     end
   end

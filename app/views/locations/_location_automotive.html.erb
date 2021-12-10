@@ -1,40 +1,36 @@
-<div class="category">
-  <div class="heading index-1">
-  <h5>Automotive Listings</h5>
-   <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
- <small><%= link_to "add", new_location_automotive_listing_path(@location), class: 'small' %> | <%= link_to 'manage', location_automotive_listings_path(@location) %></small>
- <% end %>
+<div class="card-label-three">
+  <div class="title">
+    <h4>Automotive Listings</h4>
+    <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+      <small><%= link_to "add", new_location_automotive_listing_path(@location), class: 'small' %> | <%= link_to 'manage', location_automotive_listings_path(@location) %></small>
+    <% end %>
+  </div>
 </div>
-</div>
-
 <% if @auto_listings.size > 0 %>
-
-<% @auto_listings.in_groups_of(4) do |group| %>
-<div class="row-fluid product">
-    <ul class="thumbnails">
-    <% group.each do |listing| %>
-      <% if listing %>
-      <li class="span3">
-        <div class="thumbnail">
-          <%= link_to(image_tag(listing.main_image.url(:list)), [@location, listing]) %>
-          <div class="caption clearfix">
-            
-            <div class="pull-left"><%= link_to listing.title, [@location, listing] %></div>
-            <div class="pull-right"><%= humanized_money_with_symbol listing.price %></div>
-            
+  <div class="row card-row">
+    <% @auto_listings.in_groups_of(4) do |group| %>
+      <% group.each do |listing| %>
+        <% if listing %>
+          <div class="col-md-3">
+            <div class="business-body-card">
+              <div class="img">
+                <%= link_to(image_tag(listing.main_image.url(:list)), [@location, listing]) %>
+              </div>
+              <div class="title">
+                  <h3><%= link_to listing.title, [@location, listing] %></h3>
+              </div>
+              <div class="price">
+                <p><%= humanized_money_with_symbol listing.price %></p>
+              </div>
+            </div>
           </div>
-        </div>
-        <% end -%>
-      </li>
-    <% end -%>
-  </ul>
-</div>
-
-<% end -%>   
-
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
   <%= paginate @products, param_name: 'product_page' %>
 <% else %>
-<div class="alert">
-  No Auto Listings found.
-</div>
+  <div class="alert alert-dark" role="alert">
+    No Auto Listings found.
+  </div>
 <% end %>

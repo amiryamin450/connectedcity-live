@@ -1,4 +1,4 @@
-<h4>News Articles 
+<br><h4>News Articles 
 <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
  <small><%= link_to "add", new_location_news_article_path(@location) %> | <%= link_to "manage", location_news_articles_path(@location)  %></small>
  <% end %>

@@ -1,35 +1,29 @@
-<div class="category">
-  <div class="heading index-5">
-    <h5>Brands</h5>    
+<div class="card-label-five">
+  <div class="title">
+      <h4>Brands</h4>
   </div>
 </div>
-
-<% if @location.brands.size > 0 %>
-
-<%  @location.brands.in_groups_of(4) do |group| %>
-<div class="row-fluid product">
-  <ul class="thumbnails">
-    <% group.each do |brand| %>
-    <% if brand %>
-    <li class="span3">
-      <div class="thumbnail">
-        <%= link_to(image_tag( brand.logo.url(:list)), brand) %>
-        <div class="caption">
-          <h6><%= link_to brand.name, brand %></h6>
-
-        </div>
-      </div>
-      <% end -%>
-    </li>
-    <% end -%>
-  </ul>
-</div>
-
-<% end -%>   
-
-
+<% if @location.brands.size > 0  %>
+  <div class="row card-row">
+    <% @location.brands.in_groups_of(4) do |group| %>
+      <% group.each do |brand| %>
+        <% if brand %>
+          <div class="col-md-3">
+              <div class="business-body-card">
+                <div class="img">
+                  <%= link_to(image_tag(brand.logo.url), brand) %>
+                </div>
+                <div class="title">
+                  <h3><%= link_to brand.name, brand %></h3>
+                </div>
+              </div>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
 <% else %>
-<div class="alert">
-  No Brands found.
-</div>
+  <div class="alert alert-dark" role="alert">
+    No Brands found.
+  </div>
 <% end %>

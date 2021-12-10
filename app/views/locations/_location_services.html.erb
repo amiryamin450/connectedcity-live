@@ -1,37 +1,34 @@
-<div class="category">
-  <div class="heading index-2">
-  <h5>Services</h5>
+<div class="card-label-three">
+  <div class="title">
+    <h4>Services</h4>
     <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
- <small><%= link_to "add", new_location_service_path(@location), class: 'small' %> | <%= link_to 'manage', location_services_path(@location) %></small>
- <% end %>
-</div>
+      <small><%= link_to "add", new_location_service_path(@location), class: 'small' %> | <%= link_to 'manage', location_services_path(@location) %></small>
+    <% end %>
+  </div>
 </div>
 
 <% if @services.size > 0 %>
-
-<% @services.in_groups_of(4) do |group| %>
-<div class="row-fluid service">
-    <ul class="thumbnails">
-    <% group.each do |service| %>
-      <% if service %>
-      <li class="span3">
-        <div class="thumbnail">
-          <%= link_to(image_tag(service.image.url(:list)), [@location, service]) %>
-          <div class="caption">
-            <h6><%= link_to service.name, [@location, service] %></h6>
+  <div class="row card-row">
+    <% @services.in_groups_of(4) do |group| %>
+      <% group.each do |service| %>
+        <% if service %>
+          <div class="col-md-3">
+            <div class="business-body-card">
+              <div class="img">
+                <%= link_to(image_tag(service.image.url(:list)), [@location, service]) %>
+              </div>
+              <div class="title">
+                <h3><%= link_to service.name, [@location, service] %></h3>
+              </div>
+            </div>
           </div>
-        </div>
         <% end -%>
-      </li>
-    <% end -%>
-  </ul>
-</div>
-
-<% end -%>   
-
+      <% end -%>
+    <% end -%>   
+  </div>
   <%= paginate @services, param_name: 'service_page' %>
 <% else %>
-<div class="alert">
-  No Services found.
-</div>
+  <div class="alert alert-dark" role="alert">
+    No Services found.
+  </div>
 <% end %>

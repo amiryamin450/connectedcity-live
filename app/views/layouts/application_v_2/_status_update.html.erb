@@ -12,9 +12,8 @@
       </div>
     </div>
     <div class="inner-card-description">
-      <p><%= status_update.content.truncate(255) %>
-        <%= link_to "View More", "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
-      </p>
+      <p><%= status_update.content.truncate(255) %></p>
+      <%= link_to "View More", "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
     </div>
   </div>
   <% if status_update.image? %>
