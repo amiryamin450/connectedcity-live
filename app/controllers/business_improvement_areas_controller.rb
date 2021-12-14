@@ -20,6 +20,9 @@ class BusinessImprovementAreasController < ApplicationController
     @tag_cloud = @business_improvement_area.vertical_market_categories.map { |vm| { text: vm.name, weight: vm.locations.where(business_improvement_area_id: @business_improvement_area.id).size, link: url_for([@business_improvement_area, vm]) }}.compact
     @events = @business_improvement_area.events.limit(200).order(:starts_at)
     @media_attachments = @business_improvement_area.media_attachments.limit(200).order('created_at DESC')
+    @blog_entries = @business_improvement_area.blog_entries.limit(PER_PAGE)
+    @products = @business_improvement_area.products.limit(PER_PAGE)
+    @coupons = @business_improvement_area.coupons.limit(PER_PAGE)
     @news = @business_improvement_area.news_articles.limit(PER_PAGE).order(:created_at)
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb @business_improvement_area.district.name, district_guide_path(@business_improvement_area.district) if @business_improvement_area.district

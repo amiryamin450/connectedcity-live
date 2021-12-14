@@ -16,6 +16,7 @@ class City < ActiveRecord::Base
     has_many :products, through: :locations, uniq: true
     has_many :media_attachments, through: :locations, uniq: true
     has_many :carousel_images, as: :carouselable
+    has_many :blog_entries, through: :locations, uniq: true
 
     belongs_to :maponics_division, class_name: "MaponicsDivision", foreign_key: "cduid"
     belongs_to :province, foreign_key: "pruid"

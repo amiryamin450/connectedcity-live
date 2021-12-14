@@ -48,6 +48,9 @@ class DistrictsController < ApplicationController
       @events = @district.events.order(:starts_at).limit(PER_PAGE)
       @media_attachments = @district.media_attachments.order('created_at DESC').limit(PER_PAGE)
       @news = @district.news_articles.limit(PER_PAGE)
+      @blog_entries = @district.blog_entries.limit(PER_PAGE)
+      @products = @district.products.limit(PER_PAGE)
+      @coupons = @district.coupons.limit(PER_PAGE)
       add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
       add_crumb @district.name
     else
