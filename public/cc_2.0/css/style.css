@@ -1508,7 +1508,7 @@ a:focus {
     .category-body-section .category-body .category-body-card {
         margin: 10px 0px;
     }
-    .category-body-section .category-body .card-row .col-md-3 {
+    .category-body-section .category-body .card-row .col-md-2 {
         padding-left: 15px !important;
         padding-right: 15px !important;
     }
@@ -2366,9 +2366,9 @@ a:focus {
 }
 
 .category-body-section .category-body .category-body-card .img {
-    height: 60px;
-    width: 60px;
-    margin: 20px auto;
+    height: 100px;
+    width: 100px;
+    margin: 5px auto;
 }
 
 .category-body-section .category-body .category-body-card .img img {
@@ -2384,7 +2384,7 @@ a:focus {
 }
 
 .category-body-section .category-body .category-body-card .title h4 {
-    font-size: 18px;
+    font-size: 13px;
     font-weight: bold;
     color: #000;
     margin: 0px;
@@ -2401,7 +2401,7 @@ a:focus {
 }
 
 .category-body-section .category-body .category-body-card .contact-details span {
-    font-size: 13px;
+    font-size: 12px;
     color: #000;
     font-weight: bold;
     display: inline-flex;
@@ -2441,19 +2441,19 @@ a:focus {
     height: auto;
 }
 
-.category-body-section .category-body .card-row .col-md-3 {
+.category-body-section .category-body .card-row .col-md-2 {
     padding-left: 8px;
     padding-right: 8px;
     padding-bottom: 15px;
-    min-width: 240px;
+    min-width: 180px;
 }
 
 
-.category-body-section .category-body .card-row .col-md-3:first-child {
+.category-body-section .category-body .card-row .col-md-2:first-child {
     padding-left: 15px;
 }
 
-.category-body-section .category-body .card-row .col-md-3:last-child {
+.category-body-section .category-body .card-row .col-md-2:last-child {
     padding-right: 15px;
 }
 

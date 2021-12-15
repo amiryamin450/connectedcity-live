@@ -1,3 +1,14 @@
+<% @current_market = @vertical_market.respond_to?(:name) ? @vertical_market.name : @vertical_market %>
+<%
+  @neighbourhood_param = params[:neighborhood]
+  @neighbourhood_slug = params[:neighborhood]
+  if @neighbourhood_param
+    @neighbourhood_slug = "kitsilano"  if @neighbourhood_param.include? "kitsilano"
+    @neighbourhood = Neighborhood.where('slug LIKE ?', @neighbourhood_slug).first
+  end
+
+  @current_district = @district != nil ? @district.name : "Vancouver"
+%>
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="<%= root_path %>">Home</a></li>
@@ -21,7 +32,7 @@
           <div class="col-md-12">
             <!--  Category -->
             <div class="page-title">
-                <h3>Browse Fashion In Vancouver</h3>
+                <h3><%= @current_market %> in <%= @neighbourhood ? @neighbourhood.name : @current_district %></h3>
             </div>
             <!-- End -->
           </div>

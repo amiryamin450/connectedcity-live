@@ -61,7 +61,7 @@ NOTE Rental (rental)
     <div class="row card-row location-row-holder" id="cat-auto-listings">
       <% @auto_listings.each do |listing| %>
         <%# FIXME Move inline styles to a stylesheet %>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="category-body-card">
             <div class="img">
               <%= link_to image_tag(listing.main_image.url(:hp_list)), [listing.location, listing] %>
@@ -76,8 +76,14 @@ NOTE Rental (rental)
               <br>
               <span><%= link_to listing.location.name, listing.location %></span>
             </div><br>
-            <div class="button">
-              <button class="btn btn-primary">Details</button>
+            <div class="button favorite"  id="favorite-<%= location.id %>">
+              <% if show_save_button?(user_signed_in?, location.vertical_markets.present?) %>
+                <%= render 'favorites/like_button_v2', :location_id => location.id, :vertical_market_slug => location.vertical_markets.first.slug if user_signed_in? and location.vertical_markets.present? %>
+              <% end %>
+              <% if !user_signed_in? %>
+                <%= link_to "Follow", "#", class: "btn btn-primary", role: "button", data: { toggle: "modal", target: "#login_for_save" } %>
+              <% end %>
+              <%# <button class="btn btn-primary">Follow</button> %>
             </div>
           </div>
         </div>
@@ -114,5 +120,25 @@ NOTE Rental (rental)
   }.to_json %>;
 <% end %>
 
-<%= render 'locations/modal_show' %>
+
 <%= render 'status_updates/show_image' %>
+
+<div class="modal fade" id="login_for_save" tabindex="-1" aria-labelledby="login_for_saveLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Please <%= link_to "sign-up", new_user_registration_path %> and/or <%= link_to "log-in", login_path %> to save a business to your account.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
