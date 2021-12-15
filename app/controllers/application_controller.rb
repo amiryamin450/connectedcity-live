@@ -35,6 +35,10 @@ class ApplicationController < ActionController::Base
       cookies.delete(:base_path)
       cookies.delete(:district_route)
     end
+    if request.fullpath == "/vancouver"
+      cookies.delete(:base_path)
+      cookies.delete(:district_route)
+    end
 
     #TODO: This needs to be cleaned up as it is far too complex
     #the line below previously had: !request.fullpath.include? "guide"
