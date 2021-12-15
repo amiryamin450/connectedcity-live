@@ -53,24 +53,18 @@
             <div class="category-body">
               <br>
               <div class="search-box advance-search-box">
-                <form action="">
+                <%= form_tag "#{@base_path}search", class: 'search-form', method: :get do %>
                     <div class="input-group">
-                      <input type="text" class="form-control search-input" placeholder="What are you looking for?" aria-label="Search input with dropdown button">
-                      <div class="input-group-prepend search-dropdown">
-                          <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Automotive <i class="far fa-chevron-down"></i></button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Category One</a>
-                            <a class="dropdown-item" href="#">Category Two</a>
-                            <a class="dropdown-item" href="#">Category Three</a>
-                            <div role="separator" class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Separated Category</a>
-                          </div>
+                      <%# <input type="text" class="form-control search-input" placeholder="What are you looking for?" aria-label="Search input with dropdown button"> %>
+                      <%= search_field_tag :search, params[:search], placeholder: "What are you looking for?", class: "form-control search-column" %>
+                      <div class="input-group-prepend search-box ">
+                        <%= select_tag 'market', options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), prompt: 'all categories', class: 'form-control' %>
                       </div>
                       <div class="input-group-append">
-                          <button class="btn search-box-btn" type="button"><img src="/cc_2.0/icon/search-icon.svg"></button>
+                        <button class="btn search-box-btn" type="submit"><img src="/cc_2.0/icon/search-icon.svg"></button>
                       </div>
                     </div>
-                </form>
+                  <% end %>
               </div>
               <%= render 'guide/vertical_market_categories', :type_arg => 'country' %>
             </div>
