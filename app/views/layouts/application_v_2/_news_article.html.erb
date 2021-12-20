@@ -21,7 +21,7 @@
     <div class="update-banner">
       <% if news_article.image? %>
         <%= link_to (image_tag news_article.image.url), "#", class: "news-update-image", data: { target: "#news-#{news_article.id}-model", toggle: 'modal'} %>
-        <%= render 'news_articles/modal_news_latest', news: news_article %>
+        <%#= render 'news_articles/modal_news_latest', news: news_article %>
       <% end %>
     </div>
   </div>

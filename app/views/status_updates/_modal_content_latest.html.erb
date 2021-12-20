@@ -10,14 +10,12 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-6">
-            <div class="row-fluid">
-              <div class="span12">
-                <%= image_tag status_update.image.url %>
-              </div>
+            <div class="cover">
+              <%= image_tag status_update.image.url %>
             </div>
           </div>
           <div class="col-md-6 ">
-            <div class="row-fluid location-info-popup" style="margin-top: 5px;">
+            <div class="location-info-popup" style="margin-top: 5px;">
               <%= render 'locations/location_information', location: status_update.statusable, content: status_update.content, claim_business: false, show_neighborhood: true %>
 
               <div class="row-fluid">

@@ -21,7 +21,7 @@
     <div class="update-banner">
       <% if event.image? %>
         <%= link_to (image_tag event.image.url), "#", class: "status-update-image", data: { target: "#event-#{event.id}-model", toggle: 'modal'} %>
-        <%= render 'status_updates/modal_event_latest', event: event %>
+        <%#= render 'status_updates/modal_event_latest', event: event %>
       <% end %>
     </div>
   </div>

@@ -8,8 +8,22 @@
         </button>
       </div>
       <div class="modal-body">
-        <iframe width='100%' height='480' src='https://www.youtube.com/embed/<%= media_attachment.media_source_id %>' frameborder='0' allowfullscreen></iframe>
+        <iframe width='100%' height='480' src="" id="<%="video-#{media_attachment.attachable.id}-player"%>" frameborder='0' allowfullscreen></iframe>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+$(document).ready(function() {
+  // when the modal is opened autoplay it
+  $('#<%="video-#{media_attachment.attachable.id}-model"%>').on('shown.bs.modal', function (e) {
+    $("#<%="video-#{media_attachment.attachable.id}-player"%>").attr('src', "https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0"); 
+  });
+
+  // stop playing the youtube video when I close the modal
+  $('#<%="video-#{media_attachment.attachable.id}-model"%>').on('hide.bs.modal', function (e) {
+    $('#<%="video-#{media_attachment.attachable.id}-player"%>').attr("src", "");
+  });
+});
+</script>

@@ -1,78 +1,133 @@
 <div class="landing-page-three-column-section">
-  <div class="span11" style="overflow: auto">
-    <div class="row-fluid">
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <h3 class="sticky-heading">Market Updates</h3><br>
-          <% if @status_updates.size > 0 %>
-              <% @status_updates.each do |status_update| %>
-                <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
-              <% end %>
-          <% else %>
-            <div class="alert">No Market Updates found.</div>
+  <div class="multi" style="">
+    <div class="colla">
+      <h3 class="sticky-heading">Market Updates</h3><br>
+      <% if @status_updates.size > 0 %>
+          <% @status_updates.each do |status_update| %>
+            <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
           <% end %>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <h3 class="sticky-heading">Videos</h3><br>
-          <% if @media_attachments.size > 0 %>
-              <% @media_attachments.each do |media_attachment| %>
-                <%= render 'layouts/application_v_2/media_attachment', media_attachment: media_attachment %>
-              <% end %>
-          <% else %>
-            <div class="alert">No videos found.</div>
+      <% else %>
+        <div class="alert">No Market Updates found.</div>
+      <% end %>
+    </div>
+    <div class="colla">
+      <h3 class="sticky-heading">Videos</h3><br>
+      <% if @media_attachments.size > 0 %>
+          <% @media_attachments.each do |media_attachment| %>
+            <%= render 'layouts/application_v_2/media_attachment', media_attachment: media_attachment %>
           <% end %>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <h3 class="sticky-heading">News</h3><br>
-          <% if @news.size > 0 %>
-              <% @news.each do |news_article| %>
-                <%= render 'layouts/application_v_2/news_article', news_article: news_article %>
-              <% end %>
-          <% else %>
-            <div class="alert">No news article found.</div>
+      <% else %>
+        <div class="alert">No videos found.</div>
+      <% end %>
+    </div>
+    <div class="colla">
+      <h3 class="sticky-heading">News</h3><br>
+      <% if @news.size > 0 %>
+          <% @news.each do |news_article| %>
+            <%= render 'layouts/application_v_2/news_article', news_article: news_article %>
           <% end %>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <h3 class="sticky-heading">Events</h3><br>
-          <% if @events.size > 0 %>
-              <% @events.each do |event| %>
-                <%= render 'layouts/application_v_2/event', event: event %>
-              <% end %>
-          <% else %>
-            <div class="alert">No Events found.</div>
+      <% else %>
+        <div class="alert">No news article found.</div>
+      <% end %>
+    </div>
+    <div class="colla">
+      <h3 class="sticky-heading">Events</h3><br>
+      <% if @events.size > 0 %>
+          <% @events.each do |event| %>
+            <%= render 'layouts/application_v_2/event', event: event %>
           <% end %>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <h3 class="sticky-heading">Featured</h3><br>
-          <% @products = @city.products%>
-          <% if @products.size > 0 %>
-              <% @products.each do |product| %>
-                <%= render 'layouts/application_v_2/product', product: product %>
-              <% end %>
-          <% else %>
-            <div class="alert">No Market Updates found.</div>
+      <% else %>
+        <div class="alert">No Events found.</div>
+      <% end %>
+    </div>
+    <div class="colla">
+      <h3 class="sticky-heading">Featured</h3><br>
+      <% @products = @city.products%>
+      <% if @products.size > 0 %>
+          <% @products.each do |product| %>
+            <%= render 'layouts/application_v_2/product', product: product %>
           <% end %>
-        </div>
+      <% else %>
+        <div class="alert">No Market Updates found.</div>
+      <% end %>
+    </div>
 
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <h3 class="sticky-heading">Blogs</h3><br>
-          <% if @blog_entries.size > 0 %>
-              <% @blog_entries.each do |blog_entry| %>
-                <%= render 'layouts/application_v_2/blog_entry', blog_entry: blog_entry %>
-              <% end %>
-          <% else %>
-            <div class="alert">No news article found.</div>
+    <div class="colla">
+      <h3 class="sticky-heading">Blogs</h3><br>
+      <% if @blog_entries.size > 0 %>
+          <% @blog_entries.each do |blog_entry| %>
+            <%= render 'layouts/application_v_2/blog_entry', blog_entry: blog_entry %>
           <% end %>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <h3 class="sticky-heading">Offers</h3><br>
-          <% if @status_updates.size > 0 %>
-              <% @status_updates.each do |status_update| %>
-                <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
-              <% end %>
-          <% else %>
-            <div class="alert">No Market Updates found.</div>
+      <% else %>
+        <div class="alert">No news article found.</div>
+      <% end %>
+    </div>
+    <div class="colla">
+      <h3 class="sticky-heading">Offers</h3><br>
+      <% if @status_updates.size > 0 %>
+          <% @status_updates.each do |status_update| %>
+            <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
           <% end %>
-        </div>
+      <% else %>
+        <div class="alert">No Market Updates found.</div>
+      <% end %>
     </div>
   </div>
 </div>
+
+
+<% if @status_updates.size > 0 %>
+  <% @status_updates.each do |status_update| %>
+    <%= render 'status_updates/modal_content_latest', status_update: status_update %>
+  <% end %>
+<% end %>
+<% if @media_attachments.size > 0 %>
+  <% @media_attachments.each do |media_attachment| %>
+    <%= render 'status_updates/modal_video_latest', media_attachment: media_attachment %>
+  <% end %>
+<% end %>
+<% if @news.size > 0 %>
+  <% @news.each do |news_article| %>
+    <%= render 'news_articles/modal_news_latest', news: news_article %>
+  <% end %>
+<% end %>
+<% if @events.size > 0 %>
+  <% @events.each do |event| %>
+    <%= render 'status_updates/modal_event_latest', event: event %>
+  <% end %>
+<% end %>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.multi').slick({
+      infinite: true,
+      lazyLoad: 'ondemand',
+      slidesToShow: 4,
+      slidesToScroll: 2,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 5,
+          }
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 3
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 2
+          }
+        }
+      ]
+    });
+  });
+</script>
