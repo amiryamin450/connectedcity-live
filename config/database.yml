@@ -1,11 +1,12 @@
 development: &defaults
   adapter: mysql2
   encoding: utf8
-  database: connectedcity_<%= Rails.env %><% if Settings.db_password %>
-  password: <%= Settings.db_password %><% end %>
+  database: connectedcity_dev
+  password: password
   pool: 32
   username: root
-  host: <%= Settings.db_host %>
+  host: db
+  port: 3306
 
 test: &test
   <<: *defaults
