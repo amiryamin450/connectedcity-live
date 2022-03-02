@@ -571,7 +571,7 @@ DEPENDENCIES
   rb-fsevent
   rgeo
   rgeo-activerecord
-  rmagick (~> 2.13.2)
+  rmagick (~> 2.13.4)
   rolify
   rspec-rails
   rvm-capistrano
