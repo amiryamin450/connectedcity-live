@@ -1,4 +1,4 @@
-FROM ruby:2.0.0 AS rails-toolbox
+FROM ruby:2.7.1 AS rails-toolbox
 
 RUN apt-get update -qq && apt-get install -y nodejs imagemagick libmagickcore-dev libmagickwand-dev
 WORKDIR /myapp
