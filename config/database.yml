@@ -17,4 +17,5 @@ staging:
 production:
   <<: *defaults
   # from our rds instance:
+  url: <%= ENV['DATABASE_URL'] %>
   pool: 32
