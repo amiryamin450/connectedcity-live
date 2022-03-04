@@ -1,29 +1,79 @@
-Connectbook
-========================
+# Project Setup
+This codebase is outdated (7 years old) so there will be lots of issues if you are trying to install it on your local machine as a normal way due to oudated libraries.
 
-This application was generated with the rails_apps_composer gem:
-https://github.com/RailsApps/rails_apps_composer
-provided by the RailsApps Project:
-http://railsapps.github.com/
+A better approach is to use Docker for both dev and production. This project has been dockerized.
 
-________________________
+### Requirements
 
-Recipes:
-["controllers", "core", "email", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "setup", "testing", "views"]
++ Docker: https://www.docker.com/
 
-Preferences:
-{:git=>true, :railsapps=>"none", :dev_webserver=>"webrick", :database=>"sqlite", :templates=>"erb", :unit_test=>"rspec", :integration=>"rspec-capybara", :fixtures=>"none", :frontend=>"bootstrap", :bootstrap=>"less", :email=>"smtp", :authentication=>"devise", :devise_modules=>"confirmable", :authorization=>"cancan", :form_builder=>"simple_form", :starter_app=>"admin_app", :ban_spiders=>true, :rvmrc=>true}
++ Docker compose: For those using Docker Desktop for Mac and Windows, it already included. For Linux users, please install Docker Engine and read further here: https://docs.docker.com/compose/install/
 
-________________________
+### Local Dev Setup
 
-License
+`docker-compose build`
 
-General Notes
+### Start server
 
-Regions / Sub-regions are no longer used.
+`docker-compose up web`
 
-City > District > Neighbourhood.
+### Create an empty database
 
-District would be “Vancouver Downtown”, for example.
+`docker-compose run web bundle exec rake db:create`
 
-District and Neighbourhood have their own database tables, cities use the “maponics_subdivisions” table.
+### Import data
+
+`docker-compose exec -T db mysql -u root -p --max_allowed_packet=512M connectedcity_dev < ../dump_db_file.sql`
+
+## Issue with Solr configuration
+
+The data must be indexed before you can start searching in the app. The following command can be used for 'reindexing', but it will cause errors
+
+`docker-compose run web bundle exec sunspot:solr:reindex`
+
+You might get the response from Solr with the exception: `undefined field type`. This is because Solr will try to clean up the original indexes first but because there is nothing there, it does not know how to clean up the indexes.
+
+To work around this, go to Rails console
+
+`docker-compose exec web rails console`
+
+Then run the following Ruby code:
+
+```
+Rails.application.eager_load!
+sunspot_models = Sunspot.searchable
+sunspot_models.each do |model|
+  model.solr_index()
+end
+```
+
+You might get the following errors while the data is being indexed
+
+`cannot set an index-time boost, unindexed or norms are omitted for field title_text`
+
+To fix this, we need to modify the Solr schema to make `title_text` field include the attribute `omitNorms=false` on Solr. We can update this by running the following `curl` command
+
+```
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "replace-field":{
+     "name":"title_text",
+     "type":"strings",
+     "omitNorms":false }
+}' http://localhost:8983/solr/development/schema
+```
+
+In the above, your solr is running at `localhost:8983` and `development` is the name of your core
+
+After running the above command successfully, go back to Rails console and retry. If you get the same error on other fields, repeat the above `curl` command but replace the `name` with the correct field name having the issue.
+
+# Deployment
+
+Follow the guideline here: https://devcenter.heroku.com/articles/container-registry-and-runtime
+
+```
+heroku container:login
+heroku container:push web
+heroku container:release web
+```
+
+You might need to precompile assets first before start deploying so it contains all precompiled assets file in the docker image.
