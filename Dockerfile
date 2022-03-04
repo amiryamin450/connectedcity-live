@@ -16,4 +16,4 @@ ENTRYPOINT ["entrypoint.sh"]
 EXPOSE $PORT
 
 # Configure the main process to run when running the image
-CMD ["puma", "-C", "config/puma.rb"]
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
