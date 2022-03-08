@@ -69,10 +69,7 @@ gem 'haml', '~> 4.0.6'
 gem 'puma'
 gem 'test-unit', '~> 3.0'
 gem 'rake', '< 11'
-
-group :production, :staging do
-  gem 'aws-sdk'
-end
+gem 'aws-sdk'
 
 group :assets do
   gem 'bootstrap-colorpicker-rails'
@@ -90,6 +87,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'meta_request'
   gem 'rspec-rails'
+  gem 'dotenv-rails'
 end
 
 group :test do
