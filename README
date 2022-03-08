@@ -15,6 +15,14 @@ A better approach is to use Docker for both dev and production. This project has
 
 ### Start server
 
+Comment below snippet in `docker-compose.yml`
+
+```
+  web:
+    # environment:
+      # RAILS_ENV: "${RAILS_ENV}"
+```
+
 `docker-compose up web`
 
 ### Create an empty database
@@ -77,3 +85,5 @@ heroku container:release web
 ```
 
 You might need to precompile assets first before start deploying so it contains all precompiled assets file in the docker image.
+
+ Note that all changes on your local will be deployed to server, not only committed code.
