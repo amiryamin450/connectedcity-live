@@ -131,6 +131,16 @@
       }
     });
 
+    session.on('streamCreated', function(event) {
+      session.subscribe(event.stream, 'subscribers', {
+        insertMode: 'append'
+      }, function(error) {
+        if (error) {
+          console.error('Failed to subscribe', error);
+        }
+      });
+    });
+
     session.connect(token, function(error) {
       if (error) {
         console.log('Unable to connect: ', error.message);
@@ -170,9 +180,14 @@
     document.getElementById('start-archive').addEventListener("click", function(event) {
       event.preventDefault();
       var data = new FormData(document.getElementById('archive-options-form'));
+
       fetch(`/business/${locationSlug}/media_attachments/start_archive.json`, {
         method: 'post',
         body: data,
+        headers: {
+          'Accept': 'application/json',
+          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
       }).then(function(response) {
         disableForm();
       })
@@ -181,7 +196,11 @@
     document.getElementById('stop-archive').addEventListener("click", function(event) {
       event.preventDefault();
       fetch(`/business/${locationSlug}/media_attachments/stop_archive/${archiveID}.json`, {
-        method: 'get'
+        method: 'get',
+        headers: {
+          'Accept': 'application/json',
+          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
       }).then(function(response) {
         enableForm();
       })

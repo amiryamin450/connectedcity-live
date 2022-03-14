@@ -57,7 +57,7 @@ class MediaAttachmentsController < ApplicationController
   def start_archive
     archive = vonage.create_archive(params)
     # @media_attachment = @location.media_attachments.create(vonage_session_id: params[:session_id])
-    render json: archive
+    render nothing: true, status: :created
   end
 
   def stop_archive

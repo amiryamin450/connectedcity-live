@@ -22,11 +22,11 @@ class VonageService
       :has_audio => params[:has_audio] == "on",
       :has_video => params[:has_video] == "on"
     }
-    archive.to_json
+    archive
   end
 
   def stop_archive params
     archive = opentok.archives.stop_by_id(params[:archive_id])
-    archive.to_json
+    archive
   end
 end
