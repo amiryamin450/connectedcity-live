@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20211123211723) do
+ActiveRecord::Schema.define(:version => 20220313205537) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -622,6 +622,7 @@ ActiveRecord::Schema.define(:version => 20211123211723) do
     t.string   "title"
     t.string   "media_source_id"
     t.string   "media_source"
+    t.string   "vonage_session_id"
   end
 
   add_index "media_attachments", ["attachable_id", "attachable_type"], :name => "index_media_attachments_on_attachable_id_and_attachable_type"

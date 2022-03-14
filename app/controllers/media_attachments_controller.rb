@@ -8,7 +8,6 @@ class MediaAttachmentsController < ApplicationController
   end
 
   def show
-
     @other_media = @location.media_attachments.all - [@media_attachment]
 
     @vertical_market = @location.vertical_market_categories.first.vertical_market
@@ -18,9 +17,15 @@ class MediaAttachmentsController < ApplicationController
     add_crumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
     add_crumb @location.name, location_path(@location)
     add_crumb 'Media'
+
+    @session_id = @location.media_attachments.last.vonage_session_id
+    @token = vonage.get_token(@session_id)
   end
 
   def new
+    @session_id = vonage.get_session_id
+    @token = vonage.get_token(@session_id)
+
     @media_attachment = @location.media_attachments.new
   end
 
@@ -49,5 +54,18 @@ class MediaAttachmentsController < ApplicationController
     redirect_to location_media_attachments_url
   end
 
+  def start_archive
+    archive = vonage.create_archive(params)
+    # @media_attachment = @location.media_attachments.create(vonage_session_id: params[:session_id])
+    render json: archive
+  end
 
+  def stop_archive
+    archive = vonage.stop_archive(params)
+    render json: archive
+  end
+
+  def vonage
+    @vonage ||= VonageService.new
+  end
 end

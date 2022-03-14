@@ -70,6 +70,7 @@ gem 'puma'
 gem 'test-unit', '~> 3.0'
 gem 'rake', '< 11'
 gem 'aws-sdk'
+gem 'opentok'
 
 group :assets do
   gem 'bootstrap-colorpicker-rails'
@@ -106,7 +107,7 @@ group :development do
   gem 'quiet_assets'
   gem 'rvm-capistrano', require: false
   gem 'seed_dump'
-  # gem 'pry'
+  gem 'pry'
   # gem 'byebug'
   # gem 'pry-byebug'
   # gem 'pry-rails'

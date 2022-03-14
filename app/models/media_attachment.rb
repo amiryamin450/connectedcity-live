@@ -1,14 +1,14 @@
 class MediaAttachment < ActiveRecord::Base
 
-  before_save :set_fields
+  # before_save :set_fields
 
   belongs_to :attachable, polymorphic: true
   belongs_to :location, foreign_key: "attachable_id", conditions: { media_attachments: { attachable_type: "Location" } }
 
-  attr_accessible :attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source
+  attr_accessible :attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source, :vonage_session_id
 
 
-  validates_presence_of :attachment
+  # validates_presence_of :attachment
 
   protected
   def set_fields

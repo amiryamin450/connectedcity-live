@@ -256,6 +256,13 @@ Connectbook::Application.routes.draw do
     end
 
     resources :social_profiles, path: "social-profiles", only: [:show]
+
+    resources :media_attachments do
+      collection do
+        post :start_archive
+        get ':stop_archive/:archive_id' => 'media_attachments#stop_archive'
+      end
+    end
   end
 
   #Static Pages

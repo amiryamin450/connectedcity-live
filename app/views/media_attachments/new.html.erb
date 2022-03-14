@@ -1,3 +1,190 @@
 <h1>Create new Media Attachment <small>YouTube</small></h1>
+<%# <div id="publisherContainer"></div> %>
+<%# <button onclick="disconnect()" id="turn-off">Turn off stream</button> %>
 
 <%= render 'form' %>
+
+<div class="panel panel-default" id="vonage-video-panel">
+  <div class="panel-body">
+    <div id="subscribers"><div id="publisher"></div></div>
+  </div>
+  <div class="panel-footer">
+    <form id="archive-options-form" >
+      <fieldset id="archive-options-fields">
+        <div class="form-group">
+          <label class="">Media Attachment Name:</label>
+          <input type="text" name="video_name">
+        </div>
+        <div class="form-group">
+          <p class="help-block">Archive Options:</p>
+          <label class="checkbox-inline">
+            <input type="checkbox" name="has_audio" checked> Audio
+          </label>
+          <label class="checkbox-inline">
+            <input type="checkbox" name="has_video" checked> Video
+          </label>
+          <input type="hidden" name="session_id" value="<%= @session_id %>">
+        </div>
+      </fieldset>
+    </form>
+    <br>
+    <button class="btn btn-success" id="start-archive">Start archiving</button>
+    <button class="btn btn-danger" id="stop-archive">Stop archiving</button>
+  </div>
+</div>
+
+<script>
+  var session;
+  var connectionCount = 0;
+  var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
+  var sessionID = "<%= @session_id %>";
+  var token = "<%= @token %>";
+  var publisherInitialized = false;
+  var connected = false;
+  var publisherProperties = {insertMode: "append", usePreviousDeviceSelection: true};
+  var targetElement = 'subscribers';
+  var archiveID = null;
+  var locationSlug = "<%= @location.slug %>";
+
+  var publisher = OT.initPublisher(targetElement, publisherProperties, function (error) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Publisher initialized.");
+    }
+  });
+
+  publisher.on({
+    accessDialogOpened: function (event) {
+    // Show allow camera message
+      // pleaseAllowCamera.style.display = 'block';
+    },
+    accessDialogClosed: function (event) {
+      // Hide allow camera message
+      // pleaseAllowCamera.style.display = 'none';
+    },
+    streamCreated: function (event) {
+      console.log("Publisher started streaming.");
+    },
+    streamDestroyed: function (event) {
+      console.log("Publisher stopped streaming. Reason: "
+        + event.reason);
+    }
+  });
+
+  // var audioInputDevices;
+  // var videoInputDevices;
+  // OT.getDevices(function(error, devices) {
+  //   audioInputDevices = devices.filter(function(element) {
+  //     return element.kind == "audioInput";
+  //   });
+  //   videoInputDevices = devices.filter(function(element) {
+  //     return element.kind == "videoInput";
+  //   });
+  //   for (var i = 0; i < audioInputDevices.length; i++) {
+  //     console.log("audio input device: ", audioInputDevices[i].deviceId);
+  //   }
+  //   for (i = 0; i < videoInputDevices.length; i++) {
+  //     console.log("video input device: ", videoInputDevices[i].deviceId);
+  //   }
+  // });
+
+  var publish = function() {
+    if (connected && publisherInitialized) {
+      session.publish(publisher);
+    }
+  };
+
+  function connect() {
+    session = OT.initSession(apiKey, sessionID);
+
+    session.on({
+      connectionCreated: function (event) {
+        connectionCount++;
+        console.log(connectionCount + ' connections.');
+      },
+      connectionDestroyed: function (event) {
+        connectionCount--;
+        console.log(connectionCount + ' connections.');
+      },
+      sessionDisconnected: function sessionDisconnectHandler(event) {
+        // The event is defined by the SessionDisconnectEvent class
+        console.log('Disconnected from the session.');
+        // document.getElementById('disconnectBtn').style.display = 'none';
+        if (event.reason == 'networkDisconnected') {
+          alert('Your network connection terminated.')
+        }
+      },
+      archiveStarted: function(event) {
+        archiveID = event.id;
+        console.log('ARCHIVE STARTED');
+        document.getElementById('start-archive').style.display = 'none';
+        document.getElementById('stop-archive').style.display = 'block';
+        // disableForm();
+      },
+      archiveStopped: function(event) {
+        archiveID = null;
+        console.log('ARCHIVE STOPPED');
+        document.getElementById('start-archive').style.display = 'block';
+        document.getElementById('stop-archive').style.display = 'none';
+        // enableForm();
+      }
+    });
+
+    session.connect(token, function(error) {
+      if (error) {
+        console.log('Unable to connect: ', error.message);
+      } else {
+        // document.getElementById('disconnectBtn').style.display = 'block';
+        console.log('Connected to the session.');
+        connectionCount = 1;
+        console.log(session.capabilities)
+        if (session.capabilities.publish == 1) {
+          connected = true;
+          publish();
+        } else {
+          console.log("You cannot publish an audio-video stream.");
+        }
+      }
+    });
+  }
+
+  function disconnect() {
+    publisher.destroy();
+    session.disconnect();
+  }
+
+  function disableForm() {
+    document.getElementById('archive-options-fields').disabled = true;
+  }
+
+  function enableForm() {
+    document.getElementById('archive-options-fields').disabled = false;
+  }
+
+  connect();
+
+  // document.getElementById('vonage-video-panel').ready(function() {
+  document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById('start-archive').style.display = 'block';
+    document.getElementById('start-archive').addEventListener("click", function(event) {
+      event.preventDefault();
+      var data = new FormData(document.getElementById('archive-options-form'));
+      fetch(`/business/${locationSlug}/media_attachments/start_archive.json`, {
+        method: 'post',
+        body: data,
+      }).then(function(response) {
+        disableForm();
+      })
+    });
+    document.getElementById('stop-archive').style.display = 'none';
+    document.getElementById('stop-archive').addEventListener("click", function(event) {
+      event.preventDefault();
+      fetch(`/business/${locationSlug}/media_attachments/stop_archive/${archiveID}.json`, {
+        method: 'get'
+      }).then(function(response) {
+        enableForm();
+      })
+    })
+  })
+</script>
