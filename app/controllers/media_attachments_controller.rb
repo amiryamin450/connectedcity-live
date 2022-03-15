@@ -18,8 +18,13 @@ class MediaAttachmentsController < ApplicationController
     add_crumb @location.name, location_path(@location)
     add_crumb 'Media'
 
-    @session_id = @location.media_attachments.last.vonage_session_id
-    @token = vonage.get_token(@session_id)
+    if @media_attachment.archive_id.present?
+      url = vonage.get_archive(@media_attachment.archive_id).url
+      @media_attachment.update_attribute(:stream_video_url, url)
+    end
+
+    # @session_id = @location.media_attachments.last.session_id
+    # @token = vonage.get_token(@session_id)
   end
 
   def new
@@ -56,12 +61,27 @@ class MediaAttachmentsController < ApplicationController
 
   def start_archive
     archive = vonage.create_archive(params)
-    # @media_attachment = @location.media_attachments.create(vonage_session_id: params[:session_id])
-    render nothing: true, status: :created
+    media_attachment = @location.media_attachments.new(
+      is_stream_video: true,
+      stream_video_name: archive.name,
+      archive_id: archive.id,
+      session_id: archive.sessionId,
+      has_audio: archive.hasAudio,
+      has_video: archive.hasVideo,
+      status: archive.status
+    )
+
+    if media_attachment.save
+      render nothing: true, status: :created
+    else
+      render nothing: true, status: :unprocessable_entity
+    end
   end
 
   def stop_archive
     archive = vonage.stop_archive(params)
+    media_attachment = MediaAttachment.find_by_archive_id(params[:archive_id])
+    media_attachment.update_attribute(:status, "stopped")
     render json: archive
   end
 

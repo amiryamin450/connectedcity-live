@@ -27,6 +27,9 @@ class VonageService
 
   def stop_archive params
     archive = opentok.archives.stop_by_id(params[:archive_id])
-    archive
+  end
+
+  def get_archive archive_id
+    opentok.archives.find archive_id
   end
 end

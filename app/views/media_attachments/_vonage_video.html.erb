@@ -1,0 +1,31 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div id="subscribers"><div id="publisher"></div></div>
+  </div>
+  <div class="panel-footer">
+    <form id="archive-options-form" >
+      <fieldset id="archive-options-fields">
+        <div class="form-group">
+          <label class="">Media Stream Name:</label>
+          <div id="video-name-error" style="font-style: italic; color: red; display: none">Please enter the media stream name</div>
+          <input type="text" name="video_name" id="video-name">
+        </div>
+        <div class="form-group">
+          <label>Archive Options:</label>
+          <label class="checkbox-inline">
+            <input type="checkbox" name="has_audio" checked> Audio
+          </label>
+          <label class="checkbox-inline">
+            <input type="checkbox" name="has_video" checked> Video
+          </label>
+          <input type="hidden" name="session_id" value="<%= @session_id %>">
+        </div>
+      </fieldset>
+    </form>
+    <br>
+    <div class="form-actions">
+      <button class="btn btn-success" id="start-archive">Start archiving</button>
+      <button class="btn btn-danger" id="stop-archive">Stop archiving</button>
+    </div>
+  </div>
+</div>

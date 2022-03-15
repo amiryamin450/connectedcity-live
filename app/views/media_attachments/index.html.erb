@@ -13,7 +13,7 @@
 
   <% @media_attachments.each do |media| %>
       <tr>
-        <td><%= media.title %></td>
+        <td><%= media.media_title %></td>
         <td><%= image_tag("http://img.youtube.com/vi/#{media.media_source_id}/1.jpg") %></td>
         <td>
           <div class="btn-group">
