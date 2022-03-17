@@ -348,9 +348,7 @@ Connectbook::Application.routes.draw do
   #End Marketing URLs
 
   get '/vancouver/', to: 'home#city_landing', as: :city_landing
-  constraints(:district_route => /(.|\s)*\S(.|\s)*/) do
-    get '/:district_route', to: 'districts#homepage', as: :district_guide
-  end
+  # get ':district_route', to: 'districts#homepage', as: :district_guide
   get '/vancouver/:district_route', to: 'districts#homepage', as: :district_guide
   resources :business_improvement_areas, path: '/vancouver/:district_route/neighbourhoods', only: [:show] do
     member do
