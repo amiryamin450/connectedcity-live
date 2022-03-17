@@ -2,6 +2,7 @@ Connectbook::Application.routes.draw do
 
   resources :home do
     collection do
+      get :get_vonage_token
       get :city_landing
     end
   end

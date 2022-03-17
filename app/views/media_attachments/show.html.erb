@@ -1,19 +1,31 @@
 
-<h1><%= @media_attachment.title %></h1>
+<h1><%= @media_attachment.media_title %></h1>
 <div class="row-fluid">
   <div class="span12">
-    <iframe width='853' height='480' src='https://www.youtube.com/embed/<%= @media_attachment.media_source_id %>' frameborder='0' allowfullscreen></iframe>
+    <%
+      if @media_attachment.is_stream_video
+        url = @media_attachment.stream_video_url
+      else
+        url = "https://www.youtube.com/embed/#{@media_attachment.media_source_id}"
+      end
+    %>
+    <iframe width='853' height='480' src='<%= url %>' frameborder='0' allowfullscreen></iframe>
   </div>
 </div>
-
 
 <% if @other_media.size > 0 %>
 <h3>Additional Media</h3>
 <div class="row-fluid">
     <% @other_media.each do |media| %>
       <div class="span2">
-        <div><%= link_to(image_tag("https://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media]) %></div>
-        <div><%= link_to media.title, [@location, media] %></div>
+        <div>
+          <% if media.media_source_id.present? %>
+            <%= link_to(image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media]) %>
+          <% else %>
+            <%= link_to(image_tag("/assets/home_page_image/default.jpg"), [@location, media]) %>
+          <% end %>
+        </div>
+        <div><%= link_to media.media_title, [@location, media] %></div>
       </div>
     <% end -%>
   </div>
@@ -23,31 +35,31 @@
 </div>
 
 <script>
-  var session;
-  var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
-  var sessionID = "<%= @session_id %>";
-  var token = "<%= @token %>";
-  session = OT.initSession(apiKey, sessionID);
+  // var session;
+  // var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
+  // var sessionID = "<%= @session_id %>";
+  // var token = "<%= @token %>";
+  // session = OT.initSession(apiKey, sessionID);
 
-  // Replace with a valid token:
-  session.connect(token);
+  // // Replace with a valid token:
+  // session.connect(token);
 
-  // publisher = OT.initPublisher('publisher');
-  session.on('streamCreated', function(event) {
-    var subscriberProperties = {insertMode: 'append'};
-    var subscriber = session.subscribe(event.stream,
-      'subscriberContainer',
-      subscriberProperties,
-      function (error) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Subscriber added.');
-        }
-    });
-  });
+  // // publisher = OT.initPublisher('publisher');
+  // session.on('streamCreated', function(event) {
+  //   var subscriberProperties = {insertMode: 'append'};
+  //   var subscriber = session.subscribe(event.stream,
+  //     'subscriberContainer',
+  //     subscriberProperties,
+  //     function (error) {
+  //       if (error) {
+  //         console.log(error);
+  //       } else {
+  //         console.log('Subscriber added.');
+  //       }
+  //   });
+  // });
 
-  session.on("streamDestroyed", function (event) {
-    console.log("Stream stopped. Reason: " + event.reason);
-  });
+  // session.on("streamDestroyed", function (event) {
+  //   console.log("Stream stopped. Reason: " + event.reason);
+  // });
 </script>

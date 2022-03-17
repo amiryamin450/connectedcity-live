@@ -14,6 +14,15 @@ class HomeController < ApplicationController
     @blog_entries = @city.blog_entries.limit(PER_PAGE)
     @products = @city.products.limit(PER_PAGE)
     @coupons = @city.coupons.limit(PER_PAGE)
+
+    vonage = VonageService.new
+    @media_attachments.each do |media|
+      if media.archive_id.present?
+        url = vonage.get_archive(media.archive_id).url
+        puts url
+        media.update_attribute(:stream_video_url, url)
+      end
+    end
   end
 
   def city_landing
@@ -28,6 +37,12 @@ class HomeController < ApplicationController
     @products = @city.products.limit(PER_PAGE)
     @coupons = @city.coupons.limit(PER_PAGE)
     render layout: "application_v_2"
+  end
+
+  def get_vonage_token
+    vonage = VonageService.new
+    token = vonage.get_token(params[:session_id])
+    render json: { token: token }
   end
 
   def connected_advertiser

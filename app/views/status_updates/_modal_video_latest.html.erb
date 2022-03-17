@@ -8,7 +8,15 @@
         </button>
       </div>
       <div class="modal-body">
+      <% if media_attachment.is_stream_video %>
+        <% if media_attachment.status == "started" %>
+          <div id="subscriberContainer"></div>
+        <% else %>
+          <iframe width='100%' height='480' src="<%= media_attachment.stream_video_url %>" id="<%="video-#{media_attachment.attachable.id}-vonage"%>" frameborder='0' allowfullscreen></iframe>
+        <% end %>
+      <% else %>
         <iframe width='100%' height='480' src="" id="<%="video-#{media_attachment.attachable.id}-player"%>" frameborder='0' allowfullscreen></iframe>
+      <% end %>
       </div>
     </div>
   </div>
@@ -18,12 +26,69 @@
 $(document).ready(function() {
   // when the modal is opened autoplay it
   $('#<%="video-#{media_attachment.attachable.id}-model"%>').on('shown.bs.modal', function (e) {
-    $("#<%="video-#{media_attachment.attachable.id}-player"%>").attr('src', "https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0"); 
+    $("#<%="video-#{media_attachment.attachable.id}-player"%>").attr('src', "https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
+    if ("<%= media_attachment.is_stream_video %>" == "true") {
+      $("#<%="video-#{media_attachment.attachable.id}-vonage"%>").attr('src', "<%= media_attachment.stream_video_url %>");
+      loadVideo();
+    }
   });
 
   // stop playing the youtube video when I close the modal
   $('#<%="video-#{media_attachment.attachable.id}-model"%>').on('hide.bs.modal', function (e) {
+    $('#<%="video-#{media_attachment.attachable.id}-vonage"%>').attr("src", "");
     $('#<%="video-#{media_attachment.attachable.id}-player"%>').attr("src", "");
   });
+
+  function loadVideo() {
+    var session;
+    var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
+    var sessionID = "<%= media_attachment.session_id %>";
+
+    async function fetchToken() {
+      let token = await fetch(`/home/get_vonage_token.json?session_id=${sessionID}`, {
+        method: 'get',
+        }).then(function(response) {
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(response);
+        }).then(function (data) {
+        return data.token
+      })
+      return token;
+    }
+
+    if (sessionID) {
+      session = OT.initSession(apiKey, sessionID);
+
+      fetchToken().then(token => {
+        session.connect(token);
+      });
+
+      session.on('streamCreated', function(event) {
+        var subscriberProperties = {insertMode: 'append'};
+        if (event.stream) {
+          var subscriber = session.subscribe(event.stream,
+            'subscriberContainer',
+            subscriberProperties,
+            function (error) {
+              if (error) {
+                console.log(error);
+              } else {
+                console.log('Subscriber added.');
+              }
+          });
+          subscriber.restrictFrameRate(true);
+          $('#<%="video-#{media_attachment.attachable.id}-model"%>').on('hide.bs.modal', function (e) {
+            session.unsubscribe(subscriber);
+          });
+        }
+      });
+
+      session.on("streamDestroyed", function (event) {
+        console.log("Stream stopped. Reason: " + event.reason);
+      });
+    }
+  }
 });
 </script>
