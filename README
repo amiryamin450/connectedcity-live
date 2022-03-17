@@ -79,15 +79,13 @@ After running the above command successfully, go back to Rails console and retry
 Follow the guideline here: https://devcenter.heroku.com/articles/container-registry-and-runtime
 
 ```
+docker-compose build
+docker-compose up web
+docker-compose run web bundle exec rake assets:precompile RAILS_ENV=production
+
 heroku container:login
 heroku container:push web
 heroku container:release web
-```
-
-You might need to precompile assets first before start deploying so it contains all precompiled assets file in the docker image.
-
-```
-docker-compose run web bundle exec rake assets:precompile RAILS_ENV=production
 ```
 
  Note that all changes on your local will be deployed to server, not only committed code.
