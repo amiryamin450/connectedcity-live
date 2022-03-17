@@ -86,6 +86,9 @@ docker-compose run web bundle exec rake assets:precompile RAILS_ENV=production
 heroku container:login
 heroku container:push web
 heroku container:release web
+
+heroku run bash
+RAILS_ENV=production bundle exec rake db:migrate
 ```
 
  Note that all changes on your local will be deployed to server, not only committed code.

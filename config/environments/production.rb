@@ -31,7 +31,9 @@ Connectbook::Application.configure do
   config.force_ssl = true
 
   # See everything in the log (default is :info)
-  config.log_level = ENV["LOG_LEVEL"].to_sym if ENV["LOG_LEVEL"]
+  # config.log_level = :debug
+  # config.logger = Logger.new(STDOUT)
+  # config.logger.level = Logger::DEBUG
 
   # Prepend all log lines with the following tags
   # config.log_tags = [ :subdomain, :uuid ]
