@@ -1,0 +1,31 @@
+.new-media-attachment {
+  .row {
+    margin: 0;
+  }
+
+  .add-new-media-attachment-title {
+    margin-bottom: 40px;
+
+    .location-name {
+      color: blue;
+    }
+  }
+
+  #new_media_attachment {
+    .media_attachment_attachment {
+      margin: 0;
+      #media_attachment_attachment {
+        height: 30px;
+        margin: 0;
+      }
+    }
+
+    .or-text {
+      margin-left: 40px;
+    }
+
+    .add-url {
+      margin-top: 15px;
+    }
+  }
+}

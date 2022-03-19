@@ -5,7 +5,7 @@ class MediaAttachment < ActiveRecord::Base
   belongs_to :attachable, polymorphic: true
   belongs_to :location, foreign_key: "attachable_id", conditions: { media_attachments: { attachable_type: "Location" } }
 
-  attr_accessible :attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source, :is_stream_video, :archive_id, :session_id, :stream_video_name, :has_audio, :has_video, :status
+  attr_accessible :attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source, :is_stream_video, :archive_id, :session_id, :stream_video_name, :has_audio, :has_video, :status, :description
 
   validates_presence_of :attachment, :unless => :stream_video?
 

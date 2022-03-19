@@ -19,7 +19,6 @@ class HomeController < ApplicationController
     @media_attachments.each do |media|
       if media.archive_id.present?
         url = vonage.get_archive(media.archive_id).url
-        puts url
         media.update_attribute(:stream_video_url, url)
       end
     end

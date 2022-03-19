@@ -19,7 +19,7 @@
     <div class="update-banner video-card">
       <%= image_tag(media_attachment.thumb_url || "/assets/home_page_image/default.jpg") %>
       <div class="card-video-box">
-        <i class="far fa-play-circle" data-toggle="modal" data-target=<%="#video-#{media_attachment.attachable.id}-model"%>></i>
+        <i class="far fa-play-circle" data-toggle="modal" data-target=<%="#video-#{media_attachment.id}-model"%>></i>
       </div>
       <%#= render 'status_updates/modal_video_latest', media_attachment: media_attachment %>
     </div>

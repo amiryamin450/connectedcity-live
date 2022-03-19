@@ -16,11 +16,11 @@ class VonageService
   end
 
   def create_archive params
-    archive = opentok.archives.create params[:session_id], {
-      :name => params[:video_name],
+    archive = opentok.archives.create params[:media_attachment][:session_id], {
+      :name => params[:media_attachment][:title],
       :output_mode => "composed",
-      :has_audio => params[:has_audio] == "on",
-      :has_video => params[:has_video] == "on"
+      :has_audio => true,
+      :has_video => true
     }
     archive
   end

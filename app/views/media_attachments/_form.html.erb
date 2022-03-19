@@ -1,11 +1,224 @@
 <%= simple_form_for [@location, @media_attachment] do |f| %>
-<div class="form-inputs">
-  <%= f.input :attachment, as: :url, label: "URL (ex. https://www.youtube.com/watch?v=abcdefghijk)" %>
-</div>
-
-<div class="form-actions">
-  <%= f.button :submit, class: 'btn btn-primary' %>
-  <%= link_to 'Cancel', :back, class: 'btn'  %>
-</div>
-
+  <%= f.hidden_field :session_id, value: @session_id %>
+  <%= f.input :title, label: false, placeholder: "Title", require: true %>
+  <%= f.text_area :description, size: '110x3', label: false, placeholder: "Description" %>
+  <div class="row add-url">
+    <div class="span2">1. Add URL</div>
+    <div class="span10">
+      <div class="row">
+        <div class="span3">
+          <%= f.input :attachment, label: false, as: :url, placeholder: "ex. https://www.youtube.com/watch?v=abcdefghijk" %>
+        </div>
+        <div class="span2">
+          <%= f.button :submit, "Submit", class: 'btn btn-primary' %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="or-text"><strong>or</strong></div>
+  <div class="row">
+    <div class="span2">2. Record a Video:</div>
+    <div class="span10">
+      <button class="btn btn-success" id="start-archive">Start Recording</button>
+      <button class="btn btn-danger" id="stop-archive">Stop Recording</button>
+    </div>
+  </div>
 <% end %>
+<div class="stream-area">
+  <div id="subscribers">
+  </div>
+</div>
+
+<script>
+  var locationSlug = "<%= @location.slug %>";
+  var session;
+  var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
+  var sessionID = "<%= @session_id %>";
+  var token = "<%= @token %>";
+
+  document.getElementById('start-archive').addEventListener('click', function(event) {
+    event.preventDefault();
+    var mediaTitle = document.getElementById('media_attachment_title')
+    if (mediaTitle.value == '') {
+      mediaTitle.insertAdjacentHTML('afterend', "<div class='help-inline' id='title-error' style='color: #b94a48; '>can\'t be blank</div>");
+      mediaTitle.style.borderColor = "#b94a48";
+      return;
+    } else {
+      mediaTitle.style.borderColor = "#ccc";
+      var error = document.getElementById("title-error");
+      if (error) {
+        error.remove();
+      }
+    }
+
+    var connectionCount = 0;
+    var publisherProperties = {width: 853, height: 480, resolution: '1280x960', insertMode: "append", usePreviousDeviceSelection: true};
+    var targetElement = 'subscribers';
+    var archiveID = null;
+
+    function publish() {
+      var publisher = OT.initPublisher(targetElement, publisherProperties, function (error) {
+        if (error) {
+          console.log(error);
+        } else {
+          session.publish(publisher, function(error) {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Publishing a stream.');
+            }
+          });
+        }
+      });
+      publisher.on({
+        accessAllowed: function(event) {
+          console.log("accessAllowed", event)
+        },
+        accessDenied: function(event) {
+          console.log("accessDenied", event)
+        },
+        accessDialogOpened: function (event) {
+        // Show allow camera message
+          // pleaseAllowCamera.style.display = 'block';
+        },
+        accessDialogClosed: function (event) {
+          // Hide allow camera message
+          // pleaseAllowCamera.style.display = 'none';
+        },
+        streamCreated: function (event) {
+          console.log("Publisher started streaming.");
+        },
+        streamDestroyed: function (event) {
+          console.log("Publisher stopped streaming. Reason: "
+            + event.reason);
+        }
+      });
+    };
+
+    function connect() {
+      session = OT.initSession(apiKey, sessionID);
+
+      session.on({
+        connectionCreated: function (event) {
+          connectionCount++;
+          console.log(connectionCount + ' connections.');
+        },
+        connectionDestroyed: function (event) {
+          connectionCount--;
+          console.log(connectionCount + ' connections.');
+        },
+        sessionDisconnected: function sessionDisconnectHandler(event) {
+          // The event is defined by the SessionDisconnectEvent class
+          console.log('Disconnected from the session.');
+          if (event.reason == 'networkDisconnected') {
+            alert('Your network connection terminated.')
+          }
+        },
+        archiveStarted: function(event) {
+          archiveID = event.id;
+          console.log('ARCHIVE STARTED');
+          // document.getElementById('start-archive').style.display = 'none';
+          // document.getElementById('stop-archive').style.display = 'block';
+          // disableForm();
+        },
+        archiveStopped: function(event) {
+          archiveID = null;
+          console.log('ARCHIVE STOPPED');
+          // document.getElementById('start-archive').style.display = 'block';
+          // document.getElementById('stop-archive').style.display = 'none';
+          // enableForm();
+        }
+      });
+
+      session.connect(token, function(error) {
+        if (error) {
+          console.log('Unable to connect: ', error.message);
+        } else {
+          console.log('Connected to the session.');
+          connectionCount = 1;
+          console.log(session.capabilities)
+          if (session.capabilities.publish == 1) {
+            publish();
+          } else {
+            console.log("You cannot publish an audio-video stream.");
+          }
+        }
+      });
+    }
+
+    function disconnect() {
+      // publisher.destroy();
+      session.disconnect();
+    }
+
+    function disableForm() {
+      document.getElementById('archive-options-fields').disabled = true;
+    }
+
+    function enableForm() {
+      document.getElementById('archive-options-fields').disabled = false;
+    }
+
+    connect();
+
+    // var videoName = document.getElementById('video-name');
+    // if (videoName.value == "") {
+    //   document.getElementById('video-name-error').style.display = 'block';
+    //   return;
+    // } else {
+    //   document.getElementById('video-name-error').style.display = 'none';
+    // }
+    var data = new FormData(document.getElementById('new_media_attachment'));
+    event.preventDefault();
+    fetch(`/business/${locationSlug}/media_attachments/start_archive.json`, {
+      method: 'post',
+      body: data,
+      headers: {
+        'Accept': 'application/json',
+        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+      }
+    }).then(function(response) {
+      console.log(response);
+      // disableForm();
+    })
+
+    // document.addEventListener("DOMContentLoaded", function() {
+    //   document.getElementById('start-archive').style.display = 'block';
+    //   document.getElementById('start-archive').addEventListener("click", function(event) {
+    //     event.preventDefault();
+    //   });
+    //   document.getElementById('stop-archive').style.display = 'none';
+    document.getElementById('stop-archive').addEventListener("click", function(event) {
+      event.preventDefault();
+      fetch(`/business/${locationSlug}/media_attachments/stop_archive/${archiveID}.json`, {
+        method: 'get',
+        headers: {
+          'Accept': 'application/json',
+          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+      }).then(function(response) {
+        console.log(response);
+        disconnect();
+        // enableForm();
+      })
+    })
+  })
+
+  // var mediaRadios = document.querySelectorAll('input[name="media_selection"]');
+
+  // for (radio in mediaRadios) {
+  //   mediaRadios[radio].onclick = function() {
+  //     let mediaSelection = document.querySelector('input[name="media_selection"]:checked').value;
+  //     if (mediaSelection == "youtube") {
+  //       document.getElementById('vonage-video').style.display = 'none';
+  //       document.getElementById('youtube-url').style.display = 'block';
+  //     } else if (mediaSelection == "vonage") {
+  //       document.getElementById('vonage-video').style.display = 'block';
+  //       document.getElementById('youtube-url').style.display = 'none';
+  //       connect();
+  //     }
+  //   }
+  // }
+
+
+</script>

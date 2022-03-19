@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20220314161731) do
+ActiveRecord::Schema.define(:version => 20220319055801) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -630,6 +630,11 @@ ActiveRecord::Schema.define(:version => 20220314161731) do
     t.boolean  "has_video",         :default => false
     t.string   "status"
     t.text     "stream_video_url"
+    t.string   "description"
+    t.string   "stream_thumbnail_file_name"
+    t.string   "stream_thumbnail_content_type"
+    t.integer  "stream_thumbnail_file_size"
+    t.datetime "stream_thumbnail_updated_at"
   end
 
   add_index "media_attachments", ["attachable_id", "attachable_type"], :name => "index_media_attachments_on_attachable_id_and_attachable_type"
