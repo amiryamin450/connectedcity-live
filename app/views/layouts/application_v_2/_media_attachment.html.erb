@@ -17,7 +17,7 @@
   </div>
   <div class="col-md-12">
     <div class="update-banner video-card">
-      <%= image_tag(media_attachment.thumb_url || "/assets/home_page_image/default.jpg") %>
+      <%= image_tag(media_attachment.thumbnail_url) %>
       <div class="card-video-box">
         <i class="far fa-play-circle" data-toggle="modal" data-target=<%="#video-#{media_attachment.id}-model"%>></i>
       </div>

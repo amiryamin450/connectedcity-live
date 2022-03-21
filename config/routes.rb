@@ -2,7 +2,6 @@ Connectbook::Application.routes.draw do
 
   resources :home do
     collection do
-      get :get_vonage_token
       get :city_landing
     end
   end
@@ -274,6 +273,9 @@ Connectbook::Application.routes.draw do
   get 'thankyou' => 'StaticPages#shopper_thank_you', as: :shopper_thank_you_path
   get 'businessthankyou' => 'StaticPages#business_thank_you', as: :business_thank_you_path
   get 'contact' => 'contacts#new'
+
+  post 'media_attachments/vonage_archive_callback' => 'media_attachments#vonage_archive_callback'
+  get 'media_attachments/get_vonage_token' => 'media_attachments#get_vonage_token'
 
   resources 'contacts', only: [:new, :create]
 

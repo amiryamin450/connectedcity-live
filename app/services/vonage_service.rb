@@ -16,13 +16,17 @@ class VonageService
   end
 
   def create_archive params
-    archive = opentok.archives.create params[:media_attachment][:session_id], {
-      :name => params[:media_attachment][:title],
-      :output_mode => "composed",
-      :has_audio => true,
-      :has_video => true
-    }
-    archive
+    begin
+      archive = opentok.archives.create params[:session_id], {
+        :name => params[:media_attachment][:title],
+        :output_mode => "composed",
+        :has_audio => true,
+        :has_video => true
+      }
+      archive
+    rescue => e
+      puts e
+    end
   end
 
   def stop_archive params
@@ -31,5 +35,22 @@ class VonageService
 
   def get_archive archive_id
     opentok.archives.find archive_id
+  end
+
+  def create_thumbnail archive_id
+    video_url = get_archive(archive_id)&.url
+    media_attachment = MediaAttachment.find_by_archive_id(archive_id)
+
+    if video_url.present? && media_attachment.present?
+      cmd = "ffmpeg -i '#{video_url}' -ss 00:00:1 -frames:v 1 #{Rails.root}/public/thumbnail.png"
+      system( cmd )
+      file = File.open("#{Rails.root}/public/thumbnail.png")
+      if file.present?
+        media_attachment.stream_thumbnail = file
+        file.close
+        File.delete(file)
+        media_attachment.save
+      end
+    end
   end
 end

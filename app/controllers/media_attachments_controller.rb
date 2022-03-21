@@ -1,7 +1,9 @@
 class MediaAttachmentsController < ApplicationController
 
   load_resource :location
+  skip_load_resource :location, only: [:vonage_archive_callback, :get_vonage_token]
   load_and_authorize_resource :media_attachment, through: [:location]
+  skip_load_and_authorize_resource :media_attachment, only: [:vonage_archive_callback, :get_vonage_token]
 
   def index
     @media_attachments = @location.media_attachments
@@ -22,15 +24,9 @@ class MediaAttachmentsController < ApplicationController
       url = vonage.get_archive(@media_attachment.archive_id).url
       @media_attachment.update_attribute(:stream_video_url, url)
     end
-
-    # @session_id = @location.media_attachments.last.session_id
-    # @token = vonage.get_token(@session_id)
   end
 
   def new
-    @session_id = vonage.get_session_id
-    @token = vonage.get_token(@session_id)
-
     @media_attachment = @location.media_attachments.new
   end
 
@@ -61,28 +57,49 @@ class MediaAttachmentsController < ApplicationController
 
   def start_archive
     archive = vonage.create_archive(params)
-    media_attachment = @location.media_attachments.new(
-      is_stream_video: true,
-      stream_video_name: archive.name,
-      archive_id: archive.id,
-      session_id: archive.sessionId,
-      has_audio: archive.hasAudio,
-      has_video: archive.hasVideo,
-      status: archive.status
-    )
+    if archive.present?
+      media_attachment = @location.media_attachments.new(
+        is_stream_video: true,
+        stream_video_name: archive.name,
+        archive_id: archive.id,
+        session_id: archive.sessionId,
+        has_audio: archive.hasAudio,
+        has_video: archive.hasVideo,
+        status: archive.status
+      )
 
-    if media_attachment.save
-      render nothing: true, status: :created
+      if media_attachment.save
+        render nothing: true, status: :created
+      else
+        render nothing: true, status: :unprocessable_entity
+      end
     else
-      render nothing: true, status: :unprocessable_entity
+      render json: {msg: "Failed to connect to OpenTok"}, status: :error
     end
   end
 
   def stop_archive
     archive = vonage.stop_archive(params)
     media_attachment = MediaAttachment.find_by_archive_id(params[:archive_id])
-    media_attachment.update_attribute(:status, "stopped")
-    render json: archive
+    media_attachment.update_attribute(:status, "stopped") if media_attachment.present?
+
+    render nothing: true, status: :ok
+  end
+
+  def vonage_archive_callback
+    media_attachment = MediaAttachment.find_by_archive_id(params[:id])
+
+    if media_attachment.present?
+      media_attachment.update_attribute(:status, params[:status])
+      vonage.create_thumbnail(params[:id]) if params[:status] == "available"
+    end
+    render nothing: true, status: :ok
+  end
+
+  def get_vonage_token
+    session_id = vonage.get_session_id
+    token = vonage.get_token(session_id)
+    render json: { session_id: session_id, token: token }
   end
 
   def vonage

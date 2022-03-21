@@ -1,5 +1,4 @@
 <%= simple_form_for [@location, @media_attachment] do |f| %>
-  <%= f.hidden_field :session_id, value: @session_id %>
   <%= f.input :title, label: false, placeholder: "Title", require: true %>
   <%= f.text_area :description, size: '110x3', label: false, placeholder: "Description" %>
   <div class="row add-url">
@@ -33,8 +32,6 @@
   var locationSlug = "<%= @location.slug %>";
   var session;
   var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
-  var sessionID = "<%= @session_id %>";
-  var token = "<%= @token %>";
 
   document.getElementById('start-archive').addEventListener('click', function(event) {
     event.preventDefault();
@@ -49,6 +46,21 @@
       if (error) {
         error.remove();
       }
+    }
+
+    async function fetchToken() {
+      let vonageData = {};
+      vonageData = await fetch(`/media_attachments/get_vonage_token.json`, {
+        method: 'get',
+        }).then(function(response) {
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(response);
+        }).then(function (data) {
+        return {sessionId: data.session_id, token: data.token}
+      })
+      return vonageData;
     }
 
     var connectionCount = 0;
@@ -95,8 +107,10 @@
       });
     };
 
-    function connect() {
-      session = OT.initSession(apiKey, sessionID);
+    function connect(vonageData) {
+      let sessionId = vonageData.sessionId
+      let token = vonageData.token
+      session = OT.initSession(apiKey, sessionId);
 
       session.on({
         connectionCreated: function (event) {
@@ -138,6 +152,7 @@
           connectionCount = 1;
           console.log(session.capabilities)
           if (session.capabilities.publish == 1) {
+            startRecord(vonageData);
             publish();
           } else {
             console.log("You cannot publish an audio-video stream.");
@@ -147,7 +162,6 @@
     }
 
     function disconnect() {
-      // publisher.destroy();
       session.disconnect();
     }
 
@@ -159,66 +173,38 @@
       document.getElementById('archive-options-fields').disabled = false;
     }
 
-    connect();
-
-    // var videoName = document.getElementById('video-name');
-    // if (videoName.value == "") {
-    //   document.getElementById('video-name-error').style.display = 'block';
-    //   return;
-    // } else {
-    //   document.getElementById('video-name-error').style.display = 'none';
-    // }
-    var data = new FormData(document.getElementById('new_media_attachment'));
-    event.preventDefault();
-    fetch(`/business/${locationSlug}/media_attachments/start_archive.json`, {
-      method: 'post',
-      body: data,
-      headers: {
-        'Accept': 'application/json',
-        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-      }
-    }).then(function(response) {
-      console.log(response);
-      // disableForm();
-    })
-
-    // document.addEventListener("DOMContentLoaded", function() {
-    //   document.getElementById('start-archive').style.display = 'block';
-    //   document.getElementById('start-archive').addEventListener("click", function(event) {
-    //     event.preventDefault();
-    //   });
-    //   document.getElementById('stop-archive').style.display = 'none';
-    document.getElementById('stop-archive').addEventListener("click", function(event) {
+    function startRecord(vonageData) {
+      var data = new FormData(document.getElementById('new_media_attachment'));
+      data.append('session_id', vonageData.sessionId);
       event.preventDefault();
-      fetch(`/business/${locationSlug}/media_attachments/stop_archive/${archiveID}.json`, {
-        method: 'get',
+      fetch(`/business/${locationSlug}/media_attachments/start_archive.json`, {
+        method: 'post',
+        body: data,
         headers: {
           'Accept': 'application/json',
           'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
         }
       }).then(function(response) {
         console.log(response);
-        disconnect();
-        // enableForm();
+      })
+    }
+
+    fetchToken().then(vonageData => {
+      connect(vonageData);
+
+      document.getElementById('stop-archive').addEventListener("click", function(event) {
+        event.preventDefault();
+        fetch(`/business/${locationSlug}/media_attachments/stop_archive/${archiveID}.json`, {
+          method: 'get',
+          headers: {
+            'Accept': 'application/json',
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+          }
+        }).then(function(response) {
+          console.log(response);
+          disconnect();
+        })
       })
     })
   })
-
-  // var mediaRadios = document.querySelectorAll('input[name="media_selection"]');
-
-  // for (radio in mediaRadios) {
-  //   mediaRadios[radio].onclick = function() {
-  //     let mediaSelection = document.querySelector('input[name="media_selection"]:checked').value;
-  //     if (mediaSelection == "youtube") {
-  //       document.getElementById('vonage-video').style.display = 'none';
-  //       document.getElementById('youtube-url').style.display = 'block';
-  //     } else if (mediaSelection == "vonage") {
-  //       document.getElementById('vonage-video').style.display = 'block';
-  //       document.getElementById('youtube-url').style.display = 'none';
-  //       connect();
-  //     }
-  //   }
-  // }
-
-
 </script>

@@ -17,7 +17,7 @@
                   <% if media.media_source_id.present? %>
                     <%= link_to(image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media]) %>
                   <% else %>
-                    <%= link_to(image_tag("/assets/home_page_image/default.jpg"), [@location, media]) %>
+                    <%= link_to(image_tag(media.thumbnail_url), [@location, media]) %>
                   <% end %>
                 </div>
                 <div class="video-btn">

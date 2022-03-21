@@ -38,12 +38,6 @@ class HomeController < ApplicationController
     render layout: "application_v_2"
   end
 
-  def get_vonage_token
-    vonage = VonageService.new
-    token = vonage.get_token(params[:session_id])
-    render json: { token: token }
-  end
-
   def connected_advertiser
   end
 end
