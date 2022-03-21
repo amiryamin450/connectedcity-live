@@ -1,6 +1,6 @@
 FROM ruby:2.7.1 AS rails-toolbox
 
-RUN apt-get update -qq && apt-get install -y nodejs imagemagick libmagickcore-dev libmagickwand-dev
+RUN apt-get update -qq && apt-get install -y nodejs imagemagick libmagickcore-dev libmagickwand-dev ffmpeg
 WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
