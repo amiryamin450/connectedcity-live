@@ -1,7 +1,7 @@
 <div class="new-media-attachment">
   <div class="row">
     <div class="span8">
-      <h2 class="add-new-media-attachment-title">Add Video to <span class="location-name"><%= @location.name %></span> Channel</h2>
+      <h2 class="add-new-media-attachment-title">Add Video to <span class='location-name'><%= link_to @location.name, location_path(@location) %></span> Channel</h2>
     </div>
     <div class="span4">
       <h3><%= link_to 'Manage Videos', location_media_attachments_path(@location), class: "" %></h3>

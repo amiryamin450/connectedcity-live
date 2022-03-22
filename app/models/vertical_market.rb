@@ -51,7 +51,16 @@ class VerticalMarket < ActiveRecord::Base
   end
 
   def get_media_attachments(city = nil, district = nil, neighborhood = nil)
-    MediaAttachment.joins(location: :vertical_market_categories).where(locations: location_params(city, district, neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`media_attachments`.`created_at` DESC").limit 10
+    media_attachments = MediaAttachment.joins(location: :vertical_market_categories).where(locations: location_params(city, district, neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`media_attachments`.`created_at` DESC").limit(10).readonly(false)
+
+    vonage = VonageService.new
+    media_attachments.each do |media|
+      if media.archive_id.present?
+        url = vonage.get_archive(media.archive_id).url
+        media.update_attribute(:stream_video_url, url)
+      end
+    end
+    media_attachments
   end
 
   def get_coupons(city = nil, district = nil, neighborhood = nil)
