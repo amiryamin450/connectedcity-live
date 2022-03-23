@@ -19,9 +19,10 @@ class VonageService
     begin
       archive = opentok.archives.create params[:session_id], {
         :name => params[:media_attachment][:title],
-        :output_mode => "composed",
+        :output_mode => :composed,
         :has_audio => true,
-        :has_video => true
+        :has_video => true,
+        :resolution => "1280x720"
       }
       archive
     rescue => e

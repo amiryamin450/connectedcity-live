@@ -102,3 +102,8 @@
       <%= render @vertical_market.get_coupons %>
     </div>
 </div>
+<% if media_attachments.size > 0 %>
+  <% media_attachments.each do |media_attachment| %>
+    <%= render 'status_updates/modal_video_latest', media_attachment: media_attachment %>
+  <% end %>
+<% end %>

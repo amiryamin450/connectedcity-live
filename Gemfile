@@ -70,7 +70,7 @@ gem 'puma'
 gem 'test-unit', '~> 3.0'
 gem 'rake', '< 11'
 gem 'aws-sdk'
-gem 'opentok'
+gem 'opentok', '~> 3.1'
 
 group :assets do
   gem 'bootstrap-colorpicker-rails'
