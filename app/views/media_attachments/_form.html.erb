@@ -24,14 +24,15 @@
   </div>
 <% end %>
 <div class="stream-area">
-  <div id="subscribers">
-  </div>
+  <div id="loader"></div>
+  <div id="subscribers"></div>
 </div>
 
 <script>
   var locationSlug = "<%= @location.slug %>";
   var session;
   var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
+  document.getElementById('stop-archive').disabled = true;
 
   document.getElementById('start-archive').addEventListener('click', function(event) {
     event.preventDefault();
@@ -47,6 +48,9 @@
         error.remove();
       }
     }
+
+    document.getElementById('loader').style.display = 'block';
+    event.target.textContent = 'Starting ...'
 
     async function fetchToken() {
       let vonageData = {};
@@ -152,6 +156,7 @@
           connectionCount = 1;
           console.log(session.capabilities)
           if (session.capabilities.publish == 1) {
+            document.getElementById('loader').style.display = 'none';
             startRecord(vonageData);
             publish();
           } else {
@@ -186,6 +191,9 @@
         }
       }).then(function(response) {
         console.log(response);
+        event.target.textContent = 'Start Recording';
+        event.target.disabled = true;
+        document.getElementById('stop-archive').disabled = false;
       })
     }
 
@@ -194,6 +202,7 @@
 
       document.getElementById('stop-archive').addEventListener("click", function(event) {
         event.preventDefault();
+        event.target.textContent = "Stopping ..."
         fetch(`/business/${locationSlug}/media_attachments/stop_archive/${archiveID}.json`, {
           method: 'get',
           headers: {
@@ -203,6 +212,10 @@
         }).then(function(response) {
           console.log(response);
           disconnect();
+          document.getElementById('stop-archive').disabled = false;
+          event.target.disabled = true;
+          event.target.textContent = "Stop Recording";
+          document.getElementById('start-archive').disabled = false;
         })
       })
     })
