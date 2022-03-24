@@ -9,7 +9,7 @@ class MediaAttachment < ActiveRecord::Base
 
   validates_presence_of :attachment, :unless => :stream_video?
 
-  has_attached_file :stream_thumbnail,
+  has_attached_file :stream_thumbnail, :styles => { :thumb => "320x180", :original => "480x360" },
     :url => "/system/media_attachment/stream_thumbnail/:id/:style/:basename.:extension",
     :path => ":rails_root/public/system/media_attachment/stream_thumbnail/:id/:style/:basename.:extension"
 
@@ -17,9 +17,9 @@ class MediaAttachment < ActiveRecord::Base
     self.is_stream_video ? self.stream_video_name : self.title
   end
 
-  def thumbnail_url
+  def thumbnail_url style=:original
     if self.is_stream_video
-      self.stream_thumbnail.file? ? self.stream_thumbnail.url : "/assets/home_page_image/default.jpg"
+      self.stream_thumbnail.file? ? self.stream_thumbnail.url(style) : "/assets/home_page_image/default.jpg"
     else
       self.thumb_url
     end

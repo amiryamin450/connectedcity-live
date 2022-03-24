@@ -22,7 +22,7 @@
           <% if media.media_source_id.present? %>
             <%= link_to(image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media]) %>
           <% else %>
-            <%= link_to(image_tag(media.thumbnail_url, style: "height: 110px; width: 195px;"), [@location, media]) %>
+            <%= link_to(image_tag(media.thumbnail_url(:thumb)), [@location, media]) %>
           <% end %>
         </div>
         <div><%= link_to media.media_title, [@location, media] %></div>
