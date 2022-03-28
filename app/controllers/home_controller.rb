@@ -14,8 +14,6 @@ class HomeController < ApplicationController
     @blog_entries = @city.blog_entries.limit(PER_PAGE)
     @products = @city.products.limit(PER_PAGE)
     @coupons = @city.coupons.limit(PER_PAGE)
-
-    vonage = VonageService.new
   end
 
   def city_landing
