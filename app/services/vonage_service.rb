@@ -38,20 +38,15 @@ class VonageService
     opentok.archives.find archive_id
   end
 
-  def create_thumbnail archive_id
-    video_url = get_archive(archive_id)&.url
-    media_attachment = MediaAttachment.find_by_archive_id(archive_id)
-
-    if video_url.present? && media_attachment.present?
-      cmd = "ffmpeg -i '#{video_url}' -ss 00:00:1 -frames:v 1 #{Rails.root}/public/thumbnail.png"
-      system( cmd )
-      file = File.open("#{Rails.root}/public/thumbnail.png")
-      if file.present?
-        media_attachment.stream_thumbnail = file
-        file.close
-        File.delete(file)
-        media_attachment.save
-      end
+  def create_thumbnail media_attachment, video_url
+    cmd = "ffmpeg -i '#{video_url}' -ss 00:00:1 -frames:v 1 #{Rails.root}/public/thumbnail.png"
+    system( cmd )
+    file = File.open("#{Rails.root}/public/thumbnail.png")
+    if file.present?
+      media_attachment.stream_thumbnail = file
+      file.close
+      File.delete(file)
+      media_attachment.save
     end
   end
 end

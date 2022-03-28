@@ -20,10 +20,6 @@ class MediaAttachmentsController < ApplicationController
     add_crumb @location.name, location_path(@location)
     add_crumb 'Media'
 
-    if @media_attachment.archive_id.present?
-      url = vonage.get_archive(@media_attachment.archive_id).url
-      @media_attachment.update_attribute(:stream_video_url, url)
-    end
   end
 
   def new
@@ -91,7 +87,11 @@ class MediaAttachmentsController < ApplicationController
 
     if media_attachment.present?
       media_attachment.update_attribute(:status, params[:status])
-      vonage.create_thumbnail(params[:id]) if params[:status] == "available"
+      if params[:status] == "uploaded"
+        url = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/#{ENV['VONAGE_API_KEY']}/#{media_attachment.archive_id}/archive.mp4"
+        media_attachment.update_attribute(:stream_video_url, url)
+        vonage.create_thumbnail(media_attachment, url)
+      end
     end
     render nothing: true, status: :ok
   end
