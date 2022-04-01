@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20220330031343) do
+ActiveRecord::Schema.define(:version => 20220401065437) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -202,18 +202,6 @@ ActiveRecord::Schema.define(:version => 20220330031343) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
-
-  create_table "cities", :force => true do |t|
-    t.string   "name"
-    t.text     "description"
-    t.integer  "community_id"
-    t.integer  "state_or_province_id"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
-    t.string   "slug"
-  end
-
-  add_index "cities", ["slug"], :name => "index_cities_on_slug"
 
   create_table "cities_old", :force => true do |t|
     t.string   "name"
@@ -616,12 +604,25 @@ ActiveRecord::Schema.define(:version => 20220330031343) do
     t.text     "attachment_html"
     t.integer  "attachable_id"
     t.string   "attachable_type"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
     t.string   "thumb_url"
     t.string   "title"
     t.string   "media_source_id"
     t.string   "media_source"
+    t.boolean  "is_stream_video",               :default => false
+    t.string   "archive_id"
+    t.string   "session_id"
+    t.string   "stream_video_name"
+    t.boolean  "has_audio",                     :default => false
+    t.boolean  "has_video",                     :default => false
+    t.string   "status"
+    t.text     "stream_video_url"
+    t.string   "description"
+    t.string   "stream_thumbnail_file_name"
+    t.string   "stream_thumbnail_content_type"
+    t.integer  "stream_thumbnail_file_size"
+    t.datetime "stream_thumbnail_updated_at"
   end
 
   add_index "media_attachments", ["attachable_id", "attachable_type"], :name => "index_media_attachments_on_attachable_id_and_attachable_type"
@@ -891,8 +892,6 @@ ActiveRecord::Schema.define(:version => 20220330031343) do
     t.datetime "updated_at",   :null => false
   end
 
-  add_index "regions", ["slug"], :name => "index_regions_on_slug"
-
   create_table "regions_old", :force => true do |t|
     t.string   "name"
     t.datetime "created_at",                   :null => false
@@ -1011,17 +1010,6 @@ ActiveRecord::Schema.define(:version => 20220330031343) do
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
   end
-
-  create_table "state_or_provinces", :force => true do |t|
-    t.string   "name"
-    t.string   "abbr"
-    t.integer  "country_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.string   "slug"
-  end
-
-  add_index "state_or_provinces", ["slug"], :name => "index_state_or_provinces_on_slug"
 
   create_table "status_updates", :force => true do |t|
     t.string   "title"

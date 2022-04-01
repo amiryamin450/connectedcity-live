@@ -10,37 +10,16 @@
       </div>
       <div class="col-lg-8 col-md-7 d-none d-lg-block">
         <div class="row">
-          <div class="col-3">
+          <div class="col-3 offset-8">
             <div class="input-group-prepend search-box ">
-              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">City<i class="far fa-chevron-down"></i></button>
+              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Country Selection<i class="far fa-chevron-down"></i></button>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="/vancouver">Vancouver</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="input-group-prepend search-box ">
-              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Districts <i class="far fa-chevron-down"></i></button>
-              <div class="dropdown-menu">
-                <% @city.districts.each do |district| %>
-                  <a class="dropdown-item" href="<%= district_guide_path(district)%>"><%= district.name%></a>
+                <% @countries.each do |country| %>
+                  <a class="dropdown-item" href=""><%= country.name %></a>
                 <% end %>
               </div>
             </div>
           </div>
-          <div class="col-4">
-            <div class="input-group-prepend search-box ">
-              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Neighbourhoods <i class="far fa-chevron-down"></i></button>
-              <div class="dropdown-menu">
-                <% @city.districts.each do |district| %>
-                  <% @city.business_improvement_areas.each do |bia| %>
-                    <a class="dropdown-item" href="<%=" /vancouver/#{district.slug}/neighbourhoods/#{bia.slug}"%>"><%= bia.name%></a>
-                  <% end %>
-                <% end %>
-              </div>
-            </div>
-          </div>
-          
           <div class="col-1">
               <div class="input-group-prepend user-dropdown dropleft">
                 <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><img src="/cc_2.0/icon/landing-page-user-icon.svg"> <i class="far fa-chevron-down"></i></button>

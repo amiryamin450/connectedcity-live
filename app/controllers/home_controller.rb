@@ -6,9 +6,6 @@ class HomeController < ApplicationController
   def index
     @countries = Country.all
     @provinces = Province.all.sort_by(&:name)
-    @regions = Region.all.sort_by(&:name)
-    @municipalities = Municipality.all.sort_by(&:name)
-    @cities = City.all.sort_by(&:name)
     @city = City.find(5915022)
     @carousel_images = @city.carousel_images
     @status_updates = @city.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
@@ -16,13 +13,14 @@ class HomeController < ApplicationController
     @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
     @districts = @city.districts
     @news = @city.news_articles.where(newsable_type: "Location").limit(PER_PAGE)
-    @blog_entries = @city.blg_entries.limit(PER_PAGE)
+    @blog_entries = @city.blog_entries.limit(PER_PAGE)
     @products = @city.products.limit(PER_PAGE)
     @coupons = @city.coupons.limit(PER_PAGE)
   end
 
   def city_landing
-    @city = City.find(5915022)
+    # @city = City.find(5915022)
+    @city = City.find(params[:city_id])
     @carousel_images = @city.carousel_images
     @status_updates = @city.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
     @news = @city.news_articles.where(newsable_type: "Location").limit(PER_PAGE)
@@ -40,13 +38,19 @@ class HomeController < ApplicationController
 
   def get_regions
     province = Province.find_by_id(params[:province_id])
-    regions = province.regions
+    regions = province&.regions
     render json: regions
   end
 
   def get_municipalities
     region = Region.find_by_id(params[:region_id])
-    municipalities = region.municipalities
+    municipalities = region&.municipalities
     render json: municipalities
+  end
+
+  def get_cities
+    municipality = Municipality.find_by_id(params[:municipality_id])
+    cities = municipality&.cities
+    render json: cities
   end
 end

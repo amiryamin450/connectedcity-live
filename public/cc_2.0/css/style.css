@@ -1265,9 +1265,25 @@ a:focus {
 }
 
 .landing-page-heading-filter .filter {
-    padding: 30px 0px;
+    padding: 0 30px 30px 30px;
 }
 
+.landing-page-heading-filter select {
+    font-size: 18px;
+}
+
+.landing-page-heading-filter .btn {
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+    border-radius: 10px;
+    background-color: #10375C;
+    font-size: 18px;
+}
+
+.landing-page-heading-filter .btn i {
+    line-height: 1.5;
+}
 
 /************** Landing Page Tabs Section ******************/
 
@@ -2172,11 +2188,11 @@ a:focus {
 
 .category-body-section .category-sidebar .map-section {
     margin: 20px 0px;
-    
+
 }
 
 .category-body-section .category-sidebar .map-section #map {
-    
+
     height: 240px;
 }
 
