@@ -4,6 +4,11 @@ class HomeController < ApplicationController
   PER_PAGE = 20
 
   def index
+    @countries = Country.all
+    @provinces = Province.all.sort_by(&:name)
+    @regions = Region.all.sort_by(&:name)
+    @municipalities = Municipality.all.sort_by(&:name)
+    @cities = City.all.sort_by(&:name)
     @city = City.find(5915022)
     @carousel_images = @city.carousel_images
     @status_updates = @city.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
@@ -11,7 +16,7 @@ class HomeController < ApplicationController
     @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
     @districts = @city.districts
     @news = @city.news_articles.where(newsable_type: "Location").limit(PER_PAGE)
-    @blog_entries = @city.blog_entries.limit(PER_PAGE)
+    @blog_entries = @city.blg_entries.limit(PER_PAGE)
     @products = @city.products.limit(PER_PAGE)
     @coupons = @city.coupons.limit(PER_PAGE)
   end
@@ -31,5 +36,17 @@ class HomeController < ApplicationController
   end
 
   def connected_advertiser
+  end
+
+  def get_regions
+    province = Province.find_by_id(params[:province_id])
+    regions = province.regions
+    render json: regions
+  end
+
+  def get_municipalities
+    region = Region.find_by_id(params[:region_id])
+    municipalities = region.municipalities
+    render json: municipalities
   end
 end

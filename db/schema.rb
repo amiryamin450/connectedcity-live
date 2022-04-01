@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20211123211723) do
+ActiveRecord::Schema.define(:version => 20220330031343) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -626,6 +626,15 @@ ActiveRecord::Schema.define(:version => 20211123211723) do
 
   add_index "media_attachments", ["attachable_id", "attachable_type"], :name => "index_media_attachments_on_attachable_id_and_attachable_type"
 
+  create_table "municipalities", :force => true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.string   "municipality_code"
+    t.integer  "region_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
 # Could not dump table "neighborhoods" because of following StandardError
 #   Unknown type 'geometry' for column 'geom'
 
@@ -751,6 +760,18 @@ ActiveRecord::Schema.define(:version => 20211123211723) do
 
   add_index "products", ["location_id"], :name => "index_products_on_location_id"
 
+  create_table "provinces", :force => true do |t|
+    t.string   "name"
+    t.string   "abbr"
+    t.string   "slug"
+    t.string   "country_code"
+    t.string   "country_name"
+    t.string   "province_code"
+    t.integer  "country_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
   create_table "provinces_old", :force => true do |t|
     t.string   "name"
     t.string   "abbr"
@@ -861,10 +882,13 @@ ActiveRecord::Schema.define(:version => 20211123211723) do
 
   create_table "regions", :force => true do |t|
     t.string   "name"
-    t.integer  "state_or_province_id"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
     t.string   "slug"
+    t.string   "region_code"
+    t.string   "subdomain"
+    t.integer  "province_id"
+    t.boolean  "show_in_menu"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   add_index "regions", ["slug"], :name => "index_regions_on_slug"

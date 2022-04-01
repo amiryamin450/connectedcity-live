@@ -6,8 +6,63 @@
           <h3>Neighbourhoods and Shopping Districts</h3>
         </div>
       </div>
+    </div>
       <!--  -->
-      <div class="col-md-6">
+    <div class="row">
+      <div class="col-3">
+        <div class="input-group-prepend search-box" id="province-dropdown">
+          <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="true">Province/State<i class="far fa-chevron-down"></i></button>
+          <div class="dropdown-menu">
+            <% @provinces.each do |province| %>
+              <a class="dropdown-item" href="#">
+                <%= province.name %>
+              </a>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="input-group-prepend search-box" id="region-dropdown">
+          <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="true">Region<i class="far fa-chevron-down"></i></button>
+          <div class="dropdown-menu">
+            <% @regions.each do |region| %>
+              <a class="dropdown-item" href="#">
+                <%= region.name %>
+              </a>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="input-group-prepend search-box" id="municipality-dropdown">
+          <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="true">Municipality/County<i class="far fa-chevron-down"></i></button>
+          <div class="dropdown-menu">
+            <% @municipalities.each do |municipality| %>
+              <a class="dropdown-item" href="#">
+                <%= municipality.name %>
+              </a>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="input-group-prepend search-box" id="city-dropdown">
+          <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="true">City/Town<i class="far fa-chevron-down"></i></button>
+          <div class="dropdown-menu">
+            <% @cities.each do |city| %>
+              <a class="dropdown-item" href="#">
+                <%= city.name %>
+              </a>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+      <%# <div class="col-md-6">
         <div class="row justify-content-center">
           <div class="col-md-5">
             <div class="filter">
@@ -41,7 +96,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> %>
       <!--  -->
     </div>
   </div>
@@ -77,8 +132,7 @@
                 <% end %>
               </div>
             </div>
-          <% end %>  
-
+          <% end %>
         </div>
       </div>
     </div>
