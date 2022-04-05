@@ -1,6 +1,9 @@
 class Province < ActiveRecord::Base
     # self.table_name = "maponics_provinces"
     # self.primary_key = "pruid"
+    extend FriendlyId
+    friendly_id :name, use: [:slugged, :history]
+
     attr_accessible :name, :abbr, :country_code, :country_name, :province_code
 
     has_many :regions
