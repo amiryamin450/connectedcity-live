@@ -6,7 +6,7 @@ Connectbook::Application.routes.draw do
       get :get_regions
       get :get_municipalities
       get :get_cities
-      get "/city_landing/:city_id", to: 'home#city_landing'
+      get :get_neighborhoods
     end
   end
 
@@ -354,4 +354,8 @@ Connectbook::Application.routes.draw do
 
 
   match ':status', to: 'errors#show', constraints: { status: /\d{3}/ }, as: :error_page
+
+  get "/:province_slug/:region_slug/:municipality_slug/:city_slug", to: 'home#city_landing'
+  get "/:province_slug/:region_slug/:municipality_slug/:city_slug/:district_route", to: 'districts#homepage'
+
 end

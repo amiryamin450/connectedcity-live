@@ -70,18 +70,18 @@
     <div class="col-11">
       <div class="row">
         <div class="col-4">
-          <%= select_tag 'district-dropdown', options_from_collection_for_select(@districts, 'id', 'name'), prompt: 'District', class: 'form-control search-column input-group-prepend search-box' %>
+          <%= select_tag 'district-dropdown', options_from_collection_for_select(@districts, 'slug', 'name'), prompt: 'Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
         <div class="col-4">
-          <%= select_tag 'neighbourhood-dropdown', raw("<option>Neighbourhood</option>"), prompt: 'Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
+          <%= select_tag 'neighbourhood-dropdown', raw("<option>Sub Neighbourhood</option>"), prompt: 'Sub Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
         <div class="col-4">
-          <%= select_tag 'shopping-district-dropdown', raw("<option>Shopping District</option>"), prompt: 'Shopping District', class: 'form-control search-column input-group-prepend search-box' %>
+          <%= select_tag 'shopping-district-dropdown', raw("<option>Sub Sub Neighbourhood</option>"), prompt: 'Sub Sub Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
       </div>
     </div>
     <div class="col-1">
-      <a href="#" id="city-landing-path">
+      <a href="#" id="district-path">
         <button type="button" class="btn-primary btn">Go<i class="far fa-chevron-right"></i></button>
       </a>
     </div>
