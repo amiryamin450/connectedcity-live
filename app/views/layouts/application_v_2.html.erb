@@ -30,6 +30,34 @@
     <%= javascript_include_tag "application_v_2" %>
     <script type="text/javascript" src="/cc_2.0/js/map.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('#district-dropdown').on('change', function(event) {
+          let districtId = event.target.value
+          $.ajax({
+            url: `/home/get_neighborhoods?district_id=${districtId}`,
+            method: "GET",
+            dataType: "json",
+          }).done(function( response ) {
+            resetNeighbourhood();
+            $('#district-path').attr("href", `${response.route}/${districtId}`)
+            $.each(response.neighborhoods, function(index, neighborhood) {
+              $('#neighbourhood-dropdown').append($('<option>', {
+                  value: neighborhood.slug,
+                  text: neighborhood.neighborhd
+              }));
+            })
+          });
+        })
+
+        function resetNeighbourhood() {
+          $('#neighbourhood-dropdown').find('option').remove();
+          $('#neighbourhood-dropdown').append($('<option>', {
+            text: "Sub Neighbourhood"
+          }));
+        }
+      })
+    </script>
   </head>
   <body>
     <!-- Header -->
