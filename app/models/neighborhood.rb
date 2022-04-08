@@ -10,7 +10,7 @@ class Neighborhood < ActiveRecord::Base
 
   default_scope order(:neighborhd)
 
-  attr_accessible :district_id, :district, :slug
+  attr_accessible :district_id, :district, :slug, :neighborhd
 
   friendly_id :name, use: [:slugged, :history]
 

@@ -15,6 +15,4 @@
 //= require leaflet/leaflet.markercluster
 //= require vertical_market_category
 //= require map
-
-
-
+//= require home

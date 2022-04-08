@@ -24,7 +24,7 @@
         
         <div class="address-line">
           <div style="margin-bottom: 10px;">
-           <%= "#{@rental_property.address_1} &middot;".html_safe %> <%= "#{@rental_property.address_2} &middot;".html_safe if @rental_property.address_2.present? %> <%= "#{@rental_property.city.name} #{@rental_property.province.preabbr}, #{@rental_property.postal_code}" %>
+           <%= "#{@rental_property.address_1} &middot;".html_safe %> <%= "#{@rental_property.address_2} &middot;".html_safe if @rental_property.address_2.present? %> <%= "#{@rental_property.city.name} #{@rental_property&.province&.preabbr}, #{@rental_property.postal_code}" %>
          </div>
 
        </div>
