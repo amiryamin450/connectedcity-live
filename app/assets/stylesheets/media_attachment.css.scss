@@ -54,3 +54,20 @@
     }
   }
 }
+
+.media-attachment-area {
+  padding: 20px;
+  background-color: #ebebeb;
+
+  .text-secondary {
+    color: #6c757d;
+  }
+
+  .px-2 {
+    padding: 0 10px;
+  }
+
+  .py-2 {
+    padding: 10px 0;
+  }
+}

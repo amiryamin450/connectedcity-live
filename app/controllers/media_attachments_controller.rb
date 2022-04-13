@@ -4,9 +4,10 @@ class MediaAttachmentsController < ApplicationController
   skip_load_resource :location, only: [:vonage_archive_callback, :get_vonage_token]
   load_and_authorize_resource :media_attachment, through: [:location]
   skip_load_and_authorize_resource :media_attachment, only: [:vonage_archive_callback, :get_vonage_token]
+  PER_PAGE = 5
 
   def index
-    @media_attachments = @location.media_attachments
+    @media_attachments = @location.media_attachments.page(params[:page]).per(PER_PAGE)
   end
 
   def show
