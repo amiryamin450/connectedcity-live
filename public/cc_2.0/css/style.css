@@ -526,6 +526,19 @@ a:focus {
     font-size: 14px;
 }
 
+.user-dropdown .login-item {
+    color: #fff;
+    padding: 10px 10px;
+    display: block;
+    clear: both;
+    font-weight: 400;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    font-size: 18px;
+}
+
 .search-dropdown {
     width: 200px;
 }
