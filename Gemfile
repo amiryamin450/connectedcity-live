@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 ruby '2.7.1'
-source 'https://transcona_media_network_inc_048:xVCxmZzWJ6a__s7h@gems.railslts.com' do
+source 'https://transcona_media_network_inc_632:VmN5m93oVPbMILkv@gems.railslts.com' do
   gem 'rails', '~> 3.2.22'
   gem 'actionmailer',     :require => false
   gem 'actionpack',       :require => false
