@@ -199,7 +199,6 @@
 
     fetchToken().then(vonageData => {
       connect(vonageData);
-
       document.getElementById('stop-archive').addEventListener("click", function(event) {
         event.preventDefault();
         event.target.textContent = "Stopping ..."
@@ -211,12 +210,19 @@
           }
         }).then(function(response) {
           console.log(response);
-          disconnect();
-          document.getElementById('stop-archive').disabled = false;
-          event.target.disabled = true;
-          event.target.textContent = "Stop Recording";
-          document.getElementById('start-archive').disabled = false;
-        })
+          if (response.ok) {
+            return response.json();
+          }
+          return Promise.reject(response);
+          }).then(function (data) {
+            var mediaAttachmentId = data.media_attachment_id;
+            disconnect();
+            document.getElementById('stop-archive').disabled = false;
+            event.target.disabled = true;
+            event.target.textContent = "Stop Recording";
+            document.getElementById('start-archive').disabled = false;
+            window.location.href = `/business/${locationSlug}/media_attachments/preview/${mediaAttachmentId}`;
+          })
       })
     })
   })

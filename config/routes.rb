@@ -260,10 +260,12 @@ Connectbook::Application.routes.draw do
     resources :media_attachments do
       collection do
         post :start_archive
-        get ':stop_archive/:archive_id' => 'media_attachments#stop_archive'
+        get 'stop_archive/:archive_id' => 'media_attachments#stop_archive'
+        get 'preview/:media_attachment_id' => 'media_attachments#preview'
       end
     end
   end
+  resources :videos
 
   #Static Pages
   get 'about' => 'StaticPages#about'

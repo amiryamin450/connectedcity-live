@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20220319055801) do
+ActiveRecord::Schema.define(:version => 20220421080044) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -1138,6 +1138,29 @@ ActiveRecord::Schema.define(:version => 20220319055801) do
 
   add_index "vertical_markets", ["ancestry"], :name => "index_vertical_markets_on_ancestry"
   add_index "vertical_markets", ["slug"], :name => "index_vertical_markets_on_slug", :unique => true
+
+  create_table "videos", :force => true do |t|
+    t.string   "title"
+    t.string   "description"
+    t.string   "thumbnail_file_name"
+    t.string   "thumbnail_content_type"
+    t.integer  "thumbnail_file_size"
+    t.datetime "thumbnail_updated_at"
+    t.text     "video_url"
+    t.integer  "status"
+    t.datetime "timestamp_thumbnail"
+    t.boolean  "updated_audio",          :default => false
+    t.string   "resolution"
+    t.string   "frame_rate"
+    t.string   "session_id"
+    t.string   "archive_id"
+    t.boolean  "has_audio"
+    t.boolean  "has_video"
+    t.boolean  "livestream",             :default => false
+    t.integer  "attachment_id"
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+  end
 
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
 

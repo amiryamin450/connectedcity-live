@@ -47,6 +47,10 @@ class MediaAttachmentsController < ApplicationController
     end
   end
 
+  def preview
+    @media_attachment = MediaAttachment.find_by_id(params[:media_attachment_id])
+  end
+
   def destroy
     @media_attachment.destroy
     redirect_to location_media_attachments_url
@@ -80,7 +84,7 @@ class MediaAttachmentsController < ApplicationController
     media_attachment = MediaAttachment.find_by_archive_id(params[:archive_id])
     media_attachment.update_attribute(:status, "stopped") if media_attachment.present?
 
-    render nothing: true, status: :ok
+    render json: {media_attachment_id: media_attachment.id}, status: :ok
   end
 
   def vonage_archive_callback
