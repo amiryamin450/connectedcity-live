@@ -37,23 +37,4 @@
   </table>
 <% end %>
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script>
-    var fileUploadErrors = {
-        maxFileSize: 'File is too big',
-        minFileSize: 'File is too small',
-        acceptFileTypes: 'Filetype not allowed',
-        maxNumberOfFiles: 'Max number of files exceeded',
-        uploadedBytes: 'Uploaded bytes exceed file size',
-        emptyResult: 'Empty file upload result'
-    };
-</script>
-
-<script type="text/javascript" charset="utf-8">
-  $(function () {
-    // Initialize the jQuery File Upload widget:
-    $('#fileupload').fileupload({
-        fileInput: $('#product_product_images_attributes_0_image')
-    });
-  });
-</script>
+<%= render 'image_upload' %>
