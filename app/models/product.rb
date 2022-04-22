@@ -1,6 +1,7 @@
 class Product < ActiveRecord::Base
   belongs_to :location
   has_many :product_images, dependent: :destroy
+  has_and_belongs_to_many :categories # This relation is for future support multiple categories, using single category this time
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20220405034402) do
+ActiveRecord::Schema.define(:version => 20220421082359) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -201,6 +201,20 @@ ActiveRecord::Schema.define(:version => 20220405034402) do
   create_table "carts", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "categories", :force => true do |t|
+    t.string   "name"
+    t.integer  "parent_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "categories_products", :force => true do |t|
+    t.integer  "category_id"
+    t.integer  "product_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "cities_old", :force => true do |t|
@@ -610,12 +624,12 @@ ActiveRecord::Schema.define(:version => 20220405034402) do
     t.string   "title"
     t.string   "media_source_id"
     t.string   "media_source"
-    t.boolean  "is_stream_video",   :default => false
+    t.boolean  "is_stream_video",               :default => false
     t.string   "archive_id"
     t.string   "session_id"
     t.string   "stream_video_name"
-    t.boolean  "has_audio",         :default => false
-    t.boolean  "has_video",         :default => false
+    t.boolean  "has_audio",                     :default => false
+    t.boolean  "has_video",                     :default => false
     t.string   "status"
     t.text     "stream_video_url"
     t.string   "description"
