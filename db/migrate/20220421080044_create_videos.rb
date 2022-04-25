@@ -1,8 +1,6 @@
 class CreateVideos < ActiveRecord::Migration
   def change
     create_table :videos do |t|
-      t.string :title
-      t.string :description
       t.has_attached_file :thumbnail
       t.text :video_url
       t.integer :status
@@ -15,7 +13,7 @@ class CreateVideos < ActiveRecord::Migration
       t.boolean :has_audio
       t.boolean :has_video
       t.boolean :livestream, default: false
-      t.references :attachment
+      t.references :media_attachment
 
       t.timestamps
     end

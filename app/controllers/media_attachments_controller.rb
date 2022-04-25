@@ -25,6 +25,7 @@ class MediaAttachmentsController < ApplicationController
 
   def new
     @media_attachment = @location.media_attachments.new
+    @video = @location.videos.new
   end
 
   def edit
@@ -61,15 +62,18 @@ class MediaAttachmentsController < ApplicationController
     if archive.present?
       media_attachment = @location.media_attachments.new(
         is_stream_video: true,
-        stream_video_name: archive.name,
-        archive_id: archive.id,
-        session_id: archive.sessionId,
-        has_audio: archive.hasAudio,
-        has_video: archive.hasVideo,
-        status: archive.status
+        title: params[:media_attachment][:title],
+        description: params[:media_attachment][:description]
       )
 
       if media_attachment.save
+        media_attachment.create_video(
+          archive_id: archive.id,
+          session_id: archive.sessionId,
+          has_audio: archive.hasAudio,
+          has_video: archive.hasVideo,
+          status: archive.status,
+        )
         render nothing: true, status: :created
       else
         render nothing: true, status: :unprocessable_entity
