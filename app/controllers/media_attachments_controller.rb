@@ -25,7 +25,6 @@ class MediaAttachmentsController < ApplicationController
 
   def new
     @media_attachment = @location.media_attachments.new
-    @video = @location.videos.new
   end
 
   def edit
@@ -85,21 +84,21 @@ class MediaAttachmentsController < ApplicationController
 
   def stop_archive
     archive = vonage.stop_archive(params)
-    media_attachment = MediaAttachment.find_by_archive_id(params[:archive_id])
-    media_attachment.update_attribute(:status, "stopped") if media_attachment.present?
+    video = Video.find_by_archive_id(params[:archive_id])
+    video.update_attribute(:status, "stopped") if video.present?
 
-    render json: {media_attachment_id: media_attachment.id}, status: :ok
+    render json: {video_id: video.id}, status: :ok
   end
 
   def vonage_archive_callback
-    media_attachment = MediaAttachment.find_by_archive_id(params[:id])
+    video = Video.find_by_archive_id(params[:id])
 
-    if media_attachment.present?
-      media_attachment.update_attribute(:status, params[:status])
+    if video.present?
+      video.update_attribute(:status, params[:status])
       if params[:status] == "uploaded"
-        url = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/#{ENV['VONAGE_API_KEY']}/#{media_attachment.archive_id}/archive.mp4"
-        media_attachment.update_attribute(:stream_video_url, url)
-        vonage.create_thumbnail(media_attachment, url)
+        url = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/#{ENV['VONAGE_API_KEY']}/#{video.archive_id}/archive.mp4"
+        video.update_attribute(:stream_video_url, url)
+        # vonage.create_thumbnail(video, url)
       end
     end
     render nothing: true, status: :ok

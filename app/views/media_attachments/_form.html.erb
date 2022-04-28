@@ -215,13 +215,13 @@
           }
           return Promise.reject(response);
           }).then(function (data) {
-            var mediaAttachmentId = data.media_attachment_id;
+            var videoId = data.video_id;
             disconnect();
             document.getElementById('stop-archive').disabled = false;
             event.target.disabled = true;
             event.target.textContent = "Stop Recording";
             document.getElementById('start-archive').disabled = false;
-            window.location.href = `/business/${locationSlug}/media_attachments/preview/${mediaAttachmentId}`;
+            window.location.href = `/videos/${videoId}`;
           })
       })
     })

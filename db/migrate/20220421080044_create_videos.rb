@@ -3,7 +3,7 @@ class CreateVideos < ActiveRecord::Migration
     create_table :videos do |t|
       t.has_attached_file :thumbnail
       t.text :video_url
-      t.integer :status
+      t.string :status
       t.datetime :timestamp_thumbnail
       t.boolean :updated_audio, default: false
       t.string :resolution

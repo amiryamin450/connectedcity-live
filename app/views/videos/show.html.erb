@@ -1,22 +1,25 @@
 <h1>Preview Video</h1>
-<div class="row-fluid media-attachment-area">
-  <div class="span6">
-
-    <iframe width='853' height='480' src='<%= @video.url %>' frameborder='0' allowfullscreen></iframe>
+<%= form_for @video do |f| %>
+  <div class="row-fluid media-attachment-area">
+    <div class="span6">
+      <iframe width='853' height='480' src='<%= @video.video_url %>' frameborder='0' allowfullscreen></iframe>
+    </div>
+    <div class="span6">
+      <%= f.fields_for :media_attachment do |ff| %>
+        <h1><%= ff.text_field :title %></h1>
+        <div class="text-secondary py-2"><span class="px-2">100,123 views</span><span>&middot;</span><span class="px-2">2 months ago</span></div>
+        <div><%= ff.text_field :description %></div>
+      <% end %>
+    </div>
+    <%= f.submit "Save" %>
   </div>
-  <div class="span6">
-    <h1><%= @video.media_title %></h1>
-    <div class="text-secondary py-2"><span class="px-2">100,123 views</span><span>&middot;</span><span class="px-2">2 months ago</span></div>
-    <div><%= @video.description %></div>
-  </div>
-</div>
-
+<% end %>
 <div>
-  <span>Thumbnail: </span>
-  <%= form_for @video do |f| %>
-    <%= f.file_field :stream_thumbnail %>
-    <%= f.submit "Upload a custom thumbnail" %>
-  <% end %>
+<%= form_for @video, multipart: true do |f| %>
+  <label for="thumbnail">Upload a thumbnail:</label>
+  <%= f.file_field :thumbnail %>
+  <%= f.submit "Save changes" %>
+<% end %>
 </div>
 <br>
 <div>

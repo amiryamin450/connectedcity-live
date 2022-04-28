@@ -265,7 +265,9 @@ Connectbook::Application.routes.draw do
       end
     end
   end
-  resources :videos
+  resources :videos do
+    post :upload_thumbnail
+  end
 
   #Static Pages
   get 'about' => 'StaticPages#about'
