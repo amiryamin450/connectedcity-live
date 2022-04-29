@@ -5,32 +5,40 @@
       <iframe width='853' height='480' src='<%= @video.video_url %>' frameborder='0' allowfullscreen></iframe>
     </div>
     <div class="span6">
+      <div>
       <%= f.fields_for :media_attachment do |ff| %>
-        <h1><%= ff.text_field :title %></h1>
-        <div class="text-secondary py-2"><span class="px-2">100,123 views</span><span>&middot;</span><span class="px-2">2 months ago</span></div>
-        <div><%= ff.text_field :description %></div>
+        <%= ff.text_field :title %>
+        <%= ff.text_area :description, cols: 110, rows: 5 %>
       <% end %>
+      </div>
+      <%= f.submit "Save changes", class: "btn btn btn-primary" %>
     </div>
-    <%= f.submit "Save" %>
   </div>
 <% end %>
+
 <div>
-<%= form_for @video, multipart: true do |f| %>
-  <label for="thumbnail">Upload a thumbnail:</label>
-  <%= f.file_field :thumbnail %>
-  <%= f.submit "Save changes" %>
-<% end %>
+  <h3>Thumbnail</h3>
+  <% if @video.thumbnail.file? %>
+    <div>
+      <%= image_tag(@video.thumbnail.url) %>
+    </div>
+  <% end %>
+  <%= form_for @video, multipart: true do |f| %>
+    <%= f.file_field :thumbnail %>
+    <%= f.submit "Save changes", class: "btn btn btn-primary" %>
+  <% end %>
 </div>
 <br>
 <div>
-  <span>Audio: </span>
+  <h3>Audio</h3>
   <%= form_for @video, multipart: true do |f| %>
     <%= f.hidden_field 'remove_audio', value: true %>
-    <%= f.submit "Mute Audio" %>
+    <%= f.submit "Mute recorded audio", class: "btn btn-danger" %>
   <% end %>
+
   <%= form_for @video, multipart: true do |f| %>
     <label for="thumbnail">Upload new audio</label>
     <%= f.file_field :audio %>
-    <%= f.submit "Save changes" %>
+    <%= f.submit "Save changes", class: "btn btn btn-primary" %>
   <% end %>
 </div>
