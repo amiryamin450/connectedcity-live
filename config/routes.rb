@@ -268,6 +268,7 @@ Connectbook::Application.routes.draw do
   end
   resources :videos do
     post :upload_thumbnail
+    post :remove_audio
   end
 
   #Static Pages

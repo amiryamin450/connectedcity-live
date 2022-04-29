@@ -24,6 +24,13 @@
 <br>
 <div>
   <span>Audio: </span>
-  <button>Mute Audio</button>
-  <button>Upload new audio</button>
+  <%= form_for @video, multipart: true do |f| %>
+    <%= f.hidden_field 'remove_audio', value: true %>
+    <%= f.submit "Mute Audio" %>
+  <% end %>
+  <%= form_for @video, multipart: true do |f| %>
+    <label for="thumbnail">Upload new audio</label>
+    <%= f.file_field :audio %>
+    <%= f.submit "Save changes" %>
+  <% end %>
 </div>
