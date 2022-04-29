@@ -97,7 +97,7 @@ class MediaAttachmentsController < ApplicationController
       video.update_attribute(:status, params[:status])
       if params[:status] == "uploaded"
         url = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/#{ENV['VONAGE_API_KEY']}/#{video.archive_id}/archive.mp4"
-        video.update_attribute(:stream_video_url, url)
+        video.update_attribute(:video_url, url)
         # vonage.create_thumbnail(video, url)
       end
     end
@@ -108,6 +108,13 @@ class MediaAttachmentsController < ApplicationController
     session_id = vonage.get_session_id
     token = vonage.get_token(session_id)
     render json: { session_id: session_id, token: token }
+  end
+
+  def check_video_url
+    video = Video.find_by_id(params[:video_id])
+    if video.present?
+      render json: {generated_url: video.video_url.present?}, status: :ok
+    end
   end
 
   def vonage

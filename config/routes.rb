@@ -261,6 +261,7 @@ Connectbook::Application.routes.draw do
       collection do
         post :start_archive
         get 'stop_archive/:archive_id' => 'media_attachments#stop_archive'
+        get 'check_video_url/:video_id' => 'media_attachments#check_video_url'
         get 'preview/:media_attachment_id' => 'media_attachments#preview'
       end
     end
