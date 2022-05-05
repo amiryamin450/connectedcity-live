@@ -1,0 +1,32 @@
+<h1>Preview Video</h1>
+<div class="row-fluid media-attachment-area">
+  <div class="span6">
+    <%
+      if @media_attachment.is_stream_video
+        url = @media_attachment.stream_video_url
+      else
+        url = "https://www.youtube.com/embed/#{@media_attachment.media_source_id}"
+      end
+    %>
+    <iframe width='853' height='480' src='<%= url %>' frameborder='0' allowfullscreen></iframe>
+  </div>
+  <div class="span6">
+    <h1><%= @media_attachment.media_title %></h1>
+    <div class="text-secondary py-2"><span class="px-2">100,123 views</span><span>&middot;</span><span class="px-2">2 months ago</span></div>
+    <div><%= @media_attachment.description %></div>
+  </div>
+</div>
+
+<div>
+  <span>Thumbnail: </span>
+  <%= form_for @media_attachment do |f| %>
+    <%= f.file_field :stream_thumbnail %>
+    <%= f.submit "Upload a custom thumbnail" %>
+  <% end %>
+</div>
+<br>
+<div>
+  <span>Audio: </span>
+  <button>Mute Audio</button>
+  <button>Upload new audio</button>
+</div>

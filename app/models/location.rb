@@ -20,6 +20,7 @@ class Location < ActiveRecord::Base
   has_many :favorites, dependent: :destroy
   has_many :status_updates, as: :statusable, dependent: :destroy
   has_many :media_attachments, as: :attachable, dependent: :destroy
+  has_many :videos, through: :media_attachments
   has_many :blog_entries, as: :bloggable, dependent: :destroy
   has_many :news_articles, as: :newsable, dependent: :destroy
   has_many :products, dependent: :destroy

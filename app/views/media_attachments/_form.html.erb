@@ -199,7 +199,6 @@
 
     fetchToken().then(vonageData => {
       connect(vonageData);
-
       document.getElementById('stop-archive').addEventListener("click", function(event) {
         event.preventDefault();
         event.target.textContent = "Stopping ..."
@@ -211,13 +210,46 @@
           }
         }).then(function(response) {
           console.log(response);
-          disconnect();
-          document.getElementById('stop-archive').disabled = false;
-          event.target.disabled = true;
-          event.target.textContent = "Stop Recording";
-          document.getElementById('start-archive').disabled = false;
-        })
+          if (response.ok) {
+            return response.json();
+          }
+          return Promise.reject(response);
+          }).then(function (data) {
+            var videoId = data.video_id;
+            disconnect();
+            document.getElementById('stop-archive').disabled = false;
+            event.target.disabled = true;
+            event.target.textContent = "Stop Recording";
+            document.getElementById('start-archive').disabled = false;
+
+            checkVideoUrl(locationSlug, videoId);
+          })
       })
     })
+
+    function checkVideoUrl(locationSlug, videoId) {
+      setTimeout(function() {
+        fetch(`/business/${locationSlug}/media_attachments/check_video_url/${videoId}.json`, {
+          method: 'get',
+          headers: {
+            'Accept': 'application/json',
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+          }
+        }).then(function(response) {
+          if (response.ok) {
+            return response.json();
+          }
+          return Promise.reject(response);
+        }).then(function (data) {
+          console.log(data.generated_url);
+          if (data.generated_url) {
+            window.location.href = `/videos/${videoId}`;
+          } else {
+            checkVideoUrl(locationSlug, videoId);
+            console.log('loading...');
+          }
+        });
+      }, 2000);
+    }
   })
 </script>

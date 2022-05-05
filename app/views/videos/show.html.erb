@@ -1,0 +1,44 @@
+<h1>Preview Video</h1>
+<%= form_for @video do |f| %>
+  <div class="row-fluid media-attachment-area">
+    <div class="span6">
+      <iframe width='853' height='480' src='<%= @video.video_url %>' frameborder='0' allowfullscreen></iframe>
+    </div>
+    <div class="span6">
+      <div>
+      <%= f.fields_for :media_attachment do |ff| %>
+        <%= ff.text_field :title %>
+        <%= ff.text_area :description, cols: 110, rows: 5 %>
+      <% end %>
+      </div>
+      <%= f.submit "Save changes", class: "btn btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
+
+<div>
+  <h3>Thumbnail</h3>
+  <% if @video.thumbnail.file? %>
+    <div>
+      <%= image_tag(@video.thumbnail.url) %>
+    </div>
+  <% end %>
+  <%= form_for @video, multipart: true do |f| %>
+    <%= f.file_field :thumbnail %>
+    <%= f.submit "Save changes", class: "btn btn btn-primary" %>
+  <% end %>
+</div>
+<br>
+<div>
+  <h3>Audio</h3>
+  <%= form_for @video, multipart: true do |f| %>
+    <%= f.hidden_field 'remove_audio', value: true %>
+    <%= f.submit "Mute recorded audio", class: "btn btn-danger" %>
+  <% end %>
+
+  <%= form_for @video, multipart: true do |f| %>
+    <label for="thumbnail">Upload new audio</label>
+    <%= f.file_field :audio %>
+    <%= f.submit "Save changes", class: "btn btn btn-primary" %>
+  <% end %>
+</div>
