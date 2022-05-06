@@ -2,15 +2,13 @@
 <%= form_for @video do |f| %>
   <div class="row-fluid media-attachment-area">
     <div class="span6">
-      <iframe width='853' height='480' src='<%= @video.video_url %>' frameborder='0' allowfullscreen></iframe>
+      <iframe width='100%' height='480' src='<%= @video.video_url %>' frameborder='0' allowfullscreen></iframe>
     </div>
     <div class="span6">
-      <div>
       <%= f.fields_for :media_attachment do |ff| %>
         <%= ff.text_field :title %>
         <%= ff.text_area :description, cols: 110, rows: 5 %>
       <% end %>
-      </div>
       <%= f.submit "Save changes", class: "btn btn btn-primary" %>
     </div>
   </div>
