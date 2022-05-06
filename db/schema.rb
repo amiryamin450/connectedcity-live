@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20220421082359) do
+ActiveRecord::Schema.define(:version => 20220422082359) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -771,6 +771,7 @@ ActiveRecord::Schema.define(:version => 20220421082359) do
     t.boolean  "custom_pricing"
     t.integer  "quantity"
     t.decimal  "discount",           :precision => 10, :scale => 0, :default => 0
+    t.integer  "category_id",                                                      :null => false
   end
 
   add_index "products", ["location_id"], :name => "index_products_on_location_id"

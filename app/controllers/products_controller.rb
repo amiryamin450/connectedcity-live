@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
-  load_resource :location
-  load_and_authorize_resource :product, through: [:location]
+  load_resource :location, except: [:deeper_categories, :select_category]
+  load_and_authorize_resource :product, through: [:location], except: [:deeper_categories, :select_category]
 
   def index
     @products = @location.products
@@ -22,6 +22,7 @@ class ProductsController < ApplicationController
 
   def new
     @product = @location.products.new
+    @categories = Category.where(parent_id: nil)
   end
 
   def edit
@@ -54,6 +55,15 @@ class ProductsController < ApplicationController
   def destroy
     @product.destroy
     redirect_to location_products_url
+  end
+
+  def deeper_categories
+    @lv2_categories = Category.find(params[:id]).children
+    @lv = params[:lv]
+  end
+
+  def select_category
+    @category = Category.find(params[:id])
   end
 
 end

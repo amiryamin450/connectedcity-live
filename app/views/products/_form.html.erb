@@ -1,6 +1,21 @@
 <%= simple_form_for [@location, @product], :html => { :multipart => true, class: 'form-horizontal', id: 'fileupload' } do |f| %>
 <div class="form-inputs">
   <%= f.input :name %>
+  <div class="control-group string required category">
+    <%= f.label :category %>
+    <a class="btn btn-primary controls category-select-btn" data-toggle="collapse" href="#collapseCategories" role="button" aria-expanded="false" aria-controls="collapseCategories">
+      Select product category
+    </a>
+    <div class="collapse controls" id="collapseCategories">
+        <div class="level-1-category">
+          <%= render 'categories', categories: @categories, lv: 1 %>
+        </div>
+        <div class="level-2-category"></div>
+        <div class="level-3-category"></div>
+    </div>
+  </div>
+
+  <%= f.hidden_field :category_id %>
   <%= f.input :description, input_html: { class: 'input-block-level wysihtml5'} %>
   <%= f.input :price, as: :string %>
   <%= f.input :discount, as: :string %>

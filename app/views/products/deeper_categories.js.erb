@@ -1,0 +1,4 @@
+$(".category-select-btn").text("Select product category");
+$("#product_category_id").val("");
+let el = "<%= @lv == '1' ? '.level-2-category' : '.level-3-category' %>"
+$(el).html('<%= escape_javascript render "categories", categories: @lv2_categories, lv: 2 %>');

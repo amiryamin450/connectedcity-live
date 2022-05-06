@@ -809,3 +809,29 @@ main {
   max-width: 100%;
   overflow-x: auto;
 }
+
+.category-select-btn {
+  width: 200px;
+  display: block;
+}
+
+#collapseCategories {
+  display: flex;
+  margin-top: 15px;
+
+  div {
+    width: 33.33%;
+    height: 220px;
+    overflow: scroll;
+
+    a {
+      text-decoration: none;
+      display: block;
+      :last-child {
+        float: right;
+        margin-right: 25px;
+        font-weight: bold;
+      }
+    }
+  }
+}

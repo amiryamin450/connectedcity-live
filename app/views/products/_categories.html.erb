@@ -1,0 +1,10 @@
+<% categories.each do |cat| %>
+  <% if cat.children.present? %>
+    <%= link_to deeper_categories_path(id: cat.id, lv: lv), remote: true do %>
+      <span><%= cat.name %></span>
+      <span>></span>
+    <% end %>
+  <% else %>
+    <%= link_to cat.name, select_category_path(id: cat.id), remote: true, method: :post %>
+  <% end %>
+<% end %>
