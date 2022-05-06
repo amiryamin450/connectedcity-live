@@ -2,7 +2,7 @@
   <div class="span6">
     <%
       if @media_attachment.is_stream_video
-        url = @media_attachment.stream_video_url
+        url = @media_attachment.videos.first&.video_url
       else
         url = "https://www.youtube.com/embed/#{@media_attachment.media_source_id}"
       end
@@ -10,7 +10,7 @@
     <iframe width='853' height='480' src='<%= url %>' frameborder='0' allowfullscreen></iframe>
   </div>
   <div class="span6">
-    <h1><%= @media_attachment.media_title %></h1>
+    <h1><%= @media_attachment.title %></h1>
     <div class="text-secondary py-2"><span class="px-2">100,123 views</span><span>&middot;</span><span class="px-2">2 months ago</span></div>
     <div><%= @media_attachment.description %></div>
   </div>
@@ -28,7 +28,7 @@
             <%= link_to(image_tag(media.thumbnail_url(:thumb)), [@location, media]) %>
           <% end %>
         </div>
-        <div><%= link_to media.media_title, [@location, media] %></div>
+        <div><%= link_to media.title, [@location, media] %></div>
       </div>
     <% end -%>
   </div>
