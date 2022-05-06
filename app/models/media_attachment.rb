@@ -6,7 +6,7 @@ class MediaAttachment < ActiveRecord::Base
   belongs_to :location, foreign_key: "attachable_id", conditions: { media_attachments: { attachable_type: "Location" } }
   has_many :videos
 
-  attr_accessible :attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source, :is_stream_video, :archive_id, :session_id, :stream_video_name, :has_audio, :has_video, :status, :description
+  attr_accessible :attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source, :is_stream_video, :archive_id, :session_id, :description
 
   validates_presence_of :attachment, :unless => :stream_video?
 
@@ -14,13 +14,9 @@ class MediaAttachment < ActiveRecord::Base
     :url => "/system/media_attachment/stream_thumbnail/:id/:style/:basename.:extension",
     :path => ":rails_root/public/system/media_attachment/stream_thumbnail/:id/:style/:basename.:extension"
 
-  def media_title
-    self.is_stream_video ? self.stream_video_name : self.title
-  end
-
   def thumbnail_url style=:original
     if self.is_stream_video
-      self.stream_thumbnail.file? ? self.stream_thumbnail.url(style) : "/assets/home_page_image/default.jpg"
+      self.videos.first&.thumbnail&.file? ? self.videos.first.thumbnail.url(style) : "/assets/home_page_image/default.jpg"
     else
       self.thumb_url
     end
