@@ -18,11 +18,14 @@
   <div class="row">
     <div class="span2">2. Record a Video:</div>
     <div class="span10">
-      <button class="btn btn-success" id="start-archive">Start Recording</button>
+      <button class="btn btn-success create-archive" id="start-archive">Start Recording</button>
+      <button class="btn btn-success" id="pause-archive">Pause Recording</button>
+      <button class="btn btn-success create-archive" id="resume-archive">Resume Recording</button>
       <button class="btn btn-danger" id="stop-archive">Stop Recording</button>
     </div>
   </div>
 <% end %>
+
 <div class="stream-area">
   <div id="loader"></div>
   <div id="subscribers"></div>
@@ -34,222 +37,265 @@
   var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
   document.getElementById('stop-archive').disabled = true;
 
-  document.getElementById('start-archive').addEventListener('click', function(event) {
-    event.preventDefault();
-    var mediaTitle = document.getElementById('media_attachment_title')
-    if (mediaTitle.value == '') {
-      mediaTitle.insertAdjacentHTML('afterend', "<div class='help-inline' id='title-error' style='color: #b94a48; '>can\'t be blank</div>");
-      mediaTitle.style.borderColor = "#b94a48";
-      return;
-    } else {
-      mediaTitle.style.borderColor = "#ccc";
-      var error = document.getElementById("title-error");
-      if (error) {
-        error.remove();
-      }
-    }
-
-    document.getElementById('loader').style.display = 'block';
-    event.target.textContent = 'Starting ...'
-
-    async function fetchToken() {
-      let vonageData = {};
-      vonageData = await fetch(`/media_attachments/get_vonage_token.json`, {
-        method: 'get',
-        }).then(function(response) {
-        if (response.ok) {
-          return response.json();
-        }
-        return Promise.reject(response);
-        }).then(function (data) {
-        return {sessionId: data.session_id, token: data.token}
-      })
-      return vonageData;
-    }
-
-    var connectionCount = 0;
-    var publisherProperties = {width: 853, height: 480, resolution: '1280x720', insertMode: "append", usePreviousDeviceSelection: true};
-    var targetElement = 'subscribers';
-    var archiveID = null;
-
-    function publish() {
-      var publisher = OT.initPublisher(targetElement, publisherProperties, function (error) {
-        if (error) {
-          console.log(error);
-        } else {
-          session.publish(publisher, function(error) {
-            if (error) {
-              console.log(error);
-            } else {
-              console.log('Publishing a stream.');
-            }
-          });
-        }
-      });
-      publisher.on({
-        accessAllowed: function(event) {
-          console.log("accessAllowed", event)
-        },
-        accessDenied: function(event) {
-          console.log("accessDenied", event)
-        },
-        accessDialogOpened: function (event) {
-        // Show allow camera message
-          // pleaseAllowCamera.style.display = 'block';
-        },
-        accessDialogClosed: function (event) {
-          // Hide allow camera message
-          // pleaseAllowCamera.style.display = 'none';
-        },
-        streamCreated: function (event) {
-          console.log("Publisher started streaming.");
-        },
-        streamDestroyed: function (event) {
-          console.log("Publisher stopped streaming. Reason: "
-            + event.reason);
-        }
-      });
-    };
-
-    function connect(vonageData) {
-      let sessionId = vonageData.sessionId
-      let token = vonageData.token
-      session = OT.initSession(apiKey, sessionId);
-
-      session.on({
-        connectionCreated: function (event) {
-          connectionCount++;
-          console.log(connectionCount + ' connections.');
-        },
-        connectionDestroyed: function (event) {
-          connectionCount--;
-          console.log(connectionCount + ' connections.');
-        },
-        sessionDisconnected: function sessionDisconnectHandler(event) {
-          // The event is defined by the SessionDisconnectEvent class
-          console.log('Disconnected from the session.');
-          if (event.reason == 'networkDisconnected') {
-            alert('Your network connection terminated.')
-          }
-        },
-        archiveStarted: function(event) {
-          archiveID = event.id;
-          console.log('ARCHIVE STARTED');
-          // document.getElementById('start-archive').style.display = 'none';
-          // document.getElementById('stop-archive').style.display = 'block';
-          // disableForm();
-        },
-        archiveStopped: function(event) {
-          archiveID = null;
-          console.log('ARCHIVE STOPPED');
-          // document.getElementById('start-archive').style.display = 'block';
-          // document.getElementById('stop-archive').style.display = 'none';
-          // enableForm();
-        }
-      });
-
-      session.connect(token, function(error) {
-        if (error) {
-          console.log('Unable to connect: ', error.message);
-        } else {
-          console.log('Connected to the session.');
-          connectionCount = 1;
-          console.log(session.capabilities)
-          if (session.capabilities.publish == 1) {
-            document.getElementById('loader').style.display = 'none';
-            startRecord(vonageData);
-            publish();
-          } else {
-            console.log("You cannot publish an audio-video stream.");
-          }
-        }
-      });
-    }
-
-    function disconnect() {
-      session.disconnect();
-    }
-
-    function disableForm() {
-      document.getElementById('archive-options-fields').disabled = true;
-    }
-
-    function enableForm() {
-      document.getElementById('archive-options-fields').disabled = false;
-    }
-
-    function startRecord(vonageData) {
-      var data = new FormData(document.getElementById('new_media_attachment'));
-      data.append('session_id', vonageData.sessionId);
+  document.querySelectorAll('.create-archive').forEach(item => {
+    item.addEventListener('click', event => {
+      var isResume = event.target.id == 'resume-archive'
       event.preventDefault();
-      fetch(`/business/${locationSlug}/media_attachments/start_archive.json`, {
-        method: 'post',
-        body: data,
-        headers: {
-          'Accept': 'application/json',
-          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+      var mediaTitle = document.getElementById('media_attachment_title')
+      if (mediaTitle.value == '') {
+        mediaTitle.insertAdjacentHTML('afterend', "<div class='help-inline' id='title-error' style='color: #b94a48; '>can\'t be blank</div>");
+        mediaTitle.style.borderColor = "#b94a48";
+        return;
+      } else {
+        mediaTitle.style.borderColor = "#ccc";
+        var error = document.getElementById("title-error");
+        if (error) {
+          error.remove();
         }
-      }).then(function(response) {
-        console.log(response);
-        event.target.textContent = 'Start Recording';
-        event.target.disabled = true;
-        document.getElementById('stop-archive').disabled = false;
-      })
-    }
+      }
 
-    fetchToken().then(vonageData => {
-      connect(vonageData);
-      document.getElementById('stop-archive').addEventListener("click", function(event) {
-        event.preventDefault();
-        event.target.textContent = "Stopping ..."
-        fetch(`/business/${locationSlug}/media_attachments/stop_archive/${archiveID}.json`, {
+      document.getElementById('loader').style.display = 'block';
+      if (isResume) {
+        event.target.textContent = 'Resuming ...'
+      } else {
+        event.target.textContent = 'Starting ...'
+      }
+
+      async function fetchToken() {
+        let vonageData = {};
+        vonageData = await fetch(`/media_attachments/get_vonage_token.json`, {
           method: 'get',
-          headers: {
-            'Accept': 'application/json',
-            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-          }
-        }).then(function(response) {
-          console.log(response);
+          }).then(function(response) {
           if (response.ok) {
             return response.json();
           }
           return Promise.reject(response);
           }).then(function (data) {
-            var videoId = data.video_id;
-            disconnect();
-            document.getElementById('stop-archive').disabled = false;
-            event.target.disabled = true;
-            event.target.textContent = "Stop Recording";
-            document.getElementById('start-archive').disabled = false;
+          return {sessionId: data.session_id, token: data.token}
+        })
+        return vonageData;
+      }
 
-            checkVideoUrl(locationSlug, videoId);
-          })
-      })
-    })
+      var connectionCount = 0;
+      var publisherProperties = {width: 853, height: 480, resolution: '1280x720', insertMode: "append", usePreviousDeviceSelection: true};
+      var targetElement = 'subscribers';
+      let archiveID = null;
+      let mediaAttachmentId = "";
 
-    function checkVideoUrl(locationSlug, videoId) {
-      setTimeout(function() {
-        fetch(`/business/${locationSlug}/media_attachments/check_video_url/${videoId}.json`, {
-          method: 'get',
+      function publish() {
+        var publisher = OT.initPublisher(targetElement, publisherProperties, function (error) {
+          if (error) {
+            console.log(error);
+          } else {
+            session.publish(publisher, function(error) {
+              if (error) {
+                console.log(error);
+              } else {
+                console.log('Publishing a stream.');
+              }
+            });
+          }
+        });
+        publisher.on({
+          accessAllowed: function(event) {
+            console.log("accessAllowed", event)
+          },
+          accessDenied: function(event) {
+            console.log("accessDenied", event)
+          },
+          accessDialogOpened: function (event) {
+          // Show allow camera message
+            // pleaseAllowCamera.style.display = 'block';
+          },
+          accessDialogClosed: function (event) {
+            // Hide allow camera message
+            // pleaseAllowCamera.style.display = 'none';
+          },
+          streamCreated: function (event) {
+            console.log("Publisher started streaming.");
+          },
+          streamDestroyed: function (event) {
+            console.log("Publisher stopped streaming. Reason: "
+              + event.reason);
+          }
+        });
+      };
+
+      function connect(vonageData) {
+        let sessionId = vonageData.sessionId
+        let token = vonageData.token
+        session = OT.initSession(apiKey, sessionId);
+
+        session.on({
+          connectionCreated: function (event) {
+            connectionCount++;
+            console.log(connectionCount + ' connections.');
+          },
+          connectionDestroyed: function (event) {
+            connectionCount--;
+            console.log(connectionCount + ' connections.');
+          },
+          sessionDisconnected: function sessionDisconnectHandler(event) {
+            // The event is defined by the SessionDisconnectEvent class
+            console.log('Disconnected from the session.');
+            if (event.reason == 'networkDisconnected') {
+              alert('Your network connection terminated.')
+            }
+          },
+          archiveStarted: function(event) {
+            archiveID = event.id;
+            console.log('ARCHIVE STARTED');
+            // document.getElementById('start-archive').style.display = 'none';
+            // document.getElementById('stop-archive').style.display = 'block';
+            // disableForm();
+          },
+          archiveStopped: function(event) {
+            // archiveID = null;
+            console.log('ARCHIVE STOPPED');
+            // document.getElementById('start-archive').style.display = 'block';
+            // document.getElementById('stop-archive').style.display = 'none';
+            // enableForm();
+          }
+        });
+
+        session.connect(token, function(error) {
+          if (error) {
+            console.log('Unable to connect: ', error.message);
+          } else {
+            console.log('Connected to the session.');
+            connectionCount = 1;
+            console.log(session.capabilities)
+            if (session.capabilities.publish == 1) {
+              document.getElementById('loader').style.display = 'none';
+              startRecord(vonageData);
+              publish();
+            } else {
+              console.log("You cannot publish an audio-video stream.");
+            }
+          }
+        });
+      }
+
+      function disconnect() {
+        session.disconnect();
+      }
+
+      function disableForm() {
+        document.getElementById('archive-options-fields').disabled = true;
+      }
+
+      function enableForm() {
+        document.getElementById('archive-options-fields').disabled = false;
+      }
+
+      function startRecord(vonageData) {
+        console.log(mediaAttachmentId);
+        var data = new FormData(document.getElementById('new_media_attachment'));
+        var mediaAttachmentId = document.getElementById('resume-archive').getAttribute("data")
+        data.append('session_id', vonageData.sessionId);
+        if (isResume) {
+          data.append('is_resume', isResume);
+          data.append('media_attachment_id', mediaAttachmentId);
+        }
+        event.preventDefault();
+        fetch(`/business/${locationSlug}/media_attachments/start_archive.json`, {
+          method: 'post',
+          body: data,
           headers: {
             'Accept': 'application/json',
             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
           }
         }).then(function(response) {
-          if (response.ok) {
-            return response.json();
-          }
-          return Promise.reject(response);
-        }).then(function (data) {
-          console.log(data.generated_url);
-          if (data.generated_url) {
-            window.location.href = `/videos/${videoId}`;
+          if (isResume) {
+            event.target.textContent = 'Resume Recording';
+            event.target.style.display = 'none';
           } else {
-            checkVideoUrl(locationSlug, videoId);
-            console.log('loading...');
+            event.target.textContent = 'Start Recording';
+            event.target.style.display = 'none';
+            document.getElementById('stop-archive').disabled = false;
           }
-        });
-      }, 2000);
-    }
+          document.getElementById('pause-archive').style.display = 'inline';
+        })
+      }
+
+      fetchToken().then(vonageData => {
+        connect(vonageData);
+        document.getElementById('stop-archive').addEventListener("click", function(event) {
+          event.preventDefault();
+          event.target.textContent = "Stopping ..."
+          fetch(`/business/${locationSlug}/media_attachments/stop_archive/${archiveID}.json`, {
+            method: 'get',
+            headers: {
+              'Accept': 'application/json',
+              'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            }
+          }).then(function(response) {
+            console.log(response);
+            if (response.ok) {
+              return response.json();
+            }
+            return Promise.reject(response);
+            }).then(function (data) {
+              var videoId = data.video_id;
+              disconnect();
+              document.getElementById('stop-archive').disabled = false;
+              event.target.disabled = true;
+              event.target.textContent = "Stop Recording";
+              document.getElementById('start-archive').disabled = false;
+
+              checkVideoUrl(videoId);
+            })
+        })
+
+        document.getElementById('pause-archive').addEventListener('click', function(event) {
+          event.preventDefault();
+          event.target.textContent = "Pausing ..."
+          fetch(`/business/${locationSlug}/media_attachments/pause_archive/${archiveID}.json`, {
+            method: 'get',
+            headers: {
+              'Accept': 'application/json',
+              'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            }
+          }).then(function(response) {
+            if (response.ok) {
+              return response.json();
+            }
+            return Promise.reject(response);
+          }).then(function (data) {
+            disconnect();
+            event.target.textContent = "Pause Recording";
+            document.getElementById('resume-archive').setAttribute("data", data.media_attachment_id);
+            document.getElementById('stop-archive').disabled = false;
+            document.getElementById('pause-archive').style.display = 'none';
+            document.getElementById('resume-archive').style.display = 'inline';
+          })
+        })
+
+      function checkVideoUrl(videoId) {
+        setTimeout(function() {
+          fetch(`/videos/${videoId}/check_video_url.json`, {
+            method: 'get',
+            headers: {
+              'Accept': 'application/json',
+              'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            }
+          }).then(function(response) {
+            if (response.ok) {
+              return response.json();
+            }
+            return Promise.reject(response);
+          }).then(function (data) {
+            console.log(data.generated_url);
+            if (data.generated_url) {
+              window.location.href = `/videos/${videoId}`;
+            } else {
+              checkVideoUrl(videoId);
+              console.log('loading...');
+            }
+          });
+        }, 2000);
+      }
+    })
+    })
   })
 </script>

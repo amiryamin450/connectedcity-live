@@ -27,10 +27,18 @@
     .add-url {
       margin-top: 15px;
     }
+
+    #pause-archive {
+      display: none;
+    }
+
+    #resume-archive {
+      display: none;
+    }
   }
 
   .btn {
-    width: 125px !important;
+    width: 140px !important;
   }
 
   .stream-area {

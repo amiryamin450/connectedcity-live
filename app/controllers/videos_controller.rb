@@ -21,6 +21,29 @@ class VideosController < ApplicationController
     render :show
   end
 
+  def check_video_url
+    @video = Video.find_by_id(params[:video_id])
+    if @video.present?
+      videos = @video.media_attachment.videos
+      if @video.video_url.present? && videos.size > 1
+        file_list = []
+        videos.each do |v|
+          cmd = "ffmpeg -i '#{v.video_url}' -c copy -bsf:v h264_mp4toannexb -f mpegts #{Rails.root}/public/#{v.id}.ts"
+          system( cmd )
+          file_list << "#{Rails.root}/public/#{v.id}.ts"
+        end
+        cmd = "ffmpeg -i 'concat:#{file_list.join('|')}' -c copy #{Rails.root}/public/archive.mp4"
+        system( cmd )
+        upload_video_to_s3
+        file_list.each do |file|
+          file = File.open(file)
+          File.delete(file)
+        end
+      end
+      render json: {generated_url: @video.video_url.present?}, status: :ok
+    end
+  end
+
   def show
     @video = Video.find_by_id(params[:id])
   end
