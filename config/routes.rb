@@ -261,12 +261,14 @@ Connectbook::Application.routes.draw do
       collection do
         post :start_archive
         get 'stop_archive/:archive_id' => 'media_attachments#stop_archive'
-        get 'check_video_url/:video_id' => 'media_attachments#check_video_url'
+        get 'pause_archive/:archive_id' => 'media_attachments#pause_archive'
+        get 'resume_archive/:archive_id' => 'media_attachments#resume_archive'
         get 'preview/:media_attachment_id' => 'media_attachments#preview'
       end
     end
   end
   resources :videos do
+    get 'check_video_url' => 'videos#check_video_url'
     post :upload_thumbnail
     post :remove_audio
   end

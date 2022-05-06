@@ -59,14 +59,9 @@ class MediaAttachmentsController < ApplicationController
   def start_archive
     archive = vonage.create_archive(params)
     if archive.present?
-      media_attachment = @location.media_attachments.new(
-        is_stream_video: true,
-        title: params[:media_attachment][:title],
-        description: params[:media_attachment][:description]
-      )
-
-      if media_attachment.save
-        media_attachment.create_video(
+      if params[:is_resume] == "true"
+        media_attachment = MediaAttachment.find_by_id(params[:media_attachment_id])
+        media_attachment.videos.create(
           archive_id: archive.id,
           session_id: archive.sessionId,
           has_audio: archive.hasAudio,
@@ -75,11 +70,36 @@ class MediaAttachmentsController < ApplicationController
         )
         render nothing: true, status: :created
       else
-        render nothing: true, status: :unprocessable_entity
+        media_attachment = @location.media_attachments.new(
+          is_stream_video: true,
+          title: params[:media_attachment][:title],
+          description: params[:media_attachment][:description]
+        )
+
+        if media_attachment.save
+          media_attachment.videos.create(
+            archive_id: archive.id,
+            session_id: archive.sessionId,
+            has_audio: archive.hasAudio,
+            has_video: archive.hasVideo,
+            status: archive.status,
+          )
+          render nothing: true, status: :created
+        else
+          render nothing: true, status: :unprocessable_entity
+        end
       end
     else
       render json: {msg: "Failed to connect to OpenTok"}, status: :error
     end
+  end
+
+  def pause_archive
+    archive = vonage.stop_archive(params)
+    video = Video.find_by_archive_id(params[:archive_id])
+    video.update_attribute(:status, "stopped") if video.present?
+
+    render json: {media_attachment_id: video.media_attachment.id}, status: :ok
   end
 
   def stop_archive
@@ -110,12 +130,12 @@ class MediaAttachmentsController < ApplicationController
     render json: { session_id: session_id, token: token }
   end
 
-  def check_video_url
-    video = Video.find_by_id(params[:video_id])
-    if video.present?
-      render json: {generated_url: video.video_url.present?}, status: :ok
-    end
-  end
+  # def check_video_url
+  #   video = Video.find_by_id(params[:video_id])
+  #   if video.present?
+  #     render json: {generated_url: video.video_url.present?}, status: :ok
+  #   end
+  # end
 
   def vonage
     @vonage ||= VonageService.new
