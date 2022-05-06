@@ -11,6 +11,8 @@ $(function () {
   // Initialize the jQuery File Upload widget:
   $('#fileupload').fileupload({
     fileInput: $('#product_product_images_attributes_0_image'),
+    limitMultiFileUploads: 5,
+    maxFileSize: 5000000
   });
   //
   // Load existing files:
