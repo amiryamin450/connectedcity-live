@@ -48,6 +48,15 @@ class VideosController < ApplicationController
     @video = Video.find_by_id(params[:id])
   end
 
+  def destroy
+    video = Video.find_by_id(params[:id])
+    media_attachment = video.media_attachment
+    location = media_attachment.location
+    media_attachment.destroy
+
+    redirect_to new_location_media_attachment_url(location)
+  end
+
   private
   def upload_video_to_s3
     file = File.open("#{Rails.root}/public/archive.mp4")
