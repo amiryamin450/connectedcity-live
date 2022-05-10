@@ -3,22 +3,36 @@ class VideosController < ApplicationController
   def update
     @video = Video.find_by_id(params[:id])
     @video.media_attachment.update_attributes(params[:video][:media_attachment_attributes]) if params[:video][:media_attachment_attributes].present?
-    @video.thumbnail = params[:video][:thumbnail] if params[:video][:thumbnail].present?
     @video.save
 
-    if params[:video][:audio].present?
-      cmd = "ffmpeg -i '#{@video.video_url}' -i '#{params[:video][:audio].path}' -map 0:v -map 1:a -c:v copy -shortest #{Rails.root}/public/archive.mp4"
-      system( cmd )
-      upload_video_to_s3
-    end
+    media_attachment = @video.media_attachment
+    location = media_attachment.location
+    redirect_to location_media_attachments_url(location)
+  end
 
-    if params[:video][:remove_audio].present?
-      cmd = "ffmpeg -i '#{@video.video_url}' -c copy -an #{Rails.root}/public/archive.mp4"
-      system( cmd )
-      upload_video_to_s3
-    end
+  def mute_video_audio
+    @video = Video.find_by_id(params[:video_id])
+    cmd = "ffmpeg -i '#{@video.video_url}' -c copy -an #{Rails.root}/public/archive.mp4"
+    system( cmd )
+    upload_video_to_s3
+    render nothing: true, status: :ok
+  end
 
-    render :show
+  def upload_audio
+    @video = Video.find_by_id(params[:video_id])
+    cmd = "ffmpeg -i '#{@video.video_url}' -i '#{params[:file].path}' -map 0:v -map 1:a -c:v copy -shortest #{Rails.root}/public/archive.mp4"
+    system( cmd )
+    upload_video_to_s3
+
+    render nothing: true, status: :ok
+  end
+
+  def upload_thumbnail
+    @video = Video.find_by_id(params[:video_id])
+    @video.thumbnail = params[:video][:thumbnail]
+    @video.save
+
+    render nothing: true, status: :ok
   end
 
   def check_video_url

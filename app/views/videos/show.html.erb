@@ -1,7 +1,7 @@
-<h1>Preview Video</h1>
 <%= form_for @video do |f| %>
   <div class="row-fluid media-attachment-area">
     <div class="span6">
+      <h1>Preview Video</h1>
       <iframe width='100%' height='480' src='<%= @video.video_url %>' frameborder='0' allowfullscreen></iframe>
     </div>
     <div class="span6">
@@ -9,43 +9,87 @@
         media_attachment = @video.media_attachment
         location = media_attachment.location
       %>
-      <%= link_to "Discard video", video_path(@video), method: :delete, data: { confirm: 'Are you certain you want to delete this video?' }, class: "btn btn-danger" %>
-      <%= link_to "Upload video", "/business/#{media_attachment.attachable_id}/media_attachments/#{media_attachment.id}", class: "btn btn-primary" %>
+      <div class="button-group">
+        <%= link_to "Discard video", video_path(@video), method: :delete, data: { confirm: 'Are you certain you want to delete this video?' }, class: "btn btn-danger redirect-btn" %>
+        <%= f.submit "Upload video", class: "btn btn-primary redirect-btn" %>
+      </div>
 
       <%= f.fields_for :media_attachment do |ff| %>
         <label for="video_media_attachment_attributes_title">Title</label>
         <%= ff.text_field :title %>
         <label for="video_media_attachment_attributes_description">Description</label>
-        <%= ff.text_area :description, cols: 110, rows: 5 %>
+        <%= ff.text_area :description, cols: 80, rows: 3 %>
       <% end %>
-      <%= f.submit "Save changes", class: "btn btn btn-primary" %>
+      <br>
+      <label>Advanced</label>
+      <div>
+        <div>Thumbnail</div>
+        <%= f.file_field :thumbnail %>
+        <div class="loader" id="thumbnail-loader"></div>
+      </div>
+      <div>
+        <button id="mute-audio">Mute recorded audio</button>
+        <%= f.hidden_field 'remove_audio', value: false %>
+        <div class="loader" id="mute-audio-loader"></div>
+      </div>
+      <div>
+        <div>Audio</div>
+        <%= f.file_field :audio %>
+        <div class="loader" id="upload-audio-loader"></div>
+      </div>
     </div>
   </div>
 <% end %>
 
-<div>
-  <h3>Thumbnail</h3>
-  <% if @video.thumbnail.file? %>
-    <div>
-      <%= image_tag(@video.thumbnail.url) %>
-    </div>
-  <% end %>
-  <%= form_for @video, multipart: true do |f| %>
-    <%= f.file_field :thumbnail %>
-    <%= f.submit "Save changes", class: "btn btn-primary" %>
-  <% end %>
-</div>
-<br>
-<div>
-  <h3>Audio</h3>
-  <%= form_for @video, multipart: true do |f| %>
-    <%= f.hidden_field 'remove_audio', value: true %>
-    <%= f.submit "Mute recorded audio", class: "btn btn-danger" %>
-  <% end %>
+<script>
+  var videoId = "<%= @video.id %>"
+  document.getElementById('mute-audio').addEventListener('click', event => {
+    event.preventDefault();
+    // add spinner
+    document.getElementById('mute-audio-loader').style.display = 'inline-block';
+    fetch(`/videos/${videoId}/mute_video_audio.json`, {
+      method: 'get',
+    }).then(function(response) {
+      if (response.ok) {
+        // remove spinner
+        document.getElementById('mute-audio-loader').style.display = 'none';
+      }
+    })
+  })
 
-  <%= form_for @video, multipart: true do |f| %>
-    <label for="thumbnail">Upload new audio</label>
-    <%= f.file_field :audio %>
-    <%= f.submit "Save changes", class: "btn btn btn-primary" %>
-  <% end %>
-</div>
+  document.getElementById('video_audio').addEventListener('change', event => {
+    // add spinner
+    document.getElementById('upload-audio-loader').style.display = 'none';
+    var file = event.target.files[0];
+    var data = new FormData()
+    data.append('file', file);
+    fetch(`/videos/${videoId}/upload_audio.json`, {
+      method: 'post',
+      body: data,
+    }).then(function(response) {
+      if (response.ok) {
+        console.log(response)
+        // remove spinner
+        document.getElementById('upload-audio-loader').style.display = 'none';
+      }
+    })
+  })
+
+  document.getElementById('video_thumbnail').addEventListener('change', event => {
+    // add spinner
+    document.getElementById('thumbnail-loader').style.display = 'inline-block';
+    var file = event.target.files[0];
+    var data = new FormData();
+    data.append('file', file);
+    fetch(`/videos/${videoId}/upload_thumbnail.json`, {
+      method: 'post',
+      body: data,
+    }).then(function(response) {
+      if (response.ok) {
+        console.log(response)
+        // remove spinner
+        document.getElementById('thumbnail-loader').style.display = 'none';
+      }
+    })
+  })
+</script>

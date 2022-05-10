@@ -269,8 +269,9 @@ Connectbook::Application.routes.draw do
   end
   resources :videos do
     get 'check_video_url' => 'videos#check_video_url'
+    get 'mute_video_audio' => 'videos#mute_video_audio'
     post :upload_thumbnail
-    post :remove_audio
+    post :upload_audio
   end
 
   #Static Pages
