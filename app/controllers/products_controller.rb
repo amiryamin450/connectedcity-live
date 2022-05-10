@@ -34,6 +34,7 @@ class ProductsController < ApplicationController
     if @product.save
       redirect_to [@location], notice: 'Product was successfully created.'
     else
+      @categories
       render action: :new
     end
   end
@@ -59,7 +60,7 @@ class ProductsController < ApplicationController
 
   def deeper_categories
     @lv2_categories = Category.find(params[:id]).children
-    @lv = params[:lv]
+    @lv = params[:lv].to_i + 1
   end
 
   def select_category

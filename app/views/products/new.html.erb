@@ -1,2 +1,45 @@
 <h1>Create New Product</h1>
 <%= render 'form' %>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+  $(document).on("click", "#collapseCategoriesProduct .title.item-category", function() {
+    var cat = $(this)
+    var activeItems = $('.title.item-category').filter('.active')
+    let level = cat.attr('data-level')
+    let cat_Id = cat.attr('data-id')
+    if (level == "1") {
+      resetCollapse()
+      activeItems.each(function() { $(this).removeClass('active') })
+    } else {
+      if (activeItems.length > 1) {
+        activeItems.each(function() {
+          var lvCat = $(this).attr('data-level')
+          if (parseFloat(level) <= parseFloat(lvCat)) {
+            $(this).removeClass('active')
+          }
+        })
+      }
+    }
+    $(".category-form #product_category_id").val(cat_Id);
+    cat.addClass("active")
+  })
+
+  $(document).on("click", ".category-select-btn", function() {
+    var collapse = $('#collapseCategoriesProduct')
+    if (collapse.hasClass('hideCollapse')) {
+      resetCollapse()
+      collapse.removeClass('hideCollapse')
+    } else {
+      collapse.addClass('hideCollapse')
+    }
+  })
+
+  function resetCollapse() {
+    $(".level-2-category").html('')
+    $(".level-2-category").addClass('hidden')
+    $(".level-3-category").html('')
+    $(".level-3-category").addClass('hidden')
+    $(".level-4-category").html('')
+    $(".level-4-category").addClass('hidden')
+  }
+</script>

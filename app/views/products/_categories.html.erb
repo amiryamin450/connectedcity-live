@@ -1,10 +1,12 @@
-<% categories.each do |cat| %>
-  <% if cat.children.present? %>
+<% if categories.present? %>
+  <% categories.each do |cat| %>
     <%= link_to deeper_categories_path(id: cat.id, lv: lv), remote: true do %>
-      <span><%= cat.name %></span>
-      <span>></span>
+      <div class="title item-category" data-level="<%= lv %>" data-id="<%= cat.id %>">
+        <span><%= cat.name %></span>
+        <% if (cat.children.present?) %>
+          <span class="arrow">></span>
+        <% end %>
+      </div>
     <% end %>
-  <% else %>
-    <%= link_to cat.name, select_category_path(id: cat.id), remote: true, method: :post %>
   <% end %>
 <% end %>
