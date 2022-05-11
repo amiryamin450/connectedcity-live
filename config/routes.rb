@@ -375,5 +375,7 @@ Connectbook::Application.routes.draw do
 
   get "/:province_slug/:region_slug/:municipality_slug/:city_slug", to: 'home#city_landing'
   get "/:province_slug/:region_slug/:municipality_slug/:city_slug/:district_route", to: 'districts#homepage'
+  get 'deeper_categories', to: 'products#deeper_categories'
+  post 'select_category', to: 'products#select_category'
 
 end

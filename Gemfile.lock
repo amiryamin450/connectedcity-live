@@ -211,6 +211,7 @@ GEM
     jquery-ui-rails (4.0.3)
       jquery-rails
       railties (>= 3.1.0)
+    jquery-validation-rails (1.19.0)
     json (1.8.6)
     jwt (1.5.6)
     kaminari (0.14.1)
@@ -560,6 +561,7 @@ DEPENDENCIES
   jquery-fileupload-rails
   jquery-rails
   jquery-ui-rails
+  jquery-validation-rails
   kaminari
   koala
   launchy

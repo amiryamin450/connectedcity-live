@@ -25,6 +25,7 @@
 //= require bootstrap-wysihtml5/index
 //= require jquery.ba-bbq.js
 //= require jquery.cookie.js
+//= require jquery.validate
 //= require bootstrap-colorpicker
 //= require jqcloud
 //= require dropzone
@@ -32,4 +33,5 @@
 //= require application_layout
 //= require clamp.min
 //= require jquery.jscroll
+//= require new_product
 //= require_tree .

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20220422070027) do
+ActiveRecord::Schema.define(:version => 20220422082359) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -201,6 +201,20 @@ ActiveRecord::Schema.define(:version => 20220422070027) do
   create_table "carts", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "categories", :force => true do |t|
+    t.string   "name"
+    t.integer  "parent_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "categories_products", :force => true do |t|
+    t.integer  "category_id"
+    t.integer  "product_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "cities_old", :force => true do |t|
@@ -610,12 +624,12 @@ ActiveRecord::Schema.define(:version => 20220422070027) do
     t.string   "title"
     t.string   "media_source_id"
     t.string   "media_source"
-    t.boolean  "is_stream_video",   :default => false
+    t.boolean  "is_stream_video",               :default => false
     t.string   "archive_id"
     t.string   "session_id"
     t.string   "stream_video_name"
-    t.boolean  "has_audio",         :default => false
-    t.boolean  "has_video",         :default => false
+    t.boolean  "has_audio",                     :default => false
+    t.boolean  "has_video",                     :default => false
     t.string   "status"
     t.text     "stream_video_url"
     t.string   "description"
@@ -757,6 +771,7 @@ ActiveRecord::Schema.define(:version => 20220422070027) do
     t.boolean  "custom_pricing"
     t.integer  "quantity"
     t.decimal  "discount",           :precision => 10, :scale => 0, :default => 0
+    t.integer  "category_id",                                                      :null => false
   end
 
   add_index "products", ["location_id"], :name => "index_products_on_location_id"
