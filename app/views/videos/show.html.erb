@@ -23,7 +23,10 @@
       <br>
       <label>Advanced</label>
       <div>
-        <%= f.file_field :thumbnail, class: "custom-file-input"%>
+        <label class="btn btn-primary custom-file-input">
+          <%= f.file_field :thumbnail, style: "display: none;"%>
+            Upload thumbnail
+        </label>
         <div class="loader" id="thumbnail-loader"></div>
       </div>
       <div>
@@ -32,7 +35,10 @@
         <div class="loader" id="mute-audio-loader"></div>
       </div>
       <div>
-        <%= f.file_field :audio, class: "custom-file-input"%>
+        <label class="btn btn-primary custom-file-input">
+          <%= f.file_field :audio, style: "display: none;"%>
+            Upload new audio
+        </label>
         <div class="loader" id="upload-audio-loader"></div>
       </div>
     </div>
@@ -57,7 +63,7 @@
 
   document.getElementById('video_audio').addEventListener('change', event => {
     // add spinner
-    document.getElementById('upload-audio-loader').style.display = 'none';
+    document.getElementById('upload-audio-loader').style.display = 'inline-block';
     var file = event.target.files[0];
     var data = new FormData()
     data.append('file', file);

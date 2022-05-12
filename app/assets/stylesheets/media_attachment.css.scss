@@ -97,6 +97,13 @@
     font-size: 24px;
   }
 
+  label.custom-file-input {
+    font-size: 20px;
+    font-weight: normal;
+    margin: 10px 0;
+    width: 225px;
+  }
+
   .button-group {
     margin-bottom: 50px;
 
@@ -138,12 +145,14 @@
   }
 
   .loader {
+    vertical-align: middle;
+    margin-left: 10px;
     display: none;
     border: 5px solid #f3f3f3;
     border-top: 5px solid #555;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     animation: spin 2s linear infinite;
   }
 
@@ -156,49 +165,49 @@
     margin-top: 20px;
   }
 
-  #video_thumbnail::before {
-    content: 'Upload thumbnail';
-    width: 225px;
-  }
+  // #video_thumbnail::before {
+  //   content: 'Upload thumbnail';
+  //   width: 225px;
+  // }
 
-  #video_audio::before {
-    content: 'Upload new audio';
-    width: 225px;
-  }
+  // #video_audio::before {
+  //   content: 'Upload new audio';
+  //   width: 225px;
+  // }
 
   #mute-audio {
     font-size: 20px;
     line-height: 1;
-    margin: 25px 0;
+    margin: 10px 0;
     width: 225px;
   }
 
-  .custom-file-input::-webkit-file-upload-button {
-    visibility: hidden;
-  }
-  .custom-file-input::before {
-    display: inline-block;
-    padding: 4px 12px;
-    margin-bottom: 0;
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
-    color: #fff;
-    background-color: #006ccc;
-    border: 1px solid #999;
-    border-radius: 4px;
-    padding: 5px 8px;
-    outline: none;
-    white-space: nowrap;
-    -webkit-user-select: none;
-    font-size: 20px;
-    line-height: 1;
-    font-weight: normal;
-  }
-  .custom-file-input:hover::before {
-    border-color: black;
-  }
-  .custom-file-input:active::before {
-    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
-  }
+  // .custom-file-input::-webkit-file-upload-button {
+  //   visibility: hidden;
+  // }
+  // .custom-file-input::before {
+  //   display: inline-block;
+  //   padding: 4px 12px;
+  //   margin-bottom: 0;
+  //   text-align: center;
+  //   vertical-align: middle;
+  //   cursor: pointer;
+  //   color: #fff;
+  //   background-color: #006ccc;
+  //   border: 1px solid #999;
+  //   border-radius: 4px;
+  //   padding: 5px 8px;
+  //   outline: none;
+  //   white-space: nowrap;
+  //   -webkit-user-select: none;
+  //   font-size: 20px;
+  //   line-height: 1;
+  //   font-weight: normal;
+  // }
+  // .custom-file-input:hover::before {
+  //   border-color: black;
+  // }
+  // .custom-file-input:active::before {
+  //   background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+  // }
 }
