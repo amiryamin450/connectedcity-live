@@ -23,18 +23,16 @@
       <br>
       <label>Advanced</label>
       <div>
-        <div>Thumbnail</div>
-        <%= f.file_field :thumbnail %>
+        <%= f.file_field :thumbnail, class: "custom-file-input"%>
         <div class="loader" id="thumbnail-loader"></div>
       </div>
       <div>
-        <button id="mute-audio">Mute recorded audio</button>
+        <button id="mute-audio" class="btn btn-primary">Mute recorded audio</button>
         <%= f.hidden_field 'remove_audio', value: false %>
         <div class="loader" id="mute-audio-loader"></div>
       </div>
       <div>
-        <div>Audio</div>
-        <%= f.file_field :audio %>
+        <%= f.file_field :audio, class: "custom-file-input"%>
         <div class="loader" id="upload-audio-loader"></div>
       </div>
     </div>

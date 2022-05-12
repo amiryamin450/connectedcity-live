@@ -191,7 +191,7 @@
       function startRecord(vonageData) {
         console.log(mediaAttachmentId);
         var data = new FormData(document.getElementById('new_media_attachment'));
-        var mediaAttachmentId = document.getElementById('resume-archive').getAttribute("data")
+        // var mediaAttachmentId = document.getElementById('resume-archive').getAttribute("data")
         data.append('session_id', vonageData.sessionId);
         // if (isResume) {
         //   data.append('is_resume', isResume);
@@ -211,10 +211,11 @@
           //   event.target.style.display = 'none';
           // } else {
           event.target.textContent = 'Start Recording';
-          event.target.style.display = 'none';
+          document.getElementById('start-archive').disabled = true;
+          // event.target.style.display = 'none';
           document.getElementById('stop-archive').disabled = false;
           // }
-          document.getElementById('pause-archive').style.display = 'inline';
+          // document.getElementById('pause-archive').style.display = 'inline';
         })
       }
 
@@ -248,29 +249,29 @@
             })
         })
 
-        document.getElementById('pause-archive').addEventListener('click', function(event) {
-          event.preventDefault();
-          event.target.textContent = "Pausing ..."
-          fetch(`/business/${locationSlug}/media_attachments/pause_archive/${archiveID}.json`, {
-            method: 'get',
-            headers: {
-              'Accept': 'application/json',
-              'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-            }
-          }).then(function(response) {
-            if (response.ok) {
-              return response.json();
-            }
-            return Promise.reject(response);
-          }).then(function (data) {
-            disconnect();
-            event.target.textContent = "Pause Recording";
-            document.getElementById('resume-archive').setAttribute("data", data.media_attachment_id);
-            document.getElementById('stop-archive').disabled = false;
-            document.getElementById('pause-archive').style.display = 'none';
-            document.getElementById('resume-archive').style.display = 'inline';
-          })
-        })
+        // document.getElementById('pause-archive').addEventListener('click', function(event) {
+        //   event.preventDefault();
+        //   event.target.textContent = "Pausing ..."
+        //   fetch(`/business/${locationSlug}/media_attachments/pause_archive/${archiveID}.json`, {
+        //     method: 'get',
+        //     headers: {
+        //       'Accept': 'application/json',
+        //       'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        //     }
+        //   }).then(function(response) {
+        //     if (response.ok) {
+        //       return response.json();
+        //     }
+        //     return Promise.reject(response);
+        //   }).then(function (data) {
+        //     disconnect();
+        //     event.target.textContent = "Pause Recording";
+        //     document.getElementById('resume-archive').setAttribute("data", data.media_attachment_id);
+        //     document.getElementById('stop-archive').disabled = false;
+        //     document.getElementById('pause-archive').style.display = 'none';
+        //     document.getElementById('resume-archive').style.display = 'inline';
+        //   })
+        // })
 
       function checkVideoUrl(videoId) {
         setTimeout(function() {
