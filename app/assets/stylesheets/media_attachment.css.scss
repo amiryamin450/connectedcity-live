@@ -12,20 +12,38 @@
   }
 
   #new_media_attachment {
+    font-size: 20px;
+
     .media_attachment_attachment {
       margin: 0;
       #media_attachment_attachment {
         height: 30px;
         margin: 0;
+        font-size: 18px;
+        width: 100%;
       }
     }
 
     .or-text {
-      margin-left: 40px;
+      margin: 10px 0 10px 50px;
     }
 
     .add-url {
       margin-top: 15px;
+      padding-left: 40px;
+
+      .add-url-text {
+        padding: 5px 0;
+      }
+
+      .submit-youtube-url {
+        font-size: 18px;
+        padding: 4px 20px;
+      }
+    }
+
+    .record-video {
+      padding-left: 40px;
     }
 
     #pause-archive {
@@ -37,8 +55,12 @@
     }
   }
 
-  .btn {
-    width: 140px !important;
+  .record-btn-group {
+    margin-top: 20px;
+    .btn {
+      font-size: 20px;
+      line-height: 1;
+    }
   }
 
   .stream-area {
@@ -98,14 +120,14 @@
     padding: 10px 0;
   }
 
-  #video_media_attachment_attributes_title {
+  #media_attachment_title, #video_media_attachment_attributes_title {
     font-size: 25px;
     line-height: 1;
     height: auto;
     margin-bottom: 30px;
   }
 
-  #video_media_attachment_attributes_description {
+  #media_attachment_description, #video_media_attachment_attributes_description {
     font-size: 16px;
     margin-bottom: 30px;
   }

@@ -33,10 +33,16 @@ class MediaAttachmentsController < ApplicationController
   def create
     @media_attachment = @location.media_attachments.new(params[:media_attachment])
     if @media_attachment.save
-      redirect_to [@location, @media_attachment], notice: 'Media Attachment was successfully created.'
+      # redirect_to [@location, @media_attachment], notice: 'Media Attachment was successfully created.'
+
+      render action: :preview
     else
       render action: :new
     end
+  end
+
+  def preview
+
   end
 
   def update
@@ -59,8 +65,13 @@ class MediaAttachmentsController < ApplicationController
   def start_archive
     archive = vonage.create_archive(params)
     if archive.present?
-      if params[:is_resume] == "true"
-        media_attachment = MediaAttachment.find_by_id(params[:media_attachment_id])
+      media_attachment = @location.media_attachments.new(
+        is_stream_video: true,
+        title: params[:media_attachment][:title],
+        description: params[:media_attachment][:description]
+      )
+
+      if media_attachment.save
         media_attachment.videos.create(
           archive_id: archive.id,
           session_id: archive.sessionId,
@@ -70,24 +81,7 @@ class MediaAttachmentsController < ApplicationController
         )
         render nothing: true, status: :created
       else
-        media_attachment = @location.media_attachments.new(
-          is_stream_video: true,
-          title: params[:media_attachment][:title],
-          description: params[:media_attachment][:description]
-        )
-
-        if media_attachment.save
-          media_attachment.videos.create(
-            archive_id: archive.id,
-            session_id: archive.sessionId,
-            has_audio: archive.hasAudio,
-            has_video: archive.hasVideo,
-            status: archive.status,
-          )
-          render nothing: true, status: :created
-        else
-          render nothing: true, status: :unprocessable_entity
-        end
+        render nothing: true, status: :unprocessable_entity
       end
     else
       render json: {msg: "Failed to connect to OpenTok"}, status: :error
@@ -118,7 +112,6 @@ class MediaAttachmentsController < ApplicationController
       if params[:status] == "uploaded"
         url = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/#{ENV['VONAGE_API_KEY']}/#{video.archive_id}/archive.mp4"
         video.update_attribute(:video_url, url)
-        # vonage.create_thumbnail(video, url)
       end
     end
     render nothing: true, status: :ok
@@ -129,13 +122,6 @@ class MediaAttachmentsController < ApplicationController
     token = vonage.get_token(session_id)
     render json: { session_id: session_id, token: token }
   end
-
-  # def check_video_url
-  #   video = Video.find_by_id(params[:video_id])
-  #   if video.present?
-  #     render json: {generated_url: video.video_url.present?}, status: :ok
-  #   end
-  # end
 
   def vonage
     @vonage ||= VonageService.new
