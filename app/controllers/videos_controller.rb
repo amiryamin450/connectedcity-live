@@ -59,7 +59,6 @@ class VideosController < ApplicationController
 
         media_attachment = @video.media_attachment
         video = media_attachment.videos.first
-        binding.pry
         cmd = "ffmpeg -i '#{video.video_url}' -ss 00:00:1 -frames:v 1 #{Rails.root}/public/thumbnail.png"
         system( cmd )
         file = File.open("#{Rails.root}/public/thumbnail.png")
