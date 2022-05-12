@@ -262,6 +262,7 @@ Connectbook::Application.routes.draw do
     resources :social_profiles, path: "social-profiles", only: [:show]
 
     resources :media_attachments do
+      get :preview
       collection do
         post :start_archive
         get 'stop_archive/:archive_id' => 'media_attachments#stop_archive'
@@ -273,8 +274,9 @@ Connectbook::Application.routes.draw do
   end
   resources :videos do
     get 'check_video_url' => 'videos#check_video_url'
+    get 'mute_video_audio' => 'videos#mute_video_audio'
     post :upload_thumbnail
-    post :remove_audio
+    post :upload_audio
   end
 
   #Static Pages

@@ -3,8 +3,8 @@ class MediaAttachment < ActiveRecord::Base
   before_save :set_fields, :unless => :stream_video?
 
   belongs_to :attachable, polymorphic: true
-  belongs_to :location, foreign_key: "attachable_id", conditions: { media_attachments: { attachable_type: "Location" } }
-  has_many :videos
+  belongs_to :location, foreign_key: "attachable_id"
+  has_many :videos, dependent: :destroy
 
   attr_accessible :attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source, :is_stream_video, :archive_id, :session_id, :description
 
