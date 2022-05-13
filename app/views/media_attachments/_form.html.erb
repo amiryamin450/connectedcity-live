@@ -102,6 +102,10 @@
           },
           accessDenied: function(event) {
             console.log("accessDenied", event)
+            alert('No camera found. Please try again.')
+            publisher.destroy();
+            document.getElementById('start-archive').style.display = 'inline-block;';
+            document.getElementById('start-archive').disabled = false;
           },
           accessDialogOpened: function (event) {
           // Show allow camera message
@@ -110,9 +114,6 @@
           accessDialogClosed: function (event) {
             // Hide allow camera message
             // pleaseAllowCamera.style.display = 'none';
-            alert('No camera found. Please try again.')
-            publisher.destroy();
-            document.getElementById('start-archive').style.display = 'block';
           },
           streamCreated: function (event) {
             console.log("Publisher started streaming.");
