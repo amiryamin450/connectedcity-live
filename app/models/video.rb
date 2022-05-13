@@ -7,4 +7,8 @@ class Video < ActiveRecord::Base
   has_attached_file :thumbnail, :styles => { :thumb => "320x180", :original => "480x360" },
     :url => "/system/video/thumbnail/:id/:style/:basename.:extension",
     :path => ":rails_root/public/system/video/thumbnail/:id/:style/:basename.:extension"
+
+  def media_attachment
+    MediaAttachment.unscoped { super }
+  end
 end

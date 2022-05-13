@@ -33,7 +33,7 @@ class MediaAttachmentsController < ApplicationController
   def create
     @media_attachment = @location.media_attachments.new(params[:media_attachment])
     if @media_attachment.save
-      # redirect_to [@location, @media_attachment], notice: 'Media Attachment was successfully created.'
+      @media_attachment.update_attribute(:is_draft, true)
 
       render action: :preview
     else
@@ -47,6 +47,7 @@ class MediaAttachmentsController < ApplicationController
 
   def update
     if @media_attachment.update_attributes(params[:media_attachment])
+      @media_attachment.update_attribute(:is_draft, false)
       redirect_to [@location, @media_attachment], notice: 'Media Attachment was successfully updated.'
     else
       render action: :edit
@@ -66,6 +67,7 @@ class MediaAttachmentsController < ApplicationController
     archive = vonage.create_archive(params)
     if archive.present?
       media_attachment = @location.media_attachments.new(
+        is_draft: true,
         is_stream_video: true,
         title: params[:media_attachment][:title],
         description: params[:media_attachment][:description]

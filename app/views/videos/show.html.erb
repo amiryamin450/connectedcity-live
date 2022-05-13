@@ -2,7 +2,7 @@
   <div class="row-fluid media-attachment-area">
     <div class="span6">
       <h1>Preview Video</h1>
-      <iframe width='100%' height='480' src='<%= @video.video_url %>' frameborder='0' allowfullscreen></iframe>
+      <iframe width='100%' height='480' src='<%= @video.video_url %>' frameborder='0' allowfullscreen id="preview-video-iframe"></iframe>
     </div>
     <div class="span6">
       <%
@@ -34,6 +34,7 @@
         <button id="mute-audio" class="btn btn-primary">Mute recorded audio</button>
         <%= f.hidden_field 'remove_audio', value: false %>
         <div class="loader" id="mute-audio-loader"></div>
+        <span id="mute-message" style="display: none;">Mute recorded audio successfully</span>
       </div>
       <div>
         <label class="btn btn-primary custom-file-input">
@@ -63,7 +64,9 @@
       if (response.ok) {
         // remove spinner
         document.getElementById('mute-audio-loader').style.display = 'none';
+        document.getElementById('mute-message').style.display = 'inline-block';
         document.getElementById('mute-audio').disabled = true;
+        document.getElementById('preview-video-iframe').src = "<%= @video.video_url %>";
       }
     })
   })

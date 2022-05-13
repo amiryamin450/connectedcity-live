@@ -2,10 +2,13 @@ class VideosController < ApplicationController
 
   def update
     @video = Video.find_by_id(params[:id])
-    @video.media_attachment.update_attributes(params[:video][:media_attachment_attributes]) if params[:video][:media_attachment_attributes].present?
-    @video.save
-
     media_attachment = @video.media_attachment
+
+    if params[:video][:media_attachment_attributes].present?
+      media_attachment.update_attributes(params[:video][:media_attachment_attributes])
+      media_attachment.update_attribute(:is_draft, false)
+    end
+
     location = media_attachment.location
     redirect_to location_media_attachments_url(location)
   end

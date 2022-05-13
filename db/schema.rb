@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20220513102141) do
+ActiveRecord::Schema.define(:version => 20220513105007) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -637,6 +637,7 @@ ActiveRecord::Schema.define(:version => 20220513102141) do
     t.string   "stream_thumbnail_content_type"
     t.integer  "stream_thumbnail_file_size"
     t.datetime "stream_thumbnail_updated_at"
+    t.boolean  "is_draft",        :default => false
   end
 
   add_index "media_attachments", ["attachable_id", "attachable_type"], :name => "index_media_attachments_on_attachable_id_and_attachable_type"
