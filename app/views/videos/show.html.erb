@@ -16,7 +16,7 @@
 
       <%= f.fields_for :media_attachment do |ff| %>
         <label for="video_media_attachment_attributes_title">Title</label>
-        <%= ff.text_field :title %>
+        <%= ff.text_field :title, required: true %>
         <label for="video_media_attachment_attributes_description">Description</label>
         <%= ff.text_area :description, cols: 80, rows: 3 %>
       <% end %>
@@ -28,6 +28,7 @@
             Upload thumbnail
         </label>
         <div class="loader" id="thumbnail-loader"></div>
+        <span id="thumnail-filename"></span>
       </div>
       <div>
         <button id="mute-audio" class="btn btn-primary">Mute recorded audio</button>
@@ -36,10 +37,11 @@
       </div>
       <div>
         <label class="btn btn-primary custom-file-input">
-          <%= f.file_field :audio, style: "display: none;"%>
+          <%= f.file_field :audio, style: "display: none;", accept: "audio/*" %>
             Upload new audio
         </label>
         <div class="loader" id="upload-audio-loader"></div>
+        <span id="audio-filename"></span>
       </div>
     </div>
   </div>
@@ -53,10 +55,15 @@
     document.getElementById('mute-audio-loader').style.display = 'inline-block';
     fetch(`/videos/${videoId}/mute_video_audio.json`, {
       method: 'get',
+      headers: {
+        'Accept': 'application/json',
+        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+      }
     }).then(function(response) {
       if (response.ok) {
         // remove spinner
         document.getElementById('mute-audio-loader').style.display = 'none';
+        document.getElementById('mute-audio').disabled = true;
       }
     })
   })
@@ -70,11 +77,16 @@
     fetch(`/videos/${videoId}/upload_audio.json`, {
       method: 'post',
       body: data,
+      headers: {
+        'Accept': 'application/json',
+        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+      }
     }).then(function(response) {
       if (response.ok) {
         console.log(response)
         // remove spinner
         document.getElementById('upload-audio-loader').style.display = 'none';
+        document.getElementById('audio-filename').textContent = file.name;
       }
     })
   })
@@ -93,11 +105,16 @@
     fetch(`/videos/${videoId}/upload_thumbnail.json`, {
       method: 'post',
       body: data,
+      headers: {
+        'Accept': 'application/json',
+        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+      }
     }).then(function(response) {
       if (response.ok) {
         console.log(response)
         // remove spinner
         document.getElementById('thumbnail-loader').style.display = 'none';
+        document.getElementById('thumnail-filename').textContent = file.name;
       }
     })
   })
