@@ -16,6 +16,7 @@ class Product < ActiveRecord::Base
                     :url => "/system/products/image/:id/:style/:basename.:extension",
                     :path => ":rails_root/public/system/products/image/:id/:style/:basename.:extension",
                     default_url: "http://placehold.it/50x50"
+  validates_attachment_presence :image
 
   validates :name, presence: true
   validates :category_id, presence: true
