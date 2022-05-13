@@ -4,6 +4,7 @@
   <thead>
   <tr>
     <th>Title</th>
+    <th>Description</th>
     <th>Thumbnail</th>
     <th></th>
   </tr>
@@ -14,8 +15,16 @@
   <% @media_attachments.each do |media| %>
       <tr>
         <td><%= media.title %></td>
+        <td><%= media.description %></td>
         <td><%= image_tag(media.thumbnail_url, style:
-        "width: 120px;") %></td>
+        "width: 120px;") %>
+        <% if media.is_stream_video %>
+          <label data-id="<%= media.videos.first&.id %>" class="btn btn-primary edit-thumbnail" style="margin: 0 20px;">
+            <input type="file" style="display: none;" data-id="<%= media.videos.first&.id %>">
+              Edit thumbnail
+          </label>
+        <% end %>
+        </td>
         <td>
           <div class="btn-group">
             <%= link_to 'show', [@location, media], class: 'btn btn-mini' %>
@@ -33,3 +42,27 @@
 
 <%= link_to 'New Media Attachment', new_location_media_attachment_path(@location), class: 'btn btn-primary' %>
 <%= link_to "Back to #{@location.name}", @location, class: 'btn' %>
+
+<script>
+  document.querySelectorAll('.edit-thumbnail').forEach(item => {
+    item.addEventListener('change', event => {
+      var videoId = event.target.getAttribute("data-id")
+      if (videoId) {
+        // document.getElementById('thumbnail-loader').style.display = 'inline-block';
+        var file = event.target.files[0];
+        var data = new FormData();
+        data.append('file', file);
+        fetch(`/videos/${videoId}/upload_thumbnail.json`, {
+          method: 'post',
+          body: data,
+        }).then(function(response) {
+          if (response.ok) {
+            location.reload();
+            // remove spinner
+            // document.getElementById('thumbnail-loader').style.display = 'none';
+          }
+        })
+      }
+    })
+  })
+</script>

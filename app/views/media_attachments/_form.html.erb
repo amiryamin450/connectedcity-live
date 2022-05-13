@@ -110,6 +110,9 @@
           accessDialogClosed: function (event) {
             // Hide allow camera message
             // pleaseAllowCamera.style.display = 'none';
+            alert('No camera found. Please try again.')
+            publisher.destroy();
+            document.getElementById('start-archive').style.display = 'block';
           },
           streamCreated: function (event) {
             console.log("Publisher started streaming.");
