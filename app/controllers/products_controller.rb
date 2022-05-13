@@ -22,7 +22,7 @@ class ProductsController < ApplicationController
 
   def new
     @product = @location.products.new
-    @categories = Category.where(parent_id: nil)
+    @categories = Category.where(parent_id: nil).order(:name)
   end
 
   def edit
@@ -34,8 +34,12 @@ class ProductsController < ApplicationController
     if @product.save
       redirect_to [@location], notice: 'Product was successfully created.'
     else
-      @categories
-      render action: :new
+      @categories = Category.where(parent_id: nil).order(:name)
+      respond_to do |format|
+        # format.html { redirect_to new_location_product_path }
+        format.html { render action: "new" }
+        format.json { render json: @product.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -59,7 +63,7 @@ class ProductsController < ApplicationController
   end
 
   def deeper_categories
-    @lv2_categories = Category.find(params[:id]).children
+    @lv2_categories = Category.find(params[:id]).children.order(:name)
     @lv = params[:lv].to_i + 1
   end
 
