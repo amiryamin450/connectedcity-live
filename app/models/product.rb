@@ -17,13 +17,13 @@ class Product < ActiveRecord::Base
                     :path => ":rails_root/public/system/products/image/:id/:style/:basename.:extension",
                     default_url: "http://placehold.it/50x50"
 
-  validates :name, presence: true, length: { in: 10..100 }
-  validates :category, presence: true
+  validates :name, presence: true
+  validates :category_id, presence: true
   validates :description, presence: true, length: { in: 100..1500 }
   validates :quantity, presence: true, numericality: { only_integer: true, minimum: 1, maximum: 1000 }
   validates :price, presence: true, format: { with: /\A\d+(?:\.\d{0,2})?\z/ },
-                    numericality: { greater_than: 0, less_than: 1_000_000 }
-  validates :sku, length: { maximum: 32 }
+                    numericality: { greater_than: 0.1, less_than: 1000000 }
+  validates :sku, length: { maximum: 25 }
 
   after_save do |product|
     Sunspot.index! product.location if product.location

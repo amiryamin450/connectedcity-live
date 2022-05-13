@@ -21,6 +21,7 @@
           color: #959292;
         }
         &:hover, &.active { color: red; }
+        &.active { font-weight: bold; }
       }
       &.level-2-category, &.level-3-category, &.level-4-category {
         border-left: 2px solid #ccc;
@@ -32,5 +33,19 @@
       margin-top: 0px;
       border: unset;
     }
+  }
+  #product_price {
+    display: block;
+    &:focus:invalid {
+      color: unset;
+    }
+    &:focus:invalid:focus {
+      box-shadow: unset;
+      border: 1px solid #ccc;
+      transition: border linear 0.2s,box-shadow linear 0.2s;
+    }
+  }
+  #product_price-error {
+    margin-left: 180px;
   }
 }

@@ -33,5 +33,4 @@
 //= require application_layout
 //= require clamp.min
 //= require jquery.jscroll
-//= require new_product
 //= require_tree .
