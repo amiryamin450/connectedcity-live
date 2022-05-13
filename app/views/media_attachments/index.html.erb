@@ -48,7 +48,6 @@
     item.addEventListener('change', event => {
       var videoId = event.target.getAttribute("data-id")
       if (videoId) {
-        // document.getElementById('thumbnail-loader').style.display = 'inline-block';
         var file = event.target.files[0];
         if (file.size >= 5242880) { // 5MB
           event.target.value = "";
@@ -60,11 +59,13 @@
         fetch(`/videos/${videoId}/upload_thumbnail.json`, {
           method: 'post',
           body: data,
+          headers: {
+            'Accept': 'application/json',
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+          }
         }).then(function(response) {
           if (response.ok) {
             location.reload();
-            // remove spinner
-            // document.getElementById('thumbnail-loader').style.display = 'none';
           }
         })
       }
