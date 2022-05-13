@@ -11,28 +11,30 @@
   </div>
   <div class="span6">
     <h1><%= @media_attachment.title %></h1>
-    <div class="text-secondary py-2"><span class="px-2">100,123 views</span><span>&middot;</span><span class="px-2">2 months ago</span></div>
     <div><%= @media_attachment.description %></div>
   </div>
 </div>
 
 <% if @other_media.size > 0 %>
-<h3>Additional Media</h3>
-<div class="row-fluid">
-    <% @other_media.each do |media| %>
-      <div class="span2">
-        <div>
-          <% if media.media_source_id.present? %>
-            <%= link_to(image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media]) %>
-          <% else %>
-            <%= link_to(image_tag(media.thumbnail_url(:thumb)), [@location, media]) %>
-          <% end %>
+  <h3>Additional Media</h3>
+  <% @other_media.each_slice(6).to_a.each do |medias| %>
+    <div class="row-fluid">
+      <% medias.each do |media| %>
+        <div class="span2">
+          <div>
+            <% if media.media_source_id.present? %>
+              <%= link_to(image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media]) %>
+            <% else %>
+              <%= link_to(image_tag(media.thumbnail_url(:thumb)), [@location, media]) %>
+            <% end %>
+          </div>
+          <div><%= link_to media.title, [@location, media] %></div>
         </div>
-        <div><%= link_to media.title, [@location, media] %></div>
-      </div>
-    <% end -%>
-  </div>
-  <% end %>
+      <% end %>
+    </div>
+    <br>
+  <% end -%>
+<% end %>
 
 <div id="subscriberContainer">
 </div>

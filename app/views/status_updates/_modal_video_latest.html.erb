@@ -21,13 +21,23 @@
 <script>
 $(document).ready(function() {
   // when the modal is opened autoplay it
+  var streamVideo = "<%= media_attachment.is_stream_video %>";
+
   $('#<%="video-#{media_attachment.id}-model"%>').on('shown.bs.modal', function (e) {
-    $("#<%="video-#{media_attachment.attachable.id}-player"%>").attr('src', "https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
+    if (streamVideo == "true") {
+      $("#<%="video-#{media_attachment.id}-vonage"%>").attr('src', "<%= media_attachment.videos.first&.video_url %>");
+    } else {
+      $("#<%="video-#{media_attachment.attachable.id}-player"%>").attr('src', "https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
+    }
   });
 
   // stop playing the youtube video when I close the modal
   $('#<%="video-#{media_attachment.id}-model"%>').on('hide.bs.modal', function (e) {
-    $('#<%="video-#{media_attachment.attachable.id}-player"%>').attr("src", "");
+    if (streamVideo == "true") {
+      $("#<%="video-#{media_attachment.id}-vonage"%>").attr('src', "");
+    } else {
+      $('#<%="video-#{media_attachment.attachable.id}-player"%>').attr("src", "");
+    }
   });
 });
 </script>

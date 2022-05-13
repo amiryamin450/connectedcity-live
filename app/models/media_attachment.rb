@@ -6,13 +6,11 @@ class MediaAttachment < ActiveRecord::Base
   belongs_to :location, foreign_key: "attachable_id"
   has_many :videos, dependent: :destroy
 
-  attr_accessible :attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source, :is_stream_video, :archive_id, :session_id, :description
+  attr_accessible :attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source, :is_stream_video, :archive_id, :session_id, :description, :is_draft
 
   validates_presence_of :attachment, :unless => :stream_video?
 
-  has_attached_file :stream_thumbnail, :styles => { :thumb => "320x180", :original => "480x360" },
-    :url => "/system/media_attachment/stream_thumbnail/:id/:style/:basename.:extension",
-    :path => ":rails_root/public/system/media_attachment/stream_thumbnail/:id/:style/:basename.:extension"
+  default_scope where(is_draft: false)
 
   def thumbnail_url style=:original
     if self.is_stream_video
