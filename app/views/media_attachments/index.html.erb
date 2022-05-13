@@ -20,7 +20,7 @@
         "width: 120px;") %>
         <% if media.is_stream_video %>
           <label data-id="<%= media.videos.first&.id %>" class="btn btn-primary edit-thumbnail" style="margin: 0 20px;">
-            <input type="file" style="display: none;" data-id="<%= media.videos.first&.id %>">
+            <input type="file" style="display: none;" data-id="<%= media.videos.first&.id %>" accept= "image/*">
               Edit thumbnail
           </label>
         <% end %>
@@ -50,6 +50,11 @@
       if (videoId) {
         // document.getElementById('thumbnail-loader').style.display = 'inline-block';
         var file = event.target.files[0];
+        if (file.size >= 5242880) { // 5MB
+          event.target.value = "";
+          alert('Maximum file size is 5MB. Please try again.')
+          return;
+        }
         var data = new FormData();
         data.append('file', file);
         fetch(`/videos/${videoId}/upload_thumbnail.json`, {

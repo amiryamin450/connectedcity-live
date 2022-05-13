@@ -24,7 +24,7 @@
       <label>Advanced</label>
       <div>
         <label class="btn btn-primary custom-file-input">
-          <%= f.file_field :thumbnail, style: "display: none;"%>
+          <%= f.file_field :thumbnail, style: "display: none;", accept: "image/*" %>
             Upload thumbnail
         </label>
         <div class="loader" id="thumbnail-loader"></div>
@@ -80,9 +80,14 @@
   })
 
   document.getElementById('video_thumbnail').addEventListener('change', event => {
+    var file = event.target.files[0];
+    if (file.size >= 5242880) { // 5MB
+      event.target.value = "";
+      alert('Maximum file size is 5MB. Please try again.')
+      return;
+    }
     // add spinner
     document.getElementById('thumbnail-loader').style.display = 'inline-block';
-    var file = event.target.files[0];
     var data = new FormData();
     data.append('file', file);
     fetch(`/videos/${videoId}/upload_thumbnail.json`, {
