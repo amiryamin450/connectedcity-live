@@ -26,31 +26,24 @@
   </div>
   <%= f.input :sku %>
   <%= f.input :quantity %>
-  <%= f.input :image, as: :logo_preview %>
-<% end %>
+  <div class="string required main-image">
+    <%#= f.label :main_Image %>
+    <label class="string required control-label" for="product_image_sub_image">Main Image</label>
 
-<%= simple_form_for :product_image, :url => upload_images_product_images_path, :method => :post , html: { class: 'form-inline product-image controls' }  do |f| %>
+    <%= f.input :image, as: :logo_preview %>
+  </div>
+<% end %>
+<%= simple_form_for :product_image, :url => upload_images_product_images_path, :method => :post , html: { class: 'form-inline product-image' }  do |f| %>
+  <!-- <%= f.label :sub_image %> -->
+  <label class="string control-label" for="product_image_sub_image">Sub Image</label>
   <div class="row-fluid fileupload-buttonbar">
     <div class="span7">
       <!-- The fileinput-button span is used to style the file input field as button -->
-      <span class="btn btn-mini btn-success fileinput-button">
+      <span class="btn btn-mini btn-success fileinput-button" style="margin-left: 20px">
         <i class="icon-plus icon-white"></i>
-        <span>Add files...</span>
+        <span>Add files</span>
         <%= f.file_field :image, :multiple => true %>
       </span>
-      <button type="submit" class="btn btn-mini btn-primary start">
-        <i class="icon-upload icon-white"></i>
-        <span>Start upload</span>
-      </button>
-      <button type="reset" class="btn btn-mini btn-warning cancel">
-        <i class="icon-ban-circle icon-white"></i>
-        <span>Cancel upload</span>
-      </button>
-      <button type="button" class="btn btn-mini btn-danger delete">
-        <i class="icon-trash icon-white"></i>
-        <span>Delete</span>
-      </button>
-      <input type="checkbox" class="toggle">
     </div>
     <div class="span5">
       <!-- The global progress bar -->
@@ -140,7 +133,7 @@
           <i class="icon-trash icon-white"></i>
           <span>{%=locale.fileupload.destroy%}</span>
         </button>
-        <input type="checkbox" name="delete" value="1">
+        <!-- <input type="checkbox" name="delete" value="1"> -->
       </td>
     </tr>
     {% } %}
@@ -183,7 +176,7 @@
     });
 
     $('.category-form .controls #logo').remove();
-
+    $('.category-form .main-image .product_image label.logo_preview').hide()
     $("#new_product").validate({
       rules: {
         'product[name]': {
