@@ -13,6 +13,7 @@ class ProductImage < ActiveRecord::Base
 
   def to_jq_upload
     {
+      "id" => read_attribute(:id),
       "name" => read_attribute(:image_file_name),
       "size" => read_attribute(:image_file_size),
       "url" => image.url(:original),

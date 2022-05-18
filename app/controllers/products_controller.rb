@@ -30,13 +30,19 @@ class ProductsController < ApplicationController
   end
 
   def create
+    product_image_ids_param = params[:product].delete('product_image_ids')
     @product = @location.products.new(params[:product])
+
     if @product.save
+      result = product_images_slide(product_image_ids_param)
+      result.each do |p|
+        p.product_id = @product.id
+        p.save
+      end
       redirect_to [@location], notice: 'Product was successfully created.'
     else
       @categories = Category.where(parent_id: nil).order(:name)
       respond_to do |format|
-        # format.html { redirect_to new_location_product_path }
         format.html { render action: "new" }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
@@ -69,6 +75,11 @@ class ProductsController < ApplicationController
 
   def select_category
     @category = Category.find(params[:id])
+  end
+
+  def product_images_slide param_ids
+    ids = param_ids.split(',').map do |id| id.to_i  end
+    ProductImage.where(id: ids)
   end
 
 end
