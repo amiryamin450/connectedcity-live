@@ -18,6 +18,7 @@
     </div>
   </div>
   <%= f.hidden_field :category_id %>
+  <%= f.hidden_field :product_image_ids, value: '' %>
   <%= f.input :description, input_html: { class: 'input-block-level wysihtml5' } %>
   <div class="control-group string required">
     <%= f.label :price %>
@@ -26,62 +27,162 @@
   <%= f.input :sku %>
   <%= f.input :quantity %>
   <%= f.input :image, as: :logo_preview %>
-  <%= render "product_images_fields", f: f %>
-  <div class="form-actions">
-    <%= f.button :submit,  class: 'btn btn-primary' %>
-    <%= link_to 'Cancel', location_products_path(@location), class: 'btn'  %>
-  </div>
 <% end %>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+<%= simple_form_for :product_image, :url => upload_images_product_images_path, :method => :post , html: { class: 'form-inline product-image controls' }  do |f| %>
+  <div class="row-fluid fileupload-buttonbar">
+    <div class="span7">
+      <!-- The fileinput-button span is used to style the file input field as button -->
+      <span class="btn btn-mini btn-success fileinput-button">
+        <i class="icon-plus icon-white"></i>
+        <span>Add files...</span>
+        <%= f.file_field :image, :multiple => true %>
+      </span>
+      <button type="submit" class="btn btn-mini btn-primary start">
+        <i class="icon-upload icon-white"></i>
+        <span>Start upload</span>
+      </button>
+      <button type="reset" class="btn btn-mini btn-warning cancel">
+        <i class="icon-ban-circle icon-white"></i>
+        <span>Cancel upload</span>
+      </button>
+      <button type="button" class="btn btn-mini btn-danger delete">
+        <i class="icon-trash icon-white"></i>
+        <span>Delete</span>
+      </button>
+      <input type="checkbox" class="toggle">
+    </div>
+    <div class="span5">
+      <!-- The global progress bar -->
+      <div class="progress progress-success progress-striped active fade">
+        <div class="bar" style="width:0%;"></div>
+      </div>
+    </div>
+  </div>
+  <!-- The loading indicator is shown during image processing -->
+  <div class="fileupload-loading"></div>
+  <!-- The table listing the files available for upload/download -->
+  <table class="table table-striped">
+    <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+  </table>
+<% end %>
+
+<div class="form-actions">
+  <button class="btn btn-primary submit-new-product">Create Product</button>
+  <%= link_to 'Cancel', location_products_path(@location), class: 'btn'  %>
+</div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+  var fileUploadErrors = {
+    maxFileSize: 'File is too big',
+    minFileSize: 'File is too small',
+    acceptFileTypes: 'Filetype not allowed',
+    maxNumberOfFiles: 'Max number of files exceeded',
+    uploadedBytes: 'Uploaded bytes exceed file size',
+    emptyResult: 'Empty file upload result'
+  };
+</script>
+
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+  {% for (var i=0, file; file=o.files[i]; i++) { %}
+  <tr class="template-upload fade">
+    <td class="preview"><span class="fade"></span></td>
+    <td class="name"><span>{%=file.name%}</span></td>
+    <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+    {% if (file.error) { %}
+    <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+    {% } else if (o.files.valid && !i) { %}
+    <td>
+      <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
+    </td>
+    <td class="start">{% if (!o.options.autoUpload) { %}
+      <button class="btn btn-primary">
+        <i class="icon-upload icon-white"></i>
+        <span>{%=locale.fileupload.start%}</span>
+      </button>
+      {% } %}</td>
+    {% } else { %}
+    <td colspan="2"></td>
+    {% } %}
+    <td class="cancel">{% if (!i) { %}
+      <button class="btn btn-warning">
+        <i class="icon-ban-circle icon-white"></i>
+        <span>{%=locale.fileupload.cancel%}</span>
+      </button>
+      {% } %}</td>
+  </tr>
+  {% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+  {% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+      {% if (file.error) { %}
+        <td class="name"><span>{%=file.image_file_name%}</span></td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+        {% } else { %}
+        <td class="preview">{% if (file.thumbnail_url) { %}
+          <!-- <b>{%=file.url%}</b> -->
+          <!-- <b>{%=file.image_file_name%}</b> -->
+          <!-- <b>{%=file.thumbnail_url%}</b> -->
+          <a href="{%=file.url%}" title="{%=file.image_file_name%}" rel="gallery" download="{%=file.image_file_name%}"><img src="{%=file.thumbnail_url%}"></a>
+          {% } %}</td>
+        <td class="name">
+          <a href="{%=file.url%}" title="{%=file.image_file_name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.image_file_name%}">{%=file.name%}</a>
+        </td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        <td colspan="2"></td>
+        {% } %}
+      <td class="delete">
+        <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+          <i class="icon-trash icon-white"></i>
+          <span>{%=locale.fileupload.destroy%}</span>
+        </button>
+        <input type="checkbox" name="delete" value="1">
+      </td>
+    </tr>
+    {% } %}
+</script>
+
+<!--  Copy this part and config $('#fileupload').fileupload() to reuse -->
+<script type="text/javascript" charset="utf-8">
+  $(function () {
+    // Initialize the jQuery File Upload widget:
+    // var multiple_photos_form = $('#new_product');
+    // $('#new_product').each(function () {
+      $('.product-image').fileupload({
+        fileInput: $('.product-image'),
+        limitMultiFileUploads: 5,
+        maxNumberOfFiles: 5,
+        maxFileSize: 4000000,
+        autoUpload: true,
+      }).bind('fileuploadfinished', function (e, data) {
+        // $('.submit-new-product').attr('disabled', false)
+      }).on('fileuploadstarted', function (e) {
+        // $('.submit-new-product').attr('disabled', true)
+      }).on('fileuploadcompleted', function (e, data) {
+        var result = data['result']['files'][0]['id']
+        var oldValue = $('#product_product_image_ids').val()
+        var newValue = result
+        if (oldValue !== '') {
+          newValue = oldValue + ',' + result
+        }
+        $('#product_product_image_ids').val(newValue)
+      })
+    });
+</script>
 
 <script type="text/javascript">
   $(document).ready(function() {
-    var fileUploadErrors = {
-      maxFileSize: 'File is too big',
-      minFileSize: 'File is too small',
-      acceptFileTypes: 'Filetype not allowed',
-      maxNumberOfFiles: 'Max number of files exceeded',
-      uploadedBytes: 'Uploaded bytes exceed file size',
-      emptyResult: 'Empty file upload result'
-    };
-
-    $(function () {
-      // Initialize the jQuery File Upload widget:
-      $('#new_product #product_image').fileupload({
-        fileInput: $('#product_product_images_attributes_0_image'),
-        limitMultiFileUploads: 5,
-        maxFileSize: 4000000
-      });
-      //
-      // Load existing files:
-      // fix below for browser back/forward buttons when erroneous AJAX call was made to action
-      // when $('#fileupload').prop('action') was returning undefined.
-      // # TODO: This partial should only be rendered when it's actually needed, instead of in the application layout.
-      var url = $('#new_product').prop('action');
-      if(jQuery.type( url ) !== "undefined")
-      {
-        $.getJSON($('#new_product').prop('action'), function (data) {
-            var fu = $('#new_product').data('blueimpFileupload'),
-                    template;
-            fu._adjustMaxNumberOfFiles(-data.length);
-            template = fu._renderDownload(data)
-                    .appendTo($('#new_product .files'));
-            // Force reflow:
-            fu._reflow = fu._transition && template.length &&
-                    template[0].offsetWidth;
-            template.addClass('in');
-            $('#loading').remove();
-        });
-
-      }
-    });
-
     $('input#product_price').blur(function(){
       var num = parseFloat($(this).val());
       var cleanNum = num.toFixed(2);
       $(this).val(cleanNum);
     });
+
+    $('.category-form .controls #logo').remove();
 
     $("#new_product").validate({
       rules: {
@@ -103,7 +204,6 @@
         'product[price]': {
           required: true,
           range: [0.1, 1000000],
-          pattern: /^(\d+|\d+,\d{1,2})$/,
         },
         'product[quantity]': {
           required: true,
