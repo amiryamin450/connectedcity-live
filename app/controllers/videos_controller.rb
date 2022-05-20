@@ -62,14 +62,16 @@ class VideosController < ApplicationController
 
         media_attachment = @video.media_attachment
         video = media_attachment.videos.first
-        cmd = "ffmpeg -i '#{video.video_url}' -ss 00:00:1 -frames:v 1 #{Rails.root}/public/thumbnail.png"
-        system( cmd )
-        file = File.open("#{Rails.root}/public/thumbnail.png")
-        if file.present?
-          video.thumbnail = file
-          file.close
-          File.delete(file)
-          video.save
+        unless video.thumbnail.file?
+          cmd = "ffmpeg -i '#{video.video_url}' -ss 00:00:1 -frames:v 1 #{Rails.root}/public/thumbnail.png"
+          system( cmd )
+          file = File.open("#{Rails.root}/public/thumbnail.png")
+          if file.present?
+            video.thumbnail = file
+            file.close
+            File.delete(file)
+            video.save
+          end
         end
       end
       render json: {generated_url: @video.video_url.present?}, status: :ok
