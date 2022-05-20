@@ -1,124 +1,132 @@
+<h1>Preview Video</h1>
 <%= form_for @video do |f| %>
-  <div class="row-fluid media-attachment-area">
-    <div class="span6">
-      <h1>Preview Video</h1>
+  <div class="row-fluid new-media-attachment">
+    <div class="span8">
       <iframe width='100%' height='480' src='<%= @video.video_url %>' frameborder='0' allowfullscreen id="preview-video-iframe"></iframe>
     </div>
-    <div class="span6">
+    <div class="span4">
       <%
         media_attachment = @video.media_attachment
         location = media_attachment.location
       %>
-      <div class="button-group">
-        <%= link_to "Discard video", video_path(@video), method: :delete, data: { confirm: 'Are you certain you want to delete this video?' }, class: "btn btn-danger redirect-btn" %>
-        <%= f.submit "Upload video", class: "btn btn-primary redirect-btn" %>
+      <div class="row buttons-group">
+        <div class="span4 offset2">
+          <%= link_to "Discard video", video_path(@video), method: :delete, data: { confirm: 'Are you certain you want to delete this video?' }, class: "btn btn-danger redirect-btn" %>
+        </div>
+        <div class="span4">
+          <%= f.submit "Upload video", class: "btn btn-primary redirect-btn" %>
+        </div>
       </div>
 
-      <%= f.fields_for :media_attachment do |ff| %>
-        <label for="video_media_attachment_attributes_title">Title</label>
-        <%= ff.text_field :title, required: true %>
-        <label for="video_media_attachment_attributes_description">Description</label>
-        <%= ff.text_area :description, cols: 80, rows: 3 %>
-      <% end %>
-      <br>
-      <label>Advanced</label>
-      <div>
-        <label class="btn btn-primary custom-file-input">
-          <%= f.file_field :thumbnail, style: "display: none;", accept: "image/*" %>
-            Upload thumbnail
-        </label>
-        <div class="loader" id="thumbnail-loader"></div>
-        <span id="thumnail-filename"></span>
-      </div>
-      <div>
-        <button id="mute-audio" class="btn btn-primary">Mute recorded audio</button>
-        <%= f.hidden_field 'remove_audio', value: false %>
-        <div class="loader" id="mute-audio-loader"></div>
-        <span id="mute-message" style="display: none;">Mute recorded audio successfully</span>
-      </div>
-      <div>
-        <label class="btn btn-primary custom-file-input">
-          <%= f.file_field :audio, style: "display: none;", accept: "audio/*" %>
-            Upload new audio
-        </label>
-        <div class="loader" id="upload-audio-loader"></div>
-        <span id="audio-filename"></span>
+      <div class="edit-media-attachment">
+        <%= f.fields_for :media_attachment do |ff| %>
+          <div class="title-field">
+            <label for="video_media_attachment_attributes_title">Title</label>
+            <%= ff.text_field :title, required: true %>
+            <span id="title-count">0/100</span>
+          </div>
+          <div class="description-field">
+            <label for="video_media_attachment_attributes_description">Description</label>
+            <%= ff.text_area :description, cols: 80, rows: 7 %>
+            <span id="description-count"><%= "#{media_attachment.description.length}/100" %></span>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
 <% end %>
 
 <script>
-  var videoId = "<%= @video.id %>"
-  document.getElementById('mute-audio').addEventListener('click', event => {
-    event.preventDefault();
-    // add spinner
-    document.getElementById('mute-audio-loader').style.display = 'inline-block';
-    fetch(`/videos/${videoId}/mute_video_audio.json`, {
-      method: 'get',
-      headers: {
-        'Accept': 'application/json',
-        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-      }
-    }).then(function(response) {
-      if (response.ok) {
-        // remove spinner
-        document.getElementById('mute-audio-loader').style.display = 'none';
-        document.getElementById('mute-message').style.display = 'inline-block';
-        document.getElementById('mute-audio').disabled = true;
-        document.getElementById('preview-video-iframe').src = "<%= @video.video_url %>?v=1";
-      }
-    })
-  })
-
-  document.getElementById('video_audio').addEventListener('change', event => {
-    // add spinner
-    document.getElementById('upload-audio-loader').style.display = 'inline-block';
-    var file = event.target.files[0];
-    var data = new FormData()
-    data.append('file', file);
-    fetch(`/videos/${videoId}/upload_audio.json`, {
-      method: 'post',
-      body: data,
-      headers: {
-        'Accept': 'application/json',
-        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-      }
-    }).then(function(response) {
-      if (response.ok) {
-        console.log(response)
-        // remove spinner
-        document.getElementById('upload-audio-loader').style.display = 'none';
-        document.getElementById('audio-filename').textContent = file.name;
-      }
-    })
-  })
-
-  document.getElementById('video_thumbnail').addEventListener('change', event => {
-    var file = event.target.files[0];
-    if (file.size >= 5242880) { // 5MB
-      event.target.value = "";
-      alert('Maximum file size is 5MB. Please try again.')
-      return;
+  var titleCounter = document.getElementById('video_media_attachment_attributes_title').value.length;
+  document.getElementById('title-count').innerHTML = `${titleCounter}/100`
+  document.getElementById('video_media_attachment_attributes_title').addEventListener('keypress', function (e) {
+    if (titleCounter > 100) {
+      e.preventDefault();
     }
-    // add spinner
-    document.getElementById('thumbnail-loader').style.display = 'inline-block';
-    var data = new FormData();
-    data.append('file', file);
-    fetch(`/videos/${videoId}/upload_thumbnail.json`, {
-      method: 'post',
-      body: data,
-      headers: {
-        'Accept': 'application/json',
-        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-      }
-    }).then(function(response) {
-      if (response.ok) {
-        console.log(response)
-        // remove spinner
-        document.getElementById('thumbnail-loader').style.display = 'none';
-        document.getElementById('thumnail-filename').textContent = file.name;
-      }
-    })
+    titleCounter++;
+    document.getElementById('title-count').innerHTML = `${titleCounter}/100`
   })
+
+  var descriptionCounter = document.getElementById('video_media_attachment_attributes_description').value.length;
+  document.getElementById('description-count').innerHTML = `${descriptionCounter}/1500`;
+  document.getElementById('video_media_attachment_attributes_description').addEventListener('keypress', function (e) {
+    if (descriptionCounter > 1500) {
+      e.preventDefault();
+    }
+    descriptionCounter++;
+    document.getElementById('description-count').innerHTML = `${descriptionCounter}/1500`;
+  })
+
+  // var videoId = "<%= @video.id %>"
+  // document.getElementById('mute-audio').addEventListener('click', event => {
+  //   event.preventDefault();
+  //   // add spinner
+  //   document.getElementById('mute-audio-loader').style.display = 'inline-block';
+  //   fetch(`/videos/${videoId}/mute_video_audio.json`, {
+  //     method: 'get',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+  //     }
+  //   }).then(function(response) {
+  //     if (response.ok) {
+  //       // remove spinner
+  //       document.getElementById('mute-audio-loader').style.display = 'none';
+  //       document.getElementById('mute-message').style.display = 'inline-block';
+  //       document.getElementById('mute-audio').disabled = true;
+  //       document.getElementById('preview-video-iframe').src = "<%= @video.video_url %>?v=1";
+  //     }
+  //   })
+  // })
+
+  // document.getElementById('video_audio').addEventListener('change', event => {
+  //   // add spinner
+  //   document.getElementById('upload-audio-loader').style.display = 'inline-block';
+  //   var file = event.target.files[0];
+  //   var data = new FormData()
+  //   data.append('file', file);
+  //   fetch(`/videos/${videoId}/upload_audio.json`, {
+  //     method: 'post',
+  //     body: data,
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+  //     }
+  //   }).then(function(response) {
+  //     if (response.ok) {
+  //       console.log(response)
+  //       // remove spinner
+  //       document.getElementById('upload-audio-loader').style.display = 'none';
+  //       document.getElementById('audio-filename').textContent = file.name;
+  //     }
+  //   })
+  // })
+
+  // document.getElementById('video_thumbnail').addEventListener('change', event => {
+  //   var file = event.target.files[0];
+  //   if (file.size >= 5242880) { // 5MB
+  //     event.target.value = "";
+  //     alert('Maximum file size is 5MB. Please try again.')
+  //     return;
+  //   }
+  //   // add spinner
+  //   document.getElementById('thumbnail-loader').style.display = 'inline-block';
+  //   var data = new FormData();
+  //   data.append('file', file);
+  //   fetch(`/videos/${videoId}/upload_thumbnail.json`, {
+  //     method: 'post',
+  //     body: data,
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+  //     }
+  //   }).then(function(response) {
+  //     if (response.ok) {
+  //       console.log(response)
+  //       // remove spinner
+  //       document.getElementById('thumbnail-loader').style.display = 'none';
+  //       document.getElementById('thumnail-filename').textContent = file.name;
+  //     }
+  //   })
+  // })
 </script>

@@ -1,11 +1,55 @@
 <div class="new-media-attachment">
-  <div class="row">
-    <div class="span8">
-      <h2 class="add-new-media-attachment-title">Add Video to <span class='location-name'><%= link_to @location.name, location_path(@location) %></span> Channel</h2>
-    </div>
-    <div class="span4">
-      <h3><%= link_to 'Manage Videos', location_media_attachments_path(@location), class: "" %></h3>
-    </div>
-  </div>
+  <h2 class="add-new-media-attachment-title">Add Video to <span class='location-name'><%= link_to @location.name, location_path(@location) %></span> Channel</h2>
   <%= render 'form' %>
 </div>
+<div id="messageModal" class="media-modal">
+  <div class="modal-content">
+    <%# <span class="close">&times;</span> %>
+    <div class="modal-body">
+      <p>You must enter video title before recording. Please try again.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="close-message-modal">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="confirmModal" class="media-modal">
+  <div class="modal-content">
+    <%# <span class="close">&times;</span> %>
+    <div class="modal-body">
+      <p>Would you like to discard current video and start recording a new video?</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="close-confirm-modal">Close</button>
+      <button class="btn btn-success" id="confirm-modal">Confirm</button>
+    </div>
+  </div>
+</div>
+<div id="loadingModal" class="media-modal">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div id="loader"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var messageModal = document.getElementById("messageModal");
+  var confirmModal = document.getElementById("confirmModal");
+  var closeMessageModal = document.getElementById("close-message-modal");
+  var closeConfirmModal = document.getElementById("close-confirm-modal");
+
+  closeMessageModal.onclick = function() {
+    messageModal.style.display = "none";
+  }
+  closeConfirmModal.onclick = function() {
+    confirmModal.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    if (event.target == messageModal || event.target == confirmModal) {
+      event.target.style.display = "none";
+    }
+  }
+</script>

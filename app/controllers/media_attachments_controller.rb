@@ -74,6 +74,9 @@ class MediaAttachmentsController < ApplicationController
       )
 
       if media_attachment.save
+        if media_attachment.videos.present?
+          media_attachment.videos.destroy_all
+        end
         media_attachment.videos.create(
           archive_id: archive.id,
           session_id: archive.sessionId,
