@@ -9,6 +9,8 @@
     button, a, input {
       font-size: 18px;
       width: 100%;
+      max-width: 160px;
+      min-width: 140px;
     }
   }
 
@@ -36,6 +38,12 @@
 
   #media_attachment_title, #media_attachment_description, #video_media_attachment_attributes_title, #video_media_attachment_attributes_description {
     width: 100%;
+  }
+
+  label.custom-file-input {
+    font-size: 18px;
+    font-weight: normal;
+    margin: 10px 10px 10px 0;
   }
 
   .add-new-media-attachment-title {

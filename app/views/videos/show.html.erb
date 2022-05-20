@@ -10,10 +10,10 @@
         location = media_attachment.location
       %>
       <div class="row buttons-group">
-        <div class="span4 offset2">
+        <div class="span5 offset1">
           <%= link_to "Discard video", video_path(@video), method: :delete, data: { confirm: 'Are you certain you want to delete this video?' }, class: "btn btn-danger redirect-btn" %>
         </div>
-        <div class="span4">
+        <div class="span5">
           <%= f.submit "Upload video", class: "btn btn-primary redirect-btn" %>
         </div>
       </div>
@@ -28,7 +28,7 @@
           <div class="description-field">
             <label for="video_media_attachment_attributes_description">Description</label>
             <%= ff.text_area :description, rows: 7, maxlength: 1500 %>
-            <span id="description-count"><%= "#{media_attachment.description.length}/100" %></span>
+            <span id="description-count"><%= "#{media_attachment.description.length}/1500" %></span>
           </div>
         <% end %>
       </div>
