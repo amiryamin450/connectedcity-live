@@ -4,7 +4,7 @@
       <div id="subscribers"></div>
     </div>
     <div id="default-video-img">
-      <img src="/assets/default_video_image.jpeg" alt="Video Placeholder Stock Image"/>
+      <img id="placeholder-img" src="/assets/default_video_image.jpeg" alt="Video Placeholder Stock Image"/>
     </div>
   </div>
   <div class="span4">
@@ -33,13 +33,30 @@
         </div>
       <% end %>
     </div>
-    <%# <input type="file"> %>
+    <div>
+      <label class="btn btn-primary custom-file-input">
+      <input type="file" id="thumbnail" name="thumbnail"
+       accept="image/*" style="display:none;">
+          Upload thumbnail
+      </label>
+      <span id="thumnail-filename">No file chosen</span>
+    </div>
   </div>
 </div>
 
 <script>
-  var titleCounter = 0;
-  var descriptionCounter = 0;
+  document.getElementById('thumbnail').addEventListener('change', event => {
+    var file = event.target.files[0];
+    if (file.size >= 5242880) { // 5MB
+      event.target.value = "";
+      alert('Maximum file size is 5MB. Please try again.')
+      return;
+    }
+    document.getElementById('thumnail-filename').innerHTML = file.name;
+  })
+
+  var titleCounter = document.getElementById('media_attachment_title').value.length;
+  var descriptionCounter = document.getElementById('media_attachment_description').value.length;
 
   ['paste','keypress', 'change'].forEach( function(event) {
     document.getElementById('media_attachment_title').addEventListener(event, function (e) {
@@ -143,10 +160,24 @@
                 event.target.textContent = "Stop Recording";
                 document.getElementById('start-archive').disabled = false;
                 started = true;
-                console.log(started);
-                // checkVideoUrl(videoId);
+
+                document.getElementById('placeholder-img').src = '/assets/default_video_image_2.jpeg';
+
                 document.getElementById('preview-video').addEventListener("click", function(event) {
                   document.getElementById("loadingModal").style.display = "block";
+                  var files = document.getElementById('thumbnail').files
+                  if (files.length > 0) {
+                    var data = new FormData();
+                    data.append('file', files[0]);
+                    fetch(`/videos/${videoId}/upload_thumbnail.json`, {
+                      method: 'post',
+                      body: data,
+                      headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                      }
+                    })
+                  }
                   checkVideoUrl(videoId);
                 })
               })
@@ -166,7 +197,6 @@
               }
               return Promise.reject(response);
             }).then(function (data) {
-              console.log(data.generated_url);
               if (data.generated_url) {
                 window.location.href = `/videos/${videoId}`;
               } else {
@@ -294,6 +324,10 @@
         document.getElementById('preview-video').disabled = true;
         var data = new FormData(document.getElementById('new_media_attachment'));
         data.append('session_id', vonageData.sessionId);
+        var files = document.getElementById('thumbnail').files
+        if (files.length > 0) {
+          data.append('thumbnail', files[0]);
+        }
         event.preventDefault();
         fetch(`/business/${locationSlug}/media_attachments/start_archive.json`, {
           method: 'post',

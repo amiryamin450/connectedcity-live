@@ -77,13 +77,17 @@ class MediaAttachmentsController < ApplicationController
         if media_attachment.videos.present?
           media_attachment.videos.destroy_all
         end
-        media_attachment.videos.create(
+        video = media_attachment.videos.create(
           archive_id: archive.id,
           session_id: archive.sessionId,
           has_audio: archive.hasAudio,
           has_video: archive.hasVideo,
           status: archive.status,
         )
+        if params[:thumbnail].present?
+          video.thumbnail = params[:thumbnail]
+          video.save
+        end
         render nothing: true, status: :created
       else
         render nothing: true, status: :unprocessable_entity
