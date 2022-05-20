@@ -13,15 +13,7 @@
   }
 
   .video-session {
-    position: relative;
-
-    .default-video-text {
-      position: absolute;
-      color: white;
-      top: 45%;
-      left: 33%;
-      font-size: 30px;
-    }
+    text-align: center;
   }
 
   .title-field, .description-field {
@@ -280,7 +272,7 @@
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
-  padding-top: 30%; /* Location of the box */
+  padding-top: 23%; /* Location of the box */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -294,7 +286,7 @@
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 40%;
   }
 
   /* The Close Button */

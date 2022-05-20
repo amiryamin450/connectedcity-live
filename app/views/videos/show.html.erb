@@ -22,12 +22,12 @@
         <%= f.fields_for :media_attachment do |ff| %>
           <div class="title-field">
             <label for="video_media_attachment_attributes_title">Title</label>
-            <%= ff.text_field :title, required: true %>
+            <%= ff.text_field :title, required: true, maxlength: 100 %>
             <span id="title-count">0/100</span>
           </div>
           <div class="description-field">
             <label for="video_media_attachment_attributes_description">Description</label>
-            <%= ff.text_area :description, cols: 80, rows: 7 %>
+            <%= ff.text_area :description, rows: 7, maxlength: 1500 %>
             <span id="description-count"><%= "#{media_attachment.description.length}/100" %></span>
           </div>
         <% end %>
@@ -39,22 +39,29 @@
 <script>
   var titleCounter = document.getElementById('video_media_attachment_attributes_title').value.length;
   document.getElementById('title-count').innerHTML = `${titleCounter}/100`
-  document.getElementById('video_media_attachment_attributes_title').addEventListener('keypress', function (e) {
-    if (titleCounter > 100) {
-      e.preventDefault();
-    }
-    titleCounter++;
-    document.getElementById('title-count').innerHTML = `${titleCounter}/100`
-  })
-
   var descriptionCounter = document.getElementById('video_media_attachment_attributes_description').value.length;
   document.getElementById('description-count').innerHTML = `${descriptionCounter}/1500`;
-  document.getElementById('video_media_attachment_attributes_description').addEventListener('keypress', function (e) {
-    if (descriptionCounter > 1500) {
-      e.preventDefault();
-    }
-    descriptionCounter++;
-    document.getElementById('description-count').innerHTML = `${descriptionCounter}/1500`;
+
+  ['paste','keypress', 'change'].forEach( function(event) {
+    document.getElementById('video_media_attachment_attributes_title').addEventListener(event, function (e) {
+      setTimeout(function() {
+        titleCounter = document.getElementById('video_media_attachment_attributes_title').value.length;
+        if (titleCounter > 100) {
+          e.preventDefault();
+        }
+        document.getElementById('title-count').innerHTML = `${titleCounter}/100`;
+      }, 100);
+    })
+
+    document.getElementById('video_media_attachment_attributes_description').addEventListener(event, function (e) {
+      setTimeout(function() {
+        descriptionCounter = document.getElementById('video_media_attachment_attributes_description').value.length;
+        if (descriptionCounter > 1500) {
+          e.preventDefault();
+        }
+        document.getElementById('description-count').innerHTML = `${descriptionCounter}/1500`;
+      }, 100);
+    })
   })
 
   // var videoId = "<%= @video.id %>"
