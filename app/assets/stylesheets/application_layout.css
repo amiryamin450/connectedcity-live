@@ -181,7 +181,8 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	width: 100%;
 	position: relative;
 	overflow: hidden;
-	min-height: 1000px;
+	/* min-height: 1000px; */
+	height: 100%;
 }
 
 #header {
@@ -1012,10 +1013,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 }
 
 #content .gap {
-	height: 40px;
-	width: 100%;
-	background: #e3e3e3;
-	border-bottom: 1px solid #ccc;
+	display: none;
 }
 
 #content .form-holder {
