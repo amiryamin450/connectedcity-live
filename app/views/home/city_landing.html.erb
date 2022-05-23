@@ -42,9 +42,9 @@
               Select Community
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <% @districts.each do |district| %>
-                <%= link_to district.name, district_guide_path(district), class: "dropdown-item" %>
-              <% end %>
+              <%# @districts.each do |district| %>
+                <%#= link_to district.name, district_guide_path(district), class: "dropdown-item" %>
+              <%# end %>
             </div>
           </div><br>
           <div class="dropdown">
@@ -52,11 +52,11 @@
               Select Neighbourhood
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <% @districts.each do |district| %>
-                <% district.business_improvement_areas.each do |bia| %>
-                  <%= link_to bia.name, "/vancouver/#{district.slug}/neighbourhoods/#{bia.slug}", class: "dropdown-item" %>
-                <% end %>
-              <% end %>
+              <%# @districts.each do |district| %>
+                <%# district.business_improvement_areas.each do |bia| %>
+                  <%#= link_to bia.name, "/vancouver/#{district.slug}/neighbourhoods/#{bia.slug}", class: "dropdown-item" %>
+                <%# end %>
+              <%# end %>
             </div>
           </div>
         </div>

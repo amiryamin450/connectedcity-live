@@ -9,7 +9,7 @@
            <%= link_to ("#{blog_entry.title}"), "#", class: "status-update-image" %>
         </h5>
       </div>
-      <div class="inner-card-title col-md-12">
+      <div class="inner-card-title col-md-12 inner-by">
         by <%= link_to blog_entry.bloggable.name, [blog_entry.bloggable, blog_entry] %>
       </div>
       <div class="inner-card-time col-md-12">
@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="inner-card-description">
-      <p><%= truncate_html( blog_entry.content, :length => 300 ) %>
+      <p><%= truncate_html( blog_entry.content.gsub('<div>', '').gsub('</div>', '').gsub('<p>','').gsub('</p>',''), :length => 300 ) %>
         <%#= link_to "View More", "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
       </p>
     </div>
