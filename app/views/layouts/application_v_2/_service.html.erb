@@ -1,32 +1,32 @@
 <div class="row">
   <div class="inner-img col-md-3 col-4">
-    <%= link_to (image_tag product.location.logo.url), product.location %></a>
+    <%= link_to (image_tag service.location.logo.url), service.location %></a>
   </div>
   <div class="col-md-9 col-8">
     <div class="row">
       <div class="inner-card-title col-md-7">
         <h5><%#= link_to(product.name, [product.location, product]) %>
-          <%= link_to ("#{product.name}"), "#", class: "status-update-image" %>
+          <%= link_to ("#{service.name}"), "#", class: "status-update-image" %>
         </h5>
       </div>
       <div class="inner-card-time col-md-5">
-        <span><%= "#{time_ago_in_words(product.created_at)} ago" %></span>
+        <span><%= "#{time_ago_in_words(service.created_at)} ago" %></span>
       </div>
       <div class="inner-card-title col-md-12 inner-by">
-        by <%= link_to product.location.name, product.location %>
+        by <%= link_to service.location.name, service.location %>
       </div>
     </div>
     <div class="inner-card-description">
-      <p><%= truncate_html(product.description.gsub('<div>', '').gsub('</div>', '').gsub('<p>','').gsub('</p>',''), :length => 300) %>
+      <p><%= truncate_html(service.description.gsub('<div>', '').gsub('</div>', '').gsub('<p>','').gsub('</p>',''), :length => 300) %>
         <%#= link_to "View More", "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
       </p>
-      <p><%= raw "<span class='price' >Price: $#{product.price}</span>" if product.price.present? %></p>
+      <p><%= raw "<span class='price' >Price: $#{service.price}</span>" if service.price.present? %></p>
     </div>
   </div>
-  <% if product.image? %>
+  <% if service.image? %>
     <div class="col-md-12">
       <div class="update-banner">
-        <%= link_to (image_tag product.image.url), "#", class: "status-update-image" %>
+        <%= link_to (image_tag service.image.url), "#", class: "status-update-image" %>
       </div>
     </div>
   <% end %>

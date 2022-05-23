@@ -6,7 +6,6 @@
     <div class="row">
       <div class="inner-card-title col-md-7">
         <h5><%#= link_to status_update.statusable.name, statusable_path(status_update.statusable) %>
-
           <%= link_to ("#{status_update.statusable.name}"), "#", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
         </h5>
       </div>
@@ -15,7 +14,7 @@
       </div>
     </div>
     <div class="inner-card-description">
-      <p><%= status_update.content.truncate(255) %></p>
+      <p><%= status_update.content.gsub('<div>', '').gsub('</div>', '').gsub('<p>','').gsub('</p>','').truncate(255) %></p>
       <%= link_to "View More", "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
     </div>
   </div>

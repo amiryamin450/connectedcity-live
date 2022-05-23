@@ -368,6 +368,21 @@
       font-size: 20px;
     }
   }
+
+  .inner-card-title {
+    p, a, &.inner-by { font-size: 13px; }
+  }
+
+  .inner-card-description p {
+    margin: 0px;
+    font-size: 14px;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
 }
 
 .multi .slick-slide {
@@ -399,4 +414,10 @@
   height: 100%;
   object-fit: cover;
   overflow: hidden;
+}
+
+@media (min-width: 1281px) {
+  .multi .slick-slide {
+    margin: 0px 15px;
+  }
 }

@@ -16,6 +16,7 @@ class HomeController < ApplicationController
     @blog_entries = @city.blog_entries.limit(PER_PAGE)
     @products = @city.products.limit(PER_PAGE)
     @coupons = @city.coupons.limit(PER_PAGE)
+    @services = @city.services.limit(PER_PAGE)
   end
 
   def city_landing
@@ -30,6 +31,7 @@ class HomeController < ApplicationController
     @blog_entries = @city.blog_entries.limit(PER_PAGE)
     @products = @city.products.limit(PER_PAGE)
     @coupons = @city.coupons.limit(PER_PAGE)
+    @services = @city.services.limit(PER_PAGE)
     render layout: "application_v_2"
   end
 
