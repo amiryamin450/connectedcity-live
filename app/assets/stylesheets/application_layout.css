@@ -182,7 +182,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	position: relative;
 	overflow: hidden;
 	/* min-height: 1000px; */
-	height: 100%;
+	min-height: 100%;
 }
 
 #header {
