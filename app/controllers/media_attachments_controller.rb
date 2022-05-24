@@ -11,7 +11,7 @@ class MediaAttachmentsController < ApplicationController
   end
 
   def show
-    @other_media = @location.media_attachments.all - [@media_attachment]
+    @other_media = @location.media_attachments.order("created_at ASC").all - [@media_attachment]
 
     @vertical_market = @location.vertical_market_categories.first.vertical_market
     add_crumb '<i class="icon-home"></i> Home'.html_safe, @base_path
