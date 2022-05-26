@@ -146,3 +146,35 @@
     });
   });
 </script>
+
+<script>
+  $(document).ready(function() {
+    $('.video-attachment-event').on('click', function() {
+      var modal = $(this);
+      var valueId = modal.attr('data-target');
+      var v = $(valueId).contents().find("iframe");
+      var url = v.attr('data-src');
+      v.attr('allow','autoplay')
+      v.attr('src', url + '?autoplay=1&amp;modestbranding=1&amp;showinfo=0')
+    })
+
+    $('.title-attachment-event').on('click', function() {
+      var modal = $(this);
+      var valueId = modal.attr('data-id');
+      var v = $('#' + valueId).contents().find("iframe");
+      var url = v.attr('data-src');
+      v.attr('allow','autoplay')
+      v.attr('src', url + '?autoplay=1&amp;modestbranding=1&amp;showinfo=0')
+    })
+
+    $('.close.media-attachment').on('click', function() {
+      var modal = $(this);
+      var valueId = modal.attr('data-id');
+      var v = $('#'+valueId).contents().find("iframe");
+      var url = v.attr('src');
+      var originUrl = url.replace('?autoplay=1&amp;modestbranding=1&amp;showinfo=0', '')
+      v.attr('src', originUrl)
+      v.removeAttr('allow')
+    })
+  });
+</script>
