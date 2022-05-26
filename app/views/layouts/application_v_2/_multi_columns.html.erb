@@ -83,7 +83,6 @@
   </div>
 </div>
 
-
 <% if @status_updates.size > 0 %>
   <% @status_updates.each do |status_update| %>
     <%= render 'status_updates/modal_content_latest', status_update: status_update %>
@@ -104,10 +103,6 @@
     <%= render 'status_updates/modal_event_latest', event: event %>
   <% end %>
 <% end %>
-</div>
-<!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.0/slick/slick.css"/>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.0/slick/slick-theme.css"/>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.0/slick/slick.min.js"></script> -->
 <!-- Add the slick-theme.css if you want default styling -->
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <!-- Add the slick-theme.css if you want default styling -->
@@ -122,7 +117,6 @@
       slidesToScroll: 1,
       arrows: true,
       speed: 300,
-      // initialSlide: 0,
       responsive: [
         {
           breakpoint: 1024,
