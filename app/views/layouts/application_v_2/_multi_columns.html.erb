@@ -172,8 +172,7 @@
       var valueId = modal.attr('data-id');
       var v = $('#'+valueId).contents().find("iframe");
       var url = v.attr('src');
-      var originUrl = url.replace('?autoplay=1&amp;modestbranding=1&amp;showinfo=0', '')
-      v.attr('src', originUrl)
+      v.attr('src', '')
       v.removeAttr('allow')
     })
   });
