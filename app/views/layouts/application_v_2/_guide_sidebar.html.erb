@@ -41,7 +41,7 @@
       <% media_attachments = @vertical_market.get_media_attachments(@city, @district, @neighborhood)%>
       <% if media_attachments.size > 0 %>
           <% media_attachments.each do |media_attachment| %>
-            <%= render 'layouts/application_v_2/media_attachment', media_attachment: media_attachment %>
+            <%= render 'layouts/application_v_2/media_attachment_basic', media_attachment: media_attachment %>
           <% end %>
       <% else %>
         <div class="alert">No Videos found.</div>
@@ -104,6 +104,6 @@
 </div>
 <% if media_attachments.size > 0 %>
   <% media_attachments.each do |media_attachment| %>
-    <%= render 'status_updates/modal_video_latest', media_attachment: media_attachment %>
+  <%= render 'layouts/application_v_2/video_popup_basic_version', media_attachment: media_attachment %>
   <% end %>
 <% end %>
