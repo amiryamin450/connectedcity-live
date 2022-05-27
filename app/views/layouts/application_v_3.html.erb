@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+    <%= metamagic site: "ConnectedCity",
+                  title: ["Local Online Shopping Community", :site],
+                  separator: " — ",
+                  charset: "utf-8",
+                  viewport: "width=device-width, initial-scale=1.0"
+    %>
+    <%= favicon_link_tag 'favicon.ico' %>
+    <!-- Subtle - Slideshow -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/cc_2.0/js/jquery.subtle-slideshow.js"></script>
+    <link rel="stylesheet" type="text/css" href="/cc_2.0/css/subtle-slideshow.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="/cc_2.0/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/cc_2.0/css/bootstrap.min.css">
+    <!-- Slick Slider -->
+    <link rel="stylesheet" type="text/css" href="/cc_2.0/css/slick-theme.css" />
+    <link rel="stylesheet" type="text/css" href="/cc_2.0/css/slick.css" />
+    <!-- Style -->
+    <link rel="stylesheet" type="text/css" href="/cc_2.0/css/style.css">
+    <%= stylesheet_link_tag "application_v_2", media: "all" %>
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+    <!-- javascript -->
+    <script type="text/javascript" src="/cc_2.0/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/cc_2.0/js/jquery-3.4.1.slim.min.js"></script>
+    <script type="text/javascript" src="/cc_2.0/js/popper.min.js"></script>
+    <script type="text/javascript" src="/cc_2.0/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/cc_2.0/js/bootstrap-min.js"></script>
+    <script type="text/javascript" src="/cc_2.0/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/cc_2.0/js/slick.min.js"></script>
+    <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
+    <%= javascript_include_tag "application_v_2" %>
+
+    <script>
+      $(document).ready(function() {
+        $('#province-dropdown').on('change', function(event) {
+          let provinceId = event.target.value
+          $.ajax({
+            url: `/home/get_regions?province_id=${provinceId}`,
+            method: "GET",
+            dataType: "json",
+          }).done(function( response ) {
+            resetRegions();
+            resetMunicipalities();
+            resetCities();
+            $.each(response, function(index, region) {
+              $('#region-dropdown').append($('<option>', {
+                  value: region.slug,
+                  text: region.name
+              }));
+            })
+          });
+        })
+
+        $('#region-dropdown').on('change', function(event) {
+          let regionId = event.target.value
+          $.ajax({
+            url: `/home/get_municipalities?region_id=${regionId}`,
+            method: "GET",
+            dataType: "json",
+          }).done(function( response ) {
+            resetMunicipalities();
+            resetCities();
+            $.each(response, function(index, municipality) {
+              $('#municipality-dropdown').append($('<option>', {
+                  value: municipality.slug,
+                  text: municipality.name
+              }));
+            })
+          });
+        })
+
+        $('#municipality-dropdown').on('change', function(event) {
+          let municipalityId = event.target.value
+          $.ajax({
+            url: `/home/get_cities?municipality_id=${municipalityId}`,
+            method: "GET",
+            dataType: "json",
+          }).done(function( response ) {
+            resetCities();
+            $.each(response, function(index, city) {
+              $('#city-dropdown').append($('<option>', {
+                  value: city.slug,
+                  text: city.csdname
+              }));
+            })
+          });
+        })
+
+        $('#city-dropdown').on('change', function(event) {
+          let province = $('#province-dropdown :selected').val()
+          let region = $('#region-dropdown :selected').val()
+          let municipality = $('#municipality-dropdown :selected').val()
+          let city = event.target.value
+          $('#city-landing-path').attr("href", `${province}/${region}/${municipality}/${city}`)
+        })
+
+        function resetRegions() {
+          $('#region-dropdown').find('option').remove();
+          $('#region-dropdown').append($('<option>', {
+            text: "Region"
+          }));
+        }
+
+        function resetMunicipalities() {
+          $('#municipality-dropdown').find('option').remove();
+          $('#municipality-dropdown').append($('<option>', {
+            text: "Municipality/County"
+          }));
+        }
+
+        function resetCities() {
+          $('#city-dropdown').find('option').remove();
+          $('#city-dropdown').append($('<option>', {
+            text: "City/Town"
+          }));
+        }
+
+        $('#district-dropdown').on('change', function(event) {
+          let districtId = event.target.value
+          $.ajax({
+            url: `/home/get_neighborhoods?district_id=${districtId}`,
+            method: "GET",
+            dataType: "json",
+          }).done(function( response ) {
+            resetNeighbourhood();
+            $('#district-path').attr("href", `${response.route}/${districtId}`)
+            $.each(response.neighborhoods, function(index, neighborhood) {
+              $('#neighbourhood-dropdown').append($('<option>', {
+                  value: neighborhood.slug,
+                  text: neighborhood.neighborhd
+              }));
+            })
+          });
+        })
+
+        function resetNeighbourhood() {
+          $('#neighbourhood-dropdown').find('option').remove();
+          $('#neighbourhood-dropdown').append($('<option>', {
+            text: "Sub Neighbourhood"
+          }));
+        }
+
+        // These are te default settings.
+        $('#slides').slideshow({
+          randomize: true,            // Randomize the play order of the slides.
+          slideDuration: 10000,       // Duration of each induvidual slide.
+          fadeDuration: 1000,         // Duration of the fading transition. Should be shorter than slideDuration.
+          animate: true,              // Turn css animations on or off.
+          pauseOnTabBlur: true,       // Pause the slideshow when the tab is out of focus. This prevents glitches with setTimeout().
+          enableLog: false,           // Enable log messages to the console. Useful for debugging.
+          slideElementClass: 'slide', // This is also defined in the CSS!
+          slideshowId: 'slideshow'    // This is also defined in the CSS!
+        });
+      })
+    </script>
+  </head>
+  <%= yield%>
+<html>

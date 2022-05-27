@@ -1,0 +1,53 @@
+<div class="top-bar landing-page-bar">
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <div class="col-lg-4 col-md-12">
+        <div class="logo">
+          <a href="<%= root_path%>">
+            <img src="/cc_2.0/images/logo.svg" alt="Logo">
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-7 d-none d-lg-block">
+        <div class="row">
+          <% if current_user.present? %>
+            <div class="col-3 offset-8">
+          <% else %>
+            <div class="col-3 offset-7">
+          <% end %>
+            <div class="input-group-prepend search-box ">
+              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Country Selection<i class="far fa-chevron-down"></i></button>
+              <div class="dropdown-menu">
+                <% @countries.each do |country| %>
+                  <a class="dropdown-item" href=""><%= country.name %></a>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <% if current_user.present? %>
+            <div class="col-1">
+              <div class="input-group-prepend user-dropdown dropleft">
+                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><img src="/cc_2.0/icon/landing-page-user-icon.svg"> <i class="far fa-chevron-down"></i></button>
+                  <div class="dropdown-menu">
+                    <%= link_to 'Edit account', edit_user_registration_path, class: "dropdown-item" %>
+                    <%= link_to 'My Classifieds', classified_listings_path, class: "dropdown-item" %>
+                    <%= link_to 'My Coupons', coupons_user_path(current_user), class: "dropdown-item" %>
+                    <%= link_to 'My Cart', cart_path(@cart), class: "dropdown-item" %>
+                    <div role="separator" class="dropdown-divider"></div>
+                    <%= link_to 'Logout', destroy_user_session_path, class: "dropdown-item", method: :delete %>
+                  </div>
+              </div>
+            </div>
+          <% else %>
+            <div class="col-2">
+              <div class="input-group-prepend user-dropdown dropleft">
+                <%= link_to 'Sign up', new_user_registration_path, class: "login-item" %>
+                <%= link_to 'Login', new_user_session_path, class: "login-item" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
