@@ -107,3 +107,27 @@
   <%= render 'layouts/application_v_2/video_popup_basic_version', media_attachment: media_attachment %>
   <% end %>
 <% end %>
+<script type="text/javascript">
+  $('.video-attachment-event-category').on('click', function() {
+    var modal = $(this);
+    var valueId = modal.attr('data-target');
+    var v = $(valueId).contents().find("iframe");
+    var url = v.attr('data-src');
+    v.attr('src', url)
+  })
+
+  $('.title-attachment-event-category').on('click', function() {
+    var modal = $(this);
+    var valueId = modal.attr('data-id');
+    var v = $('#' + valueId).contents().find("iframe");
+    var url = v.attr('data-src');
+    v.attr('src', url)
+  })
+  $('.close.media-attachment-category').on('click', function() {
+    var modal = $(this);
+    var valueId = modal.attr('data-id');
+    var v = $('#'+valueId).contents().find("iframe");
+    var url = v.attr('src');
+    v.attr('src', '')
+  })
+</script>

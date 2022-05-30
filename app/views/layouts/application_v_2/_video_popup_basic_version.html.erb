@@ -3,42 +3,17 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="statusModalLongTitle"><%= media_attachment.attachable.name%></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close media-attachment-category" data-id="<%="video-#{media_attachment.id}-model"%>" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <% if media_attachment.is_stream_video %>
-          <iframe width='100%' height='480' src="<%= media_attachment.videos.first&.video_url %>" id="<%="video-#{media_attachment.id}-vonage"%>" frameborder='0' allowfullscreen></iframe>
-        <% else %>
-          <iframe width='100%' height='480' src="https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" id="<%="video-#{media_attachment.attachable.id}-player"%>" frameborder='0' allowfullscreen></iframe>
-        <% end %>
+      <% if media_attachment.is_stream_video %>
+        <iframe width='100%' height='480' sr="" data-src="<%= media_attachment.videos.first&.video_url %>" id="<%="video-#{media_attachment.id}-vonage"%>" frameborder='0' allowfullscreen></iframe>
+      <% else %>
+        <iframe width='100%' height='480' src="" data-src="https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" id="<%="video-#{media_attachment.attachable.id}-player"%>" frameborder='0' allowfullscreen></iframe>
+      <% end %>
       </div>
     </div>
   </div>
 </div>
-
-<script>
-  $(document).ready(function() {
-    // when the modal is opened autoplay it
-    var streamVideo = "<%= media_attachment.is_stream_video %>";
-    $('#<%="video-#{media_attachment.id}-model"%>').on('shown.bs.modal', function (e) {
-      if (streamVideo == "true") {
-        $("#<%="video-#{media_attachment.id}-vonage"%>").attr('src', "<%= media_attachment.videos.first&.video_url %>");
-      } else {
-        $("#<%="video-#{media_attachment.attachable.id}-player"%>").attr('src', "https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
-
-      }
-    });
-    // stop playing the youtube video when I close the modal
-    $('#<%="video-#{media_attachment.id}-model"%>').on('hide.bs.modal', function (e) {
-      if (streamVideo == "true") {
-        $("#<%="video-#{media_attachment.id}-vonage"%>").attr('src', "");
-      } else {
-        $('#<%="video-#{media_attachment.attachable.id}-player"%>').attr("src", "");
-      }
-    });
-  });
-
-</script>
-
