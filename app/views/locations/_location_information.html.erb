@@ -16,7 +16,7 @@
       <td rowspan="2" style="vertical-align: top; padding-left: 20px;">
         <h2><%= link_to location.name, statusable_path(location) %></h2>
         <div class="address-line">
-         <%= location.address %> &middot; <%= "#{location.city.name} #{location&.province&.preabbr}, #{location.postal_code}" %>
+         <%= location.address %> &middot; <%= "#{location.city.name} #{location&.province&.abbr}, #{location.postal_code}" %>
          <%= display_phone 'show_phone', 'phone', 'Phone', location %>
          <%= display_phone 'show_toll_free', 'toll_free', 'Toll Free', location %>
           <%= raw "<div><strong>Fax:</strong> #{location.fax}</div>" if location.fax.present? %>
