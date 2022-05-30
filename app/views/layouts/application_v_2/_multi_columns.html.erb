@@ -42,7 +42,7 @@
     </div>
     <div class="colla">
       <h3 class="sticky-heading">Services</h3><br>
-      <% if @services.size > 0 %>
+      <% if @services && @services.size > 0 %>
           <% @services.each do |service| %>
             <%= render 'layouts/application_v_2/service', service: service %>
           <% end %>
