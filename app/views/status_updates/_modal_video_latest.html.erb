@@ -36,3 +36,18 @@
   </div>
 </div>
 
+<script>
+  $(document).ready(function() {
+    // when the modal is opened autoplay it
+    var streamVideo = "<%= media_attachment.is_stream_video %>";
+    // stop playing the youtube video when I close the modal
+    $('#<%="video-#{media_attachment.id}-model"%>').on('hide.bs.modal', function (e) {
+      if (streamVideo == "true") {
+        $("#<%="video-#{media_attachment.id}-vonage"%>").attr('src', "");
+      } else {
+        $('#<%="video-#{media_attachment.attachable.id}-player"%>').attr("src", "");
+      }
+    });
+  });
+
+</script>
