@@ -29,7 +29,7 @@ class LocationsController < ApplicationController
     @blog_entries = @location.blog_entries.page(params[:blog_page]).per(5)
     @products = @location.products.page(params[:product_page]).per(12)
     @coupons = @location.coupons.page(params[:coupon_page]).per(12)
-    @media_attachments = @location.media_attachments.order('created_at DESC').page(params[:media_page]).per(12)
+    @media_attachments = @location.media_attachments.order('created_at DESC').limit(20)
     @services = @location.services.page(params[:service_page]).per(12)
     @events = @location.events.page(params[:event_page]).per(12)
     @listings = @location.real_estate_listings.page(params[:listing_page]).per(12)

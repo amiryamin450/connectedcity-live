@@ -2441,6 +2441,15 @@ a:focus {
     height: auto;
 }
 
+.media-row-holder {
+    overflow: hidden;
+    height: 200px;
+}
+
+.media-row-holder.show{
+    height: auto;
+}
+
 .category-body-section .category-body .card-row .col-md-2 {
     padding-left: 8px;
     padding-right: 8px;
@@ -2448,6 +2457,12 @@ a:focus {
     min-width: 180px;
 }
 
+.business-body-section .business-product-body .card-row .col-md-2 {
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 15px;
+    min-width: 180px;
+}
 
 .category-body-section .category-body .card-row .col-md-2:first-child {
     padding-left: 15px;
