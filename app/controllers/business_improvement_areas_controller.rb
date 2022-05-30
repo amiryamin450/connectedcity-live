@@ -24,6 +24,7 @@ class BusinessImprovementAreasController < ApplicationController
     @products = @business_improvement_area.products.limit(PER_PAGE)
     @coupons = @business_improvement_area.coupons.limit(PER_PAGE)
     @news = @business_improvement_area.news_articles.limit(PER_PAGE).order(:created_at)
+    @services = @business_improvement_area.services.limit(PER_PAGE)
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb @business_improvement_area.district.name, district_guide_path(@business_improvement_area.district) if @business_improvement_area.district
     add_crumb @business_improvement_area.name
