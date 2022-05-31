@@ -8,10 +8,10 @@ jQuery ->
   $('a.see-more').click ->
     id = $(this).data('element')
     $('#cat-' + id).toggleClass 'show'
-    if($(this).html() == "More +")
-      $(this).html "Less +"
+    if($(this).html() == "See More +")
+      $(this).html "See Less +"
     else
-      $(this).html "More +"
+      $(this).html "See More +"
     return false
 
   if typeof word_list != 'undefined'

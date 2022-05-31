@@ -27,7 +27,7 @@ class LocationsController < ApplicationController
     @status_updates = @location.status_updates.page(params[:status_page]).per(7)
     @articles = @location.news_articles.page(params[:article_page]).per(5)
     @blog_entries = @location.blog_entries.page(params[:blog_page]).per(5)
-    @products = @location.products.page(params[:product_page]).per(12)
+    @products = @location.products.order('created_at DESC').limit(20)
     @coupons = @location.coupons.page(params[:coupon_page]).per(12)
     @media_attachments = @location.media_attachments.order('created_at DESC').limit(20)
     @services = @location.services.page(params[:service_page]).per(12)

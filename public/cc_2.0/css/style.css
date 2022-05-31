@@ -2191,8 +2191,8 @@ a:focus {
 }
 
 .category-body-section .category-sidebar {
-    height: 2460px;
-    overflow-y: auto;
+    /* height: 2460px;
+    overflow-y: auto; */
 }
 
 .category-body-section .category-sidebar::-webkit-scrollbar {
@@ -2236,6 +2236,23 @@ a:focus {
     border-right: 1px solid #dee2e6;
     border-bottom: 1px solid #dee2e6;
     border-radius: 0px 0px 10px 10px;
+    overflow-y: auto;
+    height: 2150px;
+}
+
+.category-body-section .category-sidebar .SideBar-tabs .tab-content::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.category-body-section .category-sidebar .SideBar-tabs .tab-content::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+
+.category-body-section .category-sidebar .SideBar-tabs .tab-content::-webkit-scrollbar {
+    width: 20px;
 }
 
 .category-body-section .category-sidebar .SideBar-tabs .tab-content .inner-card-title h5 {
@@ -2244,6 +2261,27 @@ a:focus {
 
 .category-body-section .category-body .advance-search-box {
     border: 2px solid;
+}
+
+.category-body-section .category-body .vertical-market-categories {
+    overflow-y: auto;
+    height: 2430px;
+    overflow-x: hidden;
+}
+
+.category-body-section .category-body .vertical-market-categories::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.category-body-section .category-body .vertical-market-categories::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+
+.category-body-section .category-body .vertical-market-categories::-webkit-scrollbar {
+    width: 20px;
 }
 
 .category-body-section .category-body .advance-search-box .dropdown-toggle {
@@ -2472,7 +2510,7 @@ a:focus {
 
 .media-row-holder {
     overflow: hidden;
-    height: 200px;
+    height: 202px;
 }
 
 .media-row-holder.show{
@@ -2541,6 +2579,10 @@ a:focus {
     border-bottom: 3px solid #F08080;
 }
 
+.business-body-section .business-product-body .card-label-two .title .secondary {
+    background-color: #a5a3a3 !important;
+}
+
 .business-body-section .business-product-body .card-label-two .title h4 {
     margin: 0px;
     background-color: #F08080;
@@ -2577,6 +2619,10 @@ a:focus {
     border-bottom: 3px solid #C6292B;
 }
 
+.business-body-section .business-product-body .card-label-four .title .secondary {
+    background-color: #a5a3a3 !important;
+}
+
 .business-body-section .business-product-body .card-label-four .title h4 {
     margin: 0px;
     background-color: #C6292B;
@@ -2594,7 +2640,6 @@ a:focus {
     margin: 20px 0px 10px;
     border-bottom: 3px solid #E05603;
 }
-
 .business-body-section .business-product-body .card-label-five .title h4 {
     margin: 0px;
     background-color: #E05603;
