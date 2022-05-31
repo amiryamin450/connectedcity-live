@@ -20,7 +20,7 @@
         
         <div class="address-line">
           <div style="margin-bottom: 10px;">
-           <%= "#{@real_estate_listing.address} &middot;".html_safe if @real_estate_listing.address_visible %> <%= "#{@real_estate_listing.address_suite} &middot;".html_safe if @real_estate_listing.address_suite.present? %> <%= "#{@real_estate_listing.city.name} #{@real_estate_listing.province.preabbr}, #{@real_estate_listing.postal_code}" %>
+           <%= "#{@real_estate_listing.address} &middot;".html_safe if @real_estate_listing.address_visible %> <%= "#{@real_estate_listing.address_suite} &middot;".html_safe if @real_estate_listing.address_suite.present? %> <%= "#{@real_estate_listing.city.name} #{@real_estate_listing&.province&.abbr}, #{@real_estate_listing.postal_code}" %>
          </div>
          <div>
           <% if @real_estate_listing.year_built %>

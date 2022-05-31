@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 ruby '2.7.1'
-source 'https://transcona_media_network_inc_858:Yf8g_5NGQUydncpn@gems.railslts.com' do
+source 'https://transcona_media_network_inc_632:VmN5m93oVPbMILkv@gems.railslts.com' do
   gem 'rails', '~> 3.2.22'
   gem 'actionmailer',     :require => false
   gem 'actionpack',       :require => false
@@ -31,6 +31,7 @@ gem 'jqcloud-rails'
 gem 'jquery-fileupload-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
+gem 'jquery-validation-rails'
 gem 'kaminari'
 gem 'koala'
 gem 'mail_form'

@@ -20,11 +20,12 @@ class City < ActiveRecord::Base
 
     belongs_to :maponics_division, class_name: "MaponicsDivision", foreign_key: "cduid"
     belongs_to :province, foreign_key: "pruid"
+    belongs_to :municipality
 
-    default_scope where(csdtype: 'CY').order(:csdname)
+    default_scope where(is_active: true).order(:csdname)
 
     friendly_id :csdname, use: [:slugged]
-    attr_accessible :csdname, :id, :csdtype, :slug
+    attr_accessible :csdname, :id, :csdtype, :slug, :municipality_id, :is_active, :geom
 
     def name
       csdname

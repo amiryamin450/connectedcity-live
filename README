@@ -33,6 +33,12 @@ Comment below snippet in `docker-compose.yml`
 
 `docker-compose exec -T db mysql -u root -p --max_allowed_packet=512M connectedcity_dev < ../dump_db_file.sql`
 
+Access rails c
+
+```
+City.unscoped.update_all is_active: true
+```
+
 ## Issue with Solr configuration
 
 The data must be indexed before you can start searching in the app. The following command can be used for 'reindexing', but it will cause errors

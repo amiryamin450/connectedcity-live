@@ -46,7 +46,7 @@ class RentalProperty < ActiveRecord::Base
 
   def full_street_address
     if city and province
-      [address_1, city.name, province.preabbr, 'CA', postal_code].compact.join(', ')
+      [address_1, city.name, province&.abbr, 'CA', postal_code].compact.join(', ')
     else
       ''
     end

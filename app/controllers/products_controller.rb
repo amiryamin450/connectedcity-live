@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
-  load_resource :location
-  load_and_authorize_resource :product, through: [:location]
+  load_resource :location, except: [:deeper_categories, :select_category]
+  load_and_authorize_resource :product, through: [:location], except: [:deeper_categories, :select_category]
 
   def index
     @products = @location.products
@@ -22,6 +22,7 @@ class ProductsController < ApplicationController
 
   def new
     @product = @location.products.new
+    @categories = Category.where(parent_id: nil).order(:name)
   end
 
   def edit
@@ -29,11 +30,22 @@ class ProductsController < ApplicationController
   end
 
   def create
+    product_image_ids_param = params[:product].delete('product_image_ids')
     @product = @location.products.new(params[:product])
+
     if @product.save
+      result = product_images_slide(product_image_ids_param)
+      result.each do |p|
+        p.product_id = @product.id
+        p.save
+      end
       redirect_to [@location], notice: 'Product was successfully created.'
     else
-      render action: :new
+      @categories = Category.where(parent_id: nil).order(:name)
+      respond_to do |format|
+        format.html { render action: "new" }
+        format.json { render json: @product.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -54,6 +66,20 @@ class ProductsController < ApplicationController
   def destroy
     @product.destroy
     redirect_to location_products_url
+  end
+
+  def deeper_categories
+    @lv2_categories = Category.find(params[:id]).children.order(:name)
+    @lv = params[:lv].to_i + 1
+  end
+
+  def select_category
+    @category = Category.find(params[:id])
+  end
+
+  def product_images_slide param_ids
+    ids = param_ids.split(',').map do |id| id.to_i  end
+    ProductImage.where(id: ids)
   end
 
 end

@@ -1,5 +1,5 @@
 <div class="landing-page-three-column-section">
-  <div class="multi" style="">
+  <div class="multi" id="multiple_items">
     <div class="colla">
       <h3 class="sticky-heading">Market Updates</h3><br>
       <% if @status_updates.size > 0 %>
@@ -41,8 +41,17 @@
       <% end %>
     </div>
     <div class="colla">
-      <h3 class="sticky-heading">Featured</h3><br>
-      <% @products = @city.products%>
+      <h3 class="sticky-heading">Services</h3><br>
+      <% if @services && @services.size > 0 %>
+          <% @services.each do |service| %>
+            <%= render 'layouts/application_v_2/service', service: service %>
+          <% end %>
+      <% else %>
+        <div class="alert">No Market Updates found.</div>
+      <% end %>
+    </div>
+    <div class="colla">
+      <h3 class="sticky-heading">Products</h3><br>
       <% if @products.size > 0 %>
           <% @products.each do |product| %>
             <%= render 'layouts/application_v_2/product', product: product %>
@@ -51,7 +60,6 @@
         <div class="alert">No Market Updates found.</div>
       <% end %>
     </div>
-
     <div class="colla">
       <h3 class="sticky-heading">Blogs</h3><br>
       <% if @blog_entries.size > 0 %>
@@ -63,7 +71,7 @@
       <% end %>
     </div>
     <div class="colla">
-      <h3 class="sticky-heading">Offers</h3><br>
+      <h3 class="sticky-heading">Deals</h3><br>
       <% if @status_updates.size > 0 %>
           <% @status_updates.each do |status_update| %>
             <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
@@ -74,7 +82,6 @@
     </div>
   </div>
 </div>
-
 
 <% if @status_updates.size > 0 %>
   <% @status_updates.each do |status_update| %>
@@ -96,38 +103,77 @@
     <%= render 'status_updates/modal_event_latest', event: event %>
   <% end %>
 <% end %>
-</div>
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function(){
     $('.multi').slick({
       infinite: true,
-      lazyLoad: 'ondemand',
       slidesToShow: 4,
-      slidesToScroll: 2,
+      slidesToScroll: 1,
+      arrows: true,
+      speed: 300,
       responsive: [
         {
           breakpoint: 1024,
           settings: {
             slidesToShow: 3,
-            slidesToScroll: 5,
+            slidesToScroll: 1,
+            infinite: true
           }
         },
         {
           breakpoint: 600,
           settings: {
             slidesToShow: 2,
-            slidesToScroll: 3
+            slidesToScroll: 1,
+            infinite: true
           }
         },
         {
           breakpoint: 480,
           settings: {
             slidesToShow: 1,
-            slidesToScroll: 2
+            slidesToScroll: 1,
+            infinite: true
           }
         }
       ]
     });
+  });
+</script>
+
+<script>
+  $(document).ready(function() {
+    $('.video-attachment-event').on('click', function() {
+      var modal = $(this);
+      var valueId = modal.attr('data-target');
+      var v = $(valueId).contents().find("iframe");
+      var url = v.attr('data-src');
+      v.attr('allow','autoplay')
+      v.attr('src', url + '?autoplay=1&amp;modestbranding=1&amp;showinfo=0')
+    })
+
+    $('.title-attachment-event').on('click', function() {
+      var modal = $(this);
+      var valueId = modal.attr('data-id');
+      var v = $('#' + valueId).contents().find("iframe");
+      var url = v.attr('data-src');
+      v.attr('allow','autoplay')
+      v.attr('src', url + '?autoplay=1&amp;modestbranding=1&amp;showinfo=0')
+    })
+
+    $('.close.media-attachment').on('click', function() {
+      var modal = $(this);
+      var valueId = modal.attr('data-id');
+      var v = $('#'+valueId).contents().find("iframe");
+      var url = v.attr('src');
+      v.attr('src', '')
+      v.removeAttr('allow')
+    })
   });
 </script>

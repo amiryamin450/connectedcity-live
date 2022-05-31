@@ -46,6 +46,10 @@
   line-height: 14px;
 }
 
+.location-info-popup .thumbnail img {
+  width: 100%;
+}
+
 #status_update_image .modal-body .profile-map {
   height: 150px;
 }
@@ -145,7 +149,7 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  padding: 10px 240px 10px 15px;
+  padding: 0px 240px 0px 15px;
   position: relative;
   width: 100%;
 
@@ -162,7 +166,7 @@
     background: none;
     float: left;
     margin-bottom: 0;
-    padding: 10px 10px;
+    padding: 8px 10px;
     position: relative;
     font-weight: 500;
     letter-spacing: 1px;
@@ -256,10 +260,29 @@
   bottom: 0;
   a {
     color: #ffffff;
-    padding: 20px 10px;
+    padding: 8px 10px;
     font-weight: 500;
     letter-spacing: 1px;
     float: right;
+  }
+}
+
+.landing-page-tab-section {
+  .district-slider .slider-heading {
+    margin: 0px 15px 30px;
+  }
+  .tab-inner-card .tab-inner-card-heading.city {
+    font-size: 22px;
+  }
+}
+
+.logo-block-flag {
+  padding-top: 10px;
+  min-height: 48px;
+  .logo-flag {
+    justify-content: end;
+    display: flex;
+    img { width: 40px; }
   }
 }
 
@@ -287,7 +310,7 @@
   padding-top: 0px;
   white-space: normal;
   width: 420px;
-  min-width: 300px;
+  // min-width: 300px;
 }
 .colla h3{
   padding-top: 10px;
@@ -340,6 +363,32 @@
   padding: 0px 7px;
 }
 
+.landing-page-three-column-section {
+  .multi {
+    max-height: 1000px;
+    margin: 20px auto;
+    .slick-list { max-height: 1000px; }
+    .slick-prev:before, .slick-next:before {
+      font-size: 20px;
+    }
+  }
+
+  .inner-card-title {
+    p, a, &.inner-by { font-size: 13px; }
+  }
+
+  .inner-card-description p {
+    margin: 0px;
+    font-size: 14px;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+}
+
 .multi .slick-slide {
   margin: 0px 10px;
   border: 1px solid #ccc;
@@ -369,4 +418,10 @@
   height: 100%;
   object-fit: cover;
   overflow: hidden;
+}
+
+@media (min-width: 1281px) {
+  .multi .slick-slide {
+    margin: 0px 15px;
+  }
 }

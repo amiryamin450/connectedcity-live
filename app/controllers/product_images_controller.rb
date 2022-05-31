@@ -80,4 +80,22 @@ class ProductImagesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def upload_images
+    @product_image = ProductImage.new(convert_params[:product_image])
+    respond_to do |format|
+      if @product_image.save
+        format.html { redirect_to @product_image, notice: 'Product image was successfully created.' }
+        format.json { render json: {files: [@product_image.to_jq_upload]}, status: :created, location: @product_image }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @product_image.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def convert_params
+    params[:product_image][:image] = params[:product_image][:image][0]
+    params
+  end
 end

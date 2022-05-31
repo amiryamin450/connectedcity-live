@@ -1,12 +1,13 @@
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
-    var fileUploadErrors = {
-        maxFileSize: 'File is too big',
-        minFileSize: 'File is too small',
-        acceptFileTypes: 'Filetype not allowed',
-        maxNumberOfFiles: 'Max number of files exceeded',
-        uploadedBytes: 'Uploaded bytes exceed file size',
-        emptyResult: 'Empty file upload result'
-    };
+  var fileUploadErrors = {
+    maxFileSize: 'File is too big',
+    minFileSize: 'File is too small',
+    acceptFileTypes: 'Filetype not allowed',
+    maxNumberOfFiles: 'Max number of files exceeded',
+    uploadedBytes: 'Uploaded bytes exceed file size',
+    emptyResult: 'Empty file upload result'
+  };
 </script>
 
 <!-- The template to display files available for upload -->
@@ -70,33 +71,22 @@
     {% } %}
 </script>
 
+<!--  Copy this part and config $('#fileupload').fileupload() to reuse -->
 <script type="text/javascript" charset="utf-8">
-    $(function () {
-        // Initialize the jQuery File Upload widget:
-        $('#fileupload').fileupload({
-            fileInput: $('#location_location_images_attributes_0_image')
-        });
-        //
-        // Load existing files:
-        // fix below for browser back/forward buttons when erroneous AJAX call was made to action
-        // when $('#fileupload').prop('action') was returning undefined. 
-        // # TODO: This partial should only be rendered when it's actually needed, instead of in the application layout.
-        var url = $('#fileupload').prop('action');
-        if(jQuery.type( url ) !== "undefined")
-        {
-          $.getJSON($('#fileupload').prop('action'), function (data) {
-              var fu = $('#fileupload').data('blueimpFileupload'),
-                      template;
-              fu._adjustMaxNumberOfFiles(-data.length);
-              template = fu._renderDownload(data)
-                      .appendTo($('#fileupload .files'));
-              // Force reflow:
-              fu._reflow = fu._transition && template.length &&
-                      template[0].offsetWidth;
-              template.addClass('in');
-              $('#loading').remove();
-          });
-        }
-
-    });
+  $(function () {
+    // Initialize the jQuery File Upload widget:
+    $('#new_product').fileupload({
+      fileInput: $('#product_product_images_attributes_0_image'),
+      limitMultiFileUploads: 5,
+      maxNumberOfFiles: 5,
+      maxFileSize: 4000000,
+      autoUpload: false,
+    }).bind('fileuploadfinished', function (e, data) {
+    }).on('fileuploadcompleted', function (e, data) {
+    }).on('fileuploadfailed', function (e, data) {
+    }).on('fileuploadcompleted', function (e, data) {
+    }).on('fileuploadsubmit', function (e, data) {
+    }).on('fileuploadstarted', function (e) {
+    }).on('fileuploadcompleted', function (e, data) {})
+  });
 </script>

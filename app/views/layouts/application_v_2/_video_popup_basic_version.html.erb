@@ -1,0 +1,36 @@
+<div class="modal fade" id="<%="video-#{media_attachment.id}-model-category"%>">
+  <div class="modal-dialog modal-xl" style="max-width: 80%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="statusModalLongTitle"><%= media_attachment.attachable.name %></h5>
+        <button type="button" class="close media-attachment-category" data-id="<%="video-#{media_attachment.id}-model-category"%>" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <% if media_attachment.is_stream_video %>
+        <iframe width='100%' height='480' sr="" data-src="<%= media_attachment.stream_video_url %>" id="<%="video-#{media_attachment.id}-vonage"%>" frameborder='0' allowfullscreen></iframe>
+      <% else %>
+        <iframe width='100%' height='480' src="" data-src="https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" id="<%="video-#{media_attachment.media_source_id}-#{media_attachment.id}-player"%>" frameborder='0' allowfullscreen></iframe>
+      <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  jQuery.noConflict();
+  $(document).ready(function() {
+    var streamVideo = "<%= media_attachment.is_stream_video %>";
+    // stop playing the youtube video when I close the modal
+    $('#<%="video-#{media_attachment.id}-model-category"%>').on('hidden.bs.modal', function () {
+      if (streamVideo == "true") {
+        $("#<%="video-#{media_attachment.id}-vonage"%>").attr('src', "");
+      } else {
+        $('#<%="video-#{media_attachment.media_source_id}-#{media_attachment.id}-player"%>').attr("src", "");
+      }
+    });
+  });
+
+</script>
+

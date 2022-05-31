@@ -21,7 +21,7 @@
         
         <div class="address-line">
           <div style="margin-bottom: 10px;">
-             <%= "#{@new_home.address} &middot;".html_safe %> <%= "#{@new_home.address_suite} &middot;".html_safe if @new_home.address_suite.present? %> <%= "#{@new_home.city.name} #{@new_home.province.preabbr}, #{@new_home.postal_code}" %>
+             <%= "#{@new_home.address} &middot;".html_safe %> <%= "#{@new_home.address_suite} &middot;".html_safe if @new_home.address_suite.present? %> <%= "#{@new_home.city.name} #{@new_home&.province&.abbr}, #{@new_home.postal_code}" %>
           </div>
           <div>
             <% if @new_home.year_built %>

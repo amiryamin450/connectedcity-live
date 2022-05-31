@@ -1,17 +1,212 @@
-<%= simple_form_for [@location, @product], :html => { :multipart => true, class: 'form-horizontal', id: 'fileupload' } do |f| %>
-<div class="form-inputs">
+<%= simple_form_for [@location, @product], :html => { :multipart => true, class: 'form-horizontal', id: 'new_product' } do |f| %>
+<%= f.error_notification %>
+
+<div class="form-inputs category-form">
   <%= f.input :name %>
-  <%= f.input :description, input_html: { class: 'input-block-level wysihtml5'} %>
-  <%= f.input :price, as: :string %>
-  <%= f.input :discount, as: :string %>
-  <%= f.input :custom_pricing, as: :boolean %>
+  <div class="control-group string required category">
+    <%= f.label :category %>
+    <a class="btn btn-primary controls category-select-btn" data-toggle="collapse" role="button" aria-expanded="false" data-target="#collapseCategoriesProduct" aria-controls="collapseCategories">Select product category</a>
+    <div class="collapse controls hideCollapse" id="collapseCategoriesProduct">
+      <div style="display: flex;">
+        <div class="categories level-1-category">
+          <%= render 'categories', categories: @categories, lv: 1 %>
+        </div>
+        <div class="categories level-2-category hidden"></div>
+        <div class="categories level-3-category hidden"></div>
+        <div class="categories level-4-category hidden"></div>
+      </div>
+    </div>
+  </div>
+  <%= f.hidden_field :category_id %>
+  <%= f.hidden_field :product_image_ids, value: '' %>
+  <%= f.input :description, input_html: { class: 'input-block-level wysihtml5' } %>
+  <div class="control-group string required">
+    <%= f.label :price %>
+    <%= f.number_field :price, class: "controls" %>
+  </div>
   <%= f.input :sku %>
   <%= f.input :quantity %>
-  <%= f.input :image, as: :logo_preview %>
-  <%= render "product_images_fields", f: f %>
+  <div class="string required main-image">
+    <%#= f.label :main_Image %>
+    <label class="string required control-label" for="product_image_sub_image">Main Image</label>
+
+    <%= f.input :image, as: :logo_preview %>
+  </div>
+<% end %>
+<%= simple_form_for :product_image, :url => upload_images_product_images_path, :method => :post , html: { class: 'form-inline product-image' }  do |f| %>
+  <!-- <%= f.label :sub_image %> -->
+  <label class="string control-label" for="product_image_sub_image">Sub Image</label>
+  <div class="row-fluid fileupload-buttonbar">
+    <div class="span7">
+      <!-- The fileinput-button span is used to style the file input field as button -->
+      <span class="btn btn-mini btn-success fileinput-button" style="margin-left: 20px">
+        <i class="icon-plus icon-white"></i>
+        <span>Add files</span>
+        <%= f.file_field :image, :multiple => true %>
+      </span>
+    </div>
+    <div class="span5">
+      <!-- The global progress bar -->
+      <div class="progress progress-success progress-striped active fade">
+        <div class="bar" style="width:0%;"></div>
+      </div>
+    </div>
+  </div>
+  <!-- The loading indicator is shown during image processing -->
+  <div class="fileupload-loading"></div>
+  <!-- The table listing the files available for upload/download -->
+  <table class="table table-striped">
+    <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+  </table>
+<% end %>
+
 <div class="form-actions">
-  <%= f.button :submit, class: 'btn btn-primary' %>
+  <button class="btn btn-primary submit-new-product">Create Product</button>
   <%= link_to 'Cancel', location_products_path(@location), class: 'btn'  %>
 </div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+  var fileUploadErrors = {
+    maxFileSize: 'File is too big',
+    minFileSize: 'File is too small',
+    acceptFileTypes: 'Filetype not allowed',
+    maxNumberOfFiles: 'Max number of files exceeded',
+    uploadedBytes: 'Uploaded bytes exceed file size',
+    emptyResult: 'Empty file upload result'
+  };
+</script>
 
-<% end %>
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+  {% for (var i=0, file; file=o.files[i]; i++) { %}
+  <tr class="template-upload fade">
+    <td class="preview"><span class="fade"></span></td>
+    <td class="name"><span>{%=file.name%}</span></td>
+    <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+    {% if (file.error) { %}
+    <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+    {% } else if (o.files.valid && !i) { %}
+    <td>
+      <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
+    </td>
+    <td class="start">{% if (!o.options.autoUpload) { %}
+      <button class="btn btn-primary">
+        <i class="icon-upload icon-white"></i>
+        <span>{%=locale.fileupload.start%}</span>
+      </button>
+      {% } %}</td>
+    {% } else { %}
+    <td colspan="2"></td>
+    {% } %}
+    <td class="cancel">{% if (!i) { %}
+      <button class="btn btn-warning">
+        <i class="icon-ban-circle icon-white"></i>
+        <span>{%=locale.fileupload.cancel%}</span>
+      </button>
+      {% } %}</td>
+  </tr>
+  {% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+  {% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+      {% if (file.error) { %}
+        <td class="name"><span>{%=file.image_file_name%}</span></td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+        {% } else { %}
+        <td class="preview">{% if (file.thumbnail_url) { %}
+          <!-- <b>{%=file.url%}</b> -->
+          <!-- <b>{%=file.image_file_name%}</b> -->
+          <!-- <b>{%=file.thumbnail_url%}</b> -->
+          <a href="{%=file.url%}" title="{%=file.image_file_name%}" rel="gallery" download="{%=file.image_file_name%}"><img src="{%=file.thumbnail_url%}"></a>
+          {% } %}</td>
+        <td class="name">
+          <a href="{%=file.url%}" title="{%=file.image_file_name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.image_file_name%}">{%=file.name%}</a>
+        </td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        <td colspan="2"></td>
+        {% } %}
+      <td class="delete">
+        <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+          <i class="icon-trash icon-white"></i>
+          <span>{%=locale.fileupload.destroy%}</span>
+        </button>
+        <!-- <input type="checkbox" name="delete" value="1"> -->
+      </td>
+    </tr>
+    {% } %}
+</script>
+
+<!--  Copy this part and config $('#fileupload').fileupload() to reuse -->
+<script type="text/javascript" charset="utf-8">
+  $(function () {
+    // Initialize the jQuery File Upload widget:
+    // var multiple_photos_form = $('#new_product');
+    // $('#new_product').each(function () {
+      $('.product-image').fileupload({
+        fileInput: $('.product-image'),
+        limitMultiFileUploads: 5,
+        maxNumberOfFiles: 5,
+        maxFileSize: 4000000,
+        autoUpload: true,
+      }).bind('fileuploadfinished', function (e, data) {
+        // $('.submit-new-product').attr('disabled', false)
+      }).on('fileuploadstarted', function (e) {
+        // $('.submit-new-product').attr('disabled', true)
+      }).on('fileuploadcompleted', function (e, data) {
+        var result = data['result']['files'][0]['id']
+        var oldValue = $('#product_product_image_ids').val()
+        var newValue = result
+        if (oldValue !== '') {
+          newValue = oldValue + ',' + result
+        }
+        $('#product_product_image_ids').val(newValue)
+      })
+    });
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('input#product_price').blur(function(){
+      var num = parseFloat($(this).val());
+      var cleanNum = num.toFixed(2);
+      $(this).val(cleanNum);
+    });
+
+    $('.category-form .controls #logo').remove();
+    $('.category-form .main-image .product_image label.logo_preview').hide()
+    $("#new_product").validate({
+      rules: {
+        'product[name]': {
+          required: true,
+        },
+        'product[category_id]': {
+          required: true
+        },
+        'product[description]': {
+          required: true,
+          minlength: 100,
+          maxlength: 1500,
+        },
+        'product[sku]': {
+          maxlength: 25,
+        },
+        'product[price]': {
+          required: true,
+          range: [0.1, 1000000],
+        },
+        'product[quantity]': {
+          required: true,
+          minlength: 1,
+          maxlength: 6,
+          digits: true
+        },
+        'product[image]': {
+          required: true,
+        }
+      }
+    });
+  });
+</script>

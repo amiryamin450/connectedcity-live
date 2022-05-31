@@ -10,55 +10,43 @@
       </div>
       <div class="col-lg-8 col-md-7 d-none d-lg-block">
         <div class="row">
-          <div class="col-3">
+          <% if current_user.present? %>
+            <div class="col-3 offset-8">
+          <% else %>
+            <div class="col-3 offset-7">
+          <% end %>
             <div class="input-group-prepend search-box ">
-              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">City<i class="far fa-chevron-down"></i></button>
+              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Country Selection<i class="far fa-chevron-down"></i></button>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="/vancouver">Vancouver</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="input-group-prepend search-box ">
-              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Districts <i class="far fa-chevron-down"></i></button>
-              <div class="dropdown-menu">
-                <% @city.districts.each do |district| %>
-                  <a class="dropdown-item" href="<%= district_guide_path(district)%>"><%= district.name%></a>
+                <% @countries.each do |country| %>
+                  <a class="dropdown-item" href=""><%= country.name %></a>
                 <% end %>
               </div>
             </div>
           </div>
-          <div class="col-4">
-            <div class="input-group-prepend search-box ">
-              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Neighbourhoods <i class="far fa-chevron-down"></i></button>
-              <div class="dropdown-menu">
-                <% @city.districts.each do |district| %>
-                  <% @city.business_improvement_areas.each do |bia| %>
-                    <a class="dropdown-item" href="<%=" /vancouver/#{district.slug}/neighbourhoods/#{bia.slug}"%>"><%= bia.name%></a>
-                  <% end %>
-                <% end %>
-              </div>
-            </div>
-          </div>
-          
-          <div class="col-1">
+          <% if current_user.present? %>
+            <div class="col-1">
               <div class="input-group-prepend user-dropdown dropleft">
                 <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><img src="/cc_2.0/icon/landing-page-user-icon.svg"> <i class="far fa-chevron-down"></i></button>
-                <div class="dropdown-menu">
-                <% if current_user.present? %>
-                  <%= link_to 'Edit account', edit_user_registration_path, class: "dropdown-item" %>
-                  <%= link_to 'My Classifieds', classified_listings_path, class: "dropdown-item" %>
-                  <%= link_to 'My Coupons', coupons_user_path(current_user), class: "dropdown-item" %>
-                <% end %>
-                  <%= link_to 'My Cart', cart_path(@cart), class: "dropdown-item" %>
-                <% if current_user.present? %>
-                  <div role="separator" class="dropdown-divider"></div>
-                  <%= link_to 'Logout', destroy_user_session_path, class: "dropdown-item", method: :delete %>
-                <% end %>
-                </div>
+                  <div class="dropdown-menu">
+                    <%= link_to 'Edit account', edit_user_registration_path, class: "dropdown-item" %>
+                    <%= link_to 'My Classifieds', classified_listings_path, class: "dropdown-item" %>
+                    <%= link_to 'My Coupons', coupons_user_path(current_user), class: "dropdown-item" %>
+                    <%= link_to 'My Cart', cart_path(@cart), class: "dropdown-item" %>
+                    <div role="separator" class="dropdown-divider"></div>
+                    <%= link_to 'Logout', destroy_user_session_path, class: "dropdown-item", method: :delete %>
+                  </div>
               </div>
             </div>
-          </div>
+          <% else %>
+            <div class="col-2">
+              <div class="input-group-prepend user-dropdown dropleft">
+                <%= link_to 'Sign up', new_user_registration_path, class: "login-item" %>
+                <%= link_to 'Login', new_user_session_path, class: "login-item" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>

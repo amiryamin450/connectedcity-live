@@ -203,17 +203,19 @@ ActiveRecord::Schema.define(:version => 20220513105007) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "cities", :force => true do |t|
+  create_table "categories", :force => true do |t|
     t.string   "name"
-    t.text     "description"
-    t.integer  "community_id"
-    t.integer  "state_or_province_id"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
-    t.string   "slug"
+    t.integer  "parent_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  add_index "cities", ["slug"], :name => "index_cities_on_slug"
+  create_table "categories_products", :force => true do |t|
+    t.integer  "category_id"
+    t.integer  "product_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "cities_old", :force => true do |t|
     t.string   "name"
@@ -616,18 +618,18 @@ ActiveRecord::Schema.define(:version => 20220513105007) do
     t.text     "attachment_html"
     t.integer  "attachable_id"
     t.string   "attachable_type"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
     t.string   "thumb_url"
     t.string   "title"
     t.string   "media_source_id"
     t.string   "media_source"
-    t.boolean  "is_stream_video",   :default => false
+    t.boolean  "is_stream_video",               :default => false
     t.string   "archive_id"
     t.string   "session_id"
     t.string   "stream_video_name"
-    t.boolean  "has_audio",         :default => false
-    t.boolean  "has_video",         :default => false
+    t.boolean  "has_audio",                     :default => false
+    t.boolean  "has_video",                     :default => false
     t.string   "status"
     t.text     "stream_video_url"
     t.string   "description"
@@ -639,6 +641,15 @@ ActiveRecord::Schema.define(:version => 20220513105007) do
   end
 
   add_index "media_attachments", ["attachable_id", "attachable_type"], :name => "index_media_attachments_on_attachable_id_and_attachable_type"
+
+  create_table "municipalities", :force => true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.string   "municipality_code"
+    t.integer  "region_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
 
 # Could not dump table "neighborhoods" because of following StandardError
 #   Unknown type 'geometry' for column 'geom'
@@ -749,7 +760,7 @@ ActiveRecord::Schema.define(:version => 20220513105007) do
     t.string   "name"
     t.string   "sku"
     t.text     "description"
-    t.decimal  "price",              :precision => 10, :scale => 0
+    t.decimal  "price",              :precision => 10, :scale => 2
     t.string   "slug"
     t.integer  "location_id"
     t.datetime "created_at",                                                       :null => false
@@ -761,9 +772,22 @@ ActiveRecord::Schema.define(:version => 20220513105007) do
     t.boolean  "custom_pricing"
     t.integer  "quantity"
     t.decimal  "discount",           :precision => 10, :scale => 0, :default => 0
+    t.integer  "category_id",                                                      :null => false
   end
 
   add_index "products", ["location_id"], :name => "index_products_on_location_id"
+
+  create_table "provinces", :force => true do |t|
+    t.string   "name"
+    t.string   "abbr"
+    t.string   "slug"
+    t.string   "country_code"
+    t.string   "country_name"
+    t.string   "province_code"
+    t.integer  "country_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
 
   create_table "provinces_old", :force => true do |t|
     t.string   "name"
@@ -875,13 +899,14 @@ ActiveRecord::Schema.define(:version => 20220513105007) do
 
   create_table "regions", :force => true do |t|
     t.string   "name"
-    t.integer  "state_or_province_id"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
     t.string   "slug"
+    t.string   "region_code"
+    t.string   "subdomain"
+    t.integer  "province_id"
+    t.boolean  "show_in_menu"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
-
-  add_index "regions", ["slug"], :name => "index_regions_on_slug"
 
   create_table "regions_old", :force => true do |t|
     t.string   "name"
@@ -1001,17 +1026,6 @@ ActiveRecord::Schema.define(:version => 20220513105007) do
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
   end
-
-  create_table "state_or_provinces", :force => true do |t|
-    t.string   "name"
-    t.string   "abbr"
-    t.integer  "country_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.string   "slug"
-  end
-
-  add_index "state_or_provinces", ["slug"], :name => "index_state_or_provinces_on_slug"
 
   create_table "status_updates", :force => true do |t|
     t.string   "title"

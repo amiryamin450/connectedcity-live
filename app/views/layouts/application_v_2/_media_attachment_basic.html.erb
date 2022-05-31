@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="inner-img col-md-3 col-4">
+    <%=link_to (image_tag media_attachment.attachable.logo.url), media_attachment.attachable %>
+  </div>
+  <div class="col-md-9 col-8">
+    <div class="row">
+      <div class="inner-card-title col-md-12 title-attachment-event-category" data-id="<%="video-#{media_attachment.id}-model-category"%>">
+        <h5><
+          <%= link_to ("#{media_attachment.title}"), "#", class: "status-update-image", data: { target: "#video-#{media_attachment.id}-model-category", toggle: 'modal'} %>
+        </h5>
+      </div>
+      <div class="inner-card-title col-md-12">
+        by <%= link_to media_attachment.attachable.name, media_attachment.attachable %>
+      </div>
+      <div class="inner-card-time col-md-12">
+        <span><%= "#{time_ago_in_words(media_attachment.created_at)} ago" %></span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="update-banner video-card">
+      <%= image_tag(media_attachment.thumbnail_url) %>
+      <div class="card-video-box">
+        <i class="far fa-play-circle video-attachment-event-category" data-toggle="modal" data-target=<%="#video-#{media_attachment.id}-model-category"%>></i>
+      </div>
+      <%#= render 'status_updates/modal_video_latest', media_attachment: media_attachment %>
+    </div>
+  </div>
+</div>
+<hr>
+

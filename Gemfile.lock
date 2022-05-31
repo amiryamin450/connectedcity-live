@@ -15,38 +15,10 @@ GIT
 
 GEM
   remote: https://rubygems.org/
-  remote: https://transcona_media_network_inc_858:Yf8g_5NGQUydncpn@gems.railslts.com/
   specs:
-    actionmailer (3.2.22.25)
-      actionpack (= 3.2.22.25)
-      mail (~> 2.5.4)
-    actionpack (3.2.22.25)
-      activemodel (= 3.2.22.25)
-      activesupport (= 3.2.22.25)
-      builder (~> 3.0)
-      erubis (~> 2.7.0)
-      journey (~> 1.0.4)
-      rack (~> 1.4.5)
-      rack-cache (~> 1.2)
-      rack-test (~> 0.6.1)
-      sprockets (= 2.2.3)
-    activemodel (3.2.22.25)
-      activesupport (= 3.2.22.25)
-      builder (~> 3.0)
-    activerecord (3.2.22.25)
-      activemodel (= 3.2.22.25)
-      activesupport (= 3.2.22.25)
-      arel (~> 3.0.2)
-      tzinfo (~> 0.3.29)
     activerecord-mysql2spatial-adapter (0.4.3)
       mysql2 (>= 0.2.13)
       rgeo-activerecord (~> 0.4.5)
-    activeresource (3.2.22.25)
-      activemodel (= 3.2.22.25)
-      activesupport (= 3.2.22.25)
-    activesupport (3.2.22.25)
-      i18n (~> 0.6, >= 0.6.4)
-      multi_json (~> 1.0)
     addressable (2.3.4)
     ancestry (2.0.0)
       activerecord (>= 3.0.0)
@@ -239,6 +211,7 @@ GEM
     jquery-ui-rails (4.0.3)
       jquery-rails
       railties (>= 3.1.0)
+    jquery-validation-rails (1.19.0)
     json (1.8.6)
     jwt (1.5.6)
     kaminari (0.14.1)
@@ -361,24 +334,6 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
-    rails (3.2.22.25)
-      actionmailer (= 3.2.22.25)
-      actionpack (= 3.2.22.25)
-      activemodel (= 3.2.22.25)
-      activerecord (= 3.2.22.25)
-      activeresource (= 3.2.22.25)
-      activesupport (= 3.2.22.25)
-      bundler (>= 1.0)
-      railslts-version (= 3.2.22.25)
-      railties (= 3.2.22.25)
-    railslts-version (3.2.22.25)
-    railties (3.2.22.25)
-      actionpack (= 3.2.22.25)
-      activesupport (= 3.2.22.25)
-      rack-ssl (~> 1.3.2)
-      rake (>= 0.8.7)
-      rdoc (~> 3.4)
-      thor (>= 0.14.6, < 2.0)
     rake (10.5.0)
     ransack (0.7.2)
       actionpack (~> 3.0)
@@ -512,6 +467,55 @@ GEM
       nokogiri (~> 1.3)
     yaml_db (0.2.3)
 
+GEM
+  remote: https://transcona_media_network_inc_632:VmN5m93oVPbMILkv@gems.railslts.com/
+  specs:
+    actionmailer (3.2.22.25)
+      actionpack (= 3.2.22.25)
+      mail (~> 2.5.4)
+    actionpack (3.2.22.25)
+      activemodel (= 3.2.22.25)
+      activesupport (= 3.2.22.25)
+      builder (~> 3.0)
+      erubis (~> 2.7.0)
+      journey (~> 1.0.4)
+      rack (~> 1.4.5)
+      rack-cache (~> 1.2)
+      rack-test (~> 0.6.1)
+      sprockets (= 2.2.3)
+    activemodel (3.2.22.25)
+      activesupport (= 3.2.22.25)
+      builder (~> 3.0)
+    activerecord (3.2.22.25)
+      activemodel (= 3.2.22.25)
+      activesupport (= 3.2.22.25)
+      arel (~> 3.0.2)
+      tzinfo (~> 0.3.29)
+    activeresource (3.2.22.25)
+      activemodel (= 3.2.22.25)
+      activesupport (= 3.2.22.25)
+    activesupport (3.2.22.25)
+      i18n (~> 0.6, >= 0.6.4)
+      multi_json (~> 1.0)
+    rails (3.2.22.25)
+      actionmailer (= 3.2.22.25)
+      actionpack (= 3.2.22.25)
+      activemodel (= 3.2.22.25)
+      activerecord (= 3.2.22.25)
+      activeresource (= 3.2.22.25)
+      activesupport (= 3.2.22.25)
+      bundler (>= 1.0)
+      railslts-version (= 3.2.22.25)
+      railties (= 3.2.22.25)
+    railslts-version (3.2.22.25)
+    railties (3.2.22.25)
+      actionpack (= 3.2.22.25)
+      activesupport (= 3.2.22.25)
+      rack-ssl (~> 1.3.2)
+      rake (>= 0.8.7)
+      rdoc (~> 3.4)
+      thor (>= 0.14.6, < 2.0)
+
 PLATFORMS
   ruby
 
@@ -557,6 +561,7 @@ DEPENDENCIES
   jquery-fileupload-rails
   jquery-rails
   jquery-ui-rails
+  jquery-validation-rails
   kaminari
   koala
   launchy

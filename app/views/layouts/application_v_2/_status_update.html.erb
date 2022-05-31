@@ -5,21 +5,23 @@
   <div class="col-md-9 col-8">
     <div class="row">
       <div class="inner-card-title col-md-7">
-        <h5><%= link_to status_update.statusable.name, statusable_path(status_update.statusable) %></h5>
+        <h5><%#= link_to status_update.statusable.name, statusable_path(status_update.statusable) %>
+          <%= link_to ("#{status_update.statusable.name}"), "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
+        </h5>
       </div>
       <div class="inner-card-time col-md-5">
         <span><%= "#{time_ago_in_words(status_update.created_at)} ago" %></span>
       </div>
     </div>
     <div class="inner-card-description">
-      <p><%= status_update.content.truncate(255) %></p>
+      <p><%= status_update.content.gsub('<div>', '').gsub('</div>', '').gsub('<p>','').gsub('</p>','').truncate(255) %></p>
       <%= link_to "View More", "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
     </div>
   </div>
   <% if status_update.image? %>
     <div class="col-md-12">
       <div class="update-banner">
-          <%= link_to (image_tag status_update.image.url), "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
+        <%= link_to (image_tag status_update.image.url), "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
       </div>
     </div>
   <% end %>

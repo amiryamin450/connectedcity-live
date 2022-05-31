@@ -1,0 +1,51 @@
+.category-form {
+  #collapseCategoriesProduct {
+    margin-top: 10px;
+    border-radius: 10px;
+    display: inline-table;
+    border: 1px solid #ccc;
+    transition: border linear 0.2s,box-shadow linear 0.2s;
+    .categories {
+      width: 220px;
+      margin-bottom: 0px;
+      background-color: white;
+      padding: 5px;
+      height: auto;
+      .title.item-category {
+        margin-left: 5px;
+        color: #454343;
+        position: relative;
+        .arrow {
+          position: absolute;
+          right: 0;
+          color: #959292;
+        }
+        &:hover, &.active { color: red; }
+        &.active { font-weight: bold; }
+      }
+      &.level-2-category, &.level-3-category, &.level-4-category {
+        border-left: 2px solid #ccc;
+        transition: border linear 0.2s,box-shadow linear 0.2s;
+      }
+    }
+    &.hideCollapse {
+      display: flex;
+      margin-top: 0px;
+      border: unset;
+    }
+  }
+  #product_price {
+    display: block;
+    &:focus:invalid {
+      color: unset;
+    }
+    &:focus:invalid:focus {
+      box-shadow: unset;
+      border: 1px solid #ccc;
+      transition: border linear 0.2s,box-shadow linear 0.2s;
+    }
+  }
+  #product_price-error {
+    margin-left: 180px;
+  }
+}
