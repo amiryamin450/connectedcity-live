@@ -1,0 +1,73 @@
+<div class="landing-page-heading-filter">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="heading" style="display: flex; justify-content: center;">
+          <h3>Find your city</h3>
+        </div>
+      </div>
+    </div>
+      <!--  -->
+    <div class="row filter">
+      <div class="col-11">
+        <div class="row">
+          <div class="col-3">
+            <%= select_tag 'province-dropdown', options_from_collection_for_select(@provinces, 'slug', 'name'), prompt: 'Province/State', class: 'form-control search-column input-group-prepend search-box' %>
+          </div>
+          <div class="col-3">
+            <%= select_tag 'region-dropdown', raw("<option>Region</option>"), prompt: 'Region', class: 'form-control search-column input-group-prepend search-box' %>
+          </div>
+          <div class="col-3">
+            <%= select_tag 'municipality-dropdown', raw("<option>Municipality/County</option>"), prompt: 'Municipality/County', class: 'form-control search-column input-group-prepend search-box' %>
+          </div>
+          <div class="col-3">
+            <%= select_tag 'city-dropdown', raw("<option>City/Town</option>"), prompt: 'City/Town', class: 'form-control search-column input-group-prepend search-box' %>
+          </div>
+        </div>
+      </div>
+      <div class="col-1">
+        <a href="#" id="city-landing-path">
+          <button type="button" class="btn-primary btn">Go<i class="far fa-chevron-right"></i></button>
+        </a>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="landing-page-tab-section">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tab-row">
+          <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <% @districts.each_with_index do |district, index| %>
+                <a class="nav-item <%= index == 0 ? 'active' : ''%>" id="<%=district.name.parameterize%>-tab" data-toggle="tab" href="#<%=district.name.parameterize%>" role="tab" aria-controls="<%=district.name.parameterize%>" aria-selected="true"><%=district.name%></a>
+              <% end %>
+            </div>
+          </nav>
+        </div>
+        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+          <% @districts.each_with_index do |district, index| %>
+            <div class="tab-pane fade show <%= index == 0 ? 'active' : ''%>" id="<%=district.name.parameterize%>" role="tabpanel" aria-labelledby="<%=district.name.parameterize%>-tab">
+              <div class="row">
+                <% district.business_improvement_areas.each do |bia| %>
+                <div class="col-md-3">
+                  <div class="tab-inner-card">
+                    <div class="tab-inner-card-img">
+                      <%= link_to(image_tag(bia.logo.url(:list)), "/vancouver/#{bia.district.slug}/neighbourhoods/#{bia.slug}") %>
+                    </div>
+                    <div class="tab-inner-card-heading">
+                      <h4><%=bia.name %></h4>
+                    </div>
+                  </div>
+                </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
