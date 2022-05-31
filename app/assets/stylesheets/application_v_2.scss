@@ -7,6 +7,17 @@
   height: 150px;
 }
 
+.communities-section {
+  .tab-inner-card-img {
+    overflow: hidden;
+    img { transition: transform .5s ease; }
+  }
+
+  .tab-inner-card-img:hover img {
+    transform: scale(1.2);
+  }
+}
+
 /*extra css */
 
 .footer-link ul li a {

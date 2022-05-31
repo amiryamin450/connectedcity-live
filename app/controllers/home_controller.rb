@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  layout "application_v_2"
+  layout "application_v_3"
 
   PER_PAGE = 20
 
