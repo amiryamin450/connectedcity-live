@@ -1,0 +1,12 @@
+@import "subtle-slideshow";
+
+.communities-section {
+  .tab-inner-card-img {
+    overflow: hidden;
+    img { transition: transform .5s ease; }
+  }
+
+  .tab-inner-card-img:hover img {
+    transform: scale(1.2);
+  }
+}
