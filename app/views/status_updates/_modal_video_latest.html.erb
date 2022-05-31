@@ -12,15 +12,15 @@
           <div class="col-md-6">
             <div class="cover">
               <% if media_attachment.is_stream_video %>
-                <iframe width='100%' height='480' src="" data-src="<%= media_attachment.videos.first&.video_url %>" id="<%="video-#{media_attachment.id}-vonage"%>" frameborder='0' ></iframe>
+                <iframe width='100%' height='480' src="" data-src="<%= media_attachment.videos.first&.video_url %>" id="<%="video-#{media_attachment.id}-vonage"%>" frameborder='0' allowfullscreen></iframe>
               <% else %>
-                <iframe width='100%' height='480' src="" data-src="https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" id="<%="video-#{media_attachment.attachable.id}-player"%>" frameborder='0' ></iframe>
+                <iframe width='100%' height='480' src="" data-src="https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" id="<%="video-#{media_attachment.media_source_id}-#{media_attachment.id}-player"%>" frameborder='0' allowfullscreen></iframe>
               <% end %>
             </div>
           </div>
           <div class="col-md-6">
             <div class="location-info-popup" style="margin-top: 5px;">
-              <%= render 'locations/location_information', location: media_attachment.location, content: media_attachment.location.content, claim_business: false, show_neighborhood: true %>
+              <%= render 'locations/location_information', location: media_attachment.location, content: media_attachment.description, claim_business: false, show_neighborhood: true %>
               <div class="row-fluid">
                 <div class="span12">
                   <div class="pad10 holder" style="margin-top: 1.5em;">
@@ -36,3 +36,18 @@
   </div>
 </div>
 
+<script>
+  $(document).ready(function() {
+    // when the modal is opened autoplay it
+    var streamVideo = "<%= media_attachment.is_stream_video %>";
+    // stop playing the youtube video when I close the modal
+    $('#<%="video-#{media_attachment.id}-model"%>').on('hide.bs.modal', function (e) {
+      if (streamVideo == "true") {
+        $("#<%="video-#{media_attachment.id}-vonage"%>").attr('src', "");
+      } else {
+        $('#<%="video-#{media_attachment.media_source_id}-#{media_attachment.id}-player"%>').attr("src", "");
+      }
+    });
+  });
+
+</script>

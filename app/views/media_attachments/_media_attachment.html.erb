@@ -3,8 +3,8 @@
       <%= link_to(image_tag(media_attachment.thumbnail_url), [media_attachment.attachable, media_attachment]) %>
     </div>
     <div class="span10">
-      <div><strong><%= link_to media_attachment.media_title, [media_attachment.attachable, media_attachment] %></strong></div>
+      <div><strong><%= link_to media_attachment.title, [media_attachment.attachable, media_attachment] %></strong></div>
       <div><small style="font-size: 9px;">by <%= link_to media_attachment.attachable.name, media_attachment.attachable %></small></div>
-      <%= render_social_media_buttons({url: polymorphic_url([media_attachment.attachable, media_attachment]), title: media_attachment.media_title, content: polymorphic_url([media_attachment.attachable, media_attachment]) }) %>
+      <%= render_social_media_buttons({url: polymorphic_url([media_attachment.attachable, media_attachment]), title: media_attachment.title, content: polymorphic_url([media_attachment.attachable, media_attachment]) }) %>
     </div>
   </div>
