@@ -1,4 +1,4 @@
-<div class="landing-page-heading-filter">
+<div class="landing-page-heading-filter communities-page">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
@@ -11,23 +11,23 @@
     <div class="row filter">
       <div class="col-11">
         <div class="row">
-          <div class="col-3">
+          <div class="col-3 container-box">
             <%= select_tag 'province-dropdown', options_from_collection_for_select(@provinces, 'slug', 'name'), prompt: 'Province/State', class: 'form-control search-column input-group-prepend search-box' %>
           </div>
-          <div class="col-3">
+          <div class="col-3 container-box">
             <%= select_tag 'region-dropdown', raw("<option>Region</option>"), prompt: 'Region', class: 'form-control search-column input-group-prepend search-box' %>
           </div>
-          <div class="col-3">
+          <div class="col-3 container-box">
             <%= select_tag 'municipality-dropdown', raw("<option>Municipality/County</option>"), prompt: 'Municipality/County', class: 'form-control search-column input-group-prepend search-box' %>
           </div>
-          <div class="col-3">
+          <div class="col-3 container-box">
             <%= select_tag 'city-dropdown', raw("<option>City/Town</option>"), prompt: 'City/Town', class: 'form-control search-column input-group-prepend search-box' %>
           </div>
         </div>
       </div>
-      <div class="col-1">
+      <div class="col-1 btn-search">
         <a href="#" id="city-landing-path">
-          <button type="button" class="btn-primary btn">Go<i class="far fa-chevron-right"></i></button>
+          <button type="button" class="btn-primary btn">Search</button>
         </a>
       </div>
     </div>

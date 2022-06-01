@@ -1,19 +1,20 @@
 <div class="top-bar landing-page-bar">
   <div class="container-fluid">
     <div class="row align-items-center">
-      <div class="col-lg-4 col-md-12">
+      <div class="col-lg-6 col-md-12 d-flex">
         <div class="logo">
           <a href="<%= root_path%>">
             <img src="/cc_2.0/images/logo.svg" alt="Logo">
           </a>
         </div>
+        <div class="header-title">for everything local</div>
       </div>
-      <div class="col-lg-8 col-md-7 d-none d-lg-block">
+      <div class="col-lg-6 col-md-7 d-none d-lg-block">
         <div class="row">
           <% if current_user.present? %>
-            <div class="col-3 offset-8">
+            <div class="col-4 offset-7">
           <% else %>
-            <div class="col-3 offset-7">
+            <div class="col-4 offset-6">
           <% end %>
             <div class="input-group-prepend search-box ">
               <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Country Selection<i class="far fa-chevron-down"></i></button>

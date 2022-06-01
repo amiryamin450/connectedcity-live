@@ -229,11 +229,45 @@
   animation-play-state: paused;
 }
 
-#slideshow .static-content {
-  display: none;
+.landing-page-bar .header-title {
+  color: #c58003;
+  font-style: italic;
+  font-family: serif;
+  font-size: 25px;
+  vertical-align: middle;
+  margin: auto;
+  border-left: 1px solid #c58003;
+  padding-left: 25px;
+  margin-top: 5px;
 }
 
 .top-bar.landing-page-bar {
   background-color: transparent;
   position: absolute;
+}
+
+.landing-page-heading-filter.communities-page {
+  .container-box {
+    padding-left: 5px;
+    padding-right: 5px;
+   .search-box {
+      border-radius: 0px;
+      background-color: #f3f3f3;
+      border: 1px solid #dedede;
+      color: #5b7170;
+    }
+  }
+  #city-landing-path {
+    button {
+      background-color: #ebad3a;
+      color: #5b7170;
+      justify-content: center;
+      border-radius: 0px;
+      border: 1px solid #dedede;
+    }
+  }
+  .filter .btn-search {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
 }
