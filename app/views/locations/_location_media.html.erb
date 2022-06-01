@@ -1,40 +1,42 @@
 <div class="card-label-two">
   <div class="title">
     <h4>Video</h4>
-    <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
-      <small><%= link_to "add", new_location_media_attachment_path(@location), class: 'small' %> | <%= link_to 'manage', location_media_attachments_path(@location) %></small>
-    <% end %>
+    <%= link_to raw("<h4 class='secondary'>Record Video</h4>"), new_location_media_attachment_path(@location) %>
+    <h4 class="secondary">Record Live Video</h4>
+    <h4 class="secondary">Upload Video</h4>
+    <h4 class="secondary">Youtube</h4>
   </div>
 </div>
+<div>
+  <%= link_to 'See More +', '#', class: 'see-more', data: { element: "media-#{@location.id}" } %>
+&nbsp;&nbsp;&nbsp;
+  <%= link_to ' See All', location_media_attachments_path(@location), class: 'see-all' %>
+</div>
 <% if @media_attachments.size > 0 %>
-  <div class="row card-row">
-    <% @media_attachments.in_groups_of(4) do |group| %>
-      <% group.each do |media| %>
-        <% if media %>
-          <div class="col-md-3">
-              <div class="business-body-card">
-                <div class="img">
-                  <% if media.media_source_id.present? %>
-                    <%= link_to(image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media]) %>
-                  <% else %>
-                    <%= link_to(image_tag(media.thumbnail_url), [@location, media]) %>
-                  <% end %>
-                </div>
-                <div class="video-btn">
-                  <%= link_to [@location, media] do %>
-                    <i class="far fa-play-circle" data-toggle="modal" data-target="#video-modal"></i>
-                  <% end %>
-                </div>
-                <div class="title">
-                    <h3><%= link_to media.title&.truncate(25), [@location, media] %></h3>
-                </div>
-              </div>
+  <div class="row card-row media-row-holder" id="cat-media-<%= @location.id %>">
+    <% @media_attachments.each do |media| %>
+      <div class="col-md-2">
+        <div class="business-body-card">
+          <div class="img">
+            <% if media.media_source_id.present? %>
+              <%= link_to(image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media]) %>
+            <% else %>
+              <%= link_to(image_tag(media.thumbnail_url), [@location, media]) %>
+            <% end %>
           </div>
-        <% end %>
-      <% end %>
+          <div class="video-btn">
+            <%= link_to [@location, media] do %>
+              <i class="far fa-play-circle" data-toggle="modal" data-target="#video-modal"></i>
+            <% end %>
+          </div>
+          <div class="title">
+              <h3><%= link_to media.title&.truncate(25), [@location, media] %></h3>
+          </div>
+        </div>
+      </div>
     <% end %>
   </div>
-  <%= paginate @products, param_name: 'product_page' %>
+  <%#= paginate @products, param_name: 'product_page' %>
 <% else %>
   <div class="alert alert-dark" role="alert">
     Nothing Found

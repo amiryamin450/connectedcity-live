@@ -1,3 +1,4 @@
+<h2 class="add-new-media-attachment-title"><span class='location-name'><%= link_to @location.name, location_path(@location) %></span> Video Channel</h2>
 <div class="row-fluid media-attachment-area">
   <div class="span6">
     <%
@@ -12,21 +13,29 @@
   <div class="span6">
     <h1><%= @media_attachment.title %></h1>
     <div><%= @media_attachment.description %></div>
+    <div class="uploaded-date">Uploaded date: <%= @media_attachment.created_at.strftime('%m/%d/%Y') %></div>
   </div>
 </div>
 
 <% if @other_media.size > 0 %>
-  <h3>Additional Media</h3>
-  <% @other_media.each_slice(6).to_a.each do |medias| %>
+  <div class="additional-videos">
+  <h3>Additional Videos</h3>
+  <% ([@media_attachment] + @other_media).each_slice(6).to_a.each do |medias| %>
     <div class="row-fluid">
       <% medias.each do |media| %>
+        <% is_current_media = media.id == @media_attachment.id %>
         <div class="span2">
-          <div>
-            <% if media.media_source_id.present? %>
-              <%= link_to(image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media]) %>
-            <% else %>
-              <%= link_to(image_tag(media.thumbnail_url(:thumb)), [@location, media]) %>
+          <div class="media">
+            <% if is_current_media %>
+              <span class="now-playing">(Now Playing)</span>
             <% end %>
+            <div class="<%= 'media-img' if is_current_media %>">
+              <% if media.media_source_id.present? %>
+                <%= link_to(image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media]) %>
+              <% else %>
+                <%= link_to(image_tag(media.thumbnail_url(:thumb)), [@location, media]) %>
+              <% end %>
+            </div>
           </div>
           <div><%= link_to media.title, [@location, media] %></div>
         </div>
@@ -34,6 +43,7 @@
     </div>
     <br>
   <% end -%>
+  </div>
 <% end %>
 
 <div id="subscriberContainer">

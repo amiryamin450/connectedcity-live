@@ -1,32 +1,31 @@
 <div class="card-label-four">
   <div class="title">
       <h4>Products</h4>
-    <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
-      <small><%= link_to "add", new_location_product_path(@location), class: 'small' %> | <%= link_to 'manage', location_automotive_listings_path(@location) %></small>
-    <% end %>
+      <%= link_to raw("<h4 class='secondary'>Add</h4>"), new_location_product_path(@location) %>
   </div>
 </div>
+<div>
+  <%= link_to 'See More +', '#', class: 'see-more', data: { element: "products-#{@location.id}" } %>
+&nbsp;&nbsp;&nbsp;
+  <%= link_to ' See All', location_automotive_listings_path(@location), class: 'see-all' %>
+</div>
 <% if @products.size > 0 %>
-  <div class="row card-row">
-    <% @products.in_groups_of(4) do |group| %>
-      <% group.each do |product| %>
-        <% if product %>
-          <div class="col-md-3">
-              <div class="business-body-card">
-                <div class="img">
-                  <%= link_to(image_tag(product.image.url(:list)), [@location, product]) %>
-                </div>
-                <div class="title">
-                    <h3><%= link_to product.name, [@location, product] %></h3>
-                </div>
-                <%# <div class="price"><p>$ product.price </p></div> %>
-              </div>
+  <div class="row card-row media-row-holder" id="cat-products-<%= @location.id %>">
+    <% @products.each do |product| %>
+      <% if product %>
+        <div class="col-md-2">
+          <div class="business-body-card">
+            <div class="img">
+              <%= link_to(image_tag(product.image.url(:list)), [@location, product]) %>
+            </div>
+            <div class="title">
+              <h3><%= link_to product.name, [@location, product] %></h3>
+            </div>
           </div>
-        <% end %>
+        </div>
       <% end %>
     <% end %>
   </div>
-  <%= paginate @products, param_name: 'product_page' %>
 <% else %>
   <div class="alert alert-dark" role="alert">
     No products found.
