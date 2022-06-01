@@ -1,3 +1,31 @@
+
+<% communities = [
+  { :name => 'Citizens', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/01.jpg" },
+  { :name => 'Merchants', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/02.jpg" },
+  { :name => 'Municipalities', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/03.jpg" },
+  { :name => 'Business Associations', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/04.jpg" },
+  { :name => 'Real Estate', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/05.jpg" },
+  { :name => 'Comnunities Centres', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/06.jpg" },
+  { :name => 'Restaurants', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/07.jpg" },
+  { :name => 'Indigenous Communities', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/08.jpg" },
+  { :name => 'Auto Dealers', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/09.jpg" },
+  { :name => 'Media Producers', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/10.jpg" },
+  { :name => 'Business Professionals', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/11.jpg" },
+  { :name => 'Home Improvement', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/12.jpg" },
+  { :name => 'Tourism', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/13.jpg" },
+  { :name => 'Arts & Entertainment', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/14.jpg" },
+  { :name => 'Finance', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/15.jpg" },
+  { :name => 'Law Enforcement', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/16.jpg" },
+  { :name => 'Health Care', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/17.jpg" },
+  { :name => 'Comnunity Associations', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/18.jpg" },
+  { :name => 'Education', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/19.jpg" },
+  { :name => 'Sports Teams', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/20.jpg" },
+  { :name => 'Charities', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/21.jpg" },
+  { :name => 'Corporations', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/22.jpg" },
+  { :name => 'Entertainers', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/23.jpg" },
+  { :name => 'Start-Ups', :image_url => "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/24.jpg" },
+] %>
+
 <div class="communities-section">
   <div class="container-fluid">
     <div class="row" style="margin: 20px 0px;">
@@ -8,25 +36,22 @@
       </div>
     </div>
     <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-      <% @districts.each_with_index do |district, index| %>
-        <div class="tab-pane fade show <%= index == 0 ? 'active' : ''%>" id="<%=district.name.parameterize%>" role="tabpanel" aria-labelledby="<%=district.name.parameterize%>-tab">
-          <div class="row">
-            <% arr = district.business_improvement_areas + district.business_improvement_areas + district.business_improvement_areas + district.business_improvement_areas + district.business_improvement_areas.limit(4)  %>
-            <% arr.each do |bia| %>
-            <div class="col-md-3" style="padding-left: 0px; padding-right: 0px;">
-              <div class="tab-inner-card" style="position: relative; margin: 15px;">
-                <div class="tab-inner-card-img" style="width: 100%; height: 100%;">
-                  <%= link_to(image_tag(bia.logo.url(:list), :width => '100%', :height => '100%'), "#") %>
-                </div>
-                <div class="tab-inner-card-heading" style=" position: absolute; bottom: 0px; width: 100%; background: linear-gradient(to top, rgba(47, 47, 47, 0.5), rgba(255, 122, 89,0)); display: table; min-height: 45px;">
-                  <h5 style="max-width: 100px; font-weight: bold; color: white; padding-left: 15px; display: table-cell; vertical-align: middle;"><%= bia.name %></h5>
-                </div>
+      <div class="tab-pane fade show active" id="" role="tabpanel">
+        <div class="row">
+          <% communities.each do |com| %>
+          <div class="col-md-3" style="padding-left: 0px; padding-right: 0px;">
+            <div class="tab-inner-card" style="position: relative; margin: 15px;">
+              <div class="tab-inner-card-img" style="width: 100%; height: 100%;">
+                <%= link_to(image_tag(com[:image_url], :width => '100%', :height => '100%'), "#") %>
+              </div>
+              <div class="tab-inner-card-heading" style=" position: absolute; bottom: 0px; width: 100%; background: linear-gradient(to top, rgba(47, 47, 47, 0.8), rgba(47, 47, 47, 0)); display: table; min-height: 45px;">
+                <h5 style="max-width: 100px; font-weight: bold; color: white; padding-left: 15px; display: table-cell; vertical-align: middle;"><%= com[:name] %></h5>
               </div>
             </div>
-            <% end %>
           </div>
+          <% end %>
         </div>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>

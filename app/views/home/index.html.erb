@@ -5,16 +5,16 @@
     <div class="col-md-12 column landing-page-slider">
       <div id="slides">
         <a class="slide" href="#link01">
-          <span class="animate in" style="background-image: url(/cc_2.0/images/landing-page-slider-img.png)"></span>
-          <div class="static-content"><h1>Revolve Waterbottle</h1></div>
+          <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/first_slider.png" %>
+          <span class="animate in" style="background-image: url(<%= url_first %>)"></span>
         </a>
         <a class="slide" href="#link02">
-          <span class="animate in" style="background-image: url(/cc_2.0/images/banner02.jpg)"></span>
-          <div class="static-content"><h1>Lunchbox</h1></div>
+          <% url_second = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/second_slider.png" %>
+          <span class="animate in" style="background-image: url(<%= url_second %>)"></span>
         </a>
         <a class="slide" href="#link03">
-          <span class="animate in" style="background-image: url(/cc_2.0/images/banner01.jpg)"></span>
-          <div class="static-content"><h1>Salad Shaker</h1></div>
+          <% url_third = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
+          <span class="animate in" style="background-image: url(<%= url_third %>)"></span>
         </a>
       </div>
       <!-- Slider Advance SearchBox -->
