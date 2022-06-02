@@ -7,10 +7,9 @@
     margin-bottom: 20px;
 
     button, a, input {
-      font-size: 18px;
       width: 100%;
       max-width: 160px;
-      min-width: 140px;
+      font-size: 115%;
     }
   }
 
@@ -22,6 +21,10 @@
         max-height: 600px;
       }
     }
+  }
+
+  #subscribers {
+    height: 600px;
   }
 
   .title-field, .description-field {
@@ -323,5 +326,36 @@
   .modal-content {
     background-color: transparent;
     border: none;
+  }
+}
+
+
+@media only screen and (min-width: 1024px) {
+  .new-media-attachment {
+    .buttons-group {
+      button, a, input {
+        font-size: 18px;
+      }
+    }
+
+    #subscribers {
+      height: 350px;
+    }
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .new-media-attachment {
+    #subscribers {
+      height: 400px;
+    }
+
+    .video-session {
+      #default-video-img {
+        img {
+          max-height: 400px;
+        }
+      }
+    }
   }
 }

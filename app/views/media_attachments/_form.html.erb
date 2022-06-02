@@ -1,7 +1,7 @@
 <div class="row">
   <div class="span8 video-session">
     <div class="stream-area">
-      <div id="subscribers"></div>
+      <div id="subscribers" style="display: none"></div>
     </div>
     <div id="default-video-img">
       <img id="placeholder-img" src="/assets/default_video_image.jpeg" alt="Video Placeholder Stock Image"/>
@@ -85,7 +85,7 @@
   var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
   var started = false;
   var connectionCount = 0;
-  var publisherProperties = {width: '100%', height: '600px', resolution: '1280x720', insertMode: "append", usePreviousDeviceSelection: true};
+  var publisherProperties = {width: '100%', height: '100%', resolution: '1280x720', insertMode: "append", usePreviousDeviceSelection: true};
   var targetElement = 'subscribers';
   let archiveID = null;
   let mediaAttachmentId = "";
@@ -156,6 +156,7 @@
                 document.getElementById('stop-archive').disabled = false;
                 document.getElementById('preview-video').disabled = false;
                 document.getElementById('default-video-img').style.display = 'block';
+                document.getElementById('subscribers').style.display = 'none';
                 event.target.disabled = true;
                 event.target.textContent = "Stop Recording";
                 document.getElementById('start-archive').disabled = false;
@@ -299,6 +300,7 @@
             if (session.capabilities.publish == 1) {
               document.getElementById("loadingModal").style.display = "none";
               document.getElementById('default-video-img').style.display = 'none';
+              document.getElementById('subscribers').style.display = 'block';
               startRecord(vonageData);
               publish();
             } else {
