@@ -154,7 +154,7 @@
 }
 
 #slideshow {
-  height: 60vh;
+  height: 66vh;
   position: relative;
   overflow: hidden;
   top: 0;
@@ -249,6 +249,7 @@
 .static-content {
   .slider-advance-searchbox {
     width: 90%;
+    bottom: 60px;
     .heading h1 {
       color: white;
       font-size: 50px;
@@ -276,25 +277,40 @@
       border: 1px solid #dedede;
     }
   }
-  .filter .btn-search {
-    padding-left: 0px;
-    padding-right: 0px;
+  .filter {
+    padding: 0 30px 10px 30px;
+    .btn-search {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
   }
   .heading h3 {
-    padding: 50px 30px 30px;
+    padding: 40px 30px 20px;
   }
+}
+
+.communities-section {
+  .tab-inner-card .tab-inner-card-heading h5 { font-size: 25px; }
 }
 
 @media screen and (min-width: 1281px) {
   #slideshow {
     height: 70vh;
     .slide .static-content .slider-advance-searchbox {
+      bottom: 150px;
       .heading h1 { font-size: 55px; }
     }
   }
 
   .communities-section {
+    .title { margin: 20px 0px 0px; }
     .tab-inner-card .tab-inner-card-heading h5 { font-size: 30px; }
   }
 
+  .landing-page-heading-filter.communities-page {
+    .filter { padding: 0 30px 30px 30px; }
+    .heading h3 {
+      padding: 50px 30px 30px;
+    }
+  }
 }
