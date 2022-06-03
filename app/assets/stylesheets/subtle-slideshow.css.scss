@@ -249,10 +249,21 @@
 .static-content {
   .slider-advance-searchbox {
     width: 90%;
-    bottom: 60px;
-    .heading h1 {
-      color: white;
-      font-size: 50px;
+    bottom: 90px;
+    .heading {
+      h1 {
+        color: white;
+        font-size: 50px;
+        font-weight: bold;
+        font-family: arial;
+        text-shadow: 3px 2px 10px #000000;
+      }
+      h5 {
+        color: white;
+        font-size: 25px;
+        font-family: arial;
+        font-weight: bold;
+      }
     }
   }
 }
@@ -298,7 +309,10 @@
     height: 70vh;
     .slide .static-content .slider-advance-searchbox {
       bottom: 150px;
-      .heading h1 { font-size: 55px; }
+      .heading {
+        h1 { font-size: 72px; }
+        h5 { font-size: 36px; }
+      }
     }
   }
 
