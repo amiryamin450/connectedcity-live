@@ -57,10 +57,41 @@
         </li>
       </ul>
     </nav>
-    <div class="menu-nav-right">
-      <a href="/employment-opportunities">Jobs</a>
+    <div class="menu-nav-right" style="display: flex;">
+      <nav role="navigation" id="nav-main" style="padding: 0px; background-color: transparent;">
+        <ul href=<%="#{@base_path}news"%>>
+          <% if @vertical_market_news.has_children? %>
+            <li>
+              <% if @business_improvement_area %>
+                <a style="padding: 0px;" href="<%=district_neighborhood_guide_path(@district_name, @slug, @vertical_market_news.slug)%>"><%=@vertical_market_news.name%></a>
+              <% elsif @district && @neighbourhood_slug %>
+                <a style="padding: 0px;" href="<%=district_neighborhood_guide_path(@district.slug, @neighbourhood_slug, @vertical_market_news.slug)%>"><%=@vertical_market_news.name%></a>
+              <% else %>
+                <a style="padding: 0px;" href=<%="#{@base_path}guide/#{@vertical_market_news.slug}"%>><%=@vertical_market_news.name%></a>
+              <% end %>
+              <ul>
+                <% @vertical_market_news.children.sort_by(&:name).each do |child| %>
+                  <% if @business_improvement_area %>
+                    <li><%= link_to child.name, district_neighborhood_guide_path(@district_name, @slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
+                  <% else %>
+                    <% if @neighbourhood %>
+                      <li><%= link_to child.name, district_neighborhood_guide_path(@district, @neighbourhood.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
+                    <% else %>
+                      <% if @district %>
+                        <li><%= link_to child.name, top_district_guide_path(@district, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
+                      <% else %>
+                        <li><%= link_to child.name, "#{@base_path}guide/#{child.slug}", class: "dropdown-item nv-mn-lnk" %></li>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </ul>
+            </li>
+          <% end %>
+        </ul>
+      </nav>
       <a href="/classifieds">Classfieds</a>
-      <a href=<%="#{@base_path}news"%>>News</a>
+      <a href="/employment-opportunities">Jobs</a>
     </div>
   </div>
 </div>

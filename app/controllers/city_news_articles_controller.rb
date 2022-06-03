@@ -20,8 +20,7 @@ class CityNewsArticlesController < ApplicationController
       @city_news_categories = CityNewsCategory.includes(:city_news_articles).all
     end
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb 'City News'
+    render layout: "application_v_2"
   end
 
   # GET /city_news_articles/1
