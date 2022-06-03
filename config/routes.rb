@@ -279,6 +279,7 @@ Connectbook::Application.routes.draw do
   resources :videos do
     get 'check_video_url' => 'videos#check_video_url'
     get 'mute_video_audio' => 'videos#mute_video_audio'
+    post :update_media_attachment
     post :upload_thumbnail
     post :upload_audio
   end

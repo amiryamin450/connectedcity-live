@@ -179,10 +179,27 @@
                       }
                     })
                   }
+                  updateMedia(videoId);
                   checkVideoUrl(videoId);
                 })
               })
           })
+
+        function updateMedia(videoId) {
+          var title = document.getElementById('media_attachment_title').value;
+          var description = document.getElementById('media_attachment_description').value;
+          var params = JSON.stringify({title: title, description: description})
+          var data = new FormData();
+          data.append('media_attachment', params);
+          fetch(`/videos/${videoId}/update_media_attachment.json`, {
+            method: 'post',
+            body: data,
+            headers: {
+              'Accept': 'application/json',
+              'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            }
+          })
+        }
 
         function checkVideoUrl(videoId) {
           setTimeout(function() {

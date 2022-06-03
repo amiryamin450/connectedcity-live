@@ -38,6 +38,13 @@ class VideosController < ApplicationController
     render nothing: true, status: :ok
   end
 
+  def update_media_attachment
+    video = Video.find_by_id(params[:video_id])
+    media_attachment = video.media_attachment
+    media_attachment.update_attributes(JSON.parse(params[:media_attachment]))
+    render nothing: true, status: :ok
+  end
+
   def check_video_url
     @video = Video.find_by_id(params[:video_id])
     if @video.present?
