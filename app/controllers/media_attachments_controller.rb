@@ -7,7 +7,7 @@ class MediaAttachmentsController < ApplicationController
   PER_PAGE = 5
 
   def index
-    @media_attachments = @location.media_attachments.page(params[:page]).per(PER_PAGE)
+    @media_attachments = @location.media_attachments.order('created_at DESC').page(params[:page]).per(PER_PAGE)
   end
 
   def show

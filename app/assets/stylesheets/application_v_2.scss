@@ -18,6 +18,30 @@
   }
 }
 
+.country-flag-view {
+  margin-left: 50% !important;
+}
+
+.user-dropdown .login-item.btn-signup {
+  color: #425a76;
+  padding: 10px 15px;
+  background-color: white;
+  font-weight: 600;
+  margin-left: 25px;
+  font-family: Aial;
+  text-shadow: 1px 1px 1px #d2cdcd;
+}
+
+.user-dropdown .login-item.btn-login {
+  color: #425a76;
+  background-color: white;
+  font-weight: 600;
+  padding: 10px 12px;
+  margin-left: 15px;
+  font-family: Aial;
+  text-shadow: 1px 1px 1px #d2cdcd;
+}
+
 /*extra css */
 
 .footer-link ul li a {
@@ -436,4 +460,8 @@
   .multi .slick-slide {
     margin: 0px 15px;
   }
+  .country-flag-view {
+    margin-left: 58.333333% !important;
+  }
+
 }
