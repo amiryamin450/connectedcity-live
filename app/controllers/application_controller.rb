@@ -22,8 +22,6 @@ class ApplicationController < ActionController::Base
 
   def set_up
     results = VerticalMarket.order(:name).at_depth 0
-    # @vertical_market_news = results.select{|i| i.slug === 'news'}.first
-    # @vertical_markets_all = results.reject{|i| i.slug === 'news'}
     @vertical_market_news = results.select{|i| i.slug === 'civic-news'}.first
     @vertical_markets_all = results.reject{|i| i.slug === 'civic-news'}
 
