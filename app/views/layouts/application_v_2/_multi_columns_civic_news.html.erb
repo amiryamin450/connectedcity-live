@@ -1,0 +1,72 @@
+<div class="landing-page-three-column-section">
+  <div class="multi" id="multiple_items_civic_news">
+    <div class="colla" style="height: 200px;">
+      <h3 class="sticky-heading">Updates</h3>
+      <div class="input-group-prepend search-box ">
+        <%= select_tag 'market', options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), prompt: 'All', class: 'form-control' %>
+      </div>
+    </div>
+    <div class="colla" style="height: 200px;">
+      <h3 class="sticky-heading">Videos</h3>
+      <div class="input-group-prepend search-box ">
+        <%= select_tag 'market', options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), prompt: 'All', class: 'form-control' %>
+      </div>
+    </div>
+    <div class="colla" style="height: 200px;">
+      <h3 class="sticky-heading">News</h3>
+      <div class="input-group-prepend search-box ">
+        <%= select_tag 'market', options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), prompt: 'All', class: 'form-control' %>
+      </div>
+    </div>
+    <div class="colla" style="height: 200px;">
+      <h3 class="sticky-heading">Events</h3>
+      <div class="input-group-prepend search-box ">
+        <%= select_tag 'market', options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), prompt: 'All', class: 'form-control' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#multiple_items_civic_news.multi').slick({
+      infinite: true,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      arrows: false,
+      speed: 300,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            infinite: true
+          }
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            infinite: true
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            infinite: true
+          }
+        }
+      ]
+    });
+  });
+</script>

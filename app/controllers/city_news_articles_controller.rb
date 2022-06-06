@@ -22,26 +22,11 @@ class CityNewsArticlesController < ApplicationController
     #   @city_news_categories = CityNewsCategory.includes(:city_news_articles).all
     # end
     districts
-    @city = City.find(5915022)
-    # @city = City.find_by_slug(params[:city_slug])
-    @carousel_images = @city.carousel_images
-    @status_updates = @city.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
-    @news = @city.news_articles.where(newsable_type: "Location").limit(PER_PAGE)
-    @events = @city.events.order(:starts_at).limit(PER_PAGE)
-    @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
-    @districts = @city.districts
-    @blog_entries = @city.blog_entries.limit(PER_PAGE)
-    @products = @city.products.limit(PER_PAGE)
-    @coupons = @city.coupons.limit(PER_PAGE)
-    @services = @city.services.limit(PER_PAGE)
-
     render layout: "application_v_2"
   end
 
   def get_neighborhoods
     neighborhoods = Neighborhood.where(district_id: params[:district_id])
-    # regions = province&.regions
-    # binding.pry
     render json: neighborhoods
   end
 
