@@ -23,7 +23,7 @@
 
     <script src="/cc_2.0/js/jquery-3.4.1.min.js"></script>
     <script src="/cc_2.0/js/rails.js"></script>
-    <script src="/cc_2.0/js/slim.min.js"></script>
+    <!--  <script src="/cc_2.0/js/slim.min.js"></script> %> -->
     <script src="/cc_2.0/js/popper.min.js"></script>
     <script type="text/javascript" src="/cc_2.0/js/bootstrap.js"></script>
     <script type="text/javascript" src="/cc_2.0/js/slick.min.js"></script>
@@ -51,10 +51,27 @@
           });
         })
 
+        $('#neighbourhood-dropdown').on('change', function(event) {
+          resetSubNeighbourhood();
+          if (event.target.value == "fairview") {
+            $('#shopping-district-dropdown').append($('<option>', {
+              value: "granville-island",
+              text: "Granville Island"
+            }));
+          }
+        })
+
         function resetNeighbourhood() {
           $('#neighbourhood-dropdown').find('option').remove();
           $('#neighbourhood-dropdown').append($('<option>', {
             text: "Sub Neighbourhood"
+          }));
+        }
+
+        function resetSubNeighbourhood() {
+          $('#shopping-district-dropdown').find('option').remove();
+          $('#shopping-district-dropdown').append($('<option>', {
+            text: "Sub Sub Neighbourhood"
           }));
         }
       })
