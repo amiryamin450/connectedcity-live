@@ -1,6 +1,16 @@
-
+<%
+  @categories_news = [
+    ['City Council', 'City Council'],
+    ['Emergency', 'Emergency'],
+    ['Home, Property & Development', 'Home, Property & Development'],
+    ["Mayor's Office", "Mayor's Office"],
+    ['Parks Recreation & Culture', 'Parks Recreation & Culture'],
+    ['People & Programs', 'People & Programs'],
+    ['Streets & Transportation', 'Streets & Transportation']
+  ]
+%>
 <nav aria-label="breadcrumb">
-  <ol class="breadcrumb" style="margin: 10px">
+  <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="<%= root_path %>">Home</a></li>
     <%if @district %>
       <li class="breadcrumb-item active" aria-current="page"><a href="#" style="margin-left: 10px;"><%=@district.name%></a></li>
@@ -11,7 +21,7 @@
   </ol>
 </nav>
 
-<h1 style="margin-left: 50px; margin-bottom: 20px;">Browse <%= @vertical_market_news.present? ? @vertical_market_news.name : 'Civic News' %> in Vancouver</h1>
+<h1 style="margin-left: 50px; margin-bottom: 20px; font-weight: bold;">Browse <%= @vertical_market_news.present? ? @vertical_market_news.name : 'Civic News' %> in Vancouver</h1>
     <div class="map-section">
       <div id="map" style="height: 60vh;"></div>
     </div>
@@ -47,12 +57,12 @@
       </div>
       <div class="col-md-6 col-lg-6">
         <div class="search-box advance-search-box">
-          <%= form_tag "#{@base_path}search", class: 'search-form', method: :get do %>
+          <%= form_tag "#", class: 'search-form', method: :get do %>
             <div class="input-group">
               <%# <input type="text" class="form-control search-input" placeholder="What are you looking for?" aria-label="Search input with dropdown button"> %>
               <%= search_field_tag :search, params[:search], placeholder: "What are you looking for?", class: "form-control search-column" %>
               <div class="input-group-prepend search-box ">
-                <%= select_tag 'market', options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), prompt: 'All', class: 'form-control' %>
+                <%= select_tag 'market', options_for_select(@categories_news), prompt: 'All', class: 'form-control' %>
               </div>
               <div class="input-group-append">
                 <button class="btn search-box-btn" type="submit"><img src="/cc_2.0/icon/search-icon.svg"></button>
