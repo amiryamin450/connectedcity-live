@@ -19,7 +19,6 @@
         <li class="breadcrumb-item" aria-current="page"><%= @neighborhood.name%></li>
       <% end %>
       <% @vertical_market.ancestors.each do |ancestor| %>
-        add_crumb , 
         <li class="breadcrumb-item active" aria-current="page"><a href="<%="#{@base_path}guide/#{ancestor.slug}"%>"><%=ancestor.name%></a></li>
       <%end%>
       <li class="breadcrumb-item" aria-current="page"><a href="#"><%= " #{@vertical_market.name} Guide" %></a></li>

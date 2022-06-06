@@ -33,13 +33,13 @@ NOTE Rental (rental)
 <% if [17, 18, 19, 20].include?(@vertical_market.id) %>
   <%# TODO Optimize %>
   <% case @vertical_market.id %>
-	<% when 17 %>
+  <% when 17 %>
     <%= render 'rental_properties', rental_properties: @rental_properties, styles: @rental_styles %>
     <% markers = @rental_properties %>
   <% when 18 %>
     <%= render 'residential', residential_units: @listings, styles: @residential_styles %>
     <% markers = @listings %>
-	<% when 19 %>
+  <% when 19 %>
     <%= render 'new_home_communities', new_home_communities: @new_home_communities, new_home_community_styles: @new_home_community_styles %>
     <% markers = @new_home_communities %>
   <% when 20 %>
@@ -48,55 +48,100 @@ NOTE Rental (rental)
   <% end %>
 <% else %>
   <%# NOTE Automotive (automotive) %>
-  <% if @vertical_market.id == 1 %>
+  <% if request.path === '/guide/local-government' %>
     <div class="card-label-one">
-      <div class="title heading index-11">
-        <h4>Automotive Listings</h4>
-        &nbsp;&nbsp;
-        <%= link_to 'More + ', '#', class: 'see-more', data: { element: 'auto-listings' } %>
-        &nbsp;&nbsp;
-        <%= link_to ' See All', "#{@base_path}guide/auto-listings", class: 'see-all' %>
+      <div class="title">
+        <h4>&nbsp;<%= "City Hall" %>&nbsp;</h4>
+        <%= link_to 'More + ', '#', class: 'see-more' %>
+
+        <% #if @business_improvement_area_id %>
+          &nbsp;&nbsp;&nbsp;
+          <%= link_to ' See All', "#", class: 'see-all' %>
+        <%# end %>
       </div>
     </div>
-    <div class="row card-row location-row-holder" id="cat-auto-listings">
-      <% @auto_listings.each do |listing| %>
-        <%# FIXME Move inline styles to a stylesheet %>
-        <div class="col-md-2">
-          <div class="category-body-card">
-            <div class="img">
-              <%= link_to image_tag(listing.main_image.url(:hp_list)), [listing.location, listing] %>
-            </div>
-            <div class="title">
-              <h4><%= link_to [listing.year, listing.make, listing.model].reject(&:blank?).join(' '), [listing.location, listing] %></h4>
-            </div>
-            <hr>
-            <div class="contact-details">
-                <%= humanized_money_with_symbol listing.price %>
-              </span>
-              <br>
-              <span><%= link_to listing.location.name, listing.location %></span>
-            </div><br>
-            <div class="button">
+    <div class="alert alert-dark" role="alert">
+      No City Hall Members found.
+    </div>
+    <div class="card-label-one">
+      <div class="title">
+        <h4>&nbsp;<%= "City Councillors." %>&nbsp;</h4>
+        <%= link_to 'More + ', '#', class: 'see-more' %>
+
+        <% #if @business_improvement_area_id %>
+          &nbsp;&nbsp;&nbsp;
+          <%= link_to ' See All', "#", class: 'see-all' %>
+        <%# end %>
+      </div>
+    </div>
+    <div class="alert alert-dark" role="alert">
+      No City Hall Members found.
+    </div>
+    <div class="card-label-one">
+      <div class="title">
+        <h4>&nbsp;<%= "Parks & Recreation Commissioners" %>&nbsp;</h4>
+        <%= link_to 'More + ', '#', class: 'see-more' %>
+
+        <% #if @business_improvement_area_id %>
+          &nbsp;&nbsp;&nbsp;
+          <%= link_to ' See All', "#", class: 'see-all' %>
+        <%# end %>
+      </div>
+    </div>
+    <div class="alert alert-dark" role="alert">
+      No Parks & Recreation Commissioners found.
+    </div>
+  <% else %>
+    <% if @vertical_market.id == 1 %>
+      <div class="card-label-one">
+        <div class="title heading index-11">
+          <h4>Automotive Listings</h4>
+          &nbsp;&nbsp;
+          <%= link_to 'More + ', '#', class: 'see-more', data: { element: 'auto-listings' } %>
+          &nbsp;&nbsp;
+          <%= link_to ' See All', "#{@base_path}guide/auto-listings", class: 'see-all' %>
+        </div>
+      </div>
+      <div class="row card-row location-row-holder" id="cat-auto-listings">
+        <% @auto_listings.each do |listing| %>
+          <%# FIXME Move inline styles to a stylesheet %>
+          <div class="col-md-2">
+            <div class="category-body-card">
+              <div class="img">
+                <%= link_to image_tag(listing.main_image.url(:hp_list)), [listing.location, listing] %>
+              </div>
+              <div class="title">
+                <h4><%= link_to [listing.year, listing.make, listing.model].reject(&:blank?).join(' '), [listing.location, listing] %></h4>
+              </div>
+              <hr>
+              <div class="contact-details">
+                  <%= humanized_money_with_symbol listing.price %>
+                </span>
+                <br>
+                <span><%= link_to listing.location.name, listing.location %></span>
+              </div><br>
+              <div class="button">
+              </div>
             </div>
           </div>
-        </div>
+        <% end %>
+      </div>
+    <% end %>
+    <% if @vertical_market.name.include?("Auto Listing") %>
+      <%= render 'automotive_listings', auto_listings: @auto_listings, auto_makes: @auto_makes %>
+      <% markers = @markers %>
+    <% end %>
+    <% @vertical_market.categories_new(@city, @district, @neighborhood).each_with_index do |category, r| %>
+      <%
+
+      locations = category.locations[0..19]
+      markers |= category.locations
+
+      %>
+
+      <% if locations.any? %>
+        <%= render 'guide/category', category: category, r: r, locations: locations %>
       <% end %>
-    </div>
-  <% end %>
-  <% if @vertical_market.name.include?("Auto Listing") %>
-    <%= render 'automotive_listings', auto_listings: @auto_listings, auto_makes: @auto_makes %>
-    <% markers = @markers %>
-  <% end %>
-  <% @vertical_market.categories_new(@city, @district, @neighborhood).each_with_index do |category, r| %>
-    <%
-
-    locations = category.locations[0..19]
-    markers |= category.locations
-
-    %>
-
-    <% if locations.any? %>
-      <%= render 'guide/category', category: category, r: r, locations: locations %>
     <% end %>
   <% end %>
 <% end %>
@@ -135,3 +180,4 @@ NOTE Rental (rental)
     </div>
   </div>
 </div>
+
