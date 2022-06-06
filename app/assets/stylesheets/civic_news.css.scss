@@ -1,0 +1,19 @@
+.civic-news-body-section {
+  margin: 40px 20px 0px;
+  .container-fluid {
+    padding: 0px;
+    .landing-page-heading-filter.communities-page {
+      .filter {
+        padding: 0px;
+        padding-left: 15px;
+      }
+    }
+    .search-box.advance-search-box {
+      border: 1px solid #dedede;
+      .input-group-prepend.search-box {
+        border: none;
+        max-height: 41px;
+      }
+    }
+  }
+}

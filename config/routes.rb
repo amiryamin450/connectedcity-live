@@ -329,6 +329,12 @@ Connectbook::Application.routes.draw do
   get 'category/auto_makes/:make' => 'vertical_market_categories#show_auto_listing_makers', as: :auto_make_show
   get 'category/:id' => 'vertical_market_categories#show', as: :category_show
   get 'news' => 'city_news_articles#guide', as: :city_news_guide
+  resources :city_news_articles  do#, to: 'city_news_articles#guide' , as: :city_news_guide do
+    collection do
+      get :get_neighborhoods
+      get :get_sub_neighborhoods
+    end
+  end
   get "status_updates" => 'cities#status_updates', as: :status_updates_cities
   get "events" => 'cities#events', as: :events_cities
   get "media_attachments" => 'cities#media_attachments', as: :media_attachments_cities

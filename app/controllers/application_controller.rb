@@ -21,7 +21,10 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_up
-    @vertical_markets_all = VerticalMarket.order(:name).at_depth 0
+    results = VerticalMarket.order(:name).at_depth 0
+    @vertical_market_news = results.select{|i| i.slug === 'civic-news'}.first
+    @vertical_markets_all = results.reject{|i| i.slug === 'civic-news'}
+
     user_signed_in? ? @favorites = current_user.favorites.all : @favorites = []
 
     @city = City.find(5915022)
