@@ -12,7 +12,7 @@ class Neighborhood < ActiveRecord::Base
 
   attr_accessible :district_id, :district, :slug, :neighborhd, :geom, :id
 
-  friendly_id :neighborhd, use: [:slugged, :history]
+  friendly_id :neighborhd, use: [:slugged]
 
   def name
     neighborhd
