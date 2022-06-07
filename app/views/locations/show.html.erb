@@ -186,29 +186,74 @@
             <div class="map-section">
               <div id="map" style="height: 240px;"></div>
             </div>
-            <%= render 'location_menu_flayers' %>
-            <!-- Card Row END -->
-            <%= render 'location_media' %>
-            <% if @location.vertical_market_category_ids.include?(40) %>
-              <%= render 'location_automotive' %>
-            <% end %>
-            <% if @location.vertical_market_category_ids.include?(99) %>
-              <%= render 'location_listings' %>
-            <% elsif @location.vertical_market_category_ids.include?(100) %>
-              <%= render 'agents' %>
-            <% elsif @location.vertical_market_category_ids.include?(101) %>
-              <%= render 'rental_properties' %>
-            <% elsif @location.vertical_market_category_ids.include?(102) %>
-              <%= render 'new_home_communities' %>
+            <% if request.path === '/business/city-of-vancouver' %>
+              <div class="card-label-one">
+                <div class="title">
+                  <h4>&nbsp;<%= "City Hall" %>&nbsp;</h4>
+                  <%= link_to 'More + ', '#', class: 'see-more' %>
+
+                  <% #if @business_improvement_area_id %>
+                    &nbsp;&nbsp;&nbsp;
+                    <%= link_to ' See All', "#", class: 'see-all' %>
+                  <%# end %>
+                </div>
+              </div>
+              <div class="alert alert-dark" role="alert">
+                No City Hall Members found.
+              </div>
+              <div class="card-label-one">
+                <div class="title">
+                  <h4>&nbsp;<%= "City Councillors." %>&nbsp;</h4>
+                  <%= link_to 'More + ', '#', class: 'see-more' %>
+
+                  <% #if @business_improvement_area_id %>
+                    &nbsp;&nbsp;&nbsp;
+                    <%= link_to ' See All', "#", class: 'see-all' %>
+                  <%# end %>
+                </div>
+              </div>
+              <div class="alert alert-dark" role="alert">
+                No City Hall Members found.
+              </div>
+              <div class="card-label-one">
+                <div class="title">
+                  <h4>&nbsp;<%= "Parks & Recreation Commissioners" %>&nbsp;</h4>
+                  <%= link_to 'More + ', '#', class: 'see-more' %>
+
+                  <% #if @business_improvement_area_id %>
+                    &nbsp;&nbsp;&nbsp;
+                    <%= link_to ' See All', "#", class: 'see-all' %>
+                  <%# end %>
+                </div>
+              </div>
+              <div class="alert alert-dark" role="alert">
+                No Parks & Recreation Commissioners found.
+              </div>
             <% else %>
-              <%= render 'location_products' %>
+              <%= render 'location_menu_flayers' %>
+              <!-- Card Row END -->
+              <%= render 'location_media' %>
+              <% if @location.vertical_market_category_ids.include?(40) %>
+                <%= render 'location_automotive' %>
+              <% end %>
+              <% if @location.vertical_market_category_ids.include?(99) %>
+                <%= render 'location_listings' %>
+              <% elsif @location.vertical_market_category_ids.include?(100) %>
+                <%= render 'agents' %>
+              <% elsif @location.vertical_market_category_ids.include?(101) %>
+                <%= render 'rental_properties' %>
+              <% elsif @location.vertical_market_category_ids.include?(102) %>
+                <%= render 'new_home_communities' %>
+              <% else %>
+                <%= render 'location_products' %>
+              <% end %>
+              <%= render 'location_coupons' %>
+              <%= render 'location_services' %>
+              <%= render 'location_events' %>
+              <%= render 'location_trade_associations' %>
+              <%= render 'location_brands' %>
+              <%= render 'location_employment' %>
             <% end %>
-            <%= render 'location_coupons' %>
-            <%= render 'location_services' %>
-            <%= render 'location_events' %>
-            <%= render 'location_trade_associations' %>
-            <%= render 'location_brands' %>
-            <%= render 'location_employment' %>
         </div>
       </div>
       <!--Body End -->
