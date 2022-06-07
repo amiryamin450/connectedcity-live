@@ -1,7 +1,7 @@
 var map, tiles;
 $(function() {
     if($('#map').length > 0) {
-        map = L.map('map', {scrollWheelZoom: false}).setView([49.249935,-123.112457],9);
+        map = L.map('map', {scrollWheelZoom: false}).setView([49.249935,-123.112457],11);
         //1c76eefca5954c5abfa169b96dc96a35
         L.Icon.Default.imagePath = '/assets/';
         L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
