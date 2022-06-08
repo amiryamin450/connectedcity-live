@@ -1,4 +1,5 @@
 class EmploymentListingsController < ApplicationController
+  PER_PAGE = 20
 
   load_and_authorize_resource :location, except: [:guide]
   before_filter :load_employment_listing, except: [:guide, :index, :new, :create]
@@ -21,10 +22,22 @@ class EmploymentListingsController < ApplicationController
   end
 
   def guide
-    @employment_categories = EmploymentCategory.includes(:employment_listings).all
-
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb 'Employment Opportunities'
+    # @employment_categories = EmploymentCategory.includes(:employment_listings).all
+    @vertical_market = VerticalMarket.find_by_slug('employment-opportunities')
+    @city = City.find(5915022)
+    @carousel_images = @city.carousel_images
+    @status_updates = @city.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
+    @news = @city.news_articles.where(newsable_type: "Location").limit(PER_PAGE)
+    @events = @city.events.order(:starts_at).limit(PER_PAGE)
+    @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
+    @districts = @city.districts
+    @blog_entries = @city.blog_entries.limit(PER_PAGE)
+    @products = @city.products.limit(PER_PAGE)
+    @coupons = @city.coupons.limit(PER_PAGE)
+    @services = @city.services.limit(PER_PAGE)
+    # add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    # add_crumb 'Employment Opportunities'
+    render layout: 'application_v_2'
   end
 
 

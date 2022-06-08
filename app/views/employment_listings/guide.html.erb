@@ -1,4 +1,4 @@
-<%
+<%#
 
 meta title: "#{@neighborhood.try(:name) || @district.try(:name) || @city.try(:name)} Employment Opportunities".strip,
      description: "",
@@ -6,36 +6,172 @@ meta title: "#{@neighborhood.try(:name) || @district.try(:name) || @city.try(:na
 
 %>
 
-<h1>Employment Opportunities</h1>
+<!-- <h1>Employment Opportunities</h1> -->
 
-<% @employment_categories.each do |category| %>
-<% if category.employment_listings.size > 0 %>
-<div class="row-fluid classified-category">
-  <div class="row-fluid classified-header" style="background-color: <%= "#{category.heading_color}" %>">
+<%# @employment_categories.each do |category| %>
+<%# if category.employment_listings.size > 0 %>
+<!-- <div class="row-fluid classified-category">
+  <div class="row-fluid classified-header" style="background-color: <%#= "#{category.heading_color}" %>">
 
-    <div class="span5 head-cell"><%= category.name %></div>
+    <div class="span5 head-cell"><%#= category.name %></div>
     <div class="span2 head-cell">Company</div>
     <div class="span1 head-cell">Job Number</div>
     <div class="span1 head-cell"># Available</div>
     <div class="span3 head-cell">Application Deadline</div>
   </div>
 
-  <% category.employment_listings.first(4).each do |listing| %>
-  <div class="row-fluid classified-detail-row" style="border-color: <%= category.heading_color %>">
-    <div class="span5"><%= link_to listing.title, [listing.location, listing] %></div>
-    <div class="span2" style="font-size: 10px;"><%= link_to listing.location.name, listing.location %></div>
+  <%# category.employment_listings.first(4).each do |listing| %>
+  <div class="row-fluid classified-detail-row" style="border-color: <%#= category.heading_color %>">
+    <div class="span5"><%#= link_to listing.title, [listing.location, listing] %></div>
+    <div class="span2" style="font-size: 10px;"><%#= link_to listing.location.name, listing.location %></div>
 
-    <div class="span1" ><%= listing.number %></div>
-    <div class="span1"><%= listing.number_of_positions %></div>
-    <div class="span3"><%= listing.application_deadline %></div>
+    <div class="span1" ><%#= listing.number %></div>
+    <div class="span1"><%#= listing.number_of_positions %></div>
+    <div class="span3"><%#= listing.application_deadline %></div>
   </div>
-  <% end -%>
+  <%# end -%>
   <div class="row-fluid">
     <div class="pull-right">
-      <%= link_to "View more #{category.name} listings.", category if category.employment_listings.size > 4 %>
+      <%#= link_to "View more #{category.name} listings.", category if category.employment_listings.size > 4 %>
     </div>
   </div>
-</div>
-<% end -%>
+</div> -->
+<%# end -%>
 
-<% end -%>
+<%# end -%>
+<% @current_market = @vertical_market.respond_to?(:name) ? @vertical_market.name : @vertical_market %>
+<% @current_district = @district != nil ? @district.name : "Vancouver" %>
+<% @employment_category = [
+  ['Accounting and Finance', 'Accounting and Finance'],
+  ['Administrative and Clerical', 'Administrative and Clerical'],
+  ['Arts, Media and Entertainment', 'Arts, Media and Entertainment'],
+  ['Customer Service', 'Customer Service'],
+  ['Engineering', 'Engineering'],
+  ['Environmental', 'Environmental'],
+  ['Financial Services', 'Financial Services'],
+  ['Healthcare Services and Wellness', 'Healthcare Services and Wellness'],
+  ['Hospitality and Food Service', 'Hospitality and Food Service'],
+  ['Human Resources and Recruitment', 'Human Resources and Recruitment'],
+  ['Legal', 'Legal'],
+  ['Manufacturing', 'Manufacturing'],
+  ['Marketing', 'Marketing'],
+  ['Operations', 'Operations'],
+  ['Project Management and Business Analysis', 'Project Management and Business Analysis'],
+  ['Sales and Business Development', 'Sales and Business Development'],
+  ['Science and Research', 'Science and Research'],
+  ['Security and Surveillance', 'Security and Surveillance'],
+  ['Supply Chain and Logistics', 'Supply Chain and Logistics'],
+  ['Technology and Digital Media', 'Technology and Digital Media'],
+  ['Training and Education', 'Training and Education'],
+  ['Retail In-Store', 'Retail In-Store'],
+  ['Real Estate', 'Real Estate'],
+  ['Other', 'Other']
+] %>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="<%= root_path %>">Home</a></li>
+      <li class="breadcrumb-item" aria-current="page"><a href="/employment-opportunities" style="margin-left: 10px;">Employment Opportunities</a></li>
+    </ol>
+</nav>
+<!-- Breadcrumb End -->
+<div class="category-body-section">
+    <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+            <!--  Category -->
+            <div class="page-title">
+                <!-- <h3><%#= @current_market %> in <%#= @neighbourhood ? @neighbourhood.name : @current_district %></h3> -->
+              <h1>Employment Opportunities</h1>
+            </div>
+            <!-- End -->
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-4">
+            <div class="category-sidebar">
+                <div class="map-section">
+                  <div id="map"></div>
+                </div>
+                <div class="SideBar-tabs">
+                  <%= render 'layouts/application_v_2/guide_sidebar' %>
+                </div>
+            </div>
+          </div>
+          <!-- SideBar End -->
+          <div class="col-md-8">
+            <div class="category-body">
+              <br>
+              <div class="search-box advance-search-box">
+                <%= form_tag "#{@base_path}search", class: 'search-form', method: :get do %>
+                  <div class="input-group">
+                    <%# <input type="text" class="form-control search-input" placeholder="What are you looking for?" aria-label="Search input with dropdown button"> %>
+                    <%= search_field_tag :search, params[:search], placeholder: "What are you looking for?", class: "form-control search-column" %>
+                    <div class="input-group-prepend search-box ">
+                      <%= select_tag 'market', options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), prompt: 'all categories', class: 'form-control' %>
+                    </div>
+                    <div class="input-group-append">
+                      <button class="btn search-box-btn" type="submit"><img src="/cc_2.0/icon/search-icon.svg"></button>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+              <div class="row py-2" style="display: flex;">
+                <p class="col-md-4" style="display: flex; align-items: center; margin-bottom: 0px;">Filter by Employment Categogy</p>
+                 <%= select_tag 'market', options_for_select(@employment_category), prompt: '(All)', class: 'form-control col-md-5' %>
+                 <div class="col-md-2 btn-refesh">
+                  <a href="#">
+                    <button type="button" class="btn-primary btn w-100" style="background-color: #10375C;">Refesh</button>
+                  </a>
+                </div>
+              </div>
+              <div class="vertical-market-categories">
+                <%#= render 'guide/vertical_market_categories', :type_arg => 'country' %>
+                <div class="card-label-one">
+                  <div class="title">
+                    <h4>&nbsp;<%= "Accounting and Finance" %>&nbsp;</h4>
+                    <%= link_to 'More + ', '#', class: 'see-more' %>
+
+                    <% #if @business_improvement_area_id %>
+                      &nbsp;&nbsp;&nbsp;
+                      <%= link_to ' See All', "#", class: 'see-all' %>
+                    <%# end %>
+                  </div>
+                </div>
+                <div class="alert alert-dark" role="alert">
+                  No Accounting and Finance Jobs found.
+                </div>
+                <div class="card-label-one">
+                  <div class="title">
+                    <h4>&nbsp;<%= "Addministrative and Clerical" %>&nbsp;</h4>
+                    <%= link_to 'More + ', '#', class: 'see-more' %>
+
+                    <% #if @business_improvement_area_id %>
+                      &nbsp;&nbsp;&nbsp;
+                      <%= link_to ' See All', "#", class: 'see-all' %>
+                    <%# end %>
+                  </div>
+                </div>
+                <div class="alert alert-dark" role="alert">
+                  No Addministrative and Clerical Jobs found.
+                </div>
+                <div class="card-label-one">
+                  <div class="title">
+                    <h4>&nbsp;<%= "Arts Media and Entertaiment" %>&nbsp;</h4>
+                    <%= link_to 'More + ', '#', class: 'see-more' %>
+
+                    <% #if @business_improvement_area_id %>
+                      &nbsp;&nbsp;&nbsp;
+                      <%= link_to ' See All', "#", class: 'see-all' %>
+                    <%# end %>
+                  </div>
+                </div>
+                <div class="alert alert-dark" role="alert">
+                  No Arts Media and Entertaiment Jobs found.
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+</div>
+<br>
