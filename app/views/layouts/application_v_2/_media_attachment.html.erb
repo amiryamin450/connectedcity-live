@@ -4,17 +4,21 @@
   </div>
   <div class="col-md-9 col-8">
     <div class="row">
-      <div class="inner-card-title col-md-12 title-attachment-event" data-id="<%="video-#{media_attachment.id}-model"%>">
-        <h5><%#= link_to media_attachment.title, [media_attachment.attachable, media_attachment] %>
+      <div class="inner-card-title col-md-7 title-attachment-event" data-id="<%="video-#{media_attachment.id}-model"%>">
+        <h5>
           <%= link_to ("#{media_attachment.title}"), "#", class: "status-update-image", data: { target: "#video-#{media_attachment.id}-model", toggle: 'modal'} %>
         </h5>
+      </div>
+      <div class="inner-card-time col-md-5">
+        <span><%= "#{time_ago_in_words(media_attachment.created_at)} ago" %></span>
       </div>
       <div class="inner-card-title col-md-12 inner-by">
         by <%= link_to media_attachment.attachable.name, media_attachment.attachable %>
       </div>
-      <div class="inner-card-time col-md-12">
-        <span><%= "#{time_ago_in_words(media_attachment.created_at)} ago" %></span>
-      </div>
+    </div>
+    <div class="inner-card-description">
+    <p><%= media_attachment.description && media_attachment.description.gsub('<div>', '').gsub('</div>', '').gsub('<p>','').gsub('</p>','').truncate(255) %></p>
+    <%= link_to "View More", "#", class: "status-update-image", data: { target: "#video-#{media_attachment.id}-model", toggle: 'modal'} if media_attachment.description.present? %>
     </div>
   </div>
   <div class="col-md-12">

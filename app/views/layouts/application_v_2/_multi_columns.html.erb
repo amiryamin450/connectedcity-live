@@ -72,9 +72,9 @@
     </div>
     <div class="colla">
       <h3 class="sticky-heading">Deals</h3><br>
-      <% if @status_updates.size > 0 %>
-          <% @status_updates.each do |status_update| %>
-            <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
+      <% if @coupons.size > 0 %>
+          <% @coupons.each do |coupon| %>
+            <%= render 'layouts/application_v_2/coupon', coupon: coupon %>
           <% end %>
       <% else %>
         <div class="alert">No Market Updates found.</div>

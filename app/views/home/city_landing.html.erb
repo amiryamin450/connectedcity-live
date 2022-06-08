@@ -9,13 +9,16 @@
         </ol>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img class="d-block w-100" src="/cc_2.0/images/banner01.jpg" alt="First slide">
+            <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
+            <img class="d-block w-100" src="<%= url_first %>" alt="First slide">
           </div>
           <div class="carousel-item">
-            <img class="d-block w-100" src="/cc_2.0/images/banner02.jpg" alt="Second slide">
+            <% url_second = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/second_slider.png" %>
+            <img class="d-block w-100" src="<%= url_second %>" alt="Second slide">
           </div>
           <div class="carousel-item">
-            <img class="d-block w-100" src="/cc_2.0/images/banner01.jpg" alt="Third slide">
+            <% url_third = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/first_slider.png" %>
+            <img class="d-block w-100" src="<%= url_third %>" alt="Third slide">
           </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">

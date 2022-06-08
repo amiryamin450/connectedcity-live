@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="inner-img col-md-3 col-4">
+    <%= link_to (image_tag coupon.location.logo.url), statusable_path(coupon.location)%></a>
+  </div>
+  <div class="col-md-9 col-8">
+    <div class="row">
+      <div class="inner-card-title col-md-7">
+        <h5><%= link_to ("#{coupon.location.name}"), "#", class: "status-update-image", data: { target: "#coupon-#{coupon.id}-model", toggle: 'modal'} %>
+        </h5>
+      </div>
+      <div class="inner-card-time col-md-5">
+        <span><%= "#{time_ago_in_words(coupon.created_at)} ago" %></span>
+      </div>
+    </div>
+    <div class="inner-card-description">
+      <p><%= coupon.content.gsub('<div>', '').gsub('</div>', '').gsub('<p>','').gsub('</p>','').gsub('<span>','').gsub('</span>','').gsub('<br>','').truncate(255) %></p>
+      <%= link_to "View More", "#", class: "status-update-image", data: { target: "#coupon-#{coupon.id}-model", toggle: 'modal'} %>
+    </div>
+  </div>
+  <% if coupon.image? %>
+    <div class="col-md-12">
+      <div class="update-banner">
+        <%= link_to (image_tag coupon.image.url), "#", class: "status-update-image", data: { target: "#coupon-#{coupon.id}-model", toggle: 'modal'} %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<hr>
