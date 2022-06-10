@@ -16,7 +16,8 @@
           </div>
           <div class="col-md-6 ">
             <div class="location-info-popup" style="margin-top: 5px;">
-              <%= render 'locations/location_information', location: event.location, content: event.description, claim_business: false, show_neighborhood: true %>
+              <% content = sanitize(event.description) %>
+              <%= render 'locations/location_information', location: event.location, content: content, claim_business: false, show_neighborhood: true %>
 
               <div class="row-fluid">
                 <div class="span12">

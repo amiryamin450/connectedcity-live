@@ -17,8 +17,8 @@
       </div>
     </div>
     <div class="inner-card-description">
-      <p><%= truncate_html(product.description.gsub('<div>', '').gsub('</div>', '').gsub('<p>','').gsub('</p>',''), :length => 300) %>
-        <%#= link_to "View More", "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
+      <p><%#= truncate_html(product.description.gsub('<div>', '').gsub('</div>', '').gsub('<p>','').gsub('</p>',''), :length => 300) %>
+        <%= truncate_html(sanitize(product.description), :length => 300) %>
       </p>
       <p><%= raw "<span class='price' >Price: $#{product.price}</span>" if product.price.present? %></p>
     </div>
