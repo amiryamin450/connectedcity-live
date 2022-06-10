@@ -17,9 +17,7 @@
       </div>
     </div>
     <div class="inner-card-description">
-      <p><%#= truncate_html(product.description.gsub('<div>', '').gsub('</div>', '').gsub('<p>','').gsub('</p>',''), :length => 300) %>
-        <%= truncate_html(sanitize(product.description), :length => 300) %>
-      </p>
+      <div class="content"> <%= sanitize(product.description) %> </div>
       <p><%= raw "<span class='price' >Price: $#{product.price}</span>" if product.price.present? %></p>
     </div>
   </div>

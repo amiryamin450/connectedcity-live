@@ -17,10 +17,10 @@
       </div>
     </div>
     <div class="inner-card-description">
-    <!-- <p><%#= media_attachment.description && media_attachment.description.gsub('<div>', '').gsub('</div>', '').gsub('<p>','').gsub('</p>','').truncate(255) %></p> -->
-    <p><%= media_attachment.description && sanitize(media_attachment.description).truncate(255) %></p>
-    <%= link_to "View More", "#", class: "status-update-image", data: { target: "#video-#{media_attachment.id}-model", toggle: 'modal'} if media_attachment.description.present? %>
-    </div>
+    <!-- <p><%#= media_attachment.description && sanitize(media_attachment.description).truncate(255) %></p> -->
+      <div class="content"> <%= sanitize(media_attachment.description) %> </div>
+      <%= link_to "View More", "#", class: "status-update-image", data: { target: "#video-#{media_attachment.id}-model", toggle: 'modal'} if media_attachment.description.present? %>
+      </div>
   </div>
   <div class="col-md-12">
     <div class="update-banner video-card">

@@ -13,9 +13,7 @@
       </div>
     </div>
     <div class="inner-card-description">
-      <!-- <p><%#= coupon.description && coupon.description.gsub('<div>', '').gsub('</div>', '').gsub('<p>','').gsub('</p>','').gsub('<span>','').gsub('</span>','').gsub('<br>','').truncate(255) %></p>
-      <%#= link_to "View More", "#", class: "status-update-image", data: { target: "#coupon-#{coupon.id}-model", toggle: 'modal'} if coupon.description.present? %> -->
-      <p><%= coupon.description && sanitize(coupon.description).truncate(255) %></p>
+      <div class="content"> <%= sanitize(coupon.description) %> </div>
       <%= link_to "View More", "#", class: "status-update-image", data: { target: "#coupon-#{coupon.id}-model", toggle: 'modal'} if coupon.description.present? %>
     </div>
   </div>

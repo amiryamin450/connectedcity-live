@@ -14,12 +14,8 @@
       </div>
     </div>
     <div class="inner-card-description">
-      <p><%#= news_article.content.gsub('<div>', '').gsub('</div>', '').gsub('<p>','').gsub('</p>','').gsub('<br>','').truncate(255) %>
-        <%#= link_to "View More", "#", class: "news-update-image", data: { target: "#news-#{news_article.id}-model", toggle: 'modal'} %>
-      </p>
-      <p><%= sanitize(news_article.content).truncate(255) %>
-        <%= link_to "View More", "#", class: "news-update-image", data: { target: "#news-#{news_article.id}-model", toggle: 'modal'} %>
-      </p>
+      <div class="content"> <%= sanitize(news_article.content) %> </div>
+      <%= link_to "View More", "#", class: "news-update-image", data: { target: "#news-#{news_article.id}-model", toggle: 'modal'} if news_article.content.present? %>
     </div>
   </div>
   <div class="col-md-12">

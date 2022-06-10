@@ -14,8 +14,7 @@
       </div>
     </div>
     <div class="inner-card-description">
-      <!-- <p><%#= status_update.content.gsub('<div>', '').gsub('</div>', '').gsub('<p>','').gsub('</p>','').truncate(255) %></p> -->
-      <p><%= sanitize(status_update.content).truncate(255) %></p>
+      <div class="content"> <%= sanitize(status_update.content) %> </div>
       <%= link_to "View More", "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
     </div>
   </div>
