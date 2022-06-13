@@ -19,10 +19,12 @@ class ClassifiedListingsController < ApplicationController
 
 
   def guide
-    @classified_categories = ClassifiedCategory.includes(:classified_listings).all
-
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb 'Classifieds'
+    # @classified_categories = ClassifiedCategory.includes(:classified_listings).all
+    @vertical_market_classifieds = VerticalMarket.find_by_slug('classifieds')
+    districts
+    # add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    # add_crumb 'Classifieds'
+    render layout: "application_v_2"
   end
 
   # GET /classified_listings/1
@@ -97,5 +99,11 @@ class ClassifiedListingsController < ApplicationController
       format.html { redirect_to classified_listings_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+  def districts
+    # because city is hardcoded everywhere already...
+    @districts = District.where("city_id = ?", 5915022)
   end
 end
