@@ -6,7 +6,7 @@
     <div class="row">
       <div class="inner-card-title col-md-7">
         <h5><%#= link_to news_article.newsable.name, location_path(news_article.newsable) %>
-          <%= link_to ("#{news_article.newsable.name}"), "#", class: "news-update-image", data: { target: "#news-#{news_article.id}-model", toggle: 'modal'} %>
+          <%= link_to ("#{news_article.title}"), "#", class: "news-update-image", data: { target: "#news-#{news_article.id}-model", toggle: 'modal'} %>
         </h5>
       </div>
       <div class="inner-card-time col-md-5">

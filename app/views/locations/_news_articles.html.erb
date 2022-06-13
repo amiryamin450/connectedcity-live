@@ -1,17 +1,31 @@
 <br><h4>News Articles 
 <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
- <small><%= link_to "add", new_location_news_article_path(@location) %> | <%= link_to "manage", location_news_articles_path(@location)  %></small>
- <% end %>
+  <small><%= link_to "add", new_location_news_article_path(@location), class: 'small', role: :button %>
+  <%= link_to "manage", location_news_articles_path(@location), class: 'small', role: :button  %></small>
+<% end %>
 </h4>
-<% if @articles.size > 0 %>
-  <% @articles.each do |article| %>
-      <article class="teaser">
-        <div class="article-title"><%=  link_to article.title, [@location, article] %></div>
-        <div class="article-published"><%= "#{time_ago_in_words(article.created_at)} ago" %></div>
-        <div class="article-content"><%= raw(truncate article.content, seperator: ' ', :length => 200, :omission => "... #{link_to('[more]', [@location,article])}") %></div>
-      </article>
+<div id="news-articles">
+  <% if @articles.size > 0 %>
+    <% @articles.each do |article| %>
+      <div class="row">
+        <div class="col-md-2">
+          <div class="img">
+            <%= link_to(image_tag(article.image.url, class: 'status-update-image', data: {"large-image" => article.image.url, "location-name" => @location.name}), '#', data: {toggle: 'modal'}) %>
+          </div>
+        </div>
+        <div class="col-md-10">
+          <p>
+            <% desc = sanitize(article.content) %>
+            <%= truncate_html(desc, :length => 200, seperator: ' ') %>
+            <b><%= link_to "View More", "#", class: "status-update-image", data: { target: "#news-#{article.id}-model", toggle: 'modal'} %></b>
+          </p>
+          <span><%= "#{time_ago_in_words(article.created_at)} ago" %></span>
+        </div>
+      </div>
+      <%= render 'news_articles/modal_news_latest', news: article %>
+    <% end %>
+    <%= paginate @articles, param_name: 'article_page' %>
+  <% else %>
+    <div class="alert">No News Articles found.</div>
   <% end %>
-  <%= paginate @articles, param_name: 'article_page' %>
-<% else %>
-  <div class="alert">No News Articles found.</div>
-<% end %> 
+</div>
