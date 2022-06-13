@@ -1,38 +1,101 @@
+
 <%
-
-meta title: "#{@neighborhood.try(:name) || @district.try(:name) || @city.try(:name)} Classifieds".strip,
-     description: "",
-     canonical: url_for(Rails.application.routes.recognize_path(request.path).merge({only_path: false, protocol: 'https'}))
-
+  @categories_classifieds = [
+    ['Antiques and Collectibles', 'Antiques and Collectibles'],
+    ['Appliances', 'Appliances'],
+    ['Cars and Truck', 'Cars and Truck'],
+    ['Clothing and Accessories', 'Clothing and Accessories'],
+    ['Electronics', 'Electronics'],
+    ['Furniture', 'Furniture'],
+    ['Motorcycles and Scooters', 'Motorcycles and Scooters'],
+    ['Musical Instruments', 'Musical Instruments'],
+    ['Sporting Goods', 'Sporting Goods'],
+    ['Yard and Garage Sales', 'Yard and Garage Sales'],
+    ['Others', 'Others'],
+  ]
 %>
-
-<h1>Classifieds</h1>
-
-<% @classified_categories.each do |category| %>
-<% if category.classified_listings.size > 0 %>
-<div class="row-fluid classified-category">
-  <div class="row-fluid classified-header" style="background-color: <%= "#{category.heading_color}" %>">
-
-    <div class="span7 head-cell"><%= category.name %></div>
-    <div class="span1 head-cell">Price</div>
-    <div class="span1 head-cell">Photos?</div>
-    <div class="span3 head-cell">Condition</div>
+<div class="row">
+  <div class="col-md-6"">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="<%= root_path %>">Home</a></li>
+        <li class="breadcrumb-item" aria-current="page"><a href="#" style="margin-left: 10px;"><%= "#{ @vertical_market_classifieds.name}" %></a></li>
+      </ol>
+    </nav>
   </div>
-
-  <% category.classified_listings.first(4).each do |listing| %>
-  <div class="row-fluid classified-detail-row" style="border-color: <%= category.heading_color %>">
-    <div class="span7"><%= link_to listing.title, listing %></div>
-    <div class="span1"><%= humanized_money_with_symbol listing.price %></div>
-    <div class="span1"><%= image_size_words listing  %></div>
-    <div class="span3"><%= classified_condition listing %></div>
+  <div class="col-md-6" style="position: relative; margin: auto;">
+    <button class="btn btn-primary mr-3" style="float: right; background-color: #10375C;">Manage Classified  Listings</button>
+    <button class="btn btn-primary mr-3" style="float: right; background-color: #10375C;"><span><i class='fa fa-plus mr-1'></i> Add Classified Listing</span></button>
   </div>
-  <% end -%>
-  <div class="row-fluid">
-    <div class="pull-right">
-      <%= link_to "View more #{category.name} listings.", category if category.classified_listings.size > 4 %>
+</div>
+
+<h1 style="margin-left: 50px; margin-bottom: 20px; font-weight: bold;">Browse <%= @vertical_market_classifieds.present? ? @vertical_market_classifieds.name : 'Classifieds' %> in Vancouver</h1>
+    <div class="map-section">
+      <div id="map" style="height: 60vh;"></div>
+    </div>
+  </div>
+</row>
+<div class="civic-news-body-section category-body-section">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6 col-lg-6 landing-page-heading-filter communities-page">
+        <div class="row filter">
+          <div class="col-11">
+            <div class="row" style="height: 100%;">
+              <div class="col-3 container-box">
+                <%= select_tag 'civic-news-disctrict-dropdown', options_from_collection_for_select(@districts, 'id', 'name'), prompt: 'District', class: 'form-control search-column input-group-prepend search-box', style: 'font-size: 15px; padding-right: 0.25rem; padding-left: 0.25rem; height: 100%;' %>
+              </div>
+              <div class="col-4 container-box">
+                <%= select_tag 'civic-news-neighborhoods-dropdown', raw("<option>Neighbourhood</option>"), prompt: 'Neighbourhood', class: 'form-control search-column input-group-prepend search-box', style: 'font-size: 15px; padding-right: 0.25rem; padding-left: 0.25rem; height: 100%;' %>
+              </div>
+              <div class="col-5 container-box">
+                <%= select_tag 'civic-news-sub-neighborhoods-dropdown', raw("<option>Sub-Neighbourhood</option>"), prompt: 'Sub-Neighbourhood', class: 'form-control search-column input-group-prepend search-box', style: 'font-size: 15px; padding-right: 0.25rem; padding-left: 0.25rem; height: 100%;' %>
+              </div>
+            </div>
+          </div>
+          <div class="col-1 btn-search">
+            <a href="#" id="city-landing-paths">
+              <button type="button" class="btn-primary btn">Go</button>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="search-box advance-search-box">
+          <%= form_tag "#", class: 'search-form', method: :get do %>
+            <div class="input-group">
+              <%# <input type="text" class="form-control search-input" placeholder="What are you looking for?" aria-label="Search input with dropdown button"> %>
+              <%= search_field_tag :search, params[:search], placeholder: "What are you looking for?", class: "form-control search-column" %>
+              <div class="input-group-prepend search-box ">
+                <%= select_tag 'market', options_for_select(@categories_classifieds), prompt: 'All', class: 'form-control' %>
+              </div>
+              <div class="input-group-append">
+                <button class="btn search-box-btn" type="submit"><img src="/cc_2.0/icon/search-icon.svg"></button>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="category-body">
+      <div class="vertical-market-categories">
+        <% @categories_classifieds.each do |item| %>
+          <div class="card-label-one">
+          <div class="title">
+            <h4>&nbsp;<%= item[0] %>&nbsp;</h4>
+            <%= link_to 'More + ', '#', class: 'see-more' %>
+
+            <% #if @business_improvement_area_id %>
+              &nbsp;&nbsp;&nbsp;
+              <%= link_to ' See All', "#", class: 'see-all' %>
+            <%# end %>
+          </div>
+        </div>
+        <div class="alert alert-dark" role="alert"><%="No #{item[0]} Jobs found."%></div>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
-<% end -%>
 
-<% end -%>
+
