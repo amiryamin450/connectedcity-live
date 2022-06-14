@@ -111,12 +111,17 @@
                 </div>
               <% end %>
               <div class="operating-hours">
-                  <div class="btn">
+                  <div class="btn" style="cursor: unset;">
                     <div class="row justify-content-end">
-                        <div class="col-4">
+                        <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location)  %>
+                          <div class="col-4" style="padding-left: 0px;">
+                            <a class="btn btn-primary-outline" style="background-color: #10375C; color: #fff" href=<%="/business/#{@location.slug}/edit" %>>Edit</a>
+                          </div>
+                        <% end %>
+                        <div class="col-4" style="padding-right: 0px; padding-left: 0px;">
                           <button class="btn btn-primary-outline">Claim Business</button>
                         </div>
-                        <div class="col-4">
+                        <div class="col-4" style="padding-right: 0px;">
                           <button class="btn btn-primary-color">Follow</button>
                         </div>
                     </div>
