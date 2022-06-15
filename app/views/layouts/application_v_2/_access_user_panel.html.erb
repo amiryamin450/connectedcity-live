@@ -4,26 +4,26 @@
       <li class="dropdown-submenu">
         <div  class="dropdown-item title" tabindex="-1">Account</div>
         <ul class="dropdown-menu">
-          <li class="dropdown-item"><%= link_to 'Edit Account', edit_user_registration_path %></li>
-          <li class="dropdown-item"><%= link_to 'My Classifieds', classified_listings_path %></li>
-          <li class="dropdown-item"><%= link_to 'My Coupons', coupons_user_path(current_user) %></li>
-          <li class="dropdown-item"><%= link_to 'My Cart', cart_path(@cart) %></li>
+          <li class="dropdown-item" style="padding: 0px;"><%= link_to 'Edit Account', edit_user_registration_path , style: "display: block; padding: 0.25rem 1.5rem;"%></li>
+          <li class="dropdown-item"  style="padding: 0px;"><%= link_to 'My Classifieds', classified_listings_path, style: "display: block; padding: 0.25rem 1.5rem;" %></li>
+          <li class="dropdown-item"  style="padding: 0px;"><%= link_to 'My Coupons', coupons_user_path(current_user), style: "display: block; padding: 0.25rem 1.5rem;" %></li>
+          <li class="dropdown-item"  style="padding: 0px;"><%= link_to 'My Cart', cart_path(@cart), style: "display: block; padding: 0.25rem 1.5rem;" %></li>
         </ul>
       </li>
       <li class="dropdown-submenu">
         <div  class="dropdown-item title" tabindex="-1" href="#">Favorites</div>
         <ul class="dropdown-menu">
         <% @vertical_markets_all.each do |item| %>
-          <li class="dropdown-item"><a tabindex="-1" href=<%= fav_link item %>><%= "#{item.name} #{fav_count item}" %></a></li>
+          <li class="dropdown-item" style="padding: 0px;"><a tabindex="-1" style="display: block; padding: 0.25rem 1.5rem;" href=<%= fav_link item %>><%= "#{item.name} #{fav_count item}" %></a></li>
         <% end %>
         </ul>
       </li>
       <li class="dropdown-submenu">
         <div  class="dropdown-item title" tabindex="-1" href="#">Massaging</div>
         <ul class="dropdown-menu">
-          <li class="dropdown-item"><%= link_to 'Inbox', messages_path %></li>
-          <li class="dropdown-item"><%= link_to 'Send items', messages_path(folder: 'sent') %></li>
-          <li class="dropdown-item"><%= link_to 'Trash', messages_path(folder: 'trash') %></li>
+          <li class="dropdown-item" style="padding: 0px;"><%= link_to 'Inbox', messages_path, style: "display: block; padding: 0.25rem 1.5rem;" %></li>
+          <li class="dropdown-item" style="padding: 0px;"><%= link_to 'Send items', messages_path(folder: 'sent'), style: "display: block; padding: 0.25rem 1.5rem;" %></li>
+          <li class="dropdown-item" style="padding: 0px;"><%= link_to 'Trash', messages_path(folder: 'trash'), style: "display: block; padding: 0.25rem 1.5rem;" %></li>
         </ul>
       </li>
       <% if user_signed_in? and current_user.has_role? :admin %>
@@ -46,18 +46,19 @@
           <div  class="dropdown-item title" tabindex="-1" href="#">Admin</div>
           <ul class="dropdown-menu">
           <% admin_list.each do |item| %>
-            <li class="dropdown-item"><a tabindex="-1" href=<%="#{item[:href]}"%>><%=item[:name]%></a></li>
+            <li class="dropdown-item" style="padding: 0px;">
+              <a tabindex="-1" style="display: block; padding: 0.25rem 1.5rem;" href=<%="#{item[:href]}"%>><%=item[:name]%></a></li>
           <% end %>
           </ul>
         </li>
       <% end %>
       <% if user_signed_in? and current_user.has_locations? %>
         <li class="dropdown-submenu">
-          <div  class="dropdown-item title" tabindex="-1" href="#">My Locations</div>
+          <div class="dropdown-item title" tabindex="-1" href="#">My Locations</div>
           <ul class="dropdown-menu">
           <% current_user.locations.each do |location| %>
-            <li class="dropdown-item">
-              <%= link_to location.name, connected_advertiser_location_path(location) %>
+            <li class="dropdown-item" style="padding: 0px;">
+              <%= link_to location.name, connected_advertiser_location_path(location), style: "display: block; padding: 0.25rem 1.5rem;" %>
             </li>
             <% end %>
           </ul>
@@ -65,6 +66,6 @@
       <% end %>
 
       <div role="separator" class="dropdown-divider"></div>
-      <%= link_to 'Logout', destroy_user_session_path, class: "dropdown-item", method: :delete %>
+      <%= link_to 'Logout', destroy_user_session_path, class: "dropdown-item", method: :delete, style: "display: block; padding: 0.25rem 1.5rem;" %>
     </ul>
 </div>
