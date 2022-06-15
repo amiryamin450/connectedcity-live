@@ -1,51 +1,43 @@
-<div class="category">
-  <div class="heading index-1">
-    <h5>Real Estate Listings</h5>
+<div class="card-label-one">
+  <div class="title">
+    <h4>Real Estate Listings</h4>
     <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
     <small><%= link_to "add", new_location_real_estate_listing_path(@location), class: 'small' %> | <%= link_to 'manage', location_real_estate_listings_path(@location) %></small>
     <% end %>
   </div>
 </div>
 <% if @listings.size > 0 %>
-<% @listings.in_groups_of(4) do |group| %>
-<div class="row-fluid product">
-  <ul class="thumbnails">
+  <div class="row card-row">
+  <% @listings.in_groups_of(4) do |group| %>
     <% group.each do |listing| %>
-    <% if listing %>
-    <li class="span3">
-      <div class="thumbnail">
-        <%= link_to(image_tag(listing.main_image.url), [@location, listing]) %>
-        <div class="clearfix">
-         <div class="pull-left">
-          <strong>
-            <%= number_to_currency listing.list_price %>
-          </strong>
-        </div>
-        <div class="pull-right">
-          <%= pluralize(listing.bedrooms, 'bed') %> | <%= pluralize(listing.bathrooms, 'bath') %>
-        </div>
-      </div>
-      <div class="">
-        <div>
-          <div>
-            <%= listing.address if listing.address_visible %>&nbsp;
-          </div> 
-          <div><%= " #{listing.city.name}, #{listing.province.abbr}" %></div>
-        </div>
-        <%= link_to("#{@location.broker.name}", @location.broker) if @location.vertical_market_categories.exists?(99) %>        
-      </div>
-    </div>
-    <% end -%>
-  </li>
-  <% end -%>
-</ul>
-</div>
+      <% if listing %>
+        <div class="col-md-3">
+          <div class="business-body-card">
+            <div class="img"><%= link_to(image_tag(listing.main_image.url), [@location, listing]) %></div>
+            <div class="clearfix">
+              <div class="pull-left title" style="margin: 0 0 0 2px;">
+                <h3 style="font-size: 11px; font-weight: 500;"> <%= number_to_currency listing.list_price %> </h3>
+              </div>
+              <div class="pull-right title" style="margin: 0 2px 0 0;">
+                <h3 style="font-size: 11px; font-weight: 500;"><%= pluralize(listing.bedrooms, 'bed') %> | <%= pluralize(listing.bathrooms, 'bath') %></h3>
+              </div>
+            </div>
+            <div class="title" style="margin: 5px; height: auto;">
+              <div style="display: flex;"><!-- " justify-content: center;"> -->
+                <h3><%= "#{listing.address if listing.address_visible} #{listing.city.name}, #{listing.province&.abbr}" %></h3>
 
-<% end -%>   
-
-<%= paginate @listings, param_name: 'listing_page' %>
+              </div>
+              <h3><%= link_to("#{@location.broker.name}", @location.broker) if @location.vertical_market_categories.exists?(99) %></h3>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+  </div>
+  <%= paginate @listings, param_name: 'listing_page' %>
 <% else %>
-<div class="alert">
+<div class="alert alert-dark" role="alert">
   No Listings found.
 </div>
 <% end %>

@@ -1,35 +1,30 @@
-<div class="category">
-  <div class="heading index-1">
-  <h5>Rental Properties</h5>
-   <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
- <small><%= link_to "add", new_location_rental_property_path(@location), class: 'small' %> | <%= link_to 'manage', location_rental_properties_path(@location) %></small>
- <% end %>
-</div>
+<div class="card-label-one">
+  <div class="title">
+    <h4>Rental Properties</h4>
+    <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+    <small><%= link_to "add", new_location_rental_property_path(@location), class: 'small' %> | <%= link_to 'manage', location_rental_properties_path(@location) %></small>
+    <% end %>
+  </div>
 </div>
 <% if @rental_properties.size > 0 %>
-<% @rental_properties.in_groups_of(4) do |group| %>
-<div class="row-fluid product">
-    <ul class="thumbnails">
-    <% group.each do |property| %>
-      <% if property %>
-      <li class="span3">
-        <div class="thumbnail">
-          <%= image_tag property.cover_photo.url %>
-          <div class="caption">
-            <%= link_to property.name, [@location, property] %>
+  <div class="row card-row">
+    <% @rental_properties.in_groups_of(4) do |group| %>
+      <% group.each do |property| %>
+        <% if property %>
+          <div class="col-md-2">
+            <div class="business-body-card">
+              <div class="img"><%= image_tag property.cover_photo.url %></div>
+              <div class="title"><h3><%= link_to property.name, [@location, property] %></h3></div>
+            </div>
           </div>
-        </div>
-        <% end -%>
-      </li>
-    <% end -%>
-  </ul>
-</div>
-
-<% end -%>   
-
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
   <%= paginate @listings, param_name: 'listing_page' %>
+
 <% else %>
-<div class="alert">
+<div class="alert alert-dark" role="alert">
   No Listings found.
 </div>
 <% end %>

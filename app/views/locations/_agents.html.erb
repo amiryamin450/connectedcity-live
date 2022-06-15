@@ -1,33 +1,21 @@
-<div class="category">
-  <div class="heading index-1">
-  <h5>Agents</h5>
-  
-</div>
+<div class="card-label-one">
+  <div class="title"><h4>Agents</h4></div>
 </div>
 <% if @location.agents.size > 0 %>
-<% @location.agents.in_groups_of(4) do |group| %>
-<div class="row-fluid product">
-    <ul class="thumbnails">
-    <% group.each do |agent| %>
-      <% if agent %>
-      <li class="span3">
-        <div class="thumbnail">
-          <%= link_to(image_tag(agent.logo.url), agent) %>
-          <div class="caption">
-            <h6><%= agent.name %></h6>            
+  <div class="row card-row">
+    <% @location.agents.in_groups_of(4) do |group| %>
+      <% group.each do |item| %>
+        <% if item %>
+          <div class="col-md-2">
+            <div class="business-body-card">
+              <div class="img"><%= link_to(image_tag(item.logo.url), item) %></div>
+              <div class="title"><h3><%= link_to item.name, item %></h3></div>
+            </div>
           </div>
-        </div>
-        <% end -%>
-      </li>
-    <% end -%>
-  </ul>
-</div>
-
-<% end -%>   
-
-
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
 <% else %>
-<div class="alert">
-  No Agents found.
-</div>
+  <div class="alert alert-dark" role="alert">No Agents found.</div>
 <% end %>
