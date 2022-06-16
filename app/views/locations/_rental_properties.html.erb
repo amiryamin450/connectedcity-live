@@ -6,8 +6,13 @@
     <% end %>
   </div>
 </div>
+<div>
+  <%= link_to 'See More +', '#', class: 'see-more', data: { element: "rental_properties-#{@location.id}" } %>
+&nbsp;&nbsp;&nbsp;
+  <%= link_to ' See All', location_rental_properties_path(@location), class: 'see-all' %>
+</div>
 <% if @rental_properties.size > 0 %>
-  <div class="row card-row">
+  <div class="row card-row media-row-holder" id="cat-rental_properties-<%= @location.id %>">
     <% @rental_properties.in_groups_of(4) do |group| %>
       <% group.each do |property| %>
         <% if property %>
