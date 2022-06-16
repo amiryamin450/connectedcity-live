@@ -1,12 +1,17 @@
 <div class="card-label-one">
   <div class="title"><h4>New Home Communities</h4>
-   <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
- <small><%= link_to "add", new_location_new_home_community_path(@location), class: 'small' %> | <%= link_to 'manage', location_new_home_communities_path(@location) %></small>
- <% end %>
+    <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+      <small><%= link_to "add", new_location_new_home_community_path(@location), class: 'small' %> | <%= link_to 'manage', location_new_home_communities_path(@location) %></small>
+    <% end %>
+  </div>
 </div>
+<div>
+  <%= link_to 'See More +', '#', class: 'see-more', data: { element: "new_home_communities-#{@location.id}" } %>
+&nbsp;&nbsp;&nbsp;
+  <%= link_to ' See All', location_new_home_communities_path(@location), class: 'see-all' %>
 </div>
 <% if @new_home_communities.size > 0 %>
-  <div class="row card-row">
+  <div class="row card-row media-row-holder" id="cat-new_home_communities-<%= @location.id %>">
     <% @new_home_communities.in_groups_of(4) do |group| %>
       <% group.each do |community| %>
         <% if community %>

@@ -1,8 +1,13 @@
 <div class="card-label-one">
   <div class="title"><h4>Agents</h4></div>
 </div>
+<div>
+  <%= link_to 'See More +', '#', class: 'see-more', data: { element: "agents-#{@location.id}" } %>
+<!-- &nbsp;&nbsp;&nbsp; -->
+  <%#= link_to ' See All', location_automotive_listings_path(@location), class: 'see-all' %>
+</div>
 <% if @location.agents.size > 0 %>
-  <div class="row card-row">
+  <div class="row card-row media-row-holder" id="cat-agents-<%= @location.id %>">
     <% @location.agents.in_groups_of(4) do |group| %>
       <% group.each do |item| %>
         <% if item %>
