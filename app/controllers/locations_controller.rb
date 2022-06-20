@@ -102,14 +102,14 @@ class LocationsController < ApplicationController
   def edit
 
     @location = Location.find(params[:id])
-    if @location.broker_id.present?
-      @vertical_market_categories = categories_without_municipality
-    elsif @location.hall_id.present?
+    if @location.hall_id.present?
       @vertical_market_categories = VerticalMarketCategory.where(name: name_vertical_categories)
     elsif @location.councillor_id.present?
       @vertical_market_categories = VerticalMarketCategory.where(slug: 'city-councillors')
-    else
+    elsif @location.commissioner_id.present?
       @vertical_market_categories = VerticalMarketCategory.where(slug: 'parks-recreation-commissioners')
+    else
+      @vertical_market_categories = categories_without_municipality
     end
     cookies[:return_to] ||= request.referer
 
@@ -135,14 +135,15 @@ class LocationsController < ApplicationController
         format.json { render json: @location, status: :created, location: @location }
       else
         pr = params[:location]
-        if (pr[:broker_id].present? )
-          @vertical_market_categories = categories_without_municipality
-        elsif pr[:hall_id].present?
+
+        if pr[:hall_id].present?
           @vertical_market_categories = VerticalMarketCategory.where(name: name_vertical_categories)
         elsif pr[:councillor_id].present?
           @vertical_market_categories = VerticalMarketCategory.where(slug: 'city-councillors')
-        else pr[:commissioner_id].present?
+        elsif pr[:commissioner_id].present?
           @vertical_market_categories = VerticalMarketCategory.where(slug: 'parks-recreation-commissioners')
+        else
+          @vertical_market_categories = categories_without_municipality
         end
 
         format.html { render action: "new" }
