@@ -41,7 +41,12 @@
           <li>
             <a href="#agents" data-toggle="tab">Real Estate Agents</a>
           </li>
-        <% end -%>
+        <% end %>
+        <% if @location.vertical_market_category_ids.include?(339) %>
+          <li> <a href="#city-hall" data-toggle="tab">City Hall</a> </li>
+          <li> <a href="#city-councillors" data-toggle="tab">City Councillors</a> </li>
+          <li> <a href="#park-recreation-commissioners" data-toggle="tab">Parks & Recreation Commissioners</a> </li>
+        <% end %>
       </ul>
       <div class="tab-content">
         <% if current_user.has_role? :admin %>
@@ -50,14 +55,28 @@
             <%= f.association :province %>
             <%= f.association :city %>
             <%= f.association :district %>
-            <%= f.association :vertical_market_categories, disabled: !current_user.has_role?(:admin) %>
+            <%= f.input :vertical_market_category_ids, label: "Vertical market categories", collection: @vertical_market_categories, input_html: { multiple: true }, disabled: !current_user.has_role?(:admin) %>
           </div>
           <div class="tab-pane" id="agents">
             <%= link_to 'Create New Agent', new_location_path(broker_id: @location.id), class: 'btn'  %>
           </div>
+          <% if request.path.include?('city-of-vancouver') %>
+            <div class="tab-pane" id="city-hall">
+              <%= link_to 'Create New City Hall', new_location_path(hall_id: @location.id), class: 'btn'  %>
+            </div>
+            <div class="tab-pane" id="city-councillors">
+              <%= link_to 'Create New City Councillors', new_location_path(councillor_id: @location.id), class: 'btn'  %>
+            </div>
+            <div class="tab-pane" id="park-recreation-commissioners">
+              <%= link_to 'Create New Parks & Recreation Commissioners', new_location_path(commissioner_id: @location.id), class: 'btn'  %>
+            </div>
+          <% end %>
         <% end -%>
         <div class="tab-pane <%= 'active' unless current_user.has_role? :admin %>" id="info">
           <%= f.input :broker_id, as: :hidden %>
+          <%= f.input :hall_id, as: :hidden %>
+          <%= f.input :councillor_id, as: :hidden %>
+          <%= f.input :commissioner_id, as: :hidden %>
           <%= f.input :name %>
           <%= f.input :address %>
           <%= f.input :address_1 %>

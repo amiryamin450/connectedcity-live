@@ -15,7 +15,13 @@ class Location < ActiveRecord::Base
   belongs_to :payment_user, class_name: 'User'
 
   has_many :agents, class_name: 'Location', foreign_key: 'broker_id', dependent: :destroy
+  has_many :city_halls, class_name: 'Location', foreign_key: 'hall_id', dependent: :destroy
+  has_many :city_councillors, class_name: 'Location', foreign_key: 'councillor_id', dependent: :destroy
+  has_many :park_recreation_commissioners, class_name: 'Location', foreign_key: 'commissioner_id', dependent: :destroy
   belongs_to :broker, class_name: 'Location'
+  belongs_to :hall, class_name: 'Location'
+  belongs_to :councillor, class_name: 'Location'
+  belongs_to :commissioner, class_name: 'Location'
 
   has_many :favorites, dependent: :destroy
   has_many :status_updates, as: :statusable, dependent: :destroy
@@ -56,7 +62,7 @@ class Location < ActiveRecord::Base
     :location_images_attributes, :location_menus_attributes, :vertical_market_category_ids, :status_updates_attributes,
     :blog_entries_attributes, :news_articles_attributes, :products_attributes, :services_attributes, :events_attributes,
     :brand_ids, :brand_tokens, :content, :vertical_market_categories, :district, :yp_lid, :yp_categories, :yp_neighborhoods,
-    :city, :province, :district_id, :neighborhood, :country, :cover_photo, :neighborhood_id, :broker_id, :business_improvement_area_id,
+    :city, :province, :district_id, :neighborhood, :country, :cover_photo, :neighborhood_id, :broker_id, :hall_id, :councillor_id, :commissioner_id, :business_improvement_area_id,
     :user, :trade_association_ids, :media_attachments_attributes, :delete_cover_photo, :delete_logo,
     :operating_hours_attributes, :stripe_plan_id
 
@@ -81,7 +87,7 @@ class Location < ActiveRecord::Base
   accepts_nested_attributes_for :events, allow_destroy: true
   accepts_nested_attributes_for :media_attachments, allow_destroy: true
 
-  validates_presence_of :address, :name, :vertical_market_category_ids
+  validates_presence_of :address, :name, :vertical_market_category_ids, :province_id, :country_id, :city_id, :district_id
 
   geocoded_by :full_street_address
 

@@ -68,10 +68,21 @@ class LocationsController < ApplicationController
   # GET /locations/new
   # GET /locations/new.json
   def new
-
     if (params[:broker_id].present? )
       @location = Location.find(params[:broker_id]).agents.new
-      @location.vertical_market_categories = [VerticalMarketCategory.find(99)]
+      @vertical_market_categories = categories_without_municipality
+    elsif params[:hall_id].present?
+      @location = Location.find(params[:hall_id]).city_halls.new
+      @vertical_market_categories = VerticalMarketCategory.where(name: name_vertical_categories)
+      @location.vertical_market_categories = [@vertical_market_categories.first]
+    elsif params[:councillor_id].present?
+      @location = Location.find(params[:councillor_id]).city_councillors.new
+      @vertical_market_categories = VerticalMarketCategory.where(slug: 'city-councillors')
+      @location.vertical_market_categories = @vertical_market_categories
+    elsif params[:commissioner_id].present?
+      @location = Location.find(params[:commissioner_id]).park_recreation_commissioners.new
+      @vertical_market_categories = VerticalMarketCategory.where(slug: 'parks-recreation-commissioners')
+      @location.vertical_market_categories = @vertical_market_categories
     else
       @location = Location.new
 
@@ -90,8 +101,17 @@ class LocationsController < ApplicationController
   # GET /locations/1/edit
   def edit
 
-    cookies[:return_to] ||= request.referer
     @location = Location.find(params[:id])
+    if @location.broker_id.present?
+      @vertical_market_categories = categories_without_municipality
+    elsif @location.hall_id.present?
+      @vertical_market_categories = VerticalMarketCategory.where(name: name_vertical_categories)
+    elsif @location.councillor_id.present?
+      @vertical_market_categories = VerticalMarketCategory.where(slug: 'city-councillors')
+    else
+      @vertical_market_categories = VerticalMarketCategory.where(slug: 'parks-recreation-commissioners')
+    end
+    cookies[:return_to] ||= request.referer
 
     unless @location.operating_hours.any?
       OperatingHour.days.keys.each do |day|
@@ -114,6 +134,17 @@ class LocationsController < ApplicationController
         format.html { redirect_to @location, notice: 'Location was successfully created.' }
         format.json { render json: @location, status: :created, location: @location }
       else
+        pr = params[:location]
+        if (pr[:broker_id].present? )
+          @vertical_market_categories = categories_without_municipality
+        elsif pr[:hall_id].present?
+          @vertical_market_categories = VerticalMarketCategory.where(name: name_vertical_categories)
+        elsif pr[:councillor_id].present?
+          @vertical_market_categories = VerticalMarketCategory.where(slug: 'city-councillors')
+        else pr[:commissioner_id].present?
+          @vertical_market_categories = VerticalMarketCategory.where(slug: 'parks-recreation-commissioners')
+        end
+
         format.html { render action: "new" }
         format.json { render json: @location.errors, status: :unprocessable_entity }
       end
@@ -287,5 +318,39 @@ class LocationsController < ApplicationController
         send_data data, filename: 'businesses.csv', type: 'text/csv', disposition: :attachment
       }
     end
+  end
+
+  def name_vertical_categories
+    [
+      'City Hall',
+      'Mayor',
+      'Deputy Major',
+      'City Manager',
+      'Deputy City Manager',
+      'Chief Financial Officer',
+      'Police Chief',
+      'Fire Chief',
+      'Director of Economic Development',
+      'Director of City Planning',
+      'Director of Public Works',
+      'Chief Human Resources Officer',
+      'Chief Legal Officer',
+      'General Manager - Art, Culture & Community',
+      'General Manager - Buildings, Development & Listings',
+      'General Manager - Engineering Services',
+      'Chief Communications Officer'
+    ]
+  end
+
+  def name_vertical_categories_others
+    [
+      'City Councillors',
+      'Parks & Recreation Commissioners'
+    ]
+  end
+
+  def categories_without_municipality
+    name_categories = name_vertical_categories + name_vertical_categories_others
+    VerticalMarketCategory.where("name NOT IN (?)", name_categories).order(:name)
   end
 end

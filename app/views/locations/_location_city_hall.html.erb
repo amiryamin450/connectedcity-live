@@ -1,0 +1,32 @@
+<div class="card-label-one">
+  <div class="title">
+    <h4>&nbsp;<%= "City Hall" %>&nbsp;</h4>
+    <%= link_to 'More + ', '#', class: 'see-more' %>
+
+    <% #if @business_improvement_area_id %>
+      &nbsp;&nbsp;&nbsp;
+      <%= link_to ' See All', "#", class: 'see-all' %>
+    <%# end %>
+  </div>
+</div>
+<% if @location.city_halls.size > 0 %>
+  <div class="row card-row media-row-holder" id="cat-agents-<%= @location.id %>">
+    <% @location.city_halls.in_groups_of(4) do |group| %>
+      <% group.each do |item| %>
+        <% if item %>
+          <div class="col-md-2">
+            <div class="business-body-card">
+              <div class="img"><%= link_to(image_tag(item.logo.url), item) %></div>
+              <div class="title"><h3><%= link_to item.name, item %></h3></div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+  <%#= paginate @products, param_name: 'product_page' %>
+<% else %>
+  <div class="alert alert-dark" role="alert">
+    No City Hall Members found.
+  </div>
+<% end %>

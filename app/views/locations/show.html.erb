@@ -20,13 +20,13 @@
         <li class="breadcrumb-item"><%= @location.neighborhood.name %></li>
       <% end %>
       <% @vertical_market.ancestors.each do |ancestor| %>
-        <li class="breadcrumb-item"><a href="<%="#{@base_path}guide/#{ancestor.slug}"%>"><%= ancestor.name%></a></li>
+        <li class="breadcrumb-item"><a href=<%="/guide/#{ancestor.slug}"%>><%= ancestor.name%></a></li>
       <% end %>
       <% if @location.district %>
-        <li class="breadcrumb-item"><a href="#{@base_path}guide/#{@vertical_market.slug}"><%= @vertical_market.name %></a></li>
+        <li class="breadcrumb-item"><a href=<%="/guide/#{@vertical_market.slug}" %>><%= @vertical_market.name %></a></li>
       <% end %>
       <% if  @location.broker.present? %>
-        <li class="breadcrumb-item"><a href= "#{@base_path}business/#{@location.broker.slug}"><%= @location.broker.name %></a></li>
+        <li class="breadcrumb-item"><a href=<%="/business/#{@location.broker.slug}" %>><%= @location.broker.name %></a></li>
       <% end %>
       <li class="breadcrumb-item active" aria-current="page"><%=@location.name%></li>
     </ol>
@@ -130,7 +130,7 @@
               <hr>
               <div class="description">
                   <h4>Description</h4>
-                  <p><%= @location.content.html_safe %></p>
+                  <p><%= @location.content&.html_safe %></p>
               </div>
               <hr>
               <% if @location.business_improvement_area.present? %>
@@ -192,48 +192,9 @@
               <div id="map" style="height: 240px;"></div>
             </div>
             <% if request.path === '/business/city-of-vancouver' %>
-              <div class="card-label-one">
-                <div class="title">
-                  <h4>&nbsp;<%= "City Hall" %>&nbsp;</h4>
-                  <%= link_to 'More + ', '#', class: 'see-more' %>
-
-                  <% #if @business_improvement_area_id %>
-                    &nbsp;&nbsp;&nbsp;
-                    <%= link_to ' See All', "#", class: 'see-all' %>
-                  <%# end %>
-                </div>
-              </div>
-              <div class="alert alert-dark" role="alert">
-                No City Hall Members found.
-              </div>
-              <div class="card-label-one">
-                <div class="title">
-                  <h4>&nbsp;<%= "City Councillors" %>&nbsp;</h4>
-                  <%= link_to 'More + ', '#', class: 'see-more' %>
-
-                  <% #if @business_improvement_area_id %>
-                    &nbsp;&nbsp;&nbsp;
-                    <%= link_to ' See All', "#", class: 'see-all' %>
-                  <%# end %>
-                </div>
-              </div>
-              <div class="alert alert-dark" role="alert">
-                No City Hall Members found.
-              </div>
-              <div class="card-label-one">
-                <div class="title">
-                  <h4>&nbsp;<%= "Parks & Recreation Commissioners" %>&nbsp;</h4>
-                  <%= link_to 'More + ', '#', class: 'see-more' %>
-
-                  <% #if @business_improvement_area_id %>
-                    &nbsp;&nbsp;&nbsp;
-                    <%= link_to ' See All', "#", class: 'see-all' %>
-                  <%# end %>
-                </div>
-              </div>
-              <div class="alert alert-dark" role="alert">
-                No Parks & Recreation Commissioners found.
-              </div>
+              <%= render 'location_city_hall' %>
+              <%= render 'location_city_councillors' %>
+              <%= render 'location_parks_recreation_commissioners' %>
             <% else %>
               <%= render 'location_menu_flayers' %>
               <!-- Card Row END -->
