@@ -10,7 +10,6 @@
 </div>
 <% if @location.city_halls.size > 0 %>
   <div class="row card-row media-row-holder" id="cat-city-halls-<%= @location.id %>">
-    <div><%= @location.city_halls.size %></div>
     <% @location.city_halls.in_groups_of(4) do |group| %>
       <% group.each do |item| %>
         <% if item %>
