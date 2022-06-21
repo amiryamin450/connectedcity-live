@@ -16,8 +16,8 @@ class Location < ActiveRecord::Base
 
   has_many :agents, class_name: 'Location', foreign_key: 'broker_id', dependent: :destroy
   has_many :city_halls, class_name: 'Location', foreign_key: 'hall_id', dependent: :destroy
-  has_many :city_councillors, class_name: 'Location', foreign_key: 'councillor_id', dependent: :destroy
-  has_many :park_recreation_commissioners, class_name: 'Location', foreign_key: 'commissioner_id', dependent: :destroy
+  has_many :city_councillors, class_name: 'Location', foreign_key: 'councillor_id', dependent: :destroy, :order => 'name ASC'
+  has_many :park_recreation_commissioners, class_name: 'Location', foreign_key: 'commissioner_id', dependent: :destroy, :order => 'name ASC'
   belongs_to :broker, class_name: 'Location'
   belongs_to :hall, class_name: 'Location'
   belongs_to :councillor, class_name: 'Location'

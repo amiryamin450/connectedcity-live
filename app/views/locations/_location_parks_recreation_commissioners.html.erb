@@ -1,8 +1,7 @@
 <div class="card-label-one">
   <div class="title">
     <h4>&nbsp;<%= "Parks & Recreation Commissioners" %>&nbsp;</h4>
-    <%= link_to 'More + ', '#', class: 'see-more' %>
-
+    <%= link_to 'See More +', '#', class: 'see-more', data: { element: "commissioners-#{@location.id}" } %>
     <% #if @business_improvement_area_id %>
       &nbsp;&nbsp;&nbsp;
       <%= link_to ' See All', "#", class: 'see-all' %>
@@ -10,7 +9,7 @@
   </div>
 </div>
 <% if @location.park_recreation_commissioners.size > 0 %>
-  <div class="row card-row media-row-holder" id="cat-agents-<%= @location.id %>">
+  <div class="row card-row media-row-holder" id="cat-commissioners-<%= @location.id %>">
     <% @location.park_recreation_commissioners.in_groups_of(4) do |group| %>
       <% group.each do |item| %>
         <% if item %>
