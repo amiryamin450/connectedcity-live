@@ -85,6 +85,7 @@ class LocationsController < ApplicationController
       @location.vertical_market_categories = @vertical_market_categories
     else
       @location = Location.new
+      @vertical_market_categories = categories_without_municipality
 
       OperatingHour.days.keys.each do |day|
         @location.operating_hours.build day: day

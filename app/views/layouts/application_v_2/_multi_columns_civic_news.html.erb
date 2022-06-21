@@ -2,36 +2,54 @@
   <div class="multi" id="multiple_items_civic_news">
     <div class="colla" style="height: 200px;">
       <h3 class="sticky-heading">Updates</h3>
-      <div class="input-group-prepend search-box ">
-        <%= select_tag 'market', options_for_select(@categories_news), prompt: 'All', class: 'form-control' %>
+      <div class="input-group-prepend search-box d-block">
+        <%= select_tag 'market', options_for_select(@categories_news), prompt: 'All', class: 'form-control mb-3' %>
+        <div class="alert">No Market Updates found.</div>
       </div>
     </div>
     <div class="colla" style="height: 200px;">
       <h3 class="sticky-heading">Videos</h3>
-      <div class="input-group-prepend search-box ">
-        <%= select_tag 'market', options_for_select(@categories_news), prompt: 'All', class: 'form-control' %>
+      <div class="input-group-prepend search-box d-block">
+        <%= select_tag 'market', options_for_select(@categories_news), prompt: 'All', class: 'form-control mb-3' %>
+        <% if @media_attachments.size > 0 %>
+          <% @media_attachments.each do |media_attachment| %>
+            <%= render 'layouts/application_v_2/media_attachment', media_attachment: media_attachment %>
+          <% end %>
+        <% else %>
+          <div class="alert">No videos found.</div>
+        <% end %>
       </div>
     </div>
     <div class="colla" style="height: 200px;">
       <h3 class="sticky-heading">News</h3>
-      <div class="input-group-prepend search-box ">
-        <%= select_tag 'market', options_for_select(@categories_news), prompt: 'All', class: 'form-control' %>
+      <div class="input-group-prepend search-box d-block">
+        <%= select_tag 'market', options_for_select(@categories_news), prompt: 'All', class: 'form-control mb-3' %>
+        <div class="alert">No news article found.</div>
       </div>
     </div>
     <div class="colla" style="height: 200px;">
       <h3 class="sticky-heading">Events</h3>
-      <div class="input-group-prepend search-box ">
-        <%= select_tag 'market', options_for_select(@categories_news), prompt: 'All', class: 'form-control' %>
+      <div class="input-group-prepend search-box d-block">
+        <%= select_tag 'market', options_for_select(@categories_news), prompt: 'All', class: 'form-control mb-3' %>
+        <div class="alert">No Events found.</div>
       </div>
     </div>
   </div>
 </div>
+
 
 <!-- Add the slick-theme.css if you want default styling -->
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <!-- Add the slick-theme.css if you want default styling -->
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<% if @media_attachments.size > 0 %>
+  <% @media_attachments.each do |media_attachment| %>
+    <%= render 'status_updates/modal_video_latest', media_attachment: media_attachment %>
+  <% end %>
+<% end %>
+
 
 <script type="text/javascript">
   $(document).ready(function(){
@@ -68,5 +86,27 @@
         }
       ]
     });
+
+    const $class1 = $('.video-attachment-event');
+    const $class2 = $('.view-more-attachment-event');
+    const $class3 = $('.title-attachment-event');
+
+    $class1.add($class2).add($class3).on('click', function() {
+      var modal = $(this);
+      var valueId = modal.attr('data-target');
+      var v = $(valueId).contents().find("iframe");
+      var url = v.attr('data-src');
+      v.attr('allow','autoplay')
+      v.attr('src', url + '?autoplay=1&amp;modestbranding=1&amp;showinfo=0')
+    })
+
+    $('.close.media-attachment').on('click', function() {
+      var modal = $(this);
+      var valueId = modal.attr('data-id');
+      var v = $('#'+valueId).contents().find("iframe");
+      var url = v.attr('src');
+      v.attr('src', '')
+      v.removeAttr('allow')
+    })
   });
 </script>

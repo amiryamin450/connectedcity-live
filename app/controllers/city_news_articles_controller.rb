@@ -22,6 +22,15 @@ class CityNewsArticlesController < ApplicationController
     #   @city_news_categories = CityNewsCategory.includes(:city_news_articles).all
     # end
     districts
+    city_vancouver = Location.find_by_slug('city-of-vancouver')
+    locations = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
+    media = []
+    locations.each do |i|
+      if (i.media_attachments.size > 0)
+        media << i.media_attachments
+      end
+    end
+    @media_attachments = media.flatten
     render layout: "application_v_2"
   end
 
