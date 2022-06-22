@@ -38,6 +38,7 @@ class VerticalMarketsController < ApplicationController
   #This is the action that controls the vertical market category pages. Not sure why it's an action called Guide when there is a Guide controller...sigh... -Don Marges
   # Pretty sure it was named guide because its creator is out of ideas and obviously, it guide the instance variables @abc to the right values ...sneer... -Tom Tran
   def guide
+    categories_without_municipality
     @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).find(params[:market])
     case @vertical_market.id
     when 1
@@ -204,5 +205,29 @@ class VerticalMarketsController < ApplicationController
 	[
 	  'Condominiums', 'Houses', 'Townhomes'
 	]
+  end
+
+  def categories_without_municipality
+    name_categories = [
+      'Mayor',
+      'Deputy Major',
+      'City Manager',
+      'Deputy City Manager',
+      'Chief Financial Officer',
+      'Police Chief',
+      'Fire Chief',
+      'Director of Economic Development',
+      'Director of City Planning',
+      'Director of Public Works',
+      'Chief Human Resources Officer',
+      'Chief Legal Officer',
+      'General Manager - Art, Culture & Community',
+      'General Manager - Buildings, Development & Listings',
+      'General Manager - Engineering Services',
+      'Chief Communications Officer',
+      'City Councillors',
+      'Parks & Recreation Commissioners'
+    ]
+    @categories_without_municipality_ids = VerticalMarketCategory.where(name: name_categories).pluck(:id)
   end
 end

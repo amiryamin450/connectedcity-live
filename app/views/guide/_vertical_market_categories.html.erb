@@ -96,7 +96,7 @@ NOTE Rental (rental)
 
     %>
 
-    <% if locations.any? %>
+    <% if locations.any? && !@categories_without_municipality_ids.include?(category.id) %>
       <%= render 'guide/category', category: category, r: r, locations: locations %>
     <% end %>
   <% end %>
