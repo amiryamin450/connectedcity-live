@@ -162,9 +162,11 @@
                   <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#Articles">News Articles</a>
                   </li>
+                <% if (@is_location_normal && request.path != '/business/city-of-vancouver') %>
                   <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#Entries">Blog Entries</a>
                   </li>
+                <% end %>
               </ul>
               <!-- Tab panes -->
               <div class="tab-content">
@@ -176,12 +178,15 @@
                     <%= render 'news_articles' %>
                     <div class="divider mt-5"></div>
                   </div>
+                <% if (@is_location_normal && request.path != '/business/city-of-vancouver') %>
                   <div id="Entries" class="container tab-pane fade">
                     <%= render 'blog_entry' %>
                     <div class="divider mt-5"></div>
                   </div>
+                <% end %>
               </div>
             </div>
+
             <!-- END -->
         </div>
       </div>
@@ -191,34 +196,39 @@
             <div class="map-section">
               <div id="map" style="height: 240px;"></div>
             </div>
-            <% if request.path === '/business/city-of-vancouver' %>
-              <%= render 'location_city_hall' %>
-              <%= render 'location_city_councillors' %>
-              <%= render 'location_parks_recreation_commissioners' %>
-            <% else %>
-              <%= render 'location_menu_flayers' %>
-              <!-- Card Row END -->
-              <%= render 'location_media' %>
-              <% if @location.vertical_market_category_ids.include?(40) %>
-                <%= render 'location_automotive' %>
-              <% end %>
-              <% if @location.vertical_market_category_ids.include?(99) %>
-                <%= render 'location_listings' %>
-              <% elsif @location.vertical_market_category_ids.include?(100) %>
-                <%= render 'agents' %>
-              <% elsif @location.vertical_market_category_ids.include?(101) %>
-                <%= render 'rental_properties' %>
-              <% elsif @location.vertical_market_category_ids.include?(102) %>
-                <%= render 'new_home_communities' %>
+            <% if @is_location_normal %>
+              <% if request.path === '/business/city-of-vancouver' %>
+                <%= render 'location_city_hall' %>
+                <%= render 'location_city_councillors' %>
+                <%= render 'location_parks_recreation_commissioners' %>
               <% else %>
-                <%= render 'location_products' %>
+                <%= render 'location_menu_flayers' %>
+                <!-- Card Row END -->
+                <%= render 'location_media' %>
+                <% if @location.vertical_market_category_ids.include?(40) %>
+                  <%= render 'location_automotive' %>
+                <% end %>
+                <% if @location.vertical_market_category_ids.include?(99) %>
+                  <%= render 'location_listings' %>
+                <% elsif @location.vertical_market_category_ids.include?(100) %>
+                  <%= render 'agents' %>
+                <% elsif @location.vertical_market_category_ids.include?(101) %>
+                  <%= render 'rental_properties' %>
+                <% elsif @location.vertical_market_category_ids.include?(102) %>
+                  <%= render 'new_home_communities' %>
+                <% else %>
+                  <%= render 'location_products' %>
+                <% end %>
+                <%= render 'location_coupons' %>
+                <%= render 'location_services' %>
+                <%= render 'location_events' %>
+                <%= render 'location_trade_associations' %>
+                <%= render 'location_brands' %>
+                <%= render 'location_employment' %>
               <% end %>
-              <%= render 'location_coupons' %>
-              <%= render 'location_services' %>
-              <%= render 'location_events' %>
-              <%= render 'location_trade_associations' %>
-              <%= render 'location_brands' %>
-              <%= render 'location_employment' %>
+            <% else %>
+                <%= render 'location_media' %>
+                <%= render 'location_events' %>
             <% end %>
         </div>
       </div>

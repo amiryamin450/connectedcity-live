@@ -25,12 +25,18 @@ class CityNewsArticlesController < ApplicationController
     city_vancouver = Location.find_by_slug('city-of-vancouver')
     locations = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
     media = []
+    events_temp = []
     locations.each do |i|
       if (i.media_attachments.size > 0)
         media << i.media_attachments
       end
+      if (i.events.size > 0)
+        events_temp << i.events
+      end
     end
     @media_attachments = media.flatten
+    @events = events_temp.flatten
+
     render layout: "application_v_2"
   end
 

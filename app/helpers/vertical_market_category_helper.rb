@@ -15,10 +15,10 @@ module VerticalMarketCategoryHelper
 
 
   def get_location_image_url(location)
-    if location.logo.present?
-      location.logo.url :list
-    elsif location.vertical_market_categories.any? && location.vertical_market_categories.first.default_logo.present?
-      location.vertical_market_categories.first.default_logo.url :list
+    if location&.logo.present?
+      location&.logo.url :list
+    elsif location&.vertical_market_categories&.any? && location&.vertical_market_categories.first&.default_logo.present?
+      location&.vertical_market_categories.first&.default_logo.url :list
     else
        "/logos/original/missing.png"
     end

@@ -1,6 +1,6 @@
 class LocationsController < ApplicationController
   load_and_authorize_resource
-
+  PER_PAGE = 20
   layout 'location', :only => [:show]
 
   def index
@@ -24,23 +24,31 @@ class LocationsController < ApplicationController
 
     @location_menu_images = @location_menus.location_menus.collect{ |location_menu| location_menu.image }
 
-    @status_updates = @location.status_updates.page(params[:status_page]).per(7)
-    @articles = @location.news_articles.page(params[:article_page]).per(5)
-    @blog_entries = @location.blog_entries.page(params[:blog_page]).per(5)
-    @products = @location.products.order('created_at DESC').limit(20)
-    @coupons = @location.coupons.page(params[:coupon_page]).per(12)
-    @media_attachments = @location.media_attachments.order('created_at DESC').limit(20)
-    @services = @location.services.page(params[:service_page]).per(12)
-    @events = @location.events.page(params[:event_page]).per(12)
-    @listings = @location.real_estate_listings.page(params[:listing_page]).per(12)
-    @auto_listings = @location.automotive_listings.page(params[:auto_listing_page]).per(12) if @location.vertical_market_categories.exists?(40)
+    @is_location_normal = @location.hall_id.blank? && @location.councillor_id.blank? && @location.commissioner_id.blank?
+    if (@is_location_normal)
+      @status_updates = @location.status_updates.page(params[:status_page]).per(7)
+      @articles = @location.news_articles.page(params[:article_page]).per(5)
+      @blog_entries = @location.blog_entries.page(params[:blog_page]).per(5)
+      @products = @location.products.order('created_at DESC').limit(20)
+      @services = @location.services.page(params[:service_page]).per(12)
+      @coupons = @location.coupons.page(params[:coupon_page]).per(12)
+      @media_attachments = @location.media_attachments.order('created_at DESC').limit(20)
+      @events = @location.events.page(params[:event_page]).per(12)
+      @listings = @location.real_estate_listings.page(params[:listing_page]).per(12)
+      @auto_listings = @location.automotive_listings.page(params[:auto_listing_page]).per(12) if @location.vertical_market_categories.exists?(40)
 
-    @rental_properties = @location.rental_properties.page(params[:rental_page]).per(12) if @location.vertical_market_categories.exists?(101)
-    @new_home_communities = @location.new_home_communities.page(params[:communities_page]).per(12) if @location.vertical_market_categories.exists?(102)
+      @rental_properties = @location.rental_properties.page(params[:rental_page]).per(12) if @location.vertical_market_categories.exists?(101)
+      @new_home_communities = @location.new_home_communities.page(params[:communities_page]).per(12) if @location.vertical_market_categories.exists?(102)
 
-    # TODO - should only happen if user is logged in and can post a status update
-    @status_update = @location.status_updates.build
-    @status_update.social_profile_ids = @location.social_profiles.pluck(:id).map(&:to_s)
+      # TODO - should only happen if user is logged in and can post a status update
+      @status_update = @location.status_updates.build
+      @status_update.social_profile_ids = @location.social_profiles.pluck(:id).map(&:to_s)
+    else
+      @media_attachments = @location.media_attachments.order('created_at DESC').limit(PER_PAGE)
+      @status_updates = @location.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
+      @articles = @location.news_articles.limit(PER_PAGE)
+      @events = @location.events.order(:starts_at).limit(PER_PAGE)
+    end
 
     @vertical_market = @location.vertical_market_categories.first.vertical_market if @location.vertical_market_categories.size > 0
 
@@ -324,7 +332,6 @@ class LocationsController < ApplicationController
 
   def name_vertical_categories
     [
-      'City Hall',
       'Mayor',
       'Deputy Major',
       'City Manager',
