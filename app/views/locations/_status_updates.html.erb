@@ -25,9 +25,7 @@
     </div>
     <%= render 'status_updates/modal_content_latest', status_update: s %>
   <% end %>
-  <nav aria-label="Page navigation example">
-  <%#= paginate @status_updates, param_name: 'status_page' %>
-  </nav>
+  <%= paginate @status_updates, param_name: 'status_page' if (@is_location_normal && request.path != '/business/city-of-vancouver') %>
 
   <% else %>
   <div class="alert">No Status Updates found.</div>

@@ -25,7 +25,7 @@
       </div>
       <%= render 'news_articles/modal_news_latest', news: article %>
     <% end %>
-    <%= paginate @articles, param_name: 'article_page' %>
+    <%= paginate @articles, param_name: 'article_page' if (@is_location_normal && request.path != '/business/city-of-vancouver') %>
   <% else %>
     <div class="alert">No News Articles found.</div>
   <% end %>
