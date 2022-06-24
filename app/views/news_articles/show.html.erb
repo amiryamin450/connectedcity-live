@@ -34,7 +34,7 @@ meta title: @news_article.title.strip,
       <address>
         <strong><%= link_to @location.name, @location %></strong><br />
         <%= @location.address %><br/>
-        <%= "#{@location.city.name} #{@location.province.abbr}, #{@location.postal_code}" %><br />
+        <%= "#{@location.city.name} #{@location.province&.abbr}, #{@location.postal_code}" %><br />
       </address>
     </div>
 

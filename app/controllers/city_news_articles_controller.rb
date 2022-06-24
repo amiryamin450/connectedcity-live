@@ -26,6 +26,7 @@ class CityNewsArticlesController < ApplicationController
     locations = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
     media = []
     events_temp = []
+    news_temp = []
     locations.each do |i|
       if (i.media_attachments.size > 0)
         media << i.media_attachments
@@ -33,9 +34,13 @@ class CityNewsArticlesController < ApplicationController
       if (i.events.size > 0)
         events_temp << i.events
       end
+      if (i.news_articles.size > 0)
+        news_temp << i.news_articles
+      end
     end
     @media_attachments = media.flatten
     @events = events_temp.flatten
+    @news_articles = news_temp.flatten
 
     render layout: "application_v_2"
   end

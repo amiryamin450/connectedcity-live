@@ -24,7 +24,13 @@
       <h3 class="sticky-heading">News</h3>
       <div class="input-group-prepend search-box d-block">
         <%= select_tag 'market', options_for_select(@categories_news), prompt: 'All', class: 'form-control mb-3' %>
-        <div class="alert">No news article found.</div>
+        <% if @news_articles.size > 0 %>
+          <% @news_articles.each do |news_article| %>
+            <%= render 'layouts/application_v_2/news_article', news_article: news_article %>
+          <% end %>
+        <% else %>
+          <div class="alert">No news article found.</div>
+        <% end %>
       </div>
     </div>
     <div class="colla">
@@ -61,6 +67,12 @@
     <%= render 'status_updates/modal_event_latest', event: event %>
   <% end %>
 <% end %>
+<% if @news_articles.size > 0 %>
+  <% @news_articles.each do |news_article| %>
+    <%= render 'news_articles/modal_news_latest', news: news_article %>
+  <% end %>
+<% end %>
+
 <script type="text/javascript">
   $(document).ready(function(){
     $('#multiple_items_civic_news.multi').slick({
