@@ -23,11 +23,12 @@ class CityNewsArticlesController < ApplicationController
     # end
     districts
     city_vancouver = Location.find_by_slug('city-of-vancouver')
-    locations = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
+    result_locaitons = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
+    result_locaitons << city_vancouver
     media = []
     events_temp = []
     news_temp = []
-    locations.each do |i|
+    result_locaitons.each do |i|
       if (i.media_attachments.size > 0)
         media << i.media_attachments
       end
