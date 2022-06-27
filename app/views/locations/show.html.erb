@@ -199,10 +199,10 @@
             <% if @is_location_normal %>
               <% if request.path === '/business/city-of-vancouver' %>
                 <%= render 'location_media' %>
+                <%= render 'location_events' %>
                 <%= render 'location_city_hall' %>
                 <%= render 'location_city_councillors' %>
                 <%= render 'location_parks_recreation_commissioners' %>
-                <%= render 'location_events' %>
               <% else %>
                 <%= render 'location_menu_flayers' %>
                 <!-- Card Row END -->
