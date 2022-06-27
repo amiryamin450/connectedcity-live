@@ -39,9 +39,9 @@ class CityNewsArticlesController < ApplicationController
         news_temp << i.news_articles
       end
     end
-    @media_attachments = media.flatten
-    @events = events_temp.flatten
-    @news_articles = news_temp.flatten
+    @media_attachments = media.flatten.sort_by(&:created_at).reverse
+    @events = events_temp.flatten.sort_by(&:created_at).reverse
+    @news_articles = news_temp.flatten.sort_by(&:created_at).reverse
 
     render layout: "application_v_2"
   end

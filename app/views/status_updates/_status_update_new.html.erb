@@ -1,0 +1,25 @@
+<div class='modal fade' id="<%="update-status-#{@location.id}-model"%>" >
+  <div class="modal-dialog modal-xl" style="max-width: 70%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">What's Happening?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for @location, url: location_status_updates_path(@location), :html => { :method => :post } do |f| %>
+          <%= f.error_notification %>
+          <div class="form-inputs">
+            <%= f.input :content, input_html: { class: 'input-block-level', :rows => 3, style: 'width: 515px'} %>
+            <%= f.file_field :image %>
+          </div>
+          <div class="modal-footer">
+            <input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="Cancel" />
+            <%= f.button :submit, value: 'Create Status Update', :class => 'btn btn-primary', id: 'status-update-submit' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
