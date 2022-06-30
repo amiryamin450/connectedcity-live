@@ -269,6 +269,8 @@ Connectbook::Application.routes.draw do
       get :preview
       collection do
         post :start_archive
+        post :start_broadcast
+        get 'stop_broadcast/:broadcast_id' => 'media_attachments#stop_broadcast'
         get 'stop_archive/:archive_id' => 'media_attachments#stop_archive'
         get 'pause_archive/:archive_id' => 'media_attachments#pause_archive'
         get 'resume_archive/:archive_id' => 'media_attachments#resume_archive'
@@ -295,6 +297,8 @@ Connectbook::Application.routes.draw do
 
   post 'media_attachments/vonage_archive_callback' => 'media_attachments#vonage_archive_callback'
   get 'media_attachments/get_vonage_token' => 'media_attachments#get_vonage_token'
+  get 'media_attachments/get_broadcast_token' => 'media_attachments#get_broadcast_token'
+  get 'media_attachments/get_livestream_token' => 'media_attachments#get_livestream_token'
 
   resources 'contacts', only: [:new, :create]
 

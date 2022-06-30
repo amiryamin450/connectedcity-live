@@ -1,9 +1,9 @@
 class MediaAttachmentsController < ApplicationController
 
   load_resource :location
-  skip_load_resource :location, only: [:vonage_archive_callback, :get_vonage_token]
+  skip_load_resource :location, only: [:vonage_archive_callback, :get_vonage_token, :get_broadcast_token, :get_livestream_token]
   load_and_authorize_resource :media_attachment, through: [:location]
-  skip_load_and_authorize_resource :media_attachment, only: [:vonage_archive_callback, :get_vonage_token]
+  skip_load_and_authorize_resource :media_attachment, only: [:vonage_archive_callback, :get_vonage_token, :get_broadcast_token, :get_livestream_token]
   PER_PAGE = 5
 
   def index
@@ -39,10 +39,6 @@ class MediaAttachmentsController < ApplicationController
     else
       render action: :new
     end
-  end
-
-  def preview
-
   end
 
   def update
@@ -113,6 +109,39 @@ class MediaAttachmentsController < ApplicationController
     render json: {video_id: video.id}, status: :ok
   end
 
+  def start_broadcast
+    broadcast = vonage.start_broadcast(params)
+
+    if broadcast.present?
+      media_attachment = @location.media_attachments.new(
+      is_draft: false,
+      is_stream_video: true,
+      title: params[:mediaTitle],
+      description: params[:mediaDescreption]
+    )
+      if media_attachment.save
+        video = media_attachment.videos.create(
+          archive_id: broadcast.id,
+          session_id: broadcast.sessionId,
+          status: broadcast.status,
+          livestream: true
+        )
+        render json: {broadcast_id: broadcast.id}, status: :ok
+      else
+        render nothing: true, status: :unprocessable_entity
+      end
+    else
+      render json: {msg: "Failed to connect to OpenTok"}, status: :error
+    end
+  end
+
+  def stop_broadcast
+    broadcast = vonage.stop_broadcast(params[:broadcast_id])
+    video = Video.find_by_archive_id(params[:broadcast_id])
+    video.update_attribute(:status, 'stopped')
+    render json: {broadcast: broadcast.to_json}, status: :ok
+  end
+
   def vonage_archive_callback
     video = Video.find_by_archive_id(params[:id])
 
@@ -130,6 +159,17 @@ class MediaAttachmentsController < ApplicationController
     session_id = vonage.get_session_id
     token = vonage.get_token(session_id)
     render json: { session_id: session_id, token: token }
+  end
+
+  def get_broadcast_token
+    session_id = vonage.get_session_id
+    token = vonage.generate_broadcast_token(session_id)
+    render json: { session_id: session_id, token: token }
+  end
+
+  def get_livestream_token
+    token = vonage.generate_broadcast_token(params[:session_id])
+    render json: { token: token }
   end
 
   def vonage

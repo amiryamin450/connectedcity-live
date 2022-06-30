@@ -2,7 +2,7 @@
   <div class="title">
     <h4>Video</h4>
     <%= link_to raw("<h4 class='secondary'>Record Video</h4>"), new_location_media_attachment_path(@location) %>
-    <h4 class="secondary">Record Live Video</h4>
+    <%= link_to raw("<h4 class='secondary'>Record Live Video</h4>"), new_location_media_attachment_path(@location, {livestream: true}) %>
     <h4 class="secondary">Upload Video</h4>
     <h4 class="secondary">Youtube</h4>
   </div>

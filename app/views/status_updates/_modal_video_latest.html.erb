@@ -12,7 +12,11 @@
           <div class="col-md-6">
             <div class="cover">
               <% if media_attachment.is_stream_video %>
-                <iframe width='100%' height='480' src="" data-src="<%= media_attachment.videos.first&.video_url %>" id="<%="video-#{media_attachment.id}-vonage"%>" frameborder='0' allowfullscreen></iframe>
+                <% if media_attachment.videos&.first&.livestream %>
+                  <div id="streams"></div>
+                <% else %>
+                  <iframe width='100%' height='480' src="" data-src="<%= media_attachment.videos.first&.video_url %>" id="<%="video-#{media_attachment.id}-vonage"%>" frameborder='0' allowfullscreen></iframe>
+                <% end %>
               <% else %>
                 <iframe width='100%' height='480' src="" data-src="https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" id="<%="video-#{media_attachment.media_source_id}-#{media_attachment.id}-player"%>" frameborder='0' allowfullscreen></iframe>
               <% end %>
@@ -48,6 +52,66 @@
         $('#<%="video-#{media_attachment.media_source_id}-#{media_attachment.id}-player"%>').attr("src", "");
       }
     });
+
+    var sessionId = "<%= media_attachment.videos&.first&.session_id %>";
+    if (sessionId) {
+      var locationSlug = "<%= media_attachment.location.slug %>";
+      var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
+      var broadcastId;
+
+      async function fetchToken() {
+        var token;
+        token = await fetch(`/media_attachments/get_livestream_token.json?session_id=${sessionId}`, {
+          method: 'get',
+          }).then(function(response) {
+          if (response.ok) {
+            return response.json();
+          }
+          return Promise.reject(response);
+          }).then(function (data) {
+          return data.token
+        })
+        return token;
+      }
+
+      fetchToken().then(token => {
+        var session = OT.initSession(apiKey, sessionId);
+        var publisher;
+        var container = $('<div id = "publisher"></div>');
+        $('#streams').append(container);
+        // publisher = OT.initPublisher('publisher', {
+        //   insertMode: 'append',
+        //   width: '100%',
+        //   height: '100%',
+        //   resolution: '1280x720'
+        // });
+
+        session.connect(token, function (err) {
+          if (err) {
+            alert(err.message || err);
+          }
+
+          // session.publish(publisher);
+        });
+
+        session.on('streamCreated', function (event) {
+          console.log(event);
+          var streamId = event.stream.id;
+          container = document.createElement('div');
+          container.id = streamId;
+          $('#streams').append(container);
+          session.subscribe(event.stream, streamId, {
+            insertMode: 'append',
+            width: '100%',
+            height: '480px'
+          });
+          // if (streamId === focusStreamId) {
+            // focusStream(streamId);
+          // }
+          // positionStreams();
+        });
+      })
+    }
   });
 
 </script>

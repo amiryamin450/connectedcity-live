@@ -351,3 +351,15 @@
     }
   }
 }
+
+.video-session {
+  #live-now {
+    display: none;
+    color: white;
+    background-color: red;
+    width: 60px;
+    padding: 5px;
+    font-size: 20px;
+    font-weight: 500;
+  }
+}

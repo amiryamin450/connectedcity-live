@@ -15,6 +15,27 @@ class VonageService
     token = opentok.generate_token(session_id, :role => :moderator)
   end
 
+  def generate_broadcast_token session_id
+    token = opentok.generate_token(session_id, role: :publisher)
+  end
+
+  def start_broadcast params
+    opts = {
+      :maxDuration => params[:maxDuration],
+      :resolution =>  params[:resolution],
+      # :layout => params[:layout],
+      :outputs => {
+        :hls => {}
+      }
+    }
+
+    broadcast = opentok.broadcasts.create(params[:sessionId], opts)
+  end
+
+  def stop_broadcast broadcast_id
+    broadcast = opentok.broadcasts.stop broadcast_id
+  end
+
   def create_archive params
     begin
       archive = opentok.archives.create params[:session_id], {
