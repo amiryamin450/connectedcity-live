@@ -1,17 +1,24 @@
 <h2 class="add-new-media-attachment-title"><span class='location-name'><%= link_to @location.name, location_path(@location) %></span> Video Channel</h2>
 <div class="row-fluid media-attachment-area">
   <div class="span6">
-    <%
-      if @media_attachment.is_stream_video
-        url = @media_attachment.videos.first&.video_url
-      else
-        url = "https://www.youtube.com/embed/#{@media_attachment.media_source_id}"
-      end
-    %>
-    <iframe width='100%' height='480' src='<%= url %>' frameborder='0' allowfullscreen></iframe>
+    <% if @media_attachment.is_stream_video %>
+      <% if @media_attachment.videos&.first&.livestream %>
+        <div id="streams"></div>
+      <% else %>
+        <iframe width='100%' height='480' src='<%= @media_attachment.videos.first&.video_url %>' frameborder='0' allowfullscreen></iframe>
+      <% end %>
+    <% else %>
+      <iframe width='100%' height='480' src="https://www.youtube.com/embed/#{@media_attachment.media_source_id}" frameborder='0' allowfullscreen></iframe>
+    <% end %>
   </div>
   <div class="span6">
     <h1><%= @media_attachment.title %></h1>
+    <% video = @media_attachment.videos&.first %>
+    <% if video && video.livestream && video.status == "started" %>
+      <div class="col-md-12">
+        <div id="live">LIVE</div>
+      </div>
+    <% end %>
     <div><%= @media_attachment.description %></div>
     <div class="uploaded-date">Uploaded date: <%= @media_attachment.created_at.strftime('%m/%d/%Y') %></div>
   </div>
@@ -50,31 +57,76 @@
 </div>
 
 <script>
-  // var session;
-  // var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
-  // var sessionID = "<%= @session_id %>";
-  // var token = "<%= @token %>";
-  // session = OT.initSession(apiKey, sessionID);
+  $(document).ready(function() {
+    // when the modal is opened autoplay it
+    var streamVideo = "<%= @media_attachment.is_stream_video %>";
+    // stop playing the youtube video when I close the modal
+    $('#<%="video-#{@media_attachment.id}-model"%>').on('hide.bs.modal', function (e) {
+      if (streamVideo == "true") {
+        $("#<%="video-#{@media_attachment.id}-vonage"%>").attr('src', "");
+      } else {
+        $('#<%="video-#{@media_attachment.media_source_id}-#{@media_attachment.id}-player"%>').attr("src", "");
+      }
+    });
 
-  // // Replace with a valid token:
-  // session.connect(token);
+    var sessionId = "<%= @media_attachment.videos&.first&.session_id %>";
+    if (sessionId) {
+      var locationSlug = "<%= @media_attachment.location.slug %>";
+      var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
+      var broadcastId;
 
-  // // publisher = OT.initPublisher('publisher');
-  // session.on('streamCreated', function(event) {
-  //   var subscriberProperties = {insertMode: 'append'};
-  //   var subscriber = session.subscribe(event.stream,
-  //     'subscriberContainer',
-  //     subscriberProperties,
-  //     function (error) {
-  //       if (error) {
-  //         console.log(error);
-  //       } else {
-  //         console.log('Subscriber added.');
-  //       }
-  //   });
-  // });
+      async function fetchToken() {
+        var token;
+        token = await fetch(`/media_attachments/get_livestream_token.json?session_id=${sessionId}`, {
+          method: 'get',
+          }).then(function(response) {
+          if (response.ok) {
+            return response.json();
+          }
+          return Promise.reject(response);
+          }).then(function (data) {
+          return data.token
+        })
+        return token;
+      }
 
-  // session.on("streamDestroyed", function (event) {
-  //   console.log("Stream stopped. Reason: " + event.reason);
-  // });
+      fetchToken().then(token => {
+        var session = OT.initSession(apiKey, sessionId);
+        var publisher;
+        var container = $('<div id = "publisher"></div>');
+        $('#streams').append(container);
+        // publisher = OT.initPublisher('publisher', {
+        //   insertMode: 'append',
+        //   width: '100%',
+        //   height: '100%',
+        //   resolution: '1280x720'
+        // });
+
+        session.connect(token, function (err) {
+          if (err) {
+            alert(err.message || err);
+          }
+
+          // session.publish(publisher);
+        });
+
+        session.on('streamCreated', function (event) {
+          console.log(event);
+          var streamId = event.stream.id;
+          container = document.createElement('div');
+          container.id = streamId;
+          $('#streams').append(container);
+          session.subscribe(event.stream, streamId, {
+            insertMode: 'append',
+            width: '100%',
+            height: '480px'
+          });
+          // if (streamId === focusStreamId) {
+            // focusStream(streamId);
+          // }
+          // positionStreams();
+        });
+      })
+    }
+  });
 </script>
