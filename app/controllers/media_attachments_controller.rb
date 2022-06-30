@@ -142,7 +142,7 @@ class MediaAttachmentsController < ApplicationController
     video = Video.find_by_broadcast_id(params[:broadcast_id])
     if video.present?
       archive = vonage.stop_archive({archive_id: video.archive_id})
-      video.update_attribute(:status, 'stopped')
+      video.update_attributes(status: 'stopped', livestream: false)
     end
     render json: {broadcast: broadcast.to_json}, status: :ok
   end

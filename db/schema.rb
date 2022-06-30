@@ -1178,6 +1178,7 @@ ActiveRecord::Schema.define(:version => 20220617062814) do
     t.integer  "attachment_id"
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
+    t.string   "broadcast_id"
   end
 
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
