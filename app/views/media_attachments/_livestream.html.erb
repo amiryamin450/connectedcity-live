@@ -42,8 +42,23 @@
   </div>
 </div>
 
+<div id="endModal" class="media-modal">
+  <div class="modal-content">
+    <div class="modal-body">
+      <p>Your live broadcast has ended.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="close-end-modal">Close</button>
+    </div>
+  </div>
+</div>
+
 <script>
   $(document).ready(function() {
+    var locationSlug = "<%= @location.slug %>";
+    var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
+    var broadcastId;
+
     var messageModal = $("#messageModal");
     var closeMessageModal = $("#close-message-modal");
 
@@ -55,9 +70,7 @@
       event.target.style.display = "none";
     }
 
-    var locationSlug = "<%= @location.slug %>";
-    var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
-    var broadcastId;
+    var endModal = $("#endModal");
 
     async function fetchToken() {
       let vonageData = {};
@@ -134,6 +147,7 @@
         $.post(`/business/${locationSlug}/media_attachments/start_broadcast.json`, options)
           .done(function (response) {
             console.log('start success.');
+            $('.start').prop('disabled', true);
             $('#live-now').css('display', 'block');
             broadcastId = response.broadcast_id;
           })
@@ -146,8 +160,13 @@
         $.get(`/business/${locationSlug}/media_attachments/stop_broadcast/${broadcastId}`)
           .done(function () {
             console.log('stop success.');
+            $('#endModal').css("display", "block");
             $('#live-now').css('display', 'none');
             broadcastId = null;
+            var closeEndModal = $("#close-end-modal");
+            closeEndModal.click(function () {
+              window.location.href = `/business/${locationSlug}`;
+            });
           })
           .fail(function (jqXHR) {
             console.error(jqXHR.responseText);
