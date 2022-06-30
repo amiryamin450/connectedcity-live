@@ -17,8 +17,10 @@
     <% @media_attachments.each do |media| %>
       <div class="col-md-2">
         <div class="business-body-card">
-          <% video = media.videos&.first
-             is_process_video = video && video.broadcast_id.present? && !video.video_url.present?
+          <%
+            video = media.videos&.first
+            is_livestream = video && video.livestream && video.status == "started"
+            is_processing_video = video && video.broadcast_id.present? && !video.video_url.present?
           %>
           <% if video && video.livestream && video.status == "started" %>
             <div id="live">LIVE</div>
@@ -27,14 +29,14 @@
             <% if media.media_source_id.present? %>
               <%= link_to(image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media]) %>
             <% else %>
-              <% if is_process_video %>
+              <% if is_processing_video && !is_livestream %>
                 <img src="/assets/placeholder_stream_video.png" />
               <% else %>
                 <%= link_to(image_tag(media.thumbnail_url), [@location, media]) %>
               <% end %>
             <% end %>
           </div>
-          <% unless is_process_video %>
+          <% unless is_processing_video && !is_livestream %>
             <div class="video-btn">
               <%= link_to [@location, media] do %>
                 <i class="far fa-play-circle" data-toggle="modal" data-target="#video-modal"></i>
@@ -42,7 +44,7 @@
             </div>
           <% end %>
           <div class="title">
-            <% if is_process_video %>
+            <% if is_processing_video && !is_livestream %>
               <h3><%= media.title&.truncate(25) %></h3>
              <% else %>
               <h3><%= link_to media.title&.truncate(25), [@location, media] %></h3>
