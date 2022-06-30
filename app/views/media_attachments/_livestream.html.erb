@@ -58,6 +58,7 @@
     var locationSlug = "<%= @location.slug %>";
     var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
     var broadcastId;
+    var archiveId;
 
     var messageModal = $("#messageModal");
     var closeMessageModal = $("#close-message-modal");
@@ -138,11 +139,13 @@
         }
 
         var options = {
-          maxDuration: 7200,
+          max_duration: 7200,
           resolution: '1280x720',
-          sessionId: vonageData.sessionId,
-          mediaTitle: mediaTitle.val(),
-          mediaDescreption: mediaDescreption.val()
+          session_id: vonageData.sessionId,
+          media_attachment: {
+            title: mediaTitle.val(),
+            descreption: mediaDescreption.val()
+          }
         };
         $.post(`/business/${locationSlug}/media_attachments/start_broadcast.json`, options)
           .done(function (response) {
@@ -150,6 +153,7 @@
             $('.start').prop('disabled', true);
             $('#live-now').css('display', 'block');
             broadcastId = response.broadcast_id;
+            archiveId = response.archive_id;
           })
           .fail(function (jqXHR) {
             console.error(jqXHR.responseText);

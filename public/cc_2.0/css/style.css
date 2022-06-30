@@ -2693,6 +2693,13 @@ a:focus {
     border: 1px solid #dee2e6;
     border-radius: 8px;
     text-align: center;
+    position: relative;
+}
+
+.business-body-section .business-product-body .business-body-card #live {
+    position: absolute;
+    top: 2%;
+    left: 2%;
 }
 
 .business-body-section .business-product-body .business-body-card .img {

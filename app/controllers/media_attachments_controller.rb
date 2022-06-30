@@ -111,22 +111,24 @@ class MediaAttachmentsController < ApplicationController
 
   def start_broadcast
     broadcast = vonage.start_broadcast(params)
+    archive = vonage.create_archive(params)
 
     if broadcast.present?
       media_attachment = @location.media_attachments.new(
       is_draft: false,
       is_stream_video: true,
-      title: params[:mediaTitle],
-      description: params[:mediaDescreption]
+      title: params[:media_attachment][:title],
+      description: params[:media_attachment][:description]
     )
       if media_attachment.save
         video = media_attachment.videos.create(
-          archive_id: broadcast.id,
+          archive_id: archive.id,
+          broadcast_id: broadcast.id,
           session_id: broadcast.sessionId,
           status: broadcast.status,
           livestream: true
         )
-        render json: {broadcast_id: broadcast.id}, status: :ok
+        render json: {broadcast_id: broadcast.id, archive_id: archive.id}, status: :ok
       else
         render nothing: true, status: :unprocessable_entity
       end
@@ -137,8 +139,11 @@ class MediaAttachmentsController < ApplicationController
 
   def stop_broadcast
     broadcast = vonage.stop_broadcast(params[:broadcast_id])
-    video = Video.find_by_archive_id(params[:broadcast_id])
-    video.update_attribute(:status, 'stopped')
+    video = Video.find_by_broadcast_id(params[:broadcast_id])
+    if video.present?
+      archive = vonage.stop_archive({archive_id: video.archive_id})
+      video.update_attribute(:status, 'stopped')
+    end
     render json: {broadcast: broadcast.to_json}, status: :ok
   end
 

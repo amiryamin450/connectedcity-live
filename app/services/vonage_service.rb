@@ -21,7 +21,7 @@ class VonageService
 
   def start_broadcast params
     opts = {
-      :maxDuration => params[:maxDuration],
+      :maxDuration => params[:max_duration],
       :resolution =>  params[:resolution],
       # :layout => params[:layout],
       :outputs => {
@@ -29,7 +29,7 @@ class VonageService
       }
     }
 
-    broadcast = opentok.broadcasts.create(params[:sessionId], opts)
+    broadcast = opentok.broadcasts.create(params[:session_id], opts)
   end
 
   def stop_broadcast broadcast_id
