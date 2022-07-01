@@ -5,6 +5,7 @@ class StatusUpdate < ActiveRecord::Base
   belongs_to :neighborhood
   belongs_to :city
   belongs_to :province
+  belongs_to :category
 
   # serialize :vertical_markets, Array
   # serialize :vertical_market_categories, Array
@@ -16,13 +17,15 @@ class StatusUpdate < ActiveRecord::Base
                     :path => ":rails_root/public/system/status_update/:id/:style/:basename.:extension"
 
   attr_accessible :content, :provider, :district_id, :neighborhood_id, :latitude, :longitude, :city_id, :province_id,
-                  :vertical_markets, :vertical_market_categories, :image, :social_profile_ids
+                  :vertical_markets, :vertical_market_categories, :image, :social_profile_ids, :category_id
+  validates_attachment_presence :image
 
   attr_accessor :social_profile_ids
 
-  validates_presence_of :content, message: "Content can't be blank"
-  validates_length_of :content, maximum: 255
-  validates_attachment_size :image, less_than: 3.megabytes
+  validates :content, presence: true, length: { in: 1..1500 }
+  validates :category_id, presence: true
+
+  validates_attachment_size :image, less_than: 5.megabytes
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/, message: "Please upload a valid image. Accepted types include jpg, png and gif."
 
   before_save do

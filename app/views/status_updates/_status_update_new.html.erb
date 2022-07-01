@@ -8,18 +8,49 @@
         </button>
       </div>
       <div class="modal-body">
-        <%= simple_form_for @location, url: location_status_updates_path(@location), :html => { :method => :post } do |f| %>
+        <%= simple_form_for :status_update, url: location_status_updates_path(@location), :html => { :method => :post, multipart: true, class: 'form-horizontal', id: 'new_status_update', } do |f| %>
           <%= f.error_notification %>
           <div class="form-inputs">
-            <%= f.input :content, input_html: { class: 'input-block-level', :rows => 3, style: 'width: 515px'} %>
-            <%= f.file_field :image %>
+            <%= f.input :content, as: :text, input_html: { class: 'input-block-level wysihtml5', :rows => 3, style: 'width: 515px'} %>
+
+            <div class="control-group string required category">
+              <%= f.label :category %>
+              <div class="input-group-prepend search-box ">
+                <%= select_tag 'status_update[category_id]', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All Categories', class: 'form-control', style: 'border-color: black;' %>
+              </div>
+            </div>
+            <%= f.input :image, as: :file  %>
+            <%#= f.hidden_field :category_id %>
           </div>
-          <div class="modal-footer">
-            <input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="Cancel" />
-            <%= f.button :submit, value: 'Create Status Update', :class => 'btn btn-primary', id: 'status-update-submit' %>
-          </div>
+
+
+        <div class="modal-footer form-actions">
+          <input type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true" value="Cancel" />
+          <%= f.button :submit, value: 'Create Status Update', :class => 'btn btn-primary', id: 'status-update-submit' %>
+        </div>
         <% end %>
       </div>
     </div>
   </div>
 </div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#new_status_update").validate({
+      rules: {
+        'status_update[content]': {
+          required: true,
+          maxlength: 1500,
+        },
+        'status_update[image]': {
+          required: true,
+        },
+        'status_update[category_id]': {
+          required: true,
+        }
+      }
+    });
+  });
+</script>
