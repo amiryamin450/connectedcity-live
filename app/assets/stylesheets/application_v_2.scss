@@ -5,6 +5,32 @@
 @import "civic_news";
 @import "font-awesome";
 
+#new_status_update {
+  .form-inputs {
+    .control-group {
+      display: flex;
+      margin-bottom: 20px;
+      .control-label {
+        margin-right: 10px;
+        min-width: 80px;
+        font-weight: bold;
+      }
+      .controls {
+        label.error {
+          display: block;
+          color: red;
+        }
+      }
+    }
+    .search-box {
+      display: block;
+      label.error {
+        color: red;
+      }
+    }
+  }
+}
+
 .dropdown-submenu {
     position: relative;
 }

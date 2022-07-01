@@ -22,12 +22,14 @@ class CityNewsArticlesController < ApplicationController
     #   @city_news_categories = CityNewsCategory.includes(:city_news_articles).all
     # end
     districts
+    category_news
     city_vancouver = Location.find_by_slug('city-of-vancouver')
     result_locaitons = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
     result_locaitons << city_vancouver
     media = []
     events_temp = []
     news_temp = []
+    status_updates_temp = []
     result_locaitons.each do |i|
       if (i.media_attachments.size > 0)
         media << i.media_attachments
@@ -38,10 +40,14 @@ class CityNewsArticlesController < ApplicationController
       if (i.news_articles.size > 0)
         news_temp << i.news_articles
       end
+      if (i.status_updates.size > 0)
+        status_updates_temp << i.status_updates
+      end
     end
     @media_attachments = media.flatten.sort_by(&:created_at).reverse
     @events = events_temp.flatten.sort_by(&:created_at).reverse
     @news_articles = news_temp.flatten.sort_by(&:created_at).reverse
+    @status_updates = status_updates_temp.flatten.sort_by(&:created_at).reverse
 
     render layout: "application_v_2"
   end
@@ -146,5 +152,18 @@ class CityNewsArticlesController < ApplicationController
   def districts
     # because city is hardcoded everywhere already...
     @districts = District.where("city_id = ?", 5915022)
+  end
+
+  def category_news
+    names = [
+      'City Council',
+      'Fire & Emergency',
+      'Home, Property & Development',
+      'Law Enforcement',
+      'Parks Recreation & Culture',
+      'People & Programs',
+      'Streets & Transportation'
+    ]
+    @categories_news = Category.where(name: names)
   end
 end

@@ -3,14 +3,20 @@
     <div class="colla">
       <h3 class="sticky-heading">Updates</h3>
       <div class="input-group-prepend search-box d-block">
-        <%= select_tag 'market', options_for_select(@categories_news), prompt: 'All', class: 'form-control mb-3' %>
-        <div class="alert">No Market Updates found.</div>
+        <%= select_tag 'market', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All', class: 'form-control mb-3' %>
+        <% if @status_updates.size > 0 %>
+          <% @status_updates.each do |status_update| %>
+            <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
+          <% end %>
+        <% else %>
+          <div class="alert">No Market Updates found.</div>
+        <% end %>
       </div>
     </div>
     <div class="colla">
       <h3 class="sticky-heading">Videos</h3>
       <div class="input-group-prepend search-box d-block">
-        <%= select_tag 'market', options_for_select(@categories_news), prompt: 'All', class: 'form-control mb-3' %>
+        <%= select_tag 'market', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All', class: 'form-control mb-3' %>
         <% if @media_attachments.size > 0 %>
           <% @media_attachments.each do |media_attachment| %>
             <%= render 'layouts/application_v_2/media_attachment', media_attachment: media_attachment %>
@@ -23,7 +29,7 @@
     <div class="colla">
       <h3 class="sticky-heading">News</h3>
       <div class="input-group-prepend search-box d-block">
-        <%= select_tag 'market', options_for_select(@categories_news), prompt: 'All', class: 'form-control mb-3' %>
+        <%= select_tag 'market', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All', class: 'form-control mb-3' %>
         <% if @news_articles.size > 0 %>
           <% @news_articles.each do |news_article| %>
             <%= render 'layouts/application_v_2/news_article', news_article: news_article %>
@@ -36,7 +42,7 @@
     <div class="colla">
       <h3 class="sticky-heading">Events</h3>
       <div class="input-group-prepend search-box d-block">
-        <%= select_tag 'market', options_for_select(@categories_news), prompt: 'All', class: 'form-control mb-3' %>
+        <%= select_tag 'market', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All', class: 'form-control mb-3' %>
         <% if @events.size > 0 %>
           <% @events.each do |event| %>
             <%= render 'layouts/application_v_2/event', event: event %>
@@ -55,6 +61,12 @@
 <!-- Add the slick-theme.css if you want default styling -->
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<% if @status_updates.size > 0 %>
+  <% @status_updates.each do |status_update| %>
+    <%= render 'status_updates/modal_content_latest', status_update: status_update %>
+  <% end %>
+<% end %>
 
 <% if @media_attachments.size > 0 %>
   <% @media_attachments.each do |media_attachment| %>
