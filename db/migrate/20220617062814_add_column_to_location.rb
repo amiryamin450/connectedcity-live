@@ -6,8 +6,8 @@ class AddColumnToLocation < ActiveRecord::Migration
   end
 
   def down
-    remove_column :locations, :hall_id, :integer
-    remove_column :locations, :councillor_id, :integer
-    remove_column :locations, :commissioner_id, :integer
+    remove_column :locations, :hall_id
+    remove_column :locations, :councillor_id
+    remove_column :locations, :commissioner_id
   end
 end

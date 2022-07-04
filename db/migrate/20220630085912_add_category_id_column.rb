@@ -4,6 +4,6 @@ class AddCategoryIdColumn < ActiveRecord::Migration
   end
 
   def down
-    remove_column :status_updates, :category_id, :integer
+    remove_column :status_updates, :category_id
   end
 end
