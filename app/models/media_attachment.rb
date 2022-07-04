@@ -4,9 +4,10 @@ class MediaAttachment < ActiveRecord::Base
 
   belongs_to :attachable, polymorphic: true
   belongs_to :location, foreign_key: "attachable_id"
+  belongs_to :category
   has_many :videos, dependent: :destroy
 
-  attr_accessible :attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source, :is_stream_video, :archive_id, :session_id, :description, :is_draft
+  attr_accessible :attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source, :is_stream_video, :archive_id, :session_id, :description, :is_draft, :category_id
 
   validates_presence_of :attachment, :unless => :stream_video?
 
