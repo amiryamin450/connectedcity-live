@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_up
+    category_news
     results = VerticalMarket.order(:name).at_depth 0
     @vertical_market_news = results.select{|i| i.slug === 'civic-news'}.first
     @vertical_markets_all = results.reject{|i| ['civic-news', 'employment-opportunities', 'classifieds'].include?(i.slug)}
@@ -121,6 +122,19 @@ class ApplicationController < ActionController::Base
     # add_crumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
     add_crumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
     add_crumb @location.name, location_path(@location)
+  end
+
+  def category_news
+    names = [
+      'City Council',
+      'Fire & Emergency',
+      'Home, Property & Development',
+      'Law Enforcement',
+      'Parks Recreation & Culture',
+      'People & Programs',
+      'Streets & Transportation'
+    ]
+    @categories_news = Category.where(name: names)
   end
 
 end

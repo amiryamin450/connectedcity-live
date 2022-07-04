@@ -4,6 +4,12 @@
   <div class="form-inputs">
     <%= f.input :user_id, as: :hidden %>
     <%= f.input :title, input_html: { class: 'input-xxlarge' } %>
+    <div class="control-group string required">
+      <%= f.label :category %>
+      <div class="input-group-prepend search-box">
+        <%= select_tag 'news_article[category_id]', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All Categories', class: 'form-control' %>
+      </div>
+    </div>
     <%= f.input :content, input_html: { class: 'input-block-level' } %>
     <%= f.input :image, as: :logo_preview %>
   </div>

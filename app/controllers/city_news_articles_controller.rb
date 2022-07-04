@@ -22,7 +22,6 @@ class CityNewsArticlesController < ApplicationController
     #   @city_news_categories = CityNewsCategory.includes(:city_news_articles).all
     # end
     districts
-    category_news
     city_vancouver = Location.find_by_slug('city-of-vancouver')
     result_locaitons = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
     result_locaitons << city_vancouver
@@ -152,18 +151,5 @@ class CityNewsArticlesController < ApplicationController
   def districts
     # because city is hardcoded everywhere already...
     @districts = District.where("city_id = ?", 5915022)
-  end
-
-  def category_news
-    names = [
-      'City Council',
-      'Fire & Emergency',
-      'Home, Property & Development',
-      'Law Enforcement',
-      'Parks Recreation & Culture',
-      'People & Programs',
-      'Streets & Transportation'
-    ]
-    @categories_news = Category.where(name: names)
   end
 end
