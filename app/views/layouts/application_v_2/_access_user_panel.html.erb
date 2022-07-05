@@ -29,7 +29,7 @@
       <% if user_signed_in? and current_user.has_role? :admin %>
         <% admin_list = [
           { href: "/vertical_markets", name: "Vertical Markets" },
-          { href: "/vertical_markets_categories", name: "Vertical Markets Categories" },
+          { href: "/vertical_market_categories", name: "Vertical Markets Categories" },
           { href: "/city_news_categories", name: "City News Categories" },
           { href: "/city-news", name: "Manage City News" },
           { href: "/classified_categories", name: "Classified Categories" },
