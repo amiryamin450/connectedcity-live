@@ -12,7 +12,7 @@
 guide = @vertical_market_category ? "#{@vertical_market_category.name} In #{@neighborhood.try(:name) || @district.try(:name) || @city.try(:name)}" : nil
 metamagic title: "#{guide}".strip,
           description: "",
-          canonical: url_for(Rails.application.routes.recognize_path(request.path).merge({only_path: false, protocol: 'https'}))
+          canonical: ""#url_for(Rails.application.routes.recognize_path(request.path).merge({only_path: false, protocol: 'https'}))
 %>
 
 <h4><%= @vertical_market_category.name %></h4>
