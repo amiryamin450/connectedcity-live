@@ -27,6 +27,7 @@ class LocationsController < ApplicationController
     @location_menu_images = @location_menus.location_menus.collect{ |location_menu| location_menu.image }
 
     @is_location_normal = @location.hall_id.blank? && @location.councillor_id.blank? && @location.commissioner_id.blank?
+    @is_municipality = !@is_location_normal || @location.slug === 'city-of-vancouver'
     if (@is_location_normal)
       @status_updates = @location.status_updates.page(params[:status_page]).per(7)
       @articles = @location.news_articles.page(params[:article_page]).per(5)

@@ -39,6 +39,8 @@ class NewsArticlesController < ApplicationController
   # GET /news_articles/new.json
   def new
     @location = Location.find(params[:location_id])
+    @is_location_normal = @location.hall_id.blank? && @location.councillor_id.blank? && @location.commissioner_id.blank?
+    @is_municipality = !@is_location_normal || @location.slug === 'city-of-vancouver'
     @news_article = @location.news_articles.new(user_id: current_user.id)
 
     respond_to do |format|

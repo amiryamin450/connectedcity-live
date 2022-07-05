@@ -3,7 +3,6 @@ namespace :vertical_market_categories do
     ActiveRecord::Base.transaction do
 
       names = [
-        'City Hall',
         'Mayor',
         'Deputy Major',
         'City Manager',

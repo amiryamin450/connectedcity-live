@@ -12,15 +12,15 @@
           <%= f.error_notification %>
           <div class="form-inputs">
             <%= f.input :content, as: :text, input_html: { class: 'input-block-level wysihtml5', :rows => 3, style: 'width: 515px'} %>
-
-            <div class="control-group string required category">
-              <%= f.label :category %>
-              <div class="input-group-prepend search-box ">
-                <%= select_tag 'status_update[category_id]', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All Categories', class: 'form-control', style: 'border-color: black;' %>
+            <% if @is_municipality %>
+              <div class="control-group string required category">
+                <%= f.label :category %>
+                <div class="input-group-prepend search-box ">
+                  <%= select_tag 'status_update[category_id]', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All Categories', class: 'form-control', style: 'border-color: black;' %>
+                </div>
               </div>
-            </div>
+            <% end %>
             <%= f.input :image, as: :file  %>
-            <%#= f.hidden_field :category_id %>
           </div>
 
 
@@ -38,6 +38,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
+    var municipality = "<%= @is_municipality %>";
     $("#new_status_update").validate({
       rules: {
         'status_update[content]': {
@@ -48,7 +49,7 @@
           required: true,
         },
         'status_update[category_id]': {
-          required: true,
+          required: function(){ return municipality == "true" },
         }
       }
     });

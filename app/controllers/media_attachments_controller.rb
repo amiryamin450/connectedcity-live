@@ -24,6 +24,8 @@ class MediaAttachmentsController < ApplicationController
   end
 
   def new
+    @is_location_normal = @location.hall_id.blank? && @location.councillor_id.blank? && @location.commissioner_id.blank?
+    @is_municipality = !@is_location_normal || @location.slug === 'city-of-vancouver'
     @media_attachment = @location.media_attachments.new
   end
 

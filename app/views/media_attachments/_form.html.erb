@@ -26,12 +26,14 @@
           <%= f.text_field :title, required: true, autofocus: true, maxlength: 100 %>
           <span id="title-count">0/100</span>
         </div>
-        <div class="control-group string required category">
-          <%= f.label :category %>
-          <div class="input-group-prepend search-box ">
-            <%= select_tag 'media_attachment[category_id]', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All Categories', class: 'form-control', style: 'border-color: black;' %>
+        <% if @is_municipality %>
+          <div class="control-group string required category">
+            <%= f.label :category %>
+            <div class="input-group-prepend search-box ">
+              <%= select_tag 'media_attachment[category_id]', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All Categories', class: 'form-control', style: 'border-color: black;' %>
+            </div>
           </div>
-        </div>
+        <% end %>
         <div class="description-field">
           <label for="media_attachment_description">Description</label>
           <%= f.text_area :description, rows: 7, maxlength: 1500 %>
