@@ -21,8 +21,8 @@
 
 <% @vertical_market_categories.each do |vertical_market_category| %>
   <tr>
-    <td><%= vertical_market_category.name %></td>
-    <td><%= vertical_market_category.vertical_market.name %></td>
+    <td><%= vertical_market_category&.name %></td>
+    <td><%= vertical_market_category&.vertical_market&.name %></td>
     <td></td>
     <td>
       <div class="btn-group">
