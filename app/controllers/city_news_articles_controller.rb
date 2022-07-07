@@ -1,5 +1,5 @@
 class CityNewsArticlesController < ApplicationController
-  load_and_authorize_resource except: [:guide, :index]
+  load_and_authorize_resource except: [:guide, :index, :filter_updates, :filter_media_attachments, :filter_news_articles, :filter_events]
 
   PER_PAGE = 20
 
