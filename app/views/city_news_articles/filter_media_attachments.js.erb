@@ -1,0 +1,8 @@
+$('.media-attachments-data').empty();
+<% if @filter_media_attachments.length > 0 %>
+  <% @filter_media_attachments.each do |item| %>
+  $('.media-attachments-data').append("<%= escape_javascript render(:partial => 'layouts/application_v_2/media_attachment', :locals => { :media_attachment => item }) %>")
+  <% end %>
+<% else %>
+  $('.media-attachments-data').append("<div class='alert'>No videos found.</div>")
+<% end %>

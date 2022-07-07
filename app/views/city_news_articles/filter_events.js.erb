@@ -1,0 +1,8 @@
+$('.events-data').empty();
+<% if @filter_events.length > 0 %>
+  <% @filter_events.each do |item| %>
+  $('.events-data').append("<%= escape_javascript render(:partial => 'layouts/application_v_2/event', :locals => { :event => item }) %>")
+  <% end %>
+<% else %>
+  $('.events-data').append("<div class='alert'>No Events found.</div>")
+<% end %>
