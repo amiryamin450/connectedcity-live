@@ -3,53 +3,61 @@
     <div class="colla">
       <h3 class="sticky-heading">Updates</h3>
       <div class="input-group-prepend search-box d-block">
-        <%= select_tag 'market', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All', class: 'form-control mb-3' %>
-        <% if @status_updates.size > 0 %>
-          <% @status_updates.each do |status_update| %>
-            <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
+        <%= select_tag 'civic-news-status-update-dropdown', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All', class: 'form-control mb-3', remote: true %>
+        <div class="status-updates-data">
+          <% if @status_updates.size > 0 %>
+            <% @status_updates.each do |status_update| %>
+              <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
+            <% end %>
+          <% else %>
+            <div class="alert">No Market Updates found.</div>
           <% end %>
-        <% else %>
-          <div class="alert">No Market Updates found.</div>
-        <% end %>
+        </div>
       </div>
     </div>
     <div class="colla">
       <h3 class="sticky-heading">Videos</h3>
       <div class="input-group-prepend search-box d-block">
-        <%= select_tag 'market', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All', class: 'form-control mb-3' %>
-        <% if @media_attachments.size > 0 %>
-          <% @media_attachments.each do |media_attachment| %>
-            <%= render 'layouts/application_v_2/media_attachment', media_attachment: media_attachment %>
+        <%= select_tag 'civic-news-media-attachment-dropdown', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All', class: 'form-control mb-3' %>
+        <div class="media-attachments-data">
+          <% if @media_attachments.size > 0 %>
+            <% @media_attachments.each do |media_attachment| %>
+              <%= render 'layouts/application_v_2/media_attachment', media_attachment: media_attachment %>
+            <% end %>
+          <% else %>
+            <div class="alert">No videos found.</div>
           <% end %>
-        <% else %>
-          <div class="alert">No videos found.</div>
-        <% end %>
+        </div>
       </div>
     </div>
     <div class="colla">
       <h3 class="sticky-heading">News</h3>
       <div class="input-group-prepend search-box d-block">
-        <%= select_tag 'market', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All', class: 'form-control mb-3' %>
-        <% if @news_articles.size > 0 %>
-          <% @news_articles.each do |news_article| %>
-            <%= render 'layouts/application_v_2/news_article', news_article: news_article %>
+        <%= select_tag 'civic-news-news-article-dropdown', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All', class: 'form-control mb-3' %>
+        <div class="news-articles-data">
+          <% if @news_articles.size > 0 %>
+            <% @news_articles.each do |news_article| %>
+              <%= render 'layouts/application_v_2/news_article', news_article: news_article %>
+            <% end %>
+          <% else %>
+            <div class="alert">No news article found.</div>
           <% end %>
-        <% else %>
-          <div class="alert">No news article found.</div>
-        <% end %>
+        </div>
       </div>
     </div>
     <div class="colla">
       <h3 class="sticky-heading">Events</h3>
       <div class="input-group-prepend search-box d-block">
-        <%= select_tag 'market', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All', class: 'form-control mb-3' %>
-        <% if @events.size > 0 %>
-          <% @events.each do |event| %>
-            <%= render 'layouts/application_v_2/event', event: event %>
+        <%= select_tag 'civic-news-event-dropdown', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All', class: 'form-control mb-3' %>
+        <div class="events-data">
+          <% if @events.size > 0 %>
+            <% @events.each do |event| %>
+              <%= render 'layouts/application_v_2/event', event: event %>
+            <% end %>
+          <% else %>
+            <div class="alert">No Events found.</div>
           <% end %>
-        <% else %>
-          <div class="alert">No Events found.</div>
-        <% end %>
+        </div>
       </div>
     </div>
   </div>
@@ -63,9 +71,11 @@
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
 <% if @status_updates.size > 0 %>
+<div class="status-updates-modal">
   <% @status_updates.each do |status_update| %>
     <%= render 'status_updates/modal_content_latest', status_update: status_update %>
   <% end %>
+</div>
 <% end %>
 
 <% if @media_attachments.size > 0 %>
@@ -142,5 +152,70 @@
       v.attr('src', '')
       v.removeAttr('allow')
     })
+
+    $('#civic-news-status-update-dropdown').on('change', function(event) {
+      let categoryId = event.target.value
+      $.ajax({
+        url: `/city_news_articles/filter_updates?category_id=${categoryId}`,
+        method: "GET",
+        dataType: "script",
+      })
+    })
+
+    $('#civic-news-media-attachment-dropdown').on('change', function(event) {
+      let categoryId = event.target.value
+      $.ajax({
+        url: `/city_news_articles/filter_media_attachments?category_id=${categoryId}`,
+        method: "GET",
+        dataType: "script",
+      })
+    })
+
+    $('#civic-news-news-article-dropdown').on('change', function(event) {
+      let categoryId = event.target.value
+      $.ajax({
+        url: `/city_news_articles/filter_news_articles?category_id=${categoryId}`,
+        method: "GET",
+        dataType: "script",
+      })
+    })
+
+    $('#civic-news-event-dropdown').on('change', function(event) {
+      let categoryId = event.target.value
+      $.ajax({
+        url: `/city_news_articles/filter_events?category_id=${categoryId}`,
+        method: "GET",
+        dataType: "script",
+      })
+    })
+
+
+    //   .done(function( response ) {
+    //     debugger
+    //     $('.status-updates-data').empty()
+    //     $('.status-updates-modal').empty()
+    //     if (response.length > 0) {
+    //       $.each(response, function(index, item) {
+    //         // response.each(item) {
+    //         debugger
+    //         // var @it = item
+    //         console.log(item)
+    //         $('.status-updates-data').append($('<div class="alert">', { value: item.content }))
+    //         // $('.status-updates-data').append("<%#= escape_javascript render(:partial => 'layouts/application_v_2/status_update', :locals => { :status_update => item }) %>")
+    //         // }
+    //       })
+    //     } else {
+    //       $('.status-updates-data').append($('<div class="alert">No Market Updates found</div>'));
+    //     }
+    //     // resetNeighborhood();
+    //     // resetSubNeighborhood();
+    //     // $.each(response, function(index, item) {
+    //     //   $('#civic-news-neighborhoods-dropdown').append($('<option>', {
+    //     //       value: item.slug,
+    //     //       text: item.neighborhd
+    //     //   }));
+    //     // })
+    //   });
+    // })
   });
 </script>

@@ -22,26 +22,15 @@ class CityNewsArticlesController < ApplicationController
     #   @city_news_categories = CityNewsCategory.includes(:city_news_articles).all
     # end
     districts
-    city_vancouver = Location.find_by_slug('city-of-vancouver')
-    result_locaitons = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
-    result_locaitons << city_vancouver
     media = []
     events_temp = []
     news_temp = []
     status_updates_temp = []
-    result_locaitons.each do |i|
-      if (i.media_attachments.size > 0)
-        media << i.media_attachments
-      end
-      if (i.events.size > 0)
-        events_temp << i.events
-      end
-      if (i.news_articles.size > 0)
-        news_temp << i.news_articles
-      end
-      if (i.status_updates.size > 0)
-        status_updates_temp << i.status_updates
-      end
+    locations_manicipality.each do |i|
+      media << i.media_attachments if i.media_attachments.size > 0
+      events_temp << i.events if i.events.size > 0
+      news_temp << i.news_articles if i.news_articles.size > 0
+      status_updates_temp << i.status_updates if i.status_updates.size > 0
     end
     @media_attachments = media.flatten.sort_by(&:created_at).reverse
     @events = events_temp.flatten.sort_by(&:created_at).reverse
@@ -59,6 +48,94 @@ class CityNewsArticlesController < ApplicationController
   def get_sub_neighborhoods
     neighborhood = Neighborhood.find_by_slug(params[:neighborhood_slug])
     render json: neighborhood
+  end
+
+  def filter_updates
+    temp = []
+    if params[:category_id].blank?
+      locations_manicipality.each do |i|
+        temp << i.status_updates if i.status_updates.length > 0
+      end
+      @filter_status_updates = temp.flatten.sort_by(&:created_at).reverse
+    else
+      locations_manicipality.each do |i|
+        if (i.status_updates.length > 0)
+          i.status_updates.each do |item|
+            temp << item if item.category_id === params[:category_id].to_i
+          end
+        end
+      end
+      @filter_status_updates = temp.flatten.sort_by(&:created_at).reverse
+    end
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def filter_media_attachments
+    temp = []
+    if params[:category_id].blank?
+      locations_manicipality.each do |i|
+        temp << i.media_attachments if i.media_attachments.length > 0
+      end
+      @filter_media_attachments = temp.flatten.sort_by(&:created_at).reverse
+    else
+      locations_manicipality.each do |i|
+        if (i.media_attachments.length > 0)
+          i.media_attachments.each do |item|
+            temp << item if item.category_id === params[:category_id].to_i
+          end
+        end
+      end
+      @filter_media_attachments = temp.flatten.sort_by(&:created_at).reverse
+    end
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def filter_news_articles
+    temp = []
+    if params[:category_id].blank?
+      locations_manicipality.each do |i|
+        temp << i.news_articles if i.news_articles.length > 0
+      end
+      @filter_news = temp.flatten.sort_by(&:created_at).reverse
+    else
+      locations_manicipality.each do |i|
+        if (i.news_articles.length > 0)
+          i.news_articles.each do |item|
+            temp << item if item.category_id === params[:category_id].to_i
+          end
+        end
+      end
+      @filter_news = temp.flatten.sort_by(&:created_at).reverse
+    end
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def filter_events
+    temp = []
+    if params[:category_id].blank?
+      locations_manicipality.each do |i|
+        temp << i.events if i.events.length > 0
+      end
+      @filter_events = temp.flatten.sort_by(&:created_at).reverse
+    else
+      locations_manicipality.each do |i|
+        if (i.events.length > 0)
+          i.events.each do |item|
+            temp << item if item.category_id === params[:category_id].to_i
+          end
+        end
+      end
+      @filter_events = temp.flatten.sort_by(&:created_at).reverse
+    end
+    respond_to do |format|
+      format.js
+    end
   end
 
   # GET /city_news_articles/1
@@ -151,5 +228,12 @@ class CityNewsArticlesController < ApplicationController
   def districts
     # because city is hardcoded everywhere already...
     @districts = District.where("city_id = ?", 5915022)
+  end
+
+  def locations_manicipality
+    city_vancouver = Location.find_by_slug('city-of-vancouver')
+    result_locaitons = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
+    result_locaitons << city_vancouver
+    @locations_manicipality ||= result_locaitons
   end
 end

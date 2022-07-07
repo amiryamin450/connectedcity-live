@@ -1,0 +1,8 @@
+$('.status-updates-data').empty();
+<% if @filter_status_updates.length > 0 %>
+  <% @filter_status_updates.each do |item| %>
+  $('.status-updates-data').append("<%= escape_javascript render(:partial => 'layouts/application_v_2/status_update', :locals => { :status_update => item }) %>")
+  <% end %>
+<% else %>
+  $('.status-updates-data').append("<div class='alert'>No Market Updates found.</div>")
+<% end %>
