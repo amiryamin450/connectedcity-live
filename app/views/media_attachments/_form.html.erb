@@ -30,7 +30,7 @@
           <div class="control-group string required category">
             <%= f.label :category %>
             <div class="input-group-prepend search-box ">
-              <%= select_tag 'media_attachment[category_id]', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All Categories', class: 'form-control', style: 'border-color: black;' %>
+              <%= select_tag 'category_id', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All Categories', class: 'form-control', style: 'border-color: black;' %>
             </div>
           </div>
         <% end %>
@@ -196,7 +196,8 @@
         function updateMedia(videoId) {
           var title = document.getElementById('media_attachment_title').value;
           var description = document.getElementById('media_attachment_description').value;
-          var params = JSON.stringify({title: title, description: description})
+          var cateId = document.getElementById('category_id').value;
+          var params = JSON.stringify({title: title, description: description, category_id: cateId})
           var data = new FormData();
           data.append('media_attachment', params);
           fetch(`/videos/${videoId}/update_media_attachment.json`, {
