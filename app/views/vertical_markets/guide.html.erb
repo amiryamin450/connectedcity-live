@@ -43,7 +43,12 @@
                   <div id="map"></div>
                 </div>
                 <div class="SideBar-tabs">
-                  <%= render 'layouts/application_v_2/guide_sidebar' %>
+                  <!-- municipal-services 114-->
+                  <% if @vertical_market.id == 114 %>
+                    <%= render 'layouts/application_v_2/guide_sidebar_municipality' %>
+                  <% else %>
+                    <%= render 'layouts/application_v_2/guide_sidebar' %>
+                  <% end %>
                 </div>
             </div>
           </div>
