@@ -21,23 +21,29 @@ class CityNewsArticlesController < ApplicationController
     # else
     #   @city_news_categories = CityNewsCategory.includes(:city_news_articles).all
     # end
-    districts
-    media = []
-    events_temp = []
-    news_temp = []
-    status_updates_temp = []
-    locations_manicipality.each do |i|
-      media << i.media_attachments if i.media_attachments.size > 0
-      events_temp << i.events if i.events.size > 0
-      news_temp << i.news_articles if i.news_articles.size > 0
-      status_updates_temp << i.status_updates if i.status_updates.size > 0
-    end
-    @media_attachments = media.flatten.sort_by(&:created_at).reverse
-    @events = events_temp.flatten.sort_by(&:created_at).reverse
-    @news_articles = news_temp.flatten.sort_by(&:created_at).reverse
-    @status_updates = status_updates_temp.flatten.sort_by(&:created_at).reverse
+    # districts
+    # category_news
+    # user_signed_in? ? @favorites = current_user.favorites.all : @favorites = []
+    # results = VerticalMarket.order(:name).at_depth 0
+    # @vertical_market_news = VerticalMarket.find_by_slug('civic-news')
+    # @vertical_markets_all = results.reject{|i| ['civic-news', 'employment-opportunities', 'classifieds'].include?(i.slug)}
 
-    render layout: "application_v_2"
+    # media = []
+    # events_temp = []
+    # news_temp = []
+    # status_updates_temp = []
+    # locations_manicipality.each do |i|
+    #   media << i.media_attachments if i.media_attachments.size > 0
+    #   events_temp << i.events if i.events.size > 0
+    #   news_temp << i.news_articles if i.news_articles.size > 0
+    #   status_updates_temp << i.status_updates if i.status_updates.size > 0
+    # end
+    # @media_attachments = media.flatten.sort_by(&:created_at).reverse
+    # @events = events_temp.flatten.sort_by(&:created_at).reverse
+    # @news_articles = news_temp.flatten.sort_by(&:created_at).reverse
+    # @status_updates = status_updates_temp.flatten.sort_by(&:created_at).reverse
+
+    # render layout: "application_v_2"
   end
 
   def get_neighborhoods

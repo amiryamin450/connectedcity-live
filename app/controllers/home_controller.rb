@@ -4,34 +4,36 @@ class HomeController < ApplicationController
   PER_PAGE = 20
 
   def index
-    @countries = Country.all
     @provinces = Province.all.sort_by(&:name)
-    @city = City.find(5915022)
-    @carousel_images = @city.carousel_images
-    @status_updates = @city.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
-    @events = @city.events.order(:starts_at).limit(PER_PAGE)
-    @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
-    @districts = @city.districts
-    @news = @city.news_articles.where(newsable_type: "Location").limit(PER_PAGE)
-    @blog_entries = @city.blog_entries.limit(PER_PAGE)
-    @products = @city.products.limit(PER_PAGE)
-    @coupons = @city.coupons.limit(PER_PAGE)
-    @services = @city.services.limit(PER_PAGE)
   end
 
   def city_landing
-    # @city = City.find(5915022)
     @city = City.find_by_slug(params[:city_slug])
-    @carousel_images = @city.carousel_images
-    @status_updates = @city.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
-    @news = @city.news_articles.where(newsable_type: "Location").limit(PER_PAGE)
-    @events = @city.events.order(:starts_at).limit(PER_PAGE)
-    @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
-    @districts = @city.districts
-    @blog_entries = @city.blog_entries.limit(PER_PAGE)
-    @products = @city.products.limit(PER_PAGE)
-    @coupons = @city.coupons.limit(PER_PAGE)
-    @services = @city.services.limit(PER_PAGE)
+    if (@city.present?)
+      @carousel_images = @city.carousel_images
+      @status_updates = @city.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
+      @news = @city.news_articles.where(newsable_type: "Location").limit(PER_PAGE)
+      @events = @city.events.order(:starts_at).limit(PER_PAGE)
+      @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
+      @districts = @city.districts
+      @blog_entries = @city.blog_entries.limit(PER_PAGE)
+      @products = @city.products.limit(PER_PAGE)
+      @coupons = @city.coupons.limit(PER_PAGE)
+      @services = @city.services.limit(PER_PAGE)
+      @business_improvement_areas = @city.business_improvement_areas.unscoped.order("name ASC")
+    else
+      @carousel_images = []
+      @status_updates = []
+      @news = []
+      @events = []
+      @blog_entries = []
+      @media_attachments = []
+      @products = []
+      @coupons = []
+      @services = []
+      @districts = []
+      @business_improvement_areas = []
+    end
     render layout: "application_v_2"
   end
 
@@ -39,20 +41,20 @@ class HomeController < ApplicationController
   end
 
   def get_regions
-    province = Province.find_by_slug(params[:province_id])
-    regions = province&.regions
+    @home_province = Province.find_by_slug(params[:province_id])
+    regions = @home_province&.regions&.sort_by(&:name)
     render json: regions
   end
 
   def get_municipalities
-    region = Region.find_by_slug(params[:region_id])
-    municipalities = region&.municipalities
+    @home_region = Region.find_by_slug(params[:region_id])
+    municipalities = @home_region&.municipalities&.sort_by(&:name)
     render json: municipalities
   end
 
   def get_cities
-    municipality = Municipality.find_by_slug(params[:municipality_id])
-    cities = municipality&.cities
+    @home_municipality = Municipality.find_by_slug(params[:municipality_id])
+    cities = @home_municipality&.cities&.sort_by(&:csdname)
     render json: cities
   end
 

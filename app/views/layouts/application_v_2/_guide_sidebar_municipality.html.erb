@@ -6,19 +6,10 @@
       <a class="nav-link" data-toggle="tab" href="#Videos">Videos</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#Featured">Featured</a>
-    </li>
-    <li class="nav-item">
       <a class="nav-link" data-toggle="tab" href="#Events">Events</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" data-toggle="tab" href="#News">News</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#Blogs">Blogs</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#Offers">Offers</a>
     </li>
 </ul>
 <!-- Tab panes -->
@@ -26,9 +17,6 @@
     <div id="Update" class="container tab-pane active">
       <br>
       <h3>Updates</h3><br>
-      <%= @city.id %>
-      <%#= @district.id %>
-      <%#= @neighborhood.id %>
       <% status_updates = @vertical_market.get_status_updates_municipality(@city, @district, @neighborhood)%>
       <% if status_updates.size > 0 %>
           <% status_updates.each do |status_update| %>
@@ -50,19 +38,6 @@
         <div class="alert">No Videos found.</div>
       <% end %>
     </div>
-    <div id="Featured" class="container tab-pane fade">
-      <br>
-      <h3>Featured</h3>
-      <% products = @vertical_market.get_products_municipality(@district, @neighborhood)%>
-      <% if products.size > 0 %>
-          <% products.each do |product| %>
-            <%= render 'layouts/application_v_2/product', product: product %>
-          <% end %>
-      <% else %>
-        <div class="alert">No Products found.</div>
-      <% end %>
-    </div>
-    <!--  -->
     <div id="Events" class="container tab-pane">
       <br>
       <h3>Events</h3><br>
@@ -86,23 +61,6 @@
       <% else %>
         <div class="alert">No News found.</div>
       <% end %>
-    </div>
-    <div id="Blogs" class="container tab-pane fade">
-      <br>
-      <h3>Blogs</h3><br>
-      <% blog_entries = @vertical_market.get_blog_entries_municipality(@city, @district)%>
-      <% if blog_entries.size > 0 %>
-          <% blog_entries.each do |blog_entry| %>
-            <%= render 'layouts/application_v_2/blog_entry', blog_entry: blog_entry %>
-          <% end %>
-      <% else %>
-        <div class="alert">No Blogs found.</div>
-      <% end %>
-    </div>
-    <div id="Offers" class="container tab-pane fade">
-      <br>
-      <h3>Offers</h3><br>
-      <%= render @vertical_market.get_coupons %>
     </div>
 </div>
 <% if media_attachments.size > 0 %>

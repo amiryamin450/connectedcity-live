@@ -13,6 +13,12 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="<%=root_path%>">Home</a></li>
+      <% if [174, 164].include?(@vertical_market.id) && @location.city %>
+        <% municipality = @location.city.municipality %>
+        <% region = municipality.region %>
+        <% url = "/#{@location.province.slug}/#{region.slug}/#{municipality.slug}/#{@location.city.slug}" %>
+        <li class="breadcrumb-item"><a href="<%= url %>"><%= @location.city.name%></a></li>
+      <% end %>
       <% if @location.district %>
         <li class="breadcrumb-item"><a href="<%=district_guide_path(@location.district.name)%>"><%= @location.district.name%></a></li>
       <% end %>
@@ -162,7 +168,7 @@
                   <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#Articles">News Articles</a>
                   </li>
-                <% if (@is_location_normal && request.path != '/business/city-of-vancouver') %>
+                <% if (![174, 164].include?(@vertical_market.id) && @is_location_normal && request.path != '/business/city-of-vancouver') %>
                   <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#Entries">Blog Entries</a>
                   </li>
@@ -178,7 +184,7 @@
                     <%= render 'news_articles' %>
                     <div class="divider mt-5"></div>
                   </div>
-                <% if (@is_location_normal && request.path != '/business/city-of-vancouver') %>
+                <% if (![174, 164].include?(@vertical_market.id) && @is_location_normal && request.path != '/business/city-of-vancouver') %>
                   <div id="Entries" class="container tab-pane fade">
                     <%= render 'blog_entry' %>
                     <div class="divider mt-5"></div>
@@ -196,7 +202,7 @@
             <div class="map-section">
               <div id="map" style="height: 240px;"></div>
             </div>
-            <% if @is_location_normal %>
+            <% if ![174, 164].include?(@vertical_market.id) && @is_location_normal %>
               <% if request.path === '/business/city-of-vancouver' %>
                 <%= render 'location_media' %>
                 <%= render 'location_events' %>

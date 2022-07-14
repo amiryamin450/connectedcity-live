@@ -14,7 +14,6 @@ class LocationsController < ApplicationController
   end
 
   def show
-    category_news
 
     @location = Location.includes(:location_images).find(params[:id])
     @location_menus = Location.includes(:location_menus).find(params[:id])
@@ -366,16 +365,4 @@ class LocationsController < ApplicationController
     VerticalMarketCategory.where("name NOT IN (?)", name_categories).order(:name)
   end
 
-  def category_news
-    names = [
-      'City Council',
-      'Fire & Emergency',
-      'Home, Property & Development',
-      'Law Enforcement',
-      'Parks Recreation & Culture',
-      'People & Programs',
-      'Streets & Transportation'
-    ]
-    @categories_news = Category.where(name: names)
-  end
 end

@@ -38,58 +38,94 @@ class VerticalMarketsController < ApplicationController
   #This is the action that controls the vertical market category pages. Not sure why it's an action called Guide when there is a Guide controller...sigh... -Don Marges
   # Pretty sure it was named guide because its creator is out of ideas and obviously, it guide the instance variables @abc to the right values ...sneer... -Tom Tran
   def guide
-    categories_without_municipality
-    @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).find(params[:market])
-    case @vertical_market.id
-    when 1
-      @auto_listings = AutomotiveListing.limit(SEE_MORE_LIMIT)
-    when 17
-      @rental_properties = RentalProperty.where city_id: @city.id
-      @rental_properties = @rental_properties.where district_id: @district.id if @district
-      @rental_properties = @rental_properties.where neighborhood_id: @neighborhood.id if @neighborhood
-      @rental_properties = @rental_properties.order :style
-      @rental_styles = @rental_properties.map(&:style).uniq
-    when 18
-      @listings = RealEstateListing.where property_type: 'Residential', city_id: @city.id
-      @listings = @listings.where district_id: @district.id if @district
-      @listings = @listings.where neighborhood_id: @neighborhood.id if @neighborhood
-      @listings = @listings.order :style
-      @residential_styles =  @listings.uniq.pluck(:style)
-    when 19
-      @new_home_communities = NewHomeCommunity.where city_id: @city.id
-      @new_home_communities = @new_home_communities.where district_id: @district.id if @district
-      @new_home_communities = @new_home_communities.where neighborhood_id: @neighborhood.id if @neighborhood
-      @new_home_communities = @new_home_communities.order :style
-      @new_home_community_styles = @new_home_communities.pluck(:style).uniq
-    when 20
-      @commercial_listings = RealEstateListing.where property_type: 'Commercial',
-                                                     city_id: @city.id
-      @commercial_listings = @commercial_listings.where district_id: @district.id if @district
-      @commercial_listings = @commercial_listings.where neighborhood_id: @neighborhood.id if @neighborhood
-      @commercial_listings = @commercial_listings.order :style
-      @commercial_styles = @commercial_listings.uniq.pluck(:style)
-    end
+    market_param = params[:market] === 'news' ? 'civic-news' : params[:market]
+    @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).find(market_param)
+    # if params[:district_route].blank? && (params[:market] === 'news' || [174, 164, 114].include?(@vertical_market.id))
+    #   redirect_to root_path
+    # else
+        # binding.pry
 
-    if @vertical_market.name.include?("Auto Listing")
-      @auto_listings = {}
-      @auto_makes = AutomotiveListing.pluck("DISTINCT make")
-      @auto_makes.each do |make|
-        @auto_listings[make] = AutomotiveListing.make_by(make).
-          available_in(@city.id, @district.try(:id), @neighborhood.try(:id)).limit(SEE_MORE_LIMIT).includes(:location)
+        # init_category_values
+      if params[:market] === 'news'
+        districts
+
+        media = []
+        events_temp = []
+        news_temp = []
+        status_updates_temp = []
+        locations_manicipality.each do |i|
+          media << i.media_attachments if i.media_attachments.size > 0
+          events_temp << i.events if i.events.size > 0
+          news_temp << i.news_articles if i.news_articles.size > 0
+          status_updates_temp << i.status_updates if i.status_updates.size > 0
+        end
+        @media_attachments = media.flatten.sort_by(&:created_at).reverse
+        @events = events_temp.flatten.sort_by(&:created_at).reverse
+        @news_articles = news_temp.flatten.sort_by(&:created_at).reverse
+        @status_updates = status_updates_temp.flatten.sort_by(&:created_at).reverse
+      else
+      #if cookies[:city].present? || ![174, 164].include?(@vertical_market.id)
+
+        # results = VerticalMarket.order(:name).at_depth 0
+        # # @vertical_market_news = results.select{|i| i.slug === 'civic-news'}.first
+        # @vertical_markets_all = results.reject{|i| ['civic-news', 'employment-opportunities', 'classifieds'].include?(i.slug)}
+        # user_signed_in? ? @favorites = current_user.favorites.all : @favorites = []
+
+        categories_without_municipality
+        case @vertical_market.id
+        when 1
+          @auto_listings = AutomotiveListing.limit(SEE_MORE_LIMIT)
+        when 17
+          @rental_properties = RentalProperty.where city_id: @city.id
+          @rental_properties = @rental_properties.where district_id: @district.id if @district
+          @rental_properties = @rental_properties.where neighborhood_id: @neighborhood.id if @neighborhood
+          @rental_properties = @rental_properties.order :style
+          @rental_styles = @rental_properties.map(&:style).uniq
+        when 18
+          @listings = RealEstateListing.where property_type: 'Residential', city_id: @city.id
+          @listings = @listings.where district_id: @district.id if @district
+          @listings = @listings.where neighborhood_id: @neighborhood.id if @neighborhood
+          @listings = @listings.order :style
+          @residential_styles =  @listings.uniq.pluck(:style)
+        when 19
+          @new_home_communities = NewHomeCommunity.where city_id: @city.id
+          @new_home_communities = @new_home_communities.where district_id: @district.id if @district
+          @new_home_communities = @new_home_communities.where neighborhood_id: @neighborhood.id if @neighborhood
+          @new_home_communities = @new_home_communities.order :style
+          @new_home_community_styles = @new_home_communities.pluck(:style).uniq
+        when 20
+          @commercial_listings = RealEstateListing.where property_type: 'Commercial',
+                                                         city_id: @city.id
+          @commercial_listings = @commercial_listings.where district_id: @district.id if @district
+          @commercial_listings = @commercial_listings.where neighborhood_id: @neighborhood.id if @neighborhood
+          @commercial_listings = @commercial_listings.order :style
+          @commercial_styles = @commercial_listings.uniq.pluck(:style)
+        end
+
+        if @vertical_market.name.include?("Auto Listing")
+          @auto_listings = {}
+          @auto_makes = AutomotiveListing.pluck("DISTINCT make")
+          @auto_makes.each do |make|
+            @auto_listings[make] = AutomotiveListing.make_by(make).
+              available_in(@city.id, @district.try(:id), @neighborhood.try(:id)).limit(SEE_MORE_LIMIT).includes(:location)
+          end
+          @markers = @auto_listings.values.flatten.map(&:location)
+        end
+
+        add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
+        add_crumb @district.name, district_guide_path(@district) if @district
+        add_crumb @neighborhood.name if @neighborhood
+
+        @vertical_market.ancestors.each do |ancestor|
+          add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
+        end
+
+        add_crumb "#{@vertical_market.name} Guide"
       end
-      @markers = @auto_listings.values.flatten.map(&:location)
-    end
-
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb @district.name, district_guide_path(@district) if @district
-    add_crumb @neighborhood.name if @neighborhood
-
-    @vertical_market.ancestors.each do |ancestor|
-      add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
-    end
-
-    add_crumb "#{@vertical_market.name} Guide"
-    render layout: "application_v_2"
+      render layout: "application_v_2"
+      # else
+      #   redirect_to root_path
+    # end
   end
 
   def search
@@ -229,5 +265,25 @@ class VerticalMarketsController < ApplicationController
       'Parks & Recreation Commissioners'
     ]
     @categories_without_municipality_ids = VerticalMarketCategory.where(name: name_categories).pluck(:id)
+  end
+
+  def districts
+    # because city is hardcoded everywhere already...
+    if params[:district_route].present?
+        binding.pry
+      dis = District.find(params[:district_route])
+      @city = dis.city
+      @districts = @city.present? ? @city.districts : []
+    else
+      @districts = []#District.where("city_id = ?", 5915022)
+      @city = nil
+    end
+  end
+
+  def locations_manicipality
+    city_vancouver = Location.find_by_slug('city-of-vancouver')
+    result_locaitons = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
+    result_locaitons << city_vancouver
+    @locations_manicipality ||= result_locaitons
   end
 end

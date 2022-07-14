@@ -21,13 +21,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_up
-    category_news
-    results = VerticalMarket.order(:name).at_depth 0
-    @vertical_market_news = results.select{|i| i.slug === 'civic-news'}.first
-    @vertical_markets_all = results.reject{|i| ['civic-news', 'employment-opportunities', 'classifieds'].include?(i.slug)}
-
     user_signed_in? ? @favorites = current_user.favorites.all : @favorites = []
-
+    init_category_values
     @city = City.find(5915022)
     @sidebar_class = if cookies[:sidebar_class].present?
                         cookies[:sidebar_class]
@@ -71,6 +66,13 @@ class ApplicationController < ActionController::Base
                     root_path
                   end
 
+  end
+
+  def init_category_values
+    category_news
+    results = VerticalMarket.order(:name).at_depth 0
+    @vertical_market_news = results.select{|i| i.slug === 'civic-news'}.first
+    @vertical_markets_all = results.reject{|i| ['civic-news', 'employment-opportunities', 'classifieds'].include?(i.slug)}
   end
 
   private

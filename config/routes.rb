@@ -315,7 +315,6 @@ Connectbook::Application.routes.draw do
   get ':district_route/business/:id' => 'locations#show', as: :district_location_path
   get ':district_route/:neighborhood/guide/:market' => 'vertical_markets#guide', as: :district_neighborhood_guide
   get ':district_route/:neighborhood_route/news' => 'city_news_articles#guide'
-  get ':district_route/news' => 'city_news_articles#guide'
   get ':district_route/:neighborhood/business/:id' => 'locations#show', as: :district_neighborhood_location
 
   get 'search' => 'vertical_markets#search'
@@ -332,7 +331,7 @@ Connectbook::Application.routes.draw do
   get ':district_route/category/:id' => 'vertical_market_categories#show'
   get 'category/auto_makes/:make' => 'vertical_market_categories#show_auto_listing_makers', as: :auto_make_show
   get 'category/:id' => 'vertical_market_categories#show', as: :category_show
-  get 'news' => 'city_news_articles#guide', as: :city_news_guide
+  # get 'news' => 'city_news_articles#guide', as: :city_news_guide
   resources :city_news_articles  do#, to: 'city_news_articles#guide' , as: :city_news_guide do
     collection do
       get :get_neighborhoods
