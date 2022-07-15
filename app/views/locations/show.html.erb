@@ -20,7 +20,7 @@
         <li class="breadcrumb-item"><a href="<%= url %>"><%= @location.city.name%></a></li>
       <% end %>
       <% if @location.district %>
-        <li class="breadcrumb-item"><a href="<%=district_guide_path(@location.district.name)%>"><%= @location.district.name%></a></li>
+        <li class="breadcrumb-item"><a href="<%=district_guide_path(@location.district.slug)%>"><%= @location.district.name%></a></li>
       <% end %>
       <% if @location.neighborhood %>
         <li class="breadcrumb-item"><%= @location.neighborhood.name %></li>

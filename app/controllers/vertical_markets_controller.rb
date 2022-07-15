@@ -53,7 +53,7 @@ class VerticalMarketsController < ApplicationController
         events_temp = []
         news_temp = []
         status_updates_temp = []
-        locations_manicipality.each do |i|
+        locations_of_civic_news.each_with_index do |i, idx|
           media << i.media_attachments if i.media_attachments.size > 0
           events_temp << i.events if i.events.size > 0
           news_temp << i.news_articles if i.news_articles.size > 0
@@ -280,10 +280,13 @@ class VerticalMarketsController < ApplicationController
     end
   end
 
-  def locations_manicipality
+  def locations_of_civic_news
     city_vancouver = Location.find_by_slug('city-of-vancouver')
     result_locaitons = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
+    #provincial-services: 164 , federal-services: 174
+    other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [164, 174]})
     result_locaitons << city_vancouver
-    @locations_manicipality ||= result_locaitons
+    result_locaitons += other_results
+    @locations_of_civic_news ||= result_locaitons
   end
 end
