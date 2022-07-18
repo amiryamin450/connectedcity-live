@@ -126,23 +126,9 @@ class VerticalMarket < ActiveRecord::Base
     MediaAttachment.joins(location: :vertical_market_categories).where(locations: location_params(city, district, neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`media_attachments`.`created_at` DESC").limit(50)
   end
 
-  def get_coupons_municipality(city = nil, district = nil, neighborhood = nil)
-    Coupon.joins(location: :vertical_market_categories).where("`coupons`.`redemptions_count` < `coupons`.`howmany`").where(locations: location_params(city, district, neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`coupons`.`created_at` DESC").limit 50
-  end
-
   def get_status_updates_municipality(city = nil, district = nil, neighborhood = nil, add_subtrees = true, vertical_market_category = nil)
     status_updates = StatusUpdate.joins(location: :vertical_market_categories).where(locations: location_params(city, district, neighborhood))
     status_updates = status_updates.where(vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`status_updates`.`created_at` DESC").limit 200
-  end
-
-  def get_products_municipality(city = nil, district = nil, neighborhood = nil)
-    products = Product.joins(location: :vertical_market_categories).where(locations: location_params(city, district, neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`products`.`created_at` DESC").limit 50
-    products += Service.joins(location: :vertical_market_categories).where(locations: location_params(city, district, neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`services`.`created_at` DESC").limit 50
-    products.sort_by(&:created_at).reverse
-  end
-
-  def get_blog_entries_municipality(city = nil, district = nil, neighborhood = nil)
-    BlogEntry.joins(location: :vertical_market_categories).where(locations: location_params(city, district, neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`blog_entries`.`created_at` DESC").uniq.limit 50
   end
 
   def get_events_municipality(city = nil, district = nil, neighborhood = nil)

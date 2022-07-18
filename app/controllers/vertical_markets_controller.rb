@@ -63,6 +63,10 @@ class VerticalMarketsController < ApplicationController
         @events = events_temp.flatten.sort_by(&:created_at).reverse
         @news_articles = news_temp.flatten.sort_by(&:created_at).reverse
         @status_updates = status_updates_temp.flatten.sort_by(&:created_at).reverse
+
+        names = ['Provincial Updates', 'Federal Updates']
+        lst_categories = Category.where(name: names)
+        @categories_news += lst_categories
       else
       #if cookies[:city].present? || ![174, 164].include?(@vertical_market.id)
 

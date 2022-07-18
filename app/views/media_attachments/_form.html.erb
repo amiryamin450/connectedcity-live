@@ -26,8 +26,9 @@
           <%= f.text_field :title, required: true, autofocus: true, maxlength: 100 %>
           <span id="title-count">0/100</span>
         </div>
-        <% if @is_municipality %>
-          <div class="control-group string required category">
+        <% if @is_municipality || [174, 164].include?(@vertical_market.id) %>
+          <% hidden = [174, 164].include?(@vertical_market.id) ? 'display: none' : 'display: block' %>
+          <div class="control-group string required category" style="<%= hidden %>">
             <%= f.label :category %>
             <div class="input-group-prepend search-box ">
               <%= select_tag 'category_id', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All Categories', class: 'form-control', style: 'border-color: black;' %>
@@ -196,7 +197,11 @@
         function updateMedia(videoId) {
           var title = document.getElementById('media_attachment_title').value;
           var description = document.getElementById('media_attachment_description').value;
+          var need_category = "<%= [174, 164].include?(@vertical_market.id) %>"
           var cateId = document.getElementById('category_id').value;
+          if (need_category === "true") {
+            cateId = <%= @categories_news[0].id %>
+          }
           var params = JSON.stringify({title: title, description: description, category_id: cateId})
           var data = new FormData();
           data.append('media_attachment', params);

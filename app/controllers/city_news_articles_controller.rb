@@ -64,13 +64,7 @@ class CityNewsArticlesController < ApplicationController
       end
       @filter_status_updates = temp.flatten.sort_by(&:created_at).reverse
     else
-      locations_manicipality.each do |i|
-        if (i.status_updates.length > 0)
-          i.status_updates.each do |item|
-            temp << item if item.category_id === params[:category_id].to_i
-          end
-        end
-      end
+      temp = StatusUpdate.where(category_id: params[:category_id])
       @filter_status_updates = temp.flatten.sort_by(&:created_at).reverse
     end
     respond_to do |format|
@@ -86,13 +80,7 @@ class CityNewsArticlesController < ApplicationController
       end
       @filter_media_attachments = temp.flatten.sort_by(&:created_at).reverse
     else
-      locations_manicipality.each do |i|
-        if (i.media_attachments.length > 0)
-          i.media_attachments.each do |item|
-            temp << item if item.category_id === params[:category_id].to_i
-          end
-        end
-      end
+      temp = MediaAttachment.where(category_id: params[:category_id])
       @filter_media_attachments = temp.flatten.sort_by(&:created_at).reverse
     end
     respond_to do |format|
@@ -108,13 +96,7 @@ class CityNewsArticlesController < ApplicationController
       end
       @filter_news = temp.flatten.sort_by(&:created_at).reverse
     else
-      locations_manicipality.each do |i|
-        if (i.news_articles.length > 0)
-          i.news_articles.each do |item|
-            temp << item if item.category_id === params[:category_id].to_i
-          end
-        end
-      end
+      temp = NewsArticle.where(category_id: params[:category_id])
       @filter_news = temp.flatten.sort_by(&:created_at).reverse
     end
     respond_to do |format|
@@ -130,13 +112,7 @@ class CityNewsArticlesController < ApplicationController
       end
       @filter_events = temp.flatten.sort_by(&:created_at).reverse
     else
-      locations_manicipality.each do |i|
-        if (i.events.length > 0)
-          i.events.each do |item|
-            temp << item if item.category_id === params[:category_id].to_i
-          end
-        end
-      end
+      temp = Event.where(category_id: params[:category_id])
       @filter_events = temp.flatten.sort_by(&:created_at).reverse
     end
     respond_to do |format|
@@ -239,7 +215,9 @@ class CityNewsArticlesController < ApplicationController
   def locations_manicipality
     city_vancouver = Location.find_by_slug('city-of-vancouver')
     result_locaitons = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
+    other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [164, 174]})
     result_locaitons << city_vancouver
+    result_locaitons += other_results
     @locations_manicipality ||= result_locaitons
   end
 end

@@ -12,6 +12,11 @@ class EventsController < ApplicationController
   def new
     @is_location_normal = @location.hall_id.blank? && @location.councillor_id.blank? && @location.commissioner_id.blank?
     @is_municipality = !@is_location_normal || @location.slug === 'city-of-vancouver'
+    @vertical_market = @location.vertical_market_categories.first.vertical_market if @location.vertical_market_categories.size > 0
+    if [164, 174].include?(@vertical_market.id)
+      names = @vertical_market.id === 164 ? 'Provincial Updates' : 'Federal Updates'
+      @categories_news = Category.where(name: names)
+    end
     @event = @location.events.new(starts_at: Time.now, ends_at: Time.now + 1.hour, email: current_user.email )
   end
 

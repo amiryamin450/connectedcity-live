@@ -12,8 +12,9 @@
           <%= f.error_notification %>
           <div class="form-inputs">
             <%= f.input :content, as: :text, input_html: { class: 'input-block-level wysihtml5', :rows => 3, style: 'width: 515px'} %>
-            <% if @is_municipality %>
-              <div class="control-group string required category">
+            <% if @is_municipality || [174, 164].include?(@vertical_market.id) %>
+              <% hidden = [174, 164].include?(@vertical_market.id) ? 'display: none' : 'display: block' %>
+              <div class="control-group string required category" style="<%= hidden %>">
                 <%= f.label :category %>
                 <div class="input-group-prepend search-box ">
                   <%= select_tag 'status_update[category_id]', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All Categories', class: 'form-control', style: 'border-color: black;' %>
@@ -22,8 +23,6 @@
             <% end %>
             <%= f.input :image, as: :file  %>
           </div>
-
-
         <div class="modal-footer form-actions">
           <input type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true" value="Cancel" />
           <%= f.button :submit, value: 'Create Status Update', :class => 'btn btn-primary', id: 'status-update-submit' %>
@@ -53,5 +52,11 @@
         }
       }
     });
+    var need_category = "<%= [174, 164].include?(@vertical_market.id) %>"
+    if (need_category === "true") {
+      var value = <%= @categories_news[0].id %>
+      $("form#new_status_update select").val(value);
+    }
+
   });
 </script>

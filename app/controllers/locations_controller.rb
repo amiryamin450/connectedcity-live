@@ -53,6 +53,10 @@ class LocationsController < ApplicationController
     end
 
     @vertical_market = @location.vertical_market_categories.first.vertical_market if @location.vertical_market_categories.size > 0
+    if [164, 174].include?(@vertical_market.id)
+      names = @vertical_market.id === 164 ? 'Provincial Updates' : 'Federal Updates'
+      @categories_news = Category.where(name: names)
+    end
 
     cookies[:return_to] = "#{@base_path}business/#{@location.slug}"
 
