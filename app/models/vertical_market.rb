@@ -88,7 +88,7 @@ class VerticalMarket < ActiveRecord::Base
   end
 
   def get_events(city = nil, district = nil, neighborhood = nil)
-    Event.joins(location: :vertical_market_categories).where("`events`.`ends_at` > CURRENT_TIMESTAMP").where(locations: location_params(city, district, neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`events`.`starts_at` ASC").limit 10
+    Event.joins(location: :vertical_market_categories).where("`events`.`ends_at` > CURRENT_TIMESTAMP").where(locations: location_params(city, district, neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`events`.`created_at` DESC").limit 10
   end
 
   def get_news_articles(city = nil, district = nil, neighborhood = nil)
@@ -132,7 +132,7 @@ class VerticalMarket < ActiveRecord::Base
   end
 
   def get_events_municipality(city = nil, district = nil, neighborhood = nil)
-    Event.joins(location: :vertical_market_categories).where("`events`.`ends_at` > CURRENT_TIMESTAMP").where(locations: location_params(city, district, neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`events`.`starts_at` ASC").limit 50
+    Event.joins(location: :vertical_market_categories).where("`events`.`ends_at` > CURRENT_TIMESTAMP").where(locations: location_params(city, district, neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`events`.`created_at` DESC").limit 50
   end
 
   def get_news_articles_municipality(city = nil, district = nil, neighborhood = nil)
