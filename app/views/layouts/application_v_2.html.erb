@@ -53,25 +53,32 @@
 
         $('#neighbourhood-dropdown').on('change', function(event) {
           resetSubNeighbourhood();
-          if (event.target.value == "fairview") {
-            $('#shopping-district-dropdown').append($('<option>', {
-              value: "granville-island",
-              text: "Granville Island"
-            }));
-          }
+          let neighborhoodId = event.target.value
+          $.ajax({
+            url: `/home/get_sub_neighborhoods?neighborhood_id=${neighborhoodId}`,
+            method: "GET",
+            dataType: "json",
+          }).done(function( response ) {
+            $.each(response.sub_neighborhoods, function(index, neighborhood) {
+              $('#shopping-district-dropdown').append($('<option>', {
+                  value: neighborhood.slug,
+                  text: neighborhood.neighborhd
+              }));
+            })
+          });
         })
 
         function resetNeighbourhood() {
           $('#neighbourhood-dropdown').find('option').remove();
           $('#neighbourhood-dropdown').append($('<option>', {
-            text: "Sub Neighbourhood"
+            text: "Neighbourhood"
           }));
         }
 
         function resetSubNeighbourhood() {
           $('#shopping-district-dropdown').find('option').remove();
           $('#shopping-district-dropdown').append($('<option>', {
-            text: "Sub Sub Neighbourhood"
+            text: "Sub Neighbourhood"
           }));
         }
       })

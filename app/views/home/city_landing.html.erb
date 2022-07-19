@@ -72,13 +72,13 @@
     <div class="col-11">
       <div class="row">
         <div class="col-4">
-          <%= select_tag 'district-dropdown', options_from_collection_for_select(@districts, 'slug', 'name'), prompt: 'Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
+          <%= select_tag 'district-dropdown', options_from_collection_for_select(@districts, 'slug', 'name'), prompt: 'District', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
         <div class="col-4">
-          <%= select_tag 'neighbourhood-dropdown', raw("<option>Sub Neighbourhood</option>"), prompt: 'Sub Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
+          <%= select_tag 'neighbourhood-dropdown', raw("<option>Neighbourhood</option>"), prompt: 'Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
         <div class="col-4">
-          <%= select_tag 'shopping-district-dropdown', raw("<option>Sub Sub Neighbourhood</option>"), prompt: 'Sub Sub Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
+          <%= select_tag 'shopping-district-dropdown', raw("<option>Sub Neighbourhood</option>"), prompt: 'Sub Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
       </div>
     </div>

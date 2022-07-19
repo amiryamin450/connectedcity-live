@@ -7,6 +7,7 @@ Connectbook::Application.routes.draw do
       get :get_municipalities
       get :get_cities
       get :get_neighborhoods
+      get :get_sub_neighborhoods
     end
   end
 
