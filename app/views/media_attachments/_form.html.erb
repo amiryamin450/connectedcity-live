@@ -35,6 +35,15 @@
             </div>
           </div>
         <% end %>
+        <div class="auto-search-wrapper control-group required" style="margin-bottom: 20px; display: block;">
+          <label class="string required optional control-label">Location</label>
+          <div class="controls">
+            <input style="border-radius: 0.25rem; width: 530px; box-sizing: unset; padding: 4px 6px; font-size: 14px;" type="text" id="media_attachment_location_search" autocomplete="off" placeholder="Enter Address" />
+            <!-- <label style="display: none;" id="location-error" class="error">This field is required.</label> -->
+          </div>
+        </div>
+        <%= f.input :latitude, as: :hidden %>
+        <%= f.input :longitude, as: :hidden %>
         <div class="description-field">
           <label for="media_attachment_description">Description</label>
           <%= f.text_area :description, rows: 7, maxlength: 1500 %>
@@ -53,7 +62,80 @@
   </div>
 </div>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.5/dist/css/autocomplete.min.css"/>
+<script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.5/dist/js/autocomplete.min.js"></script>
+
 <script>
+  window.addEventListener("DOMContentLoaded", function () {
+    new Autocomplete("media_attachment_location_search", {
+      delay: 1000,
+      selectFirst: true,
+      howManyCharacters: 2,
+      clearButton: false,
+      onSearch: function ({ currentValue }) {
+        $("#media_attachment_latitude").val('')
+        $("#media_attachment_longitude").val('')
+        $('.auto-clear').css({
+          'height': '40px',
+          'top': 'auto'
+        })
+        $('.auto-results-wrapper').css('max-width', '550px')
+        const api = `https://nominatim.openstreetmap.org/search?format=geojson&limit=5&q=${encodeURI(currentValue)}`;
+        return new Promise((resolve) => {
+          fetch(api)
+            .then((response) => response.json())
+            .then((data) => { resolve(data.features); })
+            .catch((error) => { console.error(error); });
+        });
+      },
+      onResults: ({ currentValue, matches, template }) => {
+        const regex = new RegExp(currentValue, "i");
+        // checking if we have results if we don't
+        // take data from the noResults method
+        return matches === 0
+          ? template
+          : matches
+              .map((element) => {
+                return `
+                <li class="loupe" role="option">
+                  ${element.properties.display_name.replace( regex, (str) => `<b>${str}</b>` )}
+                </li> `;
+              })
+              .join("");
+      },
+      onSubmit: ({ object }) => {
+        const { display_name } = object.properties;
+        const cord = object.geometry.coordinates;
+
+        $("#media_attachment_latitude").val(parseFloat(cord[1]))
+        $("#media_attachment_longitude").val(parseFloat(cord[0]))
+        $('.auto-search-wrapper.control-group').css('margin-bottom', '20px')
+        $('#location-error').css('display', 'none');
+        $('#location-error').text('')
+      },
+
+      // get index and data from li element after
+      // hovering over li with the mouse or using
+      // arrow keys ↓ | ↑
+      onSelectedItem: ({ index, element, object }) => {
+        console.log("onSelectedItem:", index, element, object);
+      },
+
+      // the method presents no results
+      noResults: ({ currentValue, template }) =>
+        template(`<li>No results found: "${currentValue}"</li>`),
+    });
+    // })
+  })
+
+  function isBlankLatitude() {
+    return $("#media_attachment_latitude").val().trim().length === 0
+  }
+
+  function isBlankLongitude() {
+    return $("#media_attachment_longitude").val().trim().length === 0
+  }
+
   document.getElementById('thumbnail').addEventListener('change', event => {
     var file = event.target.files[0];
     if (file.size >= 5242880) { // 5MB
@@ -106,6 +188,20 @@
       if (mediaTitle.value == '') {
         document.getElementById("messageModal").style.display = "block";
         return;
+      }
+
+      var categoryId = document.getElementById('category_id').value
+      var id = "<%= @vertical_market.id %>"
+      var need_category = "<%= [174, 164, 114].include?(@vertical_market.id) %>"
+
+      if (categoryId.length === 0 && need_category === "true") {
+        document.getElementById("warningCateModal").style.display = "block";
+        return
+      }
+
+      if (isBlankLatitude() || isBlankLongitude()) {
+        document.getElementById("warningLocationModal").style.display = "block";
+        return
       }
 
       if (started) {
@@ -197,12 +293,14 @@
         function updateMedia(videoId) {
           var title = document.getElementById('media_attachment_title').value;
           var description = document.getElementById('media_attachment_description').value;
-          var need_category = "<%= [174, 164].include?(@vertical_market.id) %>"
+          var need_category = "<%= [174, 164, 114].include?(@vertical_market.id) %>"
           var cateId = document.getElementById('category_id').value;
+          var lat = $("#media_attachment_latitude").val()
+          var lon = $("#media_attachment_latitude").val()
           if (need_category === "true") {
             cateId = <%= @categories_news[0].id %>
           }
-          var params = JSON.stringify({title: title, description: description, category_id: cateId})
+          var params = JSON.stringify({title: title, description: description, category_id: cateId, latitude: lat, longitude: lon})
           var data = new FormData();
           data.append('media_attachment', params);
           fetch(`/videos/${videoId}/update_media_attachment.json`, {

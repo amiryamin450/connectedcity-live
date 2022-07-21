@@ -25,6 +25,14 @@ class MediaAttachment < ActiveRecord::Base
     self.is_stream_video
   end
 
+  def geo_location
+    if latitude.blank? || longitude.blank?
+      {:lat => self.location.latitude, :long => self.location.longitude}
+    else
+      {:lat => latitude, :long => longitude}
+    end
+  end
+
   protected
   def set_fields
     regex = /https?:\/\/(www.)?(youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/watch\?feature=player_embedded&v=)([A-Za-z0-9_-]*)(\&\S+)?(\S)*/

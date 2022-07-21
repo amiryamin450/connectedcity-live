@@ -34,6 +34,17 @@
     </div>
   <% end %>
 
+  <div class="auto-search-wrapper control-group required" style="margin-bottom: 20px; display: block;">
+    <label class="string required optional control-label">Location</label>
+    <div class="controls">
+      <input style="border-radius: 0.25rem; width: 530px; box-sizing: unset; padding: 4px 6px; font-size: 14px;" type="text" id="event_location_search" autocomplete="off" placeholder="Enter Address" />
+      <label style="display: none;" id="location-error" class="error">This field is required.</label>
+    </div>
+  </div>
+
+  <%= f.input :latitude, as: :hidden %>
+  <%= f.input :longitude, as: :hidden %>
+
   <%= f.input :description, input_html: { class: 'input-block-level wysihtml5'} %>
   <%= f.input :image, as: :logo_preview %>
 </div>
@@ -45,12 +56,133 @@
 
 <% end -%>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.5/dist/css/autocomplete.min.css"/>
+<script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.5/dist/js/autocomplete.min.js"></script>
+
 <script type="text/javascript">
   $(document).ready(function() {
+    var municipality = "<%= @is_municipality %>";
+    $("#new_event").validate({
+      rules: {
+        'event[name]': {
+          required: true,
+          maxlength: 100,
+        },
+        'event[description]': {
+          required: true,
+          maxlength: 1500,
+        },
+        'event[url]': {
+          maxlength: 300,
+        },
+        'event[email]': {
+          required: true,
+          email: true,
+        },
+        'event[starts_at]': {
+          required: true,
+        },
+        'event[ends_at]': {
+          required: true,
+        },
+        'event[category_id]': {
+          required: function(){ return municipality == "true" },
+        },
+        'event[latitude]': {
+          required: function(){ return isBlankLatitude() },
+        },
+        'event[longitude]': {
+          required: function(){ return isBlankLongitude() },
+        },
+        'event[image]': {
+          required: true,
+        },
+      }
+    });
+    $("form#new_event").on('submit', function(e) {
+      if (isBlankLatitude() || isBlankLongitude()) {
+        $('.auto-search-wrapper.control-group').css('margin-bottom', '40px')
+        $('#location-error').css({'display': 'block', 'height': '0px'});
+        $('#location-error').text('This is required field')
+      } else {
+        $('.auto-search-wrapper.control-group').css('margin-bottom', '20px')
+        $('#location-error').css('display', 'none');
+        $('#location-error').text('')
+      }
+    })
     var need_category = "<%= [174, 164].include?(@vertical_market.id) %>"
     if (need_category === "true") {
       var value = <%= @categories_news[0].id %>
       $("form#new_event select").val(value);
     }
   })
+  window.addEventListener("DOMContentLoaded", function () {
+    new Autocomplete("event_location_search", {
+      delay: 1000,
+      selectFirst: true,
+      howManyCharacters: 2,
+      clearButton: false,
+      onSearch: function ({ currentValue }) {
+        $("#event_latitude").val('')
+        $("#event_longitude").val('')
+        $('.auto-clear').css({
+          'height': '40px',
+          'top': 'auto'
+        })
+        $('.auto-results-wrapper').css('max-width', '550px')
+        const api = `https://nominatim.openstreetmap.org/search?format=geojson&limit=5&q=${encodeURI(currentValue)}`;
+        return new Promise((resolve) => {
+          fetch(api)
+            .then((response) => response.json())
+            .then((data) => { resolve(data.features); })
+            .catch((error) => { console.error(error); });
+        });
+      },
+      onResults: ({ currentValue, matches, template }) => {
+        const regex = new RegExp(currentValue, "i");
+        // checking if we have results if we don't
+        // take data from the noResults method
+        return matches === 0
+          ? template
+          : matches
+              .map((element) => {
+                return `
+                <li class="loupe" role="option">
+                  ${element.properties.display_name.replace( regex, (str) => `<b>${str}</b>` )}
+                </li> `;
+              })
+              .join("");
+      },
+      onSubmit: ({ object }) => {
+        const { display_name } = object.properties;
+        const cord = object.geometry.coordinates;
+
+        $("#event_latitude").val(parseFloat(cord[1]))
+        $("#event_longitude").val(parseFloat(cord[0]))
+        $('.auto-search-wrapper.control-group').css('margin-bottom', '20px')
+        $('#location-error').css('display', 'none');
+        $('#location-error').text('')
+      },
+
+      // get index and data from li element after
+      // hovering over li with the mouse or using
+      // arrow keys ↓ | ↑
+      onSelectedItem: ({ index, element, object }) => {
+        console.log("onSelectedItem:", index, element, object);
+      },
+
+      // the method presents no results
+      noResults: ({ currentValue, template }) =>
+        template(`<li>No results found: "${currentValue}"</li>`),
+    });
+    // })
+  })
+
+  function isBlankLatitude() {
+    return $("#event_latitude").val().trim().length === 0
+  }
+
+  function isBlankLongitude() {
+    return $("#event_longitude").val().trim().length === 0
+  }
 </script>

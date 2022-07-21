@@ -31,6 +31,10 @@
   }
 }
 
+.auto-is-loading:after { top: 30px !important; }
+.media-attachment-form {
+  .auto-is-loading:after { top: 15px !important; }
+}
 .dropdown-submenu {
     position: relative;
 }

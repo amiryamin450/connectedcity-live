@@ -23,19 +23,24 @@ class StatusUpdate < ActiveRecord::Base
   attr_accessor :social_profile_ids
 
   validates :content, presence: true, length: { in: 1..1500 }
+  validates_presence_of :category_id, :latitude, :longitude
 
   validates_attachment_size :image, less_than: 5.megabytes
-  validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/, message: "Please upload a valid image. Accepted types include jpg, png and gif."
+  validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/, message: "Please upload a valid image. Accepted types include jpg, png."
 
   before_save do
     self.district_id = self.statusable.district_id
     self.neighborhood_id = self.statusable.neighborhood_id
-    self.latitude = self.statusable.latitude
-    self.longitude = self.statusable.longitude
+    # self.latitude = self.statusable.latitude
+    # self.longitude = self.statusable.longitude
     self.city_id = self.statusable.city_id
     self.province_id = self.statusable.province_id
     self.vertical_markets = self.statusable.vertical_markets.first.id if self.statusable.vertical_markets
     self.vertical_market_categories = self.statusable.vertical_market_categories.first.id if self.statusable.vertical_market_categories
+  end
+
+  def geo_location
+    {:lat => latitude, :long => longitude}
   end
 
   # TODO Should this be done asynchronously?

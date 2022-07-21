@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20220704084559) do
+ActiveRecord::Schema.define(:version => 20220720062410) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -423,6 +423,8 @@ ActiveRecord::Schema.define(:version => 20220704084559) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.integer  "category_id"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   add_index "events", ["location_id"], :name => "index_events_on_location_id"
@@ -650,6 +652,8 @@ ActiveRecord::Schema.define(:version => 20220704084559) do
     t.datetime "stream_thumbnail_updated_at"
     t.boolean  "is_draft",        :default => false
     t.integer  "category_id"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   add_index "media_attachments", ["attachable_id", "attachable_type"], :name => "index_media_attachments_on_attachable_id_and_attachable_type"
@@ -743,6 +747,8 @@ ActiveRecord::Schema.define(:version => 20220704084559) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.integer  "category_id"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   add_index "news_articles", ["newsable_id", "newsable_type"], :name => "index_news_articles_on_newsable_id_and_newsable_type"
