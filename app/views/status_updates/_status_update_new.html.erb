@@ -50,7 +50,7 @@
 <script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.5/dist/js/autocomplete.min.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
-    var municipality = "<%= @is_municipality %>";
+    var municipality = "<%= @vertical_market.id === 114 %>";
     var valid = "<%= [174, 164, 114].include?(@vertical_market.id) %>"
     $("#new_status_update").validate({
       rules: {
@@ -62,7 +62,7 @@
           required: true,
         },
         'status_update[category_id]': {
-          required: function(){ return valid === "true" && municipality == "true" },
+          required: function(){ return municipality == "true" },
         },
         'status_update[latitude]': {
           required: function(){ return valid === "true" && isBlankLatitude() },

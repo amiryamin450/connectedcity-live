@@ -38,7 +38,7 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    var municipality = "<%= @is_municipality %>";
+    var municipality = "<%= @vertical_market.id === 114 %>";;
     var need_category = "<%= [174, 164].include?(@vertical_market.id) %>"
     if (need_category === "true") {
       var value = <%= @categories_news[0].id %>
@@ -59,7 +59,7 @@
           required: true,
         },
         'news_article[category_id]': {
-          required: function(){ return valid === "true" && municipality == "true" },
+          required: function(){ return municipality == "true" },
         },
         'news_article[latitude]': {
           required: function(){ return valid === "true" && isBlankLatitude() },
