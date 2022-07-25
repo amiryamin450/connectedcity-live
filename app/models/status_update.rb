@@ -23,7 +23,6 @@ class StatusUpdate < ActiveRecord::Base
   attr_accessor :social_profile_ids
 
   validates :content, presence: true, length: { in: 1..1500 }
-  validates_presence_of :category_id, :latitude, :longitude
 
   validates_attachment_size :image, less_than: 5.megabytes
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/, message: "Please upload a valid image. Accepted types include jpg, png."
