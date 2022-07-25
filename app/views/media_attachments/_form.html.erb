@@ -296,10 +296,11 @@
         function updateMedia(videoId) {
           var title = document.getElementById('media_attachment_title').value;
           var description = document.getElementById('media_attachment_description').value;
-          var need_category = "<%= [174, 164, 114].include?(@vertical_market.id) %>"
-          var cateId = document.getElementById('category_id').value;
-          var lat = $("#media_attachment_latitude").val()
-          var lon = $("#media_attachment_latitude").val()
+          var municipality = "<%= @vertical_market.id === 114 %>"
+          var need_category = "<%= [174, 164].include?(@vertical_market.id) %>"
+          var cateId = municipality === "true" ? document.getElementById('category_id').value : null
+          var lat = need_category === "true" || municipality === "true" ? $("#media_attachment_latitude").val() : null
+          var lon = need_category === "true" || municipality === "true" ? $("#media_attachment_latitude").val() : null
           if (need_category === "true") {
             cateId = <%= @categories_news[0].id %>
           }

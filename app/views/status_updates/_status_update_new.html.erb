@@ -62,13 +62,13 @@
           required: true,
         },
         'status_update[category_id]': {
-          required: function(){ return valid && municipality == "true" },
+          required: function(){ return valid === "true" && municipality == "true" },
         },
         'status_update[latitude]': {
-          required: function(){ return valid && isBlankLatitude() },
+          required: function(){ return valid === "true" && isBlankLatitude() },
         },
         'status_update[longitude]': {
-          required: function(){ return valid && isBlankLongitude() },
+          required: function(){ return valid === "true" && isBlankLongitude() },
         }
       }
     });

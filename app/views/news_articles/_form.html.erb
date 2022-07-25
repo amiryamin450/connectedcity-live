@@ -59,13 +59,13 @@
           required: true,
         },
         'news_article[category_id]': {
-          required: function(){ return valid && municipality == "true" },
+          required: function(){ return valid === "true" && municipality == "true" },
         },
         'news_article[latitude]': {
-          required: function(){ return valid && isBlankLatitude() },
+          required: function(){ return valid === "true" && isBlankLatitude() },
         },
         'news_article[longitude]': {
-          required: function(){ return valid && isBlankLongitude() },
+          required: function(){ return valid === "true" && isBlankLongitude() },
         }
       }
     });

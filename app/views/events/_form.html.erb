@@ -89,13 +89,13 @@
           required: true,
         },
         'event[category_id]': {
-          required: function(){ return valid && municipality == "true" },
+          required: function(){ return valid === "true" && municipality == "true" },
         },
         'event[latitude]': {
-          required: function(){ return valid && isBlankLatitude() },
+          required: function(){ return valid === "true" && isBlankLatitude() },
         },
         'event[longitude]': {
-          required: function(){ return valid && isBlankLongitude() },
+          required: function(){ return valid === "true" && isBlankLongitude() },
         },
         'event[image]': {
           required: true,
