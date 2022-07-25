@@ -163,6 +163,7 @@
       $('.stop').click(function () {
         $.get(`/business/${locationSlug}/media_attachments/stop_broadcast/${broadcastId}`)
           .done(function () {
+            session.disconnect();
             console.log('stop success.');
             $('#endModal').css("display", "block");
             $('#live-now').css('display', 'none');
