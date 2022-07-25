@@ -104,6 +104,7 @@
         $('.auto-search-wrapper.control-group').css('margin-bottom', '40px')
         $('#location-error').css({'display': 'block', 'height': '0px'});
         $('#location-error').text('This is required field')
+        e.preventDefault()
       } else {
         $('.auto-search-wrapper.control-group').css('margin-bottom', '20px')
         $('#location-error').css('display', 'none');
