@@ -184,7 +184,7 @@
                     <%= render 'news_articles' %>
                     <div class="divider mt-5"></div>
                   </div>
-                <% if (![174, 164].include?(@vertical_market.id) && @is_location_normal && request.path != '/business/city-of-vancouver') %>
+                <% if (![174, 164, 114].include?(@vertical_market.id) && @is_location_normal && request.path != '/business/city-of-vancouver') %>
                   <div id="Entries" class="container tab-pane fade">
                     <%= render 'blog_entry' %>
                     <div class="divider mt-5"></div>

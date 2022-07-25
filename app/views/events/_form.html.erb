@@ -156,7 +156,7 @@
       onSubmit: ({ object }) => {
         const { display_name } = object.properties;
         const cord = object.geometry.coordinates;
-
+        $('#event_location_search').val(display_name)
         $("#event_latitude").val(parseFloat(cord[1]))
         $("#event_longitude").val(parseFloat(cord[0]))
         $('.auto-search-wrapper.control-group').css('margin-bottom', '20px')

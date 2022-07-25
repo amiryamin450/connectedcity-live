@@ -119,7 +119,7 @@
       onSubmit: ({ object }) => {
         const { display_name } = object.properties;
         const cord = object.geometry.coordinates;
-
+        $('#news_article_location_search').val(display_name)
         $("#news_article_latitude").val(parseFloat(cord[1]))
         $("#news_article_longitude").val(parseFloat(cord[0]))
         $('.auto-search-wrapper.control-group').css('margin-bottom', '20px')
