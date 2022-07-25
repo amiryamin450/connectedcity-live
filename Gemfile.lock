@@ -15,7 +15,7 @@ GIT
 
 GEM
   remote: https://rubygems.org/
-  remote: https://transcona_media_network_inc_632:VmN5m93oVPbMILkv@gems.railslts.com/
+  remote: https://transcona_media_network_inc_224:VEIsTndzmeDWIkeB@gems.railslts.com/
   specs:
     actionmailer (3.2.22.29)
       actionpack (= 3.2.22.29)
