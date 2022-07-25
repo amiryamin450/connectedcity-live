@@ -13,15 +13,17 @@
         </div>
       </div>
     <% end %>
-    <div class="auto-search-wrapper control-group required" style="margin-bottom: 20px; display: block;">
-      <label class="string required optional control-label">Location</label>
-      <div class="controls">
-        <input style="border-radius: 0.25rem; width: 530px; box-sizing: unset; padding: 4px 6px; font-size: 14px;" type="text" id="news_article_location_search" autocomplete="off" placeholder="Enter Address" />
-        <label style="display: none;" id="location-error" class="error">This field is required.</label>
+    <% if [174, 164, 114].include?(@vertical_market.id) %>
+      <div class="auto-search-wrapper control-group required" style="margin-bottom: 20px; display: block;">
+        <label class="string required optional control-label">Location</label>
+        <div class="controls">
+          <input style="border-radius: 0.25rem; width: 530px; box-sizing: unset; padding: 4px 6px; font-size: 14px;" type="text" id="news_article_location_search" autocomplete="off" placeholder="Enter Address" />
+          <label style="display: none;" id="location-error" class="error">This field is required.</label>
+        </div>
       </div>
-    </div>
-    <%= f.input :latitude, as: :hidden %>
-    <%= f.input :longitude, as: :hidden %>
+      <%= f.input :latitude, as: :hidden %>
+      <%= f.input :longitude, as: :hidden %>
+    <% end %>
     <%= f.input :content, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
     <%= f.input :image, as: :logo_preview %>
   </div>
@@ -42,6 +44,7 @@
       var value = <%= @categories_news[0].id %>
       $("form#new_news_article select").val(value);
     }
+    var valid = "<%= [174, 164, 114].include?(@vertical_market.id) %>"
     $("#new_news_article").validate({
       rules: {
         'news_article[title]': {
@@ -56,26 +59,28 @@
           required: true,
         },
         'news_article[category_id]': {
-          required: function(){ return municipality == "true" },
+          required: function(){ return valid && municipality == "true" },
         },
         'news_article[latitude]': {
-          required: function(){ return isBlankLatitude() },
+          required: function(){ return valid && isBlankLatitude() },
         },
         'news_article[longitude]': {
-          required: function(){ return isBlankLongitude() },
+          required: function(){ return valid && isBlankLongitude() },
         }
       }
     });
     $("form#new_news_article").on('submit', function(e) {
-      if (isBlankLatitude() || isBlankLongitude()) {
-        $('.auto-search-wrapper.control-group').css('margin-bottom', '40px')
-        $('#location-error').css({'display': 'block', 'height': '0px'});
-        $('#location-error').text('This is required field')
-        e.preventDefault()
-      } else {
-        $('.auto-search-wrapper.control-group').css('margin-bottom', '20px')
-        $('#location-error').css('display', 'none');
-        $('#location-error').text('')
+      if (valid === "true") {
+        if (isBlankLatitude() || isBlankLongitude()) {
+          $('.auto-search-wrapper.control-group').css('margin-bottom', '40px')
+          $('#location-error').css({'display': 'block', 'height': '0px'});
+          $('#location-error').text('This is required field')
+          e.preventDefault()
+        } else {
+          $('.auto-search-wrapper.control-group').css('margin-bottom', '20px')
+          $('#location-error').css('display', 'none');
+          $('#location-error').text('')
+        }
       }
     })
   })

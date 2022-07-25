@@ -8,7 +8,7 @@ class Event < ActiveRecord::Base
 
   default_scope where("ends_at > ?", Time.now)
 
-  validates_presence_of :ends_at, :starts_at, :latitude, :longitude
+  validates_presence_of :ends_at, :starts_at
   validates :name, presence: true, length: { in: 1..100 }
   validates :description, presence: true, length: { in: 1..1500 }
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }

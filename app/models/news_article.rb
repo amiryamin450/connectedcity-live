@@ -12,7 +12,6 @@ class NewsArticle < ActiveRecord::Base
   attr_accessible :content, :location_id, :title, :user_id, :slug, :user, :image, :category_id, :latitude, :longitude
   validates :title, presence: true, length: { in: 1..100 }
   validates :content, presence: true, length: { in: 1..1500 }
-  validates_presence_of :category_id, :latitude, :longitude
   has_attached_file :image, styles: {
     thumb: "50x50#", list: "320x200#"
   },

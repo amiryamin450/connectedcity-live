@@ -12,7 +12,7 @@
           <%= f.error_notification %>
           <div class="form-inputs">
             <%= f.input :content, as: :text, input_html: { class: 'input-block-level wysihtml5', :rows => 3, style: 'width: 550px'} %>
-            <% if @is_municipality || [174, 164].include?(@vertical_market.id) %>
+            <% if @is_municipality || [174, 164, 114].include?(@vertical_market.id) %>
               <% hidden = [174, 164].include?(@vertical_market.id) ? 'display: none' : 'display: flex' %>
               <div class="control-group string required category" style="<%= hidden %>">
                 <%= f.label :category %>
@@ -21,17 +21,18 @@
                 </div>
               </div>
             <% end %>
-
-            <div class="auto-search-wrapper control-group" style="margin-bottom: 20px; display: flex;">
-              <%= f.label :location %>
-              <div class="controls">
-                <input class="p-2" style="border-color: black; border-radius: 0.25rem; min-width: 550px;" type="text" id="location_search" autocomplete="off" placeholder="Enter Address" />
-                <label style="display: none;" id="location-error" class="error">This field is required.</label>
+            <% if [174, 164, 114].include?(@vertical_market.id) %>
+              <div class="auto-search-wrapper control-group" style="margin-bottom: 20px; display: flex;">
+                <%= f.label :location %>
+                <div class="controls">
+                  <input class="p-2" style="border-color: black; border-radius: 0.25rem; min-width: 550px;" type="text" id="location_search" autocomplete="off" placeholder="Enter Address" />
+                  <label style="display: none;" id="location-error" class="error">This field is required.</label>
+                </div>
               </div>
-            </div>
+              <%= f.input :latitude, as: :hidden %>
+              <%= f.input :longitude, as: :hidden %>
+            <% end %>
             <%= f.input :image, as: :file  %>
-            <%= f.input :latitude, as: :hidden %>
-            <%= f.input :longitude, as: :hidden %>
           </div>
         <div class="modal-footer form-actions">
           <input type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true" value="Cancel" />
@@ -50,6 +51,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
     var municipality = "<%= @is_municipality %>";
+    var valid = "<%= [174, 164, 114].include?(@vertical_market.id) %>"
     $("#new_status_update").validate({
       rules: {
         'status_update[content]': {
@@ -60,13 +62,13 @@
           required: true,
         },
         'status_update[category_id]': {
-          required: function(){ return municipality == "true" },
+          required: function(){ return valid && municipality == "true" },
         },
         'status_update[latitude]': {
-          required: function(){ return isBlankLatitude() },
+          required: function(){ return valid && isBlankLatitude() },
         },
         'status_update[longitude]': {
-          required: function(){ return isBlankLongitude() },
+          required: function(){ return valid && isBlankLongitude() },
         }
       }
     });
@@ -76,15 +78,17 @@
       $("form#new_status_update select").val(value);
     }
     $("form#new_status_update").on('submit', function(e) {
-      if (isBlankLatitude() || isBlankLongitude()) {
-        $('.auto-search-wrapper.control-group').css('margin-bottom', '40px')
-        $('#location-error').css({'display': 'block', 'height': '0px'});
-        $('#location-error').text('This is required field')
-        e.preventDefault()
-      } else {
-        $('.auto-search-wrapper.control-group').css('margin-bottom', '20px')
-        $('#location-error').css('display', 'none');
-        $('#location-error').text('')
+      if (valid === 'true') {
+        if (isBlankLatitude() || isBlankLongitude()) {
+          $('.auto-search-wrapper.control-group').css('margin-bottom', '40px')
+          $('#location-error').css({'display': 'block', 'height': '0px'});
+          $('#location-error').text('This is required field')
+          e.preventDefault()
+        } else {
+          $('.auto-search-wrapper.control-group').css('margin-bottom', '20px')
+          $('#location-error').css('display', 'none');
+          $('#location-error').text('')
+        }
       }
     })
   });
