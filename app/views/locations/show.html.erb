@@ -168,7 +168,7 @@
                   <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#Articles">News Articles</a>
                   </li>
-                <% if (![174, 164].include?(@vertical_market.id) && @is_location_normal && request.path != '/business/city-of-vancouver') %>
+                <% if (![174, 164, 114].include?(@vertical_market.id) && @is_location_normal && request.path != '/business/city-of-vancouver') %>
                   <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#Entries">Blog Entries</a>
                   </li>
