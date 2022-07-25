@@ -22,7 +22,7 @@
         <% klass = request.path == @base_path ? "selected" : ""%>
         <li class="selected"> <%= link_to "Home", root_path%></li>
         <% @vertical_markets_all.each_with_index do |vm, index| %>
-          <% if vm.has_children? %>
+          <% if vm.has_children? || vm.slug === 'culture' %>
             <li>
               <% if @business_improvement_area %>
                 <a href="<%=district_neighborhood_guide_path(@district_name, @slug, vm.slug)%>"><%=vm.name%></a>
