@@ -11,9 +11,9 @@
         <%= simple_form_for :status_update, url: location_status_updates_path(@location), :html => { :method => :post, multipart: true, class: 'form-horizontal', id: 'new_status_update', } do |f| %>
           <%= f.error_notification %>
           <div class="form-inputs">
-            <%= f.input :content, as: :text, input_html: { class: 'input-block-level wysihtml5', :rows => 3, style: 'width: 515px'} %>
+            <%= f.input :content, as: :text, input_html: { class: 'input-block-level wysihtml5', :rows => 3, style: 'width: 550px'} %>
             <% if @is_municipality || [174, 164].include?(@vertical_market.id) %>
-              <% hidden = [174, 164].include?(@vertical_market.id) ? 'display: none' : 'display: block' %>
+              <% hidden = [174, 164].include?(@vertical_market.id) ? 'display: none' : 'display: flex' %>
               <div class="control-group string required category" style="<%= hidden %>">
                 <%= f.label :category %>
                 <div class="input-group-prepend search-box ">
@@ -22,10 +22,10 @@
               </div>
             <% end %>
 
-            <div class="auto-search-wrapper control-group" style="margin-bottom: 20px; display: block;">
+            <div class="auto-search-wrapper control-group" style="margin-bottom: 20px; display: flex;">
               <%= f.label :location %>
               <div class="controls">
-                <input class="p-2" style="border-color: black; border-radius: 0.25rem;" type="text" id="location_search" autocomplete="off" placeholder="Enter Address" />
+                <input class="p-2" style="border-color: black; border-radius: 0.25rem; min-width: 550px;" type="text" id="location_search" autocomplete="off" placeholder="Enter Address" />
                 <label style="display: none;" id="location-error" class="error">This field is required.</label>
               </div>
             </div>
@@ -80,6 +80,7 @@
         $('.auto-search-wrapper.control-group').css('margin-bottom', '40px')
         $('#location-error').css({'display': 'block', 'height': '0px'});
         $('#location-error').text('This is required field')
+        e.preventDefault()
       } else {
         $('.auto-search-wrapper.control-group').css('margin-bottom', '20px')
         $('#location-error').css('display', 'none');
@@ -128,7 +129,7 @@
       onSubmit: ({ object }) => {
         const { display_name } = object.properties;
         const cord = object.geometry.coordinates;
-
+        $('#location_search').val(display_name)
         $("#status_update_latitude").val(parseFloat(cord[1]))
         $("#status_update_longitude").val(parseFloat(cord[0]))
         $('.auto-search-wrapper.control-group').css('margin-bottom', '20px')
