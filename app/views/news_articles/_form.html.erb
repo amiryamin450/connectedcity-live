@@ -73,6 +73,8 @@
       if (valid === "true") {
         var valueSearch = $('#news_article_location_search').val().trim()
         if (isBlankLatitude() || isBlankLongitude() || valueSearch.length === 0) {
+          $("#news_article_latitude").val('')
+          $("#news_article_longitude").val('')
           $('.auto-search-wrapper.control-group').css('margin-bottom', '40px')
           $('#location-error').css({'display': 'block', 'height': '0px'});
           $('#location-error').text('This is required field')
