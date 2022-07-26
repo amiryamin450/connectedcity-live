@@ -81,6 +81,8 @@
       if (valid === 'true') {
         var valueSearch = $('#location_search').val().trim()
         if (isBlankLatitude() || isBlankLongitude() || valueSearch.length === 0) {
+          $("#status_update_latitude").val('')
+          $("#status_update_longitude").val('')
           $('.auto-search-wrapper.control-group').css('margin-bottom', '40px')
           $('#location-error').css({'display': 'block', 'height': '0px'});
           $('#location-error').text('This is required field')

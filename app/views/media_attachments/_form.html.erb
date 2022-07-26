@@ -203,6 +203,8 @@
         var valueSearch = $('#media_attachment_location_search').val().trim()
 
         if (isBlankLatitude() || isBlankLongitude() || valueSearch.length === 0) {
+          $("#media_attachment_latitude").val('')
+          $("#media_attachment_longitude").val('')
           document.getElementById("warningLocationModal").style.display = "block";
           return
         }
