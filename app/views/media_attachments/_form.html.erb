@@ -200,8 +200,9 @@
           document.getElementById("warningCateModal").style.display = "block";
           return
         }
+        var valueSearch = $('#media_attachment_location_search').val().trim()
 
-        if (isBlankLatitude() || isBlankLongitude()) {
+        if (isBlankLatitude() || isBlankLongitude() || valueSearch.length === 0) {
           document.getElementById("warningLocationModal").style.display = "block";
           return
         }

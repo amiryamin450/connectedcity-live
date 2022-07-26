@@ -80,6 +80,7 @@
         },
         'event[email]': {
           required: true,
+          maxlength: 300,
           email: true,
         },
         'event[starts_at]': {
@@ -104,7 +105,8 @@
     });
     $("form#new_event").on('submit', function(e) {
       if (valid === 'true') {
-        if (isBlankLatitude() || isBlankLongitude()) {
+        var valueSearch = $('#event_location_search').val().trim()
+        if (isBlankLatitude() || isBlankLongitude() || valueSearch.length === 0) {
           $('.auto-search-wrapper.control-group').css('margin-bottom', '40px')
           $('#location-error').css({'display': 'block', 'height': '0px'});
           $('#location-error').text('This is required field')

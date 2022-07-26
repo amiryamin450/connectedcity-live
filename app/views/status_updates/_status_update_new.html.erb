@@ -79,7 +79,8 @@
     }
     $("form#new_status_update").on('submit', function(e) {
       if (valid === 'true') {
-        if (isBlankLatitude() || isBlankLongitude()) {
+        var valueSearch = $('#location_search').val().trim()
+        if (isBlankLatitude() || isBlankLongitude() || valueSearch.length === 0) {
           $('.auto-search-wrapper.control-group').css('margin-bottom', '40px')
           $('#location-error').css({'display': 'block', 'height': '0px'});
           $('#location-error').text('This is required field')
