@@ -12,21 +12,19 @@
   <% @coupons.in_groups_of(4) do |group| %>
     <% group.each do |coupon| %>
       <% if coupon and coupon.how_many_left > 0 %>
-      <div class="col-md-3">
-        <div class="business-body-card">
-          <div class="img">
-            <%= link_to(image_tag(coupon.image.url(:large)), [@location, coupon]) %>
-          </div>
-          <div class="title">
-            <h3><%= link_to coupon.name, [@location, coupon] %></h3>
+        <div class="col-md-3">
+          <div class="business-body-card">
+            <div class="img">
+              <%= link_to(image_tag(coupon.image.url(:large)), [@location, coupon]) %>
+            </div>
+            <div class="title">
+              <h3><%= link_to coupon.name, [@location, coupon] %></h3>
+            </div>
           </div>
         </div>
-        <% end -%>
-      </div>
-    <% end -%>
-
-
-  <% end -%> 
+      <% end %>
+    <% end %>
+  <% end %>
 </div>  
 
   <%= paginate @coupons, param_name: 'coupon_page' %>

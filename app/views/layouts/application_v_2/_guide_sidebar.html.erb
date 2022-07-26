@@ -1,3 +1,12 @@
+<%
+  @status_updates = @vertical_market.get_status_updates(@city, @district, @neighborhood)
+  @media_attachments = @vertical_market.get_media_attachments(@city, @district, @neighborhood)
+  @products = @vertical_market.get_products(@district, @neighborhood)
+  @events = @vertical_market.get_events(@city, @district, @neighborhood)
+  @news_articles = @vertical_market.get_news_articles(@city, @district, @neighborhood)
+  @blog_entries = @vertical_market.get_blog_entries(@city, @district)
+  @coupons = @vertical_market.get_coupons
+%>
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
       <a class="nav-link active" data-toggle="tab" href="#Update">Update</a>
@@ -26,9 +35,8 @@
     <div id="Update" class="container tab-pane active">
       <br>
       <h3>Updates</h3><br>
-      <% status_updates = @vertical_market.get_status_updates(@city, @district, @neighborhood)%>
-      <% if status_updates.size > 0 %>
-          <% status_updates.each do |status_update| %>
+      <% if @status_updates.size > 0 %>
+          <% @status_updates.each do |status_update| %>
             <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
           <% end %>
       <% else %>
@@ -38,9 +46,8 @@
     <div id="Videos" class="container tab-pane fade">
       <br>
       <h3>Videos</h3><br>
-      <% media_attachments = @vertical_market.get_media_attachments(@city, @district, @neighborhood)%>
-      <% if media_attachments.size > 0 %>
-          <% media_attachments.each do |media_attachment| %>
+      <% if @media_attachments.size > 0 %>
+          <% @media_attachments.each do |media_attachment| %>
             <%= render 'layouts/application_v_2/media_attachment_basic', media_attachment: media_attachment %>
           <% end %>
       <% else %>
@@ -50,9 +57,8 @@
     <div id="Featured" class="container tab-pane fade">
       <br>
       <h3>Featured</h3>
-      <% products = @vertical_market.get_products(@district, @neighborhood)%>
-      <% if products.size > 0 %>
-          <% products.each do |product| %>
+      <% if @products.size > 0 %>
+          <% @products.each do |product| %>
             <%= render 'layouts/application_v_2/product', product: product %>
           <% end %>
       <% else %>
@@ -63,9 +69,8 @@
     <div id="Events" class="container tab-pane">
       <br>
       <h3>Events</h3><br>
-      <% events = @vertical_market.get_events(@city, @district, @neighborhood)%>
-      <% if events.size > 0 %>
-          <% events.each do |event| %>
+      <% if @events.size > 0 %>
+          <% @events.each do |event| %>
             <%= render 'layouts/application_v_2/event', event: event %>
           <% end %>
       <% else %>
@@ -75,9 +80,8 @@
     <div id="News" class="container tab-pane fade">
       <br>
       <h3>News</h3><br>
-      <% news_articles = @vertical_market.get_news_articles(@city, @district, @neighborhood)%>
-      <% if news_articles.size > 0 %>
-          <% news_articles.each do |news_article| %>
+      <% if @news_articles.size > 0 %>
+          <% @news_articles.each do |news_article| %>
             <%= render 'layouts/application_v_2/news_article', news_article: news_article %>
           <% end %>
       <% else %>
@@ -87,9 +91,8 @@
     <div id="Blogs" class="container tab-pane fade">
       <br>
       <h3>Blogs</h3><br>
-      <% blog_entries = @vertical_market.get_blog_entries(@city, @district)%>
-      <% if blog_entries.size > 0 %>
-          <% blog_entries.each do |blog_entry| %>
+      <% if @blog_entries.size > 0 %>
+          <% @blog_entries.each do |blog_entry| %>
             <%= render 'layouts/application_v_2/blog_entry', blog_entry: blog_entry %>
           <% end %>
       <% else %>
@@ -99,12 +102,42 @@
     <div id="Offers" class="container tab-pane fade">
       <br>
       <h3>Offers</h3><br>
-      <%= render @vertical_market.get_coupons %>
+      <%= render @coupons %>
     </div>
 </div>
-<% if media_attachments.size > 0 %>
-  <% media_attachments.each do |media_attachment| %>
-  <%= render 'layouts/application_v_2/video_popup_basic_version', media_attachment: media_attachment %>
+<% if @media_attachments.size > 0 %>
+  <% @media_attachments.each do |media_attachment| %>
+    <%= render 'layouts/application_v_2/video_popup_basic_version', media_attachment: media_attachment %>
+  <% end %>
+<% end %>
+<% if @status_updates.size > 0 %>
+  <% @status_updates.each do |status_update| %>
+    <%= render 'status_updates/modal_content_latest', status_update: status_update %>
+  <% end %>
+<% end %>
+<% if @news_articles.size > 0 %>
+  <% @news_articles.each do |news_article| %>
+    <%= render 'news_articles/modal_news_latest', news: news_article %>
+  <% end %>
+<% end %>
+<% if @events.size > 0 %>
+  <% @events.each do |event| %>
+    <%= render 'status_updates/modal_event_latest', event: event %>
+  <% end %>
+<% end %>
+<% if @products.size > 0 %>
+  <% @products.each do |product| %>
+    <%= render 'products/modal_content', product: product %>
+  <% end %>
+<% end %>
+<% if @blog_entries.size > 0 %>
+  <% @blog_entries.each do |blog| %>
+    <%= render 'blog_entries/modal_content', blog: blog %>
+  <% end %>
+<% end %>
+<% if @coupons.size > 0 %>
+  <% @coupons.each do |coupon| %>
+    <%= render 'coupons/modal_content', coupon: coupon %>
   <% end %>
 <% end %>
 <script type="text/javascript">

@@ -6,10 +6,12 @@
 <% if @blog_entries.size > 0 %>
   <% @blog_entries.each do |blog| %>
       <article class="teaser">
-        <div class="article-title"><%= link_to blog.title, [@location, blog] %></div>
+        <!-- <div class="article-title"><%#= link_to blog.title, [@location, blog] %></div> -->
+        <div class="article-title"><%= link_to ("#{blog.title}"), "#", class: "status-update-image", data: { target: "#blog-#{blog.id}-model", toggle: 'modal'} %></div>
         <div class="article-published"><%= "#{time_ago_in_words(blog.created_at)} ago" %></div>
         <div class="article-content"><%= truncate_html blog.content, length: 350, omission: "#{link_to(' [read more]', [@location, blog]).html_safe}" %></div>
       </article>
+    <%= render 'blog_entries/modal_content', blog: blog %>
   <% end %>
   <%= paginate @blog_entries, param_name: 'blog_page' %>
 <% else %>

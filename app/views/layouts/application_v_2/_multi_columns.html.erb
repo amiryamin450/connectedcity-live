@@ -103,6 +103,26 @@
     <%= render 'status_updates/modal_event_latest', event: event %>
   <% end %>
 <% end %>
+<% if @services.size > 0 %>
+  <% @services.each do |service| %>
+    <%= render 'services/modal_content', service: service %>
+  <% end %>
+<% end %>
+<% if @products.size > 0 %>
+  <% @products.each do |product| %>
+    <%= render 'products/modal_content', product: product %>
+  <% end %>
+<% end %>
+<% if @blog_entries.size > 0 %>
+  <% @blog_entries.each do |blog| %>
+    <%= render 'blog_entries/modal_content', blog: blog %>
+  <% end %>
+<% end %>
+<% if @coupons.size > 0 %>
+  <% @coupons.each do |coupon| %>
+    <%= render 'coupons/modal_content', coupon: coupon %>
+  <% end %>
+<% end %>
 <!-- Add the slick-theme.css if you want default styling -->
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <!-- Add the slick-theme.css if you want default styling -->

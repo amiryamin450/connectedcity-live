@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-2">
           <div class="img">
-              <%= link_to(image_tag(s.image.url, class: 'status-update-image', data: {"large-image" => s.image.url, "location-name" => @location.name}), '#status_update_image', data: {toggle: 'modal'}) %>
+              <%= link_to(image_tag(s.image.url, class: 'status-update-image', data: {"large-image" => s.image.url, "location-name" => @location.name}), '#status_update_image', data: {target: "#status-#{s.id}-model", toggle: 'modal'}) %>
           </div>
         </div>
         <div class="col-md-10">

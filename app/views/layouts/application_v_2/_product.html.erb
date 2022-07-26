@@ -6,7 +6,7 @@
     <div class="row">
       <div class="inner-card-title col-md-7">
         <h5><%#= link_to(product.name, [product.location, product]) %>
-          <%= link_to ("#{product.name}"), "#", class: "status-update-image" %>
+          <%= link_to ("#{product.name}"), "#", class: "status-update-image", data: { target: "#product-#{product.id}-model", toggle: 'modal'} %>
         </h5>
       </div>
       <div class="inner-card-time col-md-5">
@@ -24,7 +24,7 @@
   <% if product.image? %>
     <div class="col-md-12">
       <div class="update-banner">
-        <%= link_to (image_tag product.image.url), "#", class: "status-update-image" %>
+        <%= link_to (image_tag product.image.url), "#", class: "status-update-image", data: { target: "#product-#{product.id}-model", toggle: 'modal'} %>
       </div>
     </div>
   <% end %>
