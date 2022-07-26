@@ -31,10 +31,11 @@
   }
 }
 
-.auto-is-loading:after { top: 30px !important; }
+// .auto-is-loading:after { top: 30px !important; }
 .media-attachment-form {
   .auto-is-loading:after { top: 15px !important; }
 }
+.auto-results-wrapper { width: 550px; }
 .dropdown-submenu {
     position: relative;
 }
