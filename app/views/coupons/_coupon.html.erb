@@ -5,7 +5,8 @@
           <%= link_to(image_tag(coupon.image.url), [coupon.location, coupon]) %>
         </div>
         <div class="span10">
-          <div><strong><%= link_to coupon.name, [coupon.location, coupon] %></strong></div>
+          <div><strong><%= link_to ("#{coupon.name}"), "#", class: "status-update-image", data: { target: "#coupon-#{coupon.id}-model", toggle: 'modal'} %></strong></div>
+
           <div><small style="font-size: 9px;">by <%= link_to coupon.location.name, coupon.location %></small></div>
         </div>
       </div>

@@ -1,7 +1,9 @@
 $('.news-articles-data').empty();
+$('.news-articles-modal').empty();
 <% if @filter_news.length > 0 %>
   <% @filter_news.each do |item| %>
-  $('.news-articles-data').append("<%= escape_javascript render(:partial => 'layouts/application_v_2/news_article', :locals => { :news_article => item }) %>")
+    $('.news-articles-data').append("<%= escape_javascript render(:partial => 'layouts/application_v_2/news_article', :locals => { :news_article => item }) %>")
+    $('.news-articles-modal').append("<%= escape_javascript render(:partial => 'news_articles/modal_news_latest', :locals => { :news => item }) %>")
   <% end %>
 <% else %>
   $('.news-articles-data').append("<div class='alert'>No news article found.</div>")

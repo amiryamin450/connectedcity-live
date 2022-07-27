@@ -1,7 +1,9 @@
 $('.media-attachments-data').empty();
+$('.media-attachments-modal').empty();
 <% if @filter_media_attachments.length > 0 %>
   <% @filter_media_attachments.each do |item| %>
-  $('.media-attachments-data').append("<%= escape_javascript render(:partial => 'layouts/application_v_2/media_attachment', :locals => { :media_attachment => item }) %>")
+    $('.media-attachments-data').append("<%= escape_javascript render(:partial => 'layouts/application_v_2/media_attachment', :locals => { :media_attachment => item }) %>")
+    $('.media-attachments-modal').append("<%= escape_javascript render(:partial => 'status_updates/modal_video_latest', :locals => { :media_attachment => item }) %>")
   <% end %>
 <% else %>
   $('.media-attachments-data').append("<div class='alert'>No videos found.</div>")
