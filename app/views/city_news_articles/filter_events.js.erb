@@ -1,7 +1,9 @@
 $('.events-data').empty();
+$('.events-modal').empty();
 <% if @filter_events.length > 0 %>
   <% @filter_events.each do |item| %>
   $('.events-data').append("<%= escape_javascript render(:partial => 'layouts/application_v_2/event', :locals => { :event => item }) %>")
+  $('.events-modal').append("<%= escape_javascript render(:partial => 'status_updates/modal_event_latest', :locals => { :event => item }) %>")
   <% end %>
 <% else %>
   $('.events-data').append("<div class='alert'>No Events found.</div>")

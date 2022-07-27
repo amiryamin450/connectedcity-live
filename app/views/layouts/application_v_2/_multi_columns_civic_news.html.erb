@@ -79,20 +79,26 @@
 <% end %>
 
 <% if @media_attachments.size > 0 %>
+<div class="media-attachments-modal">
   <% @media_attachments.each do |media_attachment| %>
     <%= render 'status_updates/modal_video_latest', media_attachment: media_attachment %>
   <% end %>
+</div>
 <% end %>
 
 <% if @events.size > 0 %>
+<div class="events-modal">
   <% @events.each do |event| %>
     <%= render 'status_updates/modal_event_latest', event: event %>
   <% end %>
+</div>
 <% end %>
 <% if @news_articles.size > 0 %>
+<div class="news-articles-modal">
   <% @news_articles.each do |news_article| %>
     <%= render 'news_articles/modal_news_latest', news: news_article %>
   <% end %>
+</div>
 <% end %>
 
 <script type="text/javascript">

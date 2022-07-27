@@ -1,7 +1,9 @@
 $('.status-updates-data').empty();
+$('.status-updates-modal').empty()
 <% if @filter_status_updates.length > 0 %>
   <% @filter_status_updates.each do |item| %>
-  $('.status-updates-data').append("<%= escape_javascript render(:partial => 'layouts/application_v_2/status_update', :locals => { :status_update => item }) %>")
+    $('.status-updates-data').append("<%= escape_javascript render(:partial => 'layouts/application_v_2/status_update', :locals => { :status_update => item }) %>")
+    $('.status-updates-modal').append("<%= escape_javascript render(:partial => 'status_updates/modal_content_latest', :locals => { :status_update => item }) %>")
   <% end %>
 <% else %>
   $('.status-updates-data').append("<div class='alert'>No Market Updates found.</div>")
