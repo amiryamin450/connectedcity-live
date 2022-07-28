@@ -7,7 +7,7 @@ class MediaAttachment < ActiveRecord::Base
   belongs_to :category
   has_many :videos, dependent: :destroy
 
-  attr_accessible :attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source, :is_stream_video, :archive_id, :session_id, :description, :is_draft, :category_id
+  attr_accessible :attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source, :is_stream_video, :archive_id, :session_id, :description, :is_draft, :category_id, :latitude, :longitude
 
   validates_presence_of :attachment, :unless => :stream_video?
 
