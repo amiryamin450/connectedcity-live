@@ -276,6 +276,26 @@
                 document.getElementById('placeholder-img').src = '/assets/default_video_image_2.jpeg';
 
                 document.getElementById('preview-video').addEventListener("click", function(event) {
+
+                  var need_category = "<%= [174, 164, 114].include?(@vertical_market.id) %>"
+                  if (need_category === "true") {
+                    var categoryId = document.getElementById('category_id').value
+                    var municipality = "<%= @vertical_market.id === 114 %>"
+
+                    if (categoryId.length === 0 && municipality === "true" ) {
+                      document.getElementById("warningCateModal").style.display = "block";
+                      return
+                    }
+                    var valueSearch = $('#media_attachment_location_search').val().trim()
+
+                    if (isBlankLatitude() || isBlankLongitude() || valueSearch.length === 0) {
+                      $("#media_attachment_latitude").val('')
+                      $("#media_attachment_longitude").val('')
+                      document.getElementById("warningLocationModal").style.display = "block";
+                      return
+                    }
+                  }
+
                   document.getElementById("loadingModal").style.display = "block";
                   var files = document.getElementById('thumbnail').files
                   if (files.length > 0) {
