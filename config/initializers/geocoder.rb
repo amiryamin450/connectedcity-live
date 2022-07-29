@@ -1,3 +1,27 @@
+# Geocoder.configure(
+#   # geocoding options
+#   # :timeout      => 3,           # geocoding service timeout (secs)
+#   :lookup       => :google,     # name of geocoding service (symbol)
+#   # :language     => :en,         # ISO-639 language code
+#   :use_https    => true,       # use HTTPS for lookup requests? (if supported)
+#   # :http_proxy   => nil,         # HTTP proxy server (user:pass@host:port)
+#   # :https_proxy  => nil,         # HTTPS proxy server (user:pass@host:port)
+#   :api_key      => Settings.google_api_key,         # API key for geocoding service
+#   # :cache        => nil,         # cache object (must respond to #[], #[]=, and #keys)
+#   # :cache_prefix => "geocoder:", # prefix (string) to use for all cache keys
+
+#   # exceptions that should not be rescued by default
+#   # (if you want to implement custom error handling);
+#   # supports SocketError and TimeoutError
+#   # :always_raise => [],
+
+#   # calculation options
+#   # :units     => :mi,       # :km for kilometers or :mi for miles
+#   # :distances => :linear    # :spherical or :linear
+#   # ip_lookup: :ipstack,
+#   # ipstack: { api_key: Settings.google_api_key }
+# )
+
 Geocoder.configure(
   # geocoding options
   # :timeout      => 3,           # geocoding service timeout (secs)
@@ -6,9 +30,9 @@ Geocoder.configure(
   :use_https    => true,       # use HTTPS for lookup requests? (if supported)
   # :http_proxy   => nil,         # HTTP proxy server (user:pass@host:port)
   # :https_proxy  => nil,         # HTTPS proxy server (user:pass@host:port)
-  :api_key      => Settings.google_api_key,         # API key for geocoding service
+  :api_key      => ENV['GOOGLE_API_MAP_KEY'],#Settings.google_api_key,         # API key for geocoding service
   # :cache        => nil,         # cache object (must respond to #[], #[]=, and #keys)
-  # :cache_prefix => "geocoder:", # prefix (string) to use for all cache keys
+  :cache_prefix => "geocoder:", # prefix (string) to use for all cache keys
 
   # exceptions that should not be rescued by default
   # (if you want to implement custom error handling);
@@ -16,8 +40,8 @@ Geocoder.configure(
   # :always_raise => [],
 
   # calculation options
-  # :units     => :mi,       # :km for kilometers or :mi for miles
+  :units     => :km,       # :km for kilometers or :mi for miles
   # :distances => :linear    # :spherical or :linear
-  # ip_lookup: :ipstack,
+  # ip_lookup: :maxmind,
   # ipstack: { api_key: Settings.google_api_key }
 )
