@@ -3,7 +3,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-9 column">
+    <div class="col-md-12 column">
       <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
           <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -29,41 +29,6 @@
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="sr-only">Next</span>
         </a>
-      </div>
-    </div>
-    <div class="col-md-3 sidebar-column">
-      <div class="sidebar">
-        <div class="shopping-business-btn">
-          <div class="group-btn">
-            <a href="<%= new_user_registration_path%>" class="btn"><img src="/cc_2.0/images/Shopper-btn.svg"></a>
-            <a href="<%= business_sign_up_path%>" class="btn"><img src="/cc_2.0/images/Business-btn.svg"></a>
-          </div>
-        </div>
-        <div class="communities">
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Select Community
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <% @city.districts.each do |district| %>
-                <%= link_to district.name, district_guide_path(district), class: "dropdown-item" %>
-              <% end %>
-            </div>
-          </div>
-          <br>
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Select Neighbourhood
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <% @city.districts.each do |district| %>
-                <% district.business_improvement_areas.each do |bia| %>
-                  <%= link_to bia.name, "/vancouver/#{district.slug}/neighbourhoods/#{bia.slug}", class: "dropdown-item" %>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
