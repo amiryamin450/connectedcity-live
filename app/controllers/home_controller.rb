@@ -16,6 +16,7 @@ class HomeController < ApplicationController
       @events = @city.events.order(:starts_at).limit(PER_PAGE)
       @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
       @districts = @city.districts
+      @cities = @city.municipality.cities
       @blog_entries = @city.blog_entries.limit(PER_PAGE)
       @products = @city.products.limit(PER_PAGE)
       @coupons = @city.coupons.limit(PER_PAGE)
@@ -32,6 +33,7 @@ class HomeController < ApplicationController
       @coupons = []
       @services = []
       @districts = []
+      @cities = []
       @business_improvement_areas = []
     end
     render layout: "application_v_2"

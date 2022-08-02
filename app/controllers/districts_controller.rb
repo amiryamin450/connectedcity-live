@@ -44,6 +44,9 @@ class DistrictsController < ApplicationController
     if !request.fullpath.include? "sitemap.xml"
       @district = District.find_by_slug(params[:district_route])
       @city = @district.city
+      @cities = @city.municipality.cities
+      @districts = @city.districts
+      @neighborhoods = @district.neighborhoods
       @status_updates = @district.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
       @events = @district.events.order(:starts_at).limit(PER_PAGE)
       @media_attachments = @district.media_attachments.order('created_at DESC').limit(PER_PAGE)

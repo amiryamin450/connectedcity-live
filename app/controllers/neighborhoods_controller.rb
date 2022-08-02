@@ -1,6 +1,8 @@
 class NeighborhoodsController < ApplicationController
   load_and_authorize_resource
 
+  PER_PAGE = 20
+
   def index
     @q = Neighborhood.search(params[:q])
     @neighborhoods = @q.result(distinct: true)
@@ -29,6 +31,33 @@ class NeighborhoodsController < ApplicationController
       neighborhoods = Neighborhood.select("nid, neighborhd").where("district_id IS NOT NULL")
     end
     render json: neighborhoods
+  end
+
+  def neighborhood_page
+    binding.pry
+
+    @neighborhood = Neighborhood.find_by_slug(params[:neighborhood_slug])
+
+    Rails.logger.info(@neighborhood)
+    if (@neighborhood.present?)
+      @district = @neighborhood.district
+      @city = @district.city
+      @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
+      @districts = @city.districts
+      @cities = @city.municipality.cities
+      @sub_neighborhoods = Neighborhood.find_by_neighborhood_id(@neighborhood.nid)
+      @blog_entries = @city.blog_entries.limit(PER_PAGE)
+      @products = @city.products.limit(PER_PAGE)
+      @coupons = @city.coupons.limit(PER_PAGE)
+      @services = @city.services.limit(PER_PAGE)
+      @business_improvement_areas = @city.business_improvement_areas.unscoped.order("name ASC")
+      @business_improvement_area = @business_improvement_areas.first
+      @status_updates = @district.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
+      @news = @business_improvement_area.news_articles.limit(PER_PAGE).order(:created_at)
+      @events = @business_improvement_area.events.limit(200).order(:starts_at)
+    end
+
+    render :show
   end
 
 end
