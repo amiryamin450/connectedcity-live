@@ -89,10 +89,10 @@ class Location < ActiveRecord::Base
 
   validates_presence_of :address, :name, :vertical_market_category_ids, :province_id, :country_id, :city_id, :district_id
 
-  geocoded_by :full_street_address
+  # geocoded_by :full_street_address
 
-  after_validation :geocode
-  after_save :assign_neighborhood
+  # after_validation :geocode
+  # after_save :assign_neighborhood
 
   def self.find_by_vertical_market
     vertical_market_categories
@@ -180,7 +180,7 @@ class Location < ActiveRecord::Base
   private
     def assign_neighborhood
       if longitude_changed? || latitude_changed?
-        if self.geocoded? && (neighborhood_obj = Neighborhood.calculate(self.longitude, self.latitude))
+        if (neighborhood_obj = Neighborhood.calculate(self.longitude, self.latitude))
           self.neighborhood_id = neighborhood_obj.id
           self.district_id = self.neighborhood.district.id if self.neighborhood.district
         end
