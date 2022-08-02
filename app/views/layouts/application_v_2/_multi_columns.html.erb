@@ -103,7 +103,7 @@
     <%= render 'status_updates/modal_event_latest', event: event %>
   <% end %>
 <% end %>
-<% if @services.size > 0 %>
+<% if @services.present? %>
   <% @services.each do |service| %>
     <%= render 'services/modal_content', service: service %>
   <% end %>

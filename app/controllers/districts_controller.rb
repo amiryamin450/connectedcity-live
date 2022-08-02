@@ -42,7 +42,7 @@ class DistrictsController < ApplicationController
   # FIXME Why is this homepage and not show?
   def homepage
     if !request.fullpath.include? "sitemap.xml"
-      @district = District.find(params[:district_route])
+      @district = District.find_by_slug(params[:district_route])
       @city = @district.city
       @status_updates = @district.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
       @events = @district.events.order(:starts_at).limit(PER_PAGE)
