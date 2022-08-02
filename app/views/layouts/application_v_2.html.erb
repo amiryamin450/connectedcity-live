@@ -60,6 +60,7 @@
             dataType: "json",
           }).done(function( response ) {
             $.each(response.sub_neighborhoods, function(index, neighborhood) {
+              $('#district-path').attr("href", `${response.route}/${neighborhoodId}`)
               $('#shopping-district-dropdown').append($('<option>', {
                   value: neighborhood.slug,
                   text: neighborhood.neighborhd
@@ -68,6 +69,11 @@
           });
         })
 
+        $('#shopping-district-dropdown').on('change', function(event) {
+          let shoppingDistrictId = event.target.value
+          let href = $('#district-path').attr('href');
+          $('#district-path').attr("href", `${href}/${shoppingDistrictId}`)
+        })
         function resetNeighbourhood() {
           $('#neighbourhood-dropdown').find('option').remove();
           $('#neighbourhood-dropdown').append($('<option>', {
