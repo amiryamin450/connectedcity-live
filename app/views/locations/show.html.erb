@@ -200,7 +200,7 @@
       <div class="col-md-6">
         <div class="business-product-body">
             <div class="map-section">
-              <div id="map" style="height: 240px;"></div>
+              <div id="map" class="clearfix location-profile-map" style="height: 240px;" data-coordinates=<%= raw @location.geo_location.to_json() %>></div>
             </div>
             <% if ![174, 164].include?(@vertical_market.id) && @is_location_normal %>
               <% if request.path === '/business/city-of-vancouver' %>
@@ -245,5 +245,9 @@
   </div>
 </div>
 <br>
+<script type="text/javascript">
+  Window.helpers.initMap($('#map.location-profile-map')[0]);
+</script>
+
 <%= render 'status_updates/status_update_new' %>
 
