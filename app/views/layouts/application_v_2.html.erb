@@ -72,6 +72,10 @@
         $('#shopping-district-dropdown').on('change', function(event) {
           let shoppingDistrictId = event.target.value
           let href = $('#district-path').attr('href');
+
+          if (href == '#') {
+            href = window.location.pathname;
+          }
           $('#district-path').attr("href", `${href}/${shoppingDistrictId}`)
         })
         function resetNeighbourhood() {

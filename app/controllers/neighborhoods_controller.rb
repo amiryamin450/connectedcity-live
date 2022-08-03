@@ -33,19 +33,18 @@ class NeighborhoodsController < ApplicationController
     render json: neighborhoods
   end
 
-  def neighborhood_page
-    binding.pry
-
+  def sub_neighborhood_page
     @neighborhood = Neighborhood.find_by_slug(params[:neighborhood_slug])
 
-    Rails.logger.info(@neighborhood)
     if (@neighborhood.present?)
       @district = @neighborhood.district
+      @neighbourhoods = @district.neighborhoods
       @city = @district.city
       @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
       @districts = @city.districts
       @cities = @city.municipality.cities
-      @sub_neighborhoods = Neighborhood.find_by_neighborhood_id(@neighborhood.nid)
+      @sub_neighborhoods = Neighborhood.where(neighborhood_id: @neighborhood.nid)
+      @sub_neighborhood  = Neighborhood.find_by_slug(params[:sub_neighborhood_slug])
       @blog_entries = @city.blog_entries.limit(PER_PAGE)
       @products = @city.products.limit(PER_PAGE)
       @coupons = @city.coupons.limit(PER_PAGE)
@@ -57,7 +56,9 @@ class NeighborhoodsController < ApplicationController
       @events = @business_improvement_area.events.limit(200).order(:starts_at)
     end
 
-    render :show
+    respond_to do |format|
+      format.html { render layout: "application_v_2" }
+    end
   end
 
 end

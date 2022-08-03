@@ -72,10 +72,10 @@
     <div class="col-11">
       <div class="row">
         <div class="col-3">
-          <%= select_tag 'city-dropdown', options_from_collection_for_select(@cities, 'slug', 'name'), prompt: @city.name, class: 'form-control search-column input-group-prepend search-box' %>
+          <%= select_tag 'city-dropdown', options_for_select(@cities.collect{ |u| [u.name, u.slug] }, :selected => @city.slug), {prompt: 'City', class: 'form-control search-column input-group-prepend search-box'} %>
         </div>
         <div class="col-3">
-          <%= select_tag 'district-dropdown', options_from_collection_for_select(@districts, 'slug', 'name'), prompt: 'District', class: 'form-control search-column input-group-prepend search-box' %>
+          <%= select_tag 'district-dropdown', options_for_select(@districts.collect{ |district| [district.name, district.slug]}), prompt: 'District', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
         <div class="col-3">
           <%= select_tag 'neighbourhood-dropdown', raw("<option>Neighbourhood</option>"), prompt: 'Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
