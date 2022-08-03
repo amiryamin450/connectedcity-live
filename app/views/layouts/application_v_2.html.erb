@@ -33,6 +33,25 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script>
       $(document).ready(function() {
+        $('#city-dropdown').on('change', function(event) {
+          let cityId = event.target.value
+          $.ajax({
+            url: `/home/get_districts?city_id=${cityId}`,
+            method: "GET",
+            dataType: "json",
+          }).done(function( response ) {
+            debugger
+            resetDistrict();
+            $('#district-path').attr("href", `${response.route}/${cityId}`)
+            $.each(response.districts, function(index, district) {
+              $('#district-dropdown').append($('<option>', {
+                  value: district.slug,
+                  text: district.name
+              }));
+            })
+          });
+        })
+
         $('#district-dropdown').on('change', function(event) {
           let districtId = event.target.value
           $.ajax({
@@ -78,6 +97,14 @@
           }
           $('#district-path').attr("href", `${href}/${shoppingDistrictId}`)
         })
+
+        function resetDistrict() {
+          $('#district-dropdown').find('option').remove();
+          $('#district-dropdown').append($('<option>', {
+            text: "District"
+          }));
+        }
+
         function resetNeighbourhood() {
           $('#neighbourhood-dropdown').find('option').remove();
           $('#neighbourhood-dropdown').append($('<option>', {
