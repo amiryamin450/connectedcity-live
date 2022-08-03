@@ -74,7 +74,7 @@ class HomeController < ApplicationController
   def get_sub_neighborhoods
     neighborhood = Neighborhood.find_by_slug(params[:neighborhood_id])
     district = neighborhood.district
-    neighborhoods = district&.neighborhoods
+    neighborhoods = district.neighborhoods
     city = district.city
     municipality = city.municipality
     region = municipality.region

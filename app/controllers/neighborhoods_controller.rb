@@ -40,11 +40,11 @@ class NeighborhoodsController < ApplicationController
       @district = @neighborhood.district
       @neighbourhoods = @district.neighborhoods
       @city = @district.city
-      @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
-      @districts = @city.districts
       @cities = @city.municipality.cities
+      @districts = @city.districts
       @sub_neighborhoods = Neighborhood.where(neighborhood_id: @neighborhood.nid)
       @sub_neighborhood  = @sub_neighborhoods.find{|sub| sub.slug == params[:sub_neighborhood_slug]}
+      @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
       @blog_entries = @city.blog_entries.limit(PER_PAGE)
       @products = @city.products.limit(PER_PAGE)
       @coupons = @city.coupons.limit(PER_PAGE)
