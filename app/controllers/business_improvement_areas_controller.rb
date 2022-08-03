@@ -26,9 +26,9 @@ class BusinessImprovementAreasController < ApplicationController
     @news = @business_improvement_area.news_articles.limit(PER_PAGE).order(:created_at)
     @services = @business_improvement_area.services.limit(PER_PAGE)
     @neighborhoods = @district.neighborhoods
-    @neighborhood  = @neighborhoods.select{|nbd| nbd.neighborhd == @business_improvement_area.name}.first
+    @neighborhood  = @neighborhoods.find{|nbd| nbd.neighborhd == @business_improvement_area.name}
     @sub_neighborhoods = Neighborhood.where(neighborhood_id: @neighborhood.nid)
-    @sub_neighborhood  = @sub_neighborhoods.select{|sub| sub.slug == params[:sub_neighborhood_slug]}.first
+    @sub_neighborhood  = @sub_neighborhoods.find{|sub| sub.slug == params[:sub_neighborhood_slug]}
     @city = @district.city
     @cities = @city.municipality.cities
     @district = @business_improvement_area.district
