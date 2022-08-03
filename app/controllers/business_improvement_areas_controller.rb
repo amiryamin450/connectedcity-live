@@ -25,6 +25,14 @@ class BusinessImprovementAreasController < ApplicationController
     @coupons = @business_improvement_area.coupons.limit(PER_PAGE)
     @news = @business_improvement_area.news_articles.limit(PER_PAGE).order(:created_at)
     @services = @business_improvement_area.services.limit(PER_PAGE)
+    @neighborhoods = @district.neighborhoods
+    @neighborhood  = @neighborhoods.find{|nbd| nbd.neighborhd == @business_improvement_area.name}
+    @sub_neighborhoods = Neighborhood.where(neighborhood_id: @neighborhood.nid)
+    @sub_neighborhood  = @sub_neighborhoods.find{|sub| sub.slug == params[:sub_neighborhood_slug]}
+    @city = @district.city
+    @cities = @city.municipality.cities
+    @districts = @city.districts
+    @district = @districts.find{|d| d.id == @business_improvement_area.district_id}
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb @business_improvement_area.district.name, district_guide_path(@business_improvement_area.district) if @business_improvement_area.district
     add_crumb @business_improvement_area.name

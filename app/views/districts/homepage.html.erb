@@ -8,7 +8,7 @@
 %>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-9 column">
+    <div class="col-md-12 column">
       <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
           <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -36,47 +36,42 @@
         </a>
       </div>
     </div>
-    <div class="col-md-3 sidebar-column">
-      <div class="sidebar">
-        <div class="shopping-business-btn">
-          <div class="group-btn">
-            <a href="<%= new_user_registration_path%>" class="btn"><img src="/cc_2.0/images/Shopper-btn.svg"></a>
-            <a href="<%= business_sign_up_path%>" class="btn"><img src="/cc_2.0/images/Business-btn.svg"></a>
-          </div>
+  </div>
+</div><br>
+
+<div class="landing-page-heading-filter">
+  <div class="row filter">
+    <div class="col-11">
+      <div class="row">
+        <div class="col-3">
+          <%= select_tag 'city-dropdown', options_for_select(@cities.collect{ |u| [u.name, u.slug] }, :selected => @city.slug), {prompt: 'City', class: 'form-control search-column input-group-prepend search-box'} %>
         </div>
-        <div class="communities">
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Select Community
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <% @city.districts.each do |district| %>
-                <%= link_to district.name, district_guide_path(district), class: "dropdown-item" %>
-              <% end %>
-            </div>
-          </div><br>
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Select Neighbourhood
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <% @district.business_improvement_areas.each do |bia| %>
-                <%= link_to bia.name, "/vancouver/#{@district.slug}/neighbourhoods/#{bia.slug}", class: "dropdown-item" %>
-              <% end %>
-            </div>
-          </div>
+        <div class="col-3">
+          <%= select_tag 'district-dropdown', options_for_select(@districts.collect{ |district| [district.name, district.slug]}, :selected => @district.slug), prompt: 'District', class: 'form-control search-column input-group-prepend search-box' %>
+        </div>
+        <div class="col-3">
+          <%= select_tag 'neighbourhood-dropdown', options_for_select(@neighborhoods.collect{ |neighborhood| [neighborhood.name, neighborhood.slug]}), prompt: 'Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
+        </div>
+        <div class="col-3">
+          <%= select_tag 'shopping-district-dropdown', raw("<option>Sub Neighbourhood</option>"), prompt: 'Sub Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
       </div>
     </div>
+    <div class="col-1">
+      <a href="javascript:void(0)" id="district-path">
+        <button type="button" class="btn-primary btn">Go<i class="far fa-chevron-right"></i></button>
+      </a>
+    </div>
   </div>
-</div><br>
+</div>
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
       <!-- Shopping District Slider -->
       <div class="district-slider">
         <div class="slider-heading">
-          <h3><%= @district.name %> Neighbourhoods</h3>
+          <h3><%= @district.name %> District</h3>
         </div>
         <div class="inner-slider">
           <div class="items">

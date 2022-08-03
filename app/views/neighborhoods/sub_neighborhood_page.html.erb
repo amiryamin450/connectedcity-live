@@ -1,4 +1,4 @@
-<%= metamagic site: "ConnectedCity" , title: ["Find Businesses in #{@business_improvement_area.name}, #{@city.name}",
+<%= metamagic site: "ConnectedCity" , title: ["Find Businesses in #{@neighborhood.name}, #{@city.name}",
                                               :site], separator: " — " , charset: "utf-8" , viewport: "width=device-width, initial-scale=1.0" %>
 
 <div class="container-fluid">
@@ -39,16 +39,16 @@
     <div class="col-11">
       <div class="row">
         <div class="col-3">
-          <%= select_tag 'city-dropdown', options_for_select(@cities.collect{ |u| [u.name, u.slug] }, :selected => @city.slug), prompt: 'City', class: 'form-control search-column input-group-prepend search-box' %>
+          <%= select_tag 'city-dropdown', options_for_select(@cities.collect{ |u| [u.name, u.slug] }, :selected => @city.slug), {prompt: 'City', class: 'form-control search-column input-group-prepend search-box'} %>
         </div>
         <div class="col-3">
           <%= select_tag 'district-dropdown', options_for_select(@districts.collect{ |district| [district.name, district.slug]}, :selected => @district.slug), prompt: 'District', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
         <div class="col-3">
-          <%= select_tag 'neighbourhood-dropdown', options_for_select(@neighborhoods.collect{ |neighborhood| [neighborhood.name, neighborhood.slug]}, :selected => @neighborhood.slug), prompt: 'Neighborhood', class: 'form-control search-column input-group-prepend search-box' %>
+          <%= select_tag 'neighbourhood-dropdown', options_for_select(@neighbourhoods.collect{ |neighborhood| [neighborhood.name, neighborhood.slug]}, :selected => @neighborhood.slug), prompt: 'Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
         <div class="col-3">
-          <%= select_tag 'shopping-district-dropdown', options_for_select(@sub_neighborhoods.collect{ |subn| [subn.name, subn.slug]}), prompt: 'Sub Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
+          <%= select_tag 'shopping-district-dropdown', options_for_select(@sub_neighborhoods.collect{ |subn| [subn.name, subn.slug]}, :selected => @sub_neighborhood.slug), prompt: 'Sub Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
       </div>
     </div>
@@ -60,27 +60,17 @@
   </div>
 </div>
 
-
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
       <!-- Shopping District Slider -->
       <div class="district-slider">
         <div class="slider-heading">
-          <h3><%= @business_improvement_area.name %> Neighbourhoods</h3>
+          <h3><%= @neighborhood.name %> Sub Neighborhood</h3>
         </div>
         <div class="inner-slider">
           <div class="items">
-            <% @business_improvement_area.locations.order("RAND()").each do |location| %>
-              <div>
-                <div class="district-slider-img">
-                  <%= link_to(image_tag(get_location_image_url location), location) %>
-                </div>
-                <p>
-                  <%= link_to location.name, location %>
-                </p>
-              </div>
-            <% end %>
+            <%= render 'business_improvement_area', business_improvement_area: @business_improvement_area, lv: 1 %>
           </div>
         </div>
       </div>

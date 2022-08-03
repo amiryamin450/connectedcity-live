@@ -1,0 +1,10 @@
+<% business_improvement_area.locations.order("RAND()").each do |location| %>
+  <div>
+    <div class="district-slider-img">
+      <%= link_to(image_tag(get_location_image_url location), location) %>
+    </div>
+    <p>
+      <%= link_to location.name, location %>
+    </p>
+  </div>
+<% end %>
