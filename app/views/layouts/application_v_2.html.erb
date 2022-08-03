@@ -73,7 +73,7 @@
           let shoppingDistrictId = event.target.value
           let href = $('#district-path').attr('href');
 
-          if (href == '#') {
+          if (href == 'javascript:void(0)') {
             href = window.location.pathname;
           }
           $('#district-path').attr("href", `${href}/${shoppingDistrictId}`)
