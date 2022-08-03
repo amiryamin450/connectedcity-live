@@ -40,7 +40,6 @@
             method: "GET",
             dataType: "json",
           }).done(function( response ) {
-            debugger
             resetDistrict();
             $('#district-path').attr("href", `${response.route}/${cityId}`)
             $.each(response.districts, function(index, district) {
