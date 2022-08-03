@@ -9,7 +9,7 @@
       <div class="control-group string required category" style="<%= hidden %>">
         <label class="string required optional control-label">Category</label>
         <div class="input-group-prepend search-box">
-          <%= select_tag 'news_article[category_id]', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All Categories', class: 'form-control' %>
+          <%= select_tag 'news_article[category_id]', options_from_collection_for_select(@categories_news, 'id', 'name', @news_article.try(:category_id)), prompt: 'All Categories', class: 'form-control' %>
         </div>
       </div>
     <% end %>
