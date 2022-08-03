@@ -60,6 +60,16 @@ class HomeController < ApplicationController
     render json: cities
   end
 
+  def get_districts
+    city = City.find_by_slug(params[:city_id])
+    districts = city.districts
+    municipality = city.municipality
+    region = municipality.region
+    province = region.province
+    route = "/#{province.slug}/#{region.slug}/#{municipality.slug}"
+    render json: {districts: districts, route: route}
+  end
+
   def get_neighborhoods
     district = District.find_by_slug(params[:district_id])
     neighborhoods = district&.neighborhoods
