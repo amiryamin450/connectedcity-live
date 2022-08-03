@@ -44,7 +44,7 @@ class NeighborhoodsController < ApplicationController
       @districts = @city.districts
       @cities = @city.municipality.cities
       @sub_neighborhoods = Neighborhood.where(neighborhood_id: @neighborhood.nid)
-      @sub_neighborhood  = Neighborhood.find_by_slug(params[:sub_neighborhood_slug])
+      @sub_neighborhood  = @sub_neighborhoods.find_by_slug(params[:sub_neighborhood_slug])
       @blog_entries = @city.blog_entries.limit(PER_PAGE)
       @products = @city.products.limit(PER_PAGE)
       @coupons = @city.coupons.limit(PER_PAGE)

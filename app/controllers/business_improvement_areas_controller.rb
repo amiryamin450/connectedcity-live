@@ -25,10 +25,10 @@ class BusinessImprovementAreasController < ApplicationController
     @coupons = @business_improvement_area.coupons.limit(PER_PAGE)
     @news = @business_improvement_area.news_articles.limit(PER_PAGE).order(:created_at)
     @services = @business_improvement_area.services.limit(PER_PAGE)
-    @neighborhood = Neighborhood.find_by_neighborhd(@business_improvement_area.name)
     @neighborhoods = @district.neighborhoods
-    @sub_neighborhood  = Neighborhood.find_by_slug(params[:sub_neighborhood_slug])
+    @neighborhood  = @neighborhoods.find_by_neighborhd(@business_improvement_area.name)
     @sub_neighborhoods = Neighborhood.where(neighborhood_id: @neighborhood.nid)
+    @sub_neighborhood  = @sub_neighborhoods.find_by_slug(params[:sub_neighborhood_slug])
     @city = @district.city
     @cities = @city.municipality.cities
     @district = @business_improvement_area.district
