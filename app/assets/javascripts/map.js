@@ -20,7 +20,13 @@ $(function() {
                 var title = location['name'];
                 var pt = new L.LatLng(location['latitude'], location['longitude']);
                 var marker = new L.Marker(pt, { title: title });
-                marker.bindPopup((location['thumb'] ? "<a href='" + location['url'] + "'>" + "<img src='" + location['thumb'] + "' width='157' />" + "</a>" : "" ) + "<div style='margin-top:5px;margin-bottom:5px;'><a href='" + location['url'] + "'>" + title + "</a></div>");
+                var markerPopup = ""
+                if (!location['url']) {
+                  markerPopup = (location['thumb'] ? "<div>" + "<img src='" + location['thumb'] + "' width='157' />" + "</div>" : "" ) + "<div style='margin-top:5px;margin-bottom:5px;'>" + title + "</div>"
+                } else {
+                  markerPopup = (location['thumb'] ? "<a href='" + location['url'] + "'>" + "<img src='" + location['thumb'] + "' width='157' />" + "</a>" : "" ) + "<div style='margin-top:5px;margin-bottom:5px;'><a href='" + location['url'] + "'>" + title + "</a></div>"
+                }
+                marker.bindPopup(markerPopup);
                 markers.addLayer(marker);
                 bounds.extend(pt);
             }
