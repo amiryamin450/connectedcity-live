@@ -93,4 +93,17 @@ class HomeController < ApplicationController
     route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}"
     render json: {sub_neighborhoods: sub_neighborhoods, route: route}
   end
+
+  def get_sub_neighborhood
+    sub_neighborhood = Neighborhood.find_by_slug(params[:sub_neighborhood_id])
+    neighborhood = sub_neighborhood.neighborhood
+    district = neighborhood.district
+    neighborhoods = district.neighborhoods
+    city = district.city
+    municipality = city.municipality
+    region = municipality.region
+    province = region.province
+    route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}/#{neighborhood.slug}"
+    render json: {sub_neighborhood: sub_neighborhood, route: route}
+  end
 end
