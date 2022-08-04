@@ -138,4 +138,21 @@ class VerticalMarket < ActiveRecord::Base
   def get_news_articles_municipality(city = nil, district = nil, neighborhood = nil)
     NewsArticle.joins(location: :vertical_market_categories).where(locations: location_params(city, district, neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`news_articles`.`created_at` DESC").limit 50
   end
+
+  def locations_civic_news(city = nil, district = nil, neighborhood = nil)
+    city_vancouver = Location.find_by_slug('city-of-vancouver')
+    result_locaitons = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
+    #provincial-services: 164 , federal-services: 174
+    other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [164, 174]})
+    result_locaitons << city_vancouver
+    result_locaitons += other_results
+    temp = []
+    result_locaitons.each_with_index do |i, idx|
+      temp += i.media_attachments if i.media_attachments.size > 0
+      temp += i.events if i.events.size > 0
+      temp += i.news_articles if i.news_articles.size > 0
+      temp += i.status_updates if i.status_updates.size > 0
+    end
+    result_locaitons += temp
+  end
 end
