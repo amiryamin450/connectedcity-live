@@ -161,9 +161,8 @@
 
 <%= javascript_tag do %>
   window.locations = <%= raw @markers_lo.collect { |m|
-
     u = if m.respond_to?(:statusable)
-      url_for([m.statusable, m])
+      nil
     elsif m.respond_to?(:newsable)
       url_for([m.newsable, m])
     elsif m.respond_to?(:attachable)
@@ -173,7 +172,11 @@
     else
       url_for(m)
     end
-    n = defined?(m.name) ? m.name : m.title
+    n = if m.respond_to?(:statusable)
+      'Status Update of ' + m.statusable.name
+      else
+        defined?(m.name) ? m.name : m.title
+      end
 
     {:name => n, :url => u, :latitude => m.latitude, :longitude => m.longitude, :thumb => defined?(m.logo) && m.logo.file? ? m.logo.url(:bia_display) : nil}
   }.to_json %>;
