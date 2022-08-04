@@ -77,8 +77,8 @@
             method: "GET",
             dataType: "json",
           }).done(function( response ) {
+            $('#district-path').attr("href", `${response.route}/${neighborhoodId}`)
             $.each(response.sub_neighborhoods, function(index, neighborhood) {
-              $('#district-path').attr("href", `${response.route}/${neighborhoodId}`)
               $('#shopping-district-dropdown').append($('<option>', {
                   value: neighborhood.slug,
                   text: neighborhood.neighborhd
@@ -89,12 +89,14 @@
 
         $('#shopping-district-dropdown').on('change', function(event) {
           let shoppingDistrictId = event.target.value
-          let href = $('#district-path').attr('href');
 
-          if (href == 'javascript:void(0)') {
-            href = window.location.pathname;
-          }
-          $('#district-path').attr("href", `${href}/${shoppingDistrictId}`)
+          $.ajax({
+            url: `/home/get_sub_neighborhood?sub_neighborhood_id=${shoppingDistrictId}`,
+            method: "GET",
+            dataType: "json",
+          }).done(function( response ) {
+            $('#district-path').attr("href", `${response.route}/${shoppingDistrictId}`)
+          });
         })
 
         function resetDistrict() {

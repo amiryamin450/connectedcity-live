@@ -75,13 +75,13 @@
         </div>
         <div class="inner-slider">
           <div class="items">
-            <% @district.business_improvement_areas.order("RAND()").each do |bia| %>
+            <% @neighborhoods.order("RAND()").each do |nbh| %>
               <div>
                 <%# <img data-lazy="/cc_2.0/icon/slider-icon-1.jpg"> %>
                 <div class="district-slider-img">
-                  <%= link_to(image_tag(bia.logo.url(:list)), "/vancouver/#{@district.slug}/neighbourhoods/#{bia.slug}") %>
+                  <%= link_to(image_tag('/assets/home_page_image/default.jpg'), "/#{@city.slug}/#{@district.slug}/#{nbh.slug}") %>
                 </div>
-                <p><%= link_to bia.name, "/vancouver/#{@district.slug}/neighbourhoods/#{bia.slug}" %></p>
+                <p><%= link_to nbh.neighborhd, "/#{@city.slug}/#{@district.slug}/#{nbh.slug}" %></p>
               </div>
             <% end %>
           </div>
