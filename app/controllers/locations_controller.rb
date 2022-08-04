@@ -180,7 +180,8 @@ class LocationsController < ApplicationController
         puts params[:location].to_yaml
         puts @location.errors.to_yaml
 
-        format.html { render action: "edit" }
+        # format.html { render action: "edit" }
+        format.html { redirect_to edit_location_path }
         format.json { render json: @location.errors, status: :unprocessable_entity }
       end
     end
