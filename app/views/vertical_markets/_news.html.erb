@@ -181,7 +181,7 @@
     end
 
     img = if not_bus
-      m.image.present? ? m.image.url : nil
+      defined?(m.image) && m.image.present? ? m.image.url : nil
     else
       defined?(m.logo) && m.logo.file? ? m.logo.url(:original) : nil
     end
