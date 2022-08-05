@@ -103,13 +103,13 @@
         </div>
         <div class="inner-slider">
           <div class="items">
-            <% @districts.each do |district| %>
+            <% @business_improvement_areas.each do |bia| %>
               <div>
                 <%# <img data-lazy="/cc_2.0/icon/slider-icon-1.jpg"> %>
                 <div class="district-slider-img">
-                  <%=link_to(image_tag(district.home_page_image.url(:list)), "/vancouver/#{district.slug}") %>
+                  <%= link_to(image_tag(bia.logo.url(:list)), "/vancouver/#{bia.district.slug}/neighbourhoods/#{bia.slug}") %>
                 </div>
-                <p><%= link_to district.name, "/vancouver/#{district.slug}" %></p>
+                <p><%= link_to bia.name, "/vancouver/#{bia.district.slug}/neighbourhoods/#{bia.slug}" %></p>
               </div>
             <% end %>
           </div>
