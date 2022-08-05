@@ -387,18 +387,18 @@ Connectbook::Application.routes.draw do
   get '/vancouver/', to: 'home#city_landing', as: :city_landing
   # get ':district_route', to: 'districts#homepage', as: :district_guide
   get '/vancouver/:district_route', to: 'districts#homepage', as: :district_guide
-  # resources :business_improvement_areas, path: '/:province_slug/:region_slug/:municipality_slug/:city_slug/:district_slug', only: [:show] do
-  #   member do
-  #     get :status_updates
-  #   end
-  # end
+  resources :business_improvement_areas, path: '/:province_slug/:region_slug/:municipality_slug/:city_slug/:district_slug', only: [:show] do
+    member do
+      get :status_updates
+    end
+  end
 
 
   match ':status', to: 'errors#show', constraints: { status: /\d{3}/ }, as: :error_page
 
   get "/:province_slug/:region_slug/:municipality_slug/:city_slug", to: 'home#city_landing'
   get "/:province_slug/:region_slug/:municipality_slug/:city_slug/:district_route", to: 'districts#homepage'
-  get "/:province_slug/:region_slug/:municipality_slug/:city_slug/:district_slug/:neighborhood_slug/", to: 'neighborhoods#neighborhood_page'
+  # get "/:province_slug/:region_slug/:municipality_slug/:city_slug/:district_slug/:neighborhood_slug/", to: 'neighborhoods#neighborhood_page'
   get "/:province_slug/:region_slug/:municipality_slug/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug", to: 'neighborhoods#sub_neighborhood_page'
 
   get 'deeper_categories', to: 'products#deeper_categories'
