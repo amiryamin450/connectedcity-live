@@ -156,7 +156,7 @@
           <%= f.input :address %>
           <%= f.input :latitude, as: :hidden %>
           <%= f.input :longitude, as: :hidden %>
-          <div id="value_address" class="hidden" ></div>
+          <input id="value_address" class="hidden" value="<%= @location.address %>" ></input>
           <%= f.input :address_1 %>
           <%= f.input :postal_code %>
           <%= f.association :business_improvement_area, include_blank: 'None', disabled: !current_user.has_role?(:admin) %>
@@ -257,7 +257,6 @@
       $("#value_address").val($("#location_address").val())
     });
   }
-
 
   function isBlankLatitude() {
     return $("#location_latitude").val().trim().length === 0

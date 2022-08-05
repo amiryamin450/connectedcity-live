@@ -72,7 +72,8 @@
 <script>
   function initMap() {
     var input = document.getElementById('media_attachment_location_search');
-    var autocomplete = new google.maps.places.Autocomplete(input);
+    var options = { componentRestrictions: {country: 'ca'} }
+    var autocomplete = new google.maps.places.Autocomplete(input, options);
     autocomplete.addListener('place_changed', function() {
       var place = autocomplete.getPlace();
       if (!place.geometry) {

@@ -19,7 +19,20 @@ $(function() {
             if(location['latitude'] && location['longitude']) {
                 var title = location['name'];
                 var pt = new L.LatLng(location['latitude'], location['longitude']);
-                var marker = new L.Marker(pt, { title: title });
+                var myIcon = L.icon({
+                  iconUrl: '/assets/leaf-red.png',
+                  iconSize: [25, 41],
+                  iconAnchor: [12, 41],
+                  popupAnchor: [-3, -40],
+                  shadowUrl: '',
+                  shadowSize: [68, 95],
+                  shadowAnchor: [12, 41]
+                });
+                var options = { title: title }
+                if (location['not_business']) {
+                  options['icon'] = myIcon
+                }
+                var marker = new L.Marker(pt, options);
                 var markerPopup = ""
                 if (!location['url']) {
                   markerPopup = (location['thumb'] ? "<div>" + "<img src='" + location['thumb'] + "' width='157' />" + "</div>" : "" ) + "<div style='margin-top:5px;margin-bottom:5px;'>" + title + "</div>"
