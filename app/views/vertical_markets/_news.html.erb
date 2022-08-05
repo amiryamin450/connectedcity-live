@@ -161,6 +161,7 @@
 
 <%= javascript_tag do %>
   window.locations = <%= raw @markers_lo.collect { |m|
+    not_bus = true
     u = if m.respond_to?(:statusable)
       nil
     elsif m.respond_to?(:newsable)
@@ -170,15 +171,22 @@
     elsif m.respond_to?(:location)
       url_for([m.location, m])
     else
+      not_bus = false
       url_for(m)
     end
     n = if m.respond_to?(:statusable)
       'Status Update of ' + m.statusable.name
-      else
-        defined?(m.name) ? m.name : m.title
-      end
+    else
+      defined?(m.name) ? m.name : m.title
+    end
 
-    {:name => n, :url => u, :latitude => m.latitude, :longitude => m.longitude, :thumb => defined?(m.logo) && m.logo.file? ? m.logo.url(:bia_display) : nil}
+    img = if not_bus
+      m.image.present? ? m.image.url : nil
+    else
+      defined?(m.logo) && m.logo.file? ? m.logo.url(:original) : nil
+    end
+
+    {:not_business => not_bus, :name => n, :url => u, :latitude => m.latitude, :longitude => m.longitude, :thumb => img}
   }.to_json %>;
 <% end %>
 
