@@ -15,6 +15,12 @@
       <div class="inner-card-time col-md-12">
         <span><%= "#{time_ago_in_words(media_attachment.created_at)} ago" %></span>
       </div>
+      <% video = media_attachment.videos&.first %>
+      <% if video && video.livestream && video.status == "started" %>
+        <div class="col-md-12">
+          <div id="live">LIVE</div>
+        </div>
+      <% end %>
     </div>
   </div>
   <div class="col-md-12">
