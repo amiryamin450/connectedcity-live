@@ -64,7 +64,7 @@ class VerticalMarketsController < ApplicationController
       lst_categories = Category.where(name: names)
       @categories_news += lst_categories
     else
-      @city = if params[:city_slug] ? City.find_by_slug(params[:city_slug]) : City.find(5915022)
+      @city = params[:city_slug] ? City.find_by_slug(params[:city_slug]) : City.find(5915022)
       district_slug = params[:district_route] || params[:district_slug]
       @district = District.find_by_slug(district_slug)
 
