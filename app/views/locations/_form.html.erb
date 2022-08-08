@@ -1,5 +1,5 @@
 <div class="pad10 holder" style="padding-left: 30px;">
-  <%= simple_form_for(@location, :html => { :multipart => true, class: 'form-horizontal', id: 'fileupload' }) do |f| %>
+  <%= simple_form_for(@location, :html => { :multipart => true, class: 'form-horizontal location_business', id: 'fileupload' }) do |f| %>
     <%= f.error_notification %>
     <div class="tabbable">
       <ul class="nav nav-pills">
@@ -146,7 +146,7 @@
               <%= link_to 'Create New Parks & Recreation Commissioners Member', new_location_path(commissioner_id: @location.id), class: 'btn'  %>
             </div>
           <% end %>
-        <% end -%>
+        <% end %>
         <div class="tab-pane <%= 'active' unless current_user.has_role? :admin %>" id="info">
           <%= f.input :broker_id, as: :hidden %>
           <%= f.input :hall_id, as: :hidden %>
@@ -154,6 +154,9 @@
           <%= f.input :commissioner_id, as: :hidden %>
           <%= f.input :name %>
           <%= f.input :address %>
+          <%= f.input :latitude, as: :hidden %>
+          <%= f.input :longitude, as: :hidden %>
+          <input id="value_address" class="hidden" value="<%= @location.address %>" ></input>
           <%= f.input :address_1 %>
           <%= f.input :postal_code %>
           <%= f.association :business_improvement_area, include_blank: 'None', disabled: !current_user.has_role?(:admin) %>
@@ -217,3 +220,50 @@
     </div>
   <% end %>
 </div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_MAP_KEY'] %>&libraries=places&callback=initMap&sensor=false" async defer></script>
+<script type="text/javascript">
+  $(document).on("keydown",function(e){
+    var keyCode = e.which || e.keyCode;
+    if(keyCode == 13 && e.target.name === 'location[address]') {
+      e.preventDefault();
+    }
+  });
+  $(".control-group.status_update_latitude").css('margin-bottom', '0px');
+  $(".control-group.status_update_longitude").css('margin-bottom', '0px');
+  $("form.location_business").on('submit', function(e) {
+    var valueSearch = $('#location_address').val().trim()
+    var valueSearchResult = $("#value_address").val().trim()
+    var inValidSearch = valueSearch.length === 0 || valueSearch !== valueSearchResult
+    if (isBlankLatitude() || isBlankLongitude() || inValidSearch) {
+      $("#location_latitude").val('')
+      $("#location_longitude").val('')
+      $('#location_address').val('')
+    }
+  })
+
+  function initMap() {
+    var options = { componentRestrictions: {country: 'ca'} }
+    var autocomplete = new google.maps.places.Autocomplete(document.getElementById('location_address'), options);
+    autocomplete.addListener('place_changed', function() {
+      var place = autocomplete.getPlace();
+      if (!place.geometry) {
+        window.alert("Autocomplete's returned place contains no geometry");
+        return;
+      }
+      var location = place.geometry.location
+      $("#location_latitude").val(parseFloat(location.lat()))
+      $("#location_longitude").val(parseFloat(location.lng()))
+      $("#value_address").val($("#location_address").val())
+    });
+  }
+
+  function isBlankLatitude() {
+    return $("#location_latitude").val().trim().length === 0
+  }
+
+  function isBlankLongitude() {
+    return $("#location_longitude").val().trim().length === 0
+  }
+
+</script>

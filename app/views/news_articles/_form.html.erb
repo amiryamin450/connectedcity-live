@@ -9,7 +9,7 @@
       <div class="control-group string required category" style="<%= hidden %>">
         <label class="string required optional control-label">Category</label>
         <div class="input-group-prepend search-box">
-          <%= select_tag 'news_article[category_id]', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All Categories', class: 'form-control' %>
+          <%= select_tag 'news_article[category_id]', options_from_collection_for_select(@categories_news, 'id', 'name', @news_article.try(:category_id)), prompt: 'All Categories', class: 'form-control' %>
         </div>
       </div>
     <% end %>
@@ -23,6 +23,7 @@
       </div>
       <%= f.input :latitude, as: :hidden %>
       <%= f.input :longitude, as: :hidden %>
+      <div id="value_address" class="hidden" ></div>
     <% end %>
     <%= f.input :content, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
     <%= f.input :image, as: :logo_preview %>
@@ -33,8 +34,7 @@
   </div>
 <% end %>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.5/dist/css/autocomplete.min.css"/>
-<script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.5/dist/js/autocomplete.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_MAP_KEY'] %>&libraries=places&callback=initMap&sensor=false" async defer></script>
 
 <script type="text/javascript">
   $(document).ready(function() {
@@ -72,7 +72,9 @@
     $("form#new_news_article").on('submit', function(e) {
       if (valid === "true") {
         var valueSearch = $('#news_article_location_search').val().trim()
-        if (isBlankLatitude() || isBlankLongitude() || valueSearch.length === 0) {
+        var valueSearchResult = $("#value_address").val().trim()
+        var inValidSearch = valueSearch.length === 0 || valueSearch !== valueSearchResult
+        if (isBlankLatitude() || isBlankLongitude() || inValidSearch) {
           $("#news_article_latitude").val('')
           $("#news_article_longitude").val('')
           $('.auto-search-wrapper.control-group').css('margin-bottom', '40px')
@@ -88,68 +90,6 @@
     })
   })
 
-  window.addEventListener("DOMContentLoaded", function () {
-    new Autocomplete("news_article_location_search", {
-      delay: 1000,
-      selectFirst: true,
-      howManyCharacters: 2,
-      clearButton: false,
-      onSearch: function ({ currentValue }) {
-        $("#news_article_latitude").val('')
-        $("#news_article_longitude").val('')
-        $('.auto-clear').css({
-          'height': '40px',
-          'top': 'auto'
-        })
-        $('.auto-results-wrapper').css('max-width', '550px')
-        const api = `https://nominatim.openstreetmap.org/search?format=geojson&limit=5&q=${encodeURI(currentValue)}`;
-        return new Promise((resolve) => {
-          fetch(api)
-            .then((response) => response.json())
-            .then((data) => { resolve(data.features); })
-            .catch((error) => { console.error(error); });
-        });
-      },
-      onResults: ({ currentValue, matches, template }) => {
-        const regex = new RegExp(currentValue, "i");
-        // checking if we have results if we don't
-        // take data from the noResults method
-        return matches === 0
-          ? template
-          : matches
-              .map((element) => {
-                return `
-                <li class="loupe" role="option">
-                  ${element.properties.display_name.replace( regex, (str) => `<b>${str}</b>` )}
-                </li> `;
-              })
-              .join("");
-      },
-      onSubmit: ({ object }) => {
-        const { display_name } = object.properties;
-        const cord = object.geometry.coordinates;
-        $('#news_article_location_search').val(display_name)
-        $("#news_article_latitude").val(parseFloat(cord[1]))
-        $("#news_article_longitude").val(parseFloat(cord[0]))
-        $('.auto-search-wrapper.control-group').css('margin-bottom', '20px')
-        $('#location-error').css('display', 'none');
-        $('#location-error').text('')
-      },
-
-      // get index and data from li element after
-      // hovering over li with the mouse or using
-      // arrow keys ↓ | ↑
-      onSelectedItem: ({ index, element, object }) => {
-        console.log("onSelectedItem:", index, element, object);
-      },
-
-      // the method presents no results
-      noResults: ({ currentValue, template }) =>
-        template(`<li>No results found: "${currentValue}"</li>`),
-    });
-    // })
-  })
-
   function isBlankLatitude() {
     return $("#news_article_latitude").val().trim().length === 0
   }
@@ -157,4 +97,22 @@
   function isBlankLongitude() {
     return $("#news_article_longitude").val().trim().length === 0
   }
+
+  function initMap() {
+    var input = document.getElementById('news_article_location_search');
+    var options = { componentRestrictions: {country: 'ca'} }
+    var autocomplete = new google.maps.places.Autocomplete(input, options);
+    autocomplete.addListener('place_changed', function() {
+      var place = autocomplete.getPlace();
+      if (!place.geometry) {
+        window.alert("Autocomplete's returned place contains no geometry");
+        return;
+      }
+      var location = place.geometry.location
+      $("#news_article_latitude").val(parseFloat(location.lat()))
+      $("#news_article_longitude").val(parseFloat(location.lng()))
+      $("#value_address").val($("#news_article_location_search").val())
+    });
+  }
 </script>
+
