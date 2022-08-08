@@ -143,7 +143,7 @@ class VerticalMarket < ActiveRecord::Base
     city_vancouver = Location.find_by_slug('city-of-vancouver')
     result_locaitons = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
     #provincial-services: 164 , federal-services: 174
-    other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [164, 174]})
+    other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [164, 174, 114]})
     result_locaitons << city_vancouver
     result_locaitons += other_results
     temp = []
