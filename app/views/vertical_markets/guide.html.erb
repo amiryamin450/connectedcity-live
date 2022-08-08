@@ -63,17 +63,7 @@
               <% if [174, 164].include?(@vertical_market.id) %>
                 <h3>Browse Members of <%= @vertical_market.id === 164 ? 'the Legislative Assembly in' : 'Parliament in' %> <%= @neighbourhood ? @neighbourhood.name : @current_district %></h3>
               <% else %>
-                <%
-                  address =
-                    if @sub_neighborhood
-                      @sub_neighborhood.name
-                    elsif @neighborhood
-                      @neighborhood.name
-                    else
-                      @current_district
-                    end
-                %>
-                <h3><%= @current_market %> in <%= address %></h3>
+                <h3><%= @current_market %> in <%= get_address(@sub_neighborhood, @neighborhood, @current_district) %></h3>
               <% end %>
             </div>
             <!-- End -->

@@ -24,4 +24,13 @@ module VerticalMarketCategoryHelper
     end
   end
 
+  def get_address(sub_neighborhood, neighborhood, current_district)
+    if sub_neighborhood
+      sub_neighborhood.name
+    elsif neighborhood
+      neighborhood.name
+    else
+      current_district
+    end
+  end
 end
