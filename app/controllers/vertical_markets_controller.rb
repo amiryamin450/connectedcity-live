@@ -41,16 +41,6 @@ class VerticalMarketsController < ApplicationController
     market_param = params[:market] === 'news' ? 'civic-news' : params[:market]
     @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).find(market_param)
 
-    @city = City.find_by_slug(params[:city_slug])
-    district_slug = params[:district_route] || params[:district_slug]
-    @district = District.find_by_slug(district_slug)
-
-    neighborhood_slug = params[:id] || params[:neighborhood_slug]
-    @neighborhood = neighborhood_slug ? Neighborhood.find_by_slug(neighborhood_slug) : nil
-    @sub_neighborhood = params[:sub_neighborhood_slug] ? @neighborhood.sub_neighborhoods.find_by_slug(params[:sub_neighborhood_slug]) : nil
-
-    @sub_market = @vertical_market.children&.find_by_slug(params[:sub_market]) if params[:sub_market]
-
         # init_category_values
     if params[:market] === 'news'
       districts
@@ -74,6 +64,15 @@ class VerticalMarketsController < ApplicationController
       lst_categories = Category.where(name: names)
       @categories_news += lst_categories
     else
+      @city = City.find_by_slug(params[:city_slug])
+      district_slug = params[:district_route] || params[:district_slug]
+      @district = District.find_by_slug(district_slug)
+
+      neighborhood_slug = params[:id] || params[:neighborhood_slug]
+      @neighborhood = neighborhood_slug ? Neighborhood.find_by_slug(neighborhood_slug) : nil
+      @sub_neighborhood = params[:sub_neighborhood_slug] ? @neighborhood.sub_neighborhoods.find_by_slug(params[:sub_neighborhood_slug]) : nil
+      @sub_market = @vertical_market.children&.find_by_slug(params[:sub_market]) if params[:sub_market]
+
       categories_without_municipality
       case @vertical_market.id
       when 1
