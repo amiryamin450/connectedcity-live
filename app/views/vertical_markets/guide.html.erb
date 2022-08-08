@@ -15,7 +15,7 @@
     @neighbourhood = Neighborhood.where('slug LIKE ?', @neighbourhood_slug).first
   end
 
-  @current_district = @district != nil ? @district.name : @city.name
+  @current_district = @district != nil ? @district.name : (@city&.name || 'Vancouver')
 %>
 <% if params[:market] == 'news' %>
 <%= render 'news'%>
@@ -25,13 +25,13 @@
     <li class="breadcrumb-item"><a href="<%= root_path %>">Home</a></li>
     <!-- provincial-services: 164 , federal-services: 174 -->
     <% if [174, 164].include?(@vertical_market.id) %>
-      <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="#"><%= @city.name || 'Vancouver' %></a></li>
+      <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="#"><%= @city&.name || 'Vancouver' %></a></li>
       <% @vertical_market.ancestors.each do |ancestor| %>
         <li class="breadcrumb-item active" aria-current="page"><a style="margin-left: 10px;" href="<%="#{@base_path}guide/#{ancestor.slug}"%>"><%=ancestor.name%></a></li>
       <% end %>
       <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="<%="#{@base_path}guide/#{@vertical_market.slug}"%>"><%= " #{@vertical_market.name}" %></a></li>
     <% else %>
-      <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="#"><%= @city.name || 'Vancouver' %></a></li>
+      <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="#"><%= @city&.name || 'Vancouver' %></a></li>
       <%if @district %>
         <li class="breadcrumb-item active" aria-current="page"><a style="margin-left: 10px;" href="#"><%=@district.name%></a></li>
       <% end %>
