@@ -45,6 +45,11 @@ class VerticalMarketsController < ApplicationController
     # else
         # binding.pry
 
+    @city = City.find_by_slug(params[:city_slug])
+
+    @district = District.find_by_slug(params[:district_route])
+
+    @neighborhood = params[:id] ? Neighborhood.find_by_slug(params[:id]) : nil
         # init_category_values
       if params[:market] === 'news'
         districts

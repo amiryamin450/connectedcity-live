@@ -23,7 +23,14 @@ class ApplicationController < ActionController::Base
   def set_up
     user_signed_in? ? @favorites = current_user.favorites.all : @favorites = []
     init_category_values
-    @city = City.find(5915022)
+    # @city = City.find(5915022)
+    # if params[:city_slug]
+    #   @city = City.find_by_slug(params[:city_slug])
+    # else
+    #   @city = City.find(5915022)
+    # end
+
+    @city = params[:city_slug] ? City.find_by_slug(params[:city_slug]) : City.find(5915022)
     @sidebar_class = if cookies[:sidebar_class].present?
                         cookies[:sidebar_class]
                       else
@@ -34,9 +41,11 @@ class ApplicationController < ActionController::Base
       cookies.delete(:base_path)
       cookies.delete(:district_route)
     end
-    if request.fullpath == "/vancouver"
-      cookies.delete(:base_path)
-      cookies.delete(:district_route)
+    if params[:city_slug]
+      if request.fullpath == "/#{params[:city_slug]}"
+        cookies.delete(:base_path)
+        cookies.delete(:district_route)
+      end
     end
 
     #TODO: This needs to be cleaned up as it is far too complex
