@@ -34,10 +34,22 @@ $(function() {
                 }
                 var marker = new L.Marker(pt, options);
                 var markerPopup = ""
-                if (!location['url']) {
-                  markerPopup = (location['thumb'] ? "<div>" + "<img src='" + location['thumb'] + "' width='157' />" + "</div>" : "" ) + "<div style='margin-top:5px;margin-bottom:5px;'>" + title + "</div>"
-                } else {
-                  markerPopup = (location['thumb'] ? "<a href='" + location['url'] + "'>" + "<img src='" + location['thumb'] + "' width='157' />" + "</a>" : "" ) + "<div style='margin-top:5px;margin-bottom:5px;'><a href='" + location['url'] + "'>" + title + "</a></div>"
+
+                switch(location['type']) {
+                  case 'status_update':
+                    markerPopup = (location['thumb'] ? "<div>" + "<a href='#' class='status-update-image' data-target='#status-"+ location['id'] + "-model' data-toggle='modal'><img src='" + location['thumb'] + "' width='157' /></a></div>" : "" ) + "<div style='margin-top:5px;margin-bottom:5px;'><a href='#' class='status-update-image' data-target='#status-"+ location['id'] + "-model' data-toggle='modal'>" + title + "</a></div>"
+                    break
+                  case 'news_article':
+                    markerPopup = (location['thumb'] ? "<a href='#' class='status-update-image' data-target='#news-"+ location['id'] + "-model' data-toggle='modal'><img src='" + location['thumb'] + "' width='157' />" + "</a>" : "" ) + "<div style='margin-top:5px;margin-bottom:5px;'><a href='#' class='status-update-image' data-target='#news-"+ location['id'] + "-model' data-toggle='modal'>" + title + "</a></div>"
+                    break
+                  case 'event':
+                    markerPopup = (location['thumb'] ? "<a href='#' class='status-update-image' data-target='#event-"+ location['id'] + "-model' data-toggle='modal'><img src='" + location['thumb'] + "' width='157' />" + "</a>" : "" ) + "<div style='margin-top:5px;margin-bottom:5px;'><a href='#' class='status-update-image' data-target='#event-"+ location['id'] + "-model' data-toggle='modal'>" + title + "</a></div>"
+                    break
+                  case 'media_attachment':
+                    markerPopup = (location['thumb'] ? "<a href='#' class='status-update-image' data-target='#video-"+ location['id'] + "-model' data-toggle='modal'><img src='" + location['thumb'] + "' width='157' />" + "</a>" : "" ) + "<div style='margin-top:5px;margin-bottom:5px;'><a href='#' class='status-update-image' data-target='#video-"+ location['id'] + "-model' data-toggle='modal'>" + title + "</a></div>"
+                    break
+                  default:
+                    markerPopup = (location['thumb'] ? "<a href='" + location['url'] + "'>" + "<img src='" + location['thumb'] + "' width='157' />" + "</a>" : "" ) + "<div style='margin-top:5px;margin-bottom:5px;'><a href='" + location['url'] + "'>" + title + "</a></div>"
                 }
                 marker.bindPopup(markerPopup);
                 markers.addLayer(marker);

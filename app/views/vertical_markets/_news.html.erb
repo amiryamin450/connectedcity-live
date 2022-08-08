@@ -162,13 +162,18 @@
 <%= javascript_tag do %>
   window.locations = <%= raw @markers_lo.collect { |m|
     not_bus = true
+    type = 'location'
     u = if m.respond_to?(:statusable)
+      type = 'status_update'
       nil
     elsif m.respond_to?(:newsable)
+      type = 'news_article'
       url_for([m.newsable, m])
     elsif m.respond_to?(:attachable)
+      type = 'media_attachment'
       url_for([m.attachable, m])
     elsif m.respond_to?(:location)
+      type = 'event'
       url_for([m.location, m])
     else
       not_bus = false
@@ -186,7 +191,7 @@
       defined?(m.logo) && m.logo.file? ? m.logo.url(:original) : nil
     end
 
-    {:not_business => not_bus, :name => n, :url => u, :latitude => m.latitude, :longitude => m.longitude, :thumb => img}
+    {:not_business => not_bus, :name => n, :url => u, :latitude => m.latitude, :longitude => m.longitude, :thumb => img, :type => type, id: m.id}
   }.to_json %>;
 <% end %>
 
