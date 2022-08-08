@@ -1,4 +1,12 @@
-<% @current_market = @vertical_market.respond_to?(:name) ? @vertical_market.name : @vertical_market %>
+<% @current_market =
+    if @sub_market
+      @sub_market.name
+    elsif @vertical_market.respond_to?(:name)
+      @vertical_market.name
+    else
+      @vertical_market
+    end
+%>
 <%
   @neighbourhood_param = params[:neighborhood] || params[:neighborhood_slug]
   @neighbourhood_slug = params[:neighborhood]  || params[:neighborhood_slug]
@@ -36,7 +44,12 @@
       <% @vertical_market.ancestors.each do |ancestor| %>
         <li class="breadcrumb-item active" aria-current="page"><a style="margin-left: 10px;" href="<%="#{@base_path}guide/#{ancestor.slug}"%>"><%=ancestor.name%></a></li>
       <% end %>
-      <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="#"><%= " #{@vertical_market.name} Guide" %></a></li>
+      <% if @sub_market %>
+        <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="#"><%= " #{@vertical_market.name}" %></a></li>
+        <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="#"><%= " #{@sub_market.name} Guide" %></a></li>
+      <% else %>
+        <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="#"><%= " #{@vertical_market.name} Guide" %></a></li>
+      <% end %>
     <% end %>
   </ol>
 </nav>

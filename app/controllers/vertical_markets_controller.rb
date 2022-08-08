@@ -46,13 +46,15 @@ class VerticalMarketsController < ApplicationController
         # binding.pry
 
     @city = City.find_by_slug(params[:city_slug])
-
     district_slug = params[:district_route] || params[:district_slug]
     @district = District.find_by_slug(district_slug)
 
     neighborhood_slug = params[:id] || params[:neighborhood_slug]
     @neighborhood = neighborhood_slug ? Neighborhood.find_by_slug(neighborhood_slug) : nil
     @sub_neighborhood = params[:sub_neighborhood_slug] ? @neighborhood.sub_neighborhoods.find_by_slug(params[:sub_neighborhood_slug]) : nil
+
+    @sub_market = @vertical_market.children&.find_by_slug(params[:sub_market]) if params[:sub_market]
+
         # init_category_values
       if params[:market] === 'news'
         districts
