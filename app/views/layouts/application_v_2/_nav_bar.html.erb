@@ -21,7 +21,6 @@
       <ul id="main">
         <% klass = request.path == @base_path ? "selected" : ""%>
         <li class="selected"> <%= link_to "Home", root_path%></li>
-        <%# binding.pry %>
         <% @vertical_markets_all.each_with_index do |vm, index| %>
           <% if vm.has_children? || vm.slug === 'culture' %>
             <li>

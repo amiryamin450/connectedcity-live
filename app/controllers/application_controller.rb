@@ -23,12 +23,6 @@ class ApplicationController < ActionController::Base
   def set_up
     user_signed_in? ? @favorites = current_user.favorites.all : @favorites = []
     init_category_values
-    # @city = City.find(5915022)
-    # if params[:city_slug]
-    #   @city = City.find_by_slug(params[:city_slug])
-    # else
-    #   @city = City.find(5915022)
-    # end
 
     @city = params[:city_slug] ? City.find_by_slug(params[:city_slug]) : City.find(5915022)
     @sidebar_class = if cookies[:sidebar_class].present?
