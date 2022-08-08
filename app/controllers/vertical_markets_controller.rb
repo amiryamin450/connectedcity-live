@@ -47,7 +47,8 @@ class VerticalMarketsController < ApplicationController
 
     @city = City.find_by_slug(params[:city_slug])
 
-    @district = District.find_by_slug(params[:district_route])
+    district_slug = params[:district_route] || params[:district_slug]
+    @district = District.find_by_slug(district_slug)
 
     @neighborhood = params[:id] ? Neighborhood.find_by_slug(params[:id]) : nil
         # init_category_values

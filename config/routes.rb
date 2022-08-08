@@ -315,7 +315,7 @@ Connectbook::Application.routes.draw do
 
   # get ':city_slug/guide/:market' => 'vertical_markets#guide', as: :city_guide
 
-  get '/:city_slug/:district_route/:id/guide/:market' => 'vertical_markets#guide', as: :city_district_neighborhood_guide
+  get '/:city_slug/:district_slug/:id/guide/:market' => 'vertical_markets#guide', as: :city_district_neighborhood_guide
 
 
   get '/:city_slug/:district_route/guide/:market' => 'vertical_markets#guide', as: :city_district_guide
