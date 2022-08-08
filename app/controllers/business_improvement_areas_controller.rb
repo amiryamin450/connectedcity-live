@@ -25,6 +25,7 @@ class BusinessImprovementAreasController < ApplicationController
     @coupons = @business_improvement_area.coupons.limit(PER_PAGE)
     @news = @business_improvement_area.news_articles.limit(PER_PAGE).order(:created_at)
     @services = @business_improvement_area.services.limit(PER_PAGE)
+    @district = @business_improvement_area.district
     @neighborhoods = @district.neighborhoods
     @neighborhood  = @neighborhoods.find{|nbd| nbd.neighborhd == @business_improvement_area.name}
     @sub_neighborhoods = Neighborhood.where(neighborhood_id: @neighborhood.nid)
