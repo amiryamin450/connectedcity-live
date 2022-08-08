@@ -4,13 +4,13 @@
     <%if @district %>
       <li class="breadcrumb-item active" aria-current="page"><a href="#" style="margin-left: 10px;"><%=@district.name%></a></li>
     <% else %>
-      <li class="breadcrumb-item"><a href="<%= root_path %>" style="margin-left: 10px;"><% @city.name %></a></li>
+      <li class="breadcrumb-item"><a href="<%= root_path %>" style="margin-left: 10px;"><% @city&.name || 'Vancouver' %></a></li>
     <% end %>
     <li class="breadcrumb-item" aria-current="page"><a href="#" style="margin-left: 10px;"><%= "#{ @vertical_market.name}" %></a></li>
   </ol>
 </nav>
 
-<h1 style="margin-left: 50px; margin-bottom: 20px; font-weight: bold;">Browse <%= @vertical_market.present? ? @vertical_market.name : 'Civic News' %> in <% @city.name %></h1>
+<h1 style="margin-left: 50px; margin-bottom: 20px; font-weight: bold;">Browse <%= @vertical_market.present? ? @vertical_market.name : 'Civic News' %> in <% @city&.name || 'Vancouver' %></h1>
     <div class="map-section">
       <div id="map" style="height: 60vh;"></div>
     </div>
