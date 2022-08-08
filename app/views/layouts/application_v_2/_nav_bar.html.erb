@@ -8,8 +8,8 @@
   end
 %>
 <%
-  @neighbourhood_param = params[:neighborhood]
-  @neighbourhood_slug = params[:neighborhood]
+  @neighbourhood_param = params[:neighborhood] || params[:neighborhood_slug]
+  @neighbourhood_slug = params[:neighborhood]  || params[:neighborhood_slug]
   if @neighbourhood_param
     @neighbourhood_slug = "kitsilano" if @neighbourhood_param.include? "kitsilano"
     @neighbourhood = Neighborhood.where('slug LIKE ?', @neighbourhood_slug).first
@@ -25,7 +25,9 @@
         <% @vertical_markets_all.each_with_index do |vm, index| %>
           <% if vm.has_children? || vm.slug === 'culture' %>
             <li>
-              <% if @business_improvement_area || @neighbourhood || @neighborhood %>
+              <% if params[:sub_neighborhood_slug] %>
+                <a href="<%=city_district_neighborhood_sub_guide_path(params[:city_slug], params[:district_slug], params[:neighborhood_slug], params[:sub_neighborhood_slug], vm.slug)%>"><%=vm.name%></a>
+              <% elsif @business_improvement_area || @neighbourhood || @neighborhood %>
                 <% slug = @slug || @neighbourhood&.slug || @neighborhood&.slug %>
                 <a href="<%=city_district_neighborhood_guide_path(params[:city_slug], params[:district_slug], slug, vm.slug)%>"><%=vm.name%></a>
               <% elsif params[:district_route] %>
@@ -37,7 +39,9 @@
               <% end %>
               <ul>
                 <% vm.children.sort_by(&:name).each do |child| %>
-                  <% if @business_improvement_area || @neighbourhood || @neighborhood %>
+                  <% if params[:sub_neighborhood_slug] %>
+                    <li><%= link_to child.name, city_district_neighborhood_sub_guide_path(params[:city_slug], params[:district_slug], params[:neighborhood_slug], params[:sub_neighborhood_slug], child.slug), class: "dropdown-item nv-mn-lnk" %></li>
+                  <% elsif @business_improvement_area || @neighbourhood || @neighborhood %>
                     <% slug = @slug || @neighbourhood&.slug || @neighborhood&.slug %>
                     <li><%= link_to child.name, city_district_neighborhood_guide_path(params[:city_slug], params[:district_slug], slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
                   <% else %>
@@ -71,7 +75,9 @@
           <ul>
             <% if @vertical_market_news&.has_children? %>
               <li>
-                <% if @business_improvement_area %>
+                <% if params[:sub_neighborhood_slug] %>
+                  <a style="padding: 0px;" href="<%=city_district_neighborhood_sub_guide_path(params[:city_slug], params[:district_slug], params[:neighborhood_slug], params[:sub_neighborhood_slug], @vertical_market_news.slug)%>"><%=@vertical_market_news.name%></a>
+                <% elsif @business_improvement_area %>
                   <a style="padding: 0px;" href="<%=city_district_neighborhood_guide_path(params[:city_slug], @district_name, @slug, @vertical_market_news.slug)%>"><%=@vertical_market_news.name%></a>
                 <% elsif @district && @neighbourhood_slug %>
                   <a style="padding: 0px;" href="<%=district_neighborhood_guide_path(@district.slug, @neighbourhood_slug, @vertical_market_news.slug)%>"><%=@vertical_market_news.name%></a>

@@ -1,7 +1,7 @@
 <% @current_market = @vertical_market.respond_to?(:name) ? @vertical_market.name : @vertical_market %>
 <%
-  @neighbourhood_param = params[:neighborhood]
-  @neighbourhood_slug = params[:neighborhood]
+  @neighbourhood_param = params[:neighborhood] || params[:neighborhood_slug]
+  @neighbourhood_slug = params[:neighborhood]  || params[:neighborhood_slug]
   if @neighbourhood_param
     @neighbourhood_slug = "kitsilano"  if @neighbourhood_param.include? "kitsilano"
     @neighbourhood = Neighborhood.where('slug LIKE ?', @neighbourhood_slug).first
@@ -30,6 +30,9 @@
       <%if @neighborhood %>
         <li class="breadcrumb-item" aria-current="page"><%= @neighborhood.name%></li>
       <% end %>
+      <%if @sub_neighborhood %>
+        <li class="breadcrumb-item" aria-current="page"><%= @sub_neighborhood.name%></li>
+      <% end %>
       <% @vertical_market.ancestors.each do |ancestor| %>
         <li class="breadcrumb-item active" aria-current="page"><a style="margin-left: 10px;" href="<%="#{@base_path}guide/#{ancestor.slug}"%>"><%=ancestor.name%></a></li>
       <% end %>
@@ -47,7 +50,17 @@
               <% if [174, 164].include?(@vertical_market.id) %>
                 <h3>Browse Members of <%= @vertical_market.id === 164 ? 'the Legislative Assembly in' : 'Parliament in' %> <%= @neighbourhood ? @neighbourhood.name : @current_district %></h3>
               <% else %>
-                <h3><%= @current_market %> in <%= @neighborhood ? @neighborhood.name : @current_district %></h3>
+                <%
+                  address =
+                    if @sub_neighborhood
+                      @sub_neighborhood.name
+                    elsif @neighborhood
+                      @neighborhood.name
+                    else
+                      @current_district
+                    end
+                %>
+                <h3><%= @current_market %> in <%= address %></h3>
               <% end %>
             </div>
             <!-- End -->

@@ -35,7 +35,7 @@ class BusinessImprovementAreasController < ApplicationController
     @districts = @city.districts
     @district = @districts.find{|d| d.id == @business_improvement_area.district_id}
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb @business_improvement_area.district.name, district_guide_path(@business_improvement_area.district) if @business_improvement_area.district
+    add_crumb @district.name, district_guide_path(@business_improvement_area.district) if @district
     add_crumb @business_improvement_area.name
 
     respond_to do |format|

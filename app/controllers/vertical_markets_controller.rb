@@ -50,7 +50,9 @@ class VerticalMarketsController < ApplicationController
     district_slug = params[:district_route] || params[:district_slug]
     @district = District.find_by_slug(district_slug)
 
-    @neighborhood = params[:id] ? Neighborhood.find_by_slug(params[:id]) : nil
+    neighborhood_slug = params[:id] || params[:neighborhood_slug]
+    @neighborhood = neighborhood_slug ? Neighborhood.find_by_slug(neighborhood_slug) : nil
+    @sub_neighborhood = params[:sub_neighborhood_slug] ? @neighborhood.sub_neighborhoods.find_by_slug(params[:sub_neighborhood_slug]) : nil
         # init_category_values
       if params[:market] === 'news'
         districts
@@ -125,6 +127,7 @@ class VerticalMarketsController < ApplicationController
         add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
         add_crumb @district.name, district_guide_path(@district) if @district
         add_crumb @neighborhood.name if @neighborhood
+        add_crumb @sub_neigborhood.name if @sub_neigborhood
 
         @vertical_market.ancestors.each do |ancestor|
           add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
