@@ -66,7 +66,7 @@ class VerticalMarketsController < ApplicationController
     else
       @city = params[:city_slug] ? City.find_by_slug(params[:city_slug]) : City.find(5915022)
       district_slug = params[:district_route] || params[:district_slug]
-      @district = District.find_by_slug(district_slug)
+      @district = district_slug ? District.find_by_slug(district_slug) : nil
 
       neighborhood_slug = params[:id] || params[:neighborhood_slug]
       @neighborhood = neighborhood_slug ? Neighborhood.find_by_slug(neighborhood_slug) : nil
