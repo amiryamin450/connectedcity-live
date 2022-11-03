@@ -3,7 +3,7 @@ This codebase is outdated (7 years old) so there will be lots of issues if you a
 
 A better approach is to use Docker for both dev and production. This project has been dockerized.
 
-### Requirements
+### Pre-conditions:
 
 + Docker: https://www.docker.com/
 
@@ -11,29 +11,31 @@ A better approach is to use Docker for both dev and production. This project has
 
 ### Local Dev Setup
 
-`docker-compose build`
++ `docker-compose build`
 
-### Start server
-
-Comment below snippet in `docker-compose.yml`
-
++ Comment below snippet in `docker-compose.yml`
 ```
   web:
     # environment:
       # RAILS_ENV: "${RAILS_ENV}"
 ```
 
-`docker-compose up web`
++ Download below files from https://drive.google.com/drive/u/1/folders/1Kw1h1LgML56bWJAHqrniH0FGD-yPZd3g and put in root folder of source code.
+```
+.env
+dump_db_file.sql
+```
 
-### Create an empty database
++ `docker-compose up web`
 
-`docker-compose run web bundle exec rake db:create`
++ Open new console tab to setup database:
+```
+docker-compose run web bundle exec rake db:create
+docker-compose exec -T db mysql -u root -ppassword --max_allowed_packet=512M connectedcity_dev < ./dump_db_file.sql
 
-### Import data
+```
 
-`docker-compose exec -T db mysql -u root -p --max_allowed_packet=512M connectedcity_dev < ../dump_db_file.sql`
-
-Access rails c
++ Open new tab and access rails c `docker-compose run web bundle exec rails c`
 
 ```
 City.unscoped.update_all is_active: true
@@ -82,7 +84,14 @@ After running the above command successfully, go back to Rails console and retry
 
 # Deployment
 
-Follow the guideline here: https://devcenter.heroku.com/articles/container-registry-and-runtime
++ Un-comment below snippet in `docker-compose.yml`
+```
+  web:
+    # environment:
+      # RAILS_ENV: "${RAILS_ENV}"
+```
+
++ Follow the guideline here: https://devcenter.heroku.com/articles/container-registry-and-runtime
 
 ```
 docker-compose build
