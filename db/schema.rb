@@ -631,25 +631,14 @@ ActiveRecord::Schema.define(:version => 20220720062410) do
     t.text     "attachment_html"
     t.integer  "attachable_id"
     t.string   "attachable_type"
-    t.datetime "created_at",                                       :null => false
-    t.datetime "updated_at",                                       :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
     t.string   "thumb_url"
     t.string   "title"
     t.string   "media_source_id"
     t.string   "media_source"
-    t.boolean  "is_stream_video",               :default => false
-    t.string   "archive_id"
-    t.string   "session_id"
-    t.string   "stream_video_name"
-    t.boolean  "has_audio",                     :default => false
-    t.boolean  "has_video",                     :default => false
-    t.string   "status"
-    t.text     "stream_video_url"
+    t.boolean  "is_stream_video", :default => false
     t.string   "description"
-    t.string   "stream_thumbnail_file_name"
-    t.string   "stream_thumbnail_content_type"
-    t.integer  "stream_thumbnail_file_size"
-    t.datetime "stream_thumbnail_updated_at"
     t.boolean  "is_draft",        :default => false
     t.integer  "category_id"
     t.float    "latitude"
@@ -1175,14 +1164,12 @@ ActiveRecord::Schema.define(:version => 20220720062410) do
   add_index "vertical_markets", ["slug"], :name => "index_vertical_markets_on_slug", :unique => true
 
   create_table "videos", :force => true do |t|
-    t.string   "title"
-    t.string   "description"
     t.string   "thumbnail_file_name"
     t.string   "thumbnail_content_type"
     t.integer  "thumbnail_file_size"
     t.datetime "thumbnail_updated_at"
     t.text     "video_url"
-    t.integer  "status"
+    t.string   "status"
     t.datetime "timestamp_thumbnail"
     t.boolean  "updated_audio",          :default => false
     t.string   "resolution"
@@ -1192,7 +1179,7 @@ ActiveRecord::Schema.define(:version => 20220720062410) do
     t.boolean  "has_audio"
     t.boolean  "has_video"
     t.boolean  "livestream",             :default => false
-    t.integer  "attachment_id"
+    t.integer  "media_attachment_id"
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
     t.string   "broadcast_id"
