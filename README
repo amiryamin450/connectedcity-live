@@ -32,6 +32,7 @@ dump_db_file.sql
 ```
 docker-compose run web bundle exec rake db:create
 docker-compose exec -T db mysql -u root -ppassword --max_allowed_packet=512M connectedcity_dev < ./dump_db_file.sql
+docker-compose run web bundle exec rake db:migrate
 
 ```
 
