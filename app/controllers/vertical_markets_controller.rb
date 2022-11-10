@@ -272,7 +272,6 @@ class VerticalMarketsController < ApplicationController
   def districts
     # because city is hardcoded everywhere already...
     if params[:district_route].present?
-        binding.pry
       dis = District.find(params[:district_route])
       @city = dis.city
       @districts = @city.present? ? @city.districts : []

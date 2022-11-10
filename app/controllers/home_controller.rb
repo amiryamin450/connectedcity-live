@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   layout "application_v_3"
+  include PrismicController
 
   PER_PAGE = 20
 
@@ -10,6 +11,8 @@ class HomeController < ApplicationController
   def city_landing
     @city = City.find_by_slug(params[:city_slug])
     if (@city.present?)
+      response = api.query(Prismic::Predicates.at("my.location.uid", params[:city_slug]))
+      @documents = response.results[0]["location.slide_images"]
       @carousel_images = @city.carousel_images
       @status_updates = @city.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
       @news = @city.news_articles.where(newsable_type: "Location").limit(PER_PAGE)
@@ -35,6 +38,7 @@ class HomeController < ApplicationController
       @districts = []
       @cities = []
       @business_improvement_areas = []
+      @documents = []
     end
     render layout: "application_v_2"
   end
