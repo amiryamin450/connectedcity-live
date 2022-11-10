@@ -1,72 +1,28 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-12 column">
-      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
-            <img class="d-block w-100" src="<%= url_first %>" alt="First slide">
-          </div>
-          <div class="carousel-item">
-            <% url_second = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/second_slider.png" %>
-            <img class="d-block w-100" src="<%= url_second %>" alt="Second slide">
-          </div>
-          <div class="carousel-item">
-            <% url_third = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/first_slider.png" %>
-            <img class="d-block w-100" src="<%= url_third %>" alt="Third slide">
-          </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
+    <div class="col-md-12 column landing-page-slider">
+      <div id="slides">
+        <% @documents.each do |data| %>
+          <a class="slide" href="">
+            <% url_img = data['image'] ? data['image'].main.url : "" %>
+            <% title = data['title'] ? data['title'].blocks[0].text : "" %>
+            <% sub_title = data['sub_title'] ? data['sub_title'].blocks[0].text : "" %>
+            <span class="animate in" style="background-image: url(<%= url_img %>)"></span>
+            <div class="static-content">
+              <div class="slider-advance-searchbox">
+                <div class="heading">
+                  <h1><%= title %></h1>
+                  <h5 class="sub-title"><%= sub_title %></h5>
+                </div>
+              </div>
+            </div>
+          </a>
+        <% end %>
       </div>
     </div>
-    <!-- <div class="col-md-3 sidebar-column">
-      <div class="sidebar">
-        <div class="shopping-business-btn">
-          <div class="group-btn">
-            <a href="<%= new_user_registration_path%>" class="btn"><img src="/cc_2.0/images/Shopper-btn.svg"></a>
-            <a href="<%= business_sign_up_path%>" class="btn"><img src="/cc_2.0/images/Business-btn.svg"></a>
-          </div>
-        </div>
-        <div class="communities">
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Select Community
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <%# @districts.each do |district| %>
-                <%#= link_to district.name, district_guide_path(district), class: "dropdown-item" %>
-              <%# end %>
-            </div>
-          </div><br>
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Select Neighbourhood
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <%# @districts.each do |district| %>
-                <%# district.business_improvement_areas.each do |bia| %>
-                  <%#= link_to bia.name, "/vancouver/#{district.slug}/neighbourhoods/#{bia.slug}", class: "dropdown-item" %>
-                <%# end %>
-              <%# end %>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
-</div><br>
+</div>
+<br>
 <div class="landing-page-heading-filter">
   <div class="row filter">
     <div class="col-11">
@@ -119,8 +75,22 @@
     </div>
   </div>
 </div>
+
 <!-- Main Section Card -->
 <script type="text/javascript">jQuery.noConflict();</script>
-
+<script type="text/javascript">
+  // These are te default settings.
+  $('h5.sub-title').css('max-width', '35vw');
+  $('#slides').slideshow({
+    randomize: false,            // Randomize the play order of the slides.
+    slideDuration: 8000,       // Duration of each induvidual slide.
+    fadeDuration: 500,         // Duration of the fading transition. Should be shorter than slideDuration.
+    animate: true,              // Turn css animations on or off.
+    pauseOnTabBlur: true,       // Pause the slideshow when the tab is out of focus. This prevents glitches with setTimeout().
+    enableLog: false,           // Enable log messages to the console. Useful for debugging.
+    slideElementClass: 'slide', // This is also defined in the CSS!
+    slideshowId: 'slideshow'    // This is also defined in the CSS!
+  });
+</script>
 <%= render "/layouts/application_v_2/multi_columns" %>
 <br>

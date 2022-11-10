@@ -72,6 +72,7 @@ gem 'test-unit', '~> 3.0'
 gem 'rake', '< 11'
 gem 'aws-sdk'
 gem 'opentok', '~> 3.1'
+gem 'prismic.io', require: 'prismic'
 
 group :assets do
   gem 'bootstrap-colorpicker-rails'
