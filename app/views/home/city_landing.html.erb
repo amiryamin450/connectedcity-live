@@ -2,20 +2,35 @@
   <div class="row">
     <div class="col-md-12 column landing-page-slider">
       <div id="slides">
-        <% @documents.each do |data| %>
-          <a class="slide" href="">
-            <% url_img = data['image'] ? data['image'].main.url : "" %>
-            <% title = data['title'] ? data['title'].blocks[0].text : "" %>
-            <% sub_title = data['sub_title'] ? data['sub_title'].blocks[0].text : "" %>
-            <span class="animate in" style="background-image: url(<%= url_img %>)"></span>
-            <div class="static-content">
-              <div class="slider-advance-searchbox">
-                <div class="heading">
-                  <h1><%= title %></h1>
-                  <h5 class="sub-title"><%= sub_title %></h5>
+        <% if @documents.present? %>
+          <% @documents.each do |data| %>
+            <a class="slide" href="">
+              <% url_img = data['image'] ? data['image'].main.url : "" %>
+              <% title = data['title'] ? data['title'].blocks[0].text : "" %>
+              <% sub_title = data['sub_title'] ? data['sub_title'].blocks[0].text : "" %>
+              <span class="animate in" style="background-image: url(<%= url_img %>)"></span>
+              <div class="static-content">
+                <div class="slider-advance-searchbox">
+                  <div class="heading">
+                    <h1><%= title %></h1>
+                    <h5 class="sub-title"><%= sub_title %></h5>
+                  </div>
                 </div>
               </div>
-            </div>
+            </a>
+          <% end %>
+        <% else %>
+          <a class="slide" href="">
+            <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
+            <span class="animate in" style="background-image: url(<%= url_first %>)"></span>
+          </a>
+          <a class="slide" href="">
+            <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
+            <span class="animate in" style="background-image: url(<%= url_first %>)"></span>
+          </a>
+          <a class="slide" href="">
+            <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
+            <span class="animate in" style="background-image: url(<%= url_first %>)"></span>
           </a>
         <% end %>
       </div>
