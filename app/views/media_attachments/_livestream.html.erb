@@ -42,6 +42,17 @@
   </div>
 </div>
 
+<div id="notifyModal" class="media-modal">
+  <div class="modal-content">
+    <div class="modal-body">
+      <p>Please note that your video Livestream will be shown on these pages: Home Improvement, <%= @location.name %>, <%= @location.city&.name %>, <%= @location.district&.name %>, <%= @location.neighborhood&.neighborhd %> page</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="close-notify-modal">OK</button>
+    </div>
+  </div>
+</div>
+
 <div id="endModal" class="media-modal">
   <div class="modal-content">
     <div class="modal-body">
@@ -130,21 +141,23 @@
       });
 
       $('.start').click(function () {
-        var started = false;
-        var mediaTitle = $('#media_attachment_title');
-        var mediaDescreption = $('#media_attachment_description');
-        if (mediaTitle.val() == '') {
-          $('#messageModal').css("display", "block");
+        if ($('#media_attachment_title').val() == '') {
+          $('#messageModal').css('display', 'block');
           return;
         }
 
+        $('#notifyModal').css('display', 'block');
+      })
+
+      $('#close-notify-modal').click(function () {
+        $('#notifyModal').css('display', 'none');
         var options = {
           max_duration: 7200,
           resolution: '1280x720',
           session_id: vonageData.sessionId,
           media_attachment: {
-            title: mediaTitle.val(),
-            descreption: mediaDescreption.val()
+            title: $('#media_attachment_title').val(),
+            descreption: $('#media_attachment_description').val()
           }
         };
         $.post(`/business/${locationSlug}/media_attachments/start_broadcast.json`, options)
