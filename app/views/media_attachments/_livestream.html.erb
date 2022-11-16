@@ -45,7 +45,7 @@
 <div id="notifyModal" class="media-modal">
   <div class="modal-content">
     <div class="modal-body">
-      <p style="margin-bottom: 10px;">Please note: In addition to broadcasting your Livestream video to the Fullhouse Modern Business channel, your video will be broadcast live to the following Community and Shopping Category channels:</p>
+      <p style="margin-bottom: 10px;">Please note: In addition to broadcasting your Livestream video to the <%= @location.name %> Business channel, your video will be broadcast live to the following Community and Shopping Category channels:</p>
 
       <% if @location.city %>
         <li><%= @location.city.name %></li>
