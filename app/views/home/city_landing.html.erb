@@ -6,14 +6,14 @@
           <% @documents.each do |data| %>
             <a class="slide" href="">
               <% url_img = data['image'] ? data['image'].main.url : "" %>
-              <% title = data['title'] ? data['title'].blocks[0].text : "" %>
-              <% sub_title = data['sub_title'] ? data['sub_title'].blocks[0].text : "" %>
+              <% title = data['title'] ? data['title'].as_text : "" %>
+              <% sub_title = data['sub_title'] ? data['sub_title'].as_text : "" %>
               <span class="animate in" style="background-image: url(<%= url_img %>)"></span>
               <div class="static-content">
                 <div class="slider-advance-searchbox">
                   <div class="heading">
-                    <h1><%= title %></h1>
-                    <h5 class="sub-title"><%= sub_title %></h5>
+                    <h1 class="title-slide"><%= title.truncate(50, omission: '') %></h1>
+                    <h5 class="sub-title"><%= sub_title.truncate(100, omission: '') %></h5>
                   </div>
                 </div>
               </div>
@@ -95,7 +95,8 @@
 <script type="text/javascript">jQuery.noConflict();</script>
 <script type="text/javascript">
   // These are te default settings.
-  $('h5.sub-title').css('max-width', '35vw');
+  $('h5.sub-title').css('max-width', '50vw');
+  $('h1.title-slide').css('max-width', '70vw');
   $('#slides').slideshow({
     randomize: false,            // Randomize the play order of the slides.
     slideDuration: 8000,       // Duration of each induvidual slide.
