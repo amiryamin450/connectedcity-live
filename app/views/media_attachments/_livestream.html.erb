@@ -45,7 +45,21 @@
 <div id="notifyModal" class="media-modal">
   <div class="modal-content">
     <div class="modal-body">
-      <p>Please note that your video Livestream will be shown on these pages: Home Improvement, <%= @location.name %>, <%= @location.city&.name %>, <%= @location.district&.name %>, <%= @location.neighborhood&.neighborhd %> page</p>
+      <p style="margin-bottom: 10px;">Please note: In addition to broadcasting your Livestream video to the Fullhouse Modern Business channel, your video will be broadcast live to the following Community and Shopping Category channels:</p>
+
+      <% if @location.city %>
+        <li><%= @location.city.name %></li>
+      <% end %>
+      <% if @location.district %>
+        <li><%= @location.district.name %></li>
+      <% end %>
+      <% if @location.neighborhood %>
+        <li><%= @location.neighborhood&.neighborhd %></li>
+      <% end %>
+      <% @vertical_market.ancestors.each do |ancestor| %>
+        <li><%= ancestor.name %></li>
+      <% end %>
+      <li><%= @vertical_market.name %></li>
     </div>
     <div class="modal-footer">
       <button class="btn" id="close-notify-modal">OK</button>
