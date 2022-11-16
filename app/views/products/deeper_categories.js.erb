@@ -2,7 +2,7 @@ var element = ".level-<%= @lv - 1 %>-category"
 var nextElement = ".level-<%= @lv %>-category"
 <% if (@lv2_categories.present?) %>
   $(nextElement).removeClass('hidden')
-  $(nextElement).html('<%= escape_javascript render "categories", categories: @lv2_categories, lv: @lv %>');
+  $(nextElement).html('<%= escape_javascript render "categories", categories: @lv2_categories, lv: @lv, category_id: nil %>');
 <% else %>
   if (!$(element).attr('class').includes('hidden') && !$(nextElement).attr('class').includes('hidden')) {
     $(nextElement).addClass('hidden')

@@ -6,13 +6,21 @@
   <div class="control-group string required category">
     <%= f.label :category %>
     <a class="btn btn-primary controls category-select-btn" data-toggle="collapse" role="button" aria-expanded="false" data-target="#collapseCategoriesProduct" aria-controls="collapseCategories">Select product category</a>
-    <div class="collapse controls hideCollapse" id="collapseCategoriesProduct">
+    <div class= "collapse controls <%= 'hideCollapse' if !@product.category_id.present? %> " id="collapseCategoriesProduct">
       <div style="display: flex;">
         <div class="categories level-1-category">
-          <%= render 'categories', categories: @categories, lv: 1 %>
+          <%= render 'categories', categories: @categories, lv: 1, category_id: @product.category_id %>
         </div>
-        <div class="categories level-2-category hidden"></div>
-        <div class="categories level-3-category hidden"></div>
+        <div class="categories level-2-category <%= 'hidden' if !@lv2_categories.present? %>">
+          <% if @lv2_categories.present? %>
+            <%= render 'categories', categories: @lv2_categories, lv: 2, category_id: @product.category_id %>
+          <% end %>
+        </div>
+        <div class="categories level-3-category <%= 'hidden' if !@lv3_categories.present? %>">
+          <% if @lv3_categories.present? %>
+            <%= render 'categories', categories: @lv3_categories, lv: 3, category_id: @product.category_id %>
+            <% end %>
+        </div>
         <div class="categories level-4-category hidden"></div>
       </div>
     </div>

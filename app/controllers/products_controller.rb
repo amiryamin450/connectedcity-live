@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
   load_resource :location, except: [:deeper_categories, :select_category]
-  load_and_authorize_resource :product, through: [:location], except: [:deeper_categories, :select_category]
+  load_and_authorize_resource :product, through: [:location], except: [:deeper_categories, :select_category, :specific]
 
   def index
     @products = @location.products
@@ -23,6 +23,20 @@ class ProductsController < ApplicationController
   def new
     @product = @location.products.new
     @categories = Category.where(parent_id: nil).order(:name)
+    if params[:category_id].present? && params[:category_id] != 'all'
+      @product.category_id = params[:category_id]
+      category = Category.find(params[:category_id])
+      is_children = category.parent_id.present?
+      if is_children
+        @lv2_categories = Category.where(parent_id: category.parent_id).order(:name)
+        cate_parent = Category.find(category.parent_id)
+        is_still_children = cate_parent.parent_id.present?
+        if is_still_children
+          @lv3_categories = @lv2_categories
+          @lv2_categories = Category.where(parent_id: cate_parent.parent_id).order(:name)
+        end
+      end
+    end
   end
 
   def edit
@@ -80,6 +94,19 @@ class ProductsController < ApplicationController
   def product_images_slide param_ids
     ids = param_ids.split(',').map do |id| id.to_i  end
     ProductImage.where(id: ids)
+  end
+
+  def specific
+    @category_id = params[:category_id]
+    lproducts = @location.products
+    category_ids = lproducts.group_by { |a| a.category_id.itself }.keys
+    category_ids.delete_at(category_ids.index(0))
+    @categories = Category.where(id: category_ids).order(:name)
+    if @category_id === 'all'
+      @products = lproducts
+    else
+      @products = lproducts.where(category_id: @category_id)
+    end
   end
 
 end
