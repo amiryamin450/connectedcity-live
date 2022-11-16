@@ -28,10 +28,11 @@ class LocationsController < ApplicationController
     @is_location_normal = @location.hall_id.blank? && @location.councillor_id.blank? && @location.commissioner_id.blank?
     @is_municipality = !@is_location_normal || @location.slug === 'city-of-vancouver'
     if (@is_location_normal)
+      lproducts = @location.products
       @status_updates = @location.status_updates.page(params[:status_page]).per(7)
       @articles = @location.news_articles.page(params[:article_page]).per(5)
       @blog_entries = @location.blog_entries.page(params[:blog_page]).per(5)
-      @products = @location.products.order('created_at DESC').limit(20)
+      @products = lproducts.order('created_at DESC').limit(20)
       @services = @location.services.page(params[:service_page]).per(12)
       @coupons = @location.coupons.page(params[:coupon_page]).per(12)
       @media_attachments = @location.media_attachments.order('created_at DESC').limit(20)
@@ -45,6 +46,10 @@ class LocationsController < ApplicationController
       # TODO - should only happen if user is logged in and can post a status update
       @status_update = @location.status_updates.build
       @status_update.social_profile_ids = @location.social_profiles.pluck(:id).map(&:to_s)
+      category_ids = lproducts.group_by { |a| a.category_id.itself }.keys
+      category_ids.delete_at(category_ids.index(0))
+      @categories = Category.where(id: category_ids).order(:name)
+      @category_id = 'all'
     else
       @media_attachments = @location.media_attachments.order('created_at DESC').limit(PER_PAGE)
       @status_updates = @location.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)

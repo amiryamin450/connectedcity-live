@@ -87,7 +87,11 @@ Connectbook::Application.routes.draw do
           end
         end
       end
-      resources :products, except: [:show]
+      resources :products, except: [:show] do
+        collection do
+          get 'specific/:category_id' => 'products#specific', as: :specific
+        end
+      end
       resources :services, except: [:show]
       resources :real_estate_listings, path: 'listings', except: [:show]
       resources :status_updates, path: 'status-updates', only: [:index, :new, :create, :destroy]

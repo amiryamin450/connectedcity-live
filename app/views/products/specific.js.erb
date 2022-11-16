@@ -1,0 +1,6 @@
+$('div.products-content').html('<%= escape_javascript render "locations/location_products" %>')
+<% if (@category_id === 'all') %>
+  $('button.less-than').attr('disabled', true);
+<% else %>
+  $('button.less-than').removeAttr('disabled');
+<% end %>

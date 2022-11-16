@@ -225,7 +225,9 @@
                 <% elsif @location.vertical_market_category_ids.include?(102) %>
                   <%= render 'new_home_communities' %>
                 <% else %>
-                  <%= render 'location_products' %>
+                  <div class="products-content">
+                    <%= render 'location_products' %>
+                  </div>
                 <% end %>
                 <%= render 'location_coupons' %>
                 <%= render 'location_services' %>
@@ -248,6 +250,7 @@
 <script type="text/javascript">
   Window.helpers.initMap($('#map.location-profile-map')[0]);
 </script>
-
 <%= render 'status_updates/status_update_new' %>
+
+
 

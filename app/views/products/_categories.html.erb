@@ -1,7 +1,8 @@
 <% if categories.present? %>
   <% categories.each do |cat| %>
     <%= link_to deeper_categories_path(id: cat.id, lv: lv), remote: true do %>
-      <div class="title item-category" data-level="<%= lv %>" data-id="<%= cat.id %>">
+      <% active = category_id.present? && category_id === cat.id %>
+      <div class="title item-category <%= 'active' if active%>"  data-level="<%= lv %>" data-id="<%= cat.id %>">
         <span><%= cat.name %></span>
         <% if (cat.children.present?) %>
           <span class="arrow">></span>

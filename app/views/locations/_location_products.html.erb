@@ -1,13 +1,29 @@
 <div class="card-label-four">
   <div class="title">
-      <h4>Products</h4>
-      <%= link_to raw("<h4 class='secondary'>Add</h4>"), new_location_product_path(@location) %>
+    <%= link_to specific_location_products_path(@location, :category_id => 'all'), remote: true, class: "category-tab" do %>
+      <h4 class=<%="#{@category_id === 'all' ? 'active' : 'secondary'}"%> data-index=0>Products</h4>
+    <% end %>
+    <% @categories.each.with_index(1) do |category, idx| %>
+      <%= link_to specific_location_products_path(@location, :category_id => category.id), remote: true, class: "category-tab" do %>
+        <h4 class=<%="#{@category_id.to_i === category.id ? 'active' : 'secondary'}"%> data-index=<%= idx %> data-id=<%= category.id %>><%= category.name %></h4>
+      <% end %>
+    <% end %>
+    <button id="less" class="less-than" style="padding: 0px; border: none;" disabled=<%= @category_id === 'all' %>>
+      <h4 class='secondary' style="padding: 6px 10px;"><</h4>
+    </button>
+    <button id="more" class="more-than" style="padding: 0px; border: none;">
+      <h4 class='secondary'  style="padding: 6px 10px;">></h4>
+    </button>
   </div>
 </div>
-<div>
+<div style="font-size: 15px; margin-bottom: 5px;">
   <%= link_to 'See More +', '#', class: 'see-more', data: { element: "products-#{@location.id}" } %>
-&nbsp;&nbsp;&nbsp;
-  <%= link_to ' See All', location_automotive_listings_path(@location), class: 'see-all' %>
+  &nbsp;|&nbsp;
+  <%= link_to 'See All', location_automotive_listings_path(@location), class: 'see-all' %>
+  &nbsp;|&nbsp;
+  <%= link_to 'Manage', location_products_path(@location) %>
+  &nbsp;|&nbsp;
+  <%= link_to 'Add', new_location_product_path(@location, category_id: @category_id) %>
 </div>
 <% if @products.size > 0 %>
   <div class="row card-row media-row-holder" id="cat-products-<%= @location.id %>">
@@ -16,11 +32,12 @@
         <div class="col-md-2">
           <div class="business-body-card">
             <div class="img">
-              <%= link_to(image_tag(product.image.url(:list)), [@location, product]) %>
+              <%= link_to (image_tag product.image.url(:list)), "#", class: "status-update-image", data: { target: "#product-#{product.id}-model", toggle: 'modal'} %>
             </div>
-            <div class="title">
-              <h3><%= link_to product.name, [@location, product] %></h3>
+            <div class="title" style="margin-bottom: 0px">
+              <h3><%= link_to ("#{product.name}"), "#", class: "status-update-image", data: { target: "#product-#{product.id}-model", toggle: 'modal'} %><h3>
             </div>
+            <p style="font-size: 13px; margin-bottom: 5px;" >$<%= product.price %></p>
           </div>
         </div>
       <% end %>
@@ -31,3 +48,44 @@
     No products found.
   </div>
 <% end %>
+
+<% if @products.size > 0 %>
+  <% @products.each do |product| %>
+    <%= render 'products/modal_content', product: product %>
+  <% end %>
+<% end %>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    var locationSlug = "<%= @location.slug %>";
+    var max = <%= @categories.length %>
+
+    var idxCurrent = +$('.category-tab h4.active').attr('data-index');
+    if (idxCurrent === max) {
+      $('button.more-than').attr('disabled', true)
+    } else {
+      $('button.more-than').removeAttr('disabled');
+    }
+
+    $('#less').bind('click', function(e) {
+      var categoryId = idxCurrent === 1 ? 'all' : +$(`.category-tab h4.secondary[data-index=${idxCurrent - 1}]`).attr('data-id')
+      $(this).attr('disabled', true)
+      $.get(`/business/${locationSlug}/products/specific/${categoryId}`)
+        .done(function (response) {
+          $(this).removeAttr('disabled')
+        })
+        .fail(function (jqXHR) { console.error(jqXHR.responseText); });
+    })
+    $('#more').bind('click', function(e) {
+      $('button.less-than').attr('disabled', idxCurrent === max);
+      var categoryId = idxCurrent === max ? 'all' : +$(`.category-tab h4.secondary[data-index=${idxCurrent + 1}]`).attr('data-id')
+      $(this).attr('disabled', true)
+      $.get(`/business/${locationSlug}/products/specific/${categoryId}`)
+        .done(function (response) {
+          $(this).removeAttr('disabled')
+        })
+        .fail(function (jqXHR) { console.error(jqXHR.responseText); });
+    })
+  })
+</script>
+
