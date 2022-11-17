@@ -206,4 +206,31 @@
       });
     })
   });
+
+  var titleCounter = document.getElementById('media_attachment_title').value.length;
+  document.getElementById('title-count').innerHTML = `${titleCounter}/100`
+  var descriptionCounter = document.getElementById('media_attachment_description').value.length;
+  document.getElementById('description-count').innerHTML = `${descriptionCounter}/1500`;
+
+  ['paste','keypress', 'change'].forEach( function(event) {
+    document.getElementById('media_attachment_title').addEventListener(event, function (e) {
+      setTimeout(function() {
+        titleCounter = document.getElementById('media_attachment_title').value.length;
+        if (titleCounter > 100) {
+          e.preventDefault();
+        }
+        document.getElementById('title-count').innerHTML = `${titleCounter}/100`;
+      }, 100);
+    })
+
+    document.getElementById('media_attachment_description').addEventListener(event, function (e) {
+      setTimeout(function() {
+        descriptionCounter = document.getElementById('media_attachment_description').value.length;
+        if (descriptionCounter > 1500) {
+          e.preventDefault();
+        }
+        document.getElementById('description-count').innerHTML = `${descriptionCounter}/1500`;
+      }, 100);
+    })
+  })
 </script>
