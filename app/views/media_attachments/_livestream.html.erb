@@ -164,6 +164,7 @@
       })
 
       $('#close-notify-modal').click(function () {
+        $('.start').prop('disabled', true);
         $('#notifyModal').css('display', 'none');
         var options = {
           max_duration: 7200,
@@ -177,7 +178,6 @@
         $.post(`/business/${locationSlug}/media_attachments/start_broadcast.json`, options)
           .done(function (response) {
             console.log('start success.');
-            $('.start').prop('disabled', true);
             $('#live-now').css('display', 'block');
             broadcastId = response.broadcast_id;
             archiveId = response.archive_id;
