@@ -32,7 +32,7 @@ Connectbook::Application.configure do
 
   # See everything in the log (default is :info)
   # config.log_level = :debug
-  # config.logger = Logger.new(STDOUT)
+  config.logger = Logger.new(STDOUT)
   # config.logger.level = Logger::DEBUG
 
   # Prepend all log lines with the following tags
