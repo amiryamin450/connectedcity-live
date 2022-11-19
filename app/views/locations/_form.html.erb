@@ -30,7 +30,7 @@
         <% else %>
           <li>
             <%#= link_to("Flyers", location_location_menus_path(@location)) %>
-          </li>    
+          </li>
         <% end %>
         <% if @managers.present? %>
         <li>
@@ -55,6 +55,8 @@
             <%= f.association :province %>
             <%= f.association :city %>
             <%= f.association :district %>
+            <%= f.association :neighborhood %>
+            <%= f.association :sub_neighborhood %>
             <%= f.input :vertical_market_category_ids, label: "Vertical market categories", collection: @vertical_market_categories, input_html: { multiple: true }, disabled: !current_user.has_role?(:admin) %>
           </div>
           <div class="tab-pane" id="agents">
@@ -159,7 +161,6 @@
           <input id="value_address" class="hidden" value="<%= @location.address %>" ></input>
           <%= f.input :address_1 %>
           <%= f.input :postal_code %>
-          <%= f.association :business_improvement_area, include_blank: 'None', disabled: !current_user.has_role?(:admin) %>
           <%= f.association :trade_associations %>
           <%= f.input :phone %>
           <%= f.input :show_phone %>
@@ -222,6 +223,7 @@
 </div>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_MAP_KEY'] %>&libraries=places&callback=initMap&sensor=false" async defer></script>
+
 <script type="text/javascript">
   $(document).on("keydown",function(e){
     var keyCode = e.which || e.keyCode;

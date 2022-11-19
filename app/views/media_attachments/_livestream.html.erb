@@ -54,7 +54,10 @@
         <li><%= @location.district.name %></li>
       <% end %>
       <% if @location.neighborhood %>
-        <li><%= @location.neighborhood&.neighborhd %></li>
+        <li><%= @location.neighborhood.neighborhd %></li>
+      <% end %>
+      <% if @location.sub_neighborhood %>
+        <li><%= @location.sub_neighborhood.neighborhd %></li>
       <% end %>
       <% @vertical_market.ancestors.each do |ancestor| %>
         <li><%= ancestor.name %></li>

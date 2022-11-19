@@ -11,6 +11,7 @@ class Location < ActiveRecord::Base
   belongs_to :province
   belongs_to :district
   belongs_to :neighborhood
+  belongs_to :sub_neighborhood, class_name: 'Neighborhood', foreign_key: 'sub_neighborhood_id'
   belongs_to :business_improvement_area
   belongs_to :payment_user, class_name: 'User'
 
@@ -61,7 +62,7 @@ class Location < ActiveRecord::Base
     :show_toll_free, :slug, :province_id, :toll_free, :website_url, :logo,
     :location_images_attributes, :location_menus_attributes, :vertical_market_category_ids, :status_updates_attributes,
     :blog_entries_attributes, :news_articles_attributes, :products_attributes, :services_attributes, :events_attributes,
-    :brand_ids, :brand_tokens, :content, :vertical_market_categories, :district, :yp_lid, :yp_categories, :yp_neighborhoods,
+    :brand_ids, :brand_tokens, :content, :vertical_market_categories, :district, :yp_lid, :yp_categories, :yp_neighborhoods, :sub_neighborhood_id,
     :city, :province, :district_id, :neighborhood, :country, :cover_photo, :neighborhood_id, :broker_id, :hall_id, :councillor_id, :commissioner_id, :business_improvement_area_id,
     :user, :trade_association_ids, :media_attachments_attributes, :delete_cover_photo, :delete_logo,
     :operating_hours_attributes, :stripe_plan_id
