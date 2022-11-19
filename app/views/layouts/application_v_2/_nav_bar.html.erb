@@ -17,7 +17,7 @@
 %>
 <div class="nav-bar">
   <div class="container-fluid p-0">
-    <nav role="navigation" id="nav-main">	
+    <nav role="navigation" id="nav-main">
       <ul id="main">
         <% klass = request.path == @base_path ? "selected" : ""%>
         <li class="selected"> <%= link_to "Home", root_path%></li>
@@ -75,7 +75,7 @@
             <% if @vertical_market_news&.has_children? %>
               <li>
                 <% if params[:sub_neighborhood_slug] %>
-                  <a style="padding: 0px;" href="<%=city_district_neighborhood_sub_guide_path(params[:city_slug], params[:district_slug], params[:neighborhood_slug], params[:sub_neighborhood_slug], @vertical_market_news.slug)%>"><%=@vertical_market_news.name%></a>
+                  <a style="padding: 0px;" href="<%=city_district_nbh_sub_guide_path(params[:city_slug], params[:district_slug], params[:neighborhood_slug], params[:sub_neighborhood_slug], @vertical_market_news.slug)%>"><%=@vertical_market_news.name%></a>
                 <% elsif @business_improvement_area %>
                   <a style="padding: 0px;" href="<%=city_district_neighborhood_guide_path(params[:city_slug], @district_name, @slug, @vertical_market_news.slug)%>"><%=@vertical_market_news.name%></a>
                 <% elsif @district && @neighbourhood_slug %>
@@ -118,10 +118,10 @@
     $('#main > li:not(.more)').each(function() {
       navwidth += $(this).outerWidth( true );
     });
-    
+
     //var availablespace = $('nav').outerWidth(true) - morewidth;
     var availablespace = $('#nav-main').width() - morewidth;
-    
+
     if (navwidth > availablespace) {
       var lastItem = $('#main > li:not(.more)').last();
       lastItem.attr('data-width', lastItem.outerWidth(true));
@@ -153,5 +153,5 @@
   $(window).on('resize load',function(){
     calcWidth();
   });
-  
+
 </script>
