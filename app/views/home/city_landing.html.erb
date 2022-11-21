@@ -3,8 +3,9 @@
     <div class="col-md-12 column landing-page-slider">
       <div id="slides">
         <% if @documents.present? %>
-          <% @documents.each do |data| %>
-            <a class="slide" href="">
+          <% values = @documents.length === 1 ? @documents.flat_map {|i| [i, i]} : @documents %>
+          <% values.each do |data| %>
+            <div class="slide">
               <% url_img = data['image'] ? data['image'].main.url : "" %>
               <% title = data['title'] ? data['title'].as_text : "" %>
               <% sub_title = data['sub_title'] ? data['sub_title'].as_text : "" %>
@@ -17,21 +18,17 @@
                   </div>
                 </div>
               </div>
-            </a>
+            </div>
           <% end %>
         <% else %>
-          <a class="slide" href="">
+          <div class="slide">
             <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
             <span class="animate in" style="background-image: url(<%= url_first %>)"></span>
-          </a>
-          <a class="slide" href="">
+          </div>
+          <div class="slide">
             <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
             <span class="animate in" style="background-image: url(<%= url_first %>)"></span>
-          </a>
-          <a class="slide" href="">
-            <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
-            <span class="animate in" style="background-image: url(<%= url_first %>)"></span>
-          </a>
+          </div>
         <% end %>
       </div>
     </div>
