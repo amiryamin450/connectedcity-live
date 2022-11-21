@@ -17,7 +17,7 @@
   </div>
 </div>
 <div style="font-size: 15px; margin-bottom: 5px;">
-  <%= link_to 'See More +', '#', class: 'see-more', data: { element: "products-#{@location.id}" } %>
+  <span class="see-more" style="cursor: pointer;" data-element=<%= "products-#{@location.id}" %>>See More +</span>
   &nbsp;|&nbsp;
   <%= link_to 'See All', location_automotive_listings_path(@location), class: 'see-all' %>
   &nbsp;|&nbsp;
@@ -92,6 +92,15 @@
 
     $('.category-tab').bind('click',function () {
       loading()
+    })
+
+    $('span.see-more').bind('click', function () {
+      id = $(this).data('element')
+      $('#cat-' + id).toggleClass('show')
+      if($(this).html() == "See More +")
+        $(this).html("See Less +")
+      else
+        $(this).html("See More +")
     })
     $('#less').bind('click', function(e) {
       loading()
