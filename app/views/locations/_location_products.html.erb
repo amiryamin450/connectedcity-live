@@ -28,7 +28,7 @@
 <% if @products.size > 0 %>
   <div class="row card-row media-row-holder" id="cat-products-<%= @location.id %>">
     <div id="loader" class="hide"></div>
-    <div class="product-items">
+    <div class="product-items row" style="margin-left: 0px; margin-right: 0px;">
       <% @products.each do |product| %>
         <% if product %>
           <div class="col-md-2">
