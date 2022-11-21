@@ -47,7 +47,7 @@ class LocationsController < ApplicationController
       @status_update = @location.status_updates.build
       @status_update.social_profile_ids = @location.social_profiles.pluck(:id).map(&:to_s)
       category_ids = lproducts.group_by { |a| a.category_id.itself }.keys
-      category_ids.delete_at(category_ids.index(0))
+      category_ids.delete_at(category_ids.index(0)) if category_ids.include?(0)
       @categories = Category.where(id: category_ids).order(:name)
       @category_id = 'all'
     else
