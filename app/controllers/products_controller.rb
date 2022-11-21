@@ -103,9 +103,9 @@ class ProductsController < ApplicationController
     category_ids.delete_at(category_ids.index(0))
     @categories = Category.where(id: category_ids).order(:name)
     if @category_id === 'all'
-      @products = lproducts
+      @products = lproducts.order('created_at DESC')
     else
-      @products = lproducts.where(category_id: @category_id)
+      @products = lproducts.where(category_id: @category_id).order('created_at DESC')
     end
   end
 
