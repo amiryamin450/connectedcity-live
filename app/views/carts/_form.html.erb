@@ -9,8 +9,118 @@
         </ul>
     </div>
   <% end %>
+
+
+  <div class="row cart-shopping-table">
+    <div class="col-md-10">
+      <% shops = ['shop name 1', 'shop name 2'] %>
+      <% shops.each do |item| %>
+        <div class="shop-item">
+          <div class="table cart-shopping">
+            <div class="shop-name"><%= item %></div>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      <div class="pb-3 px-3">Product</div>
+                    </th>
+                    <th scope="col">
+                      <div class="pb-3">Quantity</div>
+                    </th>
+                    <th scope="col">
+                      <div class="pb-3">Unit price</div>
+                    </th>
+                    <th scope="col">
+                      <div class="pb-3">Discount</div>
+                    </th>
+                    <th scope="col">
+                      <div class="pb-3">Subtotal</div>
+                    </th>
+
+                    <th scope="col">
+                      <div class="pb-3">Removed?</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% shops.each do |item| %>
+                  <%= form.fields_for :line_items do |line_item| %>
+                    <% product = line_item.object.product %>
+                    <% location = product.location %>
+                    <tr>
+                      <td class="align-middle py-0">
+                        <div class="cart-table-img-row">
+                          <div class="cart-table-img">
+                            <% if line_item.object.product.image.present? %>
+                              <%= image_tag line_item.object.product.image.url(:thumb), alt: line_item.object.product.name %>
+                            <% end %>
+                          </div>
+                          <div class="ml-3 d-inline-block align-middle">
+                            <h5 class="mb-0">
+                              <a href="<%= location_product_path(location, product)%>" class="text-dark d-inline-block" ><%= line_item.object.product.name %></a>
+                            </h5>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="align-middle py-0">
+                        <div class="quanitity-counter">
+                          <input type='button' value='-' class='qtyminus' />
+                          <%= line_item.number_field :quantity, step: "1", min: "1", max: "", title: "Qty", class: "qty", size: "4", pattern: "", inputmode: ""  %>
+                          <input type='button' value='+' class='qtyplus' />
+                        </div>
+                      </td>
+                      <td class="align-middle py-0"><%= number_to_currency(product.price, unit: '$') %></td>
+                      <td class="align-middle py-0"><%= number_to_currency(product.discount, unit: '$') %></td>
+                      <td class="align-middle py-0"><%= number_to_currency(line_item.object.total_price, unit: '$') %></td>
+                      <td class="align-middle py-0">
+                        <a href="<%= line_item_path(line_item.object)%>" method= "delete" class="text-dark"><i class="far fa-trash-alt"></i></a>
+                      </td>
+                    </tr>
+                  <% end %>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+            <button type="submit" id="submit" class="btn btn-primary checkout-only">Checkout for only this shop ></button>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-2 tax-container" style="padding: 0px">
+      <div class="tax-view">
+        <div class="row" style="margin: 0px">
+          <div class="col-md-8" style="padding-right: 0px">
+            <div class="title-tax">Sub-Total:</div>
+            <div class="title-tax">Tax 1:</div>
+            <div class="title-tax">Tax 2:</div>
+            <div class="line"></div>
+            <div class="title-tax">Total:</div>
+          </div>
+          <div class="col-md-4" style="padding-left: 0px">
+            <% total = 100.00 %>
+            <div class="title-price"><%= "$#{total}" %></div>
+            <div class="title-price"><%= "$#{total}" %></div>
+            <div class="title-price"><%= "$#{total}" %></div>
+            <div class="line"></div>
+            <div class="title-price"><%= "$#{total}" %></div>
+          </div>
+        </div>
+        <button class="checkout-button">Checkout</button>
+      </div>
+      <div class="coupon-view">
+        <div class="title">Enter a coupon code</div>
+        <div class="coupon-code">
+          <input type="text" />
+          <button class="apply-button">Apply</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <!--  Cart Table -->
-  <div class="table-responsive cart-table-body">
+  <!-- <div class="table-responsive cart-table-body">
     <table class="table">
       <thead>
         <tr>
@@ -71,7 +181,7 @@
         <% end %>  
       </tbody>
     </table>
-  </div>
+  </div> -->
 <% end %>
 
 
@@ -88,23 +198,23 @@
     </div>
     <div class="col-md-3">
     </div>
-    <div class="col-md-2">
+    <!-- <div class="col-md-2">
       <button type="button" id="submitEditCart" class="btn btn-outline-primary btn-clear-cart">Update Cart</button>
     </div>
     <div class="col-md-2">
       <div class="btn-checkout-row">
         <form action="https://connected-checkout-staging.herokuapp.com/create-checkout-session" method="POST">
-          <input type="hidden" name="success_url" value="<%=edit_cart_path(@cart)%>"/>
-          <input type="hidden" name="cancel_url" value="<%=edit_cart_path(@cart)%>"/>
-          <% @cart.line_items.each do |item| %>
-            <input type="hidden" name="line_items[][name]" value="<%=item.product.name%>"/>
-            <input type="hidden" name="line_items[][amount]" value="<%=item.product.price%>"/>
-            <input type="hidden" name="line_items[][quantity]" value="<%=item.quantity%>"/>
-          <% end %>
+          <input type="hidden" name="success_url" value="<%#=edit_cart_path(@cart)%>"/>
+          <input type="hidden" name="cancel_url" value="<%#=edit_cart_path(@cart)%>"/>
+          <%# @cart.line_items.each do |item| %>
+            <input type="hidden" name="line_items[][name]" value="<%#=item.product.name%>"/>
+            <input type="hidden" name="line_items[][amount]" value="<%#=item.product.price%>"/>
+            <input type="hidden" name="line_items[][quantity]" value="<%#=item.quantity%>"/>
+          <%# end %>
           <button type="submit" id="submit" class="btn btn-primary btn-checkout">Checkout</button>
         </form>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 
