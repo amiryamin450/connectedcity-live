@@ -242,7 +242,6 @@
           method: "GET",
           dataType: "json",
         }).done(function( response ) {
-          resetProvince();
           $.each(response, function(index, province) {
             $('#location_province_id').append($('<option>', {
                 value: province.id,
@@ -266,7 +265,6 @@
           method: "GET",
           dataType: "json",
         }).done(function( response ) {
-          resetCity();
           $.each(response, function(index, city) {
             $('#location_city_id').append($('<option>', {
                 value: city.id,
@@ -289,7 +287,6 @@
           method: "GET",
           dataType: "json",
         }).done(function( response ) {
-          resetDistrict();
           $.each(response, function(index, district) {
             $('#location_district_id').append($('<option>', {
                 value: district.id,
@@ -311,7 +308,6 @@
           method: "GET",
           dataType: "json",
         }).done(function( response ) {
-          resetNeighborhood();
           $.each(response, function(index, neighborhood) {
             $('#location_neighborhood_id').append($('<option>', {
                 value: neighborhood.nid,
@@ -332,7 +328,6 @@
           method: "GET",
           dataType: "json",
         }).done(function( response ) {
-          resetSubNeighborhood();
           $.each(response, function(index, neighborhood) {
             $('#location_sub_neighborhood_id').append($('<option>', {
                 value: neighborhood.id,
