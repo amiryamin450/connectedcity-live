@@ -374,5 +374,49 @@ class LocationsController < ApplicationController
     name_categories = name_vertical_categories + name_vertical_categories_others
     VerticalMarketCategory.where("name NOT IN (?)", name_categories).order(:name)
   end
+  
+  def get_provinces_by_country
+    if params[:country_slug]
+      @country = Country.find_by_id(params[:country_slug])
+      render json: @country.provinces
+    else
+      render json: []
+    end
+  end
 
+  def get_cities_by_province
+    if params[:province_slug]
+      @province = Province.find_by_id(params[:province_slug])
+      render json: @province.cities
+    else
+      render json: []
+    end
+  end
+
+  def get_districts_by_city
+    if params[:city_slug]
+      @city = City.find_by_id(params[:city_slug])
+      render json: @city.districts
+    else
+      render json: []
+    end
+  end
+
+  def get_neighborhoods_by_district
+    if params[:district_slug]
+      @district = District.find_by_id(params[:district_slug])
+      render json: @district.neighborhoods
+    else
+      render json: []
+    end
+  end
+
+  def get_sub_neighborhoods_by_neighborhood
+    if params[:neighborhood_slug]
+      @sub_neighborhood = Neighborhood.where(neighborhood_id: params[:neighborhood_slug])
+      render json: @sub_neighborhood
+    else
+      render json: []
+    end
+  end
 end

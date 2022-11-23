@@ -10,6 +10,7 @@ Connectbook::Application.routes.draw do
       get :get_neighborhoods
       get :get_sub_neighborhood
       get :get_sub_neighborhoods
+      
     end
   end
 
@@ -204,6 +205,11 @@ Connectbook::Application.routes.draw do
         get :import
         post "import", action: :do_import
         get :export
+        get :get_provinces_by_country
+        get :get_cities_by_province
+        get :get_districts_by_city
+        get :get_neighborhoods_by_district
+        get :get_sub_neighborhoods_by_neighborhood
       end
       # eg. business/:id/action
       member do

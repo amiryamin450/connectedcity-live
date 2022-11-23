@@ -60,4 +60,32 @@ module LocationsHelper
       We have recieved your claim and are processing it.
     </div>' if show_claim_pending?(user_signed_in, current_user, location)
   end
+
+  def get_collection(class_name, object_field, condition_key, object)
+  
+    case class_name.name
+    when "Province"
+      if(!object.country.present?)
+        return []
+      end
+      return class_name.where(condition_key => object.send(object_field).id)
+    when "City"
+      if(!object.country.present? || !object.province.present?)
+        return []
+      end
+      return class_name.where(condition_key => object.send(object_field).id)
+    when "District"
+      if(!object.country.present? || !object.province.present? || !object.city.present?)
+        return []
+      end
+        return class_name.where(condition_key => object.send(object_field).id)
+    when "Neighborhood"
+      if(!object.country.present? || !object.province.present? || !object.city.present? || !object.district.present?)
+        return []
+      end
+        return class_name.where(condition_key => object.send(object_field).id)
+    else
+      return []
+    end
+  end
 end
