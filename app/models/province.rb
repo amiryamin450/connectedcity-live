@@ -10,7 +10,7 @@ class Province < ActiveRecord::Base
     belongs_to :country
 
     # has_many :metro_areas, class_name: "MetroAreas", foreign_key: "pruid"
-    # has_many :cities, foreign_key: "pruid"
+    has_many :cities, foreign_key: "pruid"
 
     # def name
     #   prename
