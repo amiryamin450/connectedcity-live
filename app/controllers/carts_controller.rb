@@ -29,6 +29,7 @@ class CartsController < ApplicationController
 
   # GET /carts/1/edit
   def edit
+    @line_items = @cart.line_items.group_by { |item| item.location_id.itself }.values
   end
 
   # POST /carts

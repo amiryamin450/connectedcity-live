@@ -5,7 +5,6 @@ class LineItemsController < ApplicationController
   # GET /line_items.json
   def index
     @line_items = LineItem.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @line_items }
@@ -45,7 +44,7 @@ class LineItemsController < ApplicationController
     product = Product.find(params[:product_id])
     # @line_item = @cart.line_items.build(product: product)
     @line_item = @cart.add_product(product, params[:quantity])
-  
+    @line_item.location_id = product.location_id
     respond_to do |format|
       if @line_item.save
         format.html { redirect_to @line_item.cart, notice: 'Line item was successfully created.' }

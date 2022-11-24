@@ -6,4 +6,8 @@ class LineItem < ActiveRecord::Base
   def total_price
     (product.price - product.discount) * quantity
   end
+
+  def location_name
+    self.product.location.name
+  end
 end
