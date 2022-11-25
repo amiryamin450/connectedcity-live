@@ -8,7 +8,7 @@
         <h4 class=<%="#{@category_id.to_i === category.id ? 'active' : 'secondary'}"%> data-index=<%= idx %> data-id=<%= category.id %>><%= category.name %></h4>
       <% end %>
     <% end %>
-    <button id="less" class="less-than" style="padding: 0px; border: none;" disabled=<%= @category_id === 'all' %>>
+    <button id="less" class="less-than" style="padding: 0px; border: none;">
       <h4 class='secondary' style="padding: 6px 10px;"><</h4>
     </button>
     <button id="more" class="more-than" style="padding: 0px; border: none;">
@@ -17,7 +17,7 @@
   </div>
 </div>
 <div style="font-size: 15px; margin-bottom: 5px;">
-  <%= link_to 'See More +', '#', class: 'see-more', data: { element: "products-#{@location.id}" } %>
+  <span class="see-more" style="cursor: pointer;" data-element=<%= "products-#{@location.id}" %>>See More +</span>
   &nbsp;|&nbsp;
   <%= link_to 'See All', location_automotive_listings_path(@location), class: 'see-all' %>
   &nbsp;|&nbsp;
@@ -27,21 +27,24 @@
 </div>
 <% if @products.size > 0 %>
   <div class="row card-row media-row-holder" id="cat-products-<%= @location.id %>">
-    <% @products.each do |product| %>
-      <% if product %>
-        <div class="col-md-2">
-          <div class="business-body-card">
-            <div class="img">
-              <%= link_to (image_tag product.image.url(:list)), "#", class: "status-update-image", data: { target: "#product-#{product.id}-model", toggle: 'modal'} %>
+    <div id="loader" class="hide"></div>
+    <div class="product-items row" style="margin-left: 0px; margin-right: 0px;">
+      <% @products.each do |product| %>
+        <% if product %>
+          <div class="col-md-2">
+            <div class="business-body-card">
+              <div class="img">
+                <%= link_to(image_tag(product.image.url(:list)), [@location, product]) %>
+              </div>
+              <div class="title" style="margin-bottom: 0px">
+                <h3><%= link_to product.name, [@location, product] %></h3>
+              </div>
+              <p style="font-size: 13px; margin-bottom: 5px;" >$<%= product.price %></p>
             </div>
-            <div class="title" style="margin-bottom: 0px">
-              <h3><%= link_to ("#{product.name}"), "#", class: "status-update-image", data: { target: "#product-#{product.id}-model", toggle: 'modal'} %><h3>
-            </div>
-            <p style="font-size: 13px; margin-bottom: 5px;" >$<%= product.price %></p>
           </div>
-        </div>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
   </div>
 <% else %>
   <div class="alert alert-dark" role="alert">
@@ -49,11 +52,21 @@
   </div>
 <% end %>
 
-<% if @products.size > 0 %>
-  <% @products.each do |product| %>
-    <%= render 'products/modal_content', product: product %>
-  <% end %>
-<% end %>
+<style>
+  #loader {
+    margin: auto;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #555;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+  }
+
+  .hide {
+    display: none;
+  }
+</style>
 
 <script type="text/javascript">
   $(document).ready(function () {
@@ -61,13 +74,36 @@
     var max = <%= @categories.length %>
 
     var idxCurrent = +$('.category-tab h4.active').attr('data-index');
+    <% if (@category_id === 'all') %>
+      $('button.less-than').attr('disabled', true);
+      $('button.less-than').find('h4').css('opacity', 0.5);
+    <% else %>
+      $('button.less-than').removeAttr('disabled');
+      $('button.less-than').find('h4').css('opacity', 1);
+    <% end %>
+
     if (idxCurrent === max) {
       $('button.more-than').attr('disabled', true)
+      $('button.more-than').find('h4').css('opacity', 0.5);
     } else {
       $('button.more-than').removeAttr('disabled');
+      $('button.more-than').find('h4').css('opacity', 1);
     }
 
+    $('.category-tab').bind('click',function () {
+      loading()
+    })
+
+    $('span.see-more').bind('click', function () {
+      id = $(this).data('element')
+      $('#cat-' + id).toggleClass('show')
+      if($(this).html() == "See More +")
+        $(this).html("See Less +")
+      else
+        $(this).html("See More +")
+    })
     $('#less').bind('click', function(e) {
+      loading()
       var categoryId = idxCurrent === 1 ? 'all' : +$(`.category-tab h4.secondary[data-index=${idxCurrent - 1}]`).attr('data-id')
       $(this).attr('disabled', true)
       $.get(`/business/${locationSlug}/products/specific/${categoryId}`)
@@ -77,6 +113,7 @@
         .fail(function (jqXHR) { console.error(jqXHR.responseText); });
     })
     $('#more').bind('click', function(e) {
+      loading()
       $('button.less-than').attr('disabled', idxCurrent === max);
       var categoryId = idxCurrent === max ? 'all' : +$(`.category-tab h4.secondary[data-index=${idxCurrent + 1}]`).attr('data-id')
       $(this).attr('disabled', true)
@@ -86,6 +123,11 @@
         })
         .fail(function (jqXHR) { console.error(jqXHR.responseText); });
     })
+
+    function loading() {
+      $('#loader').removeClass('hide')
+      $('.product-items').addClass('hide')
+    }
   })
 </script>
 

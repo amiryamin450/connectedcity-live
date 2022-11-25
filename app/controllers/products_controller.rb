@@ -100,12 +100,12 @@ class ProductsController < ApplicationController
     @category_id = params[:category_id]
     lproducts = @location.products
     category_ids = lproducts.group_by { |a| a.category_id.itself }.keys
-    category_ids.delete_at(category_ids.index(0))
+    category_ids.delete_at(category_ids.index(0)) if category_ids.include?(0)
     @categories = Category.where(id: category_ids).order(:name)
     if @category_id === 'all'
-      @products = lproducts
+      @products = lproducts.order('created_at DESC')
     else
-      @products = lproducts.where(category_id: @category_id)
+      @products = lproducts.where(category_id: @category_id).order('created_at DESC')
     end
   end
 

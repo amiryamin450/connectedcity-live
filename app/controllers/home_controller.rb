@@ -11,8 +11,8 @@ class HomeController < ApplicationController
   def city_landing
     @city = City.find_by_slug(params[:city_slug])
     if (@city.present?)
-      response = api.query(Prismic::Predicates.at("my.location.uid", params[:city_slug]))
-      @documents = response.results.present? ? response.results[0]["location.slide_images"] : []
+      # response = api.query(Prismic::Predicates.at("my.location.uid", params[:city_slug]))
+      # @documents = response.results.present? ? response.results[0]["location.slide_images"] : []
       @carousel_images = @city.carousel_images
       @status_updates = @city.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
       @news = @city.news_articles.where(newsable_type: "Location").limit(PER_PAGE)
@@ -75,39 +75,70 @@ class HomeController < ApplicationController
   end
 
   def get_neighborhoods
-    district = District.find_by_slug(params[:district_id])
-    neighborhoods = district&.neighborhoods
-    city = district.city
-    municipality = city.municipality
-    region = municipality.region
-    province = region.province
-    route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}"
-    render json: {neighborhoods: neighborhoods, route: route}
+    if (params[:district_id].present?)
+      district = District.find_by_slug(params[:district_id])
+      neighborhoods = district&.neighborhoods
+      city = district.city
+      municipality = city.municipality
+      region = municipality.region
+      province = region.province
+      route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}"
+      render json: {neighborhoods: neighborhoods, route: route}
+    else
+      city = City.find_by_slug(params[:city_id])
+      municipality = city.municipality
+      region = municipality.region
+      province = region.province
+      route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}"
+      render json: {neighborhoods: [], route: route}
+    end
   end
 
   def get_sub_neighborhoods
-    neighborhood = Neighborhood.find_by_slug(params[:neighborhood_id])
-    district = neighborhood.district
-    neighborhoods = district.neighborhoods
-    city = district.city
-    municipality = city.municipality
-    region = municipality.region
-    province = region.province
-    sub_neighborhoods = neighborhood&.sub_neighborhoods
-    route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}"
-    render json: {sub_neighborhoods: sub_neighborhoods, route: route}
+    if params[:neighborhood_id].present?
+      neighborhood = Neighborhood.find_by_slug(params[:neighborhood_id])
+      district = neighborhood.district
+      neighborhoods = district.neighborhoods
+      city = district.city
+      municipality = city.municipality
+      region = municipality.region
+      province = region.province
+      sub_neighborhoods = neighborhood&.sub_neighborhoods
+      route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}/#{neighborhood.slug}"
+      render json: {sub_neighborhoods: sub_neighborhoods, route: route}
+    else
+      district = District.find_by_slug(params[:district_id])
+      neighborhoods = district.neighborhoods
+      city = district.city
+      municipality = city.municipality
+      region = municipality.region
+      province = region.province
+      route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}"
+      render json: {sub_neighborhoods: [], route: route}
+    end
   end
 
   def get_sub_neighborhood
-    sub_neighborhood = Neighborhood.find_by_slug(params[:sub_neighborhood_id])
-    neighborhood = sub_neighborhood.neighborhood
-    district = neighborhood.district
-    neighborhoods = district.neighborhoods
-    city = district.city
-    municipality = city.municipality
-    region = municipality.region
-    province = region.province
-    route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}/#{neighborhood.slug}"
-    render json: {sub_neighborhood: sub_neighborhood, route: route}
+    if params[:sub_neighborhood_id].present?
+      sub_neighborhood = Neighborhood.find_by_slug(params[:sub_neighborhood_id])
+      neighborhood = sub_neighborhood.neighborhood
+      district = neighborhood.district
+      neighborhoods = district.neighborhoods
+      city = district.city
+      municipality = city.municipality
+      region = municipality.region
+      province = region.province
+      route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}/#{neighborhood.slug}/#{sub_neighborhood.slug}"
+      render json: {sub_neighborhood: sub_neighborhood, route: route}
+    else
+      neighborhood = Neighborhood.find_by_slug(params[:neighborhood_id])
+      district = neighborhood.district
+      city = district.city
+      municipality = city.municipality
+      region = municipality.region
+      province = region.province
+      route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}/#{neighborhood.slug}"
+      render json: {sub_neighborhood: [], route: route}
+    end
   end
 end
