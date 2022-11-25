@@ -10,6 +10,7 @@ Connectbook::Application.routes.draw do
       get :get_neighborhoods
       get :get_sub_neighborhood
       get :get_sub_neighborhoods
+      
     end
   end
 
@@ -204,6 +205,11 @@ Connectbook::Application.routes.draw do
         get :import
         post "import", action: :do_import
         get :export
+        get :get_provinces_by_country
+        get :get_cities_by_province
+        get :get_districts_by_city
+        get :get_neighborhoods_by_district
+        get :get_sub_neighborhoods_by_neighborhood
       end
       # eg. business/:id/action
       member do
@@ -405,11 +411,11 @@ Connectbook::Application.routes.draw do
   get '/vancouver/', to: 'home#city_landing', as: :city_landing
   # get ':district_route', to: 'districts#homepage', as: :district_guide
   get '/vancouver/:district_route', to: 'districts#homepage', as: :district_guide
-  resources :business_improvement_areas, path: '/:province_slug/:region_slug/:municipality_slug/:city_slug/:district_slug', only: [:show] do
-    member do
-      get :status_updates
-    end
-  end
+  # resources :business_improvement_areas, path: '/:province_slug/:region_slug/:municipality_slug/:city_slug/:district_slug', only: [:show] do
+  #   member do
+  #     get :status_updates
+  #   end
+  # end
 
 
   match ':status', to: 'errors#show', constraints: { status: /\d{3}/ }, as: :error_page
@@ -417,7 +423,7 @@ Connectbook::Application.routes.draw do
   get "/:province_slug/:region_slug/:municipality_slug/:city_slug", to: 'home#city_landing'
   get "/:province_slug/:region_slug/:municipality_slug/:city_slug/:district_route", to: 'districts#homepage'
 
-  # get "/:province_slug/:region_slug/:municipality_slug/:city_slug/:district_slug/:neighborhood_slug/", to: 'neighborhoods#neighborhood_page'
+  get "/:province_slug/:region_slug/:municipality_slug/:city_slug/:district_slug/:neighborhood_slug/", to: 'neighborhoods#neighborhood_page'
   get "/:province_slug/:region_slug/:municipality_slug/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug", to: 'neighborhoods#sub_neighborhood_page'
 
   get 'deeper_categories', to: 'products#deeper_categories'

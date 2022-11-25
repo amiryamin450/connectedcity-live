@@ -52,11 +52,11 @@
         <% if current_user.has_role? :admin %>
           <div class="tab-pane active" id="location">
             <%= f.association :country %>
-            <%= f.association :province %>
-            <%= f.association :city %>
-            <%= f.association :district %>
-            <%= f.association :neighborhood %>
-            <%= f.association :sub_neighborhood %>
+            <%= f.association :province, collection: get_collection(Province, :country, :country_id, f.object)%>
+            <%= f.association :city, collection: get_collection(City, :province, :pruid, f.object)%>
+            <%= f.association :district, collection: get_collection(District, :city, :city_id, f.object) %>
+            <%= f.association :neighborhood, collection: get_collection(Neighborhood, :district, :district_id, f.object) %>
+            <%= f.association :sub_neighborhood, collection: get_collection(Neighborhood, :neighborhood, :neighborhood_id, f.object) %>
             <%= f.input :vertical_market_category_ids, label: "Vertical market categories", collection: @vertical_market_categories, input_html: { multiple: true }, disabled: !current_user.has_role?(:admin) %>
           </div>
           <div class="tab-pane" id="agents">
@@ -225,6 +225,119 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_MAP_KEY'] %>&libraries=places&callback=initMap&sensor=false" async defer></script>
 
 <script type="text/javascript">
+  $(document).ready(function() {
+
+      $('#location_country_id').on('change', function(event) {
+        let countryId = event.target.value
+        let url = countryId ? `/business/get_provinces_by_country?country_slug=${countryId}` : `/business/get_provinces_by_country`
+        if(!countryId){
+          resetProvince();
+          resetCity();
+          resetDistrict();
+          resetNeighborhood();
+          resetSubNeighborhood();
+        }
+        $.ajax({
+          url: url,
+          method: "GET",
+          dataType: "json",
+        }).done(function( response ) {
+          $.each(response, function(index, province) {
+            $('#location_province_id').append($('<option>', {
+                value: province.id,
+                text: province.name
+            }));
+          })
+        });
+      })
+
+      $('#location_province_id').on('change', function(event) {
+        let provinceSlug = event.target.value
+        let url = provinceSlug ? `/business/get_cities_by_province?province_slug=${provinceSlug}` : `/business/get_cities_by_province`
+        if(!provinceSlug){
+          resetCity();
+          resetDistrict();
+          resetNeighborhood();
+          resetSubNeighborhood();
+        }
+        $.ajax({
+          url: url,
+          method: "GET",
+          dataType: "json",
+        }).done(function( response ) {
+          $.each(response, function(index, city) {
+            $('#location_city_id').append($('<option>', {
+                value: city.id,
+                text: city.csdname
+            }));
+          })
+        });
+      })
+
+      $('#location_city_id').on('change', function(event) {
+        let citySlug = event.target.value
+        let url = citySlug ? `/business/get_districts_by_city?city_slug=${citySlug}` : `/business/get_districts_by_city`
+        if(!citySlug){
+          resetDistrict();
+          resetNeighborhood();
+          resetSubNeighborhood();
+        }
+        $.ajax({
+          url: url,
+          method: "GET",
+          dataType: "json",
+        }).done(function( response ) {
+          $.each(response, function(index, district) {
+            $('#location_district_id').append($('<option>', {
+                value: district.id,
+                text: district.name
+            }));
+          })
+        });
+      })
+
+      $('#location_district_id').on('change', function(event) {
+        let districtSlug = event.target.value
+        let url = districtSlug ? `/business/get_neighborhoods_by_district?district_slug=${districtSlug}` : `/business/get_neighborhoods_by_district`
+        if(!districtSlug){
+          resetNeighborhood();
+          resetSubNeighborhood();
+        }
+        $.ajax({
+          url: url,
+          method: "GET",
+          dataType: "json",
+        }).done(function( response ) {
+          $.each(response, function(index, neighborhood) {
+            $('#location_neighborhood_id').append($('<option>', {
+                value: neighborhood.nid,
+                text: neighborhood.neighborhd
+            }));
+          })
+        });
+      })
+      
+      $('#location_neighborhood_id').on('change', function(event) {
+        let neighborhoodSlug = event.target.value
+        let url = neighborhoodSlug ? `/business/get_sub_neighborhoods_by_neighborhood?neighborhood_slug=${neighborhoodSlug}` : `/business/get_sub_neighborhoods_by_neighborhood`
+        if(!neighborhoodSlug){
+          resetSubNeighborhood();
+        }
+        $.ajax({
+          url: url,
+          method: "GET",
+          dataType: "json",
+        }).done(function( response ) {
+          $.each(response, function(index, neighborhood) {
+            $('#location_sub_neighborhood_id').append($('<option>', {
+                value: neighborhood.id,
+                text: neighborhood.neighborhd
+            }));
+          })
+        });
+      })
+
+  })
   $(document).on("keydown",function(e){
     var keyCode = e.which || e.keyCode;
     if(keyCode == 13 && e.target.name === 'location[address]') {
@@ -267,5 +380,37 @@
   function isBlankLongitude() {
     return $("#location_longitude").val().trim().length === 0
   }
+  
+  function resetProvince() {
+    $('#location_province_id').find('option').remove();
+    $('#location_province_id').append($('<option>', {
+      text: ""
+    }));
+  }
 
+  function resetCity(){
+    $('#location_city_id').find('option').remove();
+    $('#location_city_id').append($('<option>', {
+      text: ""
+    }));
+  }
+
+  function resetDistrict(){
+    $('#location_district_id').find('option').remove();
+    $('#location_district_id').append($('<option>', {
+      text: ""
+    }));
+  }
+  function resetNeighborhood(){
+    $('#location_neighborhood_id').find('option').remove();
+    $('#location_neighborhood_id').append($('<option>', {
+      text: ""
+    }));
+  }
+  function resetSubNeighborhood(){
+    $('#location_sub_neighborhood_id').find('option').remove();
+    $('#location_sub_neighborhood_id').append($('<option>', {
+      text: ""
+    }));
+  }
 </script>
