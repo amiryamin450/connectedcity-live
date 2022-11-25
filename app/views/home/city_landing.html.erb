@@ -13,8 +13,9 @@
               <div class="static-content">
                 <div class="slider-advance-searchbox">
                   <div class="heading">
-                    <h1 class="title-slide"><%= title.truncate(50, omission: '') %></h1>
-                    <h5 class="sub-title"><%= sub_title.truncate(100, omission: '') %></h5>
+                    <h1 class="title-slide"><%= title.gsub(/\s+/, " ").gsub(/[^A-Za-z0-9 ]/, "").truncate(35, omission: '') %></h1>
+                    <% sub_title_truncate = sub_title.gsub(/\s+/, " ").truncate(100, omission: '') %>
+                    <h5 class="sub-title"><%= sub_title_truncate %></h5>
                   </div>
                 </div>
               </div>
@@ -75,7 +76,7 @@
               <div>
                 <%# <img data-lazy="/cc_2.0/icon/slider-icon-1.jpg"> %>
                 <div class="district-slider-img">
-                  <%= link_to(image_tag('/assets/home_page_image/neighborhood_default.png'), "/#{@city.municipality.region.province.slug}/#{@city.municipality.region.slug}/#{@city.municipality.slug}/#{@city.slug}/#{bia.district.slug}/#{bia.slug}") %>
+                  <%= link_to(image_tag('/assets/neighborhood_default.png'), "/#{@city.municipality.region.province.slug}/#{@city.municipality.region.slug}/#{@city.municipality.slug}/#{@city.slug}/#{bia.district.slug}/#{bia.slug}") %>
                 </div>
                 <p><%= link_to bia.name, "/#{@city.municipality.region.province.slug}/#{@city.municipality.region.slug}/#{@city.municipality.slug}/#{@city.slug}/#{bia.district.slug}/#{bia.slug}" %></p>
               </div>
@@ -83,7 +84,7 @@
           </div>
         </div>
       </div>
-      <!-- End -->
+      <!-- End -->  
     </div>
   </div>
 </div>
@@ -92,8 +93,8 @@
 <script type="text/javascript">jQuery.noConflict();</script>
 <script type="text/javascript">
   // These are te default settings.
-  $('h5.sub-title').css('max-width', '50vw');
-  $('h1.title-slide').css('max-width', '70vw');
+  $('h5.sub-title').css('max-width', '60vw');
+
   $('#slides').slideshow({
     randomize: false,            // Randomize the play order of the slides.
     slideDuration: 8000,       // Duration of each induvidual slide.
