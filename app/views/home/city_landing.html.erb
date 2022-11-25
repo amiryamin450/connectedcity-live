@@ -13,8 +13,10 @@
               <div class="static-content">
                 <div class="slider-advance-searchbox">
                   <div class="heading">
-                    <h1 class="title-slide"><%= title.truncate(50, omission: '') %></h1>
-                    <h5 class="sub-title"><%= sub_title.truncate(100, omission: '') %></h5>
+                    <h1 class="title-slide"><%= title.gsub(/\s+/, " ").gsub(/[^A-Za-z0-9 ]/, "").truncate(35, omission: '') %></h1>
+                    <% sub_title_truncate = sub_title.gsub(/\s+/, " ").truncate(100, omission: '') %>
+                    <h5 class="sub-title"><%= sub_title_truncate.slice(0, 50) %></h5>
+                    <h5 class="sub-title"><%= sub_title_truncate.slice(50, 100) %></h5>
                   </div>
                 </div>
               </div>
@@ -92,8 +94,6 @@
 <script type="text/javascript">jQuery.noConflict();</script>
 <script type="text/javascript">
   // These are te default settings.
-  $('h5.sub-title').css('max-width', '50vw');
-  $('h1.title-slide').css('max-width', '70vw');
   $('#slides').slideshow({
     randomize: false,            // Randomize the play order of the slides.
     slideDuration: 8000,       // Duration of each induvidual slide.
