@@ -39,7 +39,16 @@
         </div>
         <div class="inner-slider">
           <div class="items">
-            <%= render 'business_improvement_area', business_improvement_area: @business_improvement_area, lv: 1 %>
+            <% @sub_neighborhood.locations.order("RAND()").each do |location| %>
+              <div>
+                <div class="district-slider-img">
+                  <%= link_to(image_tag(get_location_image_url location), location) %>
+                </div>
+                <p>
+                  <%= link_to location.name, location %>
+                </p>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>

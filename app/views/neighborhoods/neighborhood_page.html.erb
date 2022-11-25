@@ -39,13 +39,14 @@
         </div>
         <div class="inner-slider">
           <div class="items">
-            <% @sub_neighborhoods.order("RAND()").each do |sub| %>
+            <% @neighborhood.locations.order("RAND()").each do |location| %>
               <div>
-                <%# <img data-lazy="/cc_2.0/icon/slider-icon-1.jpg"> %>
                 <div class="district-slider-img">
-                  <%= link_to(image_tag('/assets/home_page_image/default.jpg'), "/#{@city.slug}/#{@district.slug}/#{@neighborhood.slug}/#{sub.slug}") %>
+                  <%= link_to(image_tag(get_location_image_url location), location) %>
                 </div>
-                <p><%= link_to sub.neighborhd, "/#{@city.slug}/#{@district.slug}/#{@neighborhood.slug}/#{sub.slug}" %></p>
+                <p>
+                  <%= link_to location.name, location %>
+                </p>
               </div>
             <% end %>
           </div>

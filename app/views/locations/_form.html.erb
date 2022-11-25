@@ -226,21 +226,22 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-      // if($('#location_country_id').find("option:selected").value()){
-      //   // resetProvince();
-      // }
-      // if(!$('#location_province_id').find("option:selected").value()){
-      //   // resetCity();
-      // }
+
       $('#location_country_id').on('change', function(event) {
         let countryId = event.target.value
         let url = countryId ? `/business/get_provinces_by_country?country_slug=${countryId}` : `/business/get_provinces_by_country`
+        if(!countryId){
+          resetProvince();
+          resetCity();
+          resetDistrict();
+          resetNeighborhood();
+          resetSubNeighborhood();
+        }
         $.ajax({
           url: url,
           method: "GET",
           dataType: "json",
         }).done(function( response ) {
-          resetProvince();
           $.each(response, function(index, province) {
             $('#location_province_id').append($('<option>', {
                 value: province.id,
@@ -253,12 +254,17 @@
       $('#location_province_id').on('change', function(event) {
         let provinceSlug = event.target.value
         let url = provinceSlug ? `/business/get_cities_by_province?province_slug=${provinceSlug}` : `/business/get_cities_by_province`
+        if(!provinceSlug){
+          resetCity();
+          resetDistrict();
+          resetNeighborhood();
+          resetSubNeighborhood();
+        }
         $.ajax({
           url: url,
           method: "GET",
           dataType: "json",
         }).done(function( response ) {
-          resetCity();
           $.each(response, function(index, city) {
             $('#location_city_id').append($('<option>', {
                 value: city.id,
@@ -271,12 +277,16 @@
       $('#location_city_id').on('change', function(event) {
         let citySlug = event.target.value
         let url = citySlug ? `/business/get_districts_by_city?city_slug=${citySlug}` : `/business/get_districts_by_city`
+        if(!citySlug){
+          resetDistrict();
+          resetNeighborhood();
+          resetSubNeighborhood();
+        }
         $.ajax({
           url: url,
           method: "GET",
           dataType: "json",
         }).done(function( response ) {
-          resetDistrict();
           $.each(response, function(index, district) {
             $('#location_district_id').append($('<option>', {
                 value: district.id,
@@ -289,12 +299,15 @@
       $('#location_district_id').on('change', function(event) {
         let districtSlug = event.target.value
         let url = districtSlug ? `/business/get_neighborhoods_by_district?district_slug=${districtSlug}` : `/business/get_neighborhoods_by_district`
+        if(!districtSlug){
+          resetNeighborhood();
+          resetSubNeighborhood();
+        }
         $.ajax({
           url: url,
           method: "GET",
           dataType: "json",
         }).done(function( response ) {
-          resetNeighborhood();
           $.each(response, function(index, neighborhood) {
             $('#location_neighborhood_id').append($('<option>', {
                 value: neighborhood.nid,
@@ -307,12 +320,14 @@
       $('#location_neighborhood_id').on('change', function(event) {
         let neighborhoodSlug = event.target.value
         let url = neighborhoodSlug ? `/business/get_sub_neighborhoods_by_neighborhood?neighborhood_slug=${neighborhoodSlug}` : `/business/get_sub_neighborhoods_by_neighborhood`
+        if(!neighborhoodSlug){
+          resetSubNeighborhood();
+        }
         $.ajax({
           url: url,
           method: "GET",
           dataType: "json",
         }).done(function( response ) {
-          resetSubNeighborhood();
           $.each(response, function(index, neighborhood) {
             $('#location_sub_neighborhood_id').append($('<option>', {
                 value: neighborhood.id,

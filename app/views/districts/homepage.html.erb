@@ -75,13 +75,13 @@
         </div>
         <div class="inner-slider">
           <div class="items">
-            <% @district.business_improvement_areas.order("RAND()").each do |bia| %>
+            <% @district.neighborhoods.order("RAND()").each do |ne| %>
               <div>
                 <%# <img data-lazy="/cc_2.0/icon/slider-icon-1.jpg"> %>
                 <div class="district-slider-img">
-                  <%= link_to(image_tag(bia.logo.url(:list)), "/vancouver/#{@district.slug}/neighbourhoods/#{bia.slug}") %>
+                  <%= link_to(image_tag('/assets/home_page_image/neighborhood_default.png'), "/#{@city.municipality.region.province.slug}/#{@city.municipality.region.slug}/#{@city.municipality.slug}/#{@city.slug}/#{@district.slug}/#{ne.slug}") %>
                 </div>
-                <p><%= link_to bia.name, "/vancouver/#{@district.slug}/neighbourhoods/#{bia.slug}" %></p>
+                <p><%= link_to ne.name, "/#{@city.municipality.region.province.slug}/#{@city.municipality.region.slug}/#{@city.municipality.slug}/#{@city.slug}/#{@district.slug}/#{ne.slug}" %></p>
               </div>
             <% end %>
           </div>
@@ -91,6 +91,23 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">jQuery.noConflict();</script>
+<script type="text/javascript">
+  // These are te default settings.
+  $('h5.sub-title').css('max-width', '50vw');
+  $('h1.title-slide').css('max-width', '70vw');
+  $('#slides').slideshow({
+    randomize: false,            // Randomize the play order of the slides.
+    slideDuration: 8000,       // Duration of each induvidual slide.
+    fadeDuration: 500,         // Duration of the fading transition. Should be shorter than slideDuration.
+    animate: true,              // Turn css animations on or off.
+    pauseOnTabBlur: true,       // Pause the slideshow when the tab is out of focus. This prevents glitches with setTimeout().
+    enableLog: false,           // Enable log messages to the console. Useful for debugging.
+    slideElementClass: 'slide', // This is also defined in the CSS!
+    slideshowId: 'slideshow'    // This is also defined in the CSS!
+  });
+</script>
 <!-- Main Section Card -->
 <%#= render "/layouts/application_v_2/multi_columns" %>
 <br>
