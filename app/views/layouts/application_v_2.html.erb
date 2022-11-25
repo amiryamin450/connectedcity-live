@@ -37,31 +37,44 @@
       $(document).ready(function() {
         $('#city-dropdown').on('change', function(event) {
           let cityId = event.target.value
-          $.ajax({
+          if(cityId){
+            $.ajax({
             url: `/home/get_districts?city_id=${cityId}`,
             method: "GET",
             dataType: "json",
-          }).done(function( response ) {
+            }).done(function( response ) {
+              resetDistrict();
+              resetNeighbourhood();
+              resetSubNeighbourhood();  
+              $('#district-path').attr("href", `${response.route}/${cityId}`)
+              $.each(response.districts, function(index, district) {
+                $('#district-dropdown').append($('<option>', {
+                    value: district.slug,
+                    text: district.name
+                }));
+              })
+            });
+          }else{
+            $('#district-path').attr("href", '/')
             resetDistrict();
-            $('#district-path').attr("href", `${response.route}/${cityId}`)
-            $.each(response.districts, function(index, district) {
-              $('#district-dropdown').append($('<option>', {
-                  value: district.slug,
-                  text: district.name
-              }));
-            })
-          });
+            resetNeighbourhood();
+            resetSubNeighbourhood();  
+          }
+          
         })
 
         $('#district-dropdown').on('change', function(event) {
           let districtId = event.target.value
+          let cityId = $('#city-dropdown').val()
+          let url = districtId ? `/home/get_neighborhoods?district_id=${districtId}`:`/home/get_neighborhoods?city_id=${cityId}`
           $.ajax({
-            url: `/home/get_neighborhoods?district_id=${districtId}`,
+            url: url,
             method: "GET",
             dataType: "json",
           }).done(function( response ) {
             resetNeighbourhood();
-            $('#district-path').attr("href", `${response.route}/${districtId}`)
+            resetSubNeighbourhood();
+            $('#district-path').attr("href", `${response.route}`)
             $.each(response.neighborhoods, function(index, neighborhood) {
               $('#neighbourhood-dropdown').append($('<option>', {
                   value: neighborhood.slug,
@@ -72,14 +85,16 @@
         })
 
         $('#neighbourhood-dropdown').on('change', function(event) {
-          resetSubNeighbourhood();
           let neighborhoodId = event.target.value
+          let districtID = $('#district-dropdown').val()
+          let url = neighborhoodId ? `/home/get_sub_neighborhoods?neighborhood_id=${neighborhoodId}`: `/home/get_sub_neighborhoods?district_id=${districtID}`  
           $.ajax({
-            url: `/home/get_sub_neighborhoods?neighborhood_id=${neighborhoodId}`,
+            url: url,
             method: "GET",
             dataType: "json",
           }).done(function( response ) {
-            $('#district-path').attr("href", `${response.route}/${neighborhoodId}`)
+            resetSubNeighbourhood();
+            $('#district-path').attr("href", `${response.route}`)
             $.each(response.sub_neighborhoods, function(index, neighborhood) {
               $('#shopping-district-dropdown').append($('<option>', {
                   value: neighborhood.slug,
@@ -91,13 +106,14 @@
 
         $('#shopping-district-dropdown').on('change', function(event) {
           let shoppingDistrictId = event.target.value
-
+          let neighborhoodId = $('#neighbourhood-dropdown').val()
+          let url = shoppingDistrictId ? `/home/get_sub_neighborhood?sub_neighborhood_id=${shoppingDistrictId}`: `/home/get_sub_neighborhood?neighborhood_id=${neighborhoodId}`
           $.ajax({
-            url: `/home/get_sub_neighborhood?sub_neighborhood_id=${shoppingDistrictId}`,
+            url: url,
             method: "GET",
             dataType: "json",
           }).done(function( response ) {
-            $('#district-path').attr("href", `${response.route}/${shoppingDistrictId}`)
+            $('#district-path').attr("href", `${response.route}`)
           });
         })
 
