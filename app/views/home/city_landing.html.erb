@@ -1,41 +1,5 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-12 column landing-page-slider">
-      <div id="slides">
-        <% if @documents.present? %>
-          <% values = @documents.length === 1 ? @documents.flat_map {|i| [i, i]} : @documents %>
-          <% values.each do |data| %>
-            <div class="slide">
-              <% url_img = data['image'] ? data['image'].main.url : "" %>
-              <% title = data['title'] ? data['title'].as_text : "" %>
-              <% sub_title = data['sub_title'] ? data['sub_title'].as_text : "" %>
-              <span class="animate in" style="background-image: url(<%= url_img %>)"></span>
-              <div class="static-content">
-                <div class="slider-advance-searchbox">
-                  <div class="heading">
-                    <h1 class="title-slide"><%= title.gsub(/\s+/, " ").gsub(/[^A-Za-z0-9 ]/, "").truncate(35, omission: '') %></h1>
-                    <% sub_title_truncate = sub_title.gsub(/\s+/, " ").truncate(100, omission: '') %>
-                    <h5 class="sub-title"><%= sub_title_truncate %></h5>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <% end %>
-        <% else %>
-          <div class="slide">
-            <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
-            <span class="animate in" style="background-image: url(<%= url_first %>)"></span>
-          </div>
-          <div class="slide">
-            <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
-            <span class="animate in" style="background-image: url(<%= url_first %>)"></span>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
-<br>
+<%= render 'images_slider' %>
+
 <div class="landing-page-heading-filter">
   <div class="row filter">
     <div class="col-11">
@@ -90,21 +54,5 @@
 </div>
 
 <!-- Main Section Card -->
-<script type="text/javascript">jQuery.noConflict();</script>
-<script type="text/javascript">
-  // These are te default settings.
-  $('h5.sub-title').css('max-width', '60vw');
-
-  $('#slides').slideshow({
-    randomize: false,            // Randomize the play order of the slides.
-    slideDuration: 8000,       // Duration of each induvidual slide.
-    fadeDuration: 500,         // Duration of the fading transition. Should be shorter than slideDuration.
-    animate: true,              // Turn css animations on or off.
-    pauseOnTabBlur: true,       // Pause the slideshow when the tab is out of focus. This prevents glitches with setTimeout().
-    enableLog: false,           // Enable log messages to the console. Useful for debugging.
-    slideElementClass: 'slide', // This is also defined in the CSS!
-    slideshowId: 'slideshow'    // This is also defined in the CSS!
-  });
-</script>
 <%= render "/layouts/application_v_2/multi_columns" %>
 <br>
