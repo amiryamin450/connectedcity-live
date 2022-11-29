@@ -69,6 +69,7 @@ class LocationsController < ApplicationController
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb @location.district.name, district_guide_path(@location.district.name) if @location.district
     add_crumb @location.neighborhood.name if @location.neighborhood
+    add_crumb @location.sub_neighborhood.name if @location.sub_neighborhood
 
     @vertical_market.ancestors.each do |ancestor|
       add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
