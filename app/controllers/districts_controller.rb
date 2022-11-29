@@ -43,7 +43,7 @@ class DistrictsController < ApplicationController
   # FIXME Why is this homepage and not show?
   def homepage
     if !request.fullpath.include? "sitemap.xml"
-      response = api.query(Prismic::Predicates.at("my.location.uid", params[:district_route]))
+      response = api.query(Prismic::Predicates.at("my.location.uid", key_district_prismic))
       @documents = response.results.present? ? response.results[0]["location.slide_images"] : []
       @district = District.find_by_slug(params[:district_route])
       @city = @district.city
@@ -63,5 +63,11 @@ class DistrictsController < ApplicationController
         send_file("#{Rails.root}/public/sitemap.xml", filename: "sitemap.xml", type: "application/xml")
     end
     render layout: "application_v_2"
+  end
+
+  private
+
+  def key_district_prismic
+    "#{params[:city_slug]}-#{params[:district_route]}"
   end
 end
