@@ -1,4 +1,5 @@
 class DistrictsController < ApplicationController
+  include PrismicController
 
   load_and_authorize_resource :district, except: :homepage
 
@@ -42,6 +43,8 @@ class DistrictsController < ApplicationController
   # FIXME Why is this homepage and not show?
   def homepage
     if !request.fullpath.include? "sitemap.xml"
+      response = api.query(Prismic::Predicates.at("my.location.uid", params[:district_route]))
+      @documents = response.results.present? ? response.results[0]["location.slide_images"] : []
       @district = District.find_by_slug(params[:district_route])
       @city = @district.city
       @cities = @city.municipality.cities
