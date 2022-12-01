@@ -168,6 +168,10 @@
 
       $('#close-notify-modal').click(function () {
         $('.start').prop('disabled', true);
+        $('.stop').prop('disabled',true);
+        setTimeout(()=>{
+          $('.stop').prop('disabled',false);
+        },1500)
         $('#notifyModal').css('display', 'none');
         var options = {
           max_duration: 7200,
