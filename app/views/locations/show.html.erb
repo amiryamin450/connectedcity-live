@@ -13,7 +13,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="<%=root_path%>">Home</a></li>
-      <% if [174, 164].include?(@vertical_market.id) && @location.city %>
+      <% if @location.city %>
         <% municipality = @location.city.municipality %>
         <% region = municipality.region %>
         <% url = "/#{@location.province.slug}/#{region.slug}/#{municipality.slug}/#{@location.city.slug}" %>
