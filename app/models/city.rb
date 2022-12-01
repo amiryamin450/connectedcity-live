@@ -3,7 +3,8 @@ class City < ActiveRecord::Base
 
     self.table_name = "maponics_subdivisions"
 
-    has_many :neighborhoods, class_name: "Neighborhood", foreign_key: "placecode"
+    has_many :neighborhoods, through: :districts
+    has_many :sub_neighborhoods, through: :neighborhoods
     has_many :districts
     has_many :locations
     has_many :status_updates
