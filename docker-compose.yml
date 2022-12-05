@@ -35,8 +35,8 @@ services:
     depends_on:
       - db
       - solr
-    # environment:
-    #   RAILS_ENV: "${RAILS_ENV}"
+    environment:
+      RAILS_ENV: "${RAILS_ENV}"
 volumes:
   my-db:
   solr_data:

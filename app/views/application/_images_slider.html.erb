@@ -13,7 +13,7 @@
               <div class="static-content">
                 <div class="slider-advance-searchbox">
                   <div class="heading">
-                    <h1 class="title-slide"><%= title.gsub(/\s+/, " ").gsub(/[^A-Za-z0-9 ]/, "").truncate(35, omission: '') %></h1>
+                    <h1 class="title-slide"><%= title.gsub(/\s+/, " ").gsub(/[^A-Za-z0-9 !'\.\-]/, "").truncate(55, omission: '') %></h1>
                     <% sub_title_truncate = sub_title.gsub(/\s+/, " ").truncate(100, omission: '') %>
                     <h5 class="sub-title"><%= sub_title_truncate %></h5>
                   </div>
