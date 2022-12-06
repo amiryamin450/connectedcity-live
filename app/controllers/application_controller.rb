@@ -32,11 +32,12 @@ class ApplicationController < ActionController::Base
     if user_signed_in?
       @favorites = current_user.favorites.all
       if current_user.cart_id.nil?
-        @cart = Cart.new
-        @cart.user_id = current_user.id
-        @cart.save
-        current_user.cart_id = @cart.id
+        c = Cart.create()
+        c.user_id = current_user.id
+        c.save
+        current_user.cart_id = c.id
         current_user.save
+        @cart = c
       else
         @cart = current_user.cart
       end
