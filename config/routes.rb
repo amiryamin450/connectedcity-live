@@ -327,8 +327,8 @@ Connectbook::Application.routes.draw do
   get '/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug/guide/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_nbh_sub_sub_market_guide
   get '/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug/guide/:market' => 'vertical_markets#guide', as: :city_district_nbh_sub_guide
 
-  get '/:city_slug/:district_slug/:id/guide/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_neighborhood_sub_market_guide
-  get '/:city_slug/:district_slug/:id/guide/:market' => 'vertical_markets#guide', as: :city_district_neighborhood_guide
+  get '/:city_slug/:district_slug/:neighborhood_slug/guide/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_neighborhood_sub_market_guide
+  get '/:city_slug/:district_slug/:neighborhood_slug/guide/:market' => 'vertical_markets#guide', as: :city_district_neighborhood_guide
 
   get '/:city_slug/:district_route/guide/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_sub_market_guide
   get '/:city_slug/:district_route/guide/:market' => 'vertical_markets#guide', as: :city_district_guide
