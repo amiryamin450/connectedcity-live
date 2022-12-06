@@ -14,16 +14,21 @@ Connectbook::Application.routes.draw do
     end
   end
 
-  devise_for :users, controllers: {omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations"}
+  # devise_for :users, controllers: {
+  #   omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations",
+  # }
 
-  devise_for :users do
+  devise_for :users, controllers: {
+    omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations",
+  } do
     get 'business_sign_up', :to => 'devise/registrations#new', as: :business_sign_up
+    get '/users/sign_out' => 'devise/sessions#destroy'
   end
 
-  devise_scope :user do
-    get '/login' => 'devise/sessions#new'
-    get '/logout' => 'devise/sessions#destroy'
-  end
+  # devise_scope :user do
+  #   get '/login' => 'devise/sessions#new'
+  #   get '/logout' => 'devise/sessions#destroy'
+  # end
 
   resources :line_items
   resources :carts do

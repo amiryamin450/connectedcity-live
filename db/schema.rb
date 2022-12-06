@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20221116093858) do
+ActiveRecord::Schema.define(:version => 20221129080650) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -201,7 +201,10 @@ ActiveRecord::Schema.define(:version => 20221116093858) do
   create_table "carts", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "user_id"
   end
+
+  add_index "carts", ["user_id"], :name => "index_carts_on_user_id"
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -452,9 +455,10 @@ ActiveRecord::Schema.define(:version => 20221116093858) do
   create_table "line_items", :force => true do |t|
     t.integer  "product_id"
     t.integer  "cart_id"
-    t.integer  "quantity",   :default => 1
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.integer  "quantity",    :default => 1
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+    t.integer  "location_id"
   end
 
   add_index "line_items", ["cart_id"], :name => "index_line_items_on_cart_id"
@@ -794,8 +798,11 @@ ActiveRecord::Schema.define(:version => 20221116093858) do
     t.string   "country_name"
     t.string   "province_code"
     t.integer  "country_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+    t.float    "tax_pst",       :default => 0.0
+    t.float    "tax_gst",       :default => 0.0
+    t.float    "tax_hst",       :default => 0.0
   end
 
   create_table "provinces_old", :force => true do |t|
@@ -1122,6 +1129,7 @@ ActiveRecord::Schema.define(:version => 20221116093858) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "stripe_customer_id"
+    t.integer  "cart_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

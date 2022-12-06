@@ -9,68 +9,133 @@
         </ul>
     </div>
   <% end %>
-  <!--  Cart Table -->
-  <div class="table-responsive cart-table-body">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">
-            <div class="p-2 px-3">Product</div>
-          </th>
-          <th scope="col">
-            <div class="py-2">Quantity</div>
-          </th>
-          <th scope="col">
-            <div class="py-2">Unit price</div>
-          </th>
-          <th scope="col">
-            <div class="py-2">Discount</div>
-          </th>
-          <th scope="col">
-            <div class="py-2">Subtotal</div>
-          </th>
 
-          <th scope="col">
-            <div class="py-2">Action</div>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <%= form.fields_for :line_items do |line_item| %>
-          <% product = line_item.object.product %>
-          <% location = product.location %>
-          <tr>
-            <td class="align-middle">
-              <div class="p-2 cart-table-img-row">
-                <div class="cart-table-img">
-                  <% if line_item.object.product.image.present? %>
-                    <%= image_tag line_item.object.product.image.url(:thumb), alt: line_item.object.product.name %>
-                  <% end %>
-                </div>
-                <div class="ml-3 d-inline-block align-middle">
-                  <h5 class="mb-0">
-                    <a href="<%= location_product_path(location, product)%>" class="text-dark d-inline-block" ><%= line_item.object.product.name %></a>
-                  </h5>
-                </div>
-              </div>
-            </td>
-            <td class="align-middle">
-              <div class="quanitity-counter">
-                <input type='button' value='-' class='qtyminus' />
-                <%= line_item.number_field :quantity, step: "1", min: "1", max: "", title: "Qty", class: "qty", size: "4", pattern: "", inputmode: ""  %>
-                <input type='button' value='+' class='qtyplus' />
-              </div>
-            </td>
-            <td class="align-middle"><%= number_to_currency(product.price, unit: '$') %></td>
-            <td class="align-middle"><%= number_to_currency(product.discount, unit: '$') %></td>
-            <td class="align-middle"><%= number_to_currency(line_item.object.total_price, unit: '$') %></td>
-            <td class="align-middle">
-              <a href="<%= line_item_path(line_item.object)%>" method= "delete" class="text-dark"><i class="far fa-trash-alt"></i></a>
-            </td>
-          </tr>
-        <% end %>  
-      </tbody>
-    </table>
+
+  <div class="row cart-shopping-table">
+    <div class="col-md-9" style="padding-right: 0px">
+      <% shops = @line_items.map { |item| item[0].location_name } %>
+      <% shops.each_with_index do |item, index| %>
+        <div class="shop-item">
+          <div class="table cart-shopping">
+            <div class="shop-name"><%= item %></div>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      <div class="pb-3 px-3">Product</div>
+                    </th>
+                    <th scope="col" style="padding: 0px;">
+                      <div class="pb-3">Quantity</div>
+                    </th>
+                    <th scope="col" style="padding: 0px;">
+                      <div class="pb-3">Unit price</div>
+                    </th>
+                    <th scope="col" style="padding: 0px;">
+                      <div class="pb-3">Discount</div>
+                    </th>
+                    <th scope="col" style="padding: 0px;">
+                      <div class="pb-3">Subtotal</div>
+                    </th>
+
+                    <th scope="col" style="padding: 0px;">
+                      <div class="pb-3">Removed?</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <%#= form_tag 'zzz' do |f| %>
+                    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                    <% @line_items[index].each_with_index do |data, i| %>
+                      <%= fields_for "line_item_#{i}", data do |line_item| %>
+                        <% product = line_item.object.product %>
+                        <% location = product.location %>
+                        <tr>
+                          <td class="align-middle py-0">
+                            <div class="cart-table-img-row">
+                              <div class="cart-table-img">
+                                <% if line_item.object.product.image.present? %>
+                                  <%= image_tag line_item.object.product.image.url(:list), alt: line_item.object.product.name %>
+                                <% end %>
+                              </div>
+                              <div class="ml-3 d-inline-block align-middle">
+                                <h5 class="mb-0">
+                                  <a href="<%= location_product_path(location, product)%>" class="text-dark d-inline-block" ><%= line_item.object.product.name %></a>
+                                </h5>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="align-middle" style="padding: 0px;">
+                            <div class="quanitity-counter d-flex" style="justify-content: center;" >
+                              <input type='button' value='-' class='qtyminus' data-id=<%= line_item.object.id %> />
+                              <%= line_item.number_field :quantity, step: "1", min: "1", max: "", title: "Qty", class: "qty", size: "4", pattern: "", inputmode: ""  %>
+                              <input type='button' value='+' class='qtyplus' data-id=<%= line_item.object.id %> />
+                            </div>
+                          </td>
+                          <td class="align-middle" style="padding: 0px;"><%= number_to_currency(product.price, unit: '$') %></td>
+                          <td class="align-middle" style="padding: 0px;"><%= number_to_currency(product.discount, unit: '$') %></td>
+                          <td class="align-middle total-price" style="padding: 0px;"  data-id=<%= line_item.object.id %>><%= number_to_currency(line_item.object.total_price, unit: '$') %></td>
+                          <td class="align-middle" style="padding: 0px;">
+                            <a href="<%= line_item_path(line_item.object.id, :authenticity_token => form_authenticity_token) %>" data-method="delete" class="text-dark" style="padding: 15px;"><i class="far fa-trash-alt" style="font-size: 25px"></i></a>
+                          </td>
+                        </tr>
+                      <% end %>
+                    <% end %>
+                  <%# end %>
+                </tbody>
+              </table>
+            </div>
+            <div class="btn-checkout-row">
+              <form action="https://connected-checkout-staging.herokuapp.com/create-checkout-session" method="POST">
+                <input type="hidden" name="success_url" value="<%=edit_cart_path(@cart)%>"/>
+                <input type="hidden" name="cancel_url" value="<%=edit_cart_path(@cart)%>"/>
+                <% @line_items[index].each do |item| %>
+                  <input type="hidden" name=<%="line_items[][name]"%> value="<%=item.product.name%>"/>
+                  <input type="hidden" name=<%="line_items[][amount]"%> value="<%=item.product.price%>"/>
+                  <input type="hidden" name=<%="line_items[][quantity]"%> value="<%=item.quantity%>"/>
+                <% end %>
+                <button type="submit" id="submit" class=" btn btn-primary checkout-only">Checkout for only this shop</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-3 tax-container">
+      <div class="tax-view">
+        <div class="row" style="margin: 0px">
+          <div class="col-md-4" style="padding-right: 0px">
+            <div class="title-tax font-weight-bold" style="margin-top: 20px">Sub-Total:</div>
+            <% if @cart.has_tax_pst %><div class="title-tax font-weight-bold"><%="Tax 1 (PST)"%></div><% end %>
+            <% if @cart.has_tax_gst %><div class="title-tax font-weight-bold"><%="Tax 2 (GST)"%></div><% end %>
+            <div class="line" style="margin-top: 20px"></div>
+            <div class="title-tax font-weight-bold">Total:</div>
+          </div>
+          <div class="col-md-3" style="padding: 0px">
+            <div class="title-price" style="margin-top: 20px; height: 24px;"></div>
+            <% if @cart.has_tax_pst %><div class="price-tax font-weight-bold"><%= "#{@cart.tax_pst_format}%" %></div><% end %>
+            <% if @cart.has_tax_gst %><div class="price-tax font-weight-bold"><%= "#{@cart.tax_gst_format}%" %></div><% end %>
+            <div class="line" style="margin-top: 20px"></div>
+          </div>
+          <div class="col-md-5" style="padding-left: 0px">
+            <div class="title-price font-weight-bold sub-total" style="margin-top: 20px"><%= number_to_currency(@cart.total_price_net, unit: '$') %></div>
+            <% if @cart.has_tax_pst %><div class="title-price font-weight-bold tax-pst"><%= number_to_currency(@cart.tax_pst_price, unit: '$') %></div><% end %>
+            <% if @cart.has_tax_gst %><div class="title-price font-weight-bold tax-gst"><%= number_to_currency(@cart.tax_gst_price, unit: '$') %></div><% end %>
+            <div class="line" style="margin-top: 20px"></div>
+            <div class="title-price font-weight-bold total"><%= number_to_currency(@cart.total_price_gross, unit: '$') %></div>
+          </div>
+        </div>
+        <button class="checkout-button">Checkout</button>
+      </div>
+      <div class="coupon-view">
+        <div class="title font-weight-bold">Enter a coupon code</div>
+        <div class="coupon-code">
+          <input type="text" />
+          <button class="apply-button">Apply</button>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>
 
@@ -88,44 +153,86 @@
     </div>
     <div class="col-md-3">
     </div>
-    <div class="col-md-2">
-      <button type="button" id="submitEditCart" class="btn btn-outline-primary btn-clear-cart">Update Cart</button>
-    </div>
-    <div class="col-md-2">
-      <div class="btn-checkout-row">
-        <form action="https://connected-checkout-staging.herokuapp.com/create-checkout-session" method="POST">
-          <input type="hidden" name="success_url" value="<%=edit_cart_path(@cart)%>"/>
-          <input type="hidden" name="cancel_url" value="<%=edit_cart_path(@cart)%>"/>
-          <% @cart.line_items.each do |item| %>
-            <input type="hidden" name="line_items[][name]" value="<%=item.product.name%>"/>
-            <input type="hidden" name="line_items[][amount]" value="<%=item.product.price%>"/>
-            <input type="hidden" name="line_items[][quantity]" value="<%=item.quantity%>"/>
-          <% end %>
-          <button type="submit" id="submit" class="btn btn-primary btn-checkout">Checkout</button>
-        </form>
-      </div>
-    </div>
   </div>
 </div>
 
+<style>
+  input.qty::-webkit-outer-spin-button,
+  input.qty::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+</style>
 <script>
-  $(document).on("click", ".qtyplus", function() {
-    var oldValue = $(this).prev().val();
-    var newVal = parseFloat(oldValue) + 1;
-    $(this).prev().val(newVal);
-  });
+  $(document).ready(function() {
+    var clicked = false
+    var newQuantity = 1
+    var maxQuantity = 50
+    var currentQuantity = <%= @cart.total_quantity %>
 
-  $(document).on("click", ".qtyminus", function() {
-    var oldValue = $(this).next().val();
-    if (oldValue > 1) {
-      var newVal = parseFloat(oldValue) - 1;
-    } else {
-      newVal = 1;
+    $('.qtyplus').on({
+      click: function() {
+        clicked = true
+        var oldValue = $(this).prev().val();
+        var newVal = parseInt(oldValue) + 1;
+        if (currentQuantity < maxQuantity) {
+          currentQuantity += 1
+          newQuantity = newVal
+          $(this).prev().val(newVal);
+        }
+      },
+      mouseleave: function() {
+        updateQuantityLineItem(this, true);
+      },
+    });
+
+    $('.qtyminus').on({
+      click: function() {
+        clicked = true
+        var oldValue = $(this).next().val();
+        var newVal = oldValue > 1 ? parseFloat(oldValue) - 1 : 1;
+        newQuantity = newVal
+        $(this).next().val(newVal);
+      },
+      mouseleave: function() {
+        updateQuantityLineItem(this, true);
+      },
+    });
+
+    function updateQuantityLineItem(el, outside) {
+      var button = $(el);
+      var id = button.attr('data-id')
+      if (clicked && outside) {
+        $.ajax({
+          url: `/line_items/${id}`,
+          data: JSON.stringify({ quantity: newQuantity }),
+          method: "PUT",
+          dataType: "json",
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': $('input[name=authenticity_token]').val(),
+          },
+        }).done(function (response) {
+          const { line_item, product, total_net, tax_pst, tax_gst, total_gross, total_quantity } = response;
+          var newTotal = (parseFloat(product.price) - product.discount) * newQuantity
+          const convert = newTotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+          $(`.total-price[data-id=${id}]`).text(convert);
+          $('.title-price.total').text(parseFloat(total_gross).toLocaleString('en-US', { style: 'currency', currency: 'USD' }));
+          $('.title-price.sub-total').text(parseFloat(total_net).toLocaleString('en-US', { style: 'currency', currency: 'USD' }));
+          $('.title-price.tax-pst').text(parseFloat(tax_pst).toLocaleString('en-US', { style: 'currency', currency: 'USD' }));
+          $('.title-price.tax-gst').text(parseFloat(tax_gst).toLocaleString('en-US', { style: 'currency', currency: 'USD' }));
+          $('.header-shopping-cart .cart-counter').load(" span");
+          currentQuantity = total_quantity
+        })
+        clicked = false
+      }
     }
-    $(this).next().val(newVal);
-  });
-
-  $(document).on("click", "#submitEditCart", function() {
-    $(".edit_cart").submit();
-  });
+  })
 </script>

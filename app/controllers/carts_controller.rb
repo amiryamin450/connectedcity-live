@@ -1,7 +1,8 @@
 class CartsController < ApplicationController
-  include CurrentCartHelper
-  before_filter :set_cart
   layout "application_v_2"
+
+  before_filter :authenticate_user!
+  before_filter :find_cart, except: [:new, :create]
 
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
   # GET /carts
@@ -29,6 +30,7 @@ class CartsController < ApplicationController
 
   # GET /carts/1/edit
   def edit
+    @line_items = @cart.line_items.group_by { |item| item.location_id.itself }.values
   end
 
   # POST /carts
@@ -50,8 +52,6 @@ class CartsController < ApplicationController
   # PUT /carts/1
   # PUT /carts/1.json
   def update
-    @cart = Cart.find(params[:id])
-
     respond_to do |format|
       if @cart.update_attributes(params[:cart])
         format.html { redirect_to @cart, notice: 'Cart was successfully updated.' }
@@ -64,7 +64,6 @@ class CartsController < ApplicationController
   end
 
   def clear
-    @cart = Cart.find(params[:id])
     @cart.line_items.delete_all
 
     respond_to do |format|
@@ -76,7 +75,6 @@ class CartsController < ApplicationController
   # DELETE /carts/1
   # DELETE /carts/1.json
   def destroy
-    @cart = Cart.find(params[:id])
     @cart.destroy
 
     respond_to do |format|
@@ -86,6 +84,10 @@ class CartsController < ApplicationController
   end
 
   private
+
+    def find_cart
+      @cart = current_user.cart
+    end
 
     def invalid_cart
       logger.error "Attempt to access invalid cart #{params[:id]}"

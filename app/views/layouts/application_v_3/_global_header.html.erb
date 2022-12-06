@@ -29,7 +29,7 @@
               </div>
             </div>
           </div>
-          <% if current_user.present? %>
+          <% if user_signed_in? %>
             <div class="col-1"><%= render "/layouts/application_v_2/access_user_panel" %></div>
           <% else %>
             <div class="col-2" style="padding-left: 5px;">
