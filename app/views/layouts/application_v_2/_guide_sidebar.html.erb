@@ -5,7 +5,7 @@
   @events = @vertical_market.get_events(@city, @district, @neighborhood)
   @news_articles = @vertical_market.get_news_articles(@city, @district, @neighborhood)
   @blog_entries = @vertical_market.get_blog_entries(@city, @district)
-  @coupons = @vertical_market.get_coupons
+  @coupons = @vertical_market.get_coupons(@city, @district, @neighborhood)
 %>
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
