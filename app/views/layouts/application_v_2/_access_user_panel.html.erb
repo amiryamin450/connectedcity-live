@@ -7,7 +7,8 @@
           <li class="dropdown-item" style="padding: 0px;"><%= link_to 'Edit Account', edit_user_registration_path , style: "display: block; padding: 0.25rem 1.5rem;"%></li>
           <li class="dropdown-item"  style="padding: 0px;"><%= link_to 'My Classifieds', classified_listings_path, style: "display: block; padding: 0.25rem 1.5rem;" %></li>
           <li class="dropdown-item"  style="padding: 0px;"><%= link_to 'My Coupons', coupons_user_path(current_user), style: "display: block; padding: 0.25rem 1.5rem;" %></li>
-          <li class="dropdown-item"  style="padding: 0px;"><%= link_to 'My Cart', cart_path(@cart), style: "display: block; padding: 0.25rem 1.5rem;" %></li>
+          <% url = user_signed_in? ? cart_path(@cart) : new_user_session_path %>
+          <li class="dropdown-item"  style="padding: 0px;"><%= link_to 'My Cart', url, style: "display: block; padding: 0.25rem 1.5rem;" %></li>
         </ul>
       </li>
       <li class="dropdown-submenu">

@@ -47,7 +47,7 @@
           }
 
           td:first-child {
-            width: 500px;
+            width: 450px;
           }
 
           tbody td:first-child {
@@ -120,8 +120,14 @@
       .tax-view {
         border: 1px solid black;
         border-radius: 5px;
-        .title-tax, .title-price {
+        .title-tax, .title-price, .price-tax {
           margin: 5px 0;
+          font-weight: bold;
+        }
+        .price-tax {
+          display: flex;
+          justify-content: center;
+          padding-right: 15px;
         }
         .line {
           margin-top: 10px;

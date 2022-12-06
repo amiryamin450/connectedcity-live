@@ -1,11 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  include CurrentCartHelper
-  before_filter :set_cart
-
   before_filter :set_up
-
 
   def user_has_favorite?(location_id)
     @favorites.find {|f| f['location_id'] == location_id }
@@ -20,8 +16,32 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def authenticate_user!
+    if user_signed_in?
+      super
+    else
+      respond_to do |format|
+        format.html { redirect_to new_user_session_path }
+        format.json
+      end
+    end
+  end
+
   def set_up
-    user_signed_in? ? @favorites = current_user.favorites.all : @favorites = []
+    @favorites = []
+    if user_signed_in?
+      @favorites = current_user.favorites.all
+      if current_user.cart_id.nil?
+        @cart = Cart.new
+        @cart.user_id = current_user.id
+        @cart.save
+        current_user.cart_id = @cart.id
+        current_user.save
+      else
+        @cart = current_user.cart
+      end
+    end
+
     init_category_values
 
     @city = params[:city_slug] ? City.find_by_slug(params[:city_slug]) : City.find(5915022)

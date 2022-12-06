@@ -1,6 +1,6 @@
 class Cart < ActiveRecord::Base
   has_many :line_items, dependent: :destroy
-
+  belongs_to :user
   attr_accessible :line_items_attributes
 
   accepts_nested_attributes_for :line_items, allow_destroy: true
@@ -15,7 +15,68 @@ class Cart < ActiveRecord::Base
     current_item
   end
 
-  def total_price
+  # workflow get province just spend for one item in database is british-columbia
+  def province
+    line_items.first.product&.location&.province
+  end
+
+  def tax_pst
+    province&.tax_pst || 0.0
+  end
+
+  def tax_gst
+    province&.tax_gst || 0.0
+  end
+
+  def tax_hst
+    province&.tax_hst || 0.0
+  end
+
+  def tax_pst_format
+    '%.1f' % (tax_pst * 100)
+  end
+
+  def tax_gst_format
+    '%.1f' % (tax_gst * 100)
+  end
+
+  def tax_hst_format
+    '%.1f' % (tax_hst * 100)
+  end
+
+  def has_tax_pst
+    tax_pst > 0.0
+  end
+
+  def has_tax_gst
+    tax_gst > 0.0
+  end
+
+  def has_tax_hst
+    tax_hst > 0.0
+  end
+
+  def tax_pst_price
+    tax_pst * total_price_net
+  end
+
+  def tax_gst_price
+    tax_gst * total_price_net
+  end
+
+  def total_tax
+    tax_pst_price + tax_gst_price
+  end
+
+  def total_price_net
     line_items.to_a.sum { |item| item.total_price }
+  end
+
+  def total_price_gross
+    total_price_net + total_tax
+  end
+
+  def total_quantity
+    line_items.to_a.sum { |item| item.quantity }
   end
 end
