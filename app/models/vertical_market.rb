@@ -47,7 +47,7 @@ class VerticalMarket < ActiveRecord::Base
     # FIXME MySQL 5.7 needs this to work properly.
     ActiveRecord::Base.connection.execute("SET sql_mode = ''")
 
-    VerticalMarketCategory.joins(locations: [:city]).includes(locations: [:city]).where(vertical_market_id: self.subtree_ids, locations: location_params(city, district, neighborhood), maponics_subdivisions: { csdtype: 'CY' }).group("`vertical_market_categories`.`id`, `locations`.`id`").order("`vertical_market_categories`.`name` ASC, IF(`locations`.`logo_file_name` IS NULL, 0, 1) DESC, `locations`.`updated_at` DESC")
+    VerticalMarketCategory.joins(locations: [:city]).includes(locations: [:city]).where(vertical_market_id: self.subtree_ids, locations: location_params(city, district, neighborhood)).group("`vertical_market_categories`.`id`, `locations`.`id`").order("`vertical_market_categories`.`name` ASC, IF(`locations`.`logo_file_name` IS NULL, 0, 1) DESC, `locations`.`updated_at` DESC")
   end
 
   def get_media_attachments(city = nil, district = nil, neighborhood = nil)
