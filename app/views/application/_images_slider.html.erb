@@ -5,10 +5,11 @@
         <% if @documents.present? %>
           <% values = @documents.length === 1 ? @documents.flat_map {|i| [i, i]} : @documents %>
           <% values.each do |data| %>
-            <div class="slide">
-              <% url_img = data['image'] ? data['image'].main.url : "" %>
-              <% title = data['title'] ? data['title'].as_text : "" %>
-              <% sub_title = data['sub_title'] ? data['sub_title'].as_text : "" %>
+            <% url_img = data['image'] ? data['image'].main.url : "" %>
+            <% title = data['title'] ? data['title'].as_text : "" %>
+            <% sub_title = data['sub_title'] ? data['sub_title'].as_text : "" %>
+            <% url = data['url'] ? data['url'].as_text : "" %>
+            <% if url.present? %> <a class="slide" href=<%= url %>> <% else %> <div class="slide"> <% end %>
               <span class="animate in" style="background-image: url(<%= url_img %>)"></span>
               <div class="static-content">
                 <div class="slider-advance-searchbox">
@@ -19,7 +20,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            <% if url.present? %> </a> <% else %> </div> <% end %>
           <% end %>
         <% else %>
           <div class="slide">
