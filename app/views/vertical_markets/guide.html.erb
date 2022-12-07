@@ -31,15 +31,21 @@
       <% end %>
       <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="<%="#{@base_path}guide/#{@vertical_market.slug}"%>"><%= " #{@vertical_market.name}" %></a></li>
     <% else %>
-      <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="#"><%= (@city&.name || 'Vancouver') %></a></li>
-      <%if @district %>
-        <li class="breadcrumb-item active" aria-current="page"><a style="margin-left: 10px;" href="#"><%=@district.name%></a></li>
+      <%if @city %>
+        <% url = "/#{@city&.municipality&.region&.province&.slug}/#{@city&.municipality&.region&.slug}/#{@city&.municipality&.slug}/#{@city.slug}"%>
+        <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="<%= url %>"><%= (@city&.name || 'Vancouver') %></a></li>
+      <%end%>
+      <% if @district %>
+        <% url = "/#{@district.city&.municipality&.region&.province&.slug}/#{@district.city&.municipality&.region&.slug}/#{@district.city&.municipality&.slug}/#{@district.city&.slug}/#{@district.slug}"%>
+        <li class="breadcrumb-item active" aria-current="page"><a style="margin-left: 10px;" href="<%=url%>"><%=@district.name%></a></li>
       <% end %>
       <%if @neighborhood %>
-        <li class="breadcrumb-item" aria-current="page"><%= @neighborhood.name%></li>
-      <% end %>
-      <%if @sub_neighborhood %>
-        <li class="breadcrumb-item" aria-current="page"><%= @sub_neighborhood.name%></li>
+        <% url = "/#{@neighborhood.district&.city&.municipality&.region&.province&.slug}/#{@neighborhood.district&.city&.municipality&.region&.slug}/#{@neighborhood.district&.city&.municipality&.slug}/#{@neighborhood.district&.city&.slug}/#{@neighborhood.district&.slug}/#{@neighborhood.slug}"%>
+        <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="<%= url%>"><%= @neighborhood.name%></a></li>
+      <% end %> 
+      <% if @sub_neighborhood %>
+        <% url = "/#{@sub_neighborhood.neighborhood&.district&.city&.municipality&.region&.province&.slug}/#{@sub_neighborhood.neighborhood&.district&.city&.municipality&.region&.slug}/#{@sub_neighborhood.neighborhood&.district&.city&.municipality&.slug}/#{@sub_neighborhood.neighborhood&.district&.city&.slug}/#{@sub_neighborhood.neighborhood&.district&.slug}/#{@sub_neighborhood.neighborhood&.slug}/#{@sub_neighborhood.slug}"%>
+        <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="<%=url%>"><%= @sub_neighborhood.name%></a></li>
       <% end %>
       <% @vertical_market.ancestors.each do |ancestor| %>
         <li class="breadcrumb-item active" aria-current="page"><a style="margin-left: 10px;" href="<%="#{@base_path}guide/#{ancestor.slug}"%>"><%=ancestor.name%></a></li>
