@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
 
   acts_as_messageable
 
+  has_one :cart, dependent: :destroy
   has_many :locations
   has_many :favorites
   has_many :classified_listings
