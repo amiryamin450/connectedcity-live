@@ -320,9 +320,9 @@
           method: "GET",
           dataType: "json",
         }).done(function( response ) {
+          resetNeighborhood();
+          resetSubNeighborhood();
           $.each(response, function(index, neighborhood) {
-            resetNeighborhood();
-            resetSubNeighborhood();
             $('#location_neighborhood_id').append($('<option>', {
                 value: neighborhood.nid,
                 text: neighborhood.neighborhd
