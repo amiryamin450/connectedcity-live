@@ -15,7 +15,19 @@ class LineItem < ActiveRecord::Base
     product.discount
   end
 
+  def location
+    self.product.location
+  end
+
   def location_name
-    self.product.location.name
+    location.name
+  end
+
+  def location_slug
+    location.slug
+  end
+
+  def name_slug
+    { name: location_name, slug: location_slug }
   end
 end

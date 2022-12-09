@@ -30,6 +30,7 @@ class CartsController < ApplicationController
 
   # GET /carts/1/edit
   def edit
+    @back_url = URI(request.referer || '').path
     @line_items = @cart.line_items.group_by { |item| item.location_id.itself }.values
   end
 
