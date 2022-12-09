@@ -106,12 +106,20 @@
           display: flex;
           margin-left: auto;
           background-color: unset;
-          border: none;
+          text-align: center;
+          border: 2px solid #10375C;
           font-size: 20px;
           font-weight: 500;
           margin-bottom: 10px;
           margin-right: 10px;
           color: black;
+        }
+        .checkout-only:hover {
+          background-color: #10375C !important;
+          color: #fff !important;
+        }
+        .checkout-only:focus {
+          box-shadow: none;
         }
       }
     }
