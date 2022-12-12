@@ -271,6 +271,21 @@
   }
 }
 
+.watermark-link {
+  font-size: 18px;
+  color: white;
+  height: 50px;
+  z-index: 100;
+  position: inherit;
+  right: 30px;
+  bottom: 0;
+  opacity: 0.5;
+}
+
+.watermark-link:hover {
+  color: white;
+}
+
 .landing-page-heading-filter.communities-page {
   .container-box {
     padding-left: 5px;

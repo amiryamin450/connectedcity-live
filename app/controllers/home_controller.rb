@@ -5,6 +5,8 @@ class HomeController < ApplicationController
   PER_PAGE = 20
 
   def index
+    response = api.query(Prismic::Predicates.at("my.location.uid", "home_page"))
+    @documents = response.results.present? ? response.results[0]["location.slide_images"] : []
     @provinces = Province.all.sort_by(&:name)
   end
 
