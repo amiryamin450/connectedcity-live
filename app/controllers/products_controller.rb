@@ -13,7 +13,7 @@ class ProductsController < ApplicationController
     add_crumb @product.location.broker.name, "#{@base_path}business/#{@product.location.broker.slug}" if @product.location.broker.present?
     add_crumb @product.location.name, "#{@base_path}business/#{@product.location.slug}"
     add_crumb @product.name
-
+    @cart = user_signed_in? ? current_user.cart : nil
     respond_to do |format|
       format.html { render layout: "application_v_2"}
       format.json { render json:  @product.product_images.map{|file| file.to_jq_upload }.to_json(include: :product_images)  }
