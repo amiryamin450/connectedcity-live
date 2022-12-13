@@ -24,10 +24,11 @@
                   </div>
                 </div>
               <% if url.present? %> </a> <% else %> </div> <% end %>
+              <% val = watermark_title.gsub(/\s+/, " ").gsub(/[^A-Za-z0-9 :\-]/, "").truncate(55, omission: '') %>
               <% if watermark_url.present? %>
-                <a class="watermark-link" href=<%= watermark_url %>><%= watermark_title %></a>
+                <a class="watermark-link" href=<%= watermark_url %>><%= val %></a>
               <% else %>
-                <div class="watermark-link"><%= watermark_title %></div>
+                <div class="watermark-link"><%= val %></div>
               <% end %>
             </div>
           <% end %>
