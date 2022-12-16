@@ -44,8 +44,8 @@
               <h6>Quantity</h6>
               <div class="quanitity-counter">
                 <input type='button' value='-' class='qtyminus' field='quantity' />
-                <input type="number" name="quantity" id="quantity" step="1" min="1" max=""  value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
-                <input type='button' value='+' class='qtyplus' field='quantity' />
+                <input type="number" name="quantity" id="quantity" step="1" min="1" max=<%= @product.disabled ? 1 : @product.quantity %>  value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="" <%= @product.disabled ? 'disabled' : nil %>>
+                <input type='button' value='+' class='qtyplus' field='quantity' <%= @product.disabled ? 'disabled' : nil %>/>
               </div>
             </div>
             <div class="divider"></div>
@@ -55,7 +55,7 @@
                 <input type="hidden" name="quantity" id="line_item_quantity" value="1"/>
                 <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
                 <% if user_signed_in? %>
-                  <button type="submit" class="btn btn-primary"><img src="/cc_2.0/icon/shopping-cart.svg">Add to Cart</button>
+                  <button type="submit" class="btn btn-primary add-to-cart" <%= @product.disabled ? 'disabled' : nil %>><img src="/cc_2.0/icon/shopping-cart.svg">Add to Cart</button>
                 <% else %>
                   <a href="<%= new_user_session_path %>" class="btn btn-primary"><img src="/cc_2.0/icon/shopping-cart.svg">Add to Cart</a>
                 <% end %>
@@ -82,11 +82,14 @@
   newHref = "<%= line_items_path(product_id: @product)%>";
 
   $(".qtyplus").on("click", function() {
+    var maxqty = <%= @product.disabled ? 1 : @product.quantity %>
     var $button = $(this);
     var oldValue = $("#quantity").val();
     var newVal = parseFloat(oldValue) + 1;
-    $("#quantity").val(newVal);
-    document.getElementById("line_item_quantity").value = document.getElementById("quantity").value;
+    if (newVal <= maxqty) {
+      $("#quantity").val(newVal);
+      document.getElementById("line_item_quantity").value = document.getElementById("quantity").value;
+    }
   });
 
   $(".qtyminus").on("click", function() {
@@ -100,4 +103,12 @@
     $("#quantity").val(newVal);
     document.getElementById("btn_add_to_cart").href = newHref + "&quantity="+document.getElementById("quantity").value;
   });
+
+  $('.add-to-cart').click(function(e) {
+    var disabled = <%= @product.disabled %>
+    if (disabled) {
+      e.preventDefault()
+      return false;
+    }
+  })
 </script>
