@@ -134,4 +134,39 @@
       $("#quantity").val(1)
     })
   })
+
+  $('.qty').on({
+    change: function(e) {
+      clicked = true
+      firstStep = true
+      var maxQuantityProduct = <%= @product.disabled ? 1 : @product.quantity %>
+      var current = +$(this).val();
+      if (current <= maxQuantityProduct) {
+        current = current === 0 ? 1 : current
+        $(this).val(current)
+        $('#line_item_quantity').val(current)
+      } else {
+        $(this).val(maxQuantityProduct)
+        $('#line_item_quantity').val(maxQuantityProduct)
+      }
+    },
+    keydown: function(e) {
+      var ch = String.fromCharCode(e.which)
+      if (/E/.test(ch) || e.keyCode == 189 || e.keyCode == 187) {
+        e.preventDefault();
+        return false;
+      }
+      if (/[0-9]/.test(ch) || e.key === 'Backspace' || e.keyCode == 8) {
+        if (/^0/.test(ch) && $(this).val().length === 0) {
+          e.preventDefault();
+          return false
+        }
+
+        if (e.key === 'Enter' || e.keyCode === 13) {
+          e.preventDefault();
+          return false;
+        }
+      }
+    }
+  })
 </script>
