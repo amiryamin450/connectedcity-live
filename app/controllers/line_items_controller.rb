@@ -58,7 +58,11 @@ class LineItemsController < ApplicationController
   # PUT /line_items/1
   # PUT /line_items/1.json
   def update
-    @line_item.quantity = params[:quantity]
+    qty_product = @line_item.product.quantity
+    qty_line_item = @line_item.quantity
+    qty_param = params[:quantity]
+    @line_item.quantity = qty_param > qty_product ? qty_product : qty_param
+
     respond_to do |format|
       if @line_item.save
         format.html { redirect_to @line_item, notice: 'Line item was successfully updated.' }
