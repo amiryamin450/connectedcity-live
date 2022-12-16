@@ -29,4 +29,8 @@ class Product < ActiveRecord::Base
   after_save do |product|
     Sunspot.index! product.location if product.location
   end
+
+  def disabled
+    quantity.nil? || quantity == 0
+  end
 end
