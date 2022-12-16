@@ -125,7 +125,8 @@
       $('.notice-success').html('<div class="alert alert-success">Product added to cart successfully</div>').fadeOut(3000)
       setTimeout(function() { $('.notice-success').html('').fadeIn(0) }, 3000);
       currentQuantity = currentQuantity + newQuantity
-      $("#quantity").val(1)
+      $("#quantity").val(1);
+      $("#line_item_quantity").val(1);
     })
   })
 
