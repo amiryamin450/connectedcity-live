@@ -84,4 +84,8 @@ class Cart < ActiveRecord::Base
   def total_quantity
     line_items.to_a.sum { |item| item.quantity }
   end
+
+  def full
+    total_quantity >= 50
+  end
 end

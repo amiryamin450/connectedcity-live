@@ -54,7 +54,7 @@
                 <input type="hidden" name="quantity" id="line_item_quantity" value="1"/>
                 <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
                 <% if user_signed_in? %>
-                  <button type="submit" class="btn btn-primary add-to-cart" <%= @product.disabled ? 'disabled' : nil %>><img src="/cc_2.0/icon/shopping-cart.svg">Add to Cart</button>
+                  <button type="submit" class="btn btn-primary add-to-cart" <%= @product.disabled || @cart.full ? 'disabled' : nil %>><img src="/cc_2.0/icon/shopping-cart.svg">Add to Cart</button>
                 <% else %>
                   <a href="<%= new_user_session_path %>" class="btn btn-primary"><img src="/cc_2.0/icon/shopping-cart.svg">Add to Cart</a>
                 <% end %>
@@ -89,11 +89,11 @@
     var $button = $(this);
     var oldValue = $("#quantity").val();
     var newVal = parseInt(oldValue) + 1;
-    if (newVal <= maxqty && (newVal + currentQuantity) <= maxQuantity) {
+    if ((newVal <= maxqty) && ((newVal + currentQuantity) <= maxQuantity)) {
       newQuantity = newVal
       $("#quantity").val(newQuantity);
     }
-    document.getElementById("line_item_quantity").value = newQuantity;
+    $('#line_item_quantity').val(newQuantity);
   });
 
   $(".qtyminus").on("click", function() {
@@ -105,14 +105,14 @@
       newQuantity = 1;
     }
     $("#quantity").val(newQuantity);
-    document.getElementById("line_item_quantity").value = newQuantity;
+    $('#line_item_quantity').val(newQuantity);
   });
 
 
   $('.form-add-to-card').submit(function(e) {
     e.preventDefault()
-    var disabled = <%= @product.disabled %>
-    if (disabled) {
+    var disabled = <%= @product.disabled || @cart.full %>
+    if (disabled || currentQuantity >= 50) {
       return false;
     }
 
@@ -127,12 +127,15 @@
         'X-CSRF-Token': $('input[name=authenticity_token]').val(),
       },
     }).done(function (response) {
-      $('.header-shopping-cart .cart-counter').load(" span");
+      const { line_item } = response;
+      $('.header-shopping-cart .cart-counter').load(" span.total-number");
       $('.notice-success').html('<div class="alert alert-success">Product added to cart successfully</div>').fadeOut(3000)
       setTimeout(function() { $('.notice-success').html('').fadeIn(0) }, 3000);
       currentQuantity = currentQuantity + newQuantity
+      newQuantity = 1;
       $("#quantity").val(1);
       $("#line_item_quantity").val(1);
+      if (currentQuantity >= 50) $('.add-to-cart').attr('disabled', true);
     })
   })
 
@@ -146,9 +149,11 @@
         current = current === 0 ? 1 : current
         $(this).val(current)
         $('#line_item_quantity').val(current)
+        newQuantity = current;
       } else {
         $(this).val(maxQuantityProduct)
         $('#line_item_quantity').val(maxQuantityProduct)
+        newQuantity = maxQuantityProduct
       }
     },
     keydown: function(e) {

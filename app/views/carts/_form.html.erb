@@ -45,7 +45,7 @@
                   </thead>
                   <tbody>
 
-                    <%= form_tag 'zzz' do |f| %>
+                    <%= form_tag '', id: `form_#{index}`, action: nil, remote: true do |f| %>
                       <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
                       <% @line_items[index].each_with_index do |data, i| %>
                         <%= fields_for "line_item_#{i}", data, id: 'form-line-item' do |line_item| %>
@@ -267,6 +267,12 @@
               return false;
             }
           }
+        },
+        keypress: function(e) {
+          if (e.key === 'Enter' || e.keyCode === 13) {
+            e.preventDefault();
+            return false;
+          }
         }
       })
 
@@ -304,7 +310,7 @@
             $('.title-price.sub-total').text(parseFloat(total_net).toLocaleString('en-US', { style: 'currency', currency: 'USD' }));
             $('.title-price.tax-pst').text(parseFloat(tax_pst).toLocaleString('en-US', { style: 'currency', currency: 'USD' }));
             $('.title-price.tax-gst').text(parseFloat(tax_gst).toLocaleString('en-US', { style: 'currency', currency: 'USD' }));
-            $('.header-shopping-cart .cart-counter').load(" span");
+            $('.header-shopping-cart .cart-counter').load(" span.total-number");
             currentQuantity = total_quantity
           })
           clicked = false

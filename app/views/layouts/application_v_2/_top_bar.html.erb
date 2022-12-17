@@ -49,7 +49,7 @@
             <div class="header-shopping-cart">
               <% if user_signed_in? and @cart.line_items.count > 0 %>
                 <div class="cart-counter">
-                  <span><%= @cart.line_items.to_a.sum { |item| item.quantity } %></span>
+                  <span class="total-number"><%= @cart.line_items.to_a.sum { |item| item.quantity } %></span>
                 </div>
               <% end %>
               <div class="cart-icon">
