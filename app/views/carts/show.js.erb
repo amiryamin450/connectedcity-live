@@ -1,0 +1,3 @@
+<% if @line_items.present? %>
+  $('.cart-container').html('<%= escape_javascript render(partial: 'carts/form', locals: { line_items: @line_items, back_url: @back_url }) %>');
+<% end %>

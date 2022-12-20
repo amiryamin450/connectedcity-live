@@ -14,7 +14,55 @@ class CartsController < ApplicationController
   # GET /carts/1
   # GET /carts/1.json
   def show
-    redirect_to :edit_cart
+    location_id = nil
+    if params[:slug].present?
+      location = Location.find_by_slug(params[:slug])
+      location_id = location&.id
+    end
+    if location_id.present? || (params[:slug].present? && params[:slug] == 'back')
+      if location_id.present?
+        @back_url = "/carts/#{@cart.id}?slug=back"
+        results = @cart.line_items.where(location_id: location_id).group_by { |item| item.location_id.itself }.values
+      else
+        @back_url = session[:return_to]
+        results = @cart.line_items.group_by { |item| item.location_id.itself }.values
+      end
+      @line_items = results.map do |line_item|
+        line_item.map do |item|
+          {
+            line_item: item,
+            product: item.product,
+            total_price: item.total_price,
+            location: item.location,
+            location_name: item.location_name,
+            location_slug: item.location_slug,
+            name_slug: item.name_slug,
+          }
+        end
+      end
+      render 'show.js.erb'
+    else
+      @back_url = URI(request.referer || '').path
+      session[:return_to] = URI(request.referer || '').path
+      results = @cart.line_items.group_by { |item| item.location_id.itself }.values
+      @line_items = results.map do |line_item|
+        line_item.map do |item|
+          {
+            line_item: item,
+            product: item.product,
+            total_price: item.total_price,
+            location: item.location,
+            location_name: item.location_name,
+            location_slug: item.location_slug,
+            name_slug: item.name_slug,
+          }
+        end
+      end
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @line_items }
+      end
+    end
   end
 
   # GET /carts/new

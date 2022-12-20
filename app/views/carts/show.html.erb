@@ -1,0 +1,55 @@
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="<%=root_path%>">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Cart</li>
+  </ol>
+</nav>
+<!-- Breadcrumb End -->
+<div class="cart-shopping-body-section">
+  <div class="container-fluid">
+    <div class="row cart-container-row">
+      <div class="col-md-12 cart-container">
+        <%if @line_items.present? %>
+          <%= render 'form', line_items: @line_items, back_url: @back_url %>
+        <% else %>
+          <div class="table-responsive cart-table-body">
+            <table class="table">
+              <tr>
+                <td class="align-middle">
+                  <div class="cart-table-img-row" style="width: 100%;">
+                    <div class="d-inline-block align-middle" style="margin: 30px auto;">
+                      <h5 class="mb-0">
+                        Your cart is empty
+                      </h5>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="cart-table-btn-row">
+            <div class="row">
+              <div class="col-md-3">
+                <a href="<%= @back_url %>" class="btn btn-outline-primary btn-shopping shopping-empty">Go Back to Shopping</a>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+
+    $('.shopping-empty').on('click',function(e) {
+      if ($(this).attr('disabled') === 'disabled') {
+        e.preventDefault();
+      }
+      $(this).attr('disabled', true);
+    });
+  })
+
+</script>
