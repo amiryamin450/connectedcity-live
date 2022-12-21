@@ -294,6 +294,12 @@
       })
 
       $('form#clear-cart').submit(function(){
+        if ($(this).attr('disabled') === 'disabled') {
+          e.preventDefault();
+          return true;
+        }
+        var response = confirm($(this).data('confirm') || 'Are you sure?');
+        if (!response) { return false; }
         $(this).find(':button[type=submit]').prop('disabled', true);
       });
 
