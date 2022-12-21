@@ -28,7 +28,6 @@
                   <th scope="col" style="padding: 0px;">
                     <div class="pb-3">Subtotal</div>
                   </th>
-
                   <th scope="col" style="padding: 0px;">
                     <div class="pb-3">Removed?</div>
                   </th>
@@ -68,7 +67,7 @@
                         <td class="align-middle" style="padding: 0px;"><%= number_to_currency(product.discount, unit: '$') %></td>
                         <td class="align-middle total-price" style="padding: 0px;"  data-id=<%= line_item.object.id %>><%= number_to_currency(line_item.object.total_price, unit: '$') %></td>
                         <td class="align-middle" style="padding: 0px;">
-                          <a href="<%= line_item_path(line_item.object.id, :authenticity_token => form_authenticity_token) %>" data-method="delete" class="text-dark" style="padding: 15px;"><i class="far fa-trash-alt" style="font-size: 25px"></i></a>
+                          <a href="<%= line_item_path(line_item.object.id, :authenticity_token => form_authenticity_token) %>" data-method="delete" class="text-dark delete-btn" style="padding: 15px;"><i class="far fa-trash-alt" style="font-size: 25px"></i></a>
                         </td>
                       </tr>
                     <% end %>
@@ -235,10 +234,10 @@
           var totalQuantity = currentQuantity - prev + current
           if (totalQuantity >= 50 ){
             newQuantity = 50 - (currentQuantity - prev)
-            $(this).val(newQuantity)
           } else  {
             newQuantity = current
           }
+          $(this).val(newQuantity)
         } else {
           newQuantity = maxQuantityProduct
           $(this).val(newQuantity)
@@ -283,7 +282,23 @@
       $(this).attr('disabled', true);
     });
 
+    $('.delete-btn').click(function(e) {
+      if ($(this).attr('disabled') === 'disabled') {
+        e.preventDefault();
+        return false
+      }
+      var response = confirm($(this).data('confirm') || 'Are you sure?');
+      if (!response) { return false; }
+      $('.delete-btn').attr('disabled', 'disabled');
+    })
+
     $('form#clear-cart').submit(function(){
+      if ($(this).attr('disabled') === 'disabled') {
+        e.preventDefault();
+        return true;
+      }
+      var response = confirm($(this).data('confirm') || 'Are you sure?');
+      if (!response) { return false; }
       $(this).find(':button[type=submit]').prop('disabled', true);
     });
 
