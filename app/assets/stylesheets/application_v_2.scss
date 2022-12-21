@@ -577,8 +577,14 @@
   }
 }
 
-@media (min-width: 1441px) and (max-width: 1920) {
+@media (min-width: 1441px) and (max-width: 1919) {
   .footer.empty-content {
     margin-top: 258px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .footer.empty-content {
+    margin-top: 285px;
   }
 }

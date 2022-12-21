@@ -44,24 +44,23 @@
               <h6>Quantity</h6>
               <div class="quanitity-counter">
                 <input type='button' value='-' class='qtyminus' field='quantity' />
-                <input type="number" name="quantity" id="quantity" step="1" min="1" max=""  value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
-                <input type='button' value='+' class='qtyplus' field='quantity' />
+                <input type="number" name="quantity" id="quantity" step="1" min="1" max=<%= @product.disabled ? 1 : @product.quantity %>  value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="" <%= @product.disabled ? 'disabled' : nil %>>
+                <input type='button' value='+' class='qtyplus' field='quantity' <%= @product.disabled ? 'disabled' : nil %>/>
               </div>
             </div>
             <div class="divider"></div>
             <div class="product-cart-btn">
-              <%# <button type="button" class="btn btn-primary"><img src="./icon/shopping-cart.svg">Add to Cart</button> %>
-              <form action="<%=line_items_path(product_id: @product)%>" method="post">
+              <%= form_tag line_items_path(product_id: @product), class: 'form-add-to-card', method: :post do %>
                 <input type="hidden" name="quantity" id="line_item_quantity" value="1"/>
                 <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
                 <% if user_signed_in? %>
-                  <button type="submit" class="btn btn-primary"><img src="/cc_2.0/icon/shopping-cart.svg">Add to Cart</button>
+                  <button type="submit" class="btn btn-primary add-to-cart" <%= @product.disabled || @cart.full ? 'disabled' : nil %>><img src="/cc_2.0/icon/shopping-cart.svg">Add to Cart</button>
                 <% else %>
                   <a href="<%= new_user_session_path %>" class="btn btn-primary"><img src="/cc_2.0/icon/shopping-cart.svg">Add to Cart</a>
                 <% end %>
-              </form>
-              <%#= link_to 'Add to Cart', line_items_path(product_id: @product, quantity: 1), id: "btn_add_to_cart", class: "btn btn-primary", method: :post %>
+              <% end %>
             </div>
+            <div class="notice-success mt-2" style="width: 55%"></div>
             <% if (user_signed_in? && current_user.has_role?(:admin)) or (user_signed_in? && current_user.can_manage_location?(@location)) %>
               <div class="divider"></div>
               <div style="margin-top: 1.5em">
@@ -78,26 +77,102 @@
 </div>
 
 <br>
-<script>
-  newHref = "<%= line_items_path(product_id: @product)%>";
+<script type="text/javascript">
+  // newHref = "<%= line_items_path(product_id: @product)%>";
+  var newQuantity = 1;
+  var maxQuantity = 50;
+  var currentQuantity = <%= @cart.present? ? @cart.total_quantity : 1 %>
+  var productId = <%= @product.id %>
 
   $(".qtyplus").on("click", function() {
+    var maxqty = <%= @product.disabled ? 1 : @product.quantity %>
     var $button = $(this);
     var oldValue = $("#quantity").val();
-    var newVal = parseFloat(oldValue) + 1;
-    $("#quantity").val(newVal);
-    document.getElementById("line_item_quantity").value = document.getElementById("quantity").value;
+    var newVal = parseInt(oldValue) + 1;
+    if ((newVal <= maxqty) && ((newVal + currentQuantity) <= maxQuantity)) {
+      newQuantity = newVal
+      $("#quantity").val(newQuantity);
+    }
+    $('#line_item_quantity').val(newQuantity);
   });
 
   $(".qtyminus").on("click", function() {
     var $button = $(this);
     var oldValue = $("#quantity").val();
     if (oldValue > 1) {
-      var newVal = parseFloat(oldValue) - 1;
+      newQuantity = parseFloat(oldValue) - 1;
     } else {
-      newVal = 1;
+      newQuantity = 1;
     }
-    $("#quantity").val(newVal);
-    document.getElementById("btn_add_to_cart").href = newHref + "&quantity="+document.getElementById("quantity").value;
+    $("#quantity").val(newQuantity);
+    $('#line_item_quantity').val(newQuantity);
   });
+
+
+  $('.form-add-to-card').submit(function(e) {
+    e.preventDefault()
+    var disabled = <%= @product.disabled || @cart.full %>
+    if (disabled || currentQuantity >= 50) {
+      return false;
+    }
+
+    $.ajax({
+      url: `/line_items`,
+      data: JSON.stringify({ product_id: productId, quantity: newQuantity }),
+      method: "POST",
+      dataType: "json",
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': $('input[name=authenticity_token]').val(),
+      },
+    }).done(function (response) {
+      const { line_item } = response;
+      $('.header-shopping-cart .cart-counter').load(" span.total-number");
+      $('.notice-success').html('<div class="alert alert-success">Product added to cart successfully</div>').fadeOut(3000)
+      setTimeout(function() { $('.notice-success').html('').fadeIn(0) }, 3000);
+      currentQuantity = currentQuantity + newQuantity
+      newQuantity = 1;
+      $("#quantity").val(1);
+      $("#line_item_quantity").val(1);
+      if (currentQuantity >= 50) $('.add-to-cart').attr('disabled', true);
+    })
+  })
+
+  $('.qty').on({
+    change: function(e) {
+      clicked = true
+      firstStep = true
+      var maxQuantityProduct = <%= @product.disabled ? 1 : @product.quantity %>
+      var current = +$(this).val();
+      if (current <= maxQuantityProduct) {
+        current = current === 0 ? 1 : current
+        $(this).val(current)
+        $('#line_item_quantity').val(current)
+        newQuantity = current;
+      } else {
+        $(this).val(maxQuantityProduct)
+        $('#line_item_quantity').val(maxQuantityProduct)
+        newQuantity = maxQuantityProduct
+      }
+    },
+    keydown: function(e) {
+      var ch = String.fromCharCode(e.which)
+      if (/E/.test(ch) || e.keyCode == 189 || e.keyCode == 187) {
+        e.preventDefault();
+        return false;
+      }
+      if (/[0-9]/.test(ch) || e.key === 'Backspace' || e.keyCode == 8) {
+        if (/^0/.test(ch) && $(this).val().length === 0) {
+          e.preventDefault();
+          return false
+        }
+
+        if (e.key === 'Enter' || e.keyCode === 13) {
+          e.preventDefault();
+          return false;
+        }
+      }
+    }
+  })
 </script>

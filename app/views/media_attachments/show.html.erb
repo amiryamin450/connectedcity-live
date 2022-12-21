@@ -59,18 +59,18 @@
 <script>
   $(document).ready(function() {
     // when the modal is opened autoplay it
-    var streamVideo = "<%= @media_attachment.is_stream_video %>";
+    var streamVideo = <%= @media_attachment.is_stream_video %>
+    var isLiveStream = <%= @media_attachment.videos&.first&.livestream %>
     // stop playing the youtube video when I close the modal
     $('#<%="video-#{@media_attachment.id}-model"%>').on('hide.bs.modal', function (e) {
-      if (streamVideo == "true") {
+      if (streamVideo) {
         $("#<%="video-#{@media_attachment.id}-vonage"%>").attr('src', "");
       } else {
         $('#<%="video-#{@media_attachment.media_source_id}-#{@media_attachment.id}-player"%>').attr("src", "");
       }
     });
-
     var sessionId = "<%= @media_attachment.videos&.first&.session_id %>";
-    if (sessionId) {
+    if (sessionId && isLiveStream) {
       var locationSlug = "<%= @media_attachment.location.slug %>";
       var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
       var broadcastId;

@@ -7,10 +7,15 @@ class Cart < ActiveRecord::Base
 
   def add_product(product, quantity)
     current_item = line_items.find_by_product_id(product.id)
+    qty_product = product.quantity
+
     if current_item
-      current_item.quantity += quantity.to_i
+      qty_current = current_item.quantity
+      qty_update = qty_current + quantity.to_i > qty_product ? qty_product : qty_current += quantity.to_i
+      current_item.quantity = qty_update
     else
-      current_item = line_items.build(product_id: product.id, quantity: quantity.to_i)
+      qty_update = quantity.to_i > qty_product ? qty_product : quantity.to_i
+      current_item = line_items.build(product_id: product.id, quantity: qty_update)
     end
     current_item
   end
@@ -78,5 +83,9 @@ class Cart < ActiveRecord::Base
 
   def total_quantity
     line_items.to_a.sum { |item| item.quantity }
+  end
+
+  def full
+    total_quantity >= 50
   end
 end

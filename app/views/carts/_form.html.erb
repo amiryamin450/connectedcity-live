@@ -45,7 +45,7 @@
                   </thead>
                   <tbody>
 
-                    <%= form_tag 'zzz' do |f| %>
+                    <%= form_tag '', id: `form_#{index}`, action: nil, remote: true do |f| %>
                       <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
                       <% @line_items[index].each_with_index do |data, i| %>
                         <%= fields_for "line_item_#{i}", data, id: 'form-line-item' do |line_item| %>
@@ -67,10 +67,11 @@
                               </div>
                             </td>
                             <td class="align-middle" style="padding: 0px;">
+                              <% max = line_item.object.product.disabled ? 1 : line_item.object.product.quantity %>
                               <div class="quanitity-counter d-flex" style="justify-content: center;" >
                                 <input type='button' value='-' class='qtyminus' data-id=<%= line_item.object.id %> />
-                                <%= line_item.number_field :quantity, step: "1", min: "1", max: "", title: "Qty", class: "qty", size: "4", pattern: "", inputmode: "" , data: {id: line_item.object.id} %>
-                                <input type='button' value='+' class='qtyplus' data-id=<%= line_item.object.id %> />
+                                <%= line_item.number_field :quantity, pattern: "^[1-9]*$", step: 1, min: 1, title: "Qty", class: "qty", size: "4", pattern: "", inputmode: "" , data: {id: line_item.object.id}, max: max %>
+                                <input type='button' value='+' class='qtyplus' data-id=<%= line_item.object.id %> max=<%= max %> />
                               </div>
                             </td>
                             <td class="align-middle" style="padding: 0px;"><%= number_to_currency(product.price, unit: '$') %></td>
@@ -126,7 +127,20 @@
               <div class="title-price font-weight-bold total"><%= number_to_currency(@cart.total_price_gross, unit: '$') %></div>
             </div>
           </div>
-          <button class="checkout-button">Checkout</button>
+          <div class="btn-checkout-row">
+            <form action="https://connected-checkout-staging.herokuapp.com/create-checkout-session" method="POST">
+              <input type="hidden" name="success_url" value="<%=edit_cart_path(@cart)%>"/>
+              <input type="hidden" name="cancel_url" value="<%=edit_cart_path(@cart)%>"/>
+              <% @line_items.each_with_index do |line_item, index| %>
+                <% @line_items[index].each do |item| %>
+                  <input type="hidden" name=<%="line_items[][name]"%> value="<%=item.product.name%>"/>
+                  <input type="hidden" name=<%="line_items[][amount]"%> value="<%=item.product.price%>"/>
+                  <input type="hidden" name=<%="line_items[][quantity]"%> value="<%=item.quantity%>"/>
+                <% end %>
+              <% end %>
+              <button type="submit" id="submit" class=" btn btn-primary checkout-button">Checkout</button>
+            </form>
+          </div>
         </div>
         <div class="coupon-view">
           <div class="title font-weight-bold">Enter a coupon code</div>
@@ -180,9 +194,10 @@
       $('.qtyplus').on({
         click: function() {
           clicked = true
+          var maxQuantityProduct = +$(this).attr('max');
           var oldValue = $(this).prev().val();
           var newVal = parseInt(oldValue) + 1;
-          if (currentQuantity < maxQuantity) {
+          if (newVal <= maxQuantityProduct && currentQuantity < maxQuantity) {
             currentQuantity += 1
             newQuantity = newVal
             $(this).prev().val(newVal);
@@ -210,22 +225,50 @@
         change: function(e) {
           clicked = true
           firstStep = true
+          var maxQuantityProduct = +$(this).attr('max');
           var current = +$(this).val();
-          var totalQuantity = currentQuantity - prev + current
-          if (totalQuantity >= 50 ){
-            newQuantity = 50 - (currentQuantity - prev)
+          if (current === 0) {
+            current = 1
+            $(this).val(current)
+          }
+          if (current <= maxQuantityProduct) {
+            var totalQuantity = currentQuantity - prev + current
+            if (totalQuantity >= 50 ){
+              newQuantity = 50 - (currentQuantity - prev)
+              $(this).val(newQuantity)
+            } else  {
+              newQuantity = current
+            }
+          } else {
+            newQuantity = maxQuantityProduct
             $(this).val(newQuantity)
-          } else  {
-            newQuantity = current
           }
           updateQuantityLineItem(this, true);
         },
         keydown: function(e) {
-          var val = +$(this).val();
-          if (val > 0 && firstStep) {
-            prev = val
-            firstStep = false
+          var ch = String.fromCharCode(e.which)
+          if (/E/.test(ch) || e.keyCode == 189 || e.keyCode == 187) {
+            e.preventDefault();
+            return false;
           }
+          if (/[0-9]/.test(ch) || e.key === 'Backspace' || e.keyCode == 8) {
+            if (/^0/.test(ch) && $(this).val().length === 0) {
+              e.preventDefault();
+              return false
+            }
+
+            var val = +$(this).val();
+            if (val > 0 && firstStep) {
+              prev = val
+              firstStep = false
+            }
+            if (e.key === 'Enter' || e.keyCode === 13) {
+              e.preventDefault();
+              return false;
+            }
+          }
+        },
+        keypress: function(e) {
           if (e.key === 'Enter' || e.keyCode === 13) {
             e.preventDefault();
             return false;
@@ -267,7 +310,7 @@
             $('.title-price.sub-total').text(parseFloat(total_net).toLocaleString('en-US', { style: 'currency', currency: 'USD' }));
             $('.title-price.tax-pst').text(parseFloat(tax_pst).toLocaleString('en-US', { style: 'currency', currency: 'USD' }));
             $('.title-price.tax-gst').text(parseFloat(tax_gst).toLocaleString('en-US', { style: 'currency', currency: 'USD' }));
-            $('.header-shopping-cart .cart-counter').load(" span");
+            $('.header-shopping-cart .cart-counter').load(" span.total-number");
             currentQuantity = total_quantity
           })
           clicked = false
