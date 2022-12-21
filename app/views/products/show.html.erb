@@ -128,7 +128,8 @@
       },
     }).done(function (response) {
       const { line_item } = response;
-      $('.header-shopping-cart .cart-counter').load(" span.total-number");
+      // $('.header-shopping-cart .cart-counter').load(" span.total-number");
+      $('.header-cart-view').load(' .header-shopping-cart');
       $('.notice-success').html('<div class="alert alert-success">Product added to cart successfully</div>').fadeOut(3000)
       setTimeout(function() { $('.notice-success').html('').fadeIn(0) }, 3000);
       currentQuantity = currentQuantity + newQuantity
