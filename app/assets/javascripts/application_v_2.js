@@ -16,3 +16,4 @@
 //= require vertical_market_category
 //= require map
 //= require jquery.subtle-slideshow
+//= require bootstrap

@@ -1,0 +1,70 @@
+#modal-video-call, #modal-user-video-call{
+  
+  .cover-videos{
+    #videos {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #subscriber, #user-subscriber {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+    }
+    #publisher, #user-publisher {
+        position: absolute;
+        width: 300px;
+        height: 200px;
+        bottom: 10px;
+        left: 10px;
+        z-index: 100;
+        border: 3px solid white;
+        border-radius: 3px;
+    }
+    #timer-count,#user-timer-count{
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 70px;
+      z-index: 200;
+      text-align: center;
+      background: white;
+    }
+  }
+  .modal-footer{
+    i{
+      margin: 0 10px;
+      font-size: 25px;
+      cursor: pointer;
+    }
+  }
+}
+
+
+#modal-video-call-request{
+  .cover-modal{
+    height: 300px;
+    h4{
+      height: 25%;
+    }
+    #show-call{
+     height: 50%;
+     i{
+      font-size:80px;
+     }
+    }
+    #option_call{
+      height: 25%; 
+      padding: 0 35%;
+      i{
+        font-size:30px;
+        cursor: pointer;
+      }
+    }
+  }
+}

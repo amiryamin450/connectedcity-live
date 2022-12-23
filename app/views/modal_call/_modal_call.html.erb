@@ -1,0 +1,33 @@
+<div class="modal fade" id="modal-video-call" data-backdrop="static" data-keyboard="false" >
+  <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width: 80%;">
+    <div class="modal-content">
+      <%# <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-video">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div> %>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="cover-videos" style="height: 650px">
+              <div id="videos">
+                <div id="subscriber"></div>
+                <div id="publisher"></div>
+                <div id="timer-count"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="d-flex align-items-center justify-content-center" style="width: 100%">
+          <i id ="turn-off-audio" class="fas fa-microphone "></i>
+          <i id ="turn-on-audio" class="fas fa-microphone-slash d-none"></i>
+          <i id ="turn-off-camera" class="fas fa-video "></i>
+          <i id ="turn-on-camera" class="fas fa-video-slash d-none"></i>
+          <i class="close far fa-times" type="button" data-dismiss="modal" aria-label="Close" id="close-video"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
