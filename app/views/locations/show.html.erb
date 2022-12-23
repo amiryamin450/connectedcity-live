@@ -145,9 +145,14 @@
                         <div class="col-4" style="padding-right: 0px; padding-left: 0px;">
                           <button class="btn btn-primary-outline">Claim Business</button>
                         </div>
-                        <div class="col-4" style="padding-right: 0px;">
-                          <button class="btn btn-primary-color">Follow</button>
-                        </div>
+                        <div class="col-2" style="padding-right: 0px; padding-left: 0px; margin-left: 15px; text-align: center;">
+                          <button class="btn btn-primary-color" id="folow_btn">Follow</button>
+                        </div>  
+                        <% if user_signed_in? && !@location.users.pluck(:id).include?(current_user&.id)%>
+                          <div class="col-3" style="padding-right: 0px;" id="call-video">
+                            <button class="btn btn-primary-color" data-toggle="modal">Video Call</button>
+                          </div>
+                        <%end%>
                     </div>
                   </div>
               </div>
@@ -260,6 +265,7 @@
             <% end %>
         </div>
       </div>
+      <%= render 'modal_call/modal_call'%>
       <!--Body End -->
     </div>
   </div>
@@ -267,6 +273,206 @@
 <br>
 <script type="text/javascript">
   Window.helpers.initMap($('#map.location-profile-map')[0]);
+  
+  $(document).ready(function() {
+    if('<%= user_signed_in?%>' == "true" && $("#call-video").length > 0){
+      setInterval(()=>{
+        let location_id = '<%= @location.id%>'
+        $.ajax({
+          url: `/video_calls/get_status_from_location?location_id=${location_id}`,
+          method: "GET",
+          dataType: "json"
+          }).done(function( response) {
+            if(response.available_call == false){
+              $("#call-video").html("<button class='btn btn-secondary' disabled aria-disabled='true'>Video Call</button>")
+            }else{
+              $("#call-video").html("<button class='btn btn-primary-color' data-toggle='modal'>Video Call</button>")
+            }
+          })
+        },5000)
+    }
+    $("#call-video").on("click",function(){
+      $("#modal-video-call").modal("show");
+      
+      var apiKey;
+      var sessionId;
+      var token;
+      var session_call
+      var seconds = 0
+      
+      function upTimer() {
+        ++seconds;
+        var hour = Math.floor(seconds / 3600);
+        if(hour < 10) hour = "0"+hour
+        var minute = Math.floor((seconds - hour * 3600) / 60);
+        if(minute < 10) minute = "0"+minute
+        var updSecond = seconds - (hour * 3600 + minute * 60);
+        if(updSecond < 10) updSecond = "0"+updSecond
+        $("#timer-count").html(hour + ":" + minute + ":" + updSecond)
+      }
+      var timer = setInterval(upTimer, 1000);
+
+      function handleError(error) {
+        if (error) {
+          console.error(error);
+        }
+      }
+
+      function initializeSession(apiKey,sessionId ) {
+        session_call = OT.initSession(apiKey, sessionId);
+        // Subscribe to a newly created stream
+        session_call.on('streamCreated', function streamCreated(event) {
+          var subscriberOptions = {
+            insertMode: 'append',
+            width: '100%',
+            height: '100%'
+          };
+          var subscriber = session_call.subscribe(event.stream, 'subscriber', subscriberOptions, handleError);
+        });
+
+        session_call.on('sessionDisconnected', function sessionDisconnected(event) {
+          console.log('You were disconnected from the session.', event.reason);
+        });
+
+        // initialize the publisher
+        var publisherOptions = {
+          insertMode: 'append',
+          width: '100%',
+          height: '100%'
+        };
+        var publisher = OT.initPublisher('publisher', publisherOptions, handleError);
+
+        // Connect to the session
+        session_call.connect(token, function callback(error) {
+          if (error) {
+            handleError(error);
+          } else {
+            // If the connection is successful, publish the publisher to the session
+            session_call.publish(publisher, handleError);
+          }
+        });
+
+        $("#turn-off-camera").on("click",function(){
+          publisher.publishVideo(false);
+          $("#turn-off-camera").addClass("d-none")
+          $("#turn-on-camera").removeClass("d-none")
+        })
+
+        $("#turn-on-camera").on("click",function(){
+          publisher.publishVideo(true);
+          $("#turn-on-camera").addClass("d-none")
+          $("#turn-off-camera").removeClass("d-none")
+        })
+
+        $("#turn-off-audio").on("click",function(){
+          publisher.publishAudio(false);
+          $("#turn-off-audio").addClass("d-none")
+          $("#turn-on-audio").removeClass("d-none")
+        })
+
+        $("#turn-on-audio").on("click",function(){
+          publisher.publishAudio(true);
+          $("#turn-on-audio").addClass("d-none")
+          $("#turn-off-audio").removeClass("d-none")
+        }) 
+
+        $("#close-video").on("click",function(){ 
+          session_call.disconnect()
+          $("#turn-on-camera").addClass("d-none")
+          $("#turn-off-camera").removeClass("d-none")
+          $("#turn-on-audio").addClass("d-none")
+          $("#turn-off-audio").removeClass("d-none")
+          $.ajax({
+            url: `/video_calls/set_status_call`,
+            method: "PUT",
+            data: {
+              session_id: sessionId,
+              status: "available"
+            }
+            }).done(function( response) {
+
+            })
+        })
+      }
+        // console.log(start())
+        apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
+        async function fetchToken() {
+          location_id = '<%= @location.id%>'
+          let vonageData = {};
+          vonageData = await fetch(`/video_calls/get_vonage_token?location_id=${location_id}`, {
+            method: 'get',
+            }).then(function(response) {
+            if (response.ok) {
+              return response.json();
+            }
+            return Promise.reject(response);
+            }).then(function (data) {
+            return {sessionId: data.session_id, token: data.token}
+          })
+          return vonageData;
+        }
+
+        fetchToken().then(vonageData =>{
+          sessionId = vonageData.sessionId,
+          token = vonageData.token
+          initializeSession(apiKey, sessionId)
+          var timeCall = setTimeout(()=>{
+            $.ajax({
+            url: `/video_calls/get_status_from_session?session_id=${sessionId}`,
+            method: "GET",
+            dataType: "json",
+            }).done(function( response) {
+                
+              if($("#subscriber").children().length == 0 && response.status.filter(status => (status == "accept_call")).length == 0){
+                clearInterval(timer)
+                $("#timer-count").html("00:00:00")
+                $("#modal-video-call").modal("hide");
+                $("#modal-message-call-reject").modal("show")
+                session_call.disconnect()
+                clearInterval(timeCall)
+                $.ajax({
+                url: `/video_calls/set_status_call`,
+                method: "PUT",
+                data: {
+                  session_id: sessionId,
+                  status: "available"
+                }
+                }).done(function( response) {
+
+                })
+              }
+            })
+          },60000)
+          var getStatusSession = setInterval(()=>{
+            $.ajax({
+                url: `/video_calls/get_status_from_session?session_id=${sessionId}`,
+                method: "GET",
+                dataType: "json",
+                }).done(function( response) {
+                    if(response.status.filter(status => status != "reject").length == 0){
+                      $("#modal-video-call").modal("hide");
+                      $("#modal-message-call-reject").modal("show")
+                      clearInterval(getStatusSession)
+                      clearTimeout(timeCall)
+                      clearInterval(timer)
+                      $("#timer-count").html("00:00:00")
+                      session_call.disconnect()
+                    }
+                    if(response.status.filter(status => status != "available").length == 0){
+                      clearInterval(getStatusSession)
+                      clearInterval(timer)
+                      $("#timer-count").html("00:00:00")
+                      clearTimeout(timeCall)
+                    }
+
+                })
+                
+          }, 3000)
+        })
+    })
+  })
+
+
 </script>
 <%= render 'status_updates/status_update_new' %>
 

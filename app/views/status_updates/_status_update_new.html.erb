@@ -46,8 +46,10 @@
 </div>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_MAP_KEY'] %>&libraries=places&callback=initMap&sensor=false" async defer></script>
+<script src="/cc_2.0/js/bootstrap.js"></script>
 <style> .pac-container { z-index:999922; } </style>
 <script type="text/javascript">
   $(document).on("keydown",function(e){

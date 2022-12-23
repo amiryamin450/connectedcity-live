@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20221129080650) do
+ActiveRecord::Schema.define(:version => 20221221095030) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -1171,6 +1171,15 @@ ActiveRecord::Schema.define(:version => 20221129080650) do
 
   add_index "vertical_markets", ["ancestry"], :name => "index_vertical_markets_on_ancestry"
   add_index "vertical_markets", ["slug"], :name => "index_vertical_markets_on_slug", :unique => true
+
+  create_table "video_calls", :force => true do |t|
+    t.string  "session_id"
+    t.integer "user_business_id"
+    t.string  "user_call_id"
+    t.string  "status",           :default => "Available"
+    t.text    "token"
+    t.integer "location_id"
+  end
 
   create_table "videos", :force => true do |t|
     t.string   "thumbnail_file_name"

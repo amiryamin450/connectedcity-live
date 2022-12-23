@@ -20,17 +20,17 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
-
+    <link rel="stylesheet" type="text/css" href="/cc_2.0/css/front-awesome.min.css">
     <script src="/cc_2.0/js/jquery-3.4.1.min.js"></script>
     <script src="/cc_2.0/js/rails.js"></script>
     <!--  <script src="/cc_2.0/js/slim.min.js"></script> %> -->
     <script src="/cc_2.0/js/popper.min.js"></script>
-    <script type="text/javascript" src="/cc_2.0/js/bootstrap.js"></script>
     <script type="text/javascript" src="/cc_2.0/js/slick.min.js"></script>
     <%= javascript_include_tag "application_v_2" %>
     <script type="text/javascript" src="/cc_2.0/js/map.js"></script>
     <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="/cc_2.0/js/bootstrap.js"></script>
     <!-- <script type="text/javascript" src="/cc_2.0/js/jquery.subtle-slideshow.js"></script>
     <link rel="stylesheet" type="text/css" href="/cc_2.0/css/subtle-slideshow.css"> -->
     <script>
@@ -150,45 +150,205 @@
     <!-- Nav Bar End -->
     <!-- Main Section -->
     <%= yield%>
+    <%= render 'modal_call/modal_call_request'%>
+    <%= render 'modal_call/modal_user_call'%>
+    <%= render 'modal_call/modal_message_reject'%>
     <!-- End -->
     <%= render '/layouts/application_v_2/global_footer' %>
-
     <!-- Carousel -->
-    <script type="text/javascript">
+    <script>
       $(document).ready(function(){
-        $('.items').slick({
-          infinite: true,
-          lazyLoad: 'ondemand',
-          slidesToShow: 6,
-          slidesToScroll: 2,
-          responsive: [
-            {
-              breakpoint: 1024,
-              settings: {
-                slidesToShow: 5,
-                slidesToScroll: 5,
-              }
-            }, {
-              breakpoint: 600,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3
-              }
-            }, {
-              breakpoint: 480,
-              settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2
-              }
-            }
-          ]
-        });
+        var current_user_id
+        var sessionId, token
+        if('<%= user_signed_in?%>' == "true"){
+            if(parseInt('<%= current_user&.locations&.count%>') >0){
+              current_user_id = '<%= current_user&.id%>'
+              var callInterval = setInterval(() => {
+                $.ajax({
+                url: `/video_calls/call_request?user_id=${current_user_id}`,
+                method: "GET",
+                dataType: "json",
+                }).done(function(response) {  
+                  if(response.list_user_call.length > 0 && response.list_user_call[0].status == "request_calling"){
+                    var user_call = response.list_user_call[0]
+                    if (!$('#modal-user-video-call').hasClass('show')){
+                      $("#modal-video-call-request").modal('show')
+                    }
+                    $("#modal-call-title").html("Incomming Call From " + user_call.user_name);
+                    $("#accept-call").on("click",function(){
+                      $("#modal-video-call-request").modal('hide')
+                      $("#modal-user-video-call").modal('show')
+                      sessionId = user_call.session_id
+                      token = user_call.token
+                      var session_call
+                      var seconds = 0
+                      var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
 
-        function imgError(image) {
-          image.onerror = "";
-          image.src = "/images/noimage.gif";
-          return true;
-        }
+                      function upTimer() {
+                        ++seconds;
+                        var hour = Math.floor(seconds / 3600);
+                        if(hour < 10) hour = "0"+hour
+                        var minute = Math.floor((seconds - hour * 3600) / 60);
+                        if(minute < 10) minute = "0"+minute
+                        var updSecond = seconds - (hour * 3600 + minute * 60);
+                        if(updSecond < 10) updSecond = "0"+updSecond
+                        $("#user-timer-count").html(hour + ":" + minute + ":" + updSecond)
+                      }
+                      var timer = setInterval(upTimer, 1000);
+                      
+                      function handleError(error) {
+                        if (error) {
+                          console.error(error);
+                        }
+                      }
+
+                      function initializeSession(apiKey,sessionId ) {
+                        let session_call = null
+                        session_call = OT.initSession(apiKey, sessionId);
+                        session_call.on('streamCreated', function streamCreated(event) {
+                          var subscriberOptions = {
+                            insertMode: 'append',
+                            width: '100%',
+                            height: '100%',
+                            // subscribeToAudio: false
+                          };
+                          $("#user-subscriber").html("")
+                          var subscriber = session_call.subscribe(event.stream, 'user-subscriber', subscriberOptions, handleError);
+                        });
+
+                        session_call.on('sessionDisconnected', function sessionDisconnected(event) {
+                          console.log('You were disconnected from the session.', event.reason);
+                        });
+
+                        // initialize the publisher
+                        var publisherOptions = {
+                          insertMode: 'append',
+                          width: '100%',
+                          height: '100%'
+                        };
+                        $("#user-publisher").html("")
+                        var publisher =  OT.initPublisher('user-publisher', publisherOptions, handleError);
+                        // Connect to the session
+                        session_call.connect(token, function callback(error) {
+                          if (error) {
+                            handleError(error);
+                          } else {
+                            // If the connection is successful, publish the publisher to the session
+                            session_call.publish(publisher, handleError);
+                          }
+                        });
+                        $("#user-turn-off-camera").on("click",function(){
+                          publisher.publishVideo(false);
+                          $("#user-turn-off-camera").addClass("d-none")
+                          $("#user-turn-on-camera").removeClass("d-none")
+                        })
+
+                        $("#user-turn-on-camera").on("click",function(){
+                          publisher.publishVideo(true);
+                          $("#user-turn-on-camera").addClass("d-none")
+                          $("#user-turn-off-camera").removeClass("d-none")
+                        })
+
+                        $("#user-turn-off-audio").on("click",function(){
+                          publisher.publishAudio(false);
+                          $("#user-turn-off-audio").addClass("d-none")
+                          $("#user-turn-on-audio").removeClass("d-none")
+                        })
+
+                        $("#user-turn-on-audio").on("click",function(){
+                          publisher.publishAudio(true);
+                          $("#user-turn-on-audio").addClass("d-none")
+                          $("#user-turn-off-audio").removeClass("d-none")
+                        }) 
+
+                        $("#user-close-video").on("click",function(){ 
+                          session_call.disconnect()
+                          clearInterval(timer)
+                          $("#user-timer-count").html("00:00:00")
+                          $("#user-turn-on-camera").addClass("d-none")
+                          $("#user-turn-off-camera").removeClass("d-none")
+                          $("#user-turn-on-audio").addClass("d-none")
+                          $("#user-turn-off-audio").removeClass("d-none") 
+                          $.ajax({
+                          url: `/video_calls/set_status_call`,
+                          method: "PUT",
+                          data: {
+                            user_business_id: current_user_id,
+                            user_call_id: user_call.user_call_id,
+                            status: "available"
+                          }
+                          }).done(function( response) {
+
+                          })                                              
+                        })
+                         
+                      }
+                      initializeSession(apiKey, sessionId)
+                      $.ajax({
+                        url: `/video_calls/set_status_call`,
+                        method: "PUT",
+                        data: {
+                          user_business_id: current_user_id,
+                          user_call_id: user_call.user_call_id,
+                          accept: true,
+                          status: "accept_call"
+                        }
+                      })
+                      // clearInterval(callInterval)
+                    })
+                    $("#reject-call").on("click",function(){
+                      $.ajax({
+                        url: `/video_calls/set_status_call`,
+                        method: "PUT",
+                        data: {
+                          user_business_id: current_user_id,
+                          user_call_id: user_call.user_call_id,
+                          status: "reject"
+                        }
+                      })
+                    })
+                  }
+                  if(response.list_user_call.length == 0){
+                    $("#modal-video-call-request").modal('hide')
+                  }
+                });
+              }, 3000);
+            }
+          }
+        
+          $('.items').slick({
+            infinite: true,
+            lazyLoad: 'ondemand',
+            slidesToShow: 6,
+            slidesToScroll: 2,
+            responsive: [
+              {
+                breakpoint: 1024,
+                settings: {
+                  slidesToShow: 5,
+                  slidesToScroll: 5,
+                }
+              }, {
+                breakpoint: 600,
+                settings: {
+                  slidesToShow: 3,
+                  slidesToScroll: 3
+                }
+              }, {
+                breakpoint: 480,
+                settings: {
+                  slidesToShow: 2,
+                  slidesToScroll: 2
+                }
+              }
+            ]
+          });
+
+          function imgError(image) {
+            image.onerror = "";
+            image.src = "/images/noimage.gif";
+            return true;
+          }
       });
     </script>
   </body>

@@ -318,6 +318,11 @@ Connectbook::Application.routes.draw do
   get 'media_attachments/get_broadcast_token' => 'media_attachments#get_broadcast_token'
   get 'media_attachments/get_livestream_token' => 'media_attachments#get_livestream_token'
 
+  get 'video_calls/get_vonage_token' => 'video_calls#get_vonage_token'
+  get 'video_calls/call_request' => 'video_calls#call_request'
+  put 'video_calls/set_status_call' => 'video_calls#set_status_call'
+  get 'video_calls/get_status_from_session' => 'video_calls#get_status_from_session'
+  get 'video_calls/get_status_from_location' => 'video_calls#get_status_from_location'
   resources 'contacts', only: [:new, :create]
 
   # get '/districts/:district_id/news' => action: :guide
