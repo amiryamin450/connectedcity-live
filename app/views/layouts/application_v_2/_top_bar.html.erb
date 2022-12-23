@@ -45,15 +45,16 @@
               </div>
             </div>
           </div>
-          <div class="col-1">
+          <div class="col-1 header-cart-view">
             <div class="header-shopping-cart">
-              <% if @cart.line_items.count > 0 %>
+              <% if user_signed_in? and @cart.line_items.count > 0 %>
                 <div class="cart-counter">
-                  <span><%= @cart.line_items.to_a.sum { |item| item.quantity } %></span>
+                  <span class="total-number"><%= @cart.line_items.to_a.sum { |item| item.quantity } %></span>
                 </div>
               <% end %>
               <div class="cart-icon">
-                <a href="<%= cart_path(@cart)%>"><img src="/cc_2.0/icon/shopping-cart.svg"></a>
+                <% url = user_signed_in? ? cart_path(@cart) : new_user_session_path %>
+                <a href="<%= url %>"><img src="/cc_2.0/icon/shopping-cart.svg"></a>
               </div>
             </div>
           </div>

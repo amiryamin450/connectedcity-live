@@ -1,7 +1,7 @@
 <%= metamagic site: "ConnectedCity" , title: ["Find Businesses in #{@neighborhood.name}, #{@city.name}",
                                               :site], separator: " — " , charset: "utf-8" , viewport: "width=device-width, initial-scale=1.0" %>
 
-<%= render 'carousel_slide', lv: 1 %>
+<%= render 'images_slider' %>
 
 <div class="landing-page-heading-filter">
   <div class="row filter">
@@ -39,7 +39,7 @@
         </div>
         <div class="inner-slider">
           <div class="items">
-            <% @sub_neighborhood.locations.order("RAND()").each do |location| %>
+            <% Location.where(sub_neighborhood_id: @sub_neighborhood.id).order("RAND()").each do |location| %>
               <div>
                 <div class="district-slider-img">
                   <%= link_to(image_tag(get_location_image_url location), location) %>

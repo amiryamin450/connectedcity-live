@@ -4,51 +4,51 @@
   <div class="row">
     <div class="col-md-12 column landing-page-slider">
       <div id="slides">
-        <a class="slide" href="#link01">
-          <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
-          <span class="animate in" style="background-image: url(<%= url_first %>)"></span>
-          <div class="static-content">
-            <div class="slider-advance-searchbox">
-              <div class="heading">
-                <h1>Connect to your city</h1>
-                <h5 style="margin-bottom: 0px;">Find breaking news, things-to-do</h5>
-                <h5>and shop for everything local.</h5>
-              </div>
+        <% if @documents.present? %>
+          <% values = @documents.length === 1 ? @documents.flat_map {|i| [i, i]} : @documents %>
+          <% values.each do |data| %>
+            <% url_img = data['image'] ? data['image'].main.url : "" %>
+            <% title = data['title'] ? data['title'].as_text : "" %>
+            <% sub_title = data['sub_title'] ? data['sub_title'].as_text : "" %>
+            <% url = data['url'] ? data['url'].as_text : "" %>
+            <% watermark_url = data['watermark_url'] ? data['watermark_url'].as_text : "" %>
+            <% watermark_title = data['watermark_title'] ? data['watermark_title'].as_text : "" %>
+            <div class="slide">
+              <% if url.present? %> <a href=<%= url %>> <% else %> <div> <% end %>
+                <span class="animate in" style="background-image: url(<%= url_img %>)"></span>
+                <div class="static-content">
+                  <div class="slider-advance-searchbox">
+                    <div class="heading">
+                      <h1 class="title-slide"><%= title.gsub(/\s+/, " ").gsub(/[^A-Za-z0-9 !'\.\-]/, "").truncate(55, omission: '') %></h1>
+                      <% sub_title_truncate = sub_title.gsub(/\s+/, " ").truncate(100, omission: '') %>
+                      <h5 class="sub-title"><%= sub_title_truncate %></h5>
+                    </div>
+                  </div>
+                </div>
+              <% if url.present? %> </a> <% else %> </div> <% end %>
+              <% val = watermark_title.gsub(/\s+/, " ").gsub(/[^A-Za-z0-9 :\-]/, "").truncate(55, omission: '') %>
+              <% if watermark_url.present? %>
+                <a class="watermark-link" href=<%= watermark_url %>><%= val %></a>
+              <% else %>
+                <div class="watermark-link"><%= val %></div>
+              <% end %>
             </div>
+          <% end %>
+        <% else %>
+          <div class="slide">
+            <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
+            <span class="animate in" style="background-image: url(<%= url_first %>)"></span>
           </div>
-        </a>
-        <a class="slide" href="#link02">
-          <% url_second = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/second_slider.png" %>
-          <span class="animate in" style="background-image: url(<%= url_second %>)"></span>
-          <div class="static-content">
-            <div class="slider-advance-searchbox">
-              <div class="heading">
-                <h1>Broadcast your brand</h1>
-                <h5 style="margin-bottom: 0px;">Build lasting connections to local</h5>
-                <h5>customers that buy faster and easier.</h5>
-              </div>
-            </div>
+          <div class="slide">
+            <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
+            <span class="animate in" style="background-image: url(<%= url_first %>)"></span>
           </div>
-        </a>
-        <a class="slide" href="#link03">
-          <% url_third = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/first_slider.png" %>
-          <span class="animate in" style="background-image: url(<%= url_third %>)"></span>
-          <div class="static-content">
-            <div class="slider-advance-searchbox">
-              <div class="heading">
-                <h1>Grow vibrant communities</h1>
-                <h5 style="margin-bottom: 0px;">Cultivate local talent and businesses</h5>
-                <h5>to bloom sustainably.</h5>
-              </div>
-            </div>
-          </div>
-        </a>
+        <% end %>
       </div>
-      <!-- Slider Advance SearchBox -->
-
     </div>
   </div>
-</div>
+</div><br>
+
 <!-- End -->
 <%= render "/layouts/application_v_3/neighbourhoods_and_shopping"%>
 <%= render "/layouts/application_v_3/communities_gird_view"%>
@@ -59,8 +59,15 @@
 <%= render "/layouts/application_v_2/global_footer" %>
 
 <!-- End -->
-<script>
+<script type="text/javascript">
   $(document).ready(function(){
+    $('.watermark-link').click(function(e) {
+      if ($(this).attr('disabled') === 'disabled') {
+        e.preventDefault();
+      }
+      $(this).attr('disabled', true);
+    });
+
     var current_user_id
     var sessionId, token
     if('<%= user_signed_in?%>' == "true"){

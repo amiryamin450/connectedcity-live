@@ -1,5 +1,7 @@
 class NeighborhoodsController < ApplicationController
-  load_and_authorize_resource
+  include PrismicController
+
+  load_and_authorize_resource except:[:neighborhood_page, :sub_neighborhood_page]
 
   PER_PAGE = 20
 
@@ -35,10 +37,11 @@ class NeighborhoodsController < ApplicationController
 
   def neighborhood_page
     @district = District.find_by_slug(params[:district_slug])
-
     if (@district.present?)
       @neighbourhoods = @district.neighborhoods
-      @neighborhood = @neighborhoods.find { |nbh| nbh.slug == params[:neighborhood_slug] }
+      @neighborhood = @neighbourhoods.find { |nbh| nbh.slug == params[:neighborhood_slug] }
+      response = api.query(Prismic::Predicates.at("my.location.uid", key_neighborhood_prismic))
+      @documents = response.results.present? ? response.results[0]["location.slide_images"] : []
       @city = @district.city
       @cities = @city.municipality.cities
       @districts = @city.districts
@@ -64,6 +67,8 @@ class NeighborhoodsController < ApplicationController
     @neighborhood = Neighborhood.find_by_slug(params[:neighborhood_slug])
 
     if (@neighborhood.present?)
+      response = api.query(Prismic::Predicates.at("my.location.uid", key_sub_neighborhood_prismic))
+      @documents = response.results.present? ? response.results[0]["location.slide_images"] : []
       @district = @neighborhood.district
       @neighbourhoods = @district.neighborhoods
       @city = @district.city
@@ -86,6 +91,16 @@ class NeighborhoodsController < ApplicationController
     respond_to do |format|
       format.html { render layout: "application_v_2" }
     end
+  end
+
+  private
+
+  def key_neighborhood_prismic
+    "#{params[:city_slug]}-#{params[:district_slug]}-#{params[:neighborhood_slug]}"
+  end
+
+  def key_sub_neighborhood_prismic
+    "#{key_neighborhood_prismic}-#{params[:sub_neighborhood_slug]}"
   end
 
 end

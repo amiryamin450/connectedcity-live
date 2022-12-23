@@ -6,38 +6,7 @@
             viewport: "width=device-width, initial-scale=1.0"
 
 %>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-12 column">
-      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img class="d-block w-100" src="/cc_2.0/images/banner01.jpg" alt="First slide">
-          </div>
-          <div class="carousel-item">
-            <img class="d-block w-100" src="/cc_2.0/images/banner02.jpg" alt="Second slide">
-          </div>
-          <div class="carousel-item">
-            <img class="d-block w-100" src="/cc_2.0/images/banner01.jpg" alt="Third slide">
-          </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</div><br>
+<%= render 'images_slider' %>
 
 <div class="landing-page-heading-filter">
   <div class="row filter">
@@ -79,7 +48,11 @@
               <div>
                 <%# <img data-lazy="/cc_2.0/icon/slider-icon-1.jpg"> %>
                 <div class="district-slider-img">
-                  <%= link_to(image_tag('/assets/home_page_image/neighborhood_default.png'), "/#{@city.municipality.region.province.slug}/#{@city.municipality.region.slug}/#{@city.municipality.slug}/#{@city.slug}/#{@district.slug}/#{ne.slug}") %>
+                  <% if ne.logo_image.present?%>
+                    <%= link_to(image_tag(ne.logo_image), "/#{@city.municipality.region.province.slug}/#{@city.municipality.region.slug}/#{@city.municipality.slug}/#{@city.slug}/#{@district.slug}/#{ne.slug}") %>
+                  <%else%>
+                    <%= link_to(image_tag('/assets/home_page_image/neighborhood_default.png'), "/#{@city.municipality.region.province.slug}/#{@city.municipality.region.slug}/#{@city.municipality.slug}/#{@city.slug}/#{@district.slug}/#{ne.slug}") %>
+                  <%end%>
                 </div>
                 <p><%= link_to ne.name, "/#{@city.municipality.region.province.slug}/#{@city.municipality.region.slug}/#{@city.municipality.slug}/#{@city.slug}/#{@district.slug}/#{ne.slug}" %></p>
               </div>
@@ -92,22 +65,6 @@
   </div>
 </div>
 
-<script type="text/javascript">jQuery.noConflict();</script>
-<script type="text/javascript">
-  // These are te default settings.
-  $('h5.sub-title').css('max-width', '50vw');
-  $('h1.title-slide').css('max-width', '70vw');
-  $('#slides').slideshow({
-    randomize: false,            // Randomize the play order of the slides.
-    slideDuration: 8000,       // Duration of each induvidual slide.
-    fadeDuration: 500,         // Duration of the fading transition. Should be shorter than slideDuration.
-    animate: true,              // Turn css animations on or off.
-    pauseOnTabBlur: true,       // Pause the slideshow when the tab is out of focus. This prevents glitches with setTimeout().
-    enableLog: false,           // Enable log messages to the console. Useful for debugging.
-    slideElementClass: 'slide', // This is also defined in the CSS!
-    slideshowId: 'slideshow'    // This is also defined in the CSS!
-  });
-</script>
 <!-- Main Section Card -->
-<%#= render "/layouts/application_v_2/multi_columns" %>
+<%= render "/layouts/application_v_2/multi_columns" %>
 <br>

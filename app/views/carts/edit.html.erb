@@ -6,38 +6,50 @@
   </ol>
 </nav>
 <!-- Breadcrumb End -->
-<div class="cart-body-section">
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-12">
-      <%if @cart.line_items.present? %>
-        <%= render 'form', cart: @cart %>
-      <% else %>
-        <div class="table-responsive cart-table-body">
-          <table class="table">
-            <tr>
-              <td class="align-middle">
-                <div class="p-2 cart-table-img-row">
-                  <div class="cart-table-img"></div>
-                  <div class="ml-3 d-inline-block align-middle">
-                    <h5 class="mb-0">
-                      Your cart is empty
-                    </h5>
+<div class="cart-shopping-body-section">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <%if @cart.line_items.present? %>
+          <%= render 'form', cart: @cart %>
+        <% else %>
+          <div class="table-responsive cart-table-body">
+            <table class="table">
+              <tr>
+                <td class="align-middle">
+                  <div class="cart-table-img-row" style="width: 100%;">
+                    <div class="d-inline-block align-middle" style="margin: 30px auto;">
+                      <h5 class="mb-0">
+                        Your cart is empty
+                      </h5>
+                    </div>
                   </div>
-                </div>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="cart-table-btn-row">
-          <div class="row">
-            <div class="col-md-3">
-              <a href="<%= root_path%>" class="btn btn-outline-primary btn-shopping">Go Back to Shopping</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="cart-table-btn-row">
+            <div class="row">
+              <div class="col-md-3">
+                <a href="<%= @back_url %>" class="btn btn-outline-primary btn-shopping">Go Back to Shopping</a>
+              </div>
             </div>
           </div>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
-</div>
+
+<script>
+  $(document).ready(function() {
+
+    $('.btn-shopping').click(function(e) {
+      if ($(this).attr('disabled') === 'disabled') {
+        e.preventDefault();
+      }
+      $(this).attr('disabled', true);
+    });
+  })
+
+</script>

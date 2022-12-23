@@ -13,17 +13,35 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="<%=root_path%>">Home</a></li>
-      <% if [174, 164].include?(@vertical_market.id) && @location.city %>
+      <% if @location.city %>
         <% municipality = @location.city.municipality %>
         <% region = municipality.region %>
         <% url = "/#{@location.province.slug}/#{region.slug}/#{municipality.slug}/#{@location.city.slug}" %>
         <li class="breadcrumb-item"><a href="<%= url %>"><%= @location.city.name%></a></li>
       <% end %>
-      <% if @location.district %>
-        <li class="breadcrumb-item"><a href="<%=district_guide_path(@location.district.slug)%>"><%= @location.district.name%></a></li>
+      <% if @location.district && @location.city%>
+        <% municipality = @location.city.municipality %>
+        <% region = municipality.region %>
+        <% province = region.province%>
+        <li class="breadcrumb-item">
+          <a href="<%="/#{province.slug}/#{region.slug}/#{municipality.slug}/#{@location.city.slug}/#{@location.district.slug}"%>">
+            <%= @location.district.name%>
+          </a>
+        </li>
       <% end %>
-      <% if @location.neighborhood %>
-        <li class="breadcrumb-item"><%= @location.neighborhood.name %></li>
+      <% if @location.neighborhood && @location.district && @location.city%>
+        <li class="breadcrumb-item">
+          <a href="<%="/#{province.slug}/#{region.slug}/#{municipality.slug}/#{@location.city.slug}/#{@location.district.slug}/#{@location.neighborhood.slug}"%>">
+            <%= @location.neighborhood.name %>
+          </a>
+        </li>
+      <% end %>
+      <% if @location.sub_neighborhood && @location.neighborhood && @location.district && @location.city%>
+        <li class="breadcrumb-item">
+          <a href="<%="/#{province.slug}/#{region.slug}/#{municipality.slug}/#{@location.city.slug}/#{@location.district.slug}/#{@location.neighborhood.slug}/#{@location.sub_neighborhood.slug}"%>">
+            <%= @location.sub_neighborhood.name %>
+          </a>
+        </li>
       <% end %>
       <% @vertical_market.ancestors.each do |ancestor| %>
         <li class="breadcrumb-item"><a href=<%="/guide/#{ancestor.slug}"%>><%= ancestor.name%></a></li>
@@ -68,7 +86,7 @@
                         <div class="col-12">
                             <div class="d-flex">
                               <i class="far fa-map-marker-alt"></i>
-                              <p><%= @location.address %> &middot; <%= "#{@location.city.name} #{@location&.province&.abbr}, #{@location.postal_code}" %></p>
+                              <p><%= @location.address %> &middot; <%= "#{@location&.city&.name} #{@location&.province&.abbr}, #{@location.postal_code}" %></p>
                             </div>
                         </div>
                         <div class="col-12">

@@ -5,6 +5,7 @@
 @import "civic_news";
 @import "font-awesome";
 @import "call_video";
+@import "cart_shopping";
 
 #new_status_update {
   .form-inputs {
@@ -558,8 +559,33 @@
   padding: 0 5px;
 }
 
+.footer.empty-content:after {
+  top: unset;
+}
+.footer.empty-content {
+  margin-top: 5px;
+}
+
 @media screen and (min-width: 1281px) {
   #nav-main {
     padding: 0px 300px 0px 15px;
+  }
+}
+
+@media (min-width: 1281px) and (max-width: 1440) {
+  .footer.empty-content {
+    margin-top: 78px;
+  }
+}
+
+@media (min-width: 1441px) and (max-width: 1919) {
+  .footer.empty-content {
+    margin-top: 258px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .footer.empty-content {
+    margin-top: 285px;
   }
 }

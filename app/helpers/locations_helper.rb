@@ -65,25 +65,27 @@ module LocationsHelper
   
     case class_name.name
     when "Province"
-      if(!object.country.present?)
+      if(!object.country.present? || !object.send(object_field).present?)
         return []
       end
-      return class_name.where(condition_key => object.send(object_field).id)
+      return class_name.where(condition_key => object.send(object_field).id) 
     when "City"
-      if(!object.country.present? || !object.province.present?)
+      if(!object.country.present? || !object.province.present? || !object.send(object_field).present?)
         return []
       end
       return class_name.where(condition_key => object.send(object_field).id)
     when "District"
-      if(!object.country.present? || !object.province.present? || !object.city.present?)
+      if(!object.country.present? || !object.province.present? || !object.city.present? || !object.send(object_field).present?)
         return []
       end
         return class_name.where(condition_key => object.send(object_field).id)
     when "Neighborhood"
-      if(!object.country.present? || !object.province.present? || !object.city.present? || !object.district.present?)
+      if(!object.country.present? || !object.province.present? || !object.city.present? || !object.district.present? )
         return []
+      elsif object.send(object_field).present?
+        return class_name.where(condition_key => object.send(object_field).id) 
       end
-        return class_name.where(condition_key => object.send(object_field).id)
+      return []
     else
       return []
     end

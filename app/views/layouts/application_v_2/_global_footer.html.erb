@@ -1,4 +1,8 @@
-<div class="footer">
+<% if @cart.present? and @cart.line_items.length == 0 %>
+  <div class="footer empty-content">
+<% else %>
+  <div class="footer">
+<% end %>
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
