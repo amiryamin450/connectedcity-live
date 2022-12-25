@@ -83,11 +83,44 @@ class LineItemsController < ApplicationController
   # DELETE /line_items/1
   # DELETE /line_items/1.json
   def destroy
-    @line_item.destroy
-
-    respond_to do |format|
-      format.html { redirect_to @line_item.cart }
-      format.json { head :no_content }
+    if params[:id].present?
+      location_id = @line_item.location_id
+      @line_item.destroy
+      if params[:back].present? && params[:back].include?('slug=back') && location_id.present?
+        @back_url = params[:back]
+        list_items = @cart.line_items.where(location_id: location_id)
+        @is_empty = list_items.empty?
+        if @is_empty
+          list_items = @cart.line_items
+          @back_url = session[:return_to]
+        end
+        # return
+      else
+        @back_url = session[:return_to]
+        @cart.reload
+        list_items = @cart.line_items
+        @is_empty = list_items.empty?
+      end
+      @cart.list_items = list_items
+      results = list_items.group_by { |item| item.location_id.itself }.values
+      @line_items = results.map do |line_item|
+        line_item.map do |item|
+          {
+            line_item: item,
+            product: item.product,
+            total_price: item.total_price,
+            location: item.location,
+            location_name: item.location_name,
+            location_slug: item.location_slug,
+            name_slug: item.name_slug,
+          }
+        end
+      end
+    end
+    if @is_empty
+      render 'carts/show.js.erb' , :formats => [:json], :handlers => [:erb]
+    else
+      render 'destroy.js.erb', :formats => [:json], :handlers => [:erb]
     end
   end
 
