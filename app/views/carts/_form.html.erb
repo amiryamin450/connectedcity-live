@@ -3,9 +3,9 @@
     <div class="col-md-9" style="padding-right: 0px">
       <% results = line_items || [] %>
       <% shops = [] %>
-      <% shops = results.each { |item| shops << item[0][:name_slug] } %>
+      <% shops = results.map { |item| shops << item[0][:name_slug] } %>
       <% shops.each_with_index do |item, index| %>
-      <% shop = item[0][:name_slug] %>
+      <% shop = item[index] %>
       <div class="shop-item">
         <div class="table cart-shopping">
           <a href=<%="/business/#{shop[:slug]}" %> class="shop-name"><%= shop[:name] %></a>
@@ -59,7 +59,7 @@
                           <% max = product.disabled ? 1 : product.quantity %>
                           <div class="quanitity-counter d-flex" style="justify-content: center;" >
                             <input type='button' value='-' class='qtyminus' data-id=<%= line_item.object.id %> />
-                            <%= line_item.number_field :quantity, pattern: "^[1-9]*$", step: 1, min: 1, title: "Qty", class: "qty", size: "4", pattern: "", inputmode: "" , data: {id: line_item.object.id}, max: max %>
+                            <%= line_item.number_field :quantity, step: 1, min: 1, title: "Qty", class: "qty", size: "4", pattern: "", inputmode: "" , data: {id: line_item.object.id}, max: max %>
                             <input type='button' value='+' class='qtyplus' data-id=<%= line_item.object.id %> max=<%= max %> />
                           </div>
                         </td>
@@ -67,7 +67,9 @@
                         <td class="align-middle" style="padding: 0px;"><%= number_to_currency(product.discount, unit: '$') %></td>
                         <td class="align-middle total-price" style="padding: 0px;"  data-id=<%= line_item.object.id %>><%= number_to_currency(line_item.object.total_price, unit: '$') %></td>
                         <td class="align-middle" style="padding: 0px;">
-                          <a href="<%= line_item_path(line_item.object.id, :authenticity_token => form_authenticity_token) %>" data-method="delete" class="text-dark delete-btn" style="padding: 15px;"><i class="far fa-trash-alt" style="font-size: 25px"></i></a>
+                          <button class="text-dark delete-btn" style="padding: 15px; border: none; background-color: transparent;" data-id=<%= line_item.object.id %>>
+                            <i class="far fa-trash-alt" style="font-size: 25px"></i>
+                          </button>
                         </td>
                       </tr>
                     <% end %>
@@ -77,20 +79,7 @@
             </table>
           </div>
           <div class="btn-checkout-row">
-            <% if back_url.include?('slug') %>
-              <form action="https://connected-checkout-staging.herokuapp.com/create-checkout-session" method="POST">
-                <input type="hidden" name="success_url" value="<%=edit_cart_path(@cart)%>"/>
-                <input type="hidden" name="cancel_url" value="<%=edit_cart_path(@cart)%>"/>
-                  <% line_items[index].each_with_index do |item| %>
-                    <% product = item[:product] %>
-                    <% line_item = item[:line_item] %>
-                    <input type="hidden" name=<%="line_items[][name]"%> value="<%= product.name %>"/>
-                    <input type="hidden" name=<%="line_items[][amount]"%> value="<%= product.price %>"/>
-                    <input type="hidden" name=<%="line_items[][quantity]"%> value="<%= line_item.quantity %>"/>
-                  <% end %>
-                <button type="submit" id="submit" class="btn btn-primary checkout-only">Checkout for only this shop</button>
-              </form>
-            <% else %>
+            <% unless back_url.include?('slug') %>
               <button class="btn btn-primary checkout-only checkout-only-btn" data-slug=<%= shop[:slug] %>>Checkout for only this shop</button>
             <% end %>
           </div>
@@ -158,8 +147,11 @@
     </div>
     <div class="col-md-2">
       <% titleClearCart = back_url.include?('slug') ? 'Clear all items' : 'Clear Cart' %>
-      <form action="<%= clear_cart_path(@cart)%>" method="POST" id="clear-cart">
+      <form action=<%#= clear_cart_path(@cart.id) %> method="POST" id="clear-cart" >
         <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+        <% if back_url.include?('slug') %>
+          <%= hidden_field_tag :location_id, line_items[0][0][:location][:id] %>
+        <% end %>
         <button type="submit" class="btn btn-outline-primary btn-clear-cart"><%= titleClearCart %></button>
       </form>
     </div>
@@ -187,8 +179,10 @@
     var newQuantity = 1
     var maxQuantity = 50
     var currentQuantity = <%= @cart.total_quantity %>
+    var cartId = <%= @cart.id %>
     var prev = 1
     var firstStep = true
+    var backURL = "<%= @back_url %>"
 
     $('.qtyplus').on({
       click: function() {
@@ -290,9 +284,19 @@
       var response = confirm($(this).data('confirm') || 'Are you sure?');
       if (!response) { return false; }
       $('.delete-btn').attr('disabled', 'disabled');
+      e.preventDefault();
+      var id = $(this).attr("data-id")
+      $.ajax({
+        url: `/line_items/${id}?back=${backURL}`,
+        method: "DELETE",
+        dataType: "script",
+        headers: {
+          'X-CSRF-Token': $('input[name=authenticity_token]').val(),
+        }
+      })
     })
 
-    $('form#clear-cart').submit(function(){
+    $('#clear-cart').click(function(){
       if ($(this).attr('disabled') === 'disabled') {
         e.preventDefault();
         return true;
@@ -300,32 +304,20 @@
       var response = confirm($(this).data('confirm') || 'Are you sure?');
       if (!response) { return false; }
       $(this).find(':button[type=submit]').prop('disabled', true);
-    });
-
-    $('.delete-item').click(function(e) {
-      e.preventDefault();
-
-      // debugger
-      var id = $(this).attr("data-id")
+      var urlClear = `/carts/${cartId}/clear`;
+      if ($('input[name=location_id]').val()) {
+        urlClear = `/carts/${cartId}/clear?location_id=${$("input[name=location_id]").val()}`
+      }
       $.ajax({
-        url: `/line_items/${id}`,
-        method: "DELETE",
-        dataType: "json",
+        url: urlClear,
+        method: "POST",
+        data: JSON.stringify({location_id: $("input[name=location_id]").val()}),
+        dataType: "script",
         headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
           'X-CSRF-Token': $('input[name=authenticity_token]').val(),
-        },
-      }).done(function (response) {
-        debugger
-        $('.header-shopping-cart .cart-counter').load(" span");
-        $('.cart-shopping-body-section .cart-container-row').load(' .cart-container')
-        // $('.notice-success').html('<div class="alert alert-success">Product added to cart successfully</div>').fadeOut(3000)
-        // setTimeout(function() { $('.notice-success').html('').fadeIn(0) }, 3000);
-        // currentQuantity = currentQuantity + newQuantity
-        // $("#quantity").val(1)
+        }
       })
-    })
+    });
 
     $('.shop-cart .shopping-present').on('click',function(e) {
       if ($(this).attr('disabled') === 'disabled') {
@@ -392,3 +384,4 @@
     }
   })
 </script>
+

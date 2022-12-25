@@ -1,0 +1,11 @@
+<div class="container-fluid">
+  <div class="row cart-container-row">
+    <div class="col-md-12 cart-container">
+      <%if @line_items.present? %>
+        <%= render 'carts/form', line_items: @line_items, back_url: @back_url %>
+      <% else %>
+        <%= render 'carts/empty' %>
+      <% end %>
+    </div>
+  </div>
+</div>
