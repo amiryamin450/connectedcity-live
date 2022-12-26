@@ -1,0 +1,7 @@
+<% if @line_items.present? %>
+  $('.header-shopping-cart .cart-counter').replaceWith("<div class='cart-counter'><span class='total-number'><%= @cart.line_items.to_a.sum { |item| item.quantity } %></span></div>");
+  $('.cart-container #cart_form').replaceWith('<%= escape_javascript render(partial: 'carts/form', locals: { line_items: @line_items, back_url: @back_url }) %>');
+<% else %>
+$('.header-shopping-cart .cart-counter').remove()
+  $('.cart-shopping-body-section .container-fluid').replaceWith('<%= escape_javascript render(partial: 'carts/body') %>')
+<% end %>

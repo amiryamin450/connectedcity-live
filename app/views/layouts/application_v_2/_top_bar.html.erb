@@ -53,7 +53,7 @@
                 </div>
               <% end %>
               <div class="cart-icon">
-                <% url = user_signed_in? ? cart_path(@cart) : new_user_session_path %>
+                <% url = user_signed_in? ? cart_path(@cart.id) : new_user_session_path %>
                 <a href="<%= url %>"><img src="/cc_2.0/icon/shopping-cart.svg"></a>
               </div>
             </div>

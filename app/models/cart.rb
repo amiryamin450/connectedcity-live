@@ -5,6 +5,8 @@ class Cart < ActiveRecord::Base
 
   accepts_nested_attributes_for :line_items, allow_destroy: true
 
+  attr_accessor :list_items
+
   def add_product(product, quantity)
     current_item = line_items.find_by_product_id(product.id)
     qty_product = product.quantity
@@ -74,7 +76,7 @@ class Cart < ActiveRecord::Base
   end
 
   def total_price_net
-    line_items.to_a.sum { |item| item.total_price }
+    list_items.to_a.sum { |item| item.total_price }
   end
 
   def total_price_gross
@@ -87,5 +89,9 @@ class Cart < ActiveRecord::Base
 
   def full
     total_quantity >= 50
+  end
+
+  def list_items
+    @list_items
   end
 end
