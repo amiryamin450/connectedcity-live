@@ -150,7 +150,7 @@
                         </div>  
                         <% if user_signed_in? && !@location.users.pluck(:id).include?(current_user&.id)%>
                           <div class="col-3" style="padding-right: 0px;" id="call-video">
-                            <button class="btn btn-primary-color" data-toggle="modal">Video Call</button>
+                            <button class="btn btn-primary-color" data-toggle="modal">Call Video</button>
                           </div>
                         <%end%>
                     </div>
@@ -284,9 +284,9 @@
           dataType: "json"
           }).done(function( response) {
             if(response.available_call == false){
-              $("#call-video").html("<button class='btn btn-secondary' disabled aria-disabled='true'>Video Call</button>")
+              $("#call-video").html("<button class='btn btn-secondary' disabled aria-disabled='true'>Call Video</button>")
             }else{
-              $("#call-video").html("<button class='btn btn-primary-color' data-toggle='modal'>Video Call</button>")
+              $("#call-video").html("<button class='btn btn-primary-color' data-toggle='modal'>Call Video</button>")
             }
           })
         },5000)
