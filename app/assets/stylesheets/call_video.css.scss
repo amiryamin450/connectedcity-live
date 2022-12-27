@@ -1,4 +1,4 @@
-#modal-video-call, #modal-user-video-call{
+#modal-video-call, #modal-user-video-call, #modal-end-video-call{
   
   .cover-videos{
     #videos {
@@ -25,6 +25,12 @@
         z-index: 100;
         border: 3px solid white;
         border-radius: 3px;
+        .OT_bar.OT_edge-bar-item.OT_mode-auto{
+          display: none;
+        }
+        .OT_edge-bar-item.OT_mute.OT_mode-auto{
+          display: none;
+        }
     }
     #timer-count,#user-timer-count{
       position: absolute;
@@ -41,6 +47,9 @@
       margin: 0 10px;
       font-size: 25px;
       cursor: pointer;
+    }
+    #close-modal-end-video{
+      color: white;
     }
   }
 }
@@ -65,6 +74,19 @@
         font-size:30px;
         cursor: pointer;
       }
+    }
+  }
+}
+.modal-content{
+  .cover-modal-end-call{
+    img{
+      height: 250px;
+      width: 250px;
+      border-radius: 50%;
+    }
+    #title-video-call{
+      color: white;
+      font-size: 18px;
     }
   }
 }
