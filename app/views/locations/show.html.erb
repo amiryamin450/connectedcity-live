@@ -44,9 +44,15 @@
         </li>
       <% end %>
       <% @vertical_market.ancestors.each do |ancestor| %>
-        <li class="breadcrumb-item"><a href=<%="/guide/#{ancestor.slug}"%>><%= ancestor.name%></a></li>
+        <% if @location.city%>
+          <li class="breadcrumb-item"><a href=<%="/#{@location.city.slug}/guide/#{ancestor.slug}"%>><%= ancestor.name%></a></li>
+        <%else%>
+          <li class="breadcrumb-item"><a href=<%="/guide/#{ancestor.slug}"%>><%= ancestor.name%></a></li>
+        <%end%>
       <% end %>
-      <% if @location.district %>
+      <% if @location.city%>
+        <li class="breadcrumb-item"><a href=<%="/#{@location.city.slug}/guide/#{@vertical_market.slug}" %>><%= @vertical_market.name %></a></li>
+      <%else%>
         <li class="breadcrumb-item"><a href=<%="/guide/#{@vertical_market.slug}" %>><%= @vertical_market.name %></a></li>
       <% end %>
       <% if  @location.broker.present? %>
