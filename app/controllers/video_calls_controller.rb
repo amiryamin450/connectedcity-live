@@ -45,7 +45,7 @@ class VideoCallsController < ActionController::Base
   
   def set_status_call
     if params[:session_id].present?
-      video_call = VideoCall.where(session_id: params[:session_id]).update_all(status: params[:status])
+      VideoCall.where(session_id: params[:session_id]).update_all(status: params[:status])
     elsif params[:accept]
       video_call = VideoCall.find_by_user_business_id_and_user_call_id(params[:user_business_id], params[:user_call_id])
       video_call.update_attribute(:status,params[:status])
@@ -63,6 +63,8 @@ class VideoCallsController < ActionController::Base
     video_calls = VideoCall.where(location_id: params[:location_id])
     if video_calls.present?
       if video_calls.pluck(:status).include?("accept_call")
+        return render json: {available_call: false}
+      elsif video_calls.pluck(:status).include?("request_calling")
         return render json: {available_call: false}
       else
         return render json: {available_call: true}

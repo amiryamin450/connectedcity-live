@@ -46,6 +46,7 @@
     <%= render 'modal_call/modal_call_request'%>
     <%= render 'modal_call/modal_user_call'%>
     <%= render 'modal_call/modal_message_reject'%>
+    <%= render 'modal_call/modal_end_call'%>
     <script type="text/javascript">
       $(document).ready(function(){
         var current_user_id
@@ -68,11 +69,24 @@
                   $("#accept-call").on("click",function(){
                     $("#modal-video-call-request").modal('hide')
                     $("#modal-user-video-call").modal('show')
-                    
                     sessionId = user_call.session_id
                     token = user_call.token
-
+                    var session_call
+                    var seconds = 0
                     var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
+
+                    function upTimer() {
+                      ++seconds;
+                      let hour = Math.floor(seconds / 3600);
+                      if(hour < 10) hour = "0"+hour
+                      let minute = Math.floor((seconds - hour * 3600) / 60);
+                      if(minute < 10) minute = "0"+minute
+                      let updSecond = seconds - (hour * 3600 + minute * 60);
+                      if(updSecond < 10) updSecond = "0"+updSecond
+                      $("#user-timer-count").html(hour + ":" + minute + ":" + updSecond)
+                    }
+                    var timer = setInterval(upTimer, 1000);
+                    
                     function handleError(error) {
                       if (error) {
                         console.error(error);
@@ -80,7 +94,6 @@
                     }
 
                     function initializeSession(apiKey,sessionId ) {
-                      let session_call = null
                       session_call = OT.initSession(apiKey, sessionId);
                       session_call.on('streamCreated', function streamCreated(event) {
                         var subscriberOptions = {
@@ -114,6 +127,33 @@
                           session_call.publish(publisher, handleError);
                         }
                       });
+
+                      session_call.on('streamDestroyed', function sessionDisconnected(event) {
+                        $("#modal-user-video-call").modal("hide");
+                        $("#modal-end-video-call").modal("show")
+                        clearInterval(timer)
+                        $("#user-publisher").html("")
+                        $("#user-subscriber").html("")
+                        publisher.destroy()
+                        session_call.disconnect()
+                        $("#user-timer-count").html("00:00:00")
+                        $("#user-turn-on-camera").addClass("d-none")
+                        $("#user-turn-off-camera").removeClass("d-none")
+                        $("#user-turn-on-audio").addClass("d-none")
+                        $("#user-turn-off-audio").removeClass("d-none") 
+                        $.ajax({
+                        url: `/video_calls/set_status_call`,
+                        method: "PUT",
+                        data: {
+                          user_business_id: current_user_id,
+                          user_call_id: user_call.user_call_id,
+                          status: "available"
+                        }
+                        }).done(function( response) {
+
+                        })                                              
+                      })
+
                       $("#user-turn-off-camera").on("click",function(){
                         publisher.publishVideo(false);
                         $("#user-turn-off-camera").addClass("d-none")
@@ -139,11 +179,16 @@
                       }) 
 
                       $("#user-close-video").on("click",function(){ 
+                        clearInterval(timer)
+                        $("#user-publisher").html("")
+                        $("#user-subscriber").html("")
+                        publisher.destroy()
                         session_call.disconnect()
+                        $("#user-timer-count").html("00:00:00")
                         $("#user-turn-on-camera").addClass("d-none")
                         $("#user-turn-off-camera").removeClass("d-none")
                         $("#user-turn-on-audio").addClass("d-none")
-                        $("#user-turn-off-audio").removeClass("d-none")
+                        $("#user-turn-off-audio").removeClass("d-none") 
                         $.ajax({
                         url: `/video_calls/set_status_call`,
                         method: "PUT",
