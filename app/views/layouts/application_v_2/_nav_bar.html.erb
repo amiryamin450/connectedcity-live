@@ -32,8 +32,12 @@
                 <a href="<%=city_district_guide_path(params[:city_slug], params[:district_route], vm.slug)%>"><%=vm.name%></a>
               <% elsif params[:city_slug] %>
                 <a href="<%=city_guide_path(params[:city_slug], vm.slug)%>"><%=vm.name%></a>
-              <% else %>
-                <a href=<%="#{@base_path}guide/#{vm.slug}"%>><%=vm.name%></a>
+              <%else%>
+                <%if @location&.city%>
+                  <a href=<%="/#{@location.city.slug}/guide/#{vm.slug}"%>><%=vm.name%></a>
+                <%else%>
+                  <a href=<%="#{@base_path}guide/#{vm.slug}"%>><%=vm.name%></a>
+                <%end%>
               <% end %>
               <ul>
                 <% vm.children.sort_by(&:name).each do |child| %>
@@ -51,7 +55,11 @@
                       <% elsif params[:city_slug] %>
                         <li><%= link_to child.name, city_sub_market_guide_path(params[:city_slug], vm.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
                       <% else %>
-                        <li><%= link_to child.name, "#{@base_path}guide/#{child.slug}", class: "dropdown-item nv-mn-lnk" %></li>
+                        <%if @location&.city%>
+                          <a href=<%="/#{@location.city.slug}/guide/#{vm.slug}"%>><%=child.name%></a>
+                        <%else%>
+                          <a href=<%="#{@base_path}guide/#{vm.slug}"%>><%=child.name%></a>
+                        <%end%>
                       <% end %>
                     <% end %>
                   <% end %>
@@ -89,11 +97,11 @@
                       <% if @neighbourhood %>
                         <li><%= link_to child.name, district_neighborhood_guide_path(@district, @neighbourhood.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
                       <% else %>
-                        <% if @district %>
-                          <li><%= link_to child.name, top_district_guide_path(@district, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                        <% else %>
-                          <li><%= link_to child.name, "#{@base_path}guide/#{child.slug}", class: "dropdown-item nv-mn-lnk" %></li>
-                        <% end %>
+                        <%if @location&.city%>
+                          <a href=<%="/#{@location.city.slug}/guide/#{vm.slug}"%>><%=vm.name%></a>
+                        <%else%>
+                          <a href=<%="#{@base_path}guide/#{vm.slug}"%>><%=vm.name%></a>
+                        <%end%>
                       <% end %>
                     <% end %>
                   <% end %>
