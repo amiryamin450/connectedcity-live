@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20221221095030) do
+ActiveRecord::Schema.define(:version => 20221227085320) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -540,6 +540,7 @@ ActiveRecord::Schema.define(:version => 20221221095030) do
     t.integer  "councillor_id"
     t.integer  "commissioner_id"
     t.integer  "sub_neighborhood_id"
+    t.boolean  "available_call",               :default => true
   end
 
   add_index "locations", ["city_id"], :name => "city_id"

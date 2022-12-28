@@ -61,18 +61,29 @@ class VideoCallsController < ActionController::Base
 
   def get_status_from_location
     video_calls = VideoCall.where(location_id: params[:location_id])
+    location = Location.find_by_id(params[:location_id])
     if video_calls.present?
       if video_calls.pluck(:status).include?("accept_call")
-        return render json: {available_call: false}
+        return render json: {user_available_call: false, location_available_call: location.available_call}
       elsif video_calls.pluck(:status).include?("request_calling")
-        return render json: {available_call: false}
+        return render json: {user_available_call: false, location_available_call: location.available_call}
       else
-        return render json: {available_call: true}
+        return render json: {user_available_call: true, location_available_call: location.available_call}
       end
     end
-    render json:{available_call: true}
+    render json:{user_available_call: true, location_available_call: location.available_call}
   end
 
+  def set_available_call_location
+    location = Location.find_by_id(params[:location_id])
+    location.update_attribute(:available_call, params[:status_available])
+    render json:{status: "success"}
+  end
+
+  def get_available_call_location
+    location = Location.find_by_id(params[:location_id])
+    render json:{available_call: location.available_call}
+  end
   def vonage
     @vonage ||= VonageService.new
   end
