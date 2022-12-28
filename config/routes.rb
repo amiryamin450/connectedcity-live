@@ -323,6 +323,8 @@ Connectbook::Application.routes.draw do
   put 'video_calls/set_status_call' => 'video_calls#set_status_call'
   get 'video_calls/get_status_from_session' => 'video_calls#get_status_from_session'
   get 'video_calls/get_status_from_location' => 'video_calls#get_status_from_location'
+  put 'video_calls/set_available_call_location' => 'video_calls#set_available_call_location'
+  get 'video_calls/get_available_call_location' => 'video_calls#get_available_call_location'
   resources 'contacts', only: [:new, :create]
 
   # get '/districts/:district_id/news' => action: :guide
