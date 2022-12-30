@@ -59,7 +59,7 @@ class VerticalMarketsController < ApplicationController
         if params[:search].present?
           media_filter = i.media_attachments.where("media_attachments.title LIKE ? OR media_attachments.description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if i.media_attachments.size > 0
           events_filter = i.events.where("events.name LIKE ? OR events.description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if i.events.size >0
-          news_filter = i.news_articles.where("news_articles.title LIKE ? OR news_articles.description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if i.news_articles.size >0 
+          news_filter = i.news_articles.where("news_articles.title LIKE ? OR news_articles.content LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if i.news_articles.size >0 
           status_update_filter = i.status_updates.where("status_updates.title LIKE ? OR status_updates.content LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if i.status_updates.size >0
         end
         if params[:market_id].present?
