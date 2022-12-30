@@ -44,17 +44,37 @@ class VerticalMarketsController < ApplicationController
         # init_category_values
     if params[:market] === 'news'
       districts
+      neighborhoods
+      sub_neighborhoods
 
       media = []
       events_temp = []
       news_temp = []
       status_updates_temp = []
-      locations_of_civic_news.each_with_index do |i, idx|
-        media << i.media_attachments if i.media_attachments.size > 0
-        events_temp << i.events if i.events.size > 0
-        news_temp << i.news_articles if i.news_articles.size > 0
-        status_updates_temp << i.status_updates if i.status_updates.size > 0
+      locations_of_civic_news(params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each_with_index do |i, idx|
+        media_filter = i.media_attachments
+        events_filter = i.events
+        news_filter = i.news_articles
+        status_update_filter = i.status_updates
+        if params[:search].present?
+          media_filter = i.media_attachments.where("media_attachments.title LIKE ? OR media_attachments.description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if i.media_attachments.size > 0
+          events_filter = i.events.where("events.name LIKE ? OR events.description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if i.events.size >0
+          news_filter = i.news_articles.where("news_articles.title LIKE ? OR news_articles.description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if i.news_articles.size >0 
+          status_update_filter = i.status_updates.where("status_updates.title LIKE ? OR status_updates.content LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if i.status_updates.size >0
+        end
+        if params[:market_id].present?
+          media_filter = i.media_attachments.where(category_id: params[:market_id]) if i.media_attachments.size >0
+          events_filter = i.events.where(category_id: params[:market_id]) if i.events.size >0
+          news_filter = i.news_articles.where(category_id: params[:market_id]) if i.news_articles.size >0
+          status_update_filter = i.status_updates.where(category_id: params[:market_id]) if i.status_updates.size >0
+        end
+        
+        media << media_filter if media_filter.size > 0
+        events_temp << events_filter if events_filter.size > 0
+        news_temp << news_filter if news_filter.size > 0
+        status_updates_temp << status_update_filter if status_update_filter.size > 0
       end
+
       @media_attachments = media.flatten.sort_by(&:created_at).reverse
       @events = events_temp.flatten.sort_by(&:created_at).reverse
       @news_articles = news_temp.flatten.sort_by(&:created_at).reverse
@@ -63,6 +83,18 @@ class VerticalMarketsController < ApplicationController
       names = ['Provincial Updates', 'Federal Updates']
       lst_categories = Category.where(name: names)
       @categories_news += lst_categories
+
+      @city = params[:city_slug] ? City.find_by_slug(params[:city_slug]) : City.find(5915022)
+      district_slug = params[:district_route] || params[:district_slug]
+      @district = district_slug ? District.find_by_slug(district_slug) : nil
+      neighborhood_slug = params[:id] || params[:neighborhood_slug]
+      @neighborhood = neighborhood_slug ? Neighborhood.find_by_slug(neighborhood_slug) : nil
+      @sub_neighborhood = params[:sub_neighborhood_slug] ? @neighborhood.sub_neighborhoods.find_by_slug(params[:sub_neighborhood_slug]) : nil
+
+      @municipality = @city.municipality
+      @region = @municipality.region
+      @province = @region.province
+
     else
       @city = params[:city_slug] ? City.find_by_slug(params[:city_slug]) : City.find(5915022)
       district_slug = params[:district_route] || params[:district_slug]
@@ -271,22 +303,62 @@ class VerticalMarketsController < ApplicationController
 
   def districts
     # because city is hardcoded everywhere already...
-    if params[:district_route].present?
-      dis = District.find(params[:district_route])
-      @city = dis.city
-      @districts = @city.present? ? @city.districts : []
+    if params[:city_slug].present?
+      city = City.find_by_slug(params[:city_slug])
+      @districts = city.districts
     else
-      @districts = []#District.where("city_id = ?", 5915022)
-      @city = nil
+      @districts = []
     end
   end
 
-  def locations_of_civic_news
-    city_vancouver = Location.find_by_slug('city-of-vancouver')
-    result_locations = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
-    #provincial-services: 164 , federal-services: 174
-    other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [164, 174, 114]})
-    result_locations << city_vancouver
+  def neighborhoods
+    # because city is hardcoded everywhere already...
+    if params[:district_slug].present? || params[:district_route].present?
+      dis = District.find_by_slug(params[:district_slug]|| params[:district_route])
+      @neighborhoods = dis.neighborhoods
+    else
+      @neighborhoods = []
+    end
+  end
+
+  def sub_neighborhoods 
+    # because city is hardcoded everywhere already...
+    if params[:neighborhood_slug].present?
+      nei = Neighborhood.find_by_slug(params[:neighborhood_slug])
+      @sub_neighborhoods = nei.sub_neighborhoods
+    else
+      @sub_neighborhoods = []
+    end
+  end
+
+
+  def locations_of_civic_news city_slug, district_slug, neighborhood_slug, sub_neighborhood_slug
+    result_locations = []
+    locations =[]
+    other_results =[]
+
+    if sub_neighborhood_slug.present?
+      sub_nei = Neighborhood.find_by_slug(sub_neighborhood_slug)
+      locations = Location.where(sub_neighborhood_id: sub_nei.id)
+    elsif neighborhood_slug.present?
+      nei = Neighborhood.find_by_slug(neighborhood_slug)
+      locations = nei.locations
+    elsif district_slug.present?
+      district = District.find_by_slug(district_slug)
+      locations = district.locations
+    elsif city_slug.present?
+      city = City.find_by_slug(city_slug)
+      locations = city.locations
+    else
+      location=[]
+    end
+    if locations.present?
+      locations.each do|lo|
+        result_locations = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", lo.id, lo.id, lo.id)
+      end
+      other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [164, 174, 114]}).where(id: locations.pluck(:id))
+    end
+    
     result_locations += other_results
     @locations_of_civic_news ||= result_locations
   end

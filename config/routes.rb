@@ -325,6 +325,7 @@ Connectbook::Application.routes.draw do
   get 'video_calls/get_status_from_location' => 'video_calls#get_status_from_location'
   put 'video_calls/set_available_call_location' => 'video_calls#set_available_call_location'
   get 'video_calls/get_available_call_location' => 'video_calls#get_available_call_location'
+  
   resources 'contacts', only: [:new, :create]
 
   # get '/districts/:district_id/news' => action: :guide
@@ -349,7 +350,8 @@ Connectbook::Application.routes.draw do
   get '/:city_slug/guide/:market' => 'vertical_markets#guide', as: :city_guide
 
   get ':district_route/guide/:market' => 'vertical_markets#guide', as: :top_district_guide
-  get 'guide/:market' => 'vertical_markets#guide', as: :region_market_guide
+  get '/guide/:market' => 'vertical_markets#guide', as: :region_market_guide
+  get 'guide/:market/:sub_market' => 'vertical_markets#guide', as: :region_sub_market_guide
 
   get ':district_route/business/:id' => 'locations#show', as: :district_location_path
   get ':district_route/:neighborhood/guide/:market' => 'vertical_markets#guide', as: :district_neighborhood_guide
@@ -375,6 +377,8 @@ Connectbook::Application.routes.draw do
     collection do
       get :get_neighborhoods
       get :get_sub_neighborhoods
+      get :get_districts
+      get :get_route_sub_neighborhoods
       get 'filter_updates' => 'city_news_articles#filter_updates', as: 'filter_updates'
       get 'filter_news_articles' => 'city_news_articles#filter_news_articles', as: 'filter_news_articles'
       get 'filter_media_attachments' => 'city_news_articles#filter_media_attachments', as: 'filter_media_attachments'

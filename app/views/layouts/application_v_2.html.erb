@@ -206,6 +206,7 @@
                       function initializeSession(apiKey,sessionId ) {
                         session_call = OT.initSession(apiKey, sessionId);
                         session_call.on('streamCreated', function streamCreated(event) {
+                          console.log("-------")
                           var subscriberOptions = {
                             insertMode: 'append',
                             width: '100%',
@@ -239,7 +240,6 @@
                         });
 
                         session_call.on('streamDestroyed', function sessionDisconnected(event) {
-                          console.log("--------")
                           $("#modal-user-video-call").modal("hide");
                           $("#modal-end-video-call").modal("show")
                           clearInterval(timer)
@@ -264,7 +264,7 @@
 
                           })                                              
                         })
-                        
+
                         $("#user-turn-off-camera").on("click",function(){
                           publisher.publishVideo(false);
                           $("#user-turn-off-camera").addClass("d-none")

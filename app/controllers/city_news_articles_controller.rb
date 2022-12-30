@@ -46,20 +46,65 @@ class CityNewsArticlesController < ApplicationController
     # render layout: "application_v_2"
   end
 
-  def get_neighborhoods
-    neighborhoods = Neighborhood.where(district_id: params[:district_id])
-    render json: neighborhoods
+  def get_neighborhoods 
+    if params[:district_slug].present?
+      district = District.find_by_slug(params[:district_slug])
+      neighborhoods = district.neighborhoods
+      route = "/#{district&.city.slug}/#{district.slug}/guide/news"
+      render json: {
+        neighborhoods: neighborhoods,
+        route: route
+      }
+    else
+      city = City.find_by_slug(params[:city_slug])
+      route = "/#{city.slug}/guide/news"
+      render json:{
+        neighborhoods: [],
+        route: route
+      }
+
+    end
   end
 
   def get_sub_neighborhoods
-    neighborhood = Neighborhood.find_by_slug(params[:neighborhood_slug])
-    render json: neighborhood
+    if params[:neighborhood_slug].present?
+      neighborhood = Neighborhood.find_by_slug(params[:neighborhood_slug])
+      sub_neis = neighborhood.sub_neighborhoods
+      route = "/#{neighborhood&.district&.city&.slug}/#{neighborhood.district&.slug}/#{neighborhood.slug}/guide/news"
+      render json: {
+        sub_neighborhoods: sub_neis,
+        route: route
+      }
+    else 
+      district = District.find_by_slug(params[:district_slug])
+      route = "/#{district.city&.slug}/#{district.slug}/guide/news"
+      render json: {
+        sub_neighborhoods: [],
+        route: route
+      }
+    end
+  end
+
+  def get_route_sub_neighborhoods
+    if params[:sub_neighborhood_slug].present?
+      sub_nei = Neighborhood.find_by_slug(params[:sub_neighborhood_slug])
+      route = "/#{sub_nei.neighborhood&.district&.city&.slug}/#{sub_nei.neighborhood&.district&.slug}/#{sub_nei.neighborhood&.slug}/#{sub_nei.slug}/guide/news"
+    else
+      nei = Neighborhood.find_by_slug(params[:neighborhood_slug])
+      route = "/#{nei&.district&.city&.slug}/#{nei.district&.slug}/#{nei.slug}/guide/news"
+    end
+    render json:{route: route}
+  end
+
+  def districts
+    # because city is hardcoded everywhere already...
+    @districts = District.where("city_id = ?", 5915022)
   end
 
   def filter_updates
     temp = []
     if params[:category_id].blank?
-      locations_manicipality.each do |i|
+      locations_manicipality(params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each do |i|
         temp << i.status_updates if i.status_updates.length > 0
       end
       @filter_status_updates = temp.flatten.sort_by(&:created_at).reverse
@@ -75,7 +120,7 @@ class CityNewsArticlesController < ApplicationController
   def filter_media_attachments
     temp = []
     if params[:category_id].blank?
-      locations_manicipality.each do |i|
+      locations_manicipality(params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each do |i|
         temp << i.media_attachments if i.media_attachments.length > 0
       end
       @filter_media_attachments = temp.flatten.sort_by(&:created_at).reverse
@@ -91,7 +136,7 @@ class CityNewsArticlesController < ApplicationController
   def filter_news_articles
     temp = []
     if params[:category_id].blank?
-      locations_manicipality.each do |i|
+      locations_manicipality(params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each do |i|
         temp << i.news_articles if i.news_articles.length > 0
       end
       @filter_news = temp.flatten.sort_by(&:created_at).reverse
@@ -107,7 +152,7 @@ class CityNewsArticlesController < ApplicationController
   def filter_events
     temp = []
     if params[:category_id].blank?
-      locations_manicipality.each do |i|
+      locations_manicipality(params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each do |i|
         temp << i.events if i.events.length > 0
       end
       @filter_events = temp.flatten.sort_by(&:created_at).reverse
@@ -207,17 +252,35 @@ class CityNewsArticlesController < ApplicationController
     end
   end
 
-  def districts
-    # because city is hardcoded everywhere already...
-    @districts = District.where("city_id = ?", 5915022)
-  end
 
-  def locations_manicipality
-    city_vancouver = Location.find_by_slug('city-of-vancouver')
-    result_locaitons = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
-    other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [164, 174, 114]})
-    result_locaitons << city_vancouver
-    result_locaitons += other_results
-    @locations_manicipality ||= result_locaitons
+  def locations_manicipality city_slug, district_slug, neighborhood_slug, sub_neighborhood_slug
+    result_locations = []
+    locations =[]
+    other_results =[]
+
+    if sub_neighborhood_slug.present?
+      sub_nei = Neighborhood.find_by_slug(sub_neighborhood_slug)
+      locations = Location.where(sub_neighborhood_id: sub_nei.id)
+    elsif neighborhood_slug.present?
+      nei = Neighborhood.find_by_slug(neighborhood_slug)
+      locations = nei.locations
+    elsif district_slug.present?
+      district = District.find_by_slug(district_slug)
+      locations = district.locations
+    elsif city_slug.present?
+      city = City.find_by_slug(city_slug)
+      locations = city.locations
+    else
+      location=[]
+    end
+    if locations.present?
+      locations.each do|lo|
+        result_locations = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", lo.id, lo.id, lo.id)
+      end
+      other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [164, 174, 114]}).where(id: locations.pluck(:id))
+    end
+
+    result_locations += other_results
+    @locations_of_civic_news ||= result_locations
   end
 end
