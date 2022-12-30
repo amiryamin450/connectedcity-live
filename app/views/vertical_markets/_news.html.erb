@@ -1,21 +1,31 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="<%= root_path %>">Home</a></li>
-    <%if @district %>
-      <li class="breadcrumb-item active" aria-current="page"><a href="#" style="margin-left: 10px;"><%=@district.name%></a></li>
-    <% else %>
-      <li class="breadcrumb-item"><a href="<%= root_path %>" style="margin-left: 10px;"><% @city&.name || 'Vancouver' %></a></li>
+    <% if @city %>
+      <%city_url = "/#{@province.slug}/#{@region.slug}/#{@municipality.slug}/#{@city&.slug}"%>
+      <li class="breadcrumb-item active" aria-current="page"><a href="<%=city_url%>" style="margin-left: 10px;"><%=@city.name%></a></li>
+    <% end %>
+    <% if @district %>
+      <% district_url = "/#{@province.slug}/#{@region.slug}/#{@municipality.slug}/#{@city&.slug}/#{@district&.slug}"%>
+      <li class="breadcrumb-item active" aria-current="page"><a href="<%=district_url%>" style="margin-left: 10px;"><%=@district.name%></a></li>
+    <% end %>
+    <% if @neighborhood %>
+      <%neighborhood_url = "/#{@province.slug}/#{@region.slug}/#{@municipality.slug}/#{@city&.slug}/#{@district&.slug}/#{@neighborhood&.slug}"%>
+      <li class="breadcrumb-item active" aria-current="page"><a href="<%=neighborhood_url%>" style="margin-left: 10px;"><%=@neighborhood.name%></a></li>
+    <% end %>
+    
+    <% if @sub_neighborhood %>
+      <%sub_neighborhood_url = "/#{@province.slug}/#{@region.slug}/#{@municipality.slug}/#{@city&.slug}/#{@district&.slug}/#{@neighborhood&.slug}/#{@sub_neighborhood&.slug}"%>
+      <li class="breadcrumb-item active" aria-current="page"><a href="<%=sub_neighborhood_url%>" style="margin-left: 10px;"><%=@sub_neighborhood.name%></a></li>
     <% end %>
     <li class="breadcrumb-item" aria-current="page"><a href="#" style="margin-left: 10px;"><%= "#{ @vertical_market.name}" %></a></li>
   </ol>
 </nav>
 
-<h1 style="margin-left: 50px; margin-bottom: 20px; font-weight: bold;">Browse <%= @vertical_market.present? ? @vertical_market.name : 'Civic News' %> in <% @city&.name || 'Vancouver' %></h1>
-    <div class="map-section">
-      <div id="map" style="height: 60vh;"></div>
-    </div>
-  </div>
-</row>
+<h1 style="margin-left: 50px; margin-bottom: 20px; font-weight: bold;">Browse <%= @vertical_market.present? ? @vertical_market.name : 'Civic News' %> in <%=  @sub_neighborhood&.neighborhd || @neighborhood&.neighborhd || @disctrict&.name || @city&.csdname%></h1>
+<div class="map-section">
+  <div id="map" style="height: 60vh;"></div>
+</div>
 <div class="civic-news-body-section">
   <div class="container-fluid">
     <div class="row">
@@ -24,13 +34,13 @@
           <div class="col-11">
             <div class="row">
               <div class="col-3 container-box">
-                <%= select_tag 'civic-news-disctrict-dropdown', options_from_collection_for_select(@districts, 'id', 'name'), prompt: 'District', class: 'form-control search-column input-group-prepend search-box' %>
+                <%= select_tag 'civic-news-disctrict-dropdown', options_for_select(@districts.collect{ |district| [district.name, district.slug]}, :selected => @district&.slug), prompt: 'District', class: 'form-control search-column input-group-prepend search-box' %>
               </div>
               <div class="col-4 container-box">
-                <%= select_tag 'civic-news-neighborhoods-dropdown', raw("<option>Neighbourhood</option>"), prompt: 'Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
+                <%= select_tag 'civic-news-neighborhoods-dropdown', options_for_select(@neighborhoods.collect{ |nei| [nei.neighborhd, nei.slug]}, :selected => @neighborhood&.slug), prompt: 'Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
               </div>
               <div class="col-5 container-box">
-                <%= select_tag 'civic-news-sub-neighborhoods-dropdown', raw("<option>Sub-Neighbourhood</option>"), prompt: 'Sub-Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
+                <%= select_tag 'civic-news-sub-neighborhoods-dropdown', options_for_select(@sub_neighborhoods.collect{ |sub_nei| [sub_nei.neighborhd, sub_nei.slug]}, :selected => @sub_neighborhood&.slug), prompt: 'Sub-Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
               </div>
             </div>
           </div>
@@ -43,12 +53,12 @@
       </div>
       <div class="col-md-6 col-lg-6">
         <div class="search-box advance-search-box">
-          <%= form_tag "#", class: 'search-form', method: :get do %>
+          <%= form_tag "", class: 'search-form', method: :get do %>
             <div class="input-group">
               <%# <input type="text" class="form-control search-input" placeholder="What are you looking for?" aria-label="Search input with dropdown button"> %>
               <%= search_field_tag :search, params[:search], placeholder: "What are you looking for?", class: "form-control search-column" %>
               <div class="input-group-prepend search-box ">
-                <%= select_tag 'market', options_from_collection_for_select(@categories_news, 'id', 'name'), prompt: 'All', class: 'form-control' %>
+                <%= select_tag 'market_id', options_from_collection_for_select(@categories_news, 'id', 'name', params[:market_id]), prompt: 'All', class: 'form-control' %>
               </div>
               <div class="input-group-append">
                 <button class="btn search-box-btn" type="submit"><img src="/cc_2.0/icon/search-icon.svg"></button>
@@ -68,14 +78,17 @@
   $(document).ready(function() {
     $('#civic-news-disctrict-dropdown').on('change', function(event) {
       let districtId = event.target.value
+      let cityId = '<%=params[:city_slug]%>'
+      let url = districtId ? `/city_news_articles/get_neighborhoods?district_slug=${districtId}` : `/city_news_articles/get_neighborhoods?city_slug=${cityId}`
       $.ajax({
-        url: `/city_news_articles/get_neighborhoods?district_id=${districtId}`,
+        url: url,
         method: "GET",
         dataType: "json",
       }).done(function( response ) {
         resetNeighborhood();
         resetSubNeighborhood();
-        $.each(response, function(index, item) {
+        $('#city-landing-paths').attr("href", `${response.route}`)
+        $.each(response.neighborhoods, function(index, item) {
           $('#civic-news-neighborhoods-dropdown').append($('<option>', {
               value: item.slug,
               text: item.neighborhd
@@ -86,44 +99,50 @@
 
     $('#civic-news-neighborhoods-dropdown').on('change', function(event) {
       let neighborhoodId = event.target.value
+      let districtId = $('#civic-news-disctrict-dropdown').val()
+      let url = neighborhoodId ? `/city_news_articles/get_sub_neighborhoods?neighborhood_slug=${neighborhoodId}` : `/city_news_articles/get_sub_neighborhoods?district_slug=${districtId}`
       $.ajax({
-        url: `/city_news_articles/get_sub_neighborhoods?neighborhood_slug=${neighborhoodId}`,
+        url: url,
         method: "GET",
         dataType: "json",
       }).done(function( response ) {
         resetSubNeighborhood();
-        // $.each(response, function(index, item) {
+        $('#city-landing-paths').attr("href", `${response.route}`)
+        $.each(response.sub_neighborhoods, function(index, item) {
           $('#civic-news-sub-neighborhoods-dropdown').append($('<option>', {
-              value: response.slug,
-              text: response.neighborhd
+              value: item.slug,
+              text: item.neighborhd
           }));
-          // $('#civic-news-sub-neighborhoods-dropdown').append($('<option>', {
-          //     value: item.slug,
-          //     text: item.name
-          // }));
-        // })
+        })
       });
     })
-
-    // $('#city-dropdown').on('change', function(event) {
-    //   let province = $('#province-dropdown :selected').val()
-    //   let region = $('#region-dropdown :selected').val()
-    //   let municipality = $('#municipality-dropdown :selected').val()
-    //   let city = event.target.value
-    //   $('#city-landing-paths').attr("href", `${province}/${region}/${municipality}/${city}`)
-    // })
+    
+    $("#civic-news-sub-neighborhoods-dropdown").on('change', function(event){
+      let subNeighborhoodId = event.target.value
+      let neighborhoodId = $('#civic-news-neighborhoods-dropdown').val()
+      let url = subNeighborhoodId ? `/city_news_articles/get_route_sub_neighborhoods?sub_neighborhood_slug=${subNeighborhoodId}` : `/city_news_articles/get_route_sub_neighborhoods?neighborhood_slug=${neighborhoodId}`
+      $.ajax({
+        url: url,
+        method: "GET",
+        dataType: "json",
+      }).done(function( response ) {
+        $('#city-landing-paths').attr("href", `${response.route}`)
+      });
+    })
 
     function resetNeighborhood() {
       $('#civic-news-neighborhoods-dropdown').find('option').remove();
       $('#civic-news-neighborhoods-dropdown').append($('<option>', {
-        text: "Neighborhood"
+        text: "Neighbourhood",
+        value: ""
       }));
     }
 
     function resetSubNeighborhood() {
       $('#civic-news-sub-neighborhoods-dropdown').find('option').remove();
       $('#civic-news-sub-neighborhoods-dropdown').append($('<option>', {
-        text: "Sub-Neighborhood"
+        text: "Sub-Neighbourhood",
+        value: ""
       }));
     }
 
@@ -134,30 +153,12 @@
       }));
     }
 
-    // $('#district-dropdown').on('change', function(event) {
-    //   let districtId = event.target.value
-    //   $.ajax({
-    //     url: `/home/get_neighborhoods?district_id=${districtId}`,
-    //     method: "GET",
-    //     dataType: "json",
-    //   }).done(function( response ) {
-    //     resetNeighbourhood();
-    //     $('#district-path').attr("href", `${response.route}/${districtId}`)
-    //     $.each(response.neighborhoods, function(index, neighborhood) {
-    //       $('#neighbourhood-dropdown').append($('<option>', {
-    //           value: neighborhood.slug,
-    //           text: neighborhood.neighborhd
-    //       }));
-    //     })
-    //   });
-    // })
-
   })
 </script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
-<% @markers_lo = @vertical_market.locations_civic_news() %>
+<% @markers_lo = @vertical_market.locations_of_civic_news(params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug] ) %>
 
 <%= javascript_tag do %>
   window.locations = <%= raw @markers_lo.collect { |m|

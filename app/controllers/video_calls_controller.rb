@@ -84,6 +84,7 @@ class VideoCallsController < ActionController::Base
     location = Location.find_by_id(params[:location_id])
     render json:{available_call: location.available_call}
   end
+  
   def vonage
     @vonage ||= VonageService.new
   end

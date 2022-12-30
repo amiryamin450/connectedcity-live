@@ -155,4 +155,44 @@ class VerticalMarket < ActiveRecord::Base
     end
     result_locaitons += temp
   end
+
+  def locations_of_civic_news city_slug, district_slug, neighborhood_slug, sub_neighborhood_slug
+    result_locations = []
+    locations =[]
+
+    if sub_neighborhood_slug.present?
+      sub_nei = Neighborhood.find_by_slug(sub_neighborhood_slug)
+      locations = Location.where(sub_neighborhood_id: sub_nei.id)
+    elsif neighborhood_slug.present?
+      nei = Neighborhood.find_by_slug(neighborhood_slug)
+      locations = nei.locations
+    elsif district_slug.present?
+      district = District.find_by_slug(district_slug)
+      locations = district.locations
+    elsif city_slug.present?
+      city = City.find_by_slug(city_slug)
+      locations = city.locations
+    else
+      location=[]
+    end
+    if locations.present?
+      locations.each do|lo|
+        result_locations = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", lo.id, lo.id, lo.id)
+      end
+    end
+    # city_vancouver = Location.find_by_slug('city-of-vancouver')
+    # result_locations = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
+    #provincial-services: 164 , federal-services: 174 164, 174, 114
+    other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [164, 174, 114]})
+    result_locations += other_results
+    temp = []
+    result_locations.each_with_index do |i, idx|
+      temp += i.media_attachments if i.media_attachments.size > 0
+      temp += i.events if i.events.size > 0
+      temp += i.news_articles if i.news_articles.size > 0
+      temp += i.status_updates if i.status_updates.size > 0
+    end
+    result_locations += temp
+    # @locations_of_civic_news ||= result_locations
+  end
 end

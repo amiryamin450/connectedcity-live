@@ -158,12 +158,21 @@
       v.attr('src', '')
       v.removeAttr('allow')
     })
-
+    var subNeighborhoodId = '<%= params[:sub_neighborhood_slug] %>'
+    var neighborhoodId = '<%= params[:neighborhood_slug] %>'
+    var disctrictId = '<%= params[:district_slug] %>' || '<%= params[:district_route] %>'
+    var cityId = '<%= params[:city_slug] %>'
     $('#civic-news-status-update-dropdown').on('change', function(event) {
       let categoryId = event.target.value
       $.ajax({
         url: `/city_news_articles/filter_updates?category_id=${categoryId}`,
         method: "GET",
+        data:{
+          sub_neighborhood_slug: subNeighborhoodId,
+          neighborhood_slug: neighborhoodId,
+          disctrict_slug: disctrictId,
+          city_slug: cityId
+        },
         dataType: "script",
       })
     })
@@ -173,6 +182,12 @@
       $.ajax({
         url: `/city_news_articles/filter_media_attachments?category_id=${categoryId}`,
         method: "GET",
+        data:{
+          sub_neighborhood_slug: subNeighborhoodId,
+          neighborhood_slug: neighborhoodId,
+          disctrict_slug: disctrictId,
+          city_slug: cityId
+        },
         dataType: "script",
       })
     })
@@ -182,6 +197,12 @@
       $.ajax({
         url: `/city_news_articles/filter_news_articles?category_id=${categoryId}`,
         method: "GET",
+        data:{
+          sub_neighborhood_slug: subNeighborhoodId,
+          neighborhood_slug: neighborhoodId,
+          disctrict_slug: disctrictId,
+          city_slug: cityId
+        },
         dataType: "script",
       })
     })
@@ -191,6 +212,12 @@
       $.ajax({
         url: `/city_news_articles/filter_events?category_id=${categoryId}`,
         method: "GET",
+        data:{
+          sub_neighborhood_slug: subNeighborhoodId,
+          neighborhood_slug: neighborhoodId,
+          disctrict_slug: disctrictId,
+          city_slug: cityId
+        },
         dataType: "script",
       })
     })
