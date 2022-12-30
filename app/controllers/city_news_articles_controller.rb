@@ -1,5 +1,5 @@
 class CityNewsArticlesController < ApplicationController
-  load_and_authorize_resource except: [:guide, :index, :filter_updates, :filter_media_attachments, :filter_news_articles, :filter_events]
+  load_and_authorize_resource except: [:guide, :index, :filter_updates, :filter_media_attachments, :filter_news_articles, :filter_events, :get_neighborhoods, :get_sub_neighborhoods, :get_route_sub_neighborhoods]
 
   PER_PAGE = 20
 
@@ -62,7 +62,6 @@ class CityNewsArticlesController < ApplicationController
         neighborhoods: [],
         route: route
       }
-
     end
   end
 
