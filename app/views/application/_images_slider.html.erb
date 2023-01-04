@@ -6,17 +6,14 @@
           <% values = @documents.length === 1 ? @documents.flat_map {|i| [i, i]} : @documents %>
           <% values.each do |data| %>
             <% url_img = data['image'] ? data['image'].main.url : "" %>
-            <% height = data['image'] ? data['image'].main.height : 0%>
-            <% width = data['image'] ? data['image'].main.width : 0%>
-            <% title = data['image'] ? data['image'].as_text : "" %>
+            <% title = data['title'] ? data['title'].as_text : "" %>
             <% sub_title = data['sub_title'] ? data['sub_title'].as_text : "" %>
             <% url = data['url'] ? data['url'].as_text : "" %>
             <% watermark_url = data['watermark_url'] ? data['watermark_url'].as_text : "" %>
             <% watermark_title = data['watermark_title'] ? data['watermark_title'].as_text : "" %>
             <div class="slide">
               <% if url.present? %> <a href=<%= url %>> <% else %> <div> <% end %>
-                <% image_url = url_img+'&w='+width.to_s+'&h='+height.to_s%>
-                <span class="animate in" style="background-image: url(<%= image_url %>%>)"></span>
+                <span class="animate in" style="background-image: url(<%= url_img %>)"></span>
                 <div class="static-content">
                   <div class="slider-advance-searchbox">
                     <div class="heading">
