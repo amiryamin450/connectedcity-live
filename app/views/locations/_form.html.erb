@@ -62,92 +62,92 @@
           <div class="tab-pane" id="agents">
             <%= link_to 'Create New Agent', new_location_path(broker_id: @location.id), class: 'btn'  %>
           </div>
-          <% if request.path.include?('city-of-vancouver') %>
-            <div class="tab-pane" id="city-hall">
-              <% if @location.city_halls.size > 0 %>
-                <table class="table table-bordered table-striped table-hover" style="width: 98%;">
-                  <thead>
+          
+          <div class="tab-pane" id="city-hall">
+            <% if @location.city_halls.size > 0 %>
+              <table class="table table-bordered table-striped table-hover" style="width: 98%;">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Title</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @location.city_halls.each do |hall| %>
                     <tr>
-                      <th>Name</th>
-                      <th>Title</th>
-                      <th>Action</th>
+                      <td><%= hall.name %></td>
+                      <td><%= hall.vertical_market_categories[0].name %></td>
+                      <td>
+                        <div class="btn-group">
+                          <%= link_to 'Delete', '#', method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+                          <%= link_to 'Edit', '#', class: 'btn btn-mini' %>
+                        </div>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    <% @location.city_halls.each do |hall| %>
-                      <tr>
-                        <td><%= hall.name %></td>
-                        <td><%= hall.vertical_market_categories[0].name %></td>
-                        <td>
-                          <div class="btn-group">
-                            <%= link_to 'Delete', '#', method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
-                            <%= link_to 'Edit', '#', class: 'btn btn-mini' %>
-                          </div>
-                        </td>
-                      </tr>
-                    <% end %>
-                  </tbody>
-                </table>
-              <% end %>
-              <%= link_to 'Create New City Hall Member', new_location_path(hall_id: @location.id), class: 'btn'  %>
-            </div>
-            <div class="tab-pane" id="city-councillors">
-              <% if @location.city_councillors.size > 0 %>
-                <table class="table table-bordered table-striped table-hover" style="width: 98%;">
-                  <thead>
+                  <% end %>
+                </tbody>
+              </table>
+            <% end %>
+            <%= link_to 'Create New City Hall Member', new_location_path(hall_id: @location.id), class: 'btn'  %>
+          </div>
+          <div class="tab-pane" id="city-councillors">
+            <% if @location.city_councillors.size > 0 %>
+              <table class="table table-bordered table-striped table-hover" style="width: 98%;">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Title</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @location.city_councillors.each do |item| %>
                     <tr>
-                      <th>Name</th>
-                      <th>Title</th>
-                      <th>Action</th>
+                      <td><%= item.name %></td>
+                      <td><%= item.vertical_market_categories[0].name %></td>
+                      <td>
+                        <div class="btn-group">
+                          <%= link_to 'Delete', '#', method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+                          <%= link_to 'Edit', '#', class: 'btn btn-mini' %>
+                        </div>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    <% @location.city_councillors.each do |item| %>
-                      <tr>
-                        <td><%= item.name %></td>
-                        <td><%= item.vertical_market_categories[0].name %></td>
-                        <td>
-                          <div class="btn-group">
-                            <%= link_to 'Delete', '#', method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
-                            <%= link_to 'Edit', '#', class: 'btn btn-mini' %>
-                          </div>
-                        </td>
-                      </tr>
-                    <% end %>
-                  </tbody>
-                </table>
-              <% end %>
-              <%= link_to 'Create New City Councillors Member', new_location_path(councillor_id: @location.id), class: 'btn'  %>
-            </div>
-            <div class="tab-pane" id="park-recreation-commissioners">
-              <% if @location.park_recreation_commissioners.size > 0 %>
-                <table class="table table-bordered table-striped table-hover" style="width: 98%;">
-                  <thead>
+                  <% end %>
+                </tbody>
+              </table>
+            <% end %>
+            <%= link_to 'Create New City Councillors Member', new_location_path(councillor_id: @location.id), class: 'btn'  %>
+          </div>
+          <div class="tab-pane" id="park-recreation-commissioners">
+            <% if @location.park_recreation_commissioners.size > 0 %>
+              <table class="table table-bordered table-striped table-hover" style="width: 98%;">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Title</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @location.park_recreation_commissioners.each do |item| %>
                     <tr>
-                      <th>Name</th>
-                      <th>Title</th>
-                      <th>Action</th>
+                      <td><%= item.name %></td>
+                      <td><%= item.vertical_market_categories[0].name %></td>
+                      <td>
+                        <div class="btn-group">
+                          <%= link_to 'Delete', '#', method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+                          <%= link_to 'Edit', '#', class: 'btn btn-mini' %>
+                        </div>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    <% @location.park_recreation_commissioners.each do |item| %>
-                      <tr>
-                        <td><%= item.name %></td>
-                        <td><%= item.vertical_market_categories[0].name %></td>
-                        <td>
-                          <div class="btn-group">
-                            <%= link_to 'Delete', '#', method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
-                            <%= link_to 'Edit', '#', class: 'btn btn-mini' %>
-                          </div>
-                        </td>
-                      </tr>
-                    <% end %>
-                  </tbody>
-                </table>
-              <% end %>
-              <%= link_to 'Create New Parks & Recreation Commissioners Member', new_location_path(commissioner_id: @location.id), class: 'btn'  %>
-            </div>
-          <% end %>
+                  <% end %>
+                </tbody>
+              </table>
+            <% end %>
+            <%= link_to 'Create New Parks & Recreation Commissioners Member', new_location_path(commissioner_id: @location.id), class: 'btn'  %>
+          </div>
+          
         <% end %>
         <div class="tab-pane <%= 'active' unless current_user.has_role? :admin %>" id="info">
           <%= f.input :broker_id, as: :hidden %>
