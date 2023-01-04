@@ -173,17 +173,14 @@ class VerticalMarket < ActiveRecord::Base
       city = City.find_by_slug(city_slug)
       locations = city.locations
     else
-      location=[]
+      locations=[]
     end
     if locations.present?
       locations.each do|lo|
         result_locations = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", lo.id, lo.id, lo.id)
       end
     end
-    # city_vancouver = Location.find_by_slug('city-of-vancouver')
-    # result_locations = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", city_vancouver.id, city_vancouver.id, city_vancouver.id)
-    #provincial-services: 164 , federal-services: 174 164, 174, 114
-    other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [164, 174, 114]})
+    other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [164, 174, 114]}).where(id: locations.pluck(:id))
     result_locations += other_results
     temp = []
     result_locations.each_with_index do |i, idx|
@@ -193,6 +190,5 @@ class VerticalMarket < ActiveRecord::Base
       temp += i.status_updates if i.status_updates.size > 0
     end
     result_locations += temp
-    # @locations_of_civic_news ||= result_locations
   end
 end
