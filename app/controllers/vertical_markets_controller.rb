@@ -350,7 +350,7 @@ class VerticalMarketsController < ApplicationController
       city = City.find_by_slug(city_slug)
       locations = city.locations
     else
-      location=[]
+      locations=[]
     end
     if locations.present?
       locations.each do|lo|
