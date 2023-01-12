@@ -22,7 +22,7 @@
   </ol>
 </nav>
 
-<h1 style="margin-left: 50px; margin-bottom: 20px; font-weight: bold;">Browse <%= @vertical_market.present? ? @vertical_market.name : 'Civic News' %> in <%=  @sub_neighborhood&.neighborhd || @neighborhood&.neighborhd || @disctrict&.name || @city&.csdname%></h1>
+<h1 style="margin-left: 50px; margin-bottom: 20px; font-weight: bold;">Browse <%= @vertical_market.present? ? @vertical_market.name : 'Civic News' %> in <%=  @sub_neighborhood&.neighborhd || @neighborhood&.neighborhd || @district&.name || @city&.csdname%></h1>
 <div class="map-section">
   <div id="map" style="height: 60vh;"></div>
 </div>

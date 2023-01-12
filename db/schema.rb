@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20221227085320) do
+ActiveRecord::Schema.define(:version => 20230106020941) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -541,6 +541,7 @@ ActiveRecord::Schema.define(:version => 20221227085320) do
     t.integer  "commissioner_id"
     t.integer  "sub_neighborhood_id"
     t.boolean  "available_call",               :default => true
+    t.integer  "municipality_id"
   end
 
   add_index "locations", ["city_id"], :name => "city_id"
@@ -660,6 +661,7 @@ ActiveRecord::Schema.define(:version => 20221227085320) do
     t.integer  "region_id"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
+    t.integer  "province_id"
   end
 
 # Could not dump table "neighborhoods" because of following StandardError

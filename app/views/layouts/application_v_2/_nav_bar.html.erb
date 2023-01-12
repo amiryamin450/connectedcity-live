@@ -51,6 +51,12 @@
                 <%else%>
                   <a href="<%=city_guide_path(@location&.city&.slug, vm.slug)%>"><%=vm.name%></a>
                 <%end%>
+              <% elsif params[:municipality_slug] || @location&.municipality%>
+                <% if params[:municipality_slug]%>
+                  <a href="<%=municipality_guide_path(params[:municipality_slug], vm.slug)%>"><%=vm.name%></a>
+                <%else%>
+                  <a href="<%=municipality_guide_path(@location&.municipality&.slug, vm.slug)%>"><%=vm.name%></a>
+                <%end%>
               <%else%>
                 <a href=<%="#{@base_path}guide/#{vm.slug}"%>><%=vm.name%></a>
               <% end %>
@@ -79,6 +85,12 @@
                       <li><%= link_to child.name, city_sub_market_guide_path(params[:city_slug], vm.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
                     <% else %>
                       <li><%= link_to child.name, city_sub_market_guide_path(@location&.city.slug, vm.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
+                    <% end %>
+                  <% elsif params[:municipality_slug] || @location&.municipality  %>
+                    <%if params[:municipality_slug]%>
+                      <li><%= link_to child.name, municipality_sub_market_guide_path(params[:municipality_slug], vm.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
+                    <% else %>
+                      <li><%= link_to child.name, municipality_sub_market_guide_path(@location&.municipality&.slug, vm.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
                     <% end %>
                   <% else %>
                     <a href=<%="#{@base_path}guide/#{child.slug}"%>><%=child.name%></a>

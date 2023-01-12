@@ -1,7 +1,6 @@
 class VerticalMarketCategoriesController < ApplicationController
   layout :resolve_layout
-  load_and_authorize_resource except: [:show_auto_listing_makers]
-
+  load_and_authorize_resource except: [:show_auto_listing_makers, :show]
 
   def resolve_layout
     case action_name
@@ -34,7 +33,7 @@ class VerticalMarketCategoriesController < ApplicationController
     set_district
     set_neighborhood
     set_bia
-
+   
     @vertical_market_category = VerticalMarketCategory.find(params[:id])
     @vertical_market = @vertical_market_category.vertical_market
 
@@ -44,7 +43,11 @@ class VerticalMarketCategoriesController < ApplicationController
       add_crumb @bia.district.name, district_guide_path(@bia.district) if @bia.district
       add_crumb @bia.name, url_for(@bia)
     end
-
+    @municipality = params[:municipality_slug] ? Municipality.find_by_slug(params[:municipality_slug]) : nil
+    @city = params[:city_slug] ? City.find_by_slug(params[:city_slug]) : nil
+    @district = params[:district_slug] ? District.find_by_slug(params[:district_slug]) : nil
+    @neighborhood = params[:neighborhood_slug] ? Neighborhood.find_by_slug(:neighborhood_slug) : nil
+    @sub_neighborhood = params[:sub_neighborhood_slug] ? Neighborhood.find_by_slug(:sub_neighborhood_slug) : nil
     add_crumb @vertical_market_category.vertical_market.parent.name, "#{@base_path}guide/#{@vertical_market_category.vertical_market.parent.slug}" unless @vertical_market_category.vertical_market.parent.nil?
     add_crumb @vertical_market_category.vertical_market.name, "#{@base_path}guide/#{@vertical_market_category.vertical_market.slug}"
     add_crumb @vertical_market_category.name
@@ -55,7 +58,7 @@ class VerticalMarketCategoriesController < ApplicationController
   end
 
   def show_auto_listing_makers
-    unless params[:make].in? AutomotiveListing.available_in(@city.id, @district.try(:id), @neighborhood.try(:id)).pluck("DISTINCT make")
+    unless params[:make].in? AutomotiveListing.available_in(@municipality.try(:id), @city.id, @district.try(:id), @neighborhood.try(:id), @sub_neigborhood.try(:id)).pluck("DISTINCT make")
       raise Exception.new("AutoMake #{params[:make]} have not appeared in current local yet, city_id: #{@city.id}, district_id: #{@district.try(:id)}, neighborhood_id: #{@neighborhood.try(:id)}")
     end
 
@@ -67,8 +70,8 @@ class VerticalMarketCategoriesController < ApplicationController
     crumb_with_fake_category @district.try(:id), @neighborhood.try(:id)
     page = params[:page] || 1
     @auto_make ||= params[:make]
-    @auto_listings = @vertical_market_category.get_auto_listings_paged(params[:make], @city.id, page,
-    @district.try(:id), @neighborhood.try(:id))
+    @auto_listings = @vertical_market_category.get_auto_listings_paged(params[:make], @municipality.try(:id), @city.id, page,
+    @district.try(:id), @neighborhood.try(:id), @sub_neigborhood.try(:id))
     @markers = @auto_listings.map(&:location).uniq.map do |location|
       {
         name: location.name,

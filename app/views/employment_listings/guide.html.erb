@@ -1,5 +1,5 @@
 <% @current_market = @vertical_market.respond_to?(:name) ? @vertical_market.name : @vertical_market %>
-<% @current_district = @district != nil ? @district.name : "Vancouver" %>
+<% @current_district = (@municipality&.name || @sub_neighborhood&.name || @neighborhood&.name || @district&.name || @city&.name || 'Vancouver') %>
 <% @employment_category = [
   ['Accounting and Finance', 'Accounting and Finance'],
   ['Administrative and Clerical', 'Administrative and Clerical'],

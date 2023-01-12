@@ -6,16 +6,26 @@
     <% end %>
   <% end %>
 <% end %>
-
+<% @district_slug = params[:district_slug] || params[:district_route]%>
+<% @url %>
+<% if params[:sub_neighborhood_slug]%>
+  <% @url = city_district_neighborhood_sub_category_show_path(params[:city_slug], @district_slug, params[:neighborhood_slug], params[:sub_neighborhood_slug], category.slug)%>
+<% elsif params[:neighborhood_slug]%>
+  <% @url = city_district_neighborhood_category_show_path(params[:city_slug], @district_slug, params[:neighborhood_slug], category.slug)%>
+<% elsif @district_slug %>
+  <% @url = city_district_category_show_path(params[:city_slug], @district_slug, category.slug)%>
+<% elsif params[:city_slug] %>
+  <% @url = city_category_show_path(params[:city_slug], category.slug)%>
+<% elsif params[:municipality_slug] %>
+  <% @url = municipality_category_show_path(params[:municipality_slug], category.slug)%>
+<%else%>
+  <% @url = category_show_path()%>
+<% end %>
 <div class="card-label-one">
   <div class="title">
     <h4>&nbsp;<%= category.name %>&nbsp;</h4>
     <%= link_to 'More + ', '#', class: 'see-more', data: { element: category.id } %>
-    
-    <% if @business_improvement_area_id %>
-      &nbsp;&nbsp;&nbsp;
-      <%= link_to ' See All', "#{@base_path}category/#{category.slug}", class: 'see-all' %>
-    <% end %>
+    <%= link_to ' See All', @url, class: 'see-all' %>
     <% if user_signed_in? && current_user.has_role?(:admin) %>
       &nbsp;&nbsp;&nbsp;
       <%= link_to 'Edit', edit_vertical_market_category_path(category), class: 'badge badge-dark' %>

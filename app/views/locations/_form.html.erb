@@ -53,6 +53,7 @@
           <div class="tab-pane active" id="location">
             <%= f.association :country %>
             <%= f.association :province, collection: get_collection(Province, :country, :country_id, f.object)%>
+            <%= f.association :municipality,label: "Metro", collection: get_collection(Municipality, :province, :province_id, f.object )%>
             <%= f.association :city, collection: get_collection(City, :province, :pruid, f.object)%>
             <%= f.association :district, collection: get_collection(District, :city, :city_id, f.object) %>
             <%= f.association :neighborhood, collection: get_collection(Neighborhood, :district, :district_id, f.object) %>
@@ -230,19 +231,13 @@
       $('#location_country_id').on('change', function(event) {
         let countryId = event.target.value
         let url = countryId ? `/business/get_provinces_by_country?country_slug=${countryId}` : `/business/get_provinces_by_country`
-        if(!countryId){
-          resetProvince();
-          resetCity();
-          resetDistrict();
-          resetNeighborhood();
-          resetSubNeighborhood();
-        }
         $.ajax({
           url: url,
           method: "GET",
           dataType: "json",
         }).done(function( response ) {
           resetProvince();
+          resetMunicipality()
           resetCity();
           resetDistrict();
           resetNeighborhood();
@@ -258,13 +253,29 @@
 
       $('#location_province_id').on('change', function(event) {
         let provinceSlug = event.target.value
-        let url = provinceSlug ? `/business/get_cities_by_province?province_slug=${provinceSlug}` : `/business/get_cities_by_province`
-        if(!provinceSlug){
+        let url = provinceSlug ? `/business/get_municipalites_by_province?province_slug=${provinceSlug}` : `/business/get_municipalites_by_province`
+        $.ajax({
+          url: url,
+          method: "GET",
+          dataType: "json",
+        }).done(function( response ) {
+          resetMunicipality()
           resetCity();
           resetDistrict();
           resetNeighborhood();
           resetSubNeighborhood();
-        }
+          $.each(response, function(index, municipality) {
+            $('#location_municipality_id').append($('<option>', {
+                value: municipality.id,
+                text: municipality.name
+            }));
+          })
+        });
+      })
+
+      $('#location_municipality_id').on('change', function(event){
+        let municipalitySlug = event.target.value
+        let url = municipalitySlug ? `/business/get_cities_by_municipality?municipality_slug=${municipalitySlug}` : `/business/get_cities_by_municipality`
         $.ajax({
           url: url,
           method: "GET",
@@ -282,6 +293,7 @@
           })
         });
       })
+
 
       $('#location_city_id').on('change', function(event) {
         let citySlug = event.target.value
@@ -399,6 +411,13 @@
   function resetProvince() {
     $('#location_province_id').find('option').remove();
     $('#location_province_id').append($('<option>', {
+      text: ""
+    }));
+  }
+
+  function resetMunicipality(){
+    $('#location_municipality_id').find('option').remove();
+    $('#location_municipality_id').append($('<option>', {
       text: ""
     }));
   }

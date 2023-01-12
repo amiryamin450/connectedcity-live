@@ -385,10 +385,19 @@ class LocationsController < ApplicationController
     end
   end
 
-  def get_cities_by_province
+  def get_municipalites_by_province
     if params[:province_slug]
       @province = Province.find_by_id(params[:province_slug])
-      render json: @province.cities
+      render json: @province.municipalities
+    else
+      render json: []
+    end
+  end
+
+  def get_cities_by_municipality
+    if params[:municipality_slug]
+      @municipality = Municipality.find_by_id(params[:municipality_slug])
+      render json: @municipality.cities
     else
       render json: []
     end

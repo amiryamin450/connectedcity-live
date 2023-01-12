@@ -7,6 +7,7 @@ class Province < ActiveRecord::Base
     attr_accessible :name, :abbr, :country_code, :country_name, :province_code
 
     has_many :regions
+    has_many :municipalities
     belongs_to :country
 
     # has_many :metro_areas, class_name: "MetroAreas", foreign_key: "pruid"

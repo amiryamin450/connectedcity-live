@@ -13,6 +13,11 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="<%=root_path%>">Home</a></li>
+      <% if @location.municipality %>
+        <% region = @location.municipality.region %>
+        <% url = "/#{@location.province.slug}/#{region.slug}/#{@location.municipality.slug}" %>
+        <li class="breadcrumb-item"><a href="<%= url %>"><%= @location.municipality.name%></a></li>
+      <% end %>
       <% if @location.city %>
         <% municipality = @location.city.municipality %>
         <% region = municipality.region %>

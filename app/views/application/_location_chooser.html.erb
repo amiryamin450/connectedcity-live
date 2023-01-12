@@ -32,7 +32,8 @@ district_url_suffix = if params[:market].present?
         <% end %>
       </ul>
       <div class="location-chooser-scroll-container">
-        <ul>
+        <ul> 
+        <%if (current_district(:neighborhoods) rescue nil).present? %>
           <% current_district.neighborhoods.each do |bia| %>
             <%
                  test = ""
@@ -47,7 +48,7 @@ district_url_suffix = if params[:market].present?
                              elsif @vertical_market && @vertical_market.id == nil && current_user && current_user.has_role?(:admin)
                                "/neighbourhoods/#{bia.slug}"
                              elsif @vertical_market
-                               district_neighborhood_guide_path(@district_link.slug, bia.slug, @vertical_market.slug)
+                               city_district_neighborhood_guide_path(@district_link.city&.slug, @district_link.slug, bia.slug, @vertical_market.slug)
                              else
                                "/neighbourhoods/#{bia.slug}"
                              end
@@ -55,11 +56,7 @@ district_url_suffix = if params[:market].present?
             %>
             <li><%= link_to bia.neighborhd, bia_url %></li>
           <% end %>
-          <% if current_district.name.in?(['Vancouver Westside', 'Vancouver']) && !current_district.neighborhoods.pluck(:neighborhd).include?('Granville Island') %>
-            <% if granville = BusinessImprovementArea.find_by_name('Granville Island') %>
-              <li><%= link_to granville.name, granville %></li>
-            <% end %>
-          <% end %>
+        <% end %>
         </ul>
         <br style="clear: both" />
       </div>

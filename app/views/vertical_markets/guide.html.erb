@@ -15,8 +15,24 @@
     @neighbourhood = Neighborhood.where('slug LIKE ?', @neighbourhood_slug).first
   end
 
-  @current_district = @district != nil ? @district.name : (@city&.name || 'Vancouver')
+  @current_district = (@municipality&.name || @sub_neighborhood&.name || @neighborhood&.name || @district&.name || @city&.name || 'Vancouver')
 %>
+<% @district_slug = params[:district_slug] || params[:district_route]%>
+<% @url %>
+<% if params[:sub_neighborhood_slug]%>
+  <% @url = city_district_nbh_sub_search_path(params[:city_slug], @district_slug, params[:neighborhood_slug], params[:sub_neighborhood_slug])%>
+<% elsif params[:neighborhood_slug]%>
+  <% @url = city_district_nbh_search_path(params[:city_slug], @district_slug, params[:neighborhood_slug])%>
+<% elsif @district_slug %>
+  <% @url = city_district_search_path(params[:city_slug], @district_slug)%>
+<% elsif params[:city_slug] %>
+  <% @url = city_search_path(params[:city_slug])%>
+<% elsif params[:municipality_slug] %>
+  <% @url = municipality_search_path(params[:municipality_slug])%>
+<%else%>
+  <% @url = "#{@base_path}search"%>
+<% end %>
+
 <% if params[:market] == 'news' %>
 <%= render 'news'%>
 <% else %>
@@ -31,6 +47,10 @@
       <% end %>
       <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="<%="#{@base_path}guide/#{@vertical_market.slug}"%>"><%= " #{@vertical_market.name}" %></a></li>
     <% else %>
+      <% if @municipality%>
+         <% url = "/#{@municipality&.region&.province&.slug}/#{@municipality&.region&.slug}/#{@municipality&.slug}"%>
+        <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="<%= url %>"><%= (@municipality&.name || 'Vancouver') %></a></li>
+      <%end%>
       <%if @city %>
         <% url = "/#{@city&.municipality&.region&.province&.slug}/#{@city&.municipality&.region&.slug}/#{@city&.municipality&.slug}/#{@city.slug}"%>
         <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="<%= url %>"><%= (@city&.name || 'Vancouver') %></a></li>
@@ -67,9 +87,9 @@
             <!--  Category -->
             <div class="page-title">
               <% if [174, 164].include?(@vertical_market.id) %>
-                <h3>Browse Members of <%= @vertical_market.id === 164 ? 'the Legislative Assembly in' : 'Parliament in' %> <%= @neighbourhood ? @neighbourhood.name : (@current_district || 'Vancouver') %></h3>
+                <h3>Browse Members of <%= @vertical_market.id === 164 ? 'the Legislative Assembly in' : 'Parliament in' %> <%= @current_district %></h3>
               <% else %>
-                <h3><%= @current_market %> in <%= get_address(@sub_neighborhood, @neighborhood, @current_district) %></h3>
+                <h3><%= @current_market %> in <%= @current_district %></h3>
               <% end %>
             </div>
             <!-- End -->
@@ -96,7 +116,7 @@
             <div class="category-body">
               <br>
               <div class="search-box advance-search-box">
-                <%= form_tag "#{@base_path}search", class: 'search-form', method: :get do %>
+                <%= form_tag @url, class: 'search-form', method: :get do %>
                     <div class="input-group">
                       <%# <input type="text" class="form-control search-input" placeholder="What are you looking for?" aria-label="Search input with dropdown button"> %>
                       <%= search_field_tag :search, params[:search], placeholder: "What are you looking for?", class: "form-control search-column" %>
