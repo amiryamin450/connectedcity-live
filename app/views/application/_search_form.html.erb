@@ -1,5 +1,20 @@
+<% @district_slug = params[:district_slug] || params[:district_route]%>
+<% @url %>
+<% if params[:sub_neighborhood_slug]%>
+  <% @url = city_district_nbh_sub_search_path(params[:city_slug], @district_slug, params[:neighborhood_slug], params[:sub_neighborhood_slug])%>
+<% elsif params[:neighborhood_slug]%>
+  <% @url = city_district_nbh_search_path(params[:city_slug], @district_slug, params[:neighborhood_slug])%>
+<% elsif @district_slug %>
+  <% @url = city_district_search_path(params[:city_slug], @district_slug)%>
+<% elsif params[:city_slug] %>
+  <% @url = city_search_path(params[:city_slug])%>
+<% elsif params[:municipality_slug] %>
+  <% @url = municipality_search_path(params[:municipality_slug])%>
+<%else%>
+  <% @url = "#{@base_path}search"%>
+<% end %>
 <div class="form-holder <%= locals[:css_class] %>">
-  <%= form_tag "#{@base_path}search", class: 'search-form', method: :get do %>
+  <%= form_tag @url, class: 'search-form', method: :get do %>
     <fieldset>
       <div class="search-row" id="search-field">
         <%= search_field_tag :search, params[:search], placeholder: "Search" %>

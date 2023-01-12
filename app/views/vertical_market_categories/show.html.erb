@@ -21,7 +21,7 @@ metamagic title: "#{guide}".strip,
   # neighborhoods = @facets['neighborhoods']
   # brands = @facets['brands']
   markers = []
-  locations = @vertical_market_category.get_locations_paged(@city, @district, @neighborhood, params[:page], @bia)
+  locations = @vertical_market_category.get_locations_paged(@municipality, @city, @district, @neighborhood, @sub_neighborhood, params[:page], @bia)
   markers |= locations
   # has_filters = (request.parameters[:category].present? or request.parameters[:neighborhood].present? or request.parameters[:brand].present?) ? true : false
 %>

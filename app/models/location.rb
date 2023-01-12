@@ -14,6 +14,7 @@ class Location < ActiveRecord::Base
   belongs_to :sub_neighborhood, class_name: 'Neighborhood', foreign_key: 'sub_neighborhood_id'
   belongs_to :business_improvement_area
   belongs_to :payment_user, class_name: 'User'
+  belongs_to :municipality
 
   has_many :agents, class_name: 'Location', foreign_key: 'broker_id', dependent: :destroy
   has_many :city_halls, class_name: 'Location', foreign_key: 'hall_id', dependent: :destroy
@@ -65,7 +66,7 @@ class Location < ActiveRecord::Base
     :brand_ids, :brand_tokens, :content, :vertical_market_categories, :district, :yp_lid, :yp_categories, :yp_neighborhoods, :sub_neighborhood_id,
     :city, :province, :district_id, :neighborhood, :country, :cover_photo, :neighborhood_id, :broker_id, :hall_id, :councillor_id, :commissioner_id, :business_improvement_area_id,
     :user, :trade_association_ids, :media_attachments_attributes, :delete_cover_photo, :delete_logo,
-    :operating_hours_attributes, :stripe_plan_id
+    :operating_hours_attributes, :stripe_plan_id, :municipality_id
 
   has_attached_file :logo, :styles => { :thumb => "70x55", :list => "168x80", :bia_display => "250x100"},
     :url => "/system/location/logo/:id/:style/:basename.:extension",
@@ -88,7 +89,7 @@ class Location < ActiveRecord::Base
   accepts_nested_attributes_for :events, allow_destroy: true
   accepts_nested_attributes_for :media_attachments, allow_destroy: true
 
-  validates_presence_of :address, :name, :vertical_market_category_ids, :province_id, :country_id, :city_id, :district_id
+  validates_presence_of :address, :name, :vertical_market_category_ids, :province_id, :country_id, :city_id, :district_id, :municipality_id
 
   # geocoded_by :full_street_address
 
@@ -174,6 +175,8 @@ class Location < ActiveRecord::Base
     integer :city_id
     integer :business_improvement_area_id
     integer :neighborhood_id
+    integer :sub_neighborhood_id
+    integer :municipality_id
 
 
   end

@@ -41,9 +41,11 @@ class RealEstateListing < ActiveRecord::Base
         city.name if city.present?
       end
 
+      integer :municipality_id
       integer :district_id
       integer :city_id
       integer :neighborhood_id
+      integer :sub_neighborhood_id
     end
 
     attr_accessible  :listing_source,

@@ -211,10 +211,11 @@ Connectbook::Application.routes.draw do
         post "import", action: :do_import
         get :export
         get :get_provinces_by_country
-        get :get_cities_by_province
+        get :get_cities_by_municipality
         get :get_districts_by_city
         get :get_neighborhoods_by_district
         get :get_sub_neighborhoods_by_neighborhood
+        get :get_municipalites_by_province
       end
       # eg. business/:id/action
       member do
@@ -337,8 +338,11 @@ Connectbook::Application.routes.draw do
   # get ':district_route/search/:market/:sub_market' => 'vertical_markets#search'
 
   # get ':city_slug/guide/:market' => 'vertical_markets#guide', as: :city_guide
-  get '/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug/guide/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_nbh_sub_sub_market_guide
+  get '/metro/:municipality_slug/guide/:market/:sub_market' => 'vertical_markets#guide', as: :municipality_sub_market_guide
+  get '/metro/:municipality_slug/guide/:market' => 'vertical_markets#guide', as: :municipality_guide
+
   get '/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug/guide/:market' => 'vertical_markets#guide', as: :city_district_nbh_sub_guide
+  get '/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug/guide/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_nbh_sub_sub_market_guide
 
   get '/:city_slug/:district_slug/:neighborhood_slug/guide/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_neighborhood_sub_market_guide
   get '/:city_slug/:district_slug/:neighborhood_slug/guide/:market' => 'vertical_markets#guide', as: :city_district_neighborhood_guide
@@ -360,25 +364,34 @@ Connectbook::Application.routes.draw do
 
   get 'search' => 'vertical_markets#search'
   get 'search/:market' => 'vertical_markets#search', as: :region_market_search
-  get ':district_route/:neighborhood/search' => 'vertical_markets#search'
-  get ':district_route/:neighborhood/search/:market' => 'vertical_markets#search'
-  get ':district_route/search' => 'vertical_markets#search'
+  get '/metro/:municipality_slug/search' => 'vertical_markets#search', as: :municipality_search
+  get '/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug/search' => 'vertical_markets#search', as: :city_district_nbh_sub_search
+  get '/:city_slug/:district_slug/:neighborhood_slug/search' => 'vertical_markets#search', as: :city_district_nbh_search
+  get '/:city_slug/:district_slug/search' => 'vertical_markets#search', as: :city_district_search
+  get '/:city_slug/search' => 'vertical_markets#search', as: :city_search
+  # get '/:city/:district_route/:neighborhood/search/:market' => 'vertical_markets#search'
+  # get ':district_route/search' => 'vertical_markets#search'
   get ':district_route/search/:market' => 'vertical_markets#search'
 
   get 'employment-opportunities' => 'employment_listings#guide', as: :employment_opportunity
   get 'classifieds' => 'classified_listings#guide', as: :classifieds
   get 'neighbourhoods/:business_improment_area_id/category/:id' => 'vertical_market_categories#show', as: :business_improvement_area_vertical_market_category
-  get ':district_route/:neighborhood/category/:id' => 'vertical_market_categories#show'
-  get ':district_route/category/:id' => 'vertical_market_categories#show'
+  # get ':district_route/:neighborhood/category/:id' => 'vertical_market_categories#show'
+  # get ':district_route/category/:id' => 'vertical_market_categories#show'
   get 'category/auto_makes/:make' => 'vertical_market_categories#show_auto_listing_makers', as: :auto_make_show
-  get 'category/:id' => 'vertical_market_categories#show', as: :category_show
+  get '/metro/:municipality_slug/category/:id' => 'vertical_market_categories#show', as: :municipality_category_show
+  get '/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug/category/:id' => 'vertical_market_categories#show', as: :city_district_neighborhood_sub_category_show
+  get '/:city_slug/:district_slug/:neighborhood_slug/category/:id' => 'vertical_market_categories#show', as: :city_district_neighborhood_category_show
+  get '/:city_slug/:district_slug/category/:id' => 'vertical_market_categories#show', as: :city_district_category_show
+  get '/:city_slug/category/:id' => 'vertical_market_categories#show', as: :city_category_show
+  get '/category/:id' => 'vertical_market_categories#show', as: :category_show
   # get 'news' => 'city_news_articles#guide', as: :city_news_guide
   resources :city_news_articles  do#, to: 'city_news_articles#guide' , as: :city_news_guide do
     collection do
       get :get_neighborhoods
       get :get_sub_neighborhoods
       get :get_districts
-      get :get_route_sub_neighborhoods
+    get :get_route_sub_neighborhoods
       get 'filter_updates' => 'city_news_articles#filter_updates', as: 'filter_updates'
       get 'filter_news_articles' => 'city_news_articles#filter_news_articles', as: 'filter_news_articles'
       get 'filter_media_attachments' => 'city_news_articles#filter_media_attachments', as: 'filter_media_attachments'
@@ -435,6 +448,16 @@ Connectbook::Application.routes.draw do
 
 
   match ':status', to: 'errors#show', constraints: { status: /\d{3}/ }, as: :error_page
+  resources :municipalities do
+    collection do
+      get :get_manicipalities
+      get :get_cities
+      get :get_districts
+      get :get_neighborhoods
+      get :get_sub_neighborhoods
+    end
+  end
+  get "/:province_slug/:region_slug/:municipality_slug", to: 'municipalities#metro_page'
 
   get "/:province_slug/:region_slug/:municipality_slug/:city_slug", to: 'home#city_landing'
   get "/:province_slug/:region_slug/:municipality_slug/:city_slug/:district_route", to: 'districts#homepage'

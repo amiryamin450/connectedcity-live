@@ -62,25 +62,29 @@ module LocationsHelper
   end
 
   def get_collection(class_name, object_field, condition_key, object)
-  
     case class_name.name
     when "Province"
       if(!object.country.present? || !object.send(object_field).present?)
         return []
       end
       return class_name.where(condition_key => object.send(object_field).id) 
+    when "Municipality"
+      if(!object.country.present? || !object.send(object_field).present? || !object.province.present?)
+        return []
+      end
+      return class_name.where(condition_key => object.send(object_field).id)
     when "City"
-      if(!object.country.present? || !object.province.present? || !object.send(object_field).present?)
+      if(!object.country.present? || !object.province.present? || !object.municipality.present? || !object.send(object_field).present?)
         return []
       end
       return class_name.where(condition_key => object.send(object_field).id)
     when "District"
-      if(!object.country.present? || !object.province.present? || !object.city.present? || !object.send(object_field).present?)
+      if(!object.country.present? || !object.province.present? || !object.municipality.present? || !object.city.present? || !object.send(object_field).present?)
         return []
       end
         return class_name.where(condition_key => object.send(object_field).id)
     when "Neighborhood"
-      if(!object.country.present? || !object.province.present? || !object.city.present? || !object.district.present? )
+      if(!object.country.present? || !object.province.present? || !object.municipality.present? || !object.city.present? || !object.district.present? )
         return []
       elsif object.send(object_field).present?
         return class_name.where(condition_key => object.send(object_field).id) 

@@ -1,0 +1,203 @@
+<%=
+  metamagic site: "ConnectedCity",
+            title: ["Find Businesses in ", :site],
+            separator: " — ",
+            charset: "utf-8",
+            viewport: "width=device-width, initial-scale=1.0"
+
+%>
+<%= render 'images_slider' %>
+<div class="landing-page-heading-filter">
+  <div class="row filter">
+    <div class="col-11">
+      <div class="row">
+        <div class="col-3">
+          <%= select_tag 'metro-municipality-dropdown', options_for_select(@municipalities.collect{ |m| [m.name, m.slug] }, :selected => @municipality.slug), {prompt: 'Metro', class: 'form-control search-column input-group-prepend search-box'} %>
+        </div>
+        <div class="col-3">
+          <%= select_tag 'metro-city-dropdown', options_for_select(@cities.collect{ |c| [c.name, c.slug]}), prompt: 'City', class: 'form-control search-column input-group-prepend search-box' %>
+        </div>
+        <div class="col-3">
+          <%= select_tag 'metro-district-dropdown', raw("<option>District</option>"), prompt: 'District', class: 'form-control search-column input-group-prepend search-box' %>
+        </div>
+        <div class="col-3">
+          <%= select_tag 'metro-neighbourhood-dropdown', raw("<option>Neighbourhood</option>"), prompt: 'Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
+        </div>
+      </div>
+    </div>
+    <div class="col-1">
+      <a href="javascript:void(0)" id="metro-path">
+        <button type="button" class="btn-primary btn">Go<i class="far fa-chevron-right"></i></button>
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <!-- Shopping District Slider -->
+      <div class="district-slider">
+        <div class="slider-heading">
+          <h3><%= @municipality.name %></h3>
+        </div>
+        <div class="inner-slider">
+          <div class="items">
+            <% @municipality.neighborhoods.each do |bia| %>
+              <div>
+                <%# <img data-lazy="/cc_2.0/icon/slider-icon-1.jpg"> %>
+                <div class="district-slider-img">
+                  <% if  bia.logo_image.present?%>
+                    <%= link_to(image_tag(bia.logo_image), "/#{@city.municipality.region.province.slug}/#{@city.municipality.region.slug}/#{@city.municipality.slug}/#{@city.slug}/#{bia.district.slug}/#{bia.slug}") %>
+                  <%else%>
+                    <%= link_to(image_tag('/assets/home_page_image/neighborhood_default.png'), "/#{@city.municipality.region.province.slug}/#{@city.municipality.region.slug}/#{@city.municipality.slug}/#{@city.slug}/#{bia.district.slug}/#{bia.slug}") %>
+                  <%end%>
+                </div>
+                <p><%= link_to bia.name, "/#{@city.municipality.region.province.slug}/#{@city.municipality.region.slug}/#{@city.municipality.slug}/#{@city.slug}/#{bia.district.slug}/#{bia.slug}" %></p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <!-- End -->  
+    </div>
+  </div>
+</div>
+
+<!-- Main Section Card -->
+<%= render "/layouts/application_v_2/multi_columns" %>
+<br>
+
+<script>
+  $(document).ready(function(){
+    $("#metro-municipality-dropdown").on('change',function(event){
+      let municipalityId = event.target.value
+      if(municipalityId){
+        $.ajax({
+        url: `/municipalities/get_cities?municipality_id=${municipalityId}`,
+        method: "GET",
+        dataType: "json",
+        }).done(function( response ) {
+          resetCity()
+          resetDistrict();
+          resetNeighbourhood();
+          $('#metro-path').attr("href", `${response.route}`)
+          $.each(response.cities, function(index, city) {
+            $('#metro-city-dropdown').append($('<option>', {
+                value: city.slug,
+                text: city.csdname
+            }));
+          })
+        });
+      }else{
+        $('#metro-path').attr("href", '/')
+        resetCity()
+        resetDistrict();
+        resetNeighbourhood(); 
+      }
+    })
+
+    $('#metro-city-dropdown').on('change', function(event) {
+      let cityId = event.target.value
+      if(cityId){
+        $.ajax({
+        url: `/municipalities/get_districts?city_id=${cityId}`,
+        method: "GET",
+        dataType: "json",
+        }).done(function( response ) {
+          resetDistrict();
+          resetNeighbourhood();
+          $('#metro-path').attr("href", `${response.route}`)
+          $.each(response.districts, function(index, district) {
+            $('#metro-district-dropdown').append($('<option>', {
+                value: district.slug,
+                text: district.name
+            }));
+          })
+        });
+      }else{
+        $('#metro-path').attr("href", '#')
+        resetDistrict();
+        resetNeighbourhood(); 
+      }
+    })
+
+    $('#metro-district-dropdown').on('change', function(event) {
+      let districtId = event.target.value
+      let cityId = $('#metro-city-dropdown').val()
+      let url = districtId ? `/municipalities/get_neighborhoods?district_id=${districtId}`:`/municipalities/get_neighborhoods?city_id=${cityId}`
+      $.ajax({
+        url: url,
+        method: "GET",
+        dataType: "json",
+      }).done(function( response ) {
+        resetNeighbourhood();
+        $('#metro-path').attr("href", `${response.route}`)
+        $.each(response.neighborhoods, function(index, neighborhood) {
+          $('#metro-neighbourhood-dropdown').append($('<option>', {
+              value: neighborhood.slug,
+              text: neighborhood.neighborhd
+          }));
+        })
+      });
+    })
+
+    $('#metro-neighbourhood-dropdown').on('change', function(event) {
+      let neighborhoodId = event.target.value
+      let districtID = $('#metro-district-dropdown').val()
+      let url = neighborhoodId ? `/municipalities/get_sub_neighborhoods?neighborhood_id=${neighborhoodId}`: `/municipalities/get_sub_neighborhoods?district_id=${districtID}`  
+      $.ajax({
+        url: url,
+        method: "GET",
+        dataType: "json",
+      }).done(function( response ) {
+        $('#metro-path').attr("href", `${response.route}`)
+      });
+    })
+
+    function resetCity(){
+      $('#metro-city-dropdown').find('option').remove();
+      $('#metro-city-dropdown').append($('<option>', {
+        text: "City",
+        value: ""
+      }));
+
+    }
+    function resetDistrict() {
+      $('#metro-district-dropdown').find('option').remove();
+      $('#metro-district-dropdown').append($('<option>', {
+        text: "District",
+        value: ""
+      }));
+
+      $('#district-dropdown').find('option').remove();
+      $('#district-dropdown').append($('<option>', {
+        text: "District",
+        value: ""
+      }));
+    }
+
+    function resetNeighbourhood() {
+      $('#neighbourhood-dropdown').find('option').remove();
+      $('#neighbourhood-dropdown').append($('<option>', {
+        text: "Neighbourhood",
+        value: ""
+      }));
+
+      $('#metro-neighbourhood-dropdown').find('option').remove();
+      $('#metro-neighbourhood-dropdown').append($('<option>', {
+        text: "Neighbourhood",
+        value: ""
+      }));
+    }
+
+    function resetSubNeighbourhood() {
+      $('#shopping-district-dropdown').find('option').remove();
+      $('#shopping-district-dropdown').append($('<option>', {
+        text: "Sub Neighbourhood",
+        value: ""
+      }));
+    }
+  })
+</script>

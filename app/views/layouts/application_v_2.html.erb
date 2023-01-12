@@ -118,6 +118,11 @@
         })
 
         function resetDistrict() {
+          $('#metro-district-dropdown').find('option').remove();
+          $('#metro-district-dropdown').append($('<option>', {
+            text: "District"
+          }));
+
           $('#district-dropdown').find('option').remove();
           $('#district-dropdown').append($('<option>', {
             text: "District"
@@ -127,6 +132,11 @@
         function resetNeighbourhood() {
           $('#neighbourhood-dropdown').find('option').remove();
           $('#neighbourhood-dropdown').append($('<option>', {
+            text: "Neighbourhood"
+          }));
+
+          $('#metro-neighbourhood-dropdown').find('option').remove();
+          $('#metro-neighbourhood-dropdown').append($('<option>', {
             text: "Neighbourhood"
           }));
         }

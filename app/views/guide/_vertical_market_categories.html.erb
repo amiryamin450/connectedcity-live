@@ -88,12 +88,11 @@ NOTE Rental (rental)
     <%= render 'automotive_listings', auto_listings: @auto_listings, auto_makes: @auto_makes %>
     <% markers = @markers %>
   <% end %>
-  <% @vertical_market.categories_new(@city, @district, @neighborhood).each_with_index do |category, r| %>
+  <% @vertical_market.categories_new(@municipality, @city, @district, @neighborhood, @sub_neighborhood).each_with_index do |category, r| %>
     <%
 
     locations = category.locations[0..19]
     markers |= category.locations
-
     %>
 
     <% if locations.any? && !@categories_without_municipality_ids.include?(category.id) %>

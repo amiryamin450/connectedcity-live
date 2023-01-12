@@ -96,11 +96,12 @@ class VerticalMarketsController < ApplicationController
       @province = @region.province
 
     else
-      @city = params[:city_slug] ? City.find_by_slug(params[:city_slug]) : City.find(5915022)
+      @municipality = params[:municipality_slug] ? Municipality.find_by_slug(params[:municipality_slug]) : nil
+      @city = params[:city_slug] ? City.find_by_slug(params[:city_slug]) : nil
       district_slug = params[:district_route] || params[:district_slug]
       @district = district_slug ? District.find_by_slug(district_slug) : nil
 
-      neighborhood_slug = params[:id] || params[:neighborhood_slug]
+      neighborhood_slug = params[:neighborhood_slug]
       @neighborhood = neighborhood_slug ? Neighborhood.find_by_slug(neighborhood_slug) : nil
       @sub_neighborhood = params[:sub_neighborhood_slug] ? @neighborhood.sub_neighborhoods.find_by_slug(params[:sub_neighborhood_slug]) : nil
       @sub_market = @vertical_market.children&.find_by_slug(params[:sub_market]) if params[:sub_market]
@@ -110,26 +111,46 @@ class VerticalMarketsController < ApplicationController
       when 1
         @auto_listings = AutomotiveListing.limit(SEE_MORE_LIMIT)
       when 17
-        @rental_properties = RentalProperty.where city_id: @city.id
+        if @municipality.present?
+          city_ids = @municipality.cities.pluck(:id)
+          @rental_properties = RentalProperty.where city_id: city_ids
+        else
+          @rental_properties = RentalProperty.where city_id: @city.id
+        end
         @rental_properties = @rental_properties.where district_id: @district.id if @district
         @rental_properties = @rental_properties.where neighborhood_id: @neighborhood.id if @neighborhood
         @rental_properties = @rental_properties.order :style
         @rental_styles = @rental_properties.map(&:style).uniq
       when 18
-        @listings = RealEstateListing.where property_type: 'Residential', city_id: @city.id
+        if @municipality.present?
+          city_ids = @municipality.cities.pluck(:id)
+          @listings = RealEstateListing.where property_type: 'Residential', city_id: city_ids
+        else
+          @listings = RealEstateListing.where property_type: 'Residential', city_id: @city.id
+        end
         @listings = @listings.where district_id: @district.id if @district
         @listings = @listings.where neighborhood_id: @neighborhood.id if @neighborhood
         @listings = @listings.order :style
         @residential_styles =  @listings.uniq.pluck(:style)
       when 19
-        @new_home_communities = NewHomeCommunity.where city_id: @city.id
+        if @municipality.present?
+          city_ids = @municipality.cities.pluck(:id)
+          @new_home_communities = NewHomeCommunity.where city_id: city_ids
+        else
+          @new_home_communities = NewHomeCommunity.where city_id: @city.id
+        end
         @new_home_communities = @new_home_communities.where district_id: @district.id if @district
         @new_home_communities = @new_home_communities.where neighborhood_id: @neighborhood.id if @neighborhood
         @new_home_communities = @new_home_communities.order :style
         @new_home_community_styles = @new_home_communities.pluck(:style).uniq
       when 20
-        @commercial_listings = RealEstateListing.where property_type: 'Commercial',
-                                                       city_id: @city.id
+        if @municipality.present?
+          city_ids = @municipality.cities.pluck(:id)
+          @commercial_listings = RealEstateListing.where property_type: 'Commercial',municipality_id: city_ids
+        else
+          @commercial_listings = RealEstateListing.where property_type: 'Commercial',city_id: @city.id
+        end
+       
         @commercial_listings = @commercial_listings.where district_id: @district.id if @district
         @commercial_listings = @commercial_listings.where neighborhood_id: @neighborhood.id if @neighborhood
         @commercial_listings = @commercial_listings.order :style
@@ -141,7 +162,7 @@ class VerticalMarketsController < ApplicationController
         @auto_makes = AutomotiveListing.pluck("DISTINCT make")
         @auto_makes.each do |make|
           @auto_listings[make] = AutomotiveListing.make_by(make).
-            available_in(@city.id, @district.try(:id), @neighborhood.try(:id)).limit(SEE_MORE_LIMIT).includes(:location)
+            available_in(@municipality.try(:id), @city.try(:id), @district.try(:id), @neighborhood.try(:id), @sub_neigborhood.try(:id)).limit(SEE_MORE_LIMIT).includes(:location)
         end
         @markers = @auto_listings.values.flatten.map(&:location)
       end
@@ -167,11 +188,12 @@ class VerticalMarketsController < ApplicationController
   def search
     vm = nil
     vm = VerticalMarket.find(params[:market]) if params[:market].present?
-    district = District.find(params[:district_route]) if params[:district_route].present?
-    neighborhood = Neighborhood.find(params[:neighborhood]) if params[:neighborhood].present?
-    @bia = BusinessImprovementArea.find(params[:business_improvement_area]) if params[:business_improvement_area].present?
+    @municipality = municipality = Municipality.find_by_slug(params[:municipality_slug]) if params[:municipality_slug]
+    @city = city  = City.find_by_slug(params[:city_slug]) if params[:city_slug].present?
+    @district = district = District.find_by_slug(params[:district_slug]) if params[:district_slug].present?
+    @neighborhood = neighborhood = Neighborhood.find_by_slug(params[:neighborhood_slug]) if params[:neighborhood_slug].present?
+    @sub_neighborhood = sub_neighborhood = Neighborhood.find_by_slug(params[:neighborhood_slug]) if params[:sub_neigborhood_slug].present?
     @vertical_market = vm if vm.present?
-
     ids = if vm.present?
       if vm.has_children?
         vm.children.map(&:id) + [vm.id]
@@ -184,17 +206,16 @@ class VerticalMarketsController < ApplicationController
 
     @search = Sunspot.search Location, AutomotiveListing, RealEstateListing do
       fulltext params[:search]
-
-      with(:city_id, 5915022)
       with(:vertical_market_ids, ids) if vm.present?
-      with(:district_id, district.id) if district.present?
-      with(:business_improvement_area_id, @bia.id) if @bia.present?
+      with(:sub_neighborhood_id, sub_neighborhood.id) if sub_neighborhood.present?
       with(:neighborhood_id, neighborhood.id) if neighborhood.present?
+      with(:district_id, district.id) if district.present?
+      with(:city_id, city.id) if city.present?
+      with(:municipality_id, municipality.id) if municipality.present?
       paginate :page => params[:page]
     end
 
     @results = @search.results
-
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb @district.name, district_guide_path(@district) if @district
 

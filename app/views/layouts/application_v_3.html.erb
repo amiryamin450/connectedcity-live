@@ -74,13 +74,17 @@
         })
 
         $('#municipality-dropdown').on('change', function(event) {
+          let province = $('#province-dropdown :selected').val()
+          let region = $('#region-dropdown :selected').val()
           let municipalityId = event.target.value
+          let url = municipalityId ? `${province}/${region}/${municipalityId}` : `#`
           $.ajax({
             url: `/home/get_cities?municipality_id=${municipalityId}`,
             method: "GET",
             dataType: "json",
           }).done(function( response ) {
             resetCities();
+            $('#city-landing-path').attr("href", url)
             $.each(response, function(index, city) {
               $('#city-dropdown').append($('<option>', {
                   value: city.slug,
@@ -95,27 +99,31 @@
           let region = $('#region-dropdown :selected').val()
           let municipality = $('#municipality-dropdown :selected').val()
           let city = event.target.value
-          $('#city-landing-path').attr("href", `${province}/${region}/${municipality}/${city}`)
+          let url = city ?`${province}/${region}/${municipality}/${city}` : `${province}/${region}/${municipality}`
+          $('#city-landing-path').attr("href", url)
         })
 
         function resetRegions() {
           $('#region-dropdown').find('option').remove();
           $('#region-dropdown').append($('<option>', {
-            text: "Region"
+            text: "Region",
+            value: ""
           }));
         }
 
         function resetMunicipalities() {
           $('#municipality-dropdown').find('option').remove();
           $('#municipality-dropdown').append($('<option>', {
-            text: "Municipality/County"
+            text: "Metro",
+            value: ""
           }));
         }
 
         function resetCities() {
           $('#city-dropdown').find('option').remove();
           $('#city-dropdown').append($('<option>', {
-            text: "City/Town"
+            text: "City/Town",
+            value: ""
           }));
         }
 
