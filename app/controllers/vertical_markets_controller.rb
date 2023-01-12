@@ -46,12 +46,13 @@ class VerticalMarketsController < ApplicationController
       districts
       neighborhoods
       sub_neighborhoods
+      cities
 
       media = []
       events_temp = []
       news_temp = []
       status_updates_temp = []
-      locations_of_civic_news(params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each_with_index do |i, idx|
+      locations_of_civic_news(params[:municipality_slug], params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each_with_index do |i, idx|
         media_filter = i.media_attachments
         events_filter = i.events
         news_filter = i.news_articles
@@ -79,22 +80,22 @@ class VerticalMarketsController < ApplicationController
       @events = events_temp.flatten.sort_by(&:created_at).reverse
       @news_articles = news_temp.flatten.sort_by(&:created_at).reverse
       @status_updates = status_updates_temp.flatten.sort_by(&:created_at).reverse
-
       names = ['Provincial Updates', 'Federal Updates']
       lst_categories = Category.where(name: names)
       @categories_news += lst_categories
 
-      @city = params[:city_slug] ? City.find_by_slug(params[:city_slug]) : City.find(5915022)
+      @municipality = params[:municipality_slug] ? Municipality.find_by_slug(params[:municipality_slug]) : nil
+      @city = params[:city_slug] ? City.find_by_slug(params[:city_slug]) : nil
       district_slug = params[:district_route] || params[:district_slug]
       @district = district_slug ? District.find_by_slug(district_slug) : nil
-      neighborhood_slug = params[:id] || params[:neighborhood_slug]
+      neighborhood_slug = params[:neighborhood_slug]
       @neighborhood = neighborhood_slug ? Neighborhood.find_by_slug(neighborhood_slug) : nil
       @sub_neighborhood = params[:sub_neighborhood_slug] ? @neighborhood.sub_neighborhoods.find_by_slug(params[:sub_neighborhood_slug]) : nil
-
-      @municipality = @city.municipality
-      @region = @municipality.region
-      @province = @region.province
-
+      if params[:city_slug] || district_slug || neighborhood_slug || params[:sub_neighborhood_slug]
+        @municipality_of_city = @city.municipality
+        @region_of_city = @municipality_of_city.region
+        @province_of_city = @region_of_city.province
+      end
     else
       @municipality = params[:municipality_slug] ? Municipality.find_by_slug(params[:municipality_slug]) : nil
       @city = params[:city_slug] ? City.find_by_slug(params[:city_slug]) : nil
@@ -322,6 +323,19 @@ class VerticalMarketsController < ApplicationController
     @categories_without_municipality_ids = VerticalMarketCategory.where(name: name_categories).pluck(:id)
   end
 
+  def cities
+    # because city is hardcoded everywhere already...
+    if params[:city_slug].present?
+      city = City.find_by_slug(params[:city_slug])
+      @cities = city.municipality.cities
+    elsif params[:municipality_slug].present?
+      municipality = Municipality.find_by_slug(params[:municipality_slug])
+      @cities = municipality.cities
+    else
+      @cities = []
+    end
+  end
+
   def districts
     # because city is hardcoded everywhere already...
     if params[:city_slug].present?
@@ -353,7 +367,7 @@ class VerticalMarketsController < ApplicationController
   end
 
 
-  def locations_of_civic_news city_slug, district_slug, neighborhood_slug, sub_neighborhood_slug
+  def locations_of_civic_news municipality_slug, city_slug, district_slug, neighborhood_slug, sub_neighborhood_slug
     result_locations = []
     locations =[]
     other_results =[]
@@ -370,6 +384,9 @@ class VerticalMarketsController < ApplicationController
     elsif city_slug.present?
       city = City.find_by_slug(city_slug)
       locations = city.locations
+    elsif municipality_slug.present?
+      municipality = Municipality.find_by_slug(municipality_slug)
+      locations = municipality.locations
     else
       locations=[]
     end
@@ -377,7 +394,8 @@ class VerticalMarketsController < ApplicationController
       locations.each do|lo|
         result_locations = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", lo.id, lo.id, lo.id)
       end
-      other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [164, 174, 114]}).where(id: locations.pluck(:id))
+      # [164, 174, 114]
+      other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [81, 82, 83]}).where(id: locations.pluck(:id))
     end
     
     result_locations += other_results

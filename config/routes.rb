@@ -391,7 +391,7 @@ Connectbook::Application.routes.draw do
       get :get_neighborhoods
       get :get_sub_neighborhoods
       get :get_districts
-    get :get_route_sub_neighborhoods
+      get :get_route_sub_neighborhoods
       get 'filter_updates' => 'city_news_articles#filter_updates', as: 'filter_updates'
       get 'filter_news_articles' => 'city_news_articles#filter_news_articles', as: 'filter_news_articles'
       get 'filter_media_attachments' => 'city_news_articles#filter_media_attachments', as: 'filter_media_attachments'

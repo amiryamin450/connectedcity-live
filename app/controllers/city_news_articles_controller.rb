@@ -46,6 +46,19 @@ class CityNewsArticlesController < ApplicationController
     # render layout: "application_v_2"
   end
 
+
+  def get_districts
+    if params[:city_slug].present?
+      city = City.find_by_slug(params[:city_slug])
+      districts = city.districts
+      route = "/#{city&.slug}/guide/news"
+      render json:{
+        districts: districts,
+        route: route
+      }
+    end
+  end
+
   def get_neighborhoods 
     if params[:district_slug].present?
       district = District.find_by_slug(params[:district_slug])
@@ -103,7 +116,7 @@ class CityNewsArticlesController < ApplicationController
   def filter_updates
     temp = []
     if params[:category_id].blank?
-      locations_manicipality(params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each do |i|
+      locations_manicipality(params[:municipality_slug], params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each do |i|
         temp << i.status_updates if i.status_updates.length > 0
       end
       @filter_status_updates = temp.flatten.sort_by(&:created_at).reverse
@@ -119,7 +132,7 @@ class CityNewsArticlesController < ApplicationController
   def filter_media_attachments
     temp = []
     if params[:category_id].blank?
-      locations_manicipality(params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each do |i|
+      locations_manicipality(params[:municipality_slug], params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each do |i|
         temp << i.media_attachments if i.media_attachments.length > 0
       end
       @filter_media_attachments = temp.flatten.sort_by(&:created_at).reverse
@@ -135,7 +148,7 @@ class CityNewsArticlesController < ApplicationController
   def filter_news_articles
     temp = []
     if params[:category_id].blank?
-      locations_manicipality(params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each do |i|
+      locations_manicipality(params[:municipality_slug], params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each do |i|
         temp << i.news_articles if i.news_articles.length > 0
       end
       @filter_news = temp.flatten.sort_by(&:created_at).reverse
@@ -151,7 +164,7 @@ class CityNewsArticlesController < ApplicationController
   def filter_events
     temp = []
     if params[:category_id].blank?
-      locations_manicipality(params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each do |i|
+      locations_manicipality(params[:municipality_slug], params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each do |i|
         temp << i.events if i.events.length > 0
       end
       @filter_events = temp.flatten.sort_by(&:created_at).reverse
@@ -252,7 +265,7 @@ class CityNewsArticlesController < ApplicationController
   end
 
 
-  def locations_manicipality city_slug, district_slug, neighborhood_slug, sub_neighborhood_slug
+  def locations_manicipality municipality_slug, city_slug, district_slug, neighborhood_slug, sub_neighborhood_slug
     result_locations = []
     locations =[]
     other_results =[]
@@ -269,6 +282,9 @@ class CityNewsArticlesController < ApplicationController
     elsif city_slug.present?
       city = City.find_by_slug(city_slug)
       locations = city.locations
+    elsif municipality_slug.present?
+      municipality = Municipality.find_by_slug(municipality_slug)
+      locations = municipality.locations
     else
       location=[]
     end
@@ -276,7 +292,7 @@ class CityNewsArticlesController < ApplicationController
       locations.each do|lo|
         result_locations = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", lo.id, lo.id, lo.id)
       end
-      other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [164, 174, 114]}).where(id: locations.pluck(:id))
+      other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [81, 82, 83]}).where(id: locations.pluck(:id))
     end
 
     result_locations += other_results
