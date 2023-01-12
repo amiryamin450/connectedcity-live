@@ -58,7 +58,7 @@
                   <a href="<%=municipality_guide_path(@location&.municipality&.slug, vm.slug)%>"><%=vm.name%></a>
                 <%end%>
               <%else%>
-                <a href=<%="#{@base_path}guide/#{vm.slug}"%>><%=vm.name%></a>
+                <a href=<%="#"%>><%=vm.name%></a>
               <% end %>
               <ul>
                 <% vm.children.sort_by(&:name).each do |child| %>
@@ -93,7 +93,7 @@
                       <li><%= link_to child.name, municipality_sub_market_guide_path(@location&.municipality&.slug, vm.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
                     <% end %>
                   <% else %>
-                    <a href=<%="#{@base_path}guide/#{child.slug}"%>><%=child.name%></a>
+                    <a href=<%="#"%>><%=child.name%></a>
                   <% end %>
                 <% end %>
               </ul>
@@ -135,9 +135,15 @@
                     <a style="padding: 0px;" href="<%=city_guide_path(params[:city_slug], "news")%>"><%=@vertical_market_news.name%></a>
                   <% else %>
                     <a style="padding: 0px;" href="<%=city_guide_path(@location&.city&.slug, "news")%>"><%=@vertical_market_news.name%></a>
-                  <% end %>                 
+                  <% end %>
+                <% elsif params[:municipality_slug] || @location&.municipality%>
+                  <%if params[:municipality_slug]%>
+                    <a style="padding: 0px;" href="<%=municipality_guide_path(params[:municipality_slug], "news")%>"><%=@vertical_market_news.name%></a>
+                  <% else %>
+                    <a style="padding: 0px;" href="<%=municipality_guide_path(@location&.municipality&.slug, "news")%>"><%=@vertical_market_news.name%></a>
+                  <% end %>                            
                 <% else %>
-                  <a style="padding: 0px;" href="<%=region_market_guide_path("news")%>"><%=@vertical_market_news.name%></a>
+                  <a style="padding: 0px;" href="#"><%=@vertical_market_news.name%></a>
                 <% end %>
                 <ul>
                   <% @vertical_market_news.children.sort_by(&:name).each do |child| %>
@@ -164,9 +170,15 @@
                         <li><%= link_to child.name, city_guide_path(params[:city_slug], child.slug), class: "dropdown-item nv-mn-lnk" %></li>
                       <% else %>
                         <li><%= link_to child.name, city_guide_path(@location&.city&.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                      <% end %>                 
+                      <% end %>
+                    <% elsif params[:municipality_slug] || @location&.city%>
+                      <%if params[:municipality_slug]%>
+                        <li><%= link_to child.name, municipality_guide_path(params[:municipality_slug], child.slug), class: "dropdown-item nv-mn-lnk" %></li>
+                      <% else %>
+                        <li><%= link_to child.name, municipality_guide_path(@location&.municipality&.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
+                      <% end %>                     
                     <% else %>
-                      <li><%= link_to child.name, region_market_guide_path(child.slug), class: "dropdown-item nv-mn-lnk" %></li>
+                      <li><%= link_to child.name, "#", class: "dropdown-item nv-mn-lnk" %></li>
                     <% end %>
                   <% end %>
                 </ul>

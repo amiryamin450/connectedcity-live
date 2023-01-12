@@ -22,20 +22,20 @@
 
   <div id="listings">
     <h4>Featured</h4>
-    <%= render @vertical_market.get_products(@municipality, @city, @district, @neighborhood, sub_neighborhood) %>
+    <%= render @vertical_market.get_products(@municipality, @city, @district, @neighborhood, @sub_neighborhood) %>
   </div>
 
   <div id="events">
     <h4>Events</h4>
-    <%= render @vertical_market.get_events(@municipality, @city, @district, @neighborhood, sub_neighborhood) %>
+    <%= render @vertical_market.get_events(@municipality, @city, @district, @neighborhood, @sub_neighborhood) %>
   </div>
   <div id="news">
     <h4>News Articles</h4>
-          <%= render @vertical_market.get_news_articles(@municipality, @city, @district, @neighborhood, sub_neighborhood) %>
+          <%= render @vertical_market.get_news_articles(@municipality, @city, @district, @neighborhood, @sub_neighborhood) %>
   </div>
   <div id="blogs">
     <h4>Blog Entries</h4>
-    <%= render @vertical_market.get_blog_entries(@municipality, @city, @district, @neighborhood, sub_neighborhood) %>
+    <%= render @vertical_market.get_blog_entries(@municipality, @city, @district, @neighborhood, @sub_neighborhood) %>
   </div>
   <div id="offers">
     <h4>Offers</h4>
