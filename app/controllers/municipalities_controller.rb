@@ -116,7 +116,7 @@ class MunicipalitiesController < ApplicationController
   private
 
   def key_metro_prismic
-    "#{params[:province_slug]}-#{params[:region_slug]}-#{params[:muncipility_slug]}"
+    "#{params[:province_slug]}-#{params[:region_slug]}-#{params[:municipality_slug]}"
   end
 
 end
