@@ -49,16 +49,32 @@
         </li>
       <% end %>
       <% @vertical_market.ancestors.each do |ancestor| %>
-        <% if @location.city%>
-          <li class="breadcrumb-item"><a href=<%="/#{@location.city.slug}/guide/#{ancestor.slug}"%>><%= ancestor.name%></a></li>
+        <% if @location&.sub_neighborhood%>
+          <li class="breadcrumb-item"><a href="<%=city_district_nbh_sub_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, @location&.sub_neighborhood&.slug, ancestor.slug)%>"><%=ancestor.name%></a></li>
+        <% elsif @location&.neighborhood%>
+          <li class="breadcrumb-item"><a href="<%=city_district_neighborhood_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, ancestor.slug)%>"><%=ancestor.name%></a></li>
+        <% elsif @location&.district%>
+          <li class="breadcrumb-item"><a href="<%=city_district_guide_path(@location&.city&.slug, @location&.district&.slug, ancestor.slug)%>"><%=ancestor.name%></a></li>
+        <% elsif @location&.city%>
+          <li class="breadcrumb-item"><a href="<%=city_guide_path(@location&.city&.slug, ancestor.slug)%>"><%=ancestor.name%></a></li>
+        <% elsif @location&.municipality%>
+          <li class="breadcrumb-item"><a href="<%=municipality_guide_path(@location&.municipality&.slug, ancestor.slug)%>"><%=ancestor.name%></a></li>
         <%else%>
-          <li class="breadcrumb-item"><a href=<%="/guide/#{ancestor.slug}"%>><%= ancestor.name%></a></li>
-        <%end%>
+          <li class="breadcrumb-item"><a href=<%="#"%>><%=ancestor.name%></a></li>
+        <% end %>
       <% end %>
-      <% if @location.city%>
-        <li class="breadcrumb-item"><a href=<%="/#{@location.city.slug}/guide/#{@vertical_market.slug}" %>><%= @vertical_market.name %></a></li>
+      <% if @location&.sub_neighborhood%>
+        <li class="breadcrumb-item"><a href="<%=city_district_nbh_sub_sub_market_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, @location&.sub_neighborhood&.slug, @vertical_market.parent&.slug, @vertical_market.slug)%>"><%=vertical_market.name%></a></li>
+      <% elsif @location&.neighborhood%>
+        <li class="breadcrumb-item"><a href="<%=city_district_neighborhood_sub_market_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, @vertical_market.parent&.slug, @vertical_market.slug)%>"><%=@vertical_market.name%></a></li>
+      <% elsif @location&.district%>
+        <li class="breadcrumb-item"><a href="<%=city_district_sub_market_guide_path(@location&.city&.slug, @location&.district&.slug, @vertical_market.parent&.slug, @vertical_market.slug)%>"><%=@vertical_market.name%></a></li>
+      <% elsif @location&.city%>
+        <li class="breadcrumb-item"><a href="<%=city_sub_market_guide_path(@location&.city&.slug, @vertical_market.parent&.slug, @vertical_market.slug)%>"><%=@vertical_market.name%></a></li>
+      <% elsif @location&.municipality%>
+        <li class="breadcrumb-item"><a href="<%=municipality_sub_market_guide_path(@location&.municipality&.slug, @vertical_market.parent&.slug, @vertical_market.slug)%>"><%=@vertical_market.name%></a></li>
       <%else%>
-        <li class="breadcrumb-item"><a href=<%="/guide/#{@vertical_market.slug}" %>><%= @vertical_market.name %></a></li>
+        <li class="breadcrumb-item"><a href=<%="#"%>><%=ancestor.name%></a></li>
       <% end %>
       <% if  @location.broker.present? %>
         <li class="breadcrumb-item"><a href=<%="/business/#{@location.broker.slug}" %>><%= @location.broker.name %></a></li>
