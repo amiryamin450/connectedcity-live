@@ -87,7 +87,7 @@
                   <a href="<%=municipality_guide_path(@location&.municipality&.slug, vm.slug)%>"><%=vm.name%></a>
                 <%end%>
               <%else%>
-                <a href=<%="#{@base_path}guide/#{vm.slug}"%>><%=vm.name%></a>
+                <a href=<%="#"%>><%=vm.name%></a>
               <% end %>
 
               <% if vm.has_children? %>
@@ -125,7 +125,7 @@
                           <li><%= link_to child.name, municipality_sub_market_guide_path(@location&.municipality&.slug, vm.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
                         <% end %>
                       <% else %>
-                        <a href=<%="#{@base_path}guide/#{child.slug}"%>><%=child.name%></a>
+                        <a href=<%="#"%>><%=child.name%></a>
                       <% end %>
                     <% end %>
                   </ul>
