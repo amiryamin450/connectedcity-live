@@ -392,7 +392,7 @@ class VerticalMarketsController < ApplicationController
     end
     if locations.present?
       locations.each do|lo|
-        result_locations = Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", lo.id, lo.id, lo.id)
+        result_locations += Location.where("hall_id = (?) OR councillor_id = (?) OR commissioner_id = (?)", lo.id, lo.id, lo.id)
       end
       # [164, 174, 114]
       other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [164, 174, 114]}).where(id: locations.pluck(:id))
