@@ -7,7 +7,9 @@ class Event < ActiveRecord::Base
   attr_accessible :description, :email, :ends_at, :name, :starts_at, :url, :slug, :location_id, :image, :category_id, :latitude, :longitude
 
   default_scope where("ends_at > ?", Time.now)
-
+  scope :store_event, -> {
+    where("ends_at > ?", Time.now - 180.days)
+  }
   validates_presence_of :ends_at, :starts_at
   validates :name, presence: true, length: { in: 1..100 }
   validates :description, presence: true, length: { in: 1..1500 }

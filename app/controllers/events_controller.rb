@@ -1,12 +1,18 @@
 class EventsController < ApplicationController
   load_resource :location
-  load_and_authorize_resource :event, through: [:location]
+  load_and_authorize_resource :event, through: [:location], except: [:show, :edit, :update, :destroy]
 
   def index
-    @events = @location.events
+    @location = Location.find_by_slug(params[:location_id])
+    @events = @location.events.unscoped.store_event.where(location_id: @location.id)
   end
 
   def show
+    @event = Event.unscoped.find(params[:id])
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @event }
+    end
   end
 
   def new
@@ -21,7 +27,7 @@ class EventsController < ApplicationController
   end
 
   def edit
-    @event = Event.find(params[:id])
+    @event = Event.unscoped.find(params[:id])
     @location = @event.location
     @is_location_normal = @location.hall_id.blank? && @location.councillor_id.blank? && @location.commissioner_id.blank?
     @is_municipality = !@is_location_normal || @location.slug === 'city-of-vancouver'
@@ -42,7 +48,7 @@ class EventsController < ApplicationController
   end
 
     def update
-    @event = Event.find(params[:id])
+    @event = Event.unscoped.find(params[:id])
     if @event.update_attributes(params[:event])
       redirect_to [@location, @event], notice: 'Event was successfully updated.'
     else
@@ -51,8 +57,12 @@ class EventsController < ApplicationController
   end
 
   def destroy
+    @event = Event.unscoped.find(params[:id])
     @event.destroy
-    redirect_to location_products_url
+    redirect_to location_events_url
+  end
+
+  def check_scope
   end
 
 end
