@@ -53,7 +53,7 @@
           <div class="tab-pane active" id="location">
             <%= f.association :country %>
             <%= f.association :province, collection: get_collection(Province, :country, :country_id, f.object)%>
-            <%= f.association :municipality,label: "Metro", collection: get_collection(Municipality, :province, :province_id, f.object )%>
+            <%= f.association :municipality,label: "Metro/Sub-Region", collection: get_collection(Municipality, :province, :province_id, f.object )%>
             <%= f.association :city, collection: get_collection(City, :province, :pruid, f.object)%>
             <%= f.association :district, collection: get_collection(District, :city, :city_id, f.object) %>
             <%= f.association :neighborhood, collection: get_collection(Neighborhood, :district, :district_id, f.object) %>

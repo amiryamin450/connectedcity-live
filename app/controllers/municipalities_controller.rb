@@ -1,7 +1,7 @@
 class MunicipalitiesController < ApplicationController
   include PrismicController
 
-  load_and_authorize_resource except:[:get_districts, :get_neighborhoods, :get_sub_neighborhoods]
+  load_and_authorize_resource except:[:get_districts, :get_neighborhoods, :get_sub_neighborhoods, :get_municipalities, :get_cities, :metro_page]
 
   PER_PAGE = 20
 
