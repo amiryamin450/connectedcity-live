@@ -1,8 +1,8 @@
 <%
   @status_updates = @vertical_market.get_status_updates_municipality(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
-  @media_attachments = @vertical_market.get_media_attachments_municipality(@municipality, @city, @district, @neighborhood, sub_neighborhood)
-  @events = @vertical_market.get_events_municipality(@municipality, @city, @district, @neighborhood, sub_neighborhood)
-  @news_articles = @vertical_market.get_news_articles_municipality(@municipality,@city, @district, @neighborhood, sub_neighborhood)
+  @media_attachments = @vertical_market.get_media_attachments_municipality(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
+  @events = @vertical_market.get_events_municipality(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
+  @news_articles = @vertical_market.get_news_articles_municipality(@municipality,@city, @district, @neighborhood, @sub_neighborhood)
 %>
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
