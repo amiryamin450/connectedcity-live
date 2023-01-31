@@ -34,7 +34,7 @@
     </div>
   <% end %>
 
-  <% if [174, 164, 114].include?(@vertical_market.id) %>
+  <% if [174, 164, 114].include?(@vertical_market&.id) %>
     <div class="auto-search-wrapper control-group required" style="margin-bottom: 20px; display: block;">
       <label class="string required optional control-label">Location</label>
       <div class="controls">
