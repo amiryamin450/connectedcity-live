@@ -12,8 +12,8 @@
           <%= f.error_notification %>
           <div class="form-inputs">
             <%= f.input :content, as: :text, input_html: { class: 'input-block-level wysihtml5', :rows => 3, style: 'width: 550px'} %>
-            <% if @is_municipality || [174, 164, 114].include?(@vertical_market.id) %>
-              <% hidden = [174, 164].include?(@vertical_market.id) ? 'display: none' : 'display: flex' %>
+            <% if @is_municipality || [174, 164, 114].include?(@vertical_market&.id) %>
+              <% hidden = [174, 164].include?(@vertical_market&.id) ? 'display: none' : 'display: flex' %>
               <div class="control-group string required category" style="<%= hidden %>">
                 <%= f.label :category %>
                 <div class="input-group-prepend search-box ">
@@ -21,7 +21,7 @@
                 </div>
               </div>
             <% end %>
-            <% if [174, 164, 114].include?(@vertical_market.id) %>
+            <% if [174, 164, 114].include?(@vertical_market&.id) %>
               <div class="auto-search-wrapper control-group" style="margin-bottom: 20px; display: flex;">
                 <%= f.label :location %>
                 <div class="controls">
@@ -64,8 +64,8 @@
 
     $(".control-group.status_update_latitude").css('margin-bottom', '0px');
     $(".control-group.status_update_longitude").css('margin-bottom', '0px');
-    var municipality = "<%= @vertical_market.id === 114 %>";
-    var valid = "<%= [174, 164, 114].include?(@vertical_market.id) %>"
+    var municipality = "<%= @vertical_market&.id === 114 %>";
+    var valid = "<%= [174, 164, 114].include?(@vertical_market&.id) %>"
     $("#new_status_update").validate({
       rules: {
         'status_update[content]': {
@@ -86,9 +86,9 @@
         }
       }
     });
-    var need_category = "<%= [174, 164].include?(@vertical_market.id) %>"
+    var need_category = "<%= [174, 164].include?(@vertical_market&.id) %>"
     if (need_category === "true") {
-      var value = <%= @categories_news[0].id %>
+      var value = <%= @categories_news[0]&.id %>
       $("form#new_status_update select").val(value);
     }
     $("form#new_status_update").on('submit', function(e) {

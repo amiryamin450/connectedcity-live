@@ -4,8 +4,8 @@
   <div class="form-inputs">
     <%= f.input :user_id, as: :hidden %>
     <%= f.input :title, input_html: { class: 'input-xxlarge' } %>
-    <% if @is_municipality || [174, 164, 114].include?(@vertical_market.id) %>
-      <% hidden = [174, 164].include?(@vertical_market.id) ? 'display: none' : 'display: block' %>
+    <% if @is_municipality || [174, 164, 114].include?(@vertical_market&.id) %>
+      <% hidden = [174, 164].include?(@vertical_market&.id) ? 'display: none' : 'display: block' %>
       <div class="control-group string required category" style="<%= hidden %>">
         <label class="string required optional control-label">Category</label>
         <div class="input-group-prepend search-box">
@@ -13,7 +13,7 @@
         </div>
       </div>
     <% end %>
-    <% if [174, 164, 114].include?(@vertical_market.id) %>
+    <% if [174, 164, 114].include?(@vertical_market&.id) %>
       <div class="auto-search-wrapper control-group required" style="margin-bottom: 20px; display: block;">
         <label class="string required optional control-label">Location</label>
         <div class="controls">
@@ -38,13 +38,13 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    var municipality = "<%= @vertical_market.id === 114 %>";;
-    var need_category = "<%= [174, 164].include?(@vertical_market.id) %>"
+    var municipality = "<%= @vertical_market&.id === 114 %>";;
+    var need_category = "<%= [174, 164].include?(@vertical_marke&t.id) %>"
     if (need_category === "true") {
       var value = <%= @categories_news[0].id %>
       $("form#new_news_article select").val(value);
     }
-    var valid = "<%= [174, 164, 114].include?(@vertical_market.id) %>"
+    var valid = "<%= [174, 164, 114].include?(@vertical_market&.id) %>"
     $("#new_news_article").validate({
       rules: {
         'news_article[title]': {
