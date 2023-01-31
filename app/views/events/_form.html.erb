@@ -24,7 +24,6 @@
       </span>
     </div>
   </div>
-  <%binding.pry%>
   <% if @is_municipality || [174, 164, 114].include?(@vertical_market&.id) %>
     <% hidden = [174, 164].include?(@vertical_market&.id) ? 'display: none' : 'display: block' %>
     <div class="control-group string required category" style="<%= hidden %>">
