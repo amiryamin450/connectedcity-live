@@ -64,7 +64,7 @@
         <% end %>
       <% end %>
       <% if @location&.sub_neighborhood%>
-        <li class="breadcrumb-item"><a href="<%=city_district_nbh_sub_sub_market_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, @location&.sub_neighborhood&.slug, @vertical_market.parent&.slug, @vertical_market.slug)%>"><%=vertical_market.name%></a></li>
+        <li class="breadcrumb-item"><a href="<%=city_district_nbh_sub_sub_market_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, @location&.sub_neighborhood&.slug, @vertical_market.parent&.slug, @vertical_market.slug)%>"><%=@vertical_market.name%></a></li>
       <% elsif @location&.neighborhood%>
         <li class="breadcrumb-item"><a href="<%=city_district_neighborhood_sub_market_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, @vertical_market.parent&.slug, @vertical_market.slug)%>"><%=@vertical_market.name%></a></li>
       <% elsif @location&.district%>
