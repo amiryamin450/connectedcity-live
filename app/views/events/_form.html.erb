@@ -60,11 +60,11 @@
 <% end -%>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_MAP_KEY'] %>&libraries=places&callback=initMap&sensor=false" async defer></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
-    var municipality = "<%= @vertical_market.id === 114 %>";
-    var valid = "<%= [174, 164, 114].include?(@vertical_market.id) %>"
+    var municipality = "<%= @vertical_market&.id === 114 %>";
+    var valid = "<%= [174, 164, 114].include?(@vertical_market&.id) %>"
     $("#new_event").validate({
       rules: {
         'event[name]': {
@@ -104,6 +104,10 @@
       }
     });
     $("form#new_event").on('submit', function(e) {
+      var isvalid = $("form#new_event").valid();
+      if (isvalid) {
+          e.preventDefault();
+      }
       if (valid === 'true') {
         var valueSearch = $('#event_location_search').val().trim()
         var valueSearchResult = $("#value_address").val().trim()
@@ -122,7 +126,7 @@
         }
       }
     })
-    var need_category = "<%= [174, 164].include?(@vertical_market.id) %>"
+    var need_category = "<%= [174, 164].include?(@vertical_market&.id) %>"
     if (need_category === "true") {
       var value = <%= @categories_news[0].id %>
       $("form#new_event select").val(value);
