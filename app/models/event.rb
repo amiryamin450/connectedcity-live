@@ -12,7 +12,7 @@ class Event < ActiveRecord::Base
   }
   validates_presence_of :ends_at, :starts_at
   validates :name, presence: true, length: { in: 1..100 }
-  validates :description, presence: true, length: { in: 1..1500 }
+  validates :description, presence: true, length: { in: 1..3000 }
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }, length: { in: 1..300 }
 
   has_attached_file :image, styles: {
