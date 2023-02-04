@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   load_resource :location
-  load_and_authorize_resource :event, through: [:location], except: [:show, :edit, :update, :destroy]
+  # load_and_authorize_resource :event, through: [:location], except: [:show, :edit, :update, :destroy]
 
   def index
     @location = Location.find_by_slug(params[:location_id])
