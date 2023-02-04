@@ -106,7 +106,7 @@
     });
     $("form#new_event").on('submit', function(e) {
       var isvalid = $("form#new_event").valid();
-      if (isvalid) {
+      if (!isvalid) {
           e.preventDefault();
       }
       if (valid === 'true') {
