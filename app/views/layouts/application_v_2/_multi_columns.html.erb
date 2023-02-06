@@ -195,5 +195,13 @@
       v.attr('src', '')
       v.removeAttr('allow')
     })
+
+    $(".modal").on('show.bs.modal', function(){
+      setTimeout(function() { $('.modal-backdrop.in').remove(); }, 500)
+    })
+
+    $(".modal").on('hide.bs.modal', function(){
+      $('.modal-backdrop').remove();
+    })
   });
 </script>

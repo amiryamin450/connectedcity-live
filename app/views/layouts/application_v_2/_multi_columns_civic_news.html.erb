@@ -222,7 +222,13 @@
       })
     })
 
+    $(".modal").on('show.bs.modal', function(){
+      setTimeout(function() { $('.modal-backdrop.in').remove(); }, 500)
+    })
 
+    $(".modal").on('hide.bs.modal', function(){
+      $('.modal-backdrop').remove();
+    })
     //   .done(function( response ) {
     //     debugger
     //     $('.status-updates-data').empty()
