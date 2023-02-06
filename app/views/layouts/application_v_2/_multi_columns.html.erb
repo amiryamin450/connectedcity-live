@@ -196,12 +196,12 @@
       v.removeAttr('allow')
     })
 
-    $(".modal").on('show.bs.modal', function(){
-      setTimeout(function() { $('.modal-backdrop.in').remove(); }, 500)
-    })
+    // $(".modal").on('show.bs.modal', function(){
+    //   setTimeout(function() { $('.modal-backdrop.in').remove(); }, 500)
+    // })
 
-    $(".modal").on('hide.bs.modal', function(){
-      $('.modal-backdrop').remove();
+    $(".modal .close").click(function(){
+      $('.modal-backdrop.in').remove();
     })
   });
 </script>
