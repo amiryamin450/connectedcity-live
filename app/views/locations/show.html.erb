@@ -580,7 +580,9 @@
     })
   })
 
-
+  $(".modal .close").click(function(){
+    $('.modal-backdrop.in').remove();
+  })
 </script>
 <%= render 'status_updates/status_update_new' %>
 
