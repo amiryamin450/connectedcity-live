@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20230106020941) do
+ActiveRecord::Schema.define(:version => 20230207145243) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -760,6 +760,11 @@ ActiveRecord::Schema.define(:version => 20230106020941) do
     t.datetime "updated_at",                     :null => false
   end
 
+  create_table "options", :force => true do |t|
+    t.integer "variant_id"
+    t.string  "name"
+  end
+
   create_table "product_images", :force => true do |t|
     t.integer  "product_id"
     t.string   "image_file_name"
@@ -1145,6 +1150,13 @@ ActiveRecord::Schema.define(:version => 20230106020941) do
 
   add_index "users_roles", ["user_id", "role_id"], :name => "index_users_roles_on_user_id_and_role_id"
 
+  create_table "variants", :force => true do |t|
+    t.integer "product_id"
+    t.string  "name"
+    t.float   "price"
+    t.string  "sku"
+  end
+
   create_table "vertical_market_categories", :force => true do |t|
     t.string   "name"
     t.text     "description"
@@ -1179,7 +1191,7 @@ ActiveRecord::Schema.define(:version => 20230106020941) do
     t.string  "session_id"
     t.integer "user_business_id"
     t.string  "user_call_id"
-    t.string  "status",           :default => "Available"
+    t.string  "status",           :default => "available"
     t.text    "token"
     t.integer "location_id"
   end

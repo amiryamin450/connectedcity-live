@@ -2,6 +2,7 @@ class Product < ActiveRecord::Base
   belongs_to :location
   has_many :product_images, dependent: :destroy
   belongs_to :category
+  has_many :variants, dependent: :destroy
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]

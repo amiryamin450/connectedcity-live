@@ -33,6 +33,29 @@
   }
 }
 
+.product-view-section {
+  .url-wishlist {
+    text-decoration: underline;
+    color: #007bff;
+  }
+  .variant-container {
+    display: flex;
+    margin: 5px 0px;
+    .variant-title {
+      width: 50px;
+    }
+    .variant-option {
+      padding: 2px 20px;
+      height: min-content;
+      margin: 0px 10px;
+      width: 100px;
+      background-color: white;
+      border: 2px solid #10375C;
+      color: #10375C;
+    }
+  }
+}
+
 // .auto-is-loading:after { top: 30px !important; }
 .media-attachment-form {
   .auto-is-loading:after { top: 15px !important; }

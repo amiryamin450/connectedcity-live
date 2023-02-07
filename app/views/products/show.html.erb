@@ -31,6 +31,20 @@
             <div class="product-description">
               <p><%= @product.description.html_safe %></p>
             </div>
+            <% if @product.slug === 'test-new-product' %>
+            <div class="product-sku mb-2">SKU: <%= 'sku_number_temp' %></div>
+            <a class="url-wishlist" href="#">Add to wishlist</a>
+            <div class="variants-container mt-3">
+              <% @product.variants.each do |item| %>
+                <div class="variant-container" style="display: flex;">
+                  <div class="variant-title"><%= item.name.capitalize %>:</div>
+                  <% item.options.each do |i| %>
+                    <button class="variant-option btn btn-primary"><%= i.name.capitalize %></button>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+            <% end %>
             <div class="divider"></div>
             <div class="product-price">
               <h6>Price:</h6>
