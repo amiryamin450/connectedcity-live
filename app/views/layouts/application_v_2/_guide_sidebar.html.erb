@@ -163,4 +163,8 @@
     var url = v.attr('src');
     v.attr('src', '')
   })
+
+  $(".modal .close").click(function(){
+    $('.modal-backdrop.in').remove();
+  })
 </script>
