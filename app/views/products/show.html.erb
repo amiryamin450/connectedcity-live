@@ -125,7 +125,8 @@
 
   $('.form-add-to-card').submit(function(e) {
     e.preventDefault()
-    var disabled = <%= @product.disabled || @cart.full %>
+
+    var disabled = <%= @product.disabled || (@cart.present? && @cart.full) %>
     if (disabled || currentQuantity >= 50) {
       return false;
     }
