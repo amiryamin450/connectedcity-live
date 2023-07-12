@@ -106,5 +106,6 @@ heroku container:release web
 heroku run bash
 RAILS_ENV=production bundle exec rake db:migrate
 ```
-
+ If it shows `error: exec format error` on heroku push, update Dockerfile line:1 into `FROM --platform=linux/amd64 ruby:2.7.1 AS rails-toolbox`
+ 
  Note that all changes on your local will be deployed to server, not only committed code.
