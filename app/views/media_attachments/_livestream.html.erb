@@ -211,6 +211,11 @@
             console.error(jqXHR.responseText);
           });
       });
+
+      $('.OT_mirrored.OT_root.OT_publisher.OT_fit-mode-cover').append("<button class='OT_edge-bar-item OT_mute OT_mode-auto' id='OT_flip' type='button'>Flip</button>");
+      $('#OT_flip').click(function() {
+        publisher.cycleVideo();
+      })
     })
   });
 
