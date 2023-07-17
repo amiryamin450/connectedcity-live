@@ -47,6 +47,9 @@
           <li> <a href="#city-councillors" data-toggle="tab">City Councillors</a> </li>
           <li> <a href="#park-recreation-commissioners" data-toggle="tab">Parks & Recreation Commissioners</a> </li>
         <% end %>
+        <li>
+          <a href="#ecommerce-store" data-toggle="tab">eCommerce Store</a>
+        </li>
       </ul>
       <div class="tab-content">
         <% if current_user.has_role? :admin %>
@@ -214,6 +217,17 @@
           <%= render 'managers'  %>
         </div>
         <% end %>
+        <div class="tab-pane" id="ecommerce-store">
+          <% if @location.stripe_account_id.present? %>
+            <span>
+              Stripe Account is connected
+              <%= link_to 'Disconnect', location_disconnect_stripe_path(@location), onclick: "return confirm('Are you sure to disconnect your account?')" %>
+            </span>
+          <% else %>
+            <%= link_to 'Stripe Connect',location_connect_stripe_path(@location), class: 'd-block' %>
+          <% end %>
+          <%= link_to 'Product Management', location_products_path(@location), class: 'd-block' %>
+        </div>
       </div>
     </div>
     <div class="form-actions">

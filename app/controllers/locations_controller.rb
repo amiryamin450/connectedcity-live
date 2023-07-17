@@ -2,6 +2,7 @@ class LocationsController < ApplicationController
   load_and_authorize_resource
   PER_PAGE = 20
   layout 'location', :only => [:show]
+  before_filter :set_location, only: [:connect_stripe, :disconnect_stripe]
 
   def index
 
@@ -428,5 +429,26 @@ class LocationsController < ApplicationController
     else
       render json: []
     end
+  end
+
+  def connect_stripe
+    @stripe_account = StripeService.new(@location, current_user).create_account_link
+
+    redirect_to @stripe_account.url
+  end
+
+  def disconnect_stripe
+    ActiveRecord::Base.transaction do
+      Stripe::Account.delete(@location.stripe_account_id)
+      @location.update_column(:stripe_account_id, nil)
+    end
+
+    redirect_to edit_location_url(@location)
+  end
+
+  private
+
+  def set_location
+    @location = Location.find(params[:location_id])
   end
 end

@@ -296,6 +296,9 @@ Connectbook::Application.routes.draw do
         get 'preview/:media_attachment_id' => 'media_attachments#preview'
       end
     end
+
+    get 'connect_stripe'
+    get 'disconnect_stripe'
   end
   resources :videos do
     get 'check_video_url' => 'videos#check_video_url'
