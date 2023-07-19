@@ -432,16 +432,13 @@ class LocationsController < ApplicationController
   end
 
   def connect_stripe
-    @stripe_account = StripeService.new(@location, current_user).create_account_link
+    @stripe_account_link = StripeService.new(@location, current_user).create_account_link
 
-    redirect_to @stripe_account.url
+    redirect_to @stripe_account_link
   end
 
   def disconnect_stripe
-    ActiveRecord::Base.transaction do
-      Stripe::Account.delete(@location.stripe_account_id)
-      @location.update_column(:stripe_account_id, nil)
-    end
+    StripeService.new(@location).remove_stripe_account
 
     redirect_to edit_location_url(@location)
   end

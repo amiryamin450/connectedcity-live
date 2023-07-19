@@ -218,11 +218,10 @@
         </div>
         <% end %>
         <div class="tab-pane" id="ecommerce-store">
-          <% if @location.stripe_account_id.present? %>
-            <span>
-              Stripe Account is connected
-              <%= link_to 'Disconnect', location_disconnect_stripe_path(@location), onclick: "return confirm('Are you sure to disconnect your account?')" %>
-            </span>
+          <% stripe_connect_status = StripeService.new(@location).stripe_connect_status %>
+          <% if stripe_connect_status %>
+            Stripe Account is connected
+            <%= link_to 'Disconnect', location_disconnect_stripe_path(@location), onclick: "return confirm('Are you sure to disconnect your account?')" %>
           <% else %>
             <%= link_to 'Stripe Connect',location_connect_stripe_path(@location), class: 'd-block' %>
           <% end %>
