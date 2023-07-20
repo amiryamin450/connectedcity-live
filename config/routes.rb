@@ -35,6 +35,7 @@ Connectbook::Application.routes.draw do
     member do
       post :clear
     end
+    post :checkout, on: :collection
   end
 
   # Routes that require authentication.

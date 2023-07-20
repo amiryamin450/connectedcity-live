@@ -158,6 +158,12 @@ class CartsController < ApplicationController
     end
   end
 
+  def checkout
+    checkout_session = StripeService.checkout(params, @cart)
+  
+    redirect_to checkout_session.url
+  end
+
   private
 
     def find_cart

@@ -112,20 +112,19 @@
           </div>
         </div>
         <div class="btn-checkout-row">
-          <form action="https://connected-checkout-staging.herokuapp.com/create-checkout-session" method="POST">
-            <input type="hidden" name="success_url" value="<%=edit_cart_path(@cart)%>"/>
-            <input type="hidden" name="cancel_url" value="<%=edit_cart_path(@cart)%>"/>
+          <%= form_tag checkout_carts_path do %>
             <% line_items.each_with_index do |line_item, index| %>
               <% line_items[index].each_with_index do |item| %>
                 <% product = item[:product] %>
                 <% line_item = item[:line_item] %>
-                <input type="hidden" name=<%="line_items[][name]"%> value="<%= product.name %>"/>
-                <input type="hidden" name=<%="line_items[][amount]"%> value="<%= product.price %>"/>
-                <input type="hidden" name=<%="line_items[][quantity]"%> value="<%= line_item.quantity %>"/>
+                <%= hidden_field_tag "line_items[][name]", product.name, id: nil %>
+                <%= hidden_field_tag "line_items[][amount]", product.price, id: nil %>
+                <%= hidden_field_tag "line_items[][quantity]", line_item.quantity, id: nil %>
+                <%= hidden_field_tag "line_items[][destination_id]", line_item.location.stripe_account_id, id: nil %>
               <% end %>
             <% end %>
-            <button type="submit" id="submit" class=" btn btn-primary checkout-button">Checkout</button>
-          </form>
+            <%= submit_tag 'Checkout', class: "btn btn-primary checkout-button" %>
+          <% end %>
         </div>
       </div>
       <div class="coupon-view">

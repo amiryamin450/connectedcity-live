@@ -28,6 +28,30 @@ class StripeService
     @location.update_column(:stripe_account_id, nil)
   end
 
+  def self.checkout(params, cart)
+    line_items = params[:line_items].map { |item| line_item_data(item) } || []
+    return_url = Rails.application.routes.url_helpers.cart_url(cart)
+
+    Stripe::Checkout::Session.create(
+      line_items: line_items,
+      success_url: return_url,
+      cancel_url: return_url,
+      payment_method_types: ['card'],
+      mode: 'payment',
+      # automatic_tax: { enabled: true },
+      billing_address_collection: 'required',
+      shipping_address_collection: {
+        allowed_countries: ['US', 'CA'],
+      },
+      payment_intent_data: {
+        transfer_data: {
+          amount: total_receive(params[:line_items]),
+          destination: params[:line_items].first[:destination_id],
+        },
+      }
+    )
+  end
+
   private
 
   def stripe_account
@@ -68,5 +92,22 @@ class StripeService
       return_url: @return_url,
       type: 'account_onboarding',
     }).try(:url)
+  end
+
+  def self.line_item_data(item)
+    amount = item[:amount].to_f * 100
+    {
+      quantity: item[:quantity],
+      price_data: {
+        product_data: { name: item[:name] },
+        unit_amount: amount.to_i,
+        currency: 'cad'
+      }
+    }
+  end
+
+  def self.total_receive(items)
+    total = items.sum { |item| (item[:amount].to_f * 100).to_i * item[:quantity].to_i } || 0
+    total * (100 - ENV['SERVICE_FEE'].to_i) / 100
   end
 end
