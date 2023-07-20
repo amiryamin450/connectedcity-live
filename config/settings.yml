@@ -1,4 +1,4 @@
-host: connectedcity.com
+host: connectedcity.herokuapp.com
 db_host: 127.0.0.1
 
 # Please set the following secrets in settings.local.yml:
