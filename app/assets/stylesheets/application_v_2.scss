@@ -434,9 +434,6 @@
   border-radius: 10px;
 }
 
-.top-bar {
-  padding-right: 40px;
-}
 .row-fluid{
   white-space: nowrap;
 }
@@ -610,5 +607,10 @@
 @media (min-width: 1920px) {
   .footer.empty-content {
     margin-top: 285px;
+  }
+}
+@media (min-width: 720px) {
+  .top-bar {
+    padding-right: 40px;
   }
 }

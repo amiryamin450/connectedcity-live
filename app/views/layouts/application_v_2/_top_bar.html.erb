@@ -2,16 +2,16 @@
 <div class="top-bar">
   <div class="container-fluid">
     <div class="row align-items-center">
-      <div class="col-lg-4 col-md-12">
+      <div class="col-lg-4 col-md-5 col-6">
         <div class="logo">
           <a href="<%=root_path%>">
             <img src="/cc_2.0/images/logo.svg" alt="Logo">
           </a>
         </div>
       </div>
-      <div class="col-lg-8 col-md-7 d-none d-lg-block">
+      <div class="col-lg-8 col-md-7 col-6 d-lg-block">
         <div class="row">
-          <div class="col-7">
+          <div class="col-4 col-sm-6 d-none d-md-block">
             <!-- <div class="search-box advance-search-box">
               <%#= form_tag "#{@base_path}search", class: 'search-form', method: :get do %>
                 <div class="input-group"  >
@@ -27,7 +27,7 @@
               <%# end %>
             </div> -->
           </div>
-          <div class="col-3">
+          <div class="col-4 col-md-2 p-0">
             <!-- <div class="input-group-prepend search-box ">
               <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select Location <i class="far fa-chevron-down"></i></button>
               <div class="dropdown-menu">
@@ -45,7 +45,7 @@
               </div>
             </div>
           </div>
-          <div class="col-1 header-cart-view">
+          <div class="col-4 col-md-2 header-cart-view p-2">
             <div class="header-shopping-cart">
               <% if user_signed_in? and @cart.line_items.count > 0 %>
                 <div class="cart-counter">
@@ -58,7 +58,7 @@
               </div>
             </div>
           </div>
-          <div class="col-1">
+          <div class="col-1 col-md-2 p-2">
             <% if current_user.present? %>
               <%= render "/layouts/application_v_2/access_user_panel" %>
             <% else %>
