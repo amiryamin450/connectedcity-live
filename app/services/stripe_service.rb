@@ -108,6 +108,6 @@ class StripeService
 
   def self.total_receive(items)
     total = items.sum { |item| (item[:amount].to_f * 100).to_i * item[:quantity].to_i } || 0
-    total * (100 - ENV['SERVICE_FEE'].to_i) / 100
+    total * (100 - ENV['SERVICE_FEE'].to_f) / 100 + 30
   end
 end
