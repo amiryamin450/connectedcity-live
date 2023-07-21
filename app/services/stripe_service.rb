@@ -29,8 +29,10 @@ class StripeService
   end
 
   def self.checkout(params, cart)
-    line_items = params[:line_items].map { |item| line_item_data(item) } || []
+    line_items = params[:line_items].map { |item| line_item_data(item, cart) } || []
     return_url = Rails.application.routes.url_helpers.cart_url(cart)
+    cart.list_items = cart.line_items
+    total_receive = ((cart.total_price_gross * 100).to_i * (100 - ENV['SERVICE_FEE'].to_f) / 100 + 30).to_i
 
     Stripe::Checkout::Session.create(
       line_items: line_items,
@@ -45,7 +47,7 @@ class StripeService
       },
       payment_intent_data: {
         transfer_data: {
-          amount: total_receive(params[:line_items]),
+          amount: total_receive,
           destination: params[:line_items].first[:destination_id],
         },
       }
@@ -94,8 +96,10 @@ class StripeService
     }).try(:url)
   end
 
-  def self.line_item_data(item)
+  def self.line_item_data(item, cart)
     amount = item[:amount].to_f * 100
+    amount += (amount * cart.tax_pst + amount * cart.tax_gst).to_i
+
     {
       quantity: item[:quantity],
       price_data: {
@@ -104,10 +108,5 @@ class StripeService
         currency: 'cad'
       }
     }
-  end
-
-  def self.total_receive(items)
-    total = items.sum { |item| (item[:amount].to_f * 100).to_i * item[:quantity].to_i } || 0
-    total * (100 - ENV['SERVICE_FEE'].to_f) / 100 + 30
   end
 end
