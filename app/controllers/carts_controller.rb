@@ -64,6 +64,12 @@ class CartsController < ApplicationController
           }
         end
       end
+
+      if params[:success]
+        flash[:success] = "Payment successful"
+        OrderMailer.order_created(nil, current_user).deliver
+      end
+
       respond_to do |format|
         format.html # show.html.erb
         format.json { render json: @line_items }
