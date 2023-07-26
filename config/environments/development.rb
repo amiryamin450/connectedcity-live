@@ -20,14 +20,24 @@ Connectbook::Application.configure do
   # change to true to allow email to be sent during development
   config.action_mailer.perform_deliveries = true
 
-  config.action_mailer.delivery_method = :sendmail
+  # config.action_mailer.delivery_method = :sendmail
+  # config.action_mailer.smtp_settings = {
+  #   :address => "email-smtp.us-west-1.amazonaws.com",
+  #   :port => 587,
+  #   :user_name => ENV['SES_SMTP_USERNAME'], #Your SMTP user
+  #   :password => ENV['SES_SMTP_PASSWORD'], #Your SMTP password
+  #   :authentication => :login,
+  #   :enable_starttls_auto => true
+  # }
+
+  # Config for Mailgun service
   config.action_mailer.smtp_settings = {
-    :address => "email-smtp.us-west-1.amazonaws.com",
-    :port => 587,
-    :user_name => ENV['SES_SMTP_USERNAME'], #Your SMTP user
-    :password => ENV['SES_SMTP_PASSWORD'], #Your SMTP password
-    :authentication => :login,
-    :enable_starttls_auto => true
+    authentication: :plain,
+    address: "smtp.mailgun.org",
+    port: 587,
+    domain: ENV['MAILGUN_DOMAIN'],
+    user_name: ENV['MAILGUN_USERNAME'],
+    password: ENV['MAILGUN_PASSWORD']
   }
 
   config.action_mailer.raise_delivery_errors = true
