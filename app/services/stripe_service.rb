@@ -36,7 +36,7 @@ class StripeService
 
     Stripe::Checkout::Session.create(
       line_items: line_items,
-      success_url: return_url,
+      success_url: return_url + '?session_id={CHECKOUT_SESSION_ID}&success=true',
       cancel_url: return_url,
       payment_method_types: ['card'],
       mode: 'payment',
