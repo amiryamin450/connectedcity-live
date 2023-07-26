@@ -65,20 +65,31 @@ Connectbook::Application.configure do
 
 
   # ActionMailer Config
-  config.action_mailer.delivery_method = :amazon_ses
+  # config.action_mailer.delivery_method = :amazon_ses
   AWS.config(region: Settings.aws_region)
   # Setup for production - deliveries, no errors raised
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default :charset => "utf-8"
 
+  # config.action_mailer.smtp_settings = {
+  #   :address => "email-smtp.us-west-1.amazonaws.com",
+  #   :port => 587,
+  #   :user_name => ENV['SES_SMTP_USERNAME'], #Your SMTP user
+  #   :password => ENV['SES_SMTP_PASSWORD'], #Your SMTP password
+  #   :authentication => :login,
+  #   :enable_starttls_auto => true
+  # }
+
+  # Config for Mailgun service
+  config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :address => "email-smtp.us-west-1.amazonaws.com",
-    :port => 587,
-    :user_name => ENV['SES_SMTP_USERNAME'], #Your SMTP user
-    :password => ENV['SES_SMTP_PASSWORD'], #Your SMTP password
-    :authentication => :login,
-    :enable_starttls_auto => true
+    authentication: :plain,
+    address: "smtp.mailgun.org",
+    port: 587,
+    domain: ENV['MAILGUN_DOMAIN'],
+    user_name: ENV['MAILGUN_USERNAME'],
+    password: ENV['MAILGUN_PASSWORD']
   }
 
   # Log the query plan for queries taking more than this (works
