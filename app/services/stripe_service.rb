@@ -31,7 +31,13 @@ class StripeService
   def self.checkout(params, cart)
     line_items = params[:line_items].map { |item| line_item_data(item, cart) } || []
     return_url = Rails.application.routes.url_helpers.cart_url(cart)
-    cart.list_items = cart.line_items
+
+    if params[:location_id].present?
+      location = Location.find_by_slug(params[:location_id])
+      condition_location_id = location ? { location_id: location.id } : {}
+    end
+
+    cart.list_items = cart.line_items.where(condition_location_id)
     total_receive = ((cart.total_price_gross * 100).to_i * (100 - ENV['SERVICE_FEE'].to_f) / 100 - 30).to_i
 
     Stripe::Checkout::Session.create(
