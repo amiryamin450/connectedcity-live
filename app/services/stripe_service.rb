@@ -1,4 +1,5 @@
 class StripeService
+  # Initializer
   def initialize(location, user=nil)
     @location = location
     @user = user
@@ -7,6 +8,12 @@ class StripeService
     @account = stripe_account
   end
 
+  def initialize(cart: nil, params: nil)
+    @cart = cart
+    @params = params
+  end
+
+  # Actions
   def create_account_link
     @account ||= create_stripe_account
     @location.update_column(:stripe_account_id, @account.id) unless @location.stripe_account_id
@@ -28,30 +35,44 @@ class StripeService
     @location.update_column(:stripe_account_id, nil)
   end
 
-  def self.checkout(params, cart)
-    line_items = params[:line_items].map { |item| line_item_data(item, cart) } || []
-    return_url = Rails.application.routes.url_helpers.cart_url(cart)
-    cart.list_items = cart.line_items
-    total_receive = ((cart.total_price_gross * 100).to_i * (100 - ENV['SERVICE_FEE'].to_f) / 100 - 30).to_i
+  def checkout
+    return_url = Rails.application.routes.url_helpers.cart_url(@cart)
+    @cart.list_items = query_list_items(@params[:location_id])
+    line_items = @cart.list_items.map { |item| line_item_data(item) }
 
-    Stripe::Checkout::Session.create(
+    charge = Stripe::Checkout::Session.create(
       line_items: line_items,
-      success_url: return_url + '?session_id={CHECKOUT_SESSION_ID}&success=true',
+      success_url: Rails.application.routes.url_helpers.checkout_successful_cart_url(@cart) + '?session_id={CHECKOUT_SESSION_ID}' + "#{'&location_id=' + @params[:location_id] if @params[:location_id].present? }",
       cancel_url: return_url,
       payment_method_types: ['card'],
       mode: 'payment',
-      # automatic_tax: { enabled: true },
       billing_address_collection: 'required',
       shipping_address_collection: {
         allowed_countries: ['US', 'CA'],
-      },
-      payment_intent_data: {
-        transfer_data: {
-          amount: total_receive,
-          destination: params[:line_items].first[:destination_id],
-        },
       }
     )
+  end
+
+  def checkout_successful
+    charge = Stripe::Checkout::Session.retrieve(@params[:session_id])
+
+    if charge.present? && charge.status == 'complete'
+      OrderMailer.order_created(nil, @cart.user).deliver
+      list_items = query_list_items(@params[:location_id])
+
+      list_items.group_by(&:location_id).each do |location_id, items|
+        location = Location.find(location_id)
+        @cart.list_items = items
+        merchant_total_receive = (@cart.total_price_gross * 100 * (100 - ENV['SERVICE_FEE'].to_f) / 100 - 30).to_i
+
+        Stripe::Transfer.create({
+          amount: merchant_total_receive,
+          destination: location.stripe_account_id,
+          currency: 'cad'
+        })
+      end
+    end
+    
   end
 
   private
@@ -96,14 +117,23 @@ class StripeService
     }).try(:url)
   end
 
-  def self.line_item_data(item, cart)
-    amount = item[:amount].to_f * 100 / item[:quantity].to_i
-    amount += (amount * cart.tax_pst + amount * cart.tax_gst).to_i
+  def query_list_items(location_id=nil)
+    if location_id.present?
+      location = Location.find_by_slug(location_id)
+    end
+
+    condition_location_id = location ? { location_id: location.id } : {}
+    @cart.line_items.where(condition_location_id)
+  end
+
+  def line_item_data(item)
+    amount = item.total_price * 100 / item.quantity
+    amount += amount * @cart.tax_pst + amount * @cart.tax_gst
 
     {
-      quantity: item[:quantity],
+      quantity: item.quantity,
       price_data: {
-        product_data: { name: item[:name] },
+        product_data: { name: item.product.name },
         unit_amount: amount.to_i,
         currency: 'cad'
       }

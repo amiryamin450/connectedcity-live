@@ -113,16 +113,7 @@
         </div>
         <div class="btn-checkout-row">
           <%= form_tag checkout_carts_path do %>
-            <% line_items.each_with_index do |line_item, index| %>
-              <% line_items[index].each_with_index do |item| %>
-                <% product = item[:product] %>
-                <% line_item = item[:line_item] %>
-                <%= hidden_field_tag "line_items[][name]", product.name, id: nil %>
-                <%= hidden_field_tag "line_items[][amount]", line_item.total_price, id: nil %>
-                <%= hidden_field_tag "line_items[][quantity]", line_item.quantity, id: nil %>
-                <%= hidden_field_tag "line_items[][destination_id]", line_item.location.stripe_account_id, id: nil %>
-              <% end %>
-            <% end %>
+            <%= hidden_field_tag "location_id", params[:slug] %>
             <%= submit_tag 'Checkout', class: "btn btn-primary checkout-button" %>
           <% end %>
         </div>

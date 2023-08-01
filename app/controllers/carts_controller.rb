@@ -65,11 +65,6 @@ class CartsController < ApplicationController
         end
       end
 
-      if params[:success]
-        flash[:success] = "Payment successful"
-        OrderMailer.order_created(nil, current_user).deliver
-      end
-
       respond_to do |format|
         format.html # show.html.erb
         format.json { render json: @line_items }
@@ -165,9 +160,15 @@ class CartsController < ApplicationController
   end
 
   def checkout
-    checkout_session = StripeService.checkout(params, @cart)
+    checkout_session = StripeService.new(cart: @cart, params: params).checkout
   
     redirect_to checkout_session.url
+  end
+
+  def checkout_successful
+    StripeService.new(cart: @cart, params: params).checkout_successful
+  
+    redirect_to cart_url(@cart)
   end
 
   private
