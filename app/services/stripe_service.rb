@@ -1,16 +1,16 @@
 class StripeService
   # Initializer
-  def initialize(location, user=nil)
-    @location = location
-    @user = user
-    @return_url = Rails.application.routes.url_helpers.edit_location_url(@location)
-    @location.update_column(:payment_user_id, @user) if @user && @location.payment_user_id.nil?
-    @account = stripe_account
-  end
-
-  def initialize(cart: nil, params: nil)
-    @cart = cart
-    @params = params
+  def initialize(location: nil, user: nil, cart: nil, params: nil)
+    if cart && params
+      @cart = cart
+      @params = params
+    else
+      @location = location
+      @user = user
+      @return_url = Rails.application.routes.url_helpers.edit_location_url(@location)
+      @location.update_column(:payment_user_id, @user) if @user && @location.payment_user_id.nil?
+      @account = stripe_account
+    end
   end
 
   # Actions
