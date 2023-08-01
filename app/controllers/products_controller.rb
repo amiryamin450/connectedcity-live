@@ -21,10 +21,11 @@ class ProductsController < ApplicationController
   end
 
   def new
-    unless StripeService.new(@location).stripe_connect_status
-      redirect_to edit_location_path(@location)
-      flash[:danger] = "Please connect to Stripe before add products"
-    end
+    # TODO: Require connect to Stripe before add product
+    # unless StripeService.new(@location).stripe_connect_status
+    #   redirect_to edit_location_path(@location)
+    #   flash[:danger] = "Please connect to Stripe before add products"
+    # end
 
     @product = @location.products.new
     @categories = Category.where(parent_id: nil).order(:name)

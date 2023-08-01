@@ -34,7 +34,9 @@ Connectbook::Application.routes.draw do
   resources :carts do
     member do
       post :clear
+      get  :checkout_successful
     end
+
     post :checkout, on: :collection
   end
 
