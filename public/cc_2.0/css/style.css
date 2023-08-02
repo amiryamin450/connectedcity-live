@@ -352,9 +352,6 @@ a:focus {
     .user-dropdown .btn {
         padding: 10px 5px !important;
     }
-    .cart-icon img {
-        width: 80% !important;
-    }
     .search-box .input-group input::placeholder {
         font-size: 12px !important;
     }

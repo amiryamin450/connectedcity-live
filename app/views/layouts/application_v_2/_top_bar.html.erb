@@ -2,33 +2,36 @@
 <div class="top-bar">
   <div class="container-fluid">
     <div class="row align-items-center">
-      <div class="col-lg-4 col-md-5 col-6">
+      <div class="col-7 col-lg-4 col-md-5 px-2 px-md-4">
         <div class="logo">
-          <a href="<%=root_path%>">
+          <a href="<%= root_path %>">
             <img src="/cc_2.0/images/logo.svg" alt="Logo">
           </a>
         </div>
       </div>
-      <div class="col-lg-8 col-md-7 col-6 d-lg-block">
-        <div class="row">
-          <div class="col-4 col-sm-6 d-none d-md-block">
-            <!-- <div class="search-box advance-search-box">
-              <%#= form_tag "#{@base_path}search", class: 'search-form', method: :get do %>
-                <div class="input-group"  >
-                  <%# <input type="text" class="form-control search-input" placeholder="What are you looking for?" aria-label="Search input with dropdown button"> %>
-                  <%#= search_field_tag :search, params[:search], placeholder: "What are you looking for?", class: "form-control search-column" %>
-                  <div class="input-group-prepend search-box ">
-                    <%#= select_tag 'market', options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), prompt: 'all categories', class: 'form-control' %>
+      <div class="col-5 col-lg-8 col-md-7 text-right px-0">
+          <% if false %>
+            <div class="col-4 col-sm-6 d-none d-md-block">
+              <div class="search-box advance-search-box">
+                <%#= form_tag "#{@base_path}search", class: 'search-form', method: :get do %>
+                  <div class="input-group"  >
+                    <%# <input type="text" class="form-control search-input" placeholder="What are you looking for?" aria-label="Search input with dropdown button"> %>
+                    <%#= search_field_tag :search, params[:search], placeholder: "What are you looking for?", class: "form-control search-column" %>
+                    <div class="input-group-prepend search-box ">
+                      <%#= select_tag 'market', options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), prompt: 'all categories', class: 'form-control' %>
+                    </div>
+                    <div class="input-group-append">
+                      <button class="btn search-box-btn" type="submit"><img src="/cc_2.0/icon/search-icon.svg"></button>
+                    </div>
                   </div>
-                  <div class="input-group-append">
-                    <button class="btn search-box-btn" type="submit"><img src="/cc_2.0/icon/search-icon.svg"></button>
-                  </div>
-                </div>
-              <%# end %>
-            </div> -->
-          </div>
-          <div class="col-4 col-md-2 p-0">
-            <!-- <div class="input-group-prepend search-box ">
+                <%# end %>
+              </div>
+            </div>
+          <% end %>
+
+        <div class='d-inline-block'>
+          <% if false %>
+            <div class="input-group-prepend search-box ">
               <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select Location <i class="far fa-chevron-down"></i></button>
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="/vancouver">Vancouver</a>
@@ -36,39 +39,41 @@
                   <a class="dropdown-item" href="<%#= district_guide_path(district)%>"><%#= district.name%></a>
                 <%# end %>
               </div>
-            </div> -->
-            <div class="logo-block-flag">
-              <div class="logo-flag">
-                <!-- <a href="/" title="ConnectedCity"> -->
-                  <%= image_tag 'flag/canada.png' %>
-                <!-- </a> -->
-              </div>
+            </div>
+          <% end %>
+          <div class="logo-block-flag">
+            <div class="logo-flag d-inline">
+              <!-- <a href="/" title="ConnectedCity"> -->
+                <%= image_tag 'flag/canada.png' %>
+              <!-- </a> -->
             </div>
           </div>
-          <div class="col-4 col-md-2 header-cart-view p-2">
-            <div class="header-shopping-cart">
-              <% if user_signed_in? and @cart.line_items.count > 0 %>
-                <div class="cart-counter">
-                  <span class="total-number"><%= @cart.line_items.to_a.sum { |item| item.quantity } %></span>
-                </div>
-              <% end %>
-              <div class="cart-icon">
-                <% url = user_signed_in? ? cart_path(@cart.id) : new_user_session_path %>
-                <a href="<%= url %>"><img src="/cc_2.0/icon/shopping-cart.svg"></a>
-              </div>
-            </div>
-          </div>
-          <div class="col-1 col-md-2 p-2">
-            <% if current_user.present? %>
-              <%= render "/layouts/application_v_2/access_user_panel" %>
-            <% else %>
-              <div class="header-shopping-cart">
-                <div class="cart-icon">
-                  <a href="<%= new_user_session_path %>"><img src="/cc_2.0/icon/user-icon.svg"></a>
-                </div>
+        </div>
+
+        <div class="d-inline-block header-cart-view px-2">
+          <div class="header-shopping-cart p-1 p-sm-2">
+            <% if user_signed_in? and @cart.line_items.count > 0 %>
+              <div class="cart-counter">
+                <span class="total-number"><%= @cart.line_items.to_a.sum { |item| item.quantity } %></span>
               </div>
             <% end %>
+            <div class="cart-icon">
+              <% url = user_signed_in? ? cart_path(@cart.id) : new_user_session_path %>
+              <a href="<%= url %>"><img src="/cc_2.0/icon/shopping-cart.svg" class='w-100'></a>
+            </div>
           </div>
+        </div>
+
+        <div class='d-inline-block pr-1'>
+          <% if current_user.present? %>
+            <%= render "/layouts/application_v_2/access_user_panel" %>
+          <% else %>
+            <div class="header-shopping-cart">
+              <div class="cart-icon">
+                <a href="<%= new_user_session_path %>"><img src="/cc_2.0/icon/user-icon.svg"></a>
+              </div>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
