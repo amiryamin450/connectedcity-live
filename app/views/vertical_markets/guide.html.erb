@@ -115,7 +115,7 @@
           <div class="col-md-8">
             <div class="category-body">
               <br>
-              <%= render 'search_box/search_box', url: @url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'all categories' %>
+              <%= render 'share/search_box', url: @url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'all categories' %>
               <div class="vertical-market-categories">
                 <%= render 'guide/vertical_market_categories', :type_arg => 'country' %>
               </div>
