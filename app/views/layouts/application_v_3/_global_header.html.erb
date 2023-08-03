@@ -1,42 +1,41 @@
 <div class="top-bar landing-page-bar">
   <div class="container-fluid">
     <div class="row align-items-center">
-      <div class="col-lg-4 col-md-12 d-flex">
+      <div class="col-6 col-lg-4 col-md-5 d-flex">
         <div class="logo">
           <a href="<%=root_path%>">
             <img src="/cc_2.0/images/logo.svg" alt="Logo">
           </a>
         </div>
       </div>
-      <div class="col-lg-8 col-md-7 d-none d-lg-block">
-        <div class="row">
-          <% if current_user.present? %>
-            <div class="col-3 offset-8">
-          <% else %>
-            <div class="col-3 offset-7 country-flag-view">
-          <% end %>
-            <!-- <div class="input-group-prepend search-box ">
-              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Country Selection<i class="far fa-chevron-down"></i></button>
-              <div class="dropdown-menu">
-                <%# @countries.each do |country| %>
-                  <a class="dropdown-item" href=""><%#= country.name %></a>
-                <%# end %>
-              </div>
-            </div> -->
-            <div class="logo-block-flag">
-              <div class="logo-flag">
-                  <%= image_tag 'flag/canada.png' %>
-              </div>
+      <div class="col-6 col-lg-8 col-md-7 pl-0 d-lg-block text-right">
+        <div class="d-inline-block">
+          <!-- <div class="input-group-prepend search-box ">
+            <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Country Selection<i class="far fa-chevron-down"></i></button>
+            <div class="dropdown-menu">
+              <%# @countries.each do |country| %>
+                <a class="dropdown-item" href=""><%#= country.name %></a>
+              <%# end %>
+            </div>
+          </div> -->
+          <div class="logo-block-flag">
+            <div class="logo-flag">
+              <%= image_tag 'flag/canada.png' %>
             </div>
           </div>
+        </div>
+
+        <div class="d-inline-block align-super">
           <% if user_signed_in? %>
-            <div class="col-1"><%= render "/layouts/application_v_2/access_user_panel" %></div>
+            <%= render "/layouts/application_v_2/access_user_panel" %>
           <% else %>
-            <div class="col-2" style="padding-left: 5px;">
-              <div class="input-group-prepend user-dropdown dropleft">
-                <%= link_to 'Sign up', new_user_registration_path, class: "login-item btn-signup" %>
-                <%= link_to 'Login', new_user_session_path, class: "login-item btn-login" %>
-              </div>
+            <div class="input-group-prepend user-dropdown dropleft d-flex d-md-none">
+              <%= link_to 'Sign up', new_user_registration_path, class: "login-item btn-signup ml-0 ml-sm-2 p-1 p-sm-2 bg-transparent bg-md-white" %>
+              <%= link_to 'Login', new_user_session_path, class: "login-item btn-login ml-0 ml-sm-2 p-1 p-sm-2 bg-transparent bg-md-white" %>
+            </div>
+            <div class="input-group-prepend user-dropdown dropleft d-none d-md-flex">
+              <%= link_to 'Sign up', new_user_registration_path, class: "login-item btn-signup" %>
+              <%= link_to 'Login', new_user_session_path, class: "login-item btn-login" %>
             </div>
           <% end %>
         </div>

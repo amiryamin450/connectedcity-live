@@ -10,24 +10,24 @@
         </div>
       </div>
       <div class="col-5 col-lg-8 col-md-7 text-right px-0">
-          <% if false %>
-            <div class="col-4 col-sm-6 d-none d-md-block">
-              <div class="search-box advance-search-box">
-                <%#= form_tag "#{@base_path}search", class: 'search-form', method: :get do %>
-                  <div class="input-group"  >
-                    <%# <input type="text" class="form-control search-input" placeholder="What are you looking for?" aria-label="Search input with dropdown button"> %>
-                    <%#= search_field_tag :search, params[:search], placeholder: "What are you looking for?", class: "form-control search-column" %>
-                    <div class="input-group-prepend search-box ">
-                      <%#= select_tag 'market', options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), prompt: 'all categories', class: 'form-control' %>
-                    </div>
-                    <div class="input-group-append">
-                      <button class="btn search-box-btn" type="submit"><img src="/cc_2.0/icon/search-icon.svg"></button>
-                    </div>
+        <% if false %>
+          <div class="col-4 col-sm-6 d-none d-md-block">
+            <div class="search-box advance-search-box">
+              <%#= form_tag "#{@base_path}search", class: 'search-form', method: :get do %>
+                <div class="input-group"  >
+                  <%# <input type="text" class="form-control search-input" placeholder="What are you looking for?" aria-label="Search input with dropdown button"> %>
+                  <%#= search_field_tag :search, params[:search], placeholder: "What are you looking for?", class: "form-control search-column" %>
+                  <div class="input-group-prepend search-box ">
+                    <%#= select_tag 'market', options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), prompt: 'all categories', class: 'form-control' %>
                   </div>
-                <%# end %>
-              </div>
+                  <div class="input-group-append">
+                    <button class="btn search-box-btn" type="submit"><img src="/cc_2.0/icon/search-icon.svg"></button>
+                  </div>
+                </div>
+              <%# end %>
             </div>
-          <% end %>
+          </div>
+        <% end %>
 
         <div class='d-inline-block'>
           <% if false %>
@@ -59,7 +59,9 @@
             <% end %>
             <div class="cart-icon">
               <% url = user_signed_in? ? cart_path(@cart.id) : new_user_session_path %>
-              <a href="<%= url %>"><img src="/cc_2.0/icon/shopping-cart.svg" class='w-100'></a>
+              <%= link_to url do %>
+                <img src="/cc_2.0/icon/shopping-cart.svg">
+              <% end %>
             </div>
           </div>
         </div>
@@ -68,9 +70,11 @@
           <% if current_user.present? %>
             <%= render "/layouts/application_v_2/access_user_panel" %>
           <% else %>
-            <div class="header-shopping-cart">
-              <div class="cart-icon">
-                <a href="<%= new_user_session_path %>"><img src="/cc_2.0/icon/user-icon.svg"></a>
+            <div class="header-shopping-cart p-1 p-sm-2">
+              <div>
+                <%= link_to new_user_session_path do %>
+                  <img src="/cc_2.0/icon/user-icon.svg" height='26px'>
+                <% end %>
               </div>
             </div>
           <% end %>
