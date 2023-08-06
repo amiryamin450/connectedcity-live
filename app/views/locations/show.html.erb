@@ -97,8 +97,8 @@
               </div>
               <!--  -->
               <div class="brand-contact-details">
-                  <div class="row row-card-details">
-                    <div class="col-2">
+                  <div class="row row-card-details d-flex" style="display:flex !important">
+                    <div class="col-2" style="flex:unset !important">
                         <div class="brand-icon">
                           <%= image_tag @location.logo.url %>
                         </div>
@@ -113,7 +113,7 @@
                         <div class="col-12">
                             <div class="d-flex">
                               <i class="far fa-map-marker-alt"></i>
-                              <p><%= @location.address %> &middot; <%= "#{@location&.city&.name} #{@location&.province&.abbr}, #{@location.postal_code}" %></p>
+                              <p class="mb-0"><%= @location.address %> &middot; <%= "#{@location&.city&.name} #{@location&.province&.abbr}, #{@location.postal_code}" %></p>
                             </div>
                         </div>
                         <div class="col-12">
@@ -161,7 +161,7 @@
                   <div class="timing">
                     <ul>
                     <% @location.operating_hours.where("starts_at IS NOT NULL OR closed = 1").each do |operating_hour| %>
-                      <li><%= operating_hour.day.to_s.humanize %>
+                      <li class="my-0"><%= operating_hour.day.to_s.humanize %>
                       <span>
                         <% if operating_hour.open? %>
                           <%= operating_hour.starts_at.strftime("%-I:%M %p") %> &ndash; <%= operating_hour.ends_at.strftime("%-I:%M %p") %>
@@ -219,7 +219,13 @@
                       </div>
                       <div class="col-md-9">
                           <h4><%= @location.business_improvement_area.name %></h4>
-                          <p><%= truncate_html(@location.business_improvement_area.description, length: 400) %></p>
+                          <p class="short-description"><%= truncate_html(@location.business_improvement_area.description, length: 50) %></p>
+                          <p class="collapse" id="textCollapse">
+                            <%= @location.business_improvement_area.description.html_safe %>
+                          </p>
+                          <a class="text-dark small" data-bs-toggle="collapse" href="#textCollapse" role="button" aria-expanded="false" aria-controls="textCollapse" onclick="hideShortDescription()">
+                              View more
+                          </a>
                           <div class="shopping-district-btn">
                             <%= link_to 'Learn More', @location.business_improvement_area, class: 'btn btn-primary' %>
                           </div>
@@ -228,18 +234,22 @@
                 </div>
               <% end %>
             </div>
+
+            <div class="map-section my-5">
+              <div id="map" class="clearfix location-profile-map" style="height: 240px;" data-coordinates=<%= raw @location.geo_location.to_json() %>></div>
+            </div>
             <!-- Tab Start -->
             <div class="SideBar-tabs">
               <ul class="nav nav-tabs" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#Update">Status Updates</a>
+                  <li class="nav-item active">
+                    <a class="nav-link" data-toggle="tab" href="#Update">Updates</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#Articles">News Articles</a>
+                    <a class="nav-link" data-toggle="tab" href="#Articles">News</a>
                   </li>
                 <% if (![174, 164, 114].include?(@vertical_market.id) && @is_location_normal && request.path != '/business/city-of-vancouver') %>
                   <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#Entries">Blog Entries</a>
+                    <a class="nav-link" data-toggle="tab" href="#Entries">Blog</a>
                   </li>
                 <% end %>
               </ul>
@@ -266,11 +276,8 @@
         </div>
       </div>
       <!-- SideBar End -->
-      <div class="col-md-6">
+      <div class="col-md-6 mt-5">
         <div class="business-product-body">
-            <div class="map-section">
-              <div id="map" class="clearfix location-profile-map" style="height: 240px;" data-coordinates=<%= raw @location.geo_location.to_json() %>></div>
-            </div>
             <% if ![174, 164].include?(@vertical_market.id) && @is_location_normal %>
               <% vertical_market_category_id = VerticalMarketCategory.find_by_slug("municipal-government-and-agencies").id%>
               <% if @location.vertical_market_categories.pluck(:id).include?(vertical_market_category_id) %>
@@ -583,6 +590,10 @@
   $(".modal .close").click(function(){
     $('.modal-backdrop.in').remove();
   })
+
+  function hideShortDescription() {
+    $('.short-description').css('display', $('.short-description').css('display') === 'none' ? 'block' : 'none');
+  }
 </script>
 <%= render 'status_updates/status_update_new' %>
 

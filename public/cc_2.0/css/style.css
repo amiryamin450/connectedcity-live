@@ -550,6 +550,10 @@ a:focus {
   margin: 10px 40px;
 }
 
+ol.breadcrumb {
+  font-size: 10px;
+}
+
 .breadcrumb li {
   font-weight: 600;
   color: #10375c;
@@ -2670,7 +2674,7 @@ a:focus {
   background-color: #a5a3a3 !important;
 }
 
-.business-body-section .business-product-body .card-label-four .title h4 {
+.business-body-section .business-product-body .card-label-four .title .category-tab {
   margin: 0px;
   background-color: #c6292b;
   display: -webkit-inline-box;
@@ -3019,7 +3023,7 @@ a:focus {
   color: #10375c;
 }
 
-.business-body-section .business-info .SideBar-tabs .nav-tabs .nav-link.active {
+.business-body-section .business-info .SideBar-tabs .nav-tabs .nav-item.active .nav-link {
   background-color: #10375c;
   color: #fff;
   border-color: transparent;

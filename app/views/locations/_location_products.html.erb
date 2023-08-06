@@ -1,13 +1,15 @@
 <div class="card-label-four">
   <div class="title">
-    <%= link_to specific_location_products_path(@location, :category_id => 'all'), remote: true, class: "category-tab" do %>
-      <h4 class=<%="#{@category_id === 'all' ? 'active' : 'secondary'}"%> data-index=0>Products</h4>
-    <% end %>
-    <% @categories.each.with_index(1) do |category, idx| %>
-      <%= link_to specific_location_products_path(@location, :category_id => category.id), remote: true, class: "category-tab" do %>
-        <h4 class=<%="#{@category_id.to_i === category.id ? 'active' : 'secondary'}"%> data-index=<%= idx %> data-id=<%= category.id %>><%= category.name %></h4>
+    <div class="w-100 overflow-scroll text-nowrap">
+      <%= link_to specific_location_products_path(@location, :category_id => 'all'), remote: true, class: "category-tab d-inline-block text-decoration-none #{@category_id === 'all' ? 'active' : 'secondary'}" do %>
+        Products
       <% end %>
-    <% end %>
+      <% @categories.each.with_index(1) do |category, idx| %>
+        <%= link_to specific_location_products_path(@location, :category_id => category.id), remote: true, class: "category-tab d-inline-block text-decoration-none #{@category_id.to_i === category.id ? 'active' : 'secondary'}", data: {index: idx, id: category.id} do %>
+          <%= category.name %>
+        <% end %>
+      <% end %>
+    </div>
     <button id="less" class="less-than" style="padding: 0px; border: none;">
       <h4 class='secondary' style="padding: 6px 10px;"><</h4>
     </button>
