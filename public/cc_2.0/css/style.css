@@ -786,6 +786,25 @@ a:focus {
   }
 }
 
+@media (min-width: 320px) and (max-width: 479px) {
+  .inner-img {
+    width: 16%;
+  }
+
+  .multi .slick-slide {
+    scrollbar-width: none;
+    padding-top: 50px;
+  }
+
+  .multi .slick-slide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .multi .slick-slide .sticky-heading {
+    position: absolute;
+  }
+}
+
 /*************************************/
 
 .sidebar-column {

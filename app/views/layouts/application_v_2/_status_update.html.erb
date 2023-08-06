@@ -1,12 +1,12 @@
 <div class="row">
-  <div class="inner-img col-md-3 col-4">
+  <div class="inner-img col-2 col-sm-3 px-1 px-md-3">
     <%= link_to (image_tag status_update.statusable.logo.url), statusable_path(status_update.statusable)%></a>
   </div>
-  <div class="col-md-9 col-8">
+  <div class="col-10 col-sm-9 px-1">
     <div class="row">
       <div class="inner-card-title col-md-7">
         <h5><%#= link_to status_update.statusable.name, statusable_path(status_update.statusable) %>
-          <%= link_to ("#{status_update.statusable.name}"), "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
+          <%= link_to ("#{status_update.statusable.name}"), "#", class: "status-update-image", data: { 'bs-target': "#status-#{status_update.id}-model", 'bs-toggle': 'modal'} %>
         </h5>
       </div>
       <div class="inner-card-time col-md-5">
@@ -15,13 +15,13 @@
     </div>
     <div class="inner-card-description">
       <div class="content"> <%= sanitize(status_update.content) %> </div>
-      <%= link_to "View More", "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
+      <%= link_to "View More", "#", class: "status-update-image", data: { 'bs-target': "#status-#{status_update.id}-model", 'bs-toggle': 'modal'} %>
     </div>
   </div>
   <% if status_update.image? %>
     <div class="col-md-12">
       <div class="update-banner">
-        <%= link_to (image_tag status_update.image.url), "#", class: "status-update-image", data: { target: "#status-#{status_update.id}-model", toggle: 'modal'} %>
+        <%= link_to (image_tag status_update.image.url), "#", class: "status-update-image", role: 'button', data: { 'bs-target': "#status-#{status_update.id}-model", 'bs-toggle': 'modal'} %>
       </div>
     </div>
   <% end %>

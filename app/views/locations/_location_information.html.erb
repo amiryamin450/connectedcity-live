@@ -8,12 +8,12 @@
       </tr>
     <% end %>
     <tr>
-      <td style="vertical-align: top; width: 30%">
+      <td style="vertical-align: top" class="w-25">
         <div class="thumbnail logo text-center"  style="margin-top: 20px">
           <%= link_to image_tag(get_location_image_url(location)), statusable_path(location) %>
         </div>
       </td>
-      <td rowspan="2" style="vertical-align: top; padding-left: 20px;">
+      <td rowspan="2" style="vertical-align: top; padding-left: 0px;">
         <h2><%= link_to location.name, statusable_path(location) %></h2>
         <div class="address-line">
          <%= location.address %> &middot; <%= "#{location.city.name} #{location&.province&.abbr}, #{location.postal_code}" %>
