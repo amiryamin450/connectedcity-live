@@ -15,180 +15,46 @@
     @neighbourhood = Neighborhood.where('slug LIKE ?', @neighbourhood_slug).first
   end
 %>
-<%
-  @district_slug = params[:district_route] || params[:district_slug]
-%>
+<% @district_slug = params[:district_route] || params[:district_slug] %>
+
 <div class="nav-bar">
-  <div class="container-fluid p-0">
-    <nav role="navigation" id="nav-main">
-      <ul id="main">
-        <% klass = request.path == @base_path ? "selected" : ""%>
-        <li class="selected"> <%= link_to "Home", root_path%></li>
-        <% @vertical_markets_all.each_with_index do |vm, index| %>
-          <% if vm.has_children? || ['culture', 'trending'].include?(vm.slug) %>
-            <li>
-              <% if params[:sub_neighborhood_slug] || @location&.sub_neighborhood%>
-                <% if params[:sub_neighborhood_slug]%>
-                  <a href="<%=city_district_nbh_sub_guide_path(params[:city_slug], @district_slug, params[:neighborhood_slug], params[:sub_neighborhood_slug], vm.slug)%>"><%=vm.name%></a>
-                <%else%>
-                  <a href="<%=city_district_nbh_sub_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, @location&.sub_neighborhood&.slug, vm.slug)%>"><%=vm.name%></a>
-                <%end%>
-              <% elsif params[:neighborhood_slug] || @location&.neighborhood%>
-               <% if params[:neighborhood_slug]%>
-                  <a href="<%=city_district_neighborhood_guide_path(params[:city_slug], @district_slug, params[:neighborhood_slug], vm.slug)%>"><%=vm.name%></a>
-                <%else%>
-                  <a href="<%=city_district_neighborhood_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, vm.slug)%>"><%=vm.name%></a>
-                <%end%>
-              <% elsif @district_slug || @location&.district%>
-                <% if @district_slug%>
-                  <a href="<%=city_district_guide_path(params[:city_slug], @district_slug, vm.slug)%>"><%=vm.name%></a>
-                <%else%>
-                  <a href="<%=city_district_guide_path(@location&.city&.slug, @location&.district&.slug, vm.slug)%>"><%=vm.name%></a>
-                <%end%>
-              <% elsif params[:city_slug] || @location&.city%>
-                <% if params[:city_slug]%>
-                  <a href="<%=city_guide_path(params[:city_slug], vm.slug)%>"><%=vm.name%></a>
-                <%else%>
-                  <a href="<%=city_guide_path(@location&.city&.slug, vm.slug)%>"><%=vm.name%></a>
-                <%end%>
-              <% elsif params[:municipality_slug] || @location&.municipality%>
-                <% if params[:municipality_slug]%>
-                  <a href="<%=municipality_guide_path(params[:municipality_slug], vm.slug)%>"><%=vm.name%></a>
-                <%else%>
-                  <a href="<%=municipality_guide_path(@location&.municipality&.slug, vm.slug)%>"><%=vm.name%></a>
-                <%end%>
-              <%else%>
-                <a href=<%="#"%>><%=vm.name%></a>
-              <% end %>
-              <ul>
-                <% vm.children.sort_by(&:name).each do |child| %>
-                  <% if params[:sub_neighborhood_slug] || @location&.sub_neighborhood%>
-                    <% if params[:sub_neighborhood_slug]%>
-                      <li><%= link_to child.name, city_district_nbh_sub_sub_market_guide_path(params[:city_slug], @district_slug, params[:neighborhood_slug], params[:sub_neighborhood_slug], vm.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                    <% else %>
-                      <li><%= link_to child.name, city_district_nbh_sub_sub_market_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, @location&.sub_neighborhood&.slug, vm.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                    <% end %>
-                  <% elsif params[:neighborhood_slug] || @location&.neighborhood%>
-                    <% if params[:neighborhood_slug]%>
-                      <li><%= link_to child.name, city_district_neighborhood_sub_market_guide_path(params[:city_slug], @district_slug, params[:neighborhood_slug], vm.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                    <% else %>
-                      <li><%= link_to child.name, city_district_neighborhood_sub_market_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, vm.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                    <% end %>
-                  <% elsif @district_slug || @location&.district%>
-                    <% if @district_slug%>
-                      <li><%= link_to child.name, city_district_sub_market_guide_path(params[:city_slug], @district_slug, vm.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                    <%else%>
-                      <li><%= link_to child.name, city_district_sub_market_guide_path(@location&.city&.slug, @location&.district&.slug, vm.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                    <% end %>
-                  <% elsif params[:city_slug] || @location&.city  %>
-                    <%if params[:city_slug]%>
-                      <li><%= link_to child.name, city_sub_market_guide_path(params[:city_slug], vm.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                    <% else %>
-                      <li><%= link_to child.name, city_sub_market_guide_path(@location&.city.slug, vm.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                    <% end %>
-                  <% elsif params[:municipality_slug] || @location&.municipality  %>
-                    <%if params[:municipality_slug]%>
-                      <li><%= link_to child.name, municipality_sub_market_guide_path(params[:municipality_slug], vm.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                    <% else %>
-                      <li><%= link_to child.name, municipality_sub_market_guide_path(@location&.municipality&.slug, vm.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                    <% end %>
-                  <% else %>
-                    <a href=<%="#"%>><%=child.name%></a>
-                  <% end %>
-                <% end %>
-              </ul>
-            </li>
-          <% end %>
+  <div class="container-fluid p-0 d-flex">
+    <div id="main" class="main d-flex">
+      <div>
+        <%= link_to root_path, class: "selected" do %>
+          <i class="home"></i>
+          Home
         <% end %>
-        <li class="more" data-width="70">
-            <a href="#">More</a>
-            <ul></ul>
-        </li>
-      </ul>
-    </nav>
-    <div class="menu-nav-right" style="display: flex;">
-      <%# if @city.present? || params[:district_route].present? %>
-        <nav role="navigation" id="nav-main" style="padding: 0px; background-color: transparent;">
-          <ul>
-            <% if @vertical_market_news&.has_children? %>
-              <li>
-                <% if params[:sub_neighborhood_slug] || @location&.sub_neighborhood%>
-                  <% if params[:sub_neighborhood_slug] %>
-                    <a style="padding: 0px;" href="<%=city_district_nbh_sub_guide_path(params[:city_slug], @district_slug, params[:neighborhood_slug], params[:sub_neighborhood_slug], "news")%>"><%=@vertical_market_news.name%></a>
-                  <% else %>
-                    <a style="padding: 0px;" href="<%=city_district_nbh_sub_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, @location&.sub_neighborhood&.slug, "news")%>"><%=@vertical_market_news.name%></a>
-                  <% end %>
-                <% elsif params[:neighborhood_slug] || @location&.neighborhood %>
-                  <% if params[:neighborhood_slug] %>
-                    <a style="padding: 0px;" href="<%=city_district_neighborhood_guide_path(params[:city_slug], @district_slug,params[:neighborhood_slug], "news")%>"><%=@vertical_market_news.name%></a>
-                  <% else %>
-                    <a style="padding: 0px;" href="<%=city_district_neighborhood_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, "news")%>"><%=@vertical_market_news.name%></a>
-                  <% end %>
-                <% elsif @district_slug || @location&.district%>
-                  <%if @district_slug%>
-                    <a style="padding: 0px;" href="<%=city_district_guide_path(params[:city_slug], @district_slug, "news")%>"><%=@vertical_market_news.name%></a>
-                  <% else %>
-                    <a style="padding: 0px;" href="<%=city_district_guide_path(@location&.city&.slug, @location&.district&.slug, "news")%>"><%=@vertical_market_news.name%></a>
-                  <% end %>
-                <% elsif params[:city_slug] || @location&.city%>
-                  <%if params[:city_slug]%>
-                    <a style="padding: 0px;" href="<%=city_guide_path(params[:city_slug], "news")%>"><%=@vertical_market_news.name%></a>
-                  <% else %>
-                    <a style="padding: 0px;" href="<%=city_guide_path(@location&.city&.slug, "news")%>"><%=@vertical_market_news.name%></a>
-                  <% end %>
-                <% elsif params[:municipality_slug] || @location&.municipality%>
-                  <%if params[:municipality_slug]%>
-                    <a style="padding: 0px;" href="<%=municipality_guide_path(params[:municipality_slug], "news")%>"><%=@vertical_market_news.name%></a>
-                  <% else %>
-                    <a style="padding: 0px;" href="<%=municipality_guide_path(@location&.municipality&.slug, "news")%>"><%=@vertical_market_news.name%></a>
-                  <% end %>                            
-                <% else %>
-                  <a style="padding: 0px;" href="#"><%=@vertical_market_news.name%></a>
-                <% end %>
-                <ul>
-                  <% @vertical_market_news.children.sort_by(&:name).each do |child| %>
-                    <% if params[:sub_neighborhood_slug] || @location&.sub_neighborhood%>
-                      <% if params[:sub_neighborhood_slug] %>
-                        <li><%= link_to child.name, city_district_nbh_sub_guide_path(params[:city_slug], @district_slug, params[:neighborhood_slug], params[:sub_neighborhood_slug], child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                      <% else %>
-                        <li><%= link_to child.name, city_district_nbh_sub_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, @location&.sub_neighborhood&.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                      <% end %>
-                    <% elsif params[:neighborhood_slug] || @location&.neighborhood %>
-                      <% if params[:neighborhood_slug] %>
-                        <li><%= link_to child.name, city_district_neighborhood_guide_path(params[:city_slug], @district_slug, params[:neighborhood_slug], child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                      <% else %>
-                        <li><%= link_to child.name, city_district_neighborhood_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug,  child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                      <% end %>
-                    <% elsif @district_slug || @location&.district%>
-                      <%if @district_slug%>
-                        <li><%= link_to child.name, city_district_guide_path(params[:city_slug], @district_slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                      <% else %>
-                        <li><%= link_to child.name, city_district_guide_path(@location&.city&.slug, @location&.district&.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                      <% end %>
-                    <% elsif params[:city_slug] || @location&.city%>
-                      <%if params[:city_slug]%>
-                        <li><%= link_to child.name, city_guide_path(params[:city_slug], child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                      <% else %>
-                        <li><%= link_to child.name, city_guide_path(@location&.city&.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                      <% end %>
-                    <% elsif params[:municipality_slug] || @location&.city%>
-                      <%if params[:municipality_slug]%>
-                        <li><%= link_to child.name, municipality_guide_path(params[:municipality_slug], child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                      <% else %>
-                        <li><%= link_to child.name, municipality_guide_path(@location&.municipality&.slug, child.slug), class: "dropdown-item nv-mn-lnk" %></li>
-                      <% end %>                     
-                    <% else %>
-                      <li><%= link_to child.name, "#", class: "dropdown-item nv-mn-lnk" %></li>
-                    <% end %>
-                  <% end %>
-                </ul>
-              </li>
-            <% end %>
-          </ul>
-        </nav>
-      <%# end %>
-      <a href="/classifieds">Classfieds</a>
-      <a href="/employment-opportunities">Jobs</a>
+      </div>
+      <% @vertical_markets_all.each_with_index do |vm, index| %>
+        <%= render 'layouts/application_v_2/nav_bar_item', c: vm %>
+      <% end %>
+      <div class="dropdown more" data-width="70">
+        <%= link_to 'More', '#', class:"dropdown-toggle d-none d-md-block", data: { toggle: "dropdown" } %>
+        <%= link_to '#', class: "opener d-block d-md-none pr-0 mr-2", data: {'bs-toggle': "offcanvas", 'bs-target': "#offcanvasWithBackdrop"} do %>
+          <span></span>
+        <% end %>
+        <div class='dropdown-menu offcanvas offcanvas-start' id="offcanvasWithBackdrop">
+          <%= render 'layouts/application_v_2/nav_bar_item', c: @vertical_market_news, only_mobile: true %>
+          <%= link_to classifieds_path, class: 'd-block d-md-none' do %>
+            <i class="classified"></i>
+            Classfieds
+          <% end %>
+          <%= link_to employment_opportunity_path, class: 'd-block d-md-none' do %>
+            <i class="job"></i>
+            Jobs
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-nav-right d-none d-md-flex">
+      <%= render 'layouts/application_v_2/nav_bar_item', c: @vertical_market_news %>
+      <%= link_to 'Classfieds', classifieds_path %>
+      <%= link_to 'Jobs', employment_opportunity_path %>
+    </div>
+    <div class='d-block d-md-none' id='search-bar'>
+      <%= render 'share/search_box', url: search_url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'All' %>
     </div>
   </div>
 </div>
@@ -197,35 +63,28 @@
   function calcWidth() {
     var navwidth = 0;
     var morewidth = $('#main .more').outerWidth(true);
-    $('#main > li:not(.more)').each(function() {
+    var availablespace = $('.nav-bar').width() - $('.menu-nav-right').width() - $('#search-bar').width() - morewidth;
+    $('#main > div:not(.more)').each(function() {
       navwidth += $(this).outerWidth( true );
     });
 
-    //var availablespace = $('nav').outerWidth(true) - morewidth;
-    var availablespace = $('#nav-main').width() - morewidth;
-
-    if (navwidth > availablespace) {
-      var lastItem = $('#main > li:not(.more)').last();
-      lastItem.attr('data-width', lastItem.outerWidth(true));
-      lastItem.prependTo($('#main .more ul'));
-      calcWidth();
-    } else {
-      var firstMoreElement = $('#main li.more li').first();
-      if (navwidth + firstMoreElement.data('width') < availablespace) {
-        firstMoreElement.insertBefore($('#main .more'));
+    $('#main > div:not(.more)').get().reverse().forEach(i => {
+      if (navwidth > availablespace) {
+        var item = $(i);
+        navwidth = navwidth - item.outerWidth(true);
+        item.prependTo($('#main .more > .dropdown-menu'));
+      } else {
+        return
       }
-    }
-    if ($('.more li').length > 0) {
-      $('.more').css('display','block');
-    } else {
-      $('.more').css('display','none');
-    }
+    })
 
-    $('.more > ul > li > ul > li').each(function( index ) {
-      if ($(this).attr('data-width') > 0 ){
-        $(this).remove();
-      }
-    });
+    $('.more').css('display', $('.more .dropdown-menu').children().length > 0 ? 'block' : 'none');
+    if ($('.opener').css('display') === 'block') { 
+      $('.more .dropdown-menu.offcanvas').addClass('offcanvas offcanvas-start')
+    } else {
+      $('.more .dropdown-menu.offcanvas').removeClass('offcanvas offcanvas-start')
+    }
+    $('.more > .dropdown-menu > .dropdown').addClass('dropright');
   }
 
   $(document).ready(function(){

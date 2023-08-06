@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
     end
 
     init_category_values
-
+p 'bbbb'
     @city = params[:city_slug] ? City.find_by_slug(params[:city_slug]) : City.find(5915022)
     @sidebar_class = if cookies[:sidebar_class].present?
                         cookies[:sidebar_class]
@@ -94,9 +94,9 @@ class ApplicationController < ActionController::Base
 
   def init_category_values
     category_news
-    results = VerticalMarket.order(:name).at_depth 0
-    @vertical_market_news = results.select{|i| i.slug === 'civic-news'}.first
-    @vertical_markets_all = results.reject{|i| ['civic-news', 'employment-opportunities', 'classifieds'].include?(i.slug)}
+    @results = VerticalMarket.order(:name).at_depth 0
+    @vertical_market_news = @results.select{|i| i.slug === 'civic-news'}.first
+    @vertical_markets_all = @results.reject{|i| ['civic-news', 'employment-opportunities', 'classifieds'].include?(i.slug)}
   end
 
   private

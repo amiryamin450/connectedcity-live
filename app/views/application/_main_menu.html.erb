@@ -33,21 +33,23 @@
     <div class="drop-holder">
 
       <ul class="main-nav">
-        <li class="small active">
-          <div>
-            <a href="#"><i class="account"></i>account</a>
-            <div class="sub-drop">
-              <ul>
-                <li>
-                  <%= link_to "Login", new_user_session_path %>
-                </li>
-                <li>
-                  <%= link_to "Sign Up", new_user_registration_path %>
-                </li>
-              </ul>
+        <% if false %>
+          <li class="small active">
+            <div>
+              <a href="#"><i class="account"></i>account</a>
+              <div class="sub-drop">
+                <ul>
+                  <li>
+                    <%= link_to "Login", new_user_session_path %>
+                  </li>
+                  <li>
+                    <%= link_to "Sign Up", new_user_registration_path %>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
-        </li>
+          </li>
+        <% end %>
 
         <li>
           <div><%= link_to @base_path, class: request.path == @base_path ? "active" : nil do %><i class="home"></i>Home<% end %></div>

@@ -1,0 +1,14 @@
+<% if c.has_children? || ['culture', 'trending'].include?(c.slug) %>
+  <div class="dropdown <%= 'd-block d-md-none' if defined?(only_mobile) %>">
+    <%= link_to nav_item_url(c), class: "dropdown-toggle", data: { toggle: "dropdown" } do %>
+      <i class="<%= c.slug %>"></i>
+      <%= c.name %>
+    <% end %>
+
+    <div class="dropdown-menu <%= c.slug %>">
+      <% c.children.sort_by(&:name).each do |child| %>
+          <%= link_to child.name, nav_item_child_url(child, c), class: "dropdown-item nv-mn-lnk" %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

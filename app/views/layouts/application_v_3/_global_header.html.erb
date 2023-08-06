@@ -8,8 +8,8 @@
           </a>
         </div>
       </div>
-      <div class="col-6 col-lg-8 col-md-7 pl-0 d-lg-block text-right">
-        <div class="d-inline-block">
+      <div class="col-6 col-lg-8 col-md-7 d-flex justify-content-end">
+        <div class="pe-2">
           <!-- <div class="input-group-prepend search-box ">
             <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Country Selection<i class="far fa-chevron-down"></i></button>
             <div class="dropdown-menu">
@@ -25,13 +25,13 @@
           </div>
         </div>
 
-        <div class="d-inline-block align-super">
+        <div class="d-flex align-items-center">
           <% if user_signed_in? %>
             <%= render "/layouts/application_v_2/access_user_panel" %>
           <% else %>
             <div class="input-group-prepend user-dropdown dropleft d-flex d-md-none">
-              <%= link_to 'Sign up', new_user_registration_path, class: "login-item btn-signup ml-0 ml-sm-2 p-1 p-sm-2 bg-transparent bg-md-white" %>
-              <%= link_to 'Login', new_user_session_path, class: "login-item btn-login ml-0 ml-sm-2 p-1 p-sm-2 bg-transparent bg-md-white" %>
+              <%= link_to 'Sign up', new_user_registration_path, class: "login-item btn-signup ms-0 ms-sm-2 p-1 p-sm-2 bg-transparent bg-md-white" %>
+              <%= link_to 'Login', new_user_session_path, class: "login-item btn-login ms-0 ms-sm-2 p-1 p-sm-2 bg-transparent bg-md-white" %>
             </div>
             <div class="input-group-prepend user-dropdown dropleft d-none d-md-flex">
               <%= link_to 'Sign up', new_user_registration_path, class: "login-item btn-signup" %>
