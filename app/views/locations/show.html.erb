@@ -159,7 +159,7 @@
                     <h3>Operating Hours</h3>
                   </div>
                   <div class="timing">
-                    <ul>
+                    <ul class="w-auto">
                     <% @location.operating_hours.where("starts_at IS NOT NULL OR closed = 1").each do |operating_hour| %>
                       <li class="my-0"><%= operating_hour.day.to_s.humanize %>
                       <span>
