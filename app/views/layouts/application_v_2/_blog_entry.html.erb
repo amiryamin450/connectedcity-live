@@ -6,7 +6,7 @@
     <div class="row">
       <div class="inner-card-title col-md-12">
         <h5><%#= link_to blog_entry.title, [blog_entry.bloggable, blog_entry] %>
-           <%= link_to ("#{blog_entry.title}"), "#", class: "status-update-image", data: { target: "#blog-#{blog_entry.id}-model", toggle: 'modal'} %>
+           <%= link_to ("#{blog_entry.title}"), "#", class: "status-update-image", data: { 'bs-target': "#blog-#{blog_entry.id}-model", 'bs-toggle': 'modal'} %>
         </h5>
       </div>
       <div class="inner-card-title col-md-12 inner-by">

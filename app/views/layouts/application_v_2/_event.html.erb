@@ -6,7 +6,7 @@
     <div class="row">
       <div class="inner-card-title col-md-7">
         <h5><%#= link_to event.name, [event.location, event] %>
-          <%= link_to ("#{event.name}"), "#", class: "status-update-image", data: { target: "#event-#{event.id}-model", toggle: 'modal'} %>
+          <%= link_to ("#{event.name}"), "#", class: "status-update-image", data: { 'bs-target': "#event-#{event.id}-model", 'bs-toggle': 'modal'} %>
         </h5>
       </div>
       <div class="inner-card-time col-md-5">
@@ -15,14 +15,14 @@
     </div>
     <div class="inner-card-description">
       <div class="content"> <%= sanitize(event.description) %> </div>
-      <%= link_to "View More", "#", class: "status-update-image", data: { target: "#event-#{event.id}-model", toggle: 'modal'} if event.description.present? %>
+      <%= link_to "View More", "#", class: "status-update-image", data: { 'bs-target': "#event-#{event.id}-model", 'bs-toggle': 'modal'} if event.description.present? %>
       </p>
     </div>
   </div>
   <div class="col-md-12">
     <% if event.image? %>
       <div class="update-banner">
-        <%= link_to (image_tag event.image.url), "#", class: "status-update-image", data: { target: "#event-#{event.id}-model", toggle: 'modal'} %>
+        <%= link_to (image_tag event.image.url), "#", class: "status-update-image", data: { 'bs-target': "#event-#{event.id}-model", 'bs-toggle': 'modal'} %>
         <%#= render 'status_updates/modal_event_latest', event: event %>
       </div>
     <% end %>

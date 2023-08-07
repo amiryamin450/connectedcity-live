@@ -6,7 +6,7 @@
     <div class="row">
       <div class="inner-card-title col-md-12 title-attachment-event-category" data-id="<%="video-#{media_attachment.id}-model-category"%>">
         <h5>
-          <%= link_to ("#{media_attachment.title}"), "#", class: "status-update-image", data: { target: "#video-#{media_attachment.id}-model-category", toggle: 'modal'} %>
+          <%= link_to ("#{media_attachment.title}"), "#", class: "status-update-image", data: { 'bs-target': "#video-#{media_attachment.id}-model-category", 'bs-toggle': 'modal'} %>
         </h5>
       </div>
       <div class="inner-card-title col-md-12">
@@ -27,7 +27,7 @@
     <div class="update-banner video-card">
       <%= image_tag(media_attachment.thumbnail_url) %>
       <div class="card-video-box">
-        <i class="far fa-play-circle video-attachment-event-category" data-toggle="modal" data-target=<%="#video-#{media_attachment.id}-model-category"%>></i>
+        <i class="far fa-play-circle video-attachment-event-category" data-bs-toggle="modal" data-bs-target=<%="#video-#{media_attachment.id}-model-category"%>></i>
       </div>
       <%#= render 'status_updates/modal_video_latest', media_attachment: media_attachment %>
     </div>
