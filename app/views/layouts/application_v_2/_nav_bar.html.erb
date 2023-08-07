@@ -22,7 +22,6 @@
     <div id="main" class="main d-flex">
       <div>
         <%= link_to root_path, class: "selected" do %>
-          <i class="home"></i>
           Home
         <% end %>
       </div>
@@ -37,11 +36,9 @@
         <div class='dropdown-menu offcanvas offcanvas-start' id="offcanvasWithBackdrop">
           <%= render 'layouts/application_v_2/nav_bar_item', c: @vertical_market_news, only_mobile: true %>
           <%= link_to classifieds_path, class: 'd-block d-md-none' do %>
-            <i class="classified"></i>
             Classfieds
           <% end %>
           <%= link_to employment_opportunity_path, class: 'd-block d-md-none' do %>
-            <i class="job"></i>
             Jobs
           <% end %>
         </div>
@@ -68,6 +65,7 @@
       navwidth += $(this).outerWidth( true );
     });
 
+    // Move overflow navitems into dropdown
     $('#main > div:not(.more)').get().reverse().forEach(i => {
       if (navwidth > availablespace) {
         var item = $(i);
@@ -78,12 +76,20 @@
       }
     })
 
+    // Show more button if there is items in dropdown
     $('.more').css('display', $('.more .dropdown-menu').children().length > 0 ? 'block' : 'none');
+    // Set mobile fullscreen dropdown
     if ($('.opener').css('display') === 'block') { 
       $('.more .dropdown-menu.offcanvas').addClass('offcanvas offcanvas-start')
+
+      // Set height of mobile screen dropdown menu to fit menu
+      var menuSizeHeight = `${<%= 100.0 / (@vertical_markets_all.size + 4) %>}%`;
+      $('#offcanvasWithBackdrop > a, #offcanvasWithBackdrop > div').outerHeight(menuSizeHeight);
+      $('#offcanvasWithBackdrop > div > a').addClass('h-100');
     } else {
       $('.more .dropdown-menu.offcanvas').removeClass('offcanvas offcanvas-start')
     }
+    // Set sub-dropdown open direction
     $('.more > .dropdown-menu > .dropdown').addClass('dropright');
   }
 

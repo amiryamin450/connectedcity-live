@@ -1,7 +1,6 @@
 <% if c.has_children? || ['culture', 'trending'].include?(c.slug) %>
-  <div class="dropdown <%= 'd-block d-md-none' if defined?(only_mobile) %>">
+  <div class="dropdown<%= ' d-block d-md-none' if defined?(only_mobile) %>">
     <%= link_to nav_item_url(c), class: "dropdown-toggle", data: { toggle: "dropdown" } do %>
-      <i class="<%= c.slug %>"></i>
       <%= c.name %>
     <% end %>
 
