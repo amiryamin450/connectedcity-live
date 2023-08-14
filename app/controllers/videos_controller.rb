@@ -87,6 +87,8 @@ class VideosController < ApplicationController
 
   def show
     @video = Video.find_by_id(params[:id])
+
+    render layout: 'application_v_2'
   end
 
   def destroy
