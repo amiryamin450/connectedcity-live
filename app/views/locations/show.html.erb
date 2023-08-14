@@ -159,7 +159,7 @@
                     <h3>Operating Hours</h3>
                   </div>
                   <div class="timing">
-                    <ul class="w-auto">
+                    <ul class="w-auto ps-3">
                     <% @location.operating_hours.where("starts_at IS NOT NULL OR closed = 1").each do |operating_hour| %>
                       <li class="my-0"><%= operating_hour.day.to_s.humanize %>
                       <span>
@@ -207,7 +207,7 @@
                   <h4>Description</h4>
                   <p class="short-description mt-0"><%= truncate_html(strip_tags(@location.content.html_safe), length: 50) %></p>
                   <div class="collapse" id="textCollapse1">
-                    <%= @location.content.html_safe %>
+                    <%= strip_tags(@location.content.html_safe) %>
                   </div>
                   <a class="text-dark small expand-text" data-bs-toggle="collapse" href="#textCollapse1" role="button" aria-expanded="false" aria-controls="textCollapse" onclick="hideShortDescription('.description')">
                       View more
@@ -227,7 +227,7 @@
                           <h4><%= @location.business_improvement_area.name %></h4>
                           <p class="short-description"><%= truncate_html(strip_tags(@location.business_improvement_area.description), length: 50) %></p>
                           <p class="collapse" id="textCollapse2">
-                            <%= @location.business_improvement_area.description.html_safe %>
+                            <%= strip_tags(@location.business_improvement_area.description.html_safe) %>
                           </p>
                           <a class="text-dark small expand-text" data-bs-toggle="collapse" href="#textCollapse2" role="button" aria-expanded="false" aria-controls="textCollapse" onclick="hideShortDescription('.shopping-district')">
                               View more
