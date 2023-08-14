@@ -32,6 +32,8 @@ class MediaAttachmentsController < ApplicationController
       @categories_news = Category.where(name: names)
     end
     @media_attachment = @location.media_attachments.new
+
+    render layout: 'application_v_2'
   end
 
   def edit

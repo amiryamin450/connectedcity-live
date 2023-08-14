@@ -13,9 +13,9 @@
 
 //= require leaflet/leaflet
 //= require leaflet/leaflet.markercluster
-//= require map
 //= require jquery
 //= require jquery_ujs
 //= require jquery.subtle-slideshow
 //= require bootstrap
 //= require vertical_market_category
+//= require map

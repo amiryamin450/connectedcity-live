@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
     end
 
     init_category_values
-p 'bbbb'
+
     @city = params[:city_slug] ? City.find_by_slug(params[:city_slug]) : City.find(5915022)
     @sidebar_class = if cookies[:sidebar_class].present?
                         cookies[:sidebar_class]

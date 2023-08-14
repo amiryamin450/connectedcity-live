@@ -23,6 +23,11 @@
     }
   }
 
+  .media-attachment-form input, .media-attachment-form textarea {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
   #subscribers {
     height: 600px;
   }
@@ -58,9 +63,12 @@
 
   .add-new-media-attachment-title {
     margin-bottom: 40px;
+    font-size: 31px;
+    font-weight: bold;
 
-    .location-name {
-      color: blue;
+    .location-name a {
+      color:#08c !important;
+      text-decoration: none;
     }
   }
 
@@ -295,7 +303,7 @@
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 40%;
+    width: 60%;
   }
 
   /* The Close Button */
@@ -348,6 +356,10 @@
     #subscribers {
       height: 350px;
     }
+  }
+
+  .media-modal .modal-content {
+    width: 40%;
   }
 }
 
