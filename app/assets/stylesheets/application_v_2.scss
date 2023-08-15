@@ -832,6 +832,10 @@
 
         .dropdown-menu {
           left: 160px !important;
+
+          & > a {
+            text-align: left;
+          }
         }
       }
     }
