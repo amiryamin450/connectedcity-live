@@ -504,6 +504,12 @@
   }
 }
 
+@media (min-width: 1559px) {
+  .nav-bar .main .more .dropdown-menu .dropdown-menu {
+    left: 160px !important;
+  }
+}
+
 .nav-bar {
   .main {
     background: #4e84c4;
@@ -524,9 +530,6 @@
       .dropdown-menu {
         a {
           color: #666;
-          &:hover {
-            color: #1c3656;
-          }
         }
         .dropdown:hover .dropdown-menu {
           display: block;
@@ -535,9 +538,6 @@
           display: none;
           left: 176px;
           top: 0;
-        }
-        .dropdown-menu.trending, .dropdown-menu.specialty {
-          top: -100px;
         }
         .dropdown:hover {
           background: #e9ecef;
@@ -637,11 +637,16 @@
       width: 45px;
 
       & > .more .dropdown-menu {
-        overflow: scroll;
         top: 148px;
+        width: fit-content;
 
-        .dropdown:hover {
+        .dropdown:hover, .dropdown-menu .dropdown-item:active {
           background: transparent;
+        }
+
+        .dropdown-menu.specialty, .dropdown-menu.trending, .dropdown-menu.civic-news {
+          bottom: 0;
+          top: unset;
         }
       }
 
@@ -649,23 +654,17 @@
         width: 100vw;
         padding: 0;
         left: 0;
-        background: #e3e3e3;
 
         a {
-          width: 115px;
-          background: #d4ac1c repeat-x !important;
-          font-size: 10px;
-          line-height: 11px;
+          font-size: 14px;
           font-weight: normal;
           height: unset;
-          padding: 10px !important;
           margin-bottom: 0;
           text-align: center;
           text-decoration: none;
 
           &:hover {
-            background: #1c3656 !important;
-            color: #fff !important;
+            color: #1c3656;
           }
 
           &::after {
@@ -832,17 +831,7 @@
         }
 
         .dropdown-menu {
-          width: 250px;
-          left: 125px !important;
-
-          a {
-            width: 100%;
-            background: transparent !important;
-            color: #1c3656;
-            text-align: left;
-            height: 30px;
-            font-size: 14px;
-          }
+          left: 160px !important;
         }
       }
     }

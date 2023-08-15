@@ -77,7 +77,7 @@
     })
 
     // Show more button if there is items in dropdown
-    $('.more').css('display', $('.more .dropdown-menu').children().length > 0 ? 'block' : 'none');
+    $('.more').css('display', $('.more > .dropdown-menu').children().length > 3 ? 'block' : 'none');
     // Set mobile fullscreen dropdown
     if ($('.opener').css('display') === 'block') { 
       $('.more .dropdown-menu.offcanvas').addClass('offcanvas offcanvas-start')
