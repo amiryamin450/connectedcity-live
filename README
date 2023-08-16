@@ -26,7 +26,7 @@ A better approach is to use Docker for both dev and production. This project has
 dump_db_file.sql
 ```
 
-+ `docker-compose up web`
++ `docker-compose up web -d && docker attach $(docker-compose ps -q web)`
 
 + Open new console tab to setup database:
 ```
