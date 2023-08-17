@@ -21,10 +21,10 @@
                 <% elsif is_processing_video && !is_livestream %>
                   <img src="/assets/placeholder_stream_video.png" />
                 <% else %>
-                  <iframe width='100%' height='480' src="" data-src="<%= video&.video_url %>" id="<%="video-#{media_attachment.id}-vonage"%>" frameborder='0' allowfullscreen></iframe>
+                  <iframe width='100%' height='480' src="<%= video&.video_url %>" data-src="<%= video&.video_url %>" id="<%="video-#{media_attachment.id}-vonage"%>" frameborder='0' allowfullscreen></iframe>
                 <% end %>
               <% else %>
-                <iframe width='100%' height='480' src="" data-src="https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" id="<%="video-#{media_attachment.media_source_id}-#{media_attachment.id}-player"%>" frameborder='0' allowfullscreen></iframe>
+                <iframe width='100%' height='480' src="https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" data-src="https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" id="<%="video-#{media_attachment.media_source_id}-#{media_attachment.id}-player"%>" frameborder='0' allowfullscreen></iframe>
               <% end %>
             </div>
           </div>

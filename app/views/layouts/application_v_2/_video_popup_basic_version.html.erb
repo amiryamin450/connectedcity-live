@@ -8,9 +8,9 @@
       </div>
       <div class="modal-body">
       <% if media_attachment.is_stream_video %>
-        <iframe width='100%' height='480' sr="" data-src="<%= media_attachment.videos.first&.video_url %>" id="<%="video-#{media_attachment.id}-vonage"%>" frameborder='0' allowfullscreen></iframe>
+        <iframe width='100%' height='480' sr="<%= media_attachment.videos.first&.video_url %>" data-src="<%= media_attachment.videos.first&.video_url %>" id="<%="video-#{media_attachment.id}-vonage"%>" frameborder='0' allowfullscreen></iframe>
       <% else %>
-        <iframe width='100%' height='480' src="" data-src="https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" id="<%="video-#{media_attachment.media_source_id}-#{media_attachment.id}-player"%>" frameborder='0' allowfullscreen></iframe>
+        <iframe width='100%' height='480' src="https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" data-src="https://www.youtube.com/embed/<%= media_attachment.media_source_id %>" id="<%="video-#{media_attachment.media_source_id}-#{media_attachment.id}-player"%>" frameborder='0' allowfullscreen></iframe>
       <% end %>
       </div>
     </div>
