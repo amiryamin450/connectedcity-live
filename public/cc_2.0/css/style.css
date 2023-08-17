@@ -2543,6 +2543,10 @@ ol.breadcrumb {
   border-radius: 5px;
 }
 
+.category-body-section .category-body .category-body-card .button .btn.btn-danger {
+  background: #dc3545;
+}
+
 .category-body-section .category-body .category-body-card .button .btn:focus {
   box-shadow: none;
 }
