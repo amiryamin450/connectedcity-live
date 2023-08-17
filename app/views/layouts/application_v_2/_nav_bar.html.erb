@@ -94,6 +94,12 @@
     $('.more > .dropdown-menu > .dropdown').addClass('dropright');
   }
 
+  function navHeadingDirect(e) {
+    if ($(e.target).parent().hasClass("open")) {
+      window.location.href = $(e.target).attr("href");
+    }
+  }
+
   $(document).ready(function(){
     calcWidth();
   });
