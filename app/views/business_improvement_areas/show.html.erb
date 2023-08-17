@@ -34,25 +34,25 @@
   </div>
 </div><br>
 
-<div class="landing-page-heading-filter">
-  <div class="row filter">
-    <div class="col-11">
+<div class="landing-page-heading-filter" style="text-align: -webkit-center">
+  <div class="row filter px-3 px-md-0 w-100">
+    <div class="col-12 col-md-11">
       <div class="row">
-        <div class="col-3">
+        <div class="col-12 col-md-3">
           <%= select_tag 'city-dropdown', options_for_select(@cities.collect{ |u| [u.name, u.slug] }, :selected => @city.slug), prompt: 'City', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
-        <div class="col-3">
+        <div class="col-12 col-md-3 mt-2 mt-md-0">
           <%= select_tag 'district-dropdown', options_for_select(@districts.collect{ |district| [district.name, district.slug]}, :selected => @district.slug), prompt: 'District', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
-        <div class="col-3">
+        <div class="col-12 col-md-3 mt-2 mt-md-0">
           <%= select_tag 'neighbourhood-dropdown', options_for_select(@neighborhoods.collect{ |neighborhood| [neighborhood.name, neighborhood.slug]}, :selected => @neighborhood.slug), prompt: 'Neighborhood', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
-        <div class="col-3">
+        <div class="col-12 col-md-3 mt-2 mt-md-0">
           <%= select_tag 'shopping-district-dropdown', options_for_select(@sub_neighborhoods.collect{ |subn| [subn.name, subn.slug]}), prompt: 'Sub Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
       </div>
     </div>
-    <div class="col-1">
+    <div class="col-12 col-md-1 mt-2 mt-md-0">
       <a href="javascript:void(0)" id="district-path">
         <button type="button" class="btn-primary btn">Go<i class="far fa-chevron-right"></i></button>
       </a>
