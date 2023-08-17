@@ -16,41 +16,45 @@
   <div class="row card-row media-row-holder" id="cat-media-<%= @location.id %>">
     <% @media_attachments.each do |media| %>
       <div class="col-md-2">
-        <div class="business-body-card">
-          <%
-            video = media.videos&.first
-            is_livestream = video && video.livestream && video.status == "started"
-            is_processing_video = video && video.broadcast_id.present? && !video.video_url.present?
-          %>
-          <% if video && video.livestream && video.status == "started" %>
-            <div id="live">LIVE</div>
-          <% end %>
-          <div class="img">
-            <% if media.media_source_id.present? %>
-              <%= link_to(image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media], {style: "display:contents;"}) %>
-            <% else %>
-              <% if is_processing_video && !is_livestream %>
-                <img src="/assets/placeholder_stream_video.png" />
-              <% else %>
-                <%= link_to(image_tag(media.thumbnail_url), [@location, media], {style: "display:contents;"}) %>
-              <% end %>
+        <%= link_to [@location, media] do %>
+          <div class="business-body-card">
+            <%
+              video = media.videos&.first
+              is_livestream = video && video.livestream && video.status == "started"
+              is_processing_video = video && video.broadcast_id.present? && !video.video_url.present?
+            %>
+
+            <% if video && video.livestream && video.status == "started" %>
+              <div id="live">LIVE</div>
             <% end %>
-          </div>
-          <% unless is_processing_video && !is_livestream %>
-            <div class="video-btn">
-              <%= link_to [@location, media] do %>
-                <i class="far fa-play-circle" data-toggle="modal" data-target="#video-modal"></i>
+
+            <div class="img">
+              <% if media.media_source_id.present? %>
+                <%= image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg") %>
+              <% else %>
+                <% if is_processing_video && !is_livestream %>
+                  <img src="/assets/placeholder_stream_video.png" />
+                <% else %>
+                  <%= image_tag(media.thumbnail_url) %>
+                <% end %>
               <% end %>
             </div>
-          <% end %>
-          <div class="title">
-            <% if is_processing_video && !is_livestream %>
-              <h3><%= media.title&.truncate(25) %></h3>
-             <% else %>
-              <h3><%= link_to media.title&.truncate(25), [@location, media] %></h3>
-             <% end %>
+
+            <% unless is_processing_video && !is_livestream %>
+              <div class="video-btn">
+                <i class="far fa-play-circle"></i>
+              </div>
+            <% end %>
+
+            <div class="title">
+              <% if is_processing_video && !is_livestream %>
+                <h3><%= media.title&.truncate(25) %></h3>
+              <% else %>
+                <h3><%= media.title&.truncate(25) %></h3>
+              <% end %>
+            </div>
           </div>
-        </div>
+        <% end %>
       </div>
     <% end %>
   </div>
