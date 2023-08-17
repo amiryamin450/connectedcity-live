@@ -66,10 +66,10 @@
                         <td class="align-middle" style="padding: 0px;"><%= number_to_currency(product.price, unit: '$') %></td>
                         <td class="align-middle" style="padding: 0px;"><%= number_to_currency(product.discount, unit: '$') %></td>
                         <td class="align-middle total-price" style="padding: 0px;"  data-id=<%= line_item.object.id %>><%= number_to_currency(line_item.object.total_price, unit: '$') %></td>
-                        <td class="align-middle" style="padding: 0px;">
-                          <button class="text-dark delete-btn" style="padding: 15px; border: none; background-color: transparent;" type="button" onclick="deleteItem(event, <%= line_item.object.id %>)">
+                        <td class="align-middle">
+                          <%= link_to line_item_path(line_item.object.id, back: @back_url), class: "text-dark delete-btn", data: { confirm: 'Are you sure?', disable_with: "", method: :delete, remote: true } do %>
                             <i class="far fa-trash-alt" style="font-size: 25px"></i>
-                          </button>
+                          <% end %>
                         </td>
                       </tr>
                     <% end %>
@@ -353,25 +353,5 @@
       }
     }
   })
-
-  function deleteItem(e, id) {
-    var el = $(e.target).parent();
-
-    if (el.attr('disabled') === 'disabled') {
-      return false
-    }
-    var response = confirm($(this).data('confirm') || 'Are you sure?');
-    if (!response) { return false; }
-    el.attr('disabled', 'disabled');
-
-    $.ajax({
-      url: `/line_items/${id}?back=<%= @back_url %>`,
-      method: "DELETE",
-      dataType: "script",
-      headers: {
-        'X-CSRF-Token': $('input[name=authenticity_token]').val(),
-      }
-    })
-  }
 </script>
 
