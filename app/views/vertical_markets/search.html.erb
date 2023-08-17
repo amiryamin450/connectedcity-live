@@ -39,7 +39,7 @@ meta title: ["Search results for \"#{params[:search]}\"", "#{@neighborhood.try(:
         <div style="width: 168px;"><%= "#{location.city.name if location.city.present? } #{location.province.abbr} #{location.postal_code}".html_safe %></div>
         <div style="width: 168px; color: #1c3656;"><%= location.phone %></div>
         <div id="favorite-<%= location.id %>" class="favorite">
-              <%= render 'favorites/like_button', :location_id => location.id, :vertical_market_slug => location.vertical_markets.first.try(:slug) if user_signed_in? %>
+              <%= render 'favorites/like_button_v2', :location_id => location.id, :vertical_market_slug => location.vertical_markets.first.try(:slug) if user_signed_in? %>
         </div>
       </div>
       <% else %>
