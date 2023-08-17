@@ -84,8 +84,8 @@
       $('.more .dropdown-menu.offcanvas').addClass('offcanvas offcanvas-start')
 
       // Set height of mobile screen dropdown menu to fit menu
-      var menuSizeHeight = `${<%= 100.0 / (@vertical_markets_all.size + 4) %>}%`;
-      $('#offcanvasWithBackdrop > a, #offcanvasWithBackdrop > div').outerHeight(menuSizeHeight);
+      var menuSizeHeight = `${(screen.height - 150) * <%= 100.0 / (@vertical_markets_all.size + 4) %> / 100}px`;
+      $('#offcanvasWithBackdrop > *').outerHeight(menuSizeHeight);
       $('#offcanvasWithBackdrop > div > a').addClass('h-100');
     } else {
       $('.more .dropdown-menu.offcanvas').removeClass('offcanvas offcanvas-start')

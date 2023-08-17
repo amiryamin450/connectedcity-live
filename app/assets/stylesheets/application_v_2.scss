@@ -845,7 +845,7 @@
       padding: 0 6px 6px;
 
       .search-box {
-        width: 86%;
+        width: 90%;
         display: inline-block;
         #market {
           height: 33px;
@@ -858,7 +858,7 @@
       }
 
       .location-block {
-        width: 12%;
+        width: 9%;
         display: inline-block;
 
         a {
@@ -901,7 +901,7 @@
             content: "";
             position: absolute;
             top: -5px;
-            right: 10px;
+            right: 20px;
             width: 20px;
             height: 20px;
             background: #fff;
@@ -940,56 +940,12 @@
           height: 320px;
           overflow: scroll;
         }
-
-        // .dropdown ul {
-        //   float: left;
-        //   width: auto;
-        //   text-align: left;
-        //   padding: 20px;
-        // }
-
-        // .search-form {
-        //   text-align: center;
-        // }
-
-        // .search-form .search-row {
-        //   width: 80%;
-        // }
-
-        // .search-row#search-select-field {
-        //   display: none !important;
-        // }
-
-        //   .current-user-block {
-        //       display: none;
-        //   }
-
-        // .header-top {
-        //       padding: 0;
-        //   background: #1c3656;
-        // }
-
-        // .logo-block {
-        //   width: 95%;
-        // }
-
-        // .logo-block .logo {
-        //   max-width: 100%;
-        // }
-
-        // .logo-block .tagline {
-        //   display: none;
-        // }
-
-        //   .location-block {
-        //       width: 100%;
-        //       padding: 0;
-        //   }
-
-        //   .location-block .open span {
-        //       display: none;
-        //   }
       }
     }
+  }
+
+  .top-bar .user-dropdown > .dropdown-menu {
+    top: unset;
+    right: 0;
   }
 }
