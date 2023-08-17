@@ -27,12 +27,12 @@
           <% end %>
           <div class="img">
             <% if media.media_source_id.present? %>
-              <%= link_to(image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media]) %>
+              <%= link_to(image_tag("http://img.youtube.com/vi/#{media.media_source_id}/mqdefault.jpg"), [@location, media], {style: "display:contents;"}) %>
             <% else %>
               <% if is_processing_video && !is_livestream %>
                 <img src="/assets/placeholder_stream_video.png" />
               <% else %>
-                <%= link_to(image_tag(media.thumbnail_url), [@location, media]) %>
+                <%= link_to(image_tag(media.thumbnail_url), [@location, media], {style: "display:contents;"}) %>
               <% end %>
             <% end %>
           </div>
