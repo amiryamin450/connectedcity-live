@@ -67,7 +67,7 @@
                         <td class="align-middle" style="padding: 0px;"><%= number_to_currency(product.discount, unit: '$') %></td>
                         <td class="align-middle total-price" style="padding: 0px;"  data-id=<%= line_item.object.id %>><%= number_to_currency(line_item.object.total_price, unit: '$') %></td>
                         <td class="align-middle" style="padding: 0px;">
-                          <button class="text-dark delete-btn" style="padding: 15px; border: none; background-color: transparent;" data-id=<%= line_item.object.id %>>
+                          <button class="text-dark delete-btn" style="padding: 15px; border: none; background-color: transparent;" type="button" onclick="deleteItem(event, <%= line_item.object.id %>)">
                             <i class="far fa-trash-alt" style="font-size: 25px"></i>
                           </button>
                         </td>
@@ -187,7 +187,7 @@
         }
       },
       mouseleave: function() {
-        updateQuantityLineItem(this, true);
+        updateQuantityLineItem(this);
       },
     });
 
@@ -200,7 +200,7 @@
         $(this).next().val(newVal);
       },
       mouseleave: function() {
-        updateQuantityLineItem(this, true);
+        updateQuantityLineItem(this);
       },
     });
 
@@ -226,7 +226,7 @@
           newQuantity = maxQuantityProduct
           $(this).val(newQuantity)
         }
-        updateQuantityLineItem(this, true);
+        updateQuantityLineItem(this);
       },
       keydown: function(e) {
         var ch = String.fromCharCode(e.which)
@@ -265,26 +265,6 @@
       }
       $(this).attr('disabled', true);
     });
-
-    $('.delete-btn').click(function(e) {
-      if ($(this).attr('disabled') === 'disabled') {
-        e.preventDefault();
-        return false
-      }
-      var response = confirm($(this).data('confirm') || 'Are you sure?');
-      if (!response) { return false; }
-      $('.delete-btn').attr('disabled', 'disabled');
-      e.preventDefault();
-      var id = $(this).attr("data-id")
-      $.ajax({
-        url: `/line_items/${id}?back=${backURL}`,
-        method: "DELETE",
-        dataType: "script",
-        headers: {
-          'X-CSRF-Token': $('input[name=authenticity_token]').val(),
-        }
-      })
-    })
 
     $('#clear-cart').click(function(){
       if ($(this).attr('disabled') === 'disabled') {
@@ -343,10 +323,10 @@
       })
     }
 
-    function updateQuantityLineItem(el, outside) {
+    function updateQuantityLineItem(el) {
       var button = $(el);
       var id = button.attr('data-id')
-      if (clicked && outside) {
+      if (clicked) {
         $.ajax({
           url: `/line_items/${id}`,
           data: JSON.stringify({ quantity: newQuantity }),
@@ -373,5 +353,25 @@
       }
     }
   })
+
+  function deleteItem(e, id) {
+    var el = $(e.target).parent();
+
+    if (el.attr('disabled') === 'disabled') {
+      return false
+    }
+    var response = confirm($(this).data('confirm') || 'Are you sure?');
+    if (!response) { return false; }
+    el.attr('disabled', 'disabled');
+
+    $.ajax({
+      url: `/line_items/${id}?back=<%= @back_url %>`,
+      method: "DELETE",
+      dataType: "script",
+      headers: {
+        'X-CSRF-Token': $('input[name=authenticity_token]').val(),
+      }
+    })
+  }
 </script>
 
