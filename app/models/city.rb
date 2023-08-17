@@ -28,6 +28,9 @@ class City < ActiveRecord::Base
     friendly_id :csdname, use: [:slugged]
     attr_accessible :csdname, :id, :csdtype, :slug, :municipality_id, :is_active, :geom
 
+    has_attached_file :home_page_image, styles: {thumb: "100x100>"},
+                        default_url: '/assets/home_page_image/default.jpg'
+
     def name
       csdname
     end
@@ -44,8 +47,7 @@ class City < ActiveRecord::Base
       MaponicsSubdivision.select(%q{AsText(geom) as geom}).where(:id => id).map(&:geom).first
     end
 
-
-    has_attached_file :home_page_image, styles: {thumb: "100x100>"},
-                        default_url: '/assets/home_page_image/default.jpg'
-
+    def access_link
+      "#{municipality.access_link}/#{slug}"
+    end
 end

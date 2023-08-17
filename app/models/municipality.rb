@@ -20,6 +20,10 @@ class Municipality < ActiveRecord::Base
   has_many :events, through: :locations, uniq: true
 
   attr_accessible :name, :municipality_code
+
+  def access_link
+    "#{region.access_link}/#{slug}"
+  end
 end
 
 

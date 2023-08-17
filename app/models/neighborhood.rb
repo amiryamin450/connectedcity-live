@@ -33,4 +33,8 @@ class Neighborhood < ActiveRecord::Base
     nid
   end
 
+  def access_link
+    neighborhood_id ? "/neighbourhoods/#{slug}" : "#{district.access_link}/#{slug}"
+  end
+
 end

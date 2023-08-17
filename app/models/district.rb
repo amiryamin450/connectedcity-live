@@ -26,6 +26,8 @@ class District < ActiveRecord::Base
   attr_accessible :city_id, :description, :name, :slug, :city, :home_page_image, :use_carousel
 
 
-
+  def access_link
+    "#{city.access_link}/#{slug}"
+  end
 
 end

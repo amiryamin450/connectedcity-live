@@ -20,4 +20,7 @@ class Region < ActiveRecord::Base
   # has_attached_file :home_page_image, styles: {thumb: "100x100>"}, default_url: '/assets/home_page_image/:style/default.jpg'
   # validates_presence_of :name, :region_code
 
+  def access_link
+    "/#{province.slug}/#{slug}"
+  end
 end
