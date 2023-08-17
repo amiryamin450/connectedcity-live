@@ -14,12 +14,18 @@ class CartsController < ApplicationController
   # GET /carts/1
   # GET /carts/1.json
   def show
+    if params[:slug].present? && params[:slug] == 'back'
+      redirect_to @cart
+      return
+    end
+
     location_id = nil
     if params[:slug].present?
       location = Location.find_by_slug(params[:slug])
       location_id = location&.id
     end
-    if location_id.present? || (params[:slug].present? && params[:slug] == 'back')
+
+    if location_id.present?
       if location_id.present?
         @back_url = "/carts/#{@cart.id}?slug=back"
         list_items = @cart.line_items.where(location_id: location_id)
