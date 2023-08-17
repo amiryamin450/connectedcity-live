@@ -429,6 +429,14 @@
   margin: 0px 10px;
   border: 1px solid #ccc;
   position: relative;
+  // Hide scrollbar
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  //
 }
 
 .multi .slick-arrow {

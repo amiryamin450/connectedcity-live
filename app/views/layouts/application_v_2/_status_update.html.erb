@@ -1,8 +1,8 @@
 <div class="row">
-  <div class="inner-img col-2 col-sm-3 px-1 px-md-3">
-    <%= link_to (image_tag status_update.statusable.logo.url), statusable_path(status_update.statusable)%></a>
+  <div class="col-12">
+    <%= link_to (image_tag status_update.statusable.logo.url, class: "w-100 h-100"), statusable_path(status_update.statusable)%></a>
   </div>
-  <div class="col-10 col-sm-9 px-1">
+  <div class="col-12 px-3 pt-2">
     <div class="row">
       <div class="inner-card-title col-md-7">
         <h5><%#= link_to status_update.statusable.name, statusable_path(status_update.statusable) %>
