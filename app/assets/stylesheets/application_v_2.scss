@@ -406,22 +406,32 @@
   }
 
   .inner-card-title {
-    p,
-    a,
-    &.inner-by {
+    p, &.inner-by {
       font-size: 13px;
+    }
+    h5 a {
+      font-size: 1.1em;
+      text-decoration: none;
     }
   }
 
-  .inner-card-description .content {
-    margin: 0px;
-    font-size: 14px;
-    font-weight: 500;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
+  .inner-card-description {
+    .content {
+      margin: 0px;
+      font-size: 14px;
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    a {
+      font-weight: bold;
+      font-size: 14px;
+      text-decoration: none;
+    }
   }
 }
 
