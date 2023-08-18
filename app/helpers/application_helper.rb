@@ -9,29 +9,29 @@ module ApplicationHelper
   end
 
   def nav_item_url(item)
-    item.slug = 'news' if item.slug == 'civic-news' 
+    market = market == 'civic-news' ? 'news' : item.slug
     if params[:sub_neighborhood_slug] || @location&.sub_neighborhood
       if params[:sub_neighborhood_slug]
-        city_district_nbh_sub_guide_path(params[:city_slug], @district_slug, params[:neighborhood_slug], params[:sub_neighborhood_slug], item.slug)
+        city_district_nbh_sub_guide_path(params[:city_slug], @district_slug, params[:neighborhood_slug], params[:sub_neighborhood_slug], market)
       else
-        city_district_nbh_sub_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, @location&.sub_neighborhood&.slug, item.slug)
+        city_district_nbh_sub_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, @location&.sub_neighborhood&.slug, market)
       end
     elsif params[:neighborhood_slug] || @location&.neighborhood
       if params[:neighborhood_slug]
-        city_district_neighborhood_guide_path(params[:city_slug], @district_slug, params[:neighborhood_slug], item.slug)
+        city_district_neighborhood_guide_path(params[:city_slug], @district_slug, params[:neighborhood_slug], market)
       else
-        city_district_neighborhood_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, item.slug)
+        city_district_neighborhood_guide_path(@location&.city&.slug, @location&.district&.slug, @location&.neighborhood&.slug, market)
       end
     elsif @district_slug || @location&.district
       if @district_slug
-        city_district_guide_path(params[:city_slug], @district_slug, item.slug)
+        city_district_guide_path(params[:city_slug], @district_slug, market)
       else
-        city_district_guide_path(@location&.city&.slug, @location&.district&.slug, item.slug)
+        city_district_guide_path(@location&.city&.slug, @location&.district&.slug, market)
       end
     elsif params[:city_slug] || @location&.city
-      city_guide_path(params[:city_slug] || @location&.city&.slug, item.slug)
+      city_guide_path(params[:city_slug] || @location&.city&.slug, market)
     elsif params[:municipality_slug] || @location&.municipality
-      municipality_guide_path(params[:municipality_slug] || @location&.municipality&.slug, item.slug)
+      municipality_guide_path(params[:municipality_slug] || @location&.municipality&.slug, market)
     else
       '#'
     end
