@@ -109,7 +109,7 @@
     doubleClicked = true;
   }
 
-  $("#main .dropdown:not(.more)").on('click', function() {   
+  $(".nav-bar .dropdown:not(.more)").on('click', function() {   
     if (doubleClicked) {
       window.location.href = $(this).children('a').attr('href');
     }

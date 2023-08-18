@@ -9,6 +9,7 @@ module ApplicationHelper
   end
 
   def nav_item_url(item)
+    item.slug = 'news' if item.slug == 'civic-news' 
     if params[:sub_neighborhood_slug] || @location&.sub_neighborhood
       if params[:sub_neighborhood_slug]
         city_district_nbh_sub_guide_path(params[:city_slug], @district_slug, params[:neighborhood_slug], params[:sub_neighborhood_slug], item.slug)
