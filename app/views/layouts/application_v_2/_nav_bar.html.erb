@@ -57,6 +57,10 @@
   </div>
 </div>
 <script>
+  var isMobile = false;
+  if ($('.more .opener').css('display')=='block') {
+    isMobile = true;
+  }
 
   function calcWidth() {
     var navwidth = 0;
@@ -95,8 +99,25 @@
   }
 
   function navHeadingDirect(e) {
-    window.location.href = $(e.target).attr("href");
+    if (!isMobile) {
+      window.location.href = $(e.target).attr("href");
+    }
   }
+
+  var doubleClicked = false;
+  if (!isMobile) {
+    doubleClicked = true;
+  }
+
+  $("#main .dropdown:not(.more)").on('click', function() {   
+    if (doubleClicked) {
+      window.location.href = $(this).children('a').attr('href');
+    }
+    doubleClicked = true;
+    setTimeout(() => {
+      if (isMobile) {doubleClicked = false;}
+    }, 500);
+  });
 
   $(document).ready(function(){
     calcWidth();

@@ -1,5 +1,5 @@
 <% if c.has_children? || ['culture', 'trending'].include?(c.slug) %>
-  <div class="dropdown nav-menu-heading <%= ' d-block d-md-none' if defined?(only_mobile) %>" onclick="navHeadingDirect(event)">
+  <div class="dropdown <%= ' d-block d-md-none' if defined?(only_mobile) %>">
     <%= link_to nav_item_url(c), class: "dropdown-toggle", data: { toggle: "dropdown" } do %>
       <%= c.name %>
     <% end %>
