@@ -45,7 +45,7 @@
                             end
                           end
           %>
-          <li class="<%= 'active' if params[:neighborhood_slug] == bia.slug %>"><%= link_to bia.neighborhd, bia.access_link %></li>
+          <li class="<%= 'active' if [params[:neighborhood_slug], params[:id]].include?(bia.slug) %>"><%= link_to bia.neighborhd, bia.access_link %></li>
         <% end %>
       </ul>
     </div>

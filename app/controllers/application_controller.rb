@@ -46,6 +46,7 @@ class ApplicationController < ActionController::Base
     init_category_values
 
     @city = params[:city_slug] ? City.find_by_slug(params[:city_slug]) : City.find(5915022)
+    @city = City.find(5915022) unless @city
     @sidebar_class = if cookies[:sidebar_class].present?
                         cookies[:sidebar_class]
                       else
