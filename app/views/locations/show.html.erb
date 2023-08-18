@@ -160,17 +160,17 @@
                   </div>
                   <div class="timing">
                     <ul class="w-auto ps-3">
-                    <% @location.operating_hours.where("starts_at IS NOT NULL OR closed = 1").each do |operating_hour| %>
-                      <li class="my-0"><%= operating_hour.day.to_s.humanize %>
-                      <span>
-                        <% if operating_hour.open? %>
-                          <%= operating_hour.starts_at.strftime("%-I:%M %p") %> &ndash; <%= operating_hour.ends_at.strftime("%-I:%M %p") %>
-                        <% else %>
-                          Closed
-                        <% end %>
-                      <span>
-                      </li>
-                    <% end %>
+                      <% @location.operating_hours.where("starts_at IS NOT NULL OR closed = 1").each do |operating_hour| %>
+                        <li class="my-0"><%= operating_hour.day.to_s.humanize %>
+                        <span>
+                          <% if operating_hour.open? %>
+                            <%= operating_hour.starts_at.strftime("%-I:%M %p") %> &ndash; <%= operating_hour.ends_at.strftime("%-I:%M %p") %>
+                          <% else %>
+                            Closed
+                          <% end %>
+                        <span>
+                        </li>
+                      <% end %>
                     </ul>
                   </div>
                 </div>

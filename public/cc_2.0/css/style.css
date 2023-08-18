@@ -324,10 +324,8 @@ a:focus {
   }
 }
 
-@media (max-width: 1440px) {
-  .business-body-section .business-info .operating-hours .timing ul {
-    width: 50% !important;
-  }
+.business-body-section .business-info .operating-hours .timing ul {
+  width: 50% !important;
 }
 
 @media (max-width: 1024px) {
