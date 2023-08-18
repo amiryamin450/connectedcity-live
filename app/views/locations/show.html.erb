@@ -241,7 +241,7 @@
               <% end %>
             </div>
 
-            <div class="map-section my-5">
+            <div class="map-section my-5 d-none d-md-block">
               <div id="map" class="clearfix location-profile-map" style="height: 240px;" data-coordinates=<%= raw @location.geo_location.to_json() %>></div>
             </div>
             <!-- Tab Start -->
@@ -284,6 +284,10 @@
       <!-- SideBar End -->
       <div class="col-md-6 mt-5">
         <div class="business-product-body">
+            <div class="map-section my-5 d-block d-md-none">
+              <div id="map" class="clearfix location-profile-map" style="height: 240px;" data-coordinates=<%= raw @location.geo_location.to_json() %>></div>
+            </div>
+
             <% if ![174, 164].include?(@vertical_market.id) && @is_location_normal %>
               <% vertical_market_category_id = VerticalMarketCategory.find_by_slug("municipal-government-and-agencies").id%>
               <% if @location.vertical_market_categories.pluck(:id).include?(vertical_market_category_id) %>

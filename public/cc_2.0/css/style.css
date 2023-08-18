@@ -2686,6 +2686,15 @@ ol.breadcrumb {
   border-radius: 8px 8px 0px 0px;
 }
 
+.business-body-section .business-product-body .card-label-four .title > div { 
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.business-body-section .business-product-body .card-label-four .title > div::-webkit-scrollbar {
+    display: none;
+}
+
 /***********Card label Five************************/
 
 .business-body-section .business-product-body .card-label-five {
