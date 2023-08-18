@@ -1,6 +1,6 @@
 var map, tiles;
 function showMap(el) {
-    if($(`#${el}`).length > 0) {
+    if($('#' + el).length > 0) {
         map = L.map(el, {scrollWheelZoom: false}).setView([49.249935,-123.112457],11);
         //1c76eefca5954c5abfa169b96dc96a35
         L.Icon.Default.imagePath = '/assets/';

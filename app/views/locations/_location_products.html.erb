@@ -1,6 +1,6 @@
 <div class="card-label-four">
   <div class="title">
-    <div class="w-100 overflow-scroll text-nowrap">
+    <div class="w-100">
       <%= link_to specific_location_products_path(@location, :category_id => 'all'), remote: true, class: "category-tab d-inline-block text-decoration-none #{@category_id === 'all' ? 'active' : 'secondary'}" do %>
         Products
       <% end %>
