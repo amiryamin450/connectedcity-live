@@ -95,8 +95,14 @@
   }
 
   $(".dropdown-toggle").on("dblclick", function() {
-      window.location.href = $(this).attr("href");
-    })
+    window.location.href = $(this).attr("href");
+  })
+
+  function navHeadingDirect(e) {
+    if ($(e.target).parent().hasClass("open")) {
+      window.location.href = $(e.target).attr("href");
+    }
+  }
 
   $(document).ready(function(){
     calcWidth();

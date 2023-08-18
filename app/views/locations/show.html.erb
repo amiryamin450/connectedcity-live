@@ -241,8 +241,8 @@
               <% end %>
             </div>
 
-            <div class="map-section my-5 d-none d-md-block">
-              <div id="map" class="clearfix location-profile-map" style="height: 240px;" data-coordinates=<%= raw @location.geo_location.to_json() %>></div>
+            <div class="map-section my-5 d-block d-md-none">
+              <div id="map-mobile" class="clearfix location-profile-map" style="height: 240px;" data-coordinates=<%= raw @location.geo_location.to_json() %>></div>
             </div>
             <!-- Tab Start -->
             <div class="SideBar-tabs">
@@ -284,7 +284,7 @@
       <!-- SideBar End -->
       <div class="col-md-6 mt-5">
         <div class="business-product-body">
-            <div class="map-section my-5 d-block d-md-none">
+            <div class="map-section my-5 d-none d-md-block">
               <div id="map" class="clearfix location-profile-map" style="height: 240px;" data-coordinates=<%= raw @location.geo_location.to_json() %>></div>
             </div>
 
@@ -336,8 +336,6 @@
 </div>
 <br>
 <script type="text/javascript">
-  Window.helpers.initMap($('#map.location-profile-map')[0]);
-  
   $(document).ready(function() {
     $("#toggle-available-call").on("click", function(){
       let location_id = '<%= @location.id%>'
@@ -595,6 +593,14 @@
           }, 3000)
         })
     })
+
+    if ($("#map").is(":visible") > 0) {
+      showMap('map');
+    }
+
+    if ($("#map-mobile").is(":visible") > 0) {
+      showMap('map-mobile');
+    }
   })
 
   $(".modal .close").click(function(){
