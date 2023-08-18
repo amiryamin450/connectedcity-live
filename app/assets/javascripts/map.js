@@ -68,3 +68,11 @@ function showMap(el) {
         Window.helpers.initMap($('#profile-map')[0]);
     }
 };
+
+if($('#map').length > 0) {
+  showMap('map');
+}
+
+if($('#map-mobile').length > 0) {
+  showMap('map-mobile');
+}

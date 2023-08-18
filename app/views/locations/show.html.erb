@@ -593,19 +593,19 @@
           }, 3000)
         })
     })
-
-    if ($("#map").is(":visible") > 0) {
-      showMap('map');
-    }
-
-    if ($("#map-mobile").is(":visible") > 0) {
-      showMap('map-mobile');
-    }
   })
 
   $(".modal .close").click(function(){
     $('.modal-backdrop.in').remove();
   })
+
+  if ($("#map").is(":visible") > 0) {
+      showMap('map');
+  }
+
+  if ($("#map-mobile").is(":visible") > 0) {
+    showMap('map-mobile');
+  }
 
   function hideShortDescription(container) {
     $(container + ' .short-description').css('display', $(container + ' .short-description').css('display') === 'none' ? 'block' : 'none');
