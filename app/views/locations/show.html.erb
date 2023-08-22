@@ -599,14 +599,6 @@
     $('.modal-backdrop.in').remove();
   })
 
-  if ($("#map").is(":visible") > 0) {
-      showMap('map');
-  }
-
-  if ($("#map-mobile").is(":visible") > 0) {
-    showMap('map-mobile');
-  }
-
   function hideShortDescription(container) {
     $(container + ' .short-description').css('display', $(container + ' .short-description').css('display') === 'none' ? 'block' : 'none');
     $(container + ' .expand-text').text($(container + ' .short-description').css('display') === 'none' ? 'View less' : 'View more');
