@@ -8,6 +8,80 @@
 @import "cart_shopping";
 @import "media_attachment";
 
+// Headings
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 10px 0;
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 20px;
+  color: inherit;
+  text-rendering: optimizelegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #1c3656;
+}
+
+h2 {
+  font-size: 31.5px;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 40px;
+}
+// End Headings
+
+// Control group
+.control-group.error label,
+.control-group .control-label,
+.control-group.error .help-block,
+.control-group.error .help-inline,
+.control-group.error .checkbox,
+.control-group.error .radio,
+.control-group.error input,
+.control-group.error select,
+.control-group.error textarea {
+  color: #b94a48;
+}
+
+.control-group.error input,
+.control-group.error select,
+.control-group.error textarea {
+  border-color: #b94a48;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.control-group.error input:focus,
+.control-group.error select:focus,
+.control-group.error textarea:focus {
+  border-color: #953b39;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+}
+
+.control-group.error .input-prepend .add-on,
+.control-group.error .input-append .add-on {
+  color: #b94a48;
+  background-color: #f2dede;
+  border-color: #b94a48;
+}
+// End Control Group
+
 #new_status_update {
   .form-inputs {
     .control-group {
@@ -406,7 +480,8 @@
   }
 
   .inner-card-title {
-    p, &.inner-by {
+    p,
+    &.inner-by {
       font-size: 13px;
     }
     h5 a {
@@ -583,7 +658,7 @@
         background: #fff;
         border-radius: 4px;
         position: absolute;
-        top: 28px;
+        top: 32px;
         left: 10px;
         right: 0;
         height: 3px;
@@ -596,12 +671,12 @@
       .opener:before,
       .opener:after {
         content: "";
-        top: 14px;
+        top: 18px;
         display: inline;
       }
 
       .opener:after {
-        top: 21px;
+        top: 25px;
       }
     }
 
@@ -655,14 +730,17 @@
       width: 45px;
 
       & > .more .dropdown-menu {
-        top: 148px;
+        top: 150px;
         width: fit-content;
 
-        .dropdown:hover, .dropdown-menu .dropdown-item:active {
+        .dropdown:hover,
+        .dropdown-menu .dropdown-item:active {
           background: transparent;
         }
 
-        .dropdown-menu.specialty, .dropdown-menu.trending, .dropdown-menu.civic-news {
+        .dropdown-menu.specialty,
+        .dropdown-menu.trending,
+        .dropdown-menu.civic-news {
           bottom: 0;
           top: unset;
         }
@@ -859,9 +937,6 @@
     }
 
     #search-bar {
-      width: 100%;
-      padding: 0 6px 6px;
-
       .search-box {
         width: 90%;
         display: inline-block;

@@ -50,7 +50,7 @@
       <%= link_to 'Classfieds', classifieds_path %>
       <%= link_to 'Jobs', employment_opportunity_path %>
     </div>
-    <div class='d-block d-md-none' id='search-bar'>
+    <div class='d-block d-md-none w-100 p-1' id='search-bar'>
       <%= render 'share/search_box', url: search_url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'All' %>
       <%= render 'location_chooser_v_2' %>
     </div>

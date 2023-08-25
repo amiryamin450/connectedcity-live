@@ -1,0 +1,8 @@
+<% if defined?(@res) && @res %>
+  $('#new_user').replaceWith('<%= escape_javascript render(partial: 'devise/sessions/user_sign_in_form', locals: { url: new_user_session_path(params), remote: false }) %>');
+  $('.simple_form').submit();
+<% elsif @user.phone_number.nil? && params[:user][:phone_number].empty? %>
+  verify(false);
+<% else %>
+  verify(true);
+<% end %>

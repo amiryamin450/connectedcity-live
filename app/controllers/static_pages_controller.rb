@@ -15,6 +15,7 @@ class StaticPagesController < ApplicationController
   end
 
   def shopper_thank_you
+    render layout: "application_v_2"
   end
 
   def business_thank_you

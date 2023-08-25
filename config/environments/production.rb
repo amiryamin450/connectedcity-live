@@ -97,7 +97,7 @@ Connectbook::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   config.to_prepare do
-    Devise::SessionsController.layout "sessions"
+    Devise::SessionsController.layout "application_v_2"
   end
 
   config.paperclip_defaults = {

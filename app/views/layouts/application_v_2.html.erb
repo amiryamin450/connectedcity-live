@@ -150,13 +150,16 @@
     <!-- Nav Bar Start -->
     <%= render '/layouts/application_v_2/nav_bar' %>
     <!-- Nav Bar End -->
+
     <!-- Main Section -->
+    <%= render '/layouts/application_v_2/alert' %>
     <%= yield%>
     <%= render 'modal_call/modal_call_request'%>
     <%= render 'modal_call/modal_user_call'%>
     <%= render 'modal_call/modal_message_reject'%>
     <%= render 'modal_call/modal_end_call'%>
     <!-- End -->
+
     <%= render '/layouts/application_v_2/global_footer' %>
     <!-- Carousel -->
     <script>

@@ -1,0 +1,18 @@
+<%= simple_form_for(resource, as: resource_name, url: url, remote: remote, method: :post, html: {class: 'form-vertical' }) do |f| %>
+  <%= f.input :email, autofocus: true, require: true, input_html: { class: "form-control w-100 w-md-50" }, wrapper_html: { class: "col-12 col-md-6" }, label_html: { class: 'fw-bold mt-2' } %>
+  <%= f.input :password, require: true, input_html: { class: "form-control w-100 w-md-50" }, wrapper_html: { class: "col-12 col-md-6" }, label_html: { class: 'fw-bold mt-2' } %>
+
+  <div class="user-otp col-12 col-md-6 d-none">
+    <%= label_tag :otp, 'OTP', class: "form-label fw-bold mt-2" %>
+    <div class="controls">
+      <%= text_field_tag :otp, nil, maxlength: 4, class: "form-control w-100 w-md-50", require: true %>
+    </div>
+    <span>
+      Didn't receive OTP?
+      <%= link_to "Resend", "#", class: "resubmit-form-btn" %>
+    </span>
+  </div>
+  <%= f.input :phone_number, as: :hidden %>
+  <%= f.input :remember_me, as: :boolean, input_html: { class: 'form-check-input' } if devise_mapping.rememberable? %>
+  <%= f.button :submit, "Login", class: 'btn-primary' %>
+<% end %>

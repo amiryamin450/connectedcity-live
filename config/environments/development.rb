@@ -68,7 +68,7 @@ Connectbook::Application.configure do
 
 
   config.to_prepare do
-    Devise::SessionsController.layout "sessions"
+    Devise::SessionsController.layout "application_v_2"
   end
 
   Paperclip.options[:command_path] = '/usr/local/bin/'

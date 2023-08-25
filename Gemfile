@@ -73,8 +73,9 @@ gem 'puma'
 gem 'test-unit', '~> 3.0'
 gem 'rake', '< 11'
 gem 'aws-sdk'
-gem 'opentok', '~> 3.1'
+gem 'opentok', '~> 4.0'
 gem 'prismic.io', require: 'prismic'
+gem 'vonage'
 
 group :assets do
   gem 'bootstrap-colorpicker-rails'

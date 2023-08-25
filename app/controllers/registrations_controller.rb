@@ -1,4 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
+	layout 'application_v_2'
 
   def after_sign_up_path_for(resource)
   	if request.referrer.include?('business_sign_up')

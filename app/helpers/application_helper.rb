@@ -1,4 +1,18 @@
 module ApplicationHelper
+
+  def alert_color(type)
+    case type
+    when :error
+      "danger"
+    when :notice
+      "info"
+    when :alert
+      "warning"
+    else
+      type.to_s
+    end
+  end
+
   def get_current_district
     # if @district == nil
     #   current_district = @city
