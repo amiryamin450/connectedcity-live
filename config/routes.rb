@@ -74,6 +74,7 @@ Connectbook::Application.routes.draw do
       resources :carousel_images, defaults: { carouselable: 'district' }
     end
 
+    get "business/new", to: "businesses#new"
     resources :locations, path: 'business', as: :locations, only: [:edit, :update] do
       resources :automotive_listings, except: [:show]
       resources :blog_entries, path: 'blog', except: [:show]
@@ -474,5 +475,4 @@ Connectbook::Application.routes.draw do
 
   get 'deeper_categories', to: 'products#deeper_categories'
   post 'select_category', to: 'products#select_category'
-
 end
