@@ -1,8 +1,9 @@
-<% if defined?(@res) && @res %>
-  $('#new_user').replaceWith('<%= escape_javascript render(partial: 'devise/sessions/user_sign_in_form', locals: { url: new_user_session_path(params), remote: false }) %>');
-  $('.simple_form').submit();
-<% elsif @user.phone_number.nil? && params[:user][:phone_number].empty? %>
-  verify(false);
-<% else %>
-  verify(true);
+<% if defined?(@valid_user) && @valid_user %>
+  $("#new_user").replaceWith('<%= escape_javascript render(partial: 'devise/sessions/form', locals: { otp: true }) %>');
+  $("#user_password").val('<%= params[:password] %>');
+  <% unless @user.otp_required_for_login %>
+    $('body').append('<%= escape_javascript render(partial: 'devise/sessions/user_generate_2fa_qr_modal') %>');
+    var qrModal = new bootstrap.Modal($('#generate-2fa-qr'), {keyboard: false});
+    qrModal.show();
+  <% end %>
 <% end %>

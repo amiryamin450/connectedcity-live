@@ -7,47 +7,30 @@
 <div class="container-fluid content-holder p-5">
   <div class="row-fluid">
     <h2>Login</h2>
-    <%= render "user_sign_in_form", url: verify_two_factor_path, remote: true %>
+    <%= render "form" %>
     <%= render "devise/shared/links" %>
-  </div>
-</div>
-
-<div class="modal fade" id="update-phone-modal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Update phone number</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p>Please add your phone number to enable two-factor authentication.</p>
-        <%= label_tag :phone_number, nil, class: "form-label fw-bold mt-2" %>
-        <%= text_field_tag :phone_number, nil, minlength: 10, maxlength: 15, class: "form-control w-100 w-md-50", require: true %>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary resubmit-form-btn">Update</button>
-      </div>
-    </div>
   </div>
 </div>
 
 <script>
   $(document).ready(function() {
-    $(".resubmit-form-btn").click(function() {
-      $("#user_phone_number").val($("#phone_number").val());
-      $("#new_user").submit();
-    });
+    $("#requestOTP").click(function() {
+      var userEmail = $("#user_email").val();
+      var userPassword = $("#user_password").val();
+      $.ajax({
+        url: "<%= verify_two_factor_path %>",
+        method: "POST",
+        dataType: "script",
+        headers: { 'X-CSRF-Token': $('input[name=authenticity_token]').val() },
+        data: {
+          email: userEmail,
+          password: userPassword
+        }        
+      })
+    })
   })
 
-  var updatePhoneModal = new bootstrap.Modal($('#update-phone-modal'), {keyboard: false});
-
-  function verify(addedPhoneNumber) {
-    if (addedPhoneNumber) {
-      updatePhoneModal.hide();
-      $(".user-otp").removeClass("d-none");
-    } else {
-      updatePhoneModal.show();
-    }
+  function formSubmit() {
+    $("#new_user").submit();
   }
 </script>

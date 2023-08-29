@@ -1,0 +1,17 @@
+<div class="modal fade" id="generate-2fa-qr" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">QR code</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>This QR only shows once. Please use Google Authentication app to save your two-factor credential and backup the QR code.</p>
+        <%= image_tag @user.build_qr_code.to_data_url, class: "img_qrcode bg-dark w-100" %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">I have saved. Proceed to login</button>
+      </div>
+    </div>
+  </div>
+</div>
