@@ -24,12 +24,6 @@ class SessionsController < Devise::SessionsController
 
 			# VonageService.verify_2fa(@user) if @user.phone_number
 			# END
-
-			# BEGIN Google Authentication 2FA
-			@user.otp_secret = User.generate_otp_secret
-			@user.save!
-			# END
-
 		else
 			flash[:danger] = "Invalid username or password"
 			render js: "window.location.replace('#{new_user_session_path}')"
@@ -45,9 +39,9 @@ class SessionsController < Devise::SessionsController
 
 	def verify_2factor
 		if valid_user?
-			if @user.valid_otp?(params[:otp])
-				unless @user.otp_required_for_login
-					@user.otp_required_for_login = true
+			if @user.google_authentic?(params[:otp])
+				unless @user.required_otp_for_login
+					@user.required_otp_for_login = true
 					@user.save!
 				end
 				return

@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   rolify
 
   acts_as_messageable
+  acts_as_google_authenticated issuer: 'ConnectedCity'
 
   has_one :cart, dependent: :destroy
   has_many :locations
@@ -16,11 +17,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  devise :two_factor_authenticatable,
-         :otp_secret_encryption_key => ENV['TWO_FACTOR_SECRET_KEY']
-
-  attr_accessible :otp_attempt
-  devise :registerable, :confirmable,
+  devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable,
          omniauth_providers: [:facebook]
 
@@ -101,16 +98,7 @@ class User < ActiveRecord::Base
   end
 
   def build_qr_code
-    label = self.name
-    issuer = "ConnectedCity local"
-    uri = otp_provisioning_uri(label, issuer: issuer)
-    qrcode = RQRCode::QRCode.new(uri)
-    qrcode.as_png(
-      offset: 0,
-      color: '000',
-      shape_rendering: 'crispEdges',
-      module_size: 2
-    )
+    self.set_google_secret
+    self.google_qr_uri
   end
-
 end
