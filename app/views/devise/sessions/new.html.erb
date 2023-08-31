@@ -13,24 +13,26 @@
 </div>
 
 <script>
-  $(document).ready(function() {
-    $("#requestOTP").click(function() {
-      var userEmail = $("#user_email").val();
-      var userPassword = $("#user_password").val();
-      $.ajax({
-        url: "<%= verify_two_factor_path %>",
-        method: "POST",
-        dataType: "script",
-        headers: { 'X-CSRF-Token': $('input[name=authenticity_token]').val() },
-        data: {
-          email: userEmail,
-          password: userPassword
-        }        
-      })
-    })
-  })
-
   function formSubmit() {
     $("#new_user").submit();
+  }
+
+  $("#requestOTP").click(function() {
+    sendAjaxRequest("<%= verify_two_factor_path %>")
+  });
+    
+  function sendAjaxRequest(path) {
+    var userEmail = $("#user_email").val();
+    var userPassword = $("#user_password").val();
+    $.ajax({
+      url: path,
+      method: "POST",
+      dataType: "script",
+      headers: { 'X-CSRF-Token': $('input[name=authenticity_token]').val() },
+      data: {
+        email: userEmail,
+        password: userPassword
+      }        
+    })
   }
 </script>

@@ -24,6 +24,8 @@ Connectbook::Application.routes.draw do
     get 'business_sign_up', :to => 'devise/registrations#new', as: :business_sign_up
     get '/users/sign_out' => 'devise/sessions#destroy'
     post :verify_two_factor, to: 'sessions#verify_two_factor'
+    post :request_reset_2fa_code, to: 'sessions#request_reset_2fa_code'
+    get 'reset_2fa_code/:id', to: 'sessions#reset_2fa_code'
   end
 
   # devise_scope :user do

@@ -6,8 +6,16 @@
     <div class="controls">
       <%= text_field_tag :otp, nil, pattern: '^\d{6}$', maxlength: 6, class: "form-control w-100 w-md-50", require: true %>
     </div>
+    <% if resource && resource.required_otp_for_login %>
+      <%= link_to 'Reset your authentication code here', '#', id: 'resetPasswordBtn', data: {testda: 'sda'} %>
+    <% end %>
   </div>
   <%= f.input :remember_me, as: :boolean, input_html: { class: 'form-check-input' } if devise_mapping.rememberable? %>
   <%= f.button :submit, "Login", class: 'btn-primary', id: "requestOTP", type: defined?(otp) ? 'submit' : 'button', style: "width:64px" %>
 <% end %>
 
+<script>
+  $("#resetPasswordBtn").click(function() {
+      sendAjaxRequest("<%= request_reset_2fa_code_path %>")
+    });
+</script>

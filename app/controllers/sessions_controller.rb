@@ -30,6 +30,29 @@ class SessionsController < Devise::SessionsController
 		end
 	end
 
+	def request_reset_2fa_code
+		if valid_user?
+			@user.reset_code = SecureRandom.hex
+			@user.save!
+			AuthenticationResetMailer.two_factor_qr(@user).deliver
+			flash[:notice] = 'Reset email was sent. Please check your email for reset instructions.'
+		else
+			flash[:notice] = 'Invalid email or password'
+		end
+
+		render js: "window.location.replace('#{new_user_session_path}')"
+	end
+
+	def reset_2fa_code
+		@user = User.where(reset_code: params[:id]).first
+		@user.required_otp_for_login = false
+		@user.reset_code = nil
+		@user.save!
+
+		flash[:notice] = 'Password was reset. Please proceed to login again'
+		redirect_to new_user_session_path
+	end
+
 	private
 
 	def valid_user?
