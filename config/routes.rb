@@ -76,7 +76,7 @@ Connectbook::Application.routes.draw do
       resources :carousel_images, defaults: { carouselable: 'district' }
     end
 
-    get "business/new", to: "businesses#new"
+    get "business/new", to: "locations#new"
     resources :locations, path: 'business', as: :locations, only: [:edit, :update] do
       resources :automotive_listings, except: [:show]
       resources :blog_entries, path: 'blog', except: [:show]

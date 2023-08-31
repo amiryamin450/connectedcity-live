@@ -217,16 +217,18 @@
           <%= render 'managers'  %>
         </div>
         <% end %>
-        <div class="tab-pane" id="ecommerce-store">
-          <% stripe_connect_status = StripeService.new(location: @location).stripe_connect_status %>
-          <% if stripe_connect_status %>
-            Stripe Account is connected
-            <%= link_to 'Disconnect', location_disconnect_stripe_path(@location), onclick: "return confirm('Are you sure to disconnect your account?')" %>
-          <% else %>
-            <%= link_to 'Stripe Connect',location_connect_stripe_path(@location), class: 'd-block' %>
-          <% end %>
-          <%= link_to 'Product Management', location_products_path(@location), class: 'd-block' %>
-        </div>
+        <% unless @location.new_record? %>
+          <div class="tab-pane" id="ecommerce-store">
+            <% stripe_connect_status = StripeService.new(location: @location).stripe_connect_status %>
+            <% if stripe_connect_status %>
+              Stripe Account is connected
+              <%= link_to 'Disconnect', location_disconnect_stripe_path(@location), onclick: "return confirm('Are you sure to disconnect your account?')" %>
+            <% else %>
+              <%= link_to 'Stripe Connect',location_connect_stripe_path(@location), class: 'd-block' %>
+            <% end %>
+            <%= link_to 'Product Management', location_products_path(@location), class: 'd-block' %>
+          </div>
+        <% end %>
       </div>
     </div>
     <div class="form-actions">
