@@ -2,7 +2,7 @@
 <h4>
   Status Updates
   <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
-    <small><%= link_to "add", "#", class: 'small status_update_new', role: :button, data: {toggle: 'modal', target: "#update-status-#{@location.id}-model"} %>
+    <small><%= link_to "add", "#", class: 'small status_update_new', role: :button, data: {'bs-toggle': 'modal', 'bs-target': "#update-status-#{@location.id}-model"} %>
 
       <%#= link_to "add", new_location_status_update_path(@location), class: 'small', role: :button, data: {toggle: 'modal'} %>
     <!-- | -->
