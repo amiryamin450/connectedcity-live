@@ -45,7 +45,7 @@ r = 0
           <div style="width: 168px;"><%= "#{f.location.city.name if f.location.city.present? } #{f.location.province.abbr} #{f.location.postal_code}".html_safe %></div>
           <div style="width: 168px; color: #1c3656;"><%= f.location.phone %></div>
           <div id="favorite-<%= f.location.id %>" class="favorite">
-                <%= render 'favorites/like_button_v2', :location_id => f.location.id if user_signed_in? %>
+                <%= render 'favorites/like_button_v2', location_id: f.location.id if user_signed_in? %>
           </div>
         </div>
 

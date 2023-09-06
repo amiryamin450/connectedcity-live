@@ -187,8 +187,8 @@
                         <div class="col-4" style="padding-right: 0px; padding-left: 0px;">
                           <button class="btn btn-primary-outline">Claim Business</button>
                         </div>
-                        <div class="col-2" style="padding-right: 0px; padding-left: 0px; margin-left: 15px; text-align: center;">
-                          <button class="btn btn-primary-color" id="folow_btn">Follow</button>
+                        <div class="col-2" style="padding-right: 0px; padding-left: 0px; margin-left: 15px; text-align: center;" id="favorite-<%= @location.id %>">
+                          <%= render 'favorites/like_button_v2', location_id: @location.id, vertical_market_slug: @location.vertical_markets.first.slug if user_signed_in? and @location.vertical_markets.present? %>
                         </div>  
                         <% if user_signed_in? && !@location.users.pluck(:id).include?(current_user&.id)%>
                           <div class="col-3" style="padding-right: 0px;" id="call-video">
