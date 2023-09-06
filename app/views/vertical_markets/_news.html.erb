@@ -73,7 +73,6 @@
 <%= render "/layouts/application_v_2/multi_columns_civic_news" %>
 
 <script>
-  $(document).ready(function() {
     $('#civic-news-city-dropdown').on('change', function(event) {
       let cityId = event.target.value
       if (cityId){
@@ -180,7 +179,6 @@
       }));
     }
 
-  })
 </script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
