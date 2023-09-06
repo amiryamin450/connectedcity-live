@@ -95,9 +95,8 @@ class UserController < ApplicationController
   end
 
   def favorites
-    @vertical_markets = VerticalMarket.all
+    @vertical_markets = VerticalMarket.where(params[:name].present? ? {slug: params[:name]} : {})
     @user = User.find(params[:id])
-
   end
 
   def coupons
