@@ -1,6 +1,8 @@
 class Location < ActiveRecord::Base
   extend FriendlyId
 
+  default_scope { where(is_profile: false) }
+
   acts_as_messageable
 
   before_validation :clear_images?
@@ -89,7 +91,7 @@ class Location < ActiveRecord::Base
   accepts_nested_attributes_for :events, allow_destroy: true
   accepts_nested_attributes_for :media_attachments, allow_destroy: true
 
-  validates_presence_of :address, :name, :vertical_market_category_ids, :province_id, :country_id, :city_id, :district_id, :municipality_id
+  validates_presence_of :address, :name, :vertical_market_category_ids, :province_id, :country_id, :city_id, :district_id, :municipality_id, unless: :is_profile
 
   # geocoded_by :full_street_address
 

@@ -15,8 +15,17 @@ class UserController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @location = Location.unscoped.find_or_initialize_by_slug(@user.name.parameterize('-'))
+
+    if @location.new_record?
+      init_empty_location
+      @location.save!
+    end
+
+    @media_attachments = @location.media_attachments.order('created_at DESC').limit(20)
+
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { render layout: 'application_v_2' } # show.html.erb
       format.json { render json: @user }
     end
   end
@@ -109,4 +118,9 @@ class UserController < ApplicationController
     redirect_to coupons_user_path(current_user)
   end
 
+  def init_empty_location
+    @location.is_profile = true
+    @location.content = ''
+    @location.name = @user.name
+  end
 end

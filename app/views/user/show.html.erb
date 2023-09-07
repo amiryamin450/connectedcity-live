@@ -1,3 +1,424 @@
-<h3>User</h3>
-<p>User: <%= @user.name %></p>
-<p>Email: <%= @user.email if @user.email %></p>
+<%
+  metamagic site: "ConnectedCity",
+            title: ["#{@user.name}", :site],
+            separator: " — "
+%>
+
+<!-- Main Section -->
+<div class="business-body-section">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="business-info">
+            <div class="business-card">
+              <div class="banner-img">
+                  <%= image_tag "default-avatar-icon.jpeg" %>
+              </div>
+              <!--  -->
+              <div class="brand-contact-details">
+                  <div class="row row-card-details d-flex" style="display:flex !important">
+                    <div class="col-2" style="flex:unset !important">
+                        <div class="brand-icon">
+                          <%= image_tag "default-avatar-icon.jpeg" %>
+                        </div>
+                    </div>
+                    <div class="col-10">
+                      <div class="row details-row">
+                        <div class="col-12">
+                            <div class="title">
+                              <h3><%= @user.name %></h3>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex">
+                              <i class="far fa-envelope"></i> 
+                              <p><%= mail_to @user.email if @user.email.present? %></p>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex">
+                              <i class="far fa-phone-alt"></i> 
+                              <p><%= @user.phone_number %></p>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <hr>
+              
+              <div class="operating-hours">
+                  <div class="btn" style="cursor: unset;">
+                    <div class="row justify-content-end">
+                        <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location)  %>
+                          <div class="col-2" style="padding-left: 0px;">
+                            <a class="btn btn-primary-outline justify-content-center d-flex text-white" style="background-color: #10375C" href="#">Edit</a>
+                          </div>
+                        <% end %>
+                        <div class="col-4" style="padding-right: 0px; padding-left: 0px;">
+                          <button class="btn btn-primary-outline">Claim Business</button>
+                        </div>
+                        <div class="col-2" style="padding-right: 0px; padding-left: 0px; margin-left: 15px; text-align: center;" id="favorite-<%= @location.id %>">
+                          <%= render 'favorites/user_follow_button', location_id: @location.id %>
+                        </div>  
+                        <% if user_signed_in? && !@location.users.pluck(:id).include?(current_user&.id)%>
+                          <div class="col-3" style="padding-right: 0px;" id="call-video">
+                              <% if @location.available_call == true%>
+                                <button class="btn btn-primary-color" data-toggle="modal">Video Call</button>
+                              <%else%>
+                                <button class='btn btn-secondary' disabled aria-disabled='true'>Video Call</button>
+                              <%end%>
+                          </div>
+                        <%end%>
+                    </div>
+                  </div>
+              </div>
+              <hr>
+              <div class="description">
+                  <h4>Description</h4>
+                  <p class="short-description mt-0"><%= truncate_html(strip_tags(@location.content.html_safe), length: 50) %></p>
+                  <div class="collapse" id="textCollapse1">
+                    <%= strip_tags(@location.content.html_safe) %>
+                  </div>
+                  <a class="text-dark small expand-text" data-bs-toggle="collapse" href="#textCollapse1" role="button" aria-expanded="false" aria-controls="textCollapse" onclick="hideShortDescription('.description')">
+                      View more
+                  </a>
+              </div>
+              <hr>
+              <% if @location.business_improvement_area.present? %>
+                <div class="shopping-district">
+                    <h4>Shopping District</h4>
+                    <div class="row">
+                      <div class="col-md-3">
+                          <div class="img">
+                            <%= image_tag @location.business_improvement_area.logo.url %>
+                          </div>
+                      </div>
+                      <div class="col-md-9">
+                          <h4><%= @location.business_improvement_area.name %></h4>
+                          <p class="short-description"><%= truncate_html(strip_tags(@location.business_improvement_area.description), length: 50) %></p>
+                          <p class="collapse" id="textCollapse2">
+                            <%= strip_tags(@location.business_improvement_area.description.html_safe) %>
+                          </p>
+                          <a class="text-dark small expand-text" data-bs-toggle="collapse" href="#textCollapse2" role="button" aria-expanded="false" aria-controls="textCollapse" onclick="hideShortDescription('.shopping-district')">
+                              View more
+                          </a>
+                          <div class="shopping-district-btn">
+                            <%= link_to 'Learn More', @location.business_improvement_area, class: 'btn btn-primary' %>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+              <% end %>
+            </div>
+
+            <div class="map-section my-5 d-block d-md-none">
+              <div id="map-mobile" class="clearfix location-profile-map" style="height: 240px;" data-coordinates=<%= raw @location.geo_location.to_json() %>></div>
+            </div>
+            <!-- Tab Start -->
+            <div class="SideBar-tabs">
+              <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item active">
+                  <a class="nav-link" data-toggle="tab" href="#Update">Updates</a>
+                </li>
+              </ul>
+              <!-- Tab panes -->
+              <div class="tab-content">
+                  <div id="Update" class="container tab-pane active">
+                    <%= render 'locations/status_updates' %>
+                    <div class="divider mt-5"></div>
+                  </div>
+              </div>
+            </div>
+
+            <!-- END -->
+        </div>
+      </div>
+      <!-- SideBar End -->
+      <div class="col-md-6 mt-5">
+        <div class="business-product-body">
+            <div class="map-section my-5 d-none d-md-block">
+              <div id="map" class="clearfix location-profile-map" style="height: 240px;" data-coordinates=<%= raw @location.geo_location.to_json() %>></div>
+            </div>
+            <%= render 'locations/location_media' %>
+        </div>
+      </div>
+      <%= render 'modal_call/modal_call'%>
+      <!--Body End -->
+    </div>
+  </div>
+</div>
+<br>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#toggle-available-call").on("click", function(){
+      let location_id = '<%= @location.id%>'
+      $.ajax({
+        url: `/video_calls/get_available_call_location?location_id=${location_id}`,
+        method: "GET",
+        dataType: "json"
+      }).done(function(response){
+        $.ajax({
+          url: `/video_calls/set_available_call_location`,
+          method: "PUT",
+          data: {
+            location_id: location_id,
+            status_available: !response.available_call
+          }
+        })
+      })
+    })
+
+    if('<%= user_signed_in?%>' == "true" && $("#call-video").length > 0){
+      setInterval(()=>{
+        let location_id = '<%= @location.id%>'
+        $.ajax({
+          url: `/video_calls/get_status_from_location?location_id=${location_id}`,
+          method: "GET",
+          dataType: "json"
+          }).done(function( response) { 
+            if(response.user_available_call == true && response.location_available_call == true){
+              $("#call-video").html("<button class='btn btn-primary-color' data-toggle='modal'>Video Call</button>")
+            }else{
+              $("#call-video").html("<button class='btn btn-secondary' disabled aria-disabled='true'>Video Call</button>")
+            }
+          })
+        },3000)
+    }
+    $("#call-video").on("click",function(){
+      $("#modal-video-call").modal("show");
+      
+      var apiKey;
+      var sessionId;
+      var token;
+      var session_call
+      var seconds = 0
+      var timerUser 
+      function upTimer() {
+        ++seconds;
+        var hour = Math.floor(seconds / 3600);
+        if(hour < 10) hour = "0"+hour
+        var minute = Math.floor((seconds - hour * 3600) / 60);
+        if(minute < 10) minute = "0"+minute
+        var updSecond = seconds - (hour * 3600 + minute * 60);
+        if(updSecond < 10) updSecond = "0"+updSecond
+        $("#timer-count").html(hour + ":" + minute + ":" + updSecond)
+      }
+
+      function handleError(error) {
+        if (error) {
+          console.error(error);
+        }
+      }
+
+      function initializeSession(apiKey,sessionId ) {
+        session_call = OT.initSession(apiKey, sessionId);
+        // Subscribe to a newly created stream
+        session_call.on('streamCreated', function streamCreated(event) {
+          var subscriberOptions = {
+            insertMode: 'append',
+            width: '100%',
+            height: '100%'
+          };
+          if($("#subscriber").children().length>0){
+            clearInterval(timerUser)
+          }
+          $("#subscriber").html("")
+          var subscriber = session_call.subscribe(event.stream, 'subscriber', subscriberOptions, handleError);
+          timerUser = setInterval(upTimer, 1000);
+        });
+
+        session_call.on('sessionDisconnected', function sessionDisconnected(event) {
+          console.log('You were disconnected from the session.', event.reason);
+          userPublisher.destroy()
+        });
+
+        // initialize the publisher
+        var publisherOptions = {
+          insertMode: 'append',
+          width: '100%',
+          height: '100%'
+        };
+         $("#publisher").html("")
+        var userPublisher = OT.initPublisher('publisher', publisherOptions, handleError);
+
+        // Connect to the session
+        session_call.connect(token, function callback(error) {
+          if (error) {
+            handleError(error);
+          } else {
+            // If the connection is successful, publish the publisher to the session
+            session_call.publish(userPublisher, handleError);
+          }
+        });
+
+        session_call.on('streamDestroyed', function sessionDisconnected(event) {
+          // console.log('You were disconnected from the session .', event.reason);
+          $("#modal-video-call").modal("hide");
+          $("#modal-end-video-call").modal("show")
+          session_call.disconnect()
+          clearInterval(timerUser)
+          $("#timer-count").html("")
+          $("#publisher").html("")
+          $("#subscriber").html("")
+          $("#turn-on-camera").addClass("d-none")
+          $("#turn-off-camera").removeClass("d-none")
+          $("#turn-on-audio").addClass("d-none")
+          $("#turn-off-audio").removeClass("d-none")
+          $.ajax({
+            url: `/video_calls/set_status_call`,
+            method: "PUT",
+            data: {
+              session_id: sessionId,
+              status: "available"
+            }
+            }).done(function( response) {
+
+            })
+
+        });
+
+        $("#turn-off-camera").on("click",function(){
+          userPublisher.publishVideo(false);
+          $("#turn-off-camera").addClass("d-none")
+          $("#turn-on-camera").removeClass("d-none")
+        })
+
+        $("#turn-on-camera").on("click",function(){
+          userPublisher.publishVideo(true);
+          $("#turn-on-camera").addClass("d-none")
+          $("#turn-off-camera").removeClass("d-none")
+        })
+
+        $("#turn-off-audio").on("click",function(){
+          userPublisher.publishAudio(false);
+          $("#turn-off-audio").addClass("d-none")
+          $("#turn-on-audio").removeClass("d-none")
+        })
+
+        $("#turn-on-audio").on("click",function(){
+          userPublisher.publishAudio(true);
+          $("#turn-on-audio").addClass("d-none")
+          $("#turn-off-audio").removeClass("d-none")
+        }) 
+
+        $("#close-video").on("click",function(){ 
+          userPublisher.destroy()
+          session_call.disconnect()
+          clearInterval(timerUser)
+          $("#timer-count").html("")
+          $("#publisher").html("")
+          $("#subscriber").html("")
+          $("#turn-on-camera").addClass("d-none")
+          $("#turn-off-camera").removeClass("d-none")
+          $("#turn-on-audio").addClass("d-none")
+          $("#turn-off-audio").removeClass("d-none")
+          $.ajax({
+            url: `/video_calls/set_status_call`,
+            method: "PUT",
+            data: {
+              session_id: sessionId,
+              status: "available"
+            }
+            }).done(function( response) {
+
+            })
+        })
+      }
+        // console.log(start())
+        apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
+        async function fetchToken() {
+          location_id = '<%= @location.id%>'
+          let vonageData = {};
+          vonageData = await fetch(`/video_calls/get_vonage_token?location_id=${location_id}`, {
+            method: 'get',
+            }).then(function(response) {
+            if (response.ok) {
+              return response.json();
+            }
+            return Promise.reject(response);
+            }).then(function (data) {
+            return {sessionId: data.session_id, token: data.token}
+          })
+          return vonageData;
+        }
+
+        fetchToken().then(vonageData =>{
+          sessionId = vonageData.sessionId,
+          token = vonageData.token
+          initializeSession(apiKey, sessionId)
+          var timeCall = setTimeout(()=>{
+            $.ajax({
+            url: `/video_calls/get_status_from_session?session_id=${sessionId}`,
+            method: "GET",
+            dataType: "json",
+            }).done(function( response) {
+                
+              if($("#subscriber").children().length == 0 && response.status.filter(status => (status == "accept_call")).length == 0){
+                clearInterval(timerUser)
+                $("#timer-count").html("00:00:00")
+                $("#modal-video-call").modal("hide");
+                $("#modal-message-call-reject").modal("show")
+                session_call.disconnect()
+                $("#publisher").html("")
+                $("#subscriber").html("")
+                clearInterval(timeCall)
+                $.ajax({
+                url: `/video_calls/set_status_call`,
+                method: "PUT",
+                data: {
+                  session_id: sessionId,
+                  status: "available"
+                }
+                }).done(function( response) {
+
+                })
+              }
+            })
+          },60000)
+          var getStatusSession = setInterval(()=>{
+            $.ajax({
+                url: `/video_calls/get_status_from_session?session_id=${sessionId}`,
+                method: "GET",
+                dataType: "json",
+                }).done(function( response) {
+                    if(response.status.filter(status => status != "reject").length == 0){
+                      $("#modal-video-call").modal("hide");
+                      $("#modal-message-call-reject").modal("show")
+                      clearInterval(getStatusSession)
+                      clearTimeout(timeCall)
+                      clearInterval(timerUser)
+                      $("#timer-count").html("00:00:00")
+                      userPublisher.destroy()
+                      session_call.disconnect()
+                      $("#publisher").html("")
+                      $("#subscriber").html("")
+                    }
+                    if(response.status.filter(status => status != "available").length == 0){
+                      clearInterval(getStatusSession)
+                      clearTimeout(timeCall)
+                    }
+                    if(response.status.filter(status => status == "accept_call").length > 0){
+                      clearTimeout(timeCall)
+                    }
+
+                })
+                
+          }, 3000)
+        })
+    })
+  })
+
+  $(".modal .close").click(function(){
+    $('.modal-backdrop.in').remove();
+  })
+
+  function hideShortDescription(container) {
+    $(container + ' .short-description').css('display', $(container + ' .short-description').css('display') === 'none' ? 'block' : 'none');
+    $(container + ' .expand-text').text($(container + ' .short-description').css('display') === 'none' ? 'View less' : 'View more');
+  }
+</script>
+<%= render 'status_updates/status_update_new' %>
+
+
+

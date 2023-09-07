@@ -53,7 +53,9 @@ Connectbook::Application.routes.draw do
 
     resources :classified_images, only: [:destroy]
     resources :classified_listings, except: [:index, :show]
-    resources :favorites, only: [:create, :destroy]
+    resources :favorites, only: [:create, :destroy] do
+      post :user_follow, on: :collection
+    end
     resources :location_images, only: [:destroy]
     resources :product_images, only: [:destroy, :new, :create] do
       collection do
