@@ -79,9 +79,11 @@
                   <div class="collapse" id="textCollapse1">
                     <%= strip_tags(@location.content.html_safe) %>
                   </div>
-                  <a class="text-dark small expand-text" data-bs-toggle="collapse" href="#textCollapse1" role="button" aria-expanded="false" aria-controls="textCollapse" onclick="hideShortDescription('.description')">
-                      View more
-                  </a>
+                  <% if @location.content.size > 0 %>
+                    <a class="text-dark small expand-text" data-bs-toggle="collapse" href="#textCollapse1" role="button" aria-expanded="false" aria-controls="textCollapse" onclick="hideShortDescription('.description')">
+                        View more
+                    </a>
+                  <% end %>
               </div>
               <hr>
               <% if @location.business_improvement_area.present? %>
@@ -111,9 +113,6 @@
               <% end %>
             </div>
 
-            <div class="map-section my-5 d-block d-md-none">
-              <div id="map-mobile" class="clearfix location-profile-map" style="height: 240px;" data-coordinates=<%= raw @location.geo_location.to_json() %>></div>
-            </div>
             <!-- Tab Start -->
             <div class="SideBar-tabs">
               <ul class="nav nav-tabs" role="tablist">
@@ -136,9 +135,6 @@
       <!-- SideBar End -->
       <div class="col-md-6 mt-5">
         <div class="business-product-body">
-            <div class="map-section my-5 d-none d-md-block">
-              <div id="map" class="clearfix location-profile-map" style="height: 240px;" data-coordinates=<%= raw @location.geo_location.to_json() %>></div>
-            </div>
             <%= render 'locations/location_media' %>
         </div>
       </div>

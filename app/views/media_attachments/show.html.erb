@@ -71,7 +71,7 @@
     });
     var sessionId = "<%= @media_attachment.videos&.first&.session_id %>";
     if (sessionId && isLiveStream) {
-      var locationSlug = "<%= @media_attachment.location.slug %>";
+      var locationSlug = "<%= @media_attachment.location&.slug %>";
       var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
       var broadcastId;
 
