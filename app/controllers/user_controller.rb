@@ -23,6 +23,7 @@ class UserController < ApplicationController
     end
 
     @media_attachments = @location.media_attachments.order('created_at DESC').limit(20)
+    @status_updates = @location.status_updates
 
     respond_to do |format|
       format.html { render layout: 'application_v_2' } # show.html.erb
@@ -122,5 +123,6 @@ class UserController < ApplicationController
     @location.is_profile = true
     @location.content = ''
     @location.name = @user.name
+    @location.email = @user.email
   end
 end

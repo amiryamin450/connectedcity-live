@@ -68,7 +68,7 @@ class Location < ActiveRecord::Base
     :brand_ids, :brand_tokens, :content, :vertical_market_categories, :district, :yp_lid, :yp_categories, :yp_neighborhoods, :sub_neighborhood_id,
     :city, :province, :district_id, :neighborhood, :country, :cover_photo, :neighborhood_id, :broker_id, :hall_id, :councillor_id, :commissioner_id, :business_improvement_area_id,
     :user, :trade_association_ids, :media_attachments_attributes, :delete_cover_photo, :delete_logo,
-    :operating_hours_attributes, :stripe_plan_id, :municipality_id
+    :operating_hours_attributes, :stripe_plan_id, :municipality_id, :is_profile
 
   has_attached_file :logo, :styles => { :thumb => "70x55", :list => "168x80", :bia_display => "250x100"},
     :url => "/system/location/logo/:id/:style/:basename.:extension",

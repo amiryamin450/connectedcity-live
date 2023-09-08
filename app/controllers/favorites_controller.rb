@@ -16,7 +16,8 @@ class FavoritesController < ApplicationController
     favorite = Favorite.find(params[:id]).destroy
     current_user.connection.clear_query_cache
     @favorites = current_user.favorites.all
-    @location = favorite.location
+    @location = Location.unscoped.find(favorite.location_id)
+    @btn = @location.is_profile ? 'user_follow_button' : 'like_button_v2'
     @vertical_market = VerticalMarket.new({:slug => favorite.category})
     render :toggle
   end
@@ -24,6 +25,7 @@ class FavoritesController < ApplicationController
   def user_follow
     @location = Location.unscoped.find(params[:location_id])
     @favorite = Favorite.create({location_id: params[:location_id], user_id: current_user.id})
+    @favorites = current_user.favorites
     @btn = 'user_follow_button'
 
     render :toggle

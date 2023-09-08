@@ -28,14 +28,16 @@ class StatusUpdate < ActiveRecord::Base
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/, message: "Please upload a valid image. Accepted types include jpg, png."
 
   before_save do
-    self.district_id = self.statusable.district_id
-    self.neighborhood_id = self.statusable.neighborhood_id
-    # self.latitude = self.statusable.latitude
-    # self.longitude = self.statusable.longitude
-    self.city_id = self.statusable.city_id
-    self.province_id = self.statusable.province_id
-    self.vertical_markets = self.statusable.vertical_markets.first.id if self.statusable.vertical_markets
-    self.vertical_market_categories = self.statusable.vertical_market_categories.first.id if self.statusable.vertical_market_categories
+    if self.statusable
+      self.district_id = self.statusable.district_id
+      self.neighborhood_id = self.statusable.neighborhood_id
+      # self.latitude = self.statusable.latitude
+      # self.longitude = self.statusable.longitude
+      self.city_id = self.statusable.city_id
+      self.province_id = self.statusable.province_id
+      self.vertical_markets = self.statusable.vertical_markets.first.id if self.statusable.vertical_markets
+      self.vertical_market_categories = self.statusable.vertical_market_categories.first.id if self.statusable.vertical_market_categories
+    end
   end
 
   def geo_location
@@ -83,4 +85,8 @@ class StatusUpdate < ActiveRecord::Base
     end
   end
   after_create :push
+
+  def statusable_v2
+    statusable || Location.unscoped.find(statusable_id)
+  end
 end

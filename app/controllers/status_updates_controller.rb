@@ -1,4 +1,5 @@
 class StatusUpdatesController < ApplicationController
+  before_filter :location
   load_resource :location, :business_improvement_area
   load_and_authorize_resource :status_update, through: [:location, :business_improvement_area], except: :index
 
@@ -39,8 +40,9 @@ class StatusUpdatesController < ApplicationController
   end
 
   private
+
   def location
-    @location ||= Location.find(params[:location_id])
+    @location ||= Location.unscoped.find(params[:location_id])
   end
 
 end

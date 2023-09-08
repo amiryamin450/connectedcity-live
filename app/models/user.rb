@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :role_ids, :as => :admin
-  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :phone_number, :is_profile
+  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :phone_number
 
   validates :first_name, presence: true, unless: ->(u) { u.persisted? && u.first_name_changed? }
   validates :last_name, presence: true, unless: ->(u) { u.persisted? && u.last_name_changed? }

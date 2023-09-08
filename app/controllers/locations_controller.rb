@@ -1,4 +1,5 @@
 class LocationsController < ApplicationController
+  before_filter :direct_if_profile_page, only: :show
   load_and_authorize_resource
   PER_PAGE = 20
   layout 'location', :only => [:show]
@@ -447,5 +448,13 @@ class LocationsController < ApplicationController
 
   def set_location
     @location = Location.find(params[:location_id])
+  end
+
+  def direct_if_profile_page
+    unless Location.find_by_slug(params[:id])
+      tmp = Location.unscoped.find(params[:id])
+      
+      redirect_to User.find_by_email(tmp.email)
+    end
   end
 end

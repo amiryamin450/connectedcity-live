@@ -55,12 +55,11 @@
                             <a class="btn btn-primary-outline justify-content-center d-flex text-white" style="background-color: #10375C" href="#">Edit</a>
                           </div>
                         <% end %>
-                        <div class="col-4" style="padding-right: 0px; padding-left: 0px;">
-                          <button class="btn btn-primary-outline">Claim Business</button>
-                        </div>
-                        <div class="col-2" style="padding-right: 0px; padding-left: 0px; margin-left: 15px; text-align: center;" id="favorite-<%= @location.id %>">
-                          <%= render 'favorites/user_follow_button', location_id: @location.id %>
-                        </div>  
+                        <% unless current_user.name == @location.name %>
+                          <div class="col-2" style="padding-right: 0px; padding-left: 0px; margin-left: 15px; text-align: center;" id="favorite-<%= @location.id %>">
+                            <%= render 'favorites/user_follow_button', location_id: @location.id %>
+                          </div>
+                        <% end %>
                         <% if user_signed_in? && !@location.users.pluck(:id).include?(current_user&.id)%>
                           <div class="col-3" style="padding-right: 0px;" id="call-video">
                               <% if @location.available_call == true%>

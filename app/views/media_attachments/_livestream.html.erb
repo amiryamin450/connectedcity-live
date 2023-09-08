@@ -59,10 +59,10 @@
       <% if @location.sub_neighborhood %>
         <li><%= @location.sub_neighborhood.neighborhd %></li>
       <% end %>
-      <% @vertical_market.ancestors.each do |ancestor| %>
+      <% @vertical_market&.ancestors&.each do |ancestor| %>
         <li><%= ancestor.name %></li>
       <% end %>
-      <li><%= @vertical_market.name %></li>
+      <li><%= @vertical_market&.name %></li>
     </div>
     <div class="modal-footer">
       <button class="btn" id="close-notify-modal">OK</button>

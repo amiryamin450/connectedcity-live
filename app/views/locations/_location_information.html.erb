@@ -16,7 +16,7 @@
       <td rowspan="2" style="vertical-align: top; padding-left: 0px;">
         <h2><%= link_to location.name, statusable_path(location) %></h2>
         <div class="address-line">
-         <%= location.address %> &middot; <%= "#{location.city.name} #{location&.province&.abbr}, #{location.postal_code}" %>
+         <%= location.address %> &middot; <%= "#{location.city&.name} #{location&.province&.abbr}, #{location.postal_code}" %>
          <%= display_phone 'show_phone', 'phone', 'Phone', location %>
          <%= display_phone 'show_toll_free', 'toll_free', 'Toll Free', location %>
           <%= raw "<div><strong>Fax:</strong> #{location.fax}</div>" if location.fax.present? %>
@@ -41,27 +41,29 @@
             <% end %>
        </div>
 
-        <% if show_edit_button?(user_signed_in?, current_user, location) %>
-          <%= link_to "Edit", edit_location_path(location), class: 'btn btn-mini btn-primary' %>
-        <% end %>
+        <% unless location.is_profile %>
+          <% if show_edit_button?(user_signed_in?, current_user, location) %>
+            <%= link_to "Edit", edit_location_path(location), class: 'btn btn-mini btn-primary' %>
+          <% end %>
 
-        <%= render_message_button(user_signed_in?, location.slug) %>
+          <%= render_message_button(user_signed_in?, location.slug) %>
 
-        <% if claim_business && show_claim_button?(user_signed_in?, location) %>
-          <%= link_to "Claim Business", claim_location_path(location), class: 'btn btn-mini btn-success' %>
-        <% elsif claim_business && (!user_signed_in? || location.user_ids.empty? || !location.user_ids.include?(current_user.id)) %>
-          <%= render_claim_button_for_modal %>
-        <% end %>
+          <% if claim_business && show_claim_button?(user_signed_in?, location) %>
+            <%= link_to "Claim Business", claim_location_path(location), class: 'btn btn-mini btn-success' %>
+          <% elsif claim_business && (!user_signed_in? || location.user_ids.empty? || !location.user_ids.include?(current_user.id)) %>
+            <%= render_claim_button_for_modal %>
+          <% end %>
 
-        <% if show_release_business_button?(user_signed_in?, current_user, location) %>
-          <%= link_to "Release Business", release_location_path(location), class: 'btn btn-mini btn-danger' %>
-        <% end %>
+          <% if show_release_business_button?(user_signed_in?, current_user, location) %>
+            <%= link_to "Release Business", release_location_path(location), class: 'btn btn-mini btn-danger' %>
+          <% end %>
 
-        <% if show_claim_pending?(user_signed_in?, current_user, location) %>
-          <span class="btn btn-mini btn-info">Claim Pending</span>
-          <div class="processing-claim">
-            We have recieved your claim and are processing it.
-          </div>
+          <% if show_claim_pending?(user_signed_in?, current_user, location) %>
+            <span class="btn btn-mini btn-info">Claim Pending</span>
+            <div class="processing-claim">
+              We have recieved your claim and are processing it.
+            </div>
+          <% end %>
         <% end %>
       </td>
     </tr>

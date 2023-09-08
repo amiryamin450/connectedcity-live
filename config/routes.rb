@@ -270,6 +270,7 @@ Connectbook::Application.routes.draw do
     resources :city_news_articles, path: 'news', only: [:show, :index]
   end
 
+  resources :user, only: :show
   resources :locations, path: 'business', as: :locations, only: [:show] do
     resources :automotive_listings, only: [:show]
     resources :blog_entries, path: 'blog', only: [:show]

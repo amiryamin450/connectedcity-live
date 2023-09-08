@@ -1,2 +1,4 @@
 $("#favorite-<%= @location.id %>").html("<%= j render @btn, location_id: @location.id, vertical_market_slug: @location&.vertical_markets&.first&.slug %>");
-$("#favorites").html("<%= j render('favorites') %>");
+<% if @btn == 'like_button_v2' %>
+  $("#favorites").html("<%= j render('favorites') %>");
+<% end %>

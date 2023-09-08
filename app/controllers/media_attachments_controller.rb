@@ -1,5 +1,5 @@
 class MediaAttachmentsController < ApplicationController
-
+  before_filter :set_location, except: [:vonage_archive_callback, :get_vonage_token, :get_broadcast_token, :get_livestream_token]
   load_resource :location
   skip_load_resource :location, only: [:vonage_archive_callback, :get_vonage_token, :get_broadcast_token, :get_livestream_token]
   load_and_authorize_resource :media_attachment, through: [:location]
@@ -27,7 +27,7 @@ class MediaAttachmentsController < ApplicationController
     @is_location_normal = @location.hall_id.blank? && @location.councillor_id.blank? && @location.commissioner_id.blank?
     @is_municipality = !@is_location_normal || @location.slug === 'city-of-vancouver'
     @vertical_market = @location.vertical_market_categories.first.vertical_market if @location.vertical_market_categories.size > 0
-    if [164, 174].include?(@vertical_market.id)
+    if [164, 174].include?(@vertical_market&.id)
       names = @vertical_market.id === 164 ? 'Provincial Updates' : 'Federal Updates'
       @categories_news = Category.where(name: names)
     end
@@ -188,5 +188,11 @@ class MediaAttachmentsController < ApplicationController
 
   def vonage
     @vonage ||= VonageService.new
+  end
+
+  private
+
+  def set_location
+    @location ||= Location.unscoped.find(params[:location_id])
   end
 end
