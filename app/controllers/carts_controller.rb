@@ -1,7 +1,7 @@
 class CartsController < ApplicationController
   layout "application_v_2"
 
-  before_filter :authenticate_user!
+  before_filter :authenticate_user
   before_filter :find_cart, except: [:new, :create]
 
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart

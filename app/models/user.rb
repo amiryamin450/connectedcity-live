@@ -101,4 +101,8 @@ class User < ActiveRecord::Base
     self.set_google_secret
     self.google_qr_uri
   end
+
+  def profile
+    Location.unscoped.find_by_slug(name.parameterize('-'))
+  end
 end

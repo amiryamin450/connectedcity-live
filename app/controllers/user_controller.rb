@@ -1,5 +1,5 @@
 class UserController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user
   load_and_authorize_resource except: [:release_coupon, :coupons, :favorites]
 
   skip_before_filter :require_no_authentication, :only => [:new, :create]
@@ -118,6 +118,20 @@ class UserController < ApplicationController
     redemption.destroy
     redirect_to coupons_user_path(current_user)
   end
+
+  def update_profile
+    @location = current_user.profile
+    @location.logo = params[:location][:logo]
+    if @location.save
+      flash[:success] = "Profile updated"
+    else
+      flash[:error] = "Failed to update profile"
+    end
+
+    redirect_to edit_user_registration_path
+  end
+
+  private
 
   def init_empty_location
     @location.is_profile = true

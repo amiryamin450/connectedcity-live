@@ -1,5 +1,5 @@
 class CouponsController < ApplicationController
-  before_filter :authenticate_user!, only: [:redeem, :claim]
+  before_filter :authenticate_user, only: [:redeem, :claim]
 
   # These must remain in this order.
   load_and_authorize_resource :location, except: [:redeem, :claim]

@@ -1,5 +1,5 @@
 class LineItemsController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user
   before_filter :find_cart, except: [:new, :create]
   before_filter :find_line_item, except: [:new, :create, :index]
 

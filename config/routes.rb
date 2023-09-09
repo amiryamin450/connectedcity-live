@@ -147,6 +147,7 @@ Connectbook::Application.routes.draw do
       member do
         get :coupons
         get :favorites
+        put :update_profile
       end
     end
 
