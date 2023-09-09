@@ -6,7 +6,7 @@
       <li><a href="#events">Events</a></li>
       <li><a href="#news">News</a></li>
       <li><a href="#blogs">Blogs</a></li>
-      <li><a href="#followings">Followings</a></li>
+      <li><a href="#friends">Friends</a></li>
       <li class="last"><a href="#coupons">Coupons</a></li>
     </ul>
   </div>
@@ -38,8 +38,8 @@
 
   </div>
 
-  <div id="followings">
-    <h4>Followings</h4>
+  <div id="friends">
+    <h4>Friends</h4>
     <div class="primary-content">
       <% current_user.favorites.where(category: nil).map { |f| Location.unscoped.find(f.location_id).status_updates.includes(:statusable).first }&.flatten&.compact&.sort_by(&:created_at)&.reverse&.each do |status_update| %>
         <%= render 'status_update', status_update: status_update %>
