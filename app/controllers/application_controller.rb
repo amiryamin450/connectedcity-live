@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user
     if user_signed_in?
-      super
+      authenticate_user!
     else
       respond_to do |format|
         format.html { redirect_to new_user_session_path }

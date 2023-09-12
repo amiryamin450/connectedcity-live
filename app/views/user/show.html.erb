@@ -12,14 +12,14 @@
         <div class="business-info">
             <div class="business-card">
               <div class="banner-img">
-                  <%= image_tag "default-avatar-icon.jpeg" %>
+                  <%= image_tag (@location&.cover_photo&.present? ? @location&.cover_photo&.url : "default-avatar-icon.jpeg") %>
               </div>
               <!--  -->
               <div class="brand-contact-details">
                   <div class="row row-card-details d-flex" style="display:flex !important">
                     <div class="col-2" style="flex:unset !important">
                         <div class="brand-icon">
-                          <%= image_tag "default-avatar-icon.jpeg" %>
+                          <%= image_tag (@location&.logo&.present? ? @location&.logo&.url : "default-avatar-icon.jpeg") %>
                         </div>
                     </div>
                     <div class="col-10">

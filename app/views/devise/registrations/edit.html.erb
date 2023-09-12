@@ -28,9 +28,14 @@
     <% if @profile %>
       <%= simple_form_for(@profile, url: update_profile_user_path(current_user), method: :put, html: { class: 'form-vertical' }) do |f| %>
         <h2>Update your profile</h2>
-        <% img = @profile&.logo&.present? ? @profile&.logo&.url : "default-avatar-icon.jpeg" %>
-        <%= image_tag img, class: "w-75" %>
-        <%= f.input :logo, as: :file, wrapper_html: { class: "mt-2" }, label_html: { class: 'd-none' } %>
+        <% logo = @profile&.logo&.present? ? @profile&.logo&.url : "default-avatar-icon.jpeg" %>
+        <%= image_tag logo, class: "w-75" %>
+        <%= f.input :logo, as: :file, label_html: { class: 'fw-bold mt-2' } %>
+
+        <% cover = @profile&.cover_photo&.present? ? @profile&.cover_photo&.url : "default-avatar-icon.jpeg" %>
+        <%= image_tag cover, class: "w-75 mt-3" %>
+        <%= f.input :cover_photo, as: :file, label_html: { class: 'fw-bold mt-2' } %>
+
         <%= f.button :submit, "Update", class: 'btn-primary mt-2' %>
       <% end %>
     <% else %>

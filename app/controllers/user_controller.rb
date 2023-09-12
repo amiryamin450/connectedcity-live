@@ -15,7 +15,7 @@ class UserController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @location = Location.unscoped.find_or_initialize_by_slug(@user.name.parameterize('-'))
+    @location = @user.profile
 
     if @location.new_record?
       init_empty_location
@@ -121,7 +121,9 @@ class UserController < ApplicationController
 
   def update_profile
     @location = current_user.profile
-    @location.logo = params[:location][:logo]
+    @location.logo = params[:location][:logo] if params[:location][:logo].present?
+    @location.cover_photo = params[:location][:cover_photo] if params[:location][:cover_photo].present?
+
     if @location.save
       flash[:success] = "Profile updated"
     else
