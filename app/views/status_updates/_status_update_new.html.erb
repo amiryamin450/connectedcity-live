@@ -20,15 +20,33 @@
               </div>
             <% end %>
             <% if [174, 164, 114].include?(@vertical_market&.id) %>
-              <div class="auto-search-wrapper control-group" style="margin-bottom: 20px; display: flex;">
+              <div class="auto-search-wrapper control-group d-flex">
+                <%= label_tag :location_type, 'Location type', class: 'fw-bold pe-3' %>
+
+                <div class="controls pe-3">
+                  <%= radio_button_tag :location_type, 'address', true %>
+                  <%= label_tag :location_type_address, 'Address' %>
+                </div>
+
+                <div class="controls">
+                  <%= radio_button_tag :location_type, 'coordinates' %>
+                  <%= label_tag :location_type_coordinates, 'Coordinates' %>
+                </div>
+              </div>
+
+              <div class="auto-search-wrapper control-group d-flex location-by-address">
                 <%= f.label :location %>
                 <div class="controls">
                   <input class="p-2 form-control ml-auto" style="min-width: 550px;" type="text" id="location_search" autocomplete="off" placeholder="Enter Address" name="address" />
                   <label style="display: none;" id="location-error" class="error">This field is required.</label>
                 </div>
               </div>
-              <%= f.input :latitude, as: :hidden %>
-              <%= f.input :longitude, as: :hidden %>
+
+              <div class="auto-search-wrapper control-group d-flex location-by-coordinates d-none">
+                <%= f.input :latitude, as: :string, input_html: { class: 'p-2 form-control' }, wrapper_html: { class: 'w-25' }, label_html: { class: 'd-flex' } %>
+                <%= f.input :longitude, as: :string, input_html: { class: 'p-2 form-control' }, wrapper_html: { class: 'w-25' }, label_html: { class: 'd-flex' } %>
+              </div>
+
               <div id="value_address" class="hidden" ></div>
             <% end %>
             <%= f.input :image, as: :file, wrapper_html: { class: 'ms-auto' } %>
@@ -154,4 +172,13 @@
     });
   }
 
+  $("#location_type_address").change(function() {
+    $(".location-by-address").removeClass("d-none");
+    $(".location-by-coordinates").addClass("d-none");
+  })
+
+  $("#location_type_coordinates").change(function() {
+    $(".location-by-address").addClass("d-none");
+    $(".location-by-coordinates").removeClass("d-none");
+  })
 </script>
