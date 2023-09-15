@@ -15,7 +15,7 @@ class UserController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @location = @user.Location.unscoped.find_or_initialize_by_slug(@user.name.parameterize('-'))
+    @location = Location.unscoped.find_or_initialize_by_slug(@user.name.parameterize('-'))
 
     if @location.new_record?
       init_empty_location
