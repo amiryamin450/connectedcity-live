@@ -367,10 +367,6 @@ h3 {
   }
 }
 
-.menu-nav-right {
-  background-color: #7aaede;
-}
-
 .landing-page-tab-section {
   .district-slider .slider-heading {
     margin: 0px 15px 30px;
@@ -692,6 +688,13 @@ h3 {
     right: 0px;
     bottom: 0;
     flex: 0 0 265px;
+
+    .dropdown:nth-child(2) {
+      background: #e9ecef;
+      a {
+        color: #666;
+      }
+    }
   }
 
   a {

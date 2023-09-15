@@ -97,7 +97,8 @@ class ApplicationController < ActionController::Base
     category_news
     @results = VerticalMarket.order(:name).at_depth 0
     @vertical_market_news = @results.select{|i| i.slug === 'civic-news'}.first
-    @vertical_markets_all = @results.reject{|i| ['civic-news', 'employment-opportunities', 'classifieds'].include?(i.slug)}
+    @vertical_market_members = @results.select{|i| i.slug === 'members'}.first
+    @vertical_markets_all = @results.reject{|i| ['civic-news', 'employment-opportunities', 'classifieds', 'members'].include?(i.slug)}
   end
 
   private

@@ -35,6 +35,7 @@
         <% end %>
         <div class='dropdown-menu offcanvas offcanvas-start' id="offcanvasWithBackdrop">
           <%= render 'layouts/application_v_2/nav_bar_item', c: @vertical_market_news, only_mobile: true %>
+          <%= render 'layouts/application_v_2/nav_bar_item', c: @vertical_market_members, only_mobile: true %>
           <%= link_to classifieds_path, class: 'd-block d-md-none' do %>
             Classfieds
           <% end %>
@@ -47,6 +48,7 @@
 
     <div class="menu-nav-right d-none d-md-flex">
       <%= render 'layouts/application_v_2/nav_bar_item', c: @vertical_market_news %>
+      <%= render 'layouts/application_v_2/nav_bar_item', c: @vertical_market_members %>
       <%= link_to 'Classfieds', classifieds_path %>
       <%= link_to 'Jobs', employment_opportunity_path %>
     </div>
