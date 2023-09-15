@@ -14,9 +14,11 @@
             <a href="#info" data-toggle="tab">Info</a>
           </li>
         <% end %>
-        <li>
-          <a href="#operating-hours" data-toggle="tab">Operating Hours</a>
-        </li>
+        <% unless @location.is_profile %>
+          <li>
+            <a href="#operating-hours" data-toggle="tab">Operating Hours</a>
+          </li>
+        <% end %>
         <li>
           <a href="#profile" data-toggle="tab">Profile</a>
         </li>
@@ -47,9 +49,11 @@
           <li> <a href="#city-councillors" data-toggle="tab">City Councillors</a> </li>
           <li> <a href="#park-recreation-commissioners" data-toggle="tab">Parks & Recreation Commissioners</a> </li>
         <% end %>
-        <li>
-          <a href="#ecommerce-store" data-toggle="tab">eCommerce Store</a>
-        </li>
+        <% unless @location.new_record? %>
+          <li>
+            <a href="#ecommerce-store" data-toggle="tab">eCommerce Store</a>
+          </li>
+        <% end %>
       </ul>
       <div class="tab-content">
         <% if current_user.has_role? :admin %>
@@ -204,7 +208,7 @@
           <%= f.input :content, input_html: {class: '', style: 'width: 810px; height: 350px;', placeholder: 'Enter text ...'} %>
           <%= f.input :website_url %>
           <%= f.input :email %>
-          <%= f.input :logo, as: :logo_preview %>
+          <%= f.input :logo, label: "#{@location.is_profile ? 'My photo' : 'Logo'}", as: :logo_preview %>
           <%= f.input :delete_logo, as: :boolean %>
           <%= f.input :cover_photo, as: :logo_preview %>
           <%= f.input :delete_cover_photo, as: :boolean %>

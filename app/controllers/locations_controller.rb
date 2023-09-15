@@ -1,6 +1,6 @@
 class LocationsController < ApplicationController
-  before_filter :direct_if_profile_page, only: :show
-  load_and_authorize_resource
+  load_and_authorize_resource :location
+  skip_load_and_authorize_resource :location, only: [:show, :edit]
   PER_PAGE = 20
   layout 'location', :only => [:show]
   before_filter :set_location, only: [:connect_stripe, :disconnect_stripe]
@@ -17,8 +17,8 @@ class LocationsController < ApplicationController
 
   def show
 
-    @location = Location.includes(:location_images).find(params[:id])
-    @location_menus = Location.includes(:location_menus).find(params[:id])
+    @location = Location.unscoped.includes(:location_images).find(params[:id])
+    @location_menus = Location.unscoped.includes(:location_menus).find(params[:id])
 
     # because we have two sources for the location carousel images (cover photo and location images),
     # get them into one collection for ease of display
@@ -124,8 +124,10 @@ class LocationsController < ApplicationController
   # GET /locations/1/edit
   def edit
 
-    @location = Location.find(params[:id])
-    if @location.hall_id.present?
+    @location = Location.unscoped.find(params[:id])
+    if @location.is_profile
+      @vertical_market_categories = VerticalMarketCategory.where(slug: 'connectedcitizen')
+    elsif @location.hall_id.present?
       @vertical_market_categories = VerticalMarketCategory.where(name: name_vertical_categories)
     elsif @location.councillor_id.present?
       @vertical_market_categories = VerticalMarketCategory.where(slug: 'city-councillors')
@@ -448,13 +450,5 @@ class LocationsController < ApplicationController
 
   def set_location
     @location = Location.find(params[:location_id])
-  end
-
-  def direct_if_profile_page
-    unless Location.find_by_slug(params[:id])
-      tmp = Location.unscoped.find(params[:id])
-      
-      redirect_to User.find_by_email(tmp.email)
-    end
   end
 end

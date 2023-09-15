@@ -74,7 +74,7 @@
       <% elsif @location&.municipality%>
         <li class="breadcrumb-item"><a href="<%=municipality_sub_market_guide_path(@location&.municipality&.slug, @vertical_market.parent&.slug, @vertical_market.slug)%>"><%=@vertical_market.name%></a></li>
       <%else%>
-        <li class="breadcrumb-item"><a href=<%="#"%>><%=ancestor.name%></a></li>
+        <li class="breadcrumb-item"><a href=<%="#"%>><%=''%></a></li>
       <% end %>
       <% if  @location.broker.present? %>
         <li class="breadcrumb-item"><a href=<%="/business/#{@location.broker.slug}" %>><%= @location.broker.name %></a></li>
