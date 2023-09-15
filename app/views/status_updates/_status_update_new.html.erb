@@ -113,8 +113,8 @@
       if (valid === 'true') {
         var valueSearch = $('#location_search').val().trim()
         var valueSearchResult = $("#value_address").val().trim()
-        var inValidSearch = valueSearch.length === 0 || valueSearch !== valueSearchResult
-        if (isBlankLatitude() || isBlankLongitude() || inValidSearch) {
+        var inValidSearch = (valueSearch.length === 0 || valueSearch !== valueSearchResult)
+        if (isBlankLatitude() || isBlankLongitude() || ($("#location_type_address").prop('checked') && inValidSearch)) {
           $("#status_update_latitude").val('')
           $("#status_update_longitude").val('')
           $('.auto-search-wrapper.control-group').css('margin-bottom', '40px')
