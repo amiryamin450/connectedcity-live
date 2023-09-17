@@ -35,22 +35,22 @@
         <% end %>
         <div class='dropdown-menu offcanvas offcanvas-start' id="offcanvasWithBackdrop">
           <%= render 'layouts/application_v_2/nav_bar_item', c: @vertical_market_news, only_mobile: true %>
-          <%= render 'layouts/application_v_2/nav_bar_item', c: @vertical_market_members, only_mobile: true %>
           <%= link_to classifieds_path, class: 'd-block d-md-none' do %>
             Classfieds
           <% end %>
           <%= link_to employment_opportunity_path, class: 'd-block d-md-none' do %>
             Jobs
           <% end %>
+          <%= render 'layouts/application_v_2/nav_bar_item', c: @vertical_market_members, only_mobile: true %>
         </div>
       </div>
     </div>
 
     <div class="menu-nav-right d-none d-md-flex">
       <%= render 'layouts/application_v_2/nav_bar_item', c: @vertical_market_news %>
-      <%= render 'layouts/application_v_2/nav_bar_item', c: @vertical_market_members %>
       <%= link_to 'Classfieds', classifieds_path %>
       <%= link_to 'Jobs', employment_opportunity_path %>
+      <%= render 'layouts/application_v_2/nav_bar_item', c: @vertical_market_members %>
     </div>
     <div class='d-block d-md-none w-100 p-1' id='search-bar'>
       <%= render 'share/search_box', url: search_url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'All' %>
