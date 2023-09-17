@@ -22,7 +22,17 @@ class UserController < ApplicationController
       @location.save!
     end
 
-    redirect_to edit_location_path(@location)
+    @media_attachments = @location.media_attachments.order('created_at DESC').limit(20)
+    @status_updates = @location.status_updates
+
+    if params[:edit].present?
+      redirect_to edit_location_path(@location)
+    else
+      respond_to do |format|
+        format.html { render layout: 'application_v_2' } # show.html.erb
+        format.json { render json: @user }
+      end
+    end
   end
 
   def edit

@@ -1,6 +1,6 @@
 class LocationsController < ApplicationController
   load_and_authorize_resource :location
-  skip_load_and_authorize_resource :location, only: [:show, :edit]
+  skip_load_and_authorize_resource :location, only: [:show, :edit, :update]
   PER_PAGE = 20
   layout 'location', :only => [:show]
   before_filter :set_location, only: [:connect_stripe, :disconnect_stripe]
@@ -180,7 +180,7 @@ class LocationsController < ApplicationController
   # PUT /locations/1
   # PUT /locations/1.json
   def update
-    @location = Location.find(params[:id])
+    @location = Location.unscoped.find(params[:id])
 
     respond_to do |format|
       if @location.update_attributes(params[:location])
