@@ -115,15 +115,14 @@ class CityNewsArticlesController < ApplicationController
 
   def filter_updates
     temp = []
-    if params[:category_id].blank?
-      locations_manicipality(params[:municipality_slug], params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each do |i|
-        temp << i.status_updates if i.status_updates.length > 0
-      end
-      @filter_status_updates = temp.flatten.sort_by(&:created_at).reverse
-    else
-      temp = StatusUpdate.where(category_id: params[:category_id])
-      @filter_status_updates = temp.flatten.sort_by(&:created_at).reverse
+    conditions = params[:category_id].blank? ? {} : {category_id: params[:category_id]}
+
+    locations_manicipality(params[:municipality_slug], params[:city_slug], (params[:district_slug] || params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each do |i|
+      temp << i.status_updates.where(conditions) if i.status_updates.length > 0
     end
+
+    @filter_status_updates = temp.flatten.sort_by(&:created_at).reverse
+
     respond_to do |format|
       format.js
     end
