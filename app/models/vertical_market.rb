@@ -80,8 +80,10 @@ class VerticalMarket < ActiveRecord::Base
 
   def get_products(municipality = nil, city = nil, district = nil, neighborhood = nil, sub_neighborhood= nil)
     products = Product.joins(location: :vertical_market_categories).where(locations: location_params(municipality, city, district, neighborhood, sub_neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`products`.`created_at` DESC").limit 10
-    products += Service.joins(location: :vertical_market_categories).where(locations: location_params(municipality, city, district, neighborhood, sub_neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`services`.`created_at` DESC").limit 10
-    products.sort_by(&:created_at).last(10).reverse
+  end
+
+  def get_services(municipality = nil, city = nil, district = nil, neighborhood = nil, sub_neighborhood= nil)
+    services = Service.joins(location: :vertical_market_categories).where(locations: location_params(municipality, city, district, neighborhood, sub_neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`services`.`created_at` DESC").limit 10
   end
 
   def get_blog_entries(municipality = nil, city = nil, district = nil, neighborhood = nil, sub_neighborhood = nil)

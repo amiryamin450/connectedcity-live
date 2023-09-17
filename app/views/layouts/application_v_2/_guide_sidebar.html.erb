@@ -2,6 +2,7 @@
   @status_updates = @vertical_market.get_status_updates(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
   @media_attachments = @vertical_market.get_media_attachments(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
   @products = @vertical_market.get_products(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
+  @services = @vertical_market.get_services(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
   @events = @vertical_market.get_events(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
   @news_articles = @vertical_market.get_news_articles(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
   @blog_entries = @vertical_market.get_blog_entries(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
@@ -15,7 +16,10 @@
       <a class="nav-link" data-toggle="tab" href="#Videos">Videos</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#Featured">Featured</a>
+      <a class="nav-link" data-toggle="tab" href="#Products">Products</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#Services">Services</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" data-toggle="tab" href="#Events">Events</a>
@@ -54,15 +58,28 @@
         <div class="alert">No Videos found.</div>
       <% end %>
     </div>
-    <div id="Featured" class="container tab-pane fade">
+    <!--  -->
+    <div id="Products" class="container tab-pane fade">
       <br>
-      <h3>Featured</h3>
+      <h3>Products</h3>
       <% if @products.size > 0 %>
           <% @products.each do |product| %>
             <%= render 'layouts/application_v_2/product', product: product %>
           <% end %>
       <% else %>
         <div class="alert">No Products found.</div>
+      <% end %>
+    </div>
+    <!--  -->
+    <div id="Services" class="container tab-pane fade">
+      <br>
+      <h3>Services</h3>
+      <% if @services.size > 0 %>
+          <% @services.each do |service| %>
+            <%= render 'layouts/application_v_2/product', product: service %>
+          <% end %>
+      <% else %>
+        <div class="alert">No services found.</div>
       <% end %>
     </div>
     <!--  -->
