@@ -1,4 +1,4 @@
-<div class="landing-page-three-column-section">
+<div class="landing-page-three-column-section d-md-block d-none">
   <div class="multi" id="multiple_items">
     <div class="colla">
       <h3 class="sticky-heading">Market Updates</h3><br>
@@ -81,6 +81,125 @@
       <% end %>
     </div>
   </div>
+</div>
+
+<div class="category-body-section p-2 pt-4 d-block d-md-none">
+  <div class="category-sidebar"><div class="SideBar-tabs">
+    <ul class="nav nav-tabs justify-content-start" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#Update">Updates</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#Videos">Videos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#News">News</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#Events">Events</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#Products">Products</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#Services">Services</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#Blogs">Blogs</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#Deals">Deals</a>
+      </li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div id="Update" class="container tab-pane active">
+        <br>
+        <h3>Updates</h3><br>
+        <% if @status_updates.size > 0 %>
+            <% @status_updates.each do |status_update| %>
+              <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
+            <% end %>
+        <% else %>
+          <div class="alert">No Market Updates found.</div>
+        <% end %>
+      </div>
+      <div id="Videos" class="container tab-pane fade">
+        <br>
+        <h3>Videos</h3><br>
+        <% if @media_attachments.size > 0 %>
+            <% @media_attachments.each do |media_attachment| %>
+              <%= render 'layouts/application_v_2/media_attachment_basic', media_attachment: media_attachment %>
+            <% end %>
+        <% else %>
+          <div class="alert">No Videos found.</div>
+        <% end %>
+      </div>
+      <!--  -->
+      <div id="Products" class="container tab-pane fade">
+        <br>
+        <h3>Products</h3>
+        <% if @products.size > 0 %>
+            <% @products.each do |product| %>
+              <%= render 'layouts/application_v_2/product', product: product %>
+            <% end %>
+        <% else %>
+          <div class="alert">No Products found.</div>
+        <% end %>
+      </div>
+      <!--  -->
+      <div id="Services" class="container tab-pane fade">
+        <br>
+        <h3>Services</h3>
+        <% if @services && @services.size > 0 %>
+            <% @services.each do |service| %>
+              <%= render 'layouts/application_v_2/product', product: service %>
+            <% end %>
+        <% else %>
+          <div class="alert">No services found.</div>
+        <% end %>
+      </div>
+      <!--  -->
+      <div id="Events" class="container tab-pane">
+        <br>
+        <h3>Events</h3><br>
+        <% if @events.size > 0 %>
+            <% @events.each do |event| %>
+              <%= render 'layouts/application_v_2/event', event: event %>
+            <% end %>
+        <% else %>
+          <div class="alert">No Events found.</div>
+        <% end %>
+      </div>
+      <div id="News" class="container tab-pane fade">
+        <br>
+        <h3>News</h3><br>
+        <% if @news_articles && @news_articles.size > 0 %>
+            <% @news_articles.each do |news_article| %>
+              <%= render 'layouts/application_v_2/news_article', news_article: news_article %>
+            <% end %>
+        <% else %>
+          <div class="alert">No News found.</div>
+        <% end %>
+      </div>
+      <div id="Blogs" class="container tab-pane fade">
+        <br>
+        <h3>Blogs</h3><br>
+        <% if @blog_entries.size > 0 %>
+            <% @blog_entries.each do |blog_entry| %>
+              <%= render 'layouts/application_v_2/blog_entry', blog_entry: blog_entry %>
+            <% end %>
+        <% else %>
+          <div class="alert">No Blogs found.</div>
+        <% end %>
+      </div>
+      <div id="Offers" class="container tab-pane fade">
+        <br>
+        <h3>Offers</h3><br>
+        <%= render @coupons %>
+      </div>
+    </div>
+  </div></div>
 </div>
 
 <% if @status_updates.size > 0 %>
