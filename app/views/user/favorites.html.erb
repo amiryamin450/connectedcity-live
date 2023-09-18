@@ -116,7 +116,7 @@ r = 0
                         <%= link_to ' See All', "#", class: 'see-all' %>
                       </div>
                     </div>
-                    <div class="row card-row location-row-holder" id="cat-auto-listings">
+                    <div class="row card-row location-row-holder" id="cat-<%= vm.id %>">
                       <% fav_categories(vm).each  do |f| %>
                         <div class="col-md-2">
                           <div class="category-body-card">
