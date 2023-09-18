@@ -111,6 +111,10 @@ class UserController < ApplicationController
   def favorites
     @vertical_markets = VerticalMarket.all#where(params[:name].present? ? {slug: params[:name]} : {})
     @user = User.find(params[:id])
+
+    respond_to do |format|
+      format.html { render layout: 'application_v_2' }
+    end
   end
 
   def coupons

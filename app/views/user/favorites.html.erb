@@ -1,5 +1,4 @@
-
-
+<% if false %>
 <%
 r = 0
  # categories = @facets['categories']
@@ -24,38 +23,7 @@ r = 0
 
   <div class="span8">
     <h1><%= "#{current_user.name}'s Favorites" %></h1>
-    <% @vertical_markets.each do |vm| %>
-      <% if fav_count_num(vm) > 0 %>
-        <div class="category">
-          <div class="heading index-<%= r += 1 %>">
-            <h5><%= vm.name %></h5>
-            <a href="#" class="see-more" data-element="<%= vm.id %>">More +</a>
-          </div>
-
-          <div class="location-holder" id="cat-<%= vm.id %>">
-            <a href="" id="vm-<%= vm.id %>"></a>
-
-            <div class="clearfix">
-              <% fav_categories(vm).each  do |f| %>
-                <% markers << f.location %>
-                  <div class="location-teaser clearfix">
-                    <div style="height: 74px; text-align: center;">
-                      <%= link_to(image_tag(get_location_image_url(f.location)), f.location)%>
-                    </div>
-                    <div style="width: 168px; margin-top: 5px; margin-bottom: 5px; font-size: 12px; min-height:24px;"><strong><%= link_to f.location.name, f.location %></strong></div>
-                    <div style="width: 168px;"><%= "#{f.location.address}".html_safe %></div>
-                    <div style="width: 168px;"><%= "#{f.location.city.name if f.location.city.present? } #{f.location.province.abbr} #{f.location.postal_code}".html_safe %></div>
-                    <div style="width: 168px; color: #1c3656;"><%= f.location.phone %></div>
-                    <div id="favorite-<%= f.location.id %>" class="favorite">
-                      <%= render 'favorites/like_button_v2', location_id: f.location.id if user_signed_in? %>
-                    </div>
-                  </div>
-                <% end %>
-            </div>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
+    
   </div>
 </div>
 
@@ -72,4 +40,119 @@ r = 0
 
     {:name => m.name, :url => u, :latitude => m.latitude, :longitude => m.longitude, :thumb => m.logo.file? ? m.logo.url(:bia_display) : nil}
   }.to_json %>;
+<% end %>
+<% else %>
+<% @current_market =
+    if @sub_market
+      @sub_market.name
+    elsif @vertical_market.respond_to?(:name)
+      @vertical_market.name
+    else
+      @vertical_market
+    end
+%>
+<%
+  @neighbourhood_param = params[:neighborhood] || params[:neighborhood_slug]
+  @neighbourhood_slug = params[:neighborhood]  || params[:neighborhood_slug]
+  if @neighbourhood_param
+    @neighbourhood_slug = "kitsilano"  if @neighbourhood_param.include? "kitsilano"
+    @neighbourhood = Neighborhood.where('slug LIKE ?', @neighbourhood_slug).first
+  end
+
+  @current_district = (@municipality&.name || @sub_neighborhood&.name || @neighborhood&.name || @district&.name || @city&.name || 'Vancouver')
+%>
+<% @district_slug = params[:district_slug] || params[:district_route]%>
+<% @url %>
+<% if params[:sub_neighborhood_slug]%>
+  <% @url = city_district_nbh_sub_search_path(params[:city_slug], @district_slug, params[:neighborhood_slug], params[:sub_neighborhood_slug])%>
+<% elsif params[:neighborhood_slug]%>
+  <% @url = city_district_nbh_search_path(params[:city_slug], @district_slug, params[:neighborhood_slug])%>
+<% elsif @district_slug %>
+  <% @url = city_district_search_path(params[:city_slug], @district_slug)%>
+<% elsif params[:city_slug] %>
+  <% @url = city_search_path(params[:city_slug])%>
+<% elsif params[:municipality_slug] %>
+  <% @url = municipality_search_path(params[:municipality_slug])%>
+<%else%>
+  <% @url = "#{@base_path}search"%>
+<% end %>
+<div class="category-body-section">
+    <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+            <!--  Category -->
+            <div class="page-title">
+              <h3><%= "#{current_user.name}'s Favorites" %></h3>
+            </div>
+            <!-- End -->
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-4">
+            <div class="category-sidebar">
+                <div class="map-section">
+                  <div id="map"></div>
+                </div>
+                <div class="SideBar-tabs">
+                  <!-- municipal-services 114-->
+                    <%= render partial: 'status_updates' %>
+                </div>
+            </div>
+          </div>
+          <!-- SideBar End -->
+          <div class="col-md-8">
+            <div class="category-body">
+              <br>
+              <%= render 'share/search_box', url: @url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'all categories' %>
+              <div class="vertical-market-categories">
+                <% @vertical_markets.each do |vm| %>
+                  <% if fav_count_num(vm) > 0 %>
+                    <div class="card-label-one">
+                      <div class="title heading">
+                        <h4><%= vm.name %></h4>
+                        &nbsp;&nbsp;
+                        <%= link_to 'See More +', '#', class: 'see-more', data: { element: vm.id } %>
+                        &nbsp;&nbsp;
+                        <%= link_to ' See All', "#", class: 'see-all' %>
+                      </div>
+                    </div>
+                    <div class="row card-row location-row-holder" id="cat-auto-listings">
+                      <% fav_categories(vm).each  do |f| %>
+                        <div class="col-md-2">
+                          <div class="category-body-card">
+
+                            <div class="img">
+                              <%= link_to(image_tag(get_location_image_url(f.location)), f.location)%>
+                            </div>
+
+                            <div class="title">
+                              <h4><%= link_to f.location.name, f.location %></h4>
+                            </div>
+                            <hr>
+
+                            <div class="contact-details">
+                              <span>
+                                <%= "#{f.location.address} #{f.location.city.name if f.location.city.present? } #{f.location.province.abbr} #{f.location.postal_code}".html_safe %>
+                              </span>
+                              <br>
+                              <span><%= f.location.phone %></span>
+                            </div>
+
+                            <div id="favorite-<%= f.location.id %>" class="button favorite">
+                              <%= render 'favorites/like_button_v2', location_id: f.location.id if user_signed_in? %>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+</div>
+<br>
+
 <% end %>

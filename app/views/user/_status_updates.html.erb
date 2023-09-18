@@ -1,56 +1,196 @@
-<div class="holder pad10">
-  <div class="status-tabs clearfix">
-    <ul class="clearfix">
-      <li class="first"><a href="#market-updates">Updates</a></li>
-      <li><a href="#listings">New Listings</a></li>
-      <li><a href="#events">Events</a></li>
-      <li><a href="#news">News</a></li>
-      <li><a href="#blogs">Blogs</a></li>
-      <li><a href="#friends">Friends</a></li>
-      <li class="last"><a href="#coupons">Coupons</a></li>
-    </ul>
-  </div>
+<%
+  @status_updates = current_user.favorites.map { |f| f.location_status_updates.includes(:statusable).first if f.location_status_updates.size > 0 }&.flatten&.compact&.sort_by(&:created_at)&.reverse
+  @media_attachments = []
+  @products = []
+  @services = []
+  @events = []
+  @news_articles = []
+  @blog_entries = []
+  @coupons = []
+  @friends = current_user.favorites.where(category: nil).map { |f| Location.unscoped.find(f.location_id).status_updates.includes(:statusable).first }&.flatten&.compact&.sort_by(&:created_at)&.reverse
+%>
 
-  <div id="market-updates">
-    <h4>Market Updates</h4>
-    <div class="primary-content">
-      <% current_user.favorites.map { |f| f.location_status_updates.includes(:statusable).first if f.location_status_updates.size > 0 }&.flatten&.compact&.sort_by(&:created_at)&.reverse&.each do |status_update| %>
-        <%= render 'status_update', status_update: status_update %>
-      <% end -%>
+<ul class="nav nav-tabs justify-content-start" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#Updates">Updates</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#Videos">Videos</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#Products">Products</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#Services">Services</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#Events">Events</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#News">News</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#Blogs">Blogs</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#Offers">Offers</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#Friends">Friends</a>
+  </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div id="Update" class="container tab-pane active">
+      <br>
+      <h3>Updates</h3><br>
+      <% if @status_updates.size > 0 %>
+          <% @status_updates.each do |status_update| %>
+            <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
+          <% end %>
+      <% else %>
+        <div class="alert">No Market Updates found.</div>
+      <% end %>
     </div>
-  </div>
-
-  <div id="listings">
-    <h4>Products</h4>
-    <%# render @vertical_market.get_products(@city, @district) %>
-  </div>
-
-  <div id="events">
-    <h4>Events</h4>
-
-  </div>
-  <div id="news">
-    <h4>News Articles</h4>
-
-  </div>
-  <div id="blogs">
-    <h4>Blog Entries</h4>
-
-  </div>
-
-  <div id="friends">
-    <h4>Friends</h4>
-    <div class="primary-content">
-      <% current_user.favorites.where(category: nil).map { |f| Location.unscoped.find(f.location_id).status_updates.includes(:statusable).first }&.flatten&.compact&.sort_by(&:created_at)&.reverse&.each do |status_update| %>
-        <%= render 'status_update', status_update: status_update %>
-      <% end -%>
+    <div id="Videos" class="container tab-pane fade">
+      <br>
+      <h3>Videos</h3><br>
+      <% if @media_attachments.size > 0 %>
+          <% @media_attachments.each do |media_attachment| %>
+            <%= render 'layouts/application_v_2/media_attachment_basic', media_attachment: media_attachment %>
+          <% end %>
+      <% else %>
+        <div class="alert">No Videos found.</div>
+      <% end %>
     </div>
-  </div>
+    <!--  -->
+    <div id="Products" class="container tab-pane fade">
+      <br>
+      <h3>Products</h3>
+      <% if @products.size > 0 %>
+          <% @products.each do |product| %>
+            <%= render 'layouts/application_v_2/product', product: product %>
+          <% end %>
+      <% else %>
+        <div class="alert">No Products found.</div>
+      <% end %>
+    </div>
+    <!--  -->
+    <div id="Services" class="container tab-pane fade">
+      <br>
+      <h3>Services</h3>
+      <% if @services.size > 0 %>
+          <% @services.each do |service| %>
+            <%= render 'layouts/application_v_2/product', product: service %>
+          <% end %>
+      <% else %>
+        <div class="alert">No services found.</div>
+      <% end %>
+    </div>
+    <!--  -->
+    <div id="Events" class="container tab-pane">
+      <br>
+      <h3>Events</h3><br>
+      <% if @events.size > 0 %>
+          <% @events.each do |event| %>
+            <%= render 'layouts/application_v_2/event', event: event %>
+          <% end %>
+      <% else %>
+        <div class="alert">No Events found.</div>
+      <% end %>
+    </div>
+    <div id="News" class="container tab-pane fade">
+      <br>
+      <h3>News</h3><br>
+      <% if @news_articles.size > 0 %>
+          <% @news_articles.each do |news_article| %>
+            <%= render 'layouts/application_v_2/news_article', news_article: news_article %>
+          <% end %>
+      <% else %>
+        <div class="alert">No News found.</div>
+      <% end %>
+    </div>
+    <div id="Blogs" class="container tab-pane fade">
+      <br>
+      <h3>Blogs</h3><br>
+      <% if @blog_entries.size > 0 %>
+          <% @blog_entries.each do |blog_entry| %>
+            <%= render 'layouts/application_v_2/blog_entry', blog_entry: blog_entry %>
+          <% end %>
+      <% else %>
+        <div class="alert">No Blogs found.</div>
+      <% end %>
+    </div>
+    <div id="Offers" class="container tab-pane fade">
+      <br>
+      <h3>Offers</h3><br>
+      <%= render @coupons %>
+    </div>
 
-  <div id="coupons">
-    <h4>Coupons</h4>
-  </div>
-
-
-
+    <div id="Friends" class="container tab-pane fade">
+      <br>
+      <h3>Friends</h3><br>
+      <% if @friends.size > 0 %>
+          <% @friends.each do |friend| %>
+            <%= render 'layouts/application_v_2/status_update', status_update: friend %>
+          <% end %>
+      <% else %>
+        <div class="alert">No Friends found.</div>
+      <% end %>
+    </div>
 </div>
+
+<% @media_attachments.each do |media_attachment| %>
+  <%= render 'layouts/application_v_2/video_popup_basic_version', media_attachment: media_attachment %>
+<% end %>
+<% @status_updates.each do |status_update| %>
+  <%= render 'status_updates/modal_content_latest', status_update: status_update %>
+<% end %>
+<% @friends.each do |friend| %>
+  <%= render 'status_updates/modal_content_latest', status_update: friend %>
+<% end %>
+<% @news_articles.each do |news_article| %>
+  <%= render 'news_articles/modal_news_latest', news: news_article %>
+<% end %>
+<% @events.each do |event| %>
+  <%= render 'status_updates/modal_event_latest', event: event %>
+<% end %>
+<% @products.each do |product| %>
+  <%= render 'products/modal_content', product: product %>
+<% end %>
+<% @blog_entries.each do |blog| %>
+  <%= render 'blog_entries/modal_content', blog: blog %>
+<% end %>
+<% @coupons.each do |coupon| %>
+  <%= render 'coupons/modal_content', coupon: coupon %>
+<% end %>
+
+<script type="text/javascript">
+  $('.video-attachment-event-category').on('click', function() {
+    var modal = $(this);
+    var valueId = modal.attr('data-target');
+    var v = $(valueId).contents().find("iframe");
+    var url = v.attr('data-src');
+    v.attr('src', url)
+  })
+
+  $('.title-attachment-event-category').on('click', function() {
+    var modal = $(this);
+    var valueId = modal.attr('data-id');
+    var v = $('#' + valueId).contents().find("iframe");
+    var url = v.attr('data-src');
+    v.attr('src', url)
+  })
+  $('.close.media-attachment-category').on('click', function() {
+    var modal = $(this);
+    var valueId = modal.attr('data-id');
+    var v = $('#'+valueId).contents().find("iframe");
+    var url = v.attr('src');
+    v.attr('src', '')
+  })
+
+  $(".modal .close").click(function(){
+    $('.modal-backdrop.in').remove();
+  })
+</script>
