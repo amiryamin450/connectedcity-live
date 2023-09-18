@@ -81,7 +81,7 @@ r = 0
       <div class="row">
           <div class="col-md-12">
             <!--  Category -->
-            <div class="page-title">
+            <div class="page-title pt-3">
               <h3><%= "#{current_user.name}'s Favorites" %></h3>
             </div>
             <!-- End -->
@@ -132,10 +132,14 @@ r = 0
 
                             <div class="contact-details">
                               <span>
+                                <i class="fal fa-map-marker-alt"></i>
                                 <%= "#{f.location.address} #{f.location.city.name if f.location.city.present? } #{f.location.province.abbr} #{f.location.postal_code}".html_safe %>
                               </span>
                               <br>
-                              <span><%= f.location.phone %></span>
+                              <span>
+                                <i class="far fa-phone-alt"></i>
+                                <%= f.location.phone %>
+                              </span>
                             </div>
 
                             <div id="favorite-<%= f.location.id %>" class="button favorite">
