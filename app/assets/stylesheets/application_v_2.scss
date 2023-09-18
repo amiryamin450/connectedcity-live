@@ -1043,5 +1043,9 @@ h3 {
   .top-bar .user-dropdown > .dropdown-menu {
     top: unset;
     right: 0;
+
+    & > .dropdown-submenu > .dropdown-menu a {
+      white-space: break-spaces;
+    }
   }
 }
