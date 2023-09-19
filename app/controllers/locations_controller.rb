@@ -212,6 +212,10 @@ class LocationsController < ApplicationController
   def claim
     @location = Location.find(params[:id])
     @location.stripe_plan_id = 'yearly-new'
+
+    respond_to do |format|
+      format.html {render layout: "application_v_2"}
+    end
   end
 
   def claim_process

@@ -1049,3 +1049,30 @@ h3 {
     }
   }
 }
+
+// Claim Business Page
+.claim-business-form {
+  h2 { white-space: break-spaces;}
+  .card-input {
+    .control-group {white-space: initial;display: flow-root;}
+    .buttons-line {
+      width: fit-content;
+      * {
+        border: none;
+        width: 150px;
+        height: 35px;
+        text-decoration: none;
+      }
+
+      input {
+        background-color: #1c3656;
+      }
+
+      a {
+        color: #1c3656;
+        background-color: #939fad;
+        padding-top: 7px;
+      }
+    }
+  }
+}
