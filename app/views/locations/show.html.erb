@@ -603,6 +603,8 @@
     $(container + ' .short-description').css('display', $(container + ' .short-description').css('display') === 'none' ? 'block' : 'none');
     $(container + ' .expand-text').text($(container + ' .short-description').css('display') === 'none' ? 'View less' : 'View more');
   }
+
+  window.locations = <%= raw map_locations_data([@location]) %>;
 </script>
 <%= render 'status_updates/status_update_new' %>
 

@@ -95,4 +95,16 @@ module ApplicationHelper
         @url = "#{@base_path}search"
       end
   end
+
+  def map_locations_data locations
+    locations.map do |m|
+      {
+        name: m.name,
+        url: m.respond_to?(:location) ? url_for([m.location, m]) : url_for(m),
+        latitude: m.latitude,
+        longitude: m.longitude,
+        thumb: m.logo.file? ? m.logo.url(:bia_display) : nil
+      }
+    end.to_json
+  end
 end
