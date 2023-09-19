@@ -106,19 +106,17 @@
     }
   }
 
-  var doubleClicked = false;
-  if (!isMobile) {
-    doubleClicked = true;
-  }
+  var clickedEl = null;
+  $(".nav-bar .dropdown:not(.more)").on('click', function() {
+    if (!isMobile) { window.location.href = $(this).children('a').attr('href') }
 
-  $(".nav-bar .dropdown:not(.more)").on('click', function() {   
-    if (doubleClicked) {
-      window.location.href = $(this).children('a').attr('href');
+    if (clickedEl == $(this)[0]) {
+      if ($(this).hasClass('open')) {
+        window.location.href = $(this).children('a').attr('href');
+      }
+    } else {
+      clickedEl = $(this)[0];
     }
-    doubleClicked = true;
-    setTimeout(() => {
-      if (isMobile) {doubleClicked = false;}
-    }, 500);
   });
 
   $(document).ready(function(){
