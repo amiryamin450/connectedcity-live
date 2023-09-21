@@ -42,9 +42,15 @@
                 </div>
               </div>
 
-              <div class="auto-search-wrapper control-group d-flex location-by-coordinates d-none">
-                <%= f.input :latitude, as: :string, input_html: { class: 'p-2 form-control' }, wrapper_html: { class: 'w-25' }, label_html: { class: 'd-flex' } %>
-                <%= f.input :longitude, as: :string, input_html: { class: 'p-2 form-control' }, wrapper_html: { class: 'w-25' }, label_html: { class: 'd-flex' } %>
+              <div class="auto-search-wrapper control-group d-block location-by-coordinates d-none">
+                <div class="d-flex">
+                  <%= f.input :latitude, as: :string, input_html: { class: 'p-2 pe-4 form-control' }, label_html: { class: 'd-flex mb-0 align-items-center', style: "width:195px" }, wrapper_html: { class: "mb-0" } %>
+                  <span class="align-self-center" style="margin-left:-21px">N</span>
+                </div>
+                <div class="d-flex mt-2">
+                  <%= f.input :longitude, as: :string, input_html: { class: 'p-2 pe-4 form-control' }, label_html: { class: 'd-flex mb-0 align-items-center', style: "width:195px" }, wrapper_html: { class: "mb-0" } %>
+                  <span class="align-self-center" style="margin-left:-21px">W</span>
+                </div>
               </div>
 
               <div id="value_address" class="hidden" ></div>
@@ -79,9 +85,6 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-
-    $(".control-group.status_update_latitude").css('margin-bottom', '0px');
-    $(".control-group.status_update_longitude").css('margin-bottom', '0px');
     var municipality = "<%= @vertical_market&.id === 114 %>";
     var valid = "<%= [174, 164, 114].include?(@vertical_market&.id) %>"
     $("#new_status_update").validate({

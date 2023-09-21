@@ -44,63 +44,63 @@ function showMap(el) {
             markerPopup =
               (location["thumb"]
                 ? "<div>" +
-                  "<a href='#' class='status-update-image' data-target='#status-" +
+                  "<a href='#' class='status-update-image' data-bs-target='#status-" +
                   location["id"] +
-                  "-model' data-toggle='modal'><img src='" +
+                  "-model' data-bs-toggle='modal'><img src='" +
                   location["thumb"] +
                   "' width='157' /></a></div>"
                 : "") +
-              "<div style='margin-top:5px;margin-bottom:5px;'><a href='#' class='status-update-image' data-target='#status-" +
+              "<div style='margin-top:5px;margin-bottom:5px;'><a href='#' class='status-update-image' data-bs-target='#status-" +
               location["id"] +
-              "-model' data-toggle='modal'>" +
+              "-model' data-bs-toggle='modal'>" +
               title +
               "</a></div>";
             break;
           case "news_article":
             markerPopup =
               (location["thumb"]
-                ? "<a href='#' class='status-update-image' data-target='#news-" +
+                ? "<a href='#' class='status-update-image' data-bs-target='#news-" +
                   location["id"] +
-                  "-model' data-toggle='modal'><img src='" +
+                  "-model' data-bs-toggle='modal'><img src='" +
                   location["thumb"] +
                   "' width='157' />" +
                   "</a>"
                 : "") +
-              "<div style='margin-top:5px;margin-bottom:5px;'><a href='#' class='status-update-image' data-target='#news-" +
+              "<div style='margin-top:5px;margin-bottom:5px;'><a href='#' class='status-update-image' data-bs-target='#news-" +
               location["id"] +
-              "-model' data-toggle='modal'>" +
+              "-model' data-bs-toggle='modal'>" +
               title +
               "</a></div>";
             break;
           case "event":
             markerPopup =
               (location["thumb"]
-                ? "<a href='#' class='status-update-image' data-target='#event-" +
+                ? "<a href='#' class='status-update-image' data-bs-target='#event-" +
                   location["id"] +
-                  "-model' data-toggle='modal'><img src='" +
+                  "-model' data-bs-toggle='modal'><img src='" +
                   location["thumb"] +
                   "' width='157' />" +
                   "</a>"
                 : "") +
-              "<div style='margin-top:5px;margin-bottom:5px;'><a href='#' class='status-update-image' data-target='#event-" +
+              "<div style='margin-top:5px;margin-bottom:5px;'><a href='#' class='status-update-image' data-bs-target='#event-" +
               location["id"] +
-              "-model' data-toggle='modal'>" +
+              "-model' data-bs-toggle='modal'>" +
               title +
               "</a></div>";
             break;
           case "media_attachment":
             markerPopup =
               (location["thumb"]
-                ? "<a href='#' class='status-update-image' data-target='#video-" +
+                ? "<a href='#' class='status-update-image' data-bs-target='#video-" +
                   location["id"] +
-                  "-model' data-toggle='modal'><img src='" +
+                  "-model' data-bs-toggle='modal'><img src='" +
                   location["thumb"] +
                   "' width='157' />" +
                   "</a>"
                 : "") +
-              "<div style='margin-top:5px;margin-bottom:5px;'><a href='#' class='status-update-image' data-target='#video-" +
+              "<div style='margin-top:5px;margin-bottom:5px;'><a href='#' class='status-update-image' data-bs-target='#video-" +
               location["id"] +
-              "-model' data-toggle='modal'>" +
+              "-model' data-bs-toggle='modal'>" +
               title +
               "</a></div>";
             break;

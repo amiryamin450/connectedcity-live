@@ -14,6 +14,9 @@ class StatusUpdatesController < ApplicationController
 
   def create
     @status_update = location.status_updates.build params[:status_update]
+    @status_update.latitude = @status_update.latitude.abs
+    @status_update.longitude = -(@status_update.longitude.abs)
+
     respond_to do |format|
       format.json {
         if @status_update.save

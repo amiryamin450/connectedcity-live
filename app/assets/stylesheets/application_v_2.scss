@@ -733,7 +733,7 @@ h3 {
       width: 45px;
 
       & > .more .dropdown-menu {
-        top: 150px;
+        top: 170px;
         width: fit-content;
 
         .dropdown:hover,
@@ -941,7 +941,7 @@ h3 {
 
     #search-bar {
       .search-box {
-        width: 90%;
+        width: 85%;
         display: inline-block;
         #market {
           height: 33px;
@@ -954,7 +954,7 @@ h3 {
       }
 
       .location-block {
-        width: 9%;
+        width: 12%;
         display: inline-block;
 
         a {
@@ -1040,12 +1040,20 @@ h3 {
     }
   }
 
-  .top-bar .user-dropdown > .dropdown-menu {
-    top: unset;
-    right: 0;
+  .top-bar {
+    height: 120px;
 
-    & > .dropdown-submenu > .dropdown-menu a {
-      white-space: break-spaces;
+    & > .container-fluid > .row {
+      flex-direction: column-reverse;
+    }
+
+    .user-dropdown > .dropdown-menu {
+      top: unset;
+      right: 0;
+
+      & > .dropdown-submenu > .dropdown-menu a {
+        white-space: break-spaces;
+      }
     }
   }
 }
@@ -1059,7 +1067,7 @@ h3 {
       width: fit-content;
       * {
         border: none;
-        width: 150px;
+        width: 146px;
         height: 35px;
         text-decoration: none;
       }

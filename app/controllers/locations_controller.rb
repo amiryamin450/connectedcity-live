@@ -234,7 +234,7 @@ class LocationsController < ApplicationController
       end
     rescue => e
       flash[:error] = e.message
-      return render :claim
+      return redirect_to claim_location_path
     end
 
     begin
@@ -250,7 +250,7 @@ class LocationsController < ApplicationController
       redirect_to connected_advertiser_location_path(@location)
     rescue => e
       flash[:error] = e.message
-      return render :claim
+      return redirect_to claim_location_path
     end
   end
 
