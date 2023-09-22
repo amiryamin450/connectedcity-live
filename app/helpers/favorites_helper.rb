@@ -33,9 +33,11 @@ module FavoritesHelper
     items
   end
 
-  def fav_link(vm)
+  def fav_link(vm=nil)
     if user_signed_in?
-      "/user/#{current_user.id}/favorites?name=#{vm.slug}"
+      url = "/user/#{current_user.id}/favorites"
+      url += "?name=#{vm.slug}" if vm
+      url
     else
       "#"
     end

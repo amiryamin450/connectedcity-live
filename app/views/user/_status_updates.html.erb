@@ -7,7 +7,8 @@
   @news_articles = []
   @blog_entries = []
   @coupons = []
-  @friends = current_user.favorites.where(category: nil).map { |f| Location.unscoped.find(f.location_id).status_updates.includes(:statusable).first }&.flatten&.compact&.sort_by(&:created_at)&.reverse
+  # @friends = current_user.favorites.where(category: nil).map { |f| Location.unscoped.find(f.location_id).status_updates.includes(:statusable).first }&.flatten&.compact&.sort_by(&:created_at)&.reverse
+  @friends = @friend_locations.map{ |l| l.status_updates.includes(:statusable) }&.flatten&.compact&.sort_by(&:created_at)&.reverse
 %>
 
 <ul class="nav nav-tabs justify-content-start" role="tablist">

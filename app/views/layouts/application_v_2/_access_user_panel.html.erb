@@ -13,7 +13,9 @@
         </ul>
       </li>
       <li class="dropdown-submenu">
-        <div  class="dropdown-item title" tabindex="-1" href="#">Favorites</div>
+        <div  class="dropdown-item title" tabindex="-1" href=>
+          <%= link_to "Favorites", fav_link(), class: "text-decoration-none", tabindex: "-1" %>
+        </div>
         <ul class="dropdown-menu">
         <% @vertical_markets_all.each do |item| %>
           <li class="dropdown-item p-0">

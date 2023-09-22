@@ -97,6 +97,50 @@ r = 0
               <br>
               <%= render 'share/search_box', url: @url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'all categories' %>
               <div class="vertical-market-categories">
+                <% if @friend_locations.count > 0 %>
+                  <div class="card-label-one">
+                    <div class="title heading">
+                      <h4>Friends</h4>
+                      &nbsp;&nbsp;
+                      <%= link_to 'See More +', '#', class: 'see-more' %>
+                      &nbsp;&nbsp;
+                      <%= link_to ' See All', "#", class: 'see-all' %>
+                    </div>
+                  </div>
+                  <div class="row card-row location-row-holder">
+                    <% @friend_locations.each do |location| %>
+                        <div class="col-md-2">
+                          <div class="category-body-card">
+
+                            <div class="img">
+                              <%= link_to(image_tag(get_location_image_url(location)), location)%>
+                            </div>
+
+                            <div class="title">
+                              <h4><%= link_to location.name, location %></h4>
+                            </div>
+                            <hr>
+
+                            <div class="contact-details">
+                              <span>
+                                <i class="fal fa-map-marker-alt"></i>
+                                <%= "#{location.address} #{location.city.name if location.city.present? } #{location.province.abbr} #{location.postal_code}".html_safe %>
+                              </span>
+                              <br>
+                              <span>
+                                <i class="far fa-phone-alt"></i>
+                                <%= location.phone %>
+                              </span>
+                            </div>
+
+                            <div id="favorite-<%= location.id %>" class="button favorite">
+                              <%= render 'favorites/like_button_v2', location_id: location.id if user_signed_in? %>
+                            </div>
+                          </div>
+                        </div>
+                    <%end%>
+                  </div>
+                <% end %>
                 <% @vertical_markets.each do |vm| %>
                   <% if fav_count_num(vm) > 0 %>
                     <div class="card-label-one">

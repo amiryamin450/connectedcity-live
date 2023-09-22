@@ -109,8 +109,16 @@ class UserController < ApplicationController
   end
 
   def favorites
-    @vertical_markets = VerticalMarket.all#where(params[:name].present? ? {slug: params[:name]} : {})
+    @vertical_markets = if params[:name]
+      VerticalMarket.where(slug: params[:name])
+    else
+      VerticalMarket.where(ancestry_depth: 0)
+    end
+     #where(params[:name].present? ? {slug: params[:name]} : {})
     @user = User.find(params[:id])
+
+    location_ids = Favorite.where(user_id: params[:id]).pluck(:location_id).compact
+    @friend_locations = Location.joins(:vertical_market_categories).where("locations.id IN (?)", location_ids).where("vertical_market_categories.name = ?", "ConnectedCitizen")
 
     respond_to do |format|
       format.html { render layout: 'application_v_2' }
