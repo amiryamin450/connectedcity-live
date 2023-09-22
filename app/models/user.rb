@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
 
   validates :first_name, presence: true, unless: ->(u) { u.persisted? && u.first_name_changed? }
   validates :last_name, presence: true, unless: ->(u) { u.persisted? && u.last_name_changed? }
+  validates :phone_number, presence: true, on: :create
 
   rolify after_add: ->(u,_){ u.touch }, after_remove: ->(u,_){ u.touch }
 

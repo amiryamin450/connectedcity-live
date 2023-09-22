@@ -7,6 +7,7 @@
 
       <div class="form-inputs form-group">
         <%= f.input :email, required: true, autofocus: true, input_html: { class: "form-control w-100 w-md-50" }, wrapper_html: { class: "col-12 col-md-6" }, label_html: { class: 'fw-bold mt-2' } %>
+        <%= f.input :phone_number, required: true, input_html: { type: 'tel', class: "form-control w-100 w-md-50" }, wrapper_html: { class: "col-12 col-md-6" }, label_html: { class: 'fw-bold mt-2' }  %>
         <%= f.input :password, autocomplete: "off", hint: "leave it blank if you don't want to change it", required: false, input_html: { class: "form-control w-100 w-md-50" }, wrapper_html: { class: "col-12 col-md-6" }, label_html: { class: 'fw-bold mt-2' } %>
         <%= f.input :password_confirmation, required: false, input_html: { class: "form-control w-100 w-md-50" }, wrapper_html: { class: "col-12 col-md-6" }, label_html: { class: 'fw-bold mt-2' } %>
         <%= f.input :current_password, hint: "we need your current password to confirm your changes", required: true, input_html: { class: "form-control w-100 w-md-50" }, wrapper_html: { class: "col-12 col-md-6" }, label_html: { class: 'fw-bold mt-2' } %>
@@ -42,3 +43,47 @@
     <% end %>
   </div>
 </div>
+
+<script type="text/javascript">
+	var telInput = document.querySelector('#user_phone_number')
+	var iti=window.intlTelInput(telInput, {
+		formatOnInit: true,
+		formatOnDisplay: true,
+		separateDialCode: true,
+		nationalMode: false,
+		autoInsertDialCode: true,
+		autoHideDialCode: true,
+		utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js",
+		allowDropdown: false,
+		onlyCountries: ['ca']
+	})
+
+  if (typeof intlTelInputUtils !== 'undefined') { // utils are lazy loaded, so must check
+    var currentText = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+    if (typeof currentText === 'string') {
+      iti.setNumber(currentText); // will autoformat because of formatOnDisplay=true
+    }
+  }
+
+	telInput.addEventListener('keyup', formatIntlTelInput);
+  telInput.addEventListener('change', formatIntlTelInput);
+
+	function formatIntlTelInput() {
+
+    if (typeof intlTelInputUtils !== 'undefined') { // utils are lazy loaded, so must check
+      var currentText = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+      if (typeof currentText === 'string') {
+        iti.setNumber(currentText); // will autoformat because of formatOnDisplay=true
+      }
+    }
+  }
+
+	$('form#edit_user').submit(e => {
+		var $form = $('form#edit_user');
+		var phone_number_value = $('input#user_phone_number').val()
+		$('input#user_phone_number').val(`${'+1'}${phone_number_value.split("-").join("")}`);
+
+		$form.get(0).submit();
+	})
+
+</script>

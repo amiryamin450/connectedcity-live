@@ -9,15 +9,15 @@
 <div class="row px-5 mb-3">
 	<div class="col-12 col-md-5">
 		<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form-vertical' }) do |f| %>
-		  <%= f.input :first_name, required: true, input_html: { class: "form-control w-100 w-md-50" }, label_html: { class: 'fw-bold mt-2' } %>
-		  <%= f.input :last_name, required: true, input_html: { class: "form-control w-100 w-md-50" }, label_html: { class: 'fw-bold mt-2' } %>
-		  <%= f.input :email, required: true, input_html: { class: "form-control w-100 w-md-50" }, label_html: { class: 'fw-bold mt-2' } %>
-			<%= f.input :phone_number, required: true, input_html: { class: "form-control w-100 w-md-50" }, label_html: { class: 'fw-bold mt-2' } %>
-		  <% if f.object.password_required? %>
+		  	<%= f.input :first_name, required: true, input_html: { class: "form-control w-100 w-md-50" }, label_html: { class: 'fw-bold mt-2' } %>
+		  	<%= f.input :last_name, required: true, input_html: { class: "form-control w-100 w-md-50" }, label_html: { class: 'fw-bold mt-2' } %>
+		  	<%= f.input :email, required: true, input_html: { class: "form-control w-100 w-md-50" }, label_html: { class: 'fw-bold mt-2' } %>
+		   	<%= f.input :phone_number, required: true, input_html: { type: 'tel', class: "form-control w-100 w-md-50" }, label_html: { class: 'fw-bold mt-2' } %>
+		  	<% if f.object.password_required? %>
 				<%= f.input :password, required: true, input_html: { class: "form-control w-100 w-md-50" }, label_html: { class: 'fw-bold mt-2' } %>
 				<%= f.input :password_confirmation, required: true, input_html: { class: "form-control w-100 w-md-50" }, label_html: { class: 'fw-bold mt-2' } %>
-		  <% end %>
-		  <%= f.button :submit, 'Sign up', class: 'btn-primary my-3' %>
+		  	<% end %>
+		  	<%= f.button :submit, 'Sign up', class: 'btn-primary my-3' %>
 		<% end %>
 		<%= render "devise/shared/links" %>
 	</div>
@@ -44,3 +44,39 @@
 		<% end %>
 	</div>
 </div>
+
+
+<script type="text/javascript">
+	var telInput = document.querySelector('#user_phone_number')
+
+	var iti=window.intlTelInput(telInput, {
+		formatOnInit: true,
+		formatOnDisplay: true,
+		separateDialCode: true,
+		nationalMode: false,
+		autoInsertDialCode: true,
+		autoHideDialCode: true,
+		utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js",
+		allowDropdown: false,
+		onlyCountries: ['ca']
+	})
+	telInput.addEventListener('keyup', formatIntlTelInput);
+    telInput.addEventListener('change', formatIntlTelInput);
+	function formatIntlTelInput() {
+        if (typeof intlTelInputUtils !== 'undefined') { // utils are lazy loaded, so must check
+            var currentText = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+            if (typeof currentText === 'string') {
+                iti.setNumber(currentText); // will autoformat because of formatOnDisplay=true
+            }
+        }
+    }
+
+	$('form#new_user').submit(e => {
+		var $form = $('form#new_user');
+		var phone_number_value = $('input#user_phone_number').val()
+		$('input#user_phone_number').val(`${'+1'}${phone_number_value.split("-").join("")}`);
+
+		$form.get(0).submit();
+	})
+
+</script>
