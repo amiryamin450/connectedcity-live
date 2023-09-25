@@ -124,7 +124,7 @@ r = 0
                             <div class="contact-details">
                               <span>
                                 <i class="fal fa-map-marker-alt"></i>
-                                <%= "#{location.address} #{location.city.name if location.city.present? } #{location.province.abbr} #{location.postal_code}".html_safe %>
+                                <%= "#{location&.address} #{location&.city&.name } #{location&.province&.abbr} #{location&.postal_code}".html_safe %>
                               </span>
                               <br>
                               <span>
