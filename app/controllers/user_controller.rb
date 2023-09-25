@@ -118,7 +118,7 @@ class UserController < ApplicationController
     @user = User.find(params[:id])
 
     location_ids = Favorite.where(user_id: params[:id]).pluck(:location_id).compact
-    @friend_locations = Location.joins(:vertical_market_categories).where("locations.id IN (?)", location_ids).where("vertical_market_categories.name = ?", "ConnectedCitizen")
+    @friend_locations = Location.unscoped.joins(:vertical_market_categories).where("locations.id IN (?)", location_ids).where("vertical_market_categories.name = ?", "ConnectedCitizen")
 
     respond_to do |format|
       format.html { render layout: 'application_v_2' }
