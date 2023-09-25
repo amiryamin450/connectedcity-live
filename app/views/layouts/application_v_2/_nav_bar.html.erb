@@ -90,7 +90,7 @@
       $('.more .dropdown-menu.offcanvas').addClass('offcanvas offcanvas-start')
 
       // Set height of mobile screen dropdown menu to fit menu
-      var menuSizeHeight = `${(screen.height - 150) * <%= 100.0 / (@vertical_markets_all.size + 4) %> / 100}px`;
+      var menuSizeHeight = `${(screen.height - 170) * <%= 100.0 / (@vertical_markets_all.size + 5) %> / 100}px`;
       $('#offcanvasWithBackdrop > *').outerHeight(menuSizeHeight);
       $('#offcanvasWithBackdrop > div > a').addClass('h-100');
     } else {
@@ -98,6 +98,7 @@
     }
     // Set sub-dropdown open direction
     $('.more > .dropdown-menu > .dropdown').addClass('dropright');
+    $('.more > .dropdown-menu > div > a, .more > .dropdown-menu > a').addClass('py-1');
   }
 
   function navHeadingDirect(e) {

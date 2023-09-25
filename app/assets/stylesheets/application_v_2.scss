@@ -673,6 +673,7 @@ h3 {
 
       .opener:after {
         top: 25px;
+        border: 0;
       }
     }
 
@@ -733,7 +734,6 @@ h3 {
       width: 45px;
 
       & > .more .dropdown-menu {
-        top: 170px;
         width: fit-content;
 
         .dropdown:hover,
@@ -747,6 +747,22 @@ h3 {
           bottom: 0;
           top: unset;
         }
+      }
+
+      #offcanvasWithBackdrop {
+        position: absolute;
+        inset: 0px auto auto 0px;
+        transform: translate3d(0px, 51px, 0px);
+        display: none !important;
+      }
+
+      #offcanvasWithBackdrop.show {
+        visibility: visible !important;
+        position: absolute;
+        inset: 0px auto auto 0px;
+        margin: 0px;
+        transform: translate3d(0px, 51px, 0px) !important;
+        display: block !important;
       }
 
       .dropdown-menu {
