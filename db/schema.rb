@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20230915091012) do
+ActiveRecord::Schema.define(:version => 20230929014748) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -322,6 +322,15 @@ ActiveRecord::Schema.define(:version => 20230915091012) do
 
   add_index "communities", ["region_id"], :name => "region_id"
   add_index "communities", ["slug"], :name => "index_communities_on_slug"
+
+  create_table "conversations", :force => true do |t|
+    t.integer  "recipient_id"
+    t.integer  "sender_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "conversations", ["recipient_id", "sender_id"], :name => "index_conversations_on_recipient_id_and_sender_id", :unique => true
 
   create_table "countries", :force => true do |t|
     t.string   "name"
@@ -655,6 +664,15 @@ ActiveRecord::Schema.define(:version => 20230915091012) do
   end
 
   add_index "media_attachments", ["attachable_id", "attachable_type"], :name => "index_media_attachments_on_attachable_id_and_attachable_type"
+
+  create_table "messages", :force => true do |t|
+    t.text     "body"
+    t.integer  "conversation_id"
+    t.integer  "sender_id"
+    t.boolean  "has_seen",        :default => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+  end
 
   create_table "municipalities", :force => true do |t|
     t.string   "name"

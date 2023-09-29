@@ -15,7 +15,8 @@ class UserController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @location = Location.unscoped.find_or_initialize_by_slug(@user.name.parameterize('-'))
+    @slug = @user.name.presence || @user.email.presence
+    @location = Location.unscoped.find_or_initialize_by_slug(@slug.parameterize('-'))
 
     if @location.new_record?
       init_empty_location
@@ -154,7 +155,7 @@ class UserController < ApplicationController
   def init_empty_location
     @location.is_profile = true
     @location.content = ''
-    @location.name = @user.name
+    @location.name = @slug
     @location.email = @user.email
     @location.vertical_market_categories << VerticalMarketCategory.find_by_slug('connectedcitizen')
   end

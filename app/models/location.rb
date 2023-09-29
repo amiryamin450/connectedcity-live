@@ -48,6 +48,7 @@ class Location < ActiveRecord::Base
   has_many :managers
   has_many :users, through: :managers
   has_many :social_profiles, as: :owner, dependent: :destroy
+  has_many :conversations, foreign_key: :sender_id
 
   has_many :operating_hours, order: :day, dependent: :destroy
   accepts_nested_attributes_for :operating_hours

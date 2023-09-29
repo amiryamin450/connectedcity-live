@@ -162,6 +162,10 @@ Connectbook::Application.routes.draw do
     get 'profile' => 'profile#show'
     get 'redeem/coupon/:id', to: 'coupons#redeem', as: :redeem_coupon
     get 'release/coupon/:id', to: 'user#release_coupon', as: :release_coupon
+    get 'messenger', to: 'messages#messenger'
+    get 'messenger/:recipient', to: 'messages#messenger'
+    post 'messenger/send_message', to: 'messages#send_message', as: :send_message
+    get 'reload_messages', to: 'messages#reload_messages', as: :reload_messages
 
     # This isn't being called anywhere and requires users to be logged in.
     # ^FD 2015-08-14

@@ -25,12 +25,9 @@
         </ul>
       </li>
       <li class="dropdown-submenu">
-        <div  class="dropdown-item title" tabindex="-1" href="#">Messaging</div>
-        <ul class="dropdown-menu">
-          <li class="dropdown-item" style="padding: 0px;"><%= link_to 'Inbox', messages_path, class: "d-block text-decoration-none py-1 px-2 px-md-4" %></li>
-          <li class="dropdown-item" style="padding: 0px;"><%= link_to 'Send items', messages_path(folder: 'sent'), class: "d-block text-decoration-none py-1 px-2 px-md-4" %></li>
-          <li class="dropdown-item" style="padding: 0px;"><%= link_to 'Trash', messages_path(folder: 'trash'), class: "d-block text-decoration-none py-1 px-2 px-md-4" %></li>
-        </ul>
+        <div  class="dropdown-item" tabindex="-1" href=>
+          <%= link_to "Messaging", messenger_path, class: "text-decoration-none", tabindex: "-1" %>
+        </div>
       </li>
       <% if user_signed_in? and current_user.has_role? :admin %>
         <% admin_list = [

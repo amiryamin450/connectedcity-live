@@ -104,6 +104,6 @@ class User < ActiveRecord::Base
   end
 
   def profile
-    Location.unscoped.find_by_slug(name.parameterize('-'))
+    Location.unscoped.find_by_slug((name.presence || email.presence).parameterize('-'))
   end
 end

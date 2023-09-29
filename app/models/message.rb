@@ -1,22 +1,25 @@
-class Message
-  include ActiveModel::Validations
-  include ActiveModel::Conversion
+class Message < ActiveRecord::Base
+  belongs_to :sender, class_name: Location
 
-  extend ActiveModel::Naming
+  attr_accessible :body, :sender_id
+  # include ActiveModel::Validations
+  # include ActiveModel::Conversion
 
-  attr_accessor :recipients, :subject, :body, :conversation_id, :attachment
+  # extend ActiveModel::Naming
 
-  validates :recipients, presence: true, unless: :conversation_id
-  validates :subject, presence: true, unless: :conversation_id
-  validates :body, presence: true
+  # attr_accessor :recipients, :subject, :body, :conversation_id, :attachment
 
-  def initialize(attributes = {})
-    attributes.each do |name, value|
-      send "#{name}=", value
-    end
-  end
+  # validates :recipients, presence: true, unless: :conversation_id
+  # validates :subject, presence: true, unless: :conversation_id
+  # validates :body, presence: true
 
-  def persisted?
-    false
-  end
+  # def initialize(attributes = {})
+  #   attributes.each do |name, value|
+  #     send "#{name}=", value
+  #   end
+  # end
+
+  # def persisted?
+  #   false
+  # end
 end

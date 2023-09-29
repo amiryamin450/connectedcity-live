@@ -1112,3 +1112,68 @@ h3 {
   //   display: none;
   // }
 }
+
+.messenger {
+  .chatbox-item {
+    cursor: pointer;
+    height: 80px;
+
+    &:hover {
+      background: #eee;
+    }
+
+    h5 {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .heading {
+    height: 80px;
+    margin: 0 -12px;
+
+    img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      align-self: center;
+    }
+  }
+
+  .send-message-line {
+    height: 50px;
+    bottom: 15px;
+    gap: 15px;
+  }
+
+  .messages-list {
+    height: calc(100% - 160px);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+  }
+   
+   
+  .message-sent {
+    position: relative;
+    background-color: #D9EDF7;
+    border-color: #BCE8F1;
+    margin: 5px 20px;
+    padding: 10px;
+    float: right;
+    width: auto;
+  }
+   
+   
+  .message-received {
+    background-color: #F1F0F0;
+    border-color: #EEEEEE;
+    margin: 5px 20px;
+    padding: 10px;
+    float: left;
+  }
+}
