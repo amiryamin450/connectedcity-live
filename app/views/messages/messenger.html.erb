@@ -1,5 +1,5 @@
 <div class="row messenger m-0 px-2" style="height:calc(100vh - 140px)">
-  <div class="col-4 p-0 border-end">
+  <div class="col-8 col-md-4 p-0 border-end messenger-offcanvas messenger-offcanvas-start" id="offcanvasMessagesList">
     <% @conversations.each do |conversation| %>
       <%= link_to "/messenger/#{conversation.opposed_location(current_user.profile).slug}", class: "chatbox-item d-block p-2 border-bottom text-decoration-none" do %>
         <h5><%= conversation.opposed_location(current_user.profile).email %></h5>
@@ -18,12 +18,12 @@
       <% end %>
     <% end %>
   </div>
-  <div class="col-8 position-relative conversation h-100" data-conversation-id="<%= @conversation&.id %>">
+  <div class="col-12 col-md-8 position-relative conversation h-100" data-conversation-id="<%= @conversation&.id %>">
     <% if @conversation.present? %>
       <div class="heading border-bottom d-flex px-2">
         <% logo = @recipient_profile&.logo&.present? ? @recipient_profile&.logo&.url : "default-avatar-icon.jpeg" %>
         <%= image_tag logo %>
-        <h5><%= @recipient_profile.name.presence || @recipient_profile.email.presence %></h5>
+        <h5 class="overflow-hidden"><%= @recipient_profile.name.presence || @recipient_profile.email.presence %></h5>
       </div>
 
       <div class="messages-list">
@@ -43,6 +43,8 @@
       <% end %>
     <% end %>
   </div>
+
+  <button class="btn btn-primary toggle-messages-list-btn d-block d-md-none" data-bs-toggle="offcanvas" href="#offcanvasMessagesList">></button>
 </div>
 
 <script>
