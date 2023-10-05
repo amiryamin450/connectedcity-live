@@ -104,6 +104,18 @@ class User < ActiveRecord::Base
   end
 
   def profile
-    Location.unscoped.find_by_slug((name.presence || email.presence).parameterize('-'))
+    location = Location.unscoped.where(email: email, is_profile: true).first
+    unless location
+      slug = name.presence || email.presence
+      location = Location.new
+      location.slug = slug.parameterize('-')
+      location.is_profile = true
+      location.content = ''
+      location.name = slug
+      location.email = email
+      location.vertical_market_categories << VerticalMarketCategory.find_by_slug('connectedcitizen')    
+      location.save 
+    end
+    location
   end
 end
