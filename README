@@ -46,7 +46,7 @@ City.unscoped.update_all is_active: true
 
 The data must be indexed before you can start searching in the app. The following command can be used for 'reindexing', but it will cause errors
 
-`docker-compose run web bundle exec sunspot:solr:reindex`
+`docker-compose run web bundle exec rake sunspot:solr:reindex`
 
 You might get the response from Solr with the exception: `undefined field type`. This is because Solr will try to clean up the original indexes first but because there is nothing there, it does not know how to clean up the indexes.
 
