@@ -26,7 +26,13 @@ A better approach is to use Docker for both dev and production. This project has
 dump_db_file.sql
 ```
 
-+ `docker-compose up web -d && docker attach $(docker-compose ps -q web)`
++ Stop your mysql local service
+
+`sudo service mysql stop`
+
++ Run app
+
+`docker-compose up web -d && docker attach $(docker-compose ps -q web)`
 
 + Open new console tab to setup database:
 ```
@@ -82,6 +88,64 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 In the above, your solr is running at `localhost:8983` and `development` is the name of your core
 
 After running the above command successfully, go back to Rails console and retry. If you get the same error on other fields, repeat the above `curl` command but replace the `name` with the correct field name having the issue.
+
+```
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "replace-field":{
+     "name":"service_text",
+     "type":"strings",
+     "omitNorms":false }
+}' http://localhost:8983/solr/development/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "replace-field":{
+     "name":"brand_text",
+     "type":"strings",
+     "omitNorms":false }
+}' http://localhost:8983/solr/development/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "replace-field":{
+     "name":"product_text",
+     "type":"strings",
+     "omitNorms":false }
+}' http://localhost:8983/solr/development/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "replace-field":{
+     "name":"address_text",
+     "type":"strings",
+     "omitNorms":false }
+}' http://localhost:8983/solr/development/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "replace-field":{
+     "name":"name_text",
+     "type":"strings",
+     "omitNorms":false }
+}' http://localhost:8983/solr/development/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "replace-field":{
+     "name":"model_text",
+     "type":"strings",
+     "omitNorms":false }
+}' http://localhost:8983/solr/development/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "replace-field":{
+     "name":"make_text",
+     "type":"strings",
+     "omitNorms":false }
+}' http://localhost:8983/solr/development/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "replace-field":{
+     "name":"title_text",
+     "type":"strings",
+     "omitNorms":false }
+}' http://localhost:8983/solr/development/schema
+```
 
 # Deployment
 
