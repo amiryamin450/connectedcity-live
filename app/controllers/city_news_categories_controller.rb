@@ -45,7 +45,7 @@ class CityNewsCategoriesController < ApplicationController
   # POST /city_news_categories
   # POST /city_news_categories.json
   def create
-    @city_news_category = CityNewsCategory.new(params[:city_news_category])
+    @city_news_category = CityNewsCategory.new(city_news_category_params)
 
     respond_to do |format|
       if @city_news_category.save
@@ -64,7 +64,7 @@ class CityNewsCategoriesController < ApplicationController
     @city_news_category = CityNewsCategory.find(params[:id])
 
     respond_to do |format|
-      if @city_news_category.update_attributes(params[:city_news_category])
+      if @city_news_category.update_attributes(city_news_category_params)
         format.html { redirect_to city_news_categories_url, notice: 'City news category was successfully updated.' }
         format.json { head :no_content }
       else
@@ -84,5 +84,11 @@ class CityNewsCategoriesController < ApplicationController
       format.html { redirect_to city_news_categories_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def city_news_category_params
+    params.require(:city_news_category).permit(:name, :slug, :heading_color)
   end
 end

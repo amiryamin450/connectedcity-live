@@ -1,4 +1,4 @@
-class Location < ActiveRecord::Base
+class Location < ApplicationRecord
   extend FriendlyId
 
   default_scope { where(is_profile: false) }
@@ -20,8 +20,8 @@ class Location < ActiveRecord::Base
 
   has_many :agents, class_name: 'Location', foreign_key: 'broker_id', dependent: :destroy
   has_many :city_halls, class_name: 'Location', foreign_key: 'hall_id', dependent: :destroy
-  has_many :city_councillors, class_name: 'Location', foreign_key: 'councillor_id', dependent: :destroy, :order => 'name ASC'
-  has_many :park_recreation_commissioners, class_name: 'Location', foreign_key: 'commissioner_id', dependent: :destroy, :order => 'name ASC'
+  has_many :city_councillors, class_name: 'Location', foreign_key: 'councillor_id', dependent: :destroy
+  has_many :park_recreation_commissioners, class_name: 'Location', foreign_key: 'commissioner_id', dependent: :destroy
   belongs_to :broker, class_name: 'Location'
   belongs_to :hall, class_name: 'Location'
   belongs_to :councillor, class_name: 'Location'
@@ -50,10 +50,10 @@ class Location < ActiveRecord::Base
   has_many :social_profiles, as: :owner, dependent: :destroy
   has_many :conversations, foreign_key: :sender_id
 
-  has_many :operating_hours, order: :day, dependent: :destroy
+  has_many :operating_hours, dependent: :destroy
   accepts_nested_attributes_for :operating_hours
 
-  has_and_belongs_to_many :vertical_market_categories, :order => 'name ASC'
+  has_and_belongs_to_many :vertical_market_categories
   has_and_belongs_to_many :brands
   has_and_belongs_to_many :trade_associations
 
@@ -61,21 +61,9 @@ class Location < ActiveRecord::Base
   attr_reader :brand_tokens
   attr_accessor :delete_cover_photo, :delete_logo
 
-  attr_accessible :address, :address_1, :business_id, :city_id, :community_id, :country_id, :email, :fax, :import_hash,
-    :imported, :latitude, :longitude, :name, :phone, :postal_code, :region_id, :show_fax, :show_phone,
-    :show_toll_free, :slug, :province_id, :toll_free, :website_url, :logo,
-    :location_images_attributes, :location_menus_attributes, :vertical_market_category_ids, :status_updates_attributes,
-    :blog_entries_attributes, :news_articles_attributes, :products_attributes, :services_attributes, :events_attributes,
-    :brand_ids, :brand_tokens, :content, :vertical_market_categories, :district, :yp_lid, :yp_categories, :yp_neighborhoods, :sub_neighborhood_id,
-    :city, :province, :district_id, :neighborhood, :country, :cover_photo, :neighborhood_id, :broker_id, :hall_id, :councillor_id, :commissioner_id, :business_improvement_area_id,
-    :user, :trade_association_ids, :media_attachments_attributes, :delete_cover_photo, :delete_logo,
-    :operating_hours_attributes, :stripe_plan_id, :municipality_id, :is_profile
-
   has_attached_file :logo, :styles => { :thumb => "70x55", :list => "168x80", :bia_display => "250x100"},
     :url => "/system/location/logo/:id/:style/:basename.:extension",
     :path => ":rails_root/public/system/location/logo/:id/:style/:basename.:extension"
-    # ,
-    # :default_url => "http://placehold.it/250x150"
 
   has_attached_file :cover_photo, :styles => { :thumb => "100x178", :cover => "1280" },
     :url => "/system/location/cover_photo/:id/:style/:basename.:extension",
@@ -93,11 +81,6 @@ class Location < ActiveRecord::Base
   accepts_nested_attributes_for :media_attachments, allow_destroy: true
 
   validates_presence_of :address, :name, :vertical_market_category_ids, :province_id, :country_id, :city_id, :district_id, :municipality_id, unless: :is_profile
-
-  # geocoded_by :full_street_address
-
-  # after_validation :geocode
-  # after_save :assign_neighborhood
 
   def self.find_by_vertical_market
     vertical_market_categories

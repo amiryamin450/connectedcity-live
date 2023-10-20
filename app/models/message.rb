@@ -1,7 +1,5 @@
-class Message < ActiveRecord::Base
+class Message < ApplicationRecord
   belongs_to :sender, class_name: Location
-
-  attr_accessible :body, :sender_id
   # include ActiveModel::Validations
   # include ActiveModel::Conversion
 

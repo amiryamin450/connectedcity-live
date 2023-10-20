@@ -42,7 +42,7 @@ class BusinessesController < ApplicationController
   # POST /businesses
   # POST /businesses.json
   def create
-    @business = Business.new(params[:business])
+    @business = Business.new(business_params)
 
     respond_to do |format|
       if @business.save
@@ -61,7 +61,7 @@ class BusinessesController < ApplicationController
     @business = Business.find(params[:id])
 
     respond_to do |format|
-      if @business.update_attributes(params[:business])
+      if @business.update_attributes(business_params)
         format.html { redirect_to @business, notice: 'Business was successfully updated.' }
         format.json { head :no_content }
       else
@@ -94,7 +94,12 @@ class BusinessesController < ApplicationController
   end
 
   def add_user
-
   end
 
+  private
+
+  def business_params
+    params.require(:business).permit(:address, :address_1, :alt_phone, :city_id, :contact_name, :country_id, :email, :fax, :name, :phone,
+      :postal_code, :province_id, :website, :user_ids, :users, :users_attributes, :user_tokens, :location_tokens)
+  end
 end

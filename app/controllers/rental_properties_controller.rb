@@ -1,5 +1,6 @@
 class RentalPropertiesController < ApplicationController
-  before_filter do
+
+  before_action do
     @rental_property = RentalProperty.find(params[:rental_property_id]) if params[:rental_property_id]
   end
 
@@ -62,7 +63,7 @@ class RentalPropertiesController < ApplicationController
   # POST /rental_properties
   # POST /rental_properties.json
   def create
-    @rental_property = @location.rental_properties.new(params[:rental_property])
+    @rental_property = @location.rental_properties.new(rental_property_params)
 
     respond_to do |format|
       if @rental_property.save
@@ -81,7 +82,7 @@ class RentalPropertiesController < ApplicationController
     @rental_property = RentalProperty.find(params[:id])
 
     respond_to do |format|
-      if @rental_property.update_attributes(params[:rental_property])
+      if @rental_property.update_attributes(rental_property_params)
         format.html { redirect_to [@location, @rental_property], notice: 'Rental property was successfully updated.' }
         format.json { head :no_content }
       else
@@ -108,5 +109,16 @@ class RentalPropertiesController < ApplicationController
     @status_update.destroy
 
     redirect_to :back
+  end
+
+  private
+
+  def rental_property_params
+    params.require(:rental_property).permit(:active, :address_1, :address_2, :city_id, :description,
+      :email, :facebook_url, :fax, :garage_types, :included_utilities,
+      :latitude, :longitude, :name, :neighborhood_description, :neighborhood_highlights,
+      :neighborhood_id, :pet_restrictions, :phone, :phone_count, :postal_code, :pov,
+      :property_features, :property_highlights, :province_id, :restrictions, :slug, :tag_line,
+      :website_url, :location_id, :location, :cover_photo, :district_id, :status_updates_attributes, :style)
   end
 end

@@ -1,9 +1,9 @@
 class CouponsController < ApplicationController
-  before_filter :authenticate_user, only: [:redeem, :claim]
+  before_action :authenticate_user, only: [:redeem, :claim]
 
   # These must remain in this order.
   load_and_authorize_resource :location, except: [:redeem, :claim]
-  before_filter :load_coupon, except: [:redeem, :claim, :index, :new, :create]
+  before_action :load_coupon, except: [:redeem, :claim, :index, :new, :create]
   load_and_authorize_resource :coupon, through: [:location], except: [:redeem, :claim]
 
   # GET /coupons
@@ -54,7 +54,7 @@ class CouponsController < ApplicationController
   # POST /coupons
   # POST /coupons.json
   def create
-    @coupon = @location.coupons.new(params[:coupon])
+    @coupon = @location.coupons.new(coupon_params)
 
     respond_to do |format|
       if @coupon.save
@@ -73,7 +73,7 @@ class CouponsController < ApplicationController
     @coupon = Coupon.find(params[:id])
 
     respond_to do |format|
-      if @coupon.update_attributes(params[:coupon])
+      if @coupon.update_attributes(coupon_params)
         format.html { redirect_to [@location, @coupon], notice: 'Coupon was successfully updated.' }
         format.json { head :no_content }
       else
@@ -111,11 +111,16 @@ class CouponsController < ApplicationController
   end
 
   private
+
   def load_coupon
     if user_signed_in? && @location.user_ids.include?(current_user.id)
       @coupon = Coupon.unscoped.where(location_id: @location.id).find(params[:id])
     else
       @coupon = @location.coupons.find params[:id]
     end
+  end
+
+  def coupon_params
+    params.require(:coupon).permit(:description, :expiration, :howmany, :name, :redemptions_count, :code_prefix, :image)
   end
 end

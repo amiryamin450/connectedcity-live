@@ -19,7 +19,7 @@ class DistrictsController < ApplicationController
   end
 
   def create
-    @district = District.new(params[:district])
+    @district = District.new(district_params)
     if @district.save
       redirect_to districts_path, notice: 'The District was created successfully.'
     else
@@ -28,7 +28,7 @@ class DistrictsController < ApplicationController
   end
 
   def update
-    if @district.update_attributes(params[:district])
+    if @district.update_attributes(district_params)
       redirect_to districts_path, notice: 'The District was updated successfully.'
     else
       render action: 'edit'
@@ -69,5 +69,9 @@ class DistrictsController < ApplicationController
 
   def key_district_prismic
     "#{params[:city_slug]}-#{params[:district_route]}"
+  end
+
+  def district_params
+    params.require(:district).permit(:city_id, :description, :name, :slug, :city, :home_page_image, :use_carousel)
   end
 end

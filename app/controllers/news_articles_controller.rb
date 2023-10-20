@@ -5,7 +5,6 @@ class NewsArticlesController < ApplicationController
   # GET /news_articles
   # GET /news_articles.json
   def index
-
     @location = Location.find(params[:location_id])
     @news_articles = @location.news_articles
 
@@ -72,7 +71,7 @@ class NewsArticlesController < ApplicationController
   def create
 
     @location = Location.find(params[:location_id])
-    @news_article = @location.news_articles.new(params[:news_article])
+    @news_article = @location.news_articles.new(news_article_params)
 
     respond_to do |format|
       if @news_article.save
@@ -91,7 +90,7 @@ class NewsArticlesController < ApplicationController
     @news_article = NewsArticle.find(params[:id])
     @location = Location.find(params[:location_id])
     respond_to do |format|
-      if @news_article.update_attributes(params[:news_article])
+      if @news_article.update_attributes(news_article_params)
         format.html { redirect_to location_news_article_path(@location, @news_article), notice: 'News article was successfully updated.' }
         format.json { head :no_content }
       else
@@ -112,5 +111,11 @@ class NewsArticlesController < ApplicationController
       format.html { redirect_to polymorphic_url([@newsable, :news_articles]) }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def news_article_params
+    params.require(:news_article).permit(:content, :location_id, :title, :user_id, :slug, :user, :image, :category_id, :latitude, :longitude)
   end
 end

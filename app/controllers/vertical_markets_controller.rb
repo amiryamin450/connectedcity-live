@@ -252,7 +252,7 @@ class VerticalMarketsController < ApplicationController
   # POST /vertical_markets
   # POST /vertical_markets.json
   def create
-    @vertical_market = VerticalMarket.new(params[:vertical_market])
+    @vertical_market = VerticalMarket.new(vertical_market_params)
 
     respond_to do |format|
       if @vertical_market.save
@@ -271,7 +271,7 @@ class VerticalMarketsController < ApplicationController
     @vertical_market = VerticalMarket.find(params[:id])
 
     respond_to do |format|
-      if @vertical_market.update_attributes(params[:vertical_market])
+      if @vertical_market.update_attributes(vertical_market_params)
         format.html { redirect_to @vertical_market, notice: 'Vertical market was successfully updated.' }
         format.json { head :no_content }
       else
@@ -398,5 +398,11 @@ class VerticalMarketsController < ApplicationController
     
     result_locations += other_results
     @locations_of_civic_news ||= result_locations
+  end
+
+  private
+
+  def vertical_market_params
+    params.require(:vertical_market).permit(:description, :name, :slug, :parent_id)
   end
 end

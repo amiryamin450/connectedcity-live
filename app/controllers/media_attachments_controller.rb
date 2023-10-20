@@ -1,5 +1,5 @@
 class MediaAttachmentsController < ApplicationController
-  before_filter :set_location, except: [:vonage_archive_callback, :get_vonage_token, :get_broadcast_token, :get_livestream_token]
+  before_action :set_location, except: [:vonage_archive_callback, :get_vonage_token, :get_broadcast_token, :get_livestream_token]
   load_resource :location
   skip_load_resource :location, only: [:vonage_archive_callback, :get_vonage_token, :get_broadcast_token, :get_livestream_token]
   load_and_authorize_resource :media_attachment, through: [:location]
@@ -16,7 +16,7 @@ class MediaAttachmentsController < ApplicationController
     @vertical_market = @location.vertical_market_categories&.first&.vertical_market
     add_crumb '<i class="icon-home"></i> Home'.html_safe, @base_path
     add_crumb @vertical_market&.name, "#{@base_path}guide/#{@vertical_market&.slug}"
-    # add_crumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
+
     add_crumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
     add_crumb @location.name, location_path(@location)
     add_crumb 'Media'
@@ -40,7 +40,7 @@ class MediaAttachmentsController < ApplicationController
   end
 
   def create
-    @media_attachment = @location.media_attachments.new(params[:media_attachment])
+    @media_attachment = @location.media_attachments.new(media_attachment_params)
     if @media_attachment.save
       @media_attachment.update_attribute(:is_draft, true)
 
@@ -51,7 +51,7 @@ class MediaAttachmentsController < ApplicationController
   end
 
   def update
-    if @media_attachment.update_attributes(params[:media_attachment])
+    if @media_attachment.update_attributes(media_attachment_params)
       @media_attachment.update_attribute(:is_draft, false)
       redirect_to [@location, @media_attachment], notice: 'Media Attachment was successfully updated.'
     else
@@ -194,5 +194,9 @@ class MediaAttachmentsController < ApplicationController
 
   def set_location
     @location ||= Location.unscoped.find(params[:location_id])
+  end
+
+  def media_attachment_params
+    params.require(:media_attachment).permit(:attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source, :is_stream_video, :archive_id, :session_id, :description, :is_draft, :category_id, :latitude, :longitude)
   end
 end

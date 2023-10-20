@@ -1,30 +1,27 @@
-class BusinessImprovementArea < ActiveRecord::Base
+class BusinessImprovementArea < ApplicationRecord
   extend FriendlyId
 
   acts_as_messageable
 
-  default_scope order(:name)
+  default_scope { order(:name) }
 
   belongs_to :district
   belongs_to :user
   has_many :status_updates, as: :statusable, dependent: :destroy
 
   has_many :locations
-  has_many :location_status_updates, through: :locations, source: :status_updates, uniq: true
-  has_many :events, through: :locations, uniq: true
-  has_many :vertical_markets, through: :locations, uniq: true
-  has_many :vertical_market_categories, through: :locations, uniq: true
-  has_many :news_articles, through: :locations, uniq: true
   has_many :carousel_images, as: :carouselable
-  has_many :media_attachments, through: :locations, uniq: true
-  has_many :coupons, through: :locations, uniq: true
-  has_many :services, through: :locations, uniq: true
-  has_many :products, through: :locations, uniq: true
-  has_many :blog_entries, through: :locations, uniq: true
 
-
-  attr_accessible :description, :district_id, :name, :slug, :home_page_image, :district, :status_updates, :status_updates_attributes, :logo,
-                  :website_url, :use_carousel
+  has_many :location_status_updates, -> { distinct }, through: :locations, source: :status_updates
+  has_many :events, -> { distinct }, through: :locations
+  has_many :vertical_markets, -> { distinct }, through: :locations
+  has_many :vertical_market_categories, -> { distinct }, through: :locations
+  has_many :news_articles, -> { distinct }, through: :locations
+  has_many :media_attachments, -> { distinct }, through: :locations
+  has_many :coupons, -> { distinct }, through: :locations
+  has_many :services, -> { distinct }, through: :locations
+  has_many :products, -> { distinct }, through: :locations
+  has_many :blog_entries, -> { distinct }, through: :locations
 
   accepts_nested_attributes_for :status_updates, allow_destroy: true
   accepts_nested_attributes_for :news_articles, allow_destroy: true
@@ -51,18 +48,17 @@ class BusinessImprovementArea < ActiveRecord::Base
     nil
   end
 
-
   has_attached_file :home_page_image, :styles => { :thumb => "100x178" },
     url: "/system/bia/home_page_image/:id/:style/:basename.:extension",
     path: ":rails_root/public/system/bia/home_page_image/:id/:style/:basename.:extension",
     default_url: '/assets/home_page_image/default.jpg'
-  has_attached_file :logo, :styles => { :thumb => "70x55", list: "250x100", display: "250"},
+
+  has_attached_file :logo, :styles => { :thumb => "70x55", list: "250x100", display: "250" },
     url: "/system/bia/logo/:id/:style/:basename.:extension",
     path: ":rails_root/public/system/bia/logo/:id/:style/:basename.:extension",
     default_url: "/system/bia/logo/missing.png"
 
   validates_presence_of :district, :name
-
 
   def all_status_updates
     locations_ids = locations.pluck(:id) + [0]

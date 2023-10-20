@@ -101,6 +101,7 @@ class VideosController < ApplicationController
   end
 
   private
+
   def upload_video_to_s3
     file = File.open("#{Rails.root}/public/archive.mp4")
     if file.present?

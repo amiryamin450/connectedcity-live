@@ -45,7 +45,7 @@ class ClassifiedCategoriesController < ApplicationController
   # POST /classified_categories
   # POST /classified_categories.json
   def create
-    @classified_category = ClassifiedCategory.new(params[:classified_category])
+    @classified_category = ClassifiedCategory.new(classified_category_params)
 
     respond_to do |format|
       if @classified_category.save
@@ -64,7 +64,7 @@ class ClassifiedCategoriesController < ApplicationController
     @classified_category = ClassifiedCategory.find(params[:id])
 
     respond_to do |format|
-      if @classified_category.update_attributes(params[:classified_category])
+      if @classified_category.update_attributes(classified_category_params)
         format.html { redirect_to @classified_category, notice: 'Classified category was successfully updated.' }
         format.json { head :no_content }
       else
@@ -84,5 +84,11 @@ class ClassifiedCategoriesController < ApplicationController
       format.html { redirect_to classified_categories_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def classified_category_params
+    params.require(:classified_category).permit(:name, :slug, :heading_color)
   end
 end

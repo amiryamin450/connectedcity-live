@@ -50,7 +50,7 @@ class ServicesController < ApplicationController
   # POST /services
   # POST /services.json
   def create
-    @service = @location.services.new(params[:service])
+    @service = @location.services.new(service_params)
 
     respond_to do |format|
       if @service.save
@@ -69,7 +69,7 @@ class ServicesController < ApplicationController
     @service = Service.find(params[:id])
 
     respond_to do |format|
-      if @service.update_attributes(params[:service])
+      if @service.update_attributes(service_params)
         format.html { redirect_to @location, notice: 'Service was successfully updated.' }
         format.json { head :no_content }
       else
@@ -89,5 +89,11 @@ class ServicesController < ApplicationController
       format.html { redirect_to location_services_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def service_params
+    params.require(:service).permit(:description, :name, :sku, :slug, :location_id, :image, :price)
   end
 end

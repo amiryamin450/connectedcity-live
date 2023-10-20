@@ -44,7 +44,7 @@
     <% end %>
   </div>
 
-  <button class="btn btn-primary toggle-messages-list-btn d-block d-md-none" data-bs-toggle="offcanvas" href="#offcanvasMessagesList">></button>
+  <button class="btn btn-primary toggle-messages-list-btn d-block d-md-none" data-bs-toggle="offcanvas" href="#offcanvasMessagesList"></button>
 </div>
 
 <script>
@@ -54,10 +54,10 @@
     <% if @conversation %>
       var callInterval = setInterval(() => {
         $.ajax({
-        url: "<%= reload_messages_path(recipient: params[:recipient]) %>",
-        method: "GET",
-        dataType: "json",
-        }).done(function(response) {  
+          url: "<%= reload_messages_path(recipient: params[:recipient]) %>",
+          method: "GET",
+          dataType: "json",
+        }).done(function(response) {
           var conversation = $(".conversation[data-conversation-id='<%= @conversation.id %>']");
           if (response.length > 0) {
             response.forEach((message) => {

@@ -1,7 +1,6 @@
-class LineItem < ActiveRecord::Base
+class LineItem < ApplicationRecord
   belongs_to :product
   belongs_to :cart
-  attr_accessible :quantity, :product_id, :cart_id, :id, :price, :product_attributes
 
   validates :quantity, numericality: { only_integer: true }
 

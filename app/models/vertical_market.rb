@@ -1,30 +1,24 @@
-class VerticalMarket < ActiveRecord::Base
+class VerticalMarket < ApplicationRecord
 
   has_ancestry :cache_depth => true, :depth_cache_column => :ancestry_depth
 
   has_many :vertical_market_categories
-  has_many :locations,          :through => :vertical_market_categories
-  has_many :status_updates,     :through => :locations, uniq: true
-  has_many :products,           :through => :locations, uniq: true
-  has_many :services,           :through => :locations, uniq: true
-  has_many :blog_entries,       :through => :locations, uniq: true
-  has_many :events,             :through => :locations, uniq: true
-  has_many :news_articles,      :through => :locations, uniq: true
-  has_many :media_attachments,  :through => :locations, uniq: true
-  has_many :coupons,  :through => :locations, uniq: true
-  has_many :automotive_listings, :through => :locations, uniq: true
-
+  has_many :locations, -> { distinct }, through: :vertical_market_categories
+  has_many :status_updates, -> { distinct }, through: :locations
+  has_many :products, -> { distinct }, through: :locations
+  has_many :services, -> { distinct }, through: :locations
+  has_many :blog_entries, -> { distinct }, through: :locations
+  has_many :events, -> { distinct }, through: :locations
+  has_many :news_articles, -> { distinct }, through: :locations
+  has_many :media_attachments, -> { distinct }, through: :locations
+  has_many :coupons, -> { distinct }, through: :locations
+  has_many :automotive_listings, -> { distinct }, through: :locations
 
   extend FriendlyId
+
   friendly_id :name, use: [:slugged, :history]
 
-  attr_accessible :description,
-    :name,
-    :slug,
-    :parent_id
-
-  attr_accessor :menu_li_class,
-    :menu_link_class
+  attr_accessor :menu_li_class, :menu_link_class
 
   accepts_nested_attributes_for :vertical_market_categories, allow_destroy: true
 
@@ -36,7 +30,6 @@ class VerticalMarket < ActiveRecord::Base
     result = result.where('locations.district_id = ?', district.id) if district.present?
     result = result.where('locations.neighborhood_id = ?', neighbrhd.id) if neighbrhd.present?
     result = result.map { |c| c.status_updates.present? ? c.status_updates : nil }.compact.flatten.sort_by { |obj| obj.created_at }.first(10)
-
   end
 
   def categories
@@ -48,7 +41,6 @@ class VerticalMarket < ActiveRecord::Base
     ActiveRecord::Base.connection.execute("SET sql_mode = ''")
 
     VerticalMarketCategory.joins(locations: [:city]).includes(locations: [:city]).where(vertical_market_id: self.subtree_ids, locations: location_params(municipality, city, district, neighborhood, sub_neighborhood)).group("`vertical_market_categories`.`id`, `locations`.`id`").order("`vertical_market_categories`.`name` ASC, IF(`locations`.`logo_file_name` IS NULL, 0, 1) DESC, `locations`.`updated_at` DESC")
-    
   end
 
   def get_media_attachments(municipality = nil, city = nil, district = nil, neighborhood = nil, sub_neighborhood = nil)
@@ -117,26 +109,6 @@ class VerticalMarket < ActiveRecord::Base
     end
     location_params
   end
-
-  # def self.arrange_as_array(options={}, hash=nil)
-  #   hash ||= arrange(options)
-  #
-  #   arr = []
-  #   hash.each do |node, children|
-  #     arr << node
-  #     arr += arrange_as_array(options, children) unless children.empty?
-  #   end
-  #   arr
-  # end
-
-  # def name_for_selects
-  #   "#{'-' * level} #{name}"
-  # end
-
-  # def possible_parents
-  #   parents = VerticalMarket.arrange_as_array(:order => 'name')
-  #   return new_record? ? parents : parents - subtree
-  # end
 
   def get_media_attachments_municipality(municipality = nil, city = nil, district = nil, neighborhood = nil, sub_neighborhood = nil)
     MediaAttachment.joins(location: :vertical_market_categories).where(locations: location_params(municipality, city, district, neighborhood), vertical_market_categories: { vertical_market_id: self.subtree_ids }).order("`media_attachments`.`created_at` DESC").limit(50)

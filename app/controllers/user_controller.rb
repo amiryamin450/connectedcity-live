@@ -1,8 +1,8 @@
 class UserController < ApplicationController
-  before_filter :authenticate_user
+  before_action :authenticate_user
   load_and_authorize_resource except: [:release_coupon, :coupons, :favorites]
 
-  skip_before_filter :require_no_authentication, :only => [:new, :create]
+  skip_before_action :require_no_authentication, :only => [:new, :create]
 
   def index
 

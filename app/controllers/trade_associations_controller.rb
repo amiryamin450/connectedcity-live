@@ -42,7 +42,7 @@ class TradeAssociationsController < ApplicationController
   # POST /trade_associations
   # POST /trade_associations.json
   def create
-    @trade_association = TradeAssociation.new(params[:trade_association])
+    @trade_association = TradeAssociation.new(trade_association_params)
 
     respond_to do |format|
       if @trade_association.save
@@ -61,7 +61,7 @@ class TradeAssociationsController < ApplicationController
     @trade_association = TradeAssociation.find(params[:id])
 
     respond_to do |format|
-      if @trade_association.update_attributes(params[:trade_association])
+      if @trade_association.update_attributes(trade_association_params)
         format.html { redirect_to @trade_association, notice: 'Trade association was successfully updated.' }
         format.json { head :no_content }
       else
@@ -81,5 +81,12 @@ class TradeAssociationsController < ApplicationController
       format.html { redirect_to trade_associations_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def trade_association_params
+    params.require(:trade_association).permit(:description, :name, :slug, :website_url, :city, :province, :home_page_image, :logo, :city, :province,
+      :city_id, :province_id, :status_updates_attributes)
   end
 end

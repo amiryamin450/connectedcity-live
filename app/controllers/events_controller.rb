@@ -39,7 +39,7 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = @location.events.new(params[:event])
+    @event = @location.events.new(event_params)
     if @event.save
       redirect_to [@location, @event], notice: 'Event was successfully created.'
     else
@@ -49,7 +49,7 @@ class EventsController < ApplicationController
 
     def update
     @event = Event.unscoped.find(params[:id])
-    if @event.update_attributes(params[:event])
+    if @event.update_attributes(event_params)
       redirect_to [@location, @event], notice: 'Event was successfully updated.'
     else
       render action: :edit
@@ -65,4 +65,9 @@ class EventsController < ApplicationController
   def check_scope
   end
 
+  private
+
+  def event_params
+    params.require(:event).permit(:description, :email, :ends_at, :name, :starts_at, :url, :slug, :location_id, :image, :category_id, :latitude, :longitude)
+  end
 end

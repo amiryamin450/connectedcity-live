@@ -102,7 +102,7 @@ class VerticalMarketCategoriesController < ApplicationController
   # POST /admin/vertical_market_categories
   # POST /admin/vertical_market_categories.json
   def create
-    @vertical_market_category = VerticalMarketCategory.new(params[:vertical_market_category])
+    @vertical_market_category = VerticalMarketCategory.new(vertical_market_category_params)
 
     respond_to do |format|
       if @vertical_market_category.save
@@ -121,7 +121,7 @@ class VerticalMarketCategoriesController < ApplicationController
     @vertical_market_category = VerticalMarketCategory.find(params[:id])
 
     respond_to do |format|
-      if @vertical_market_category.update_attributes(params[:vertical_market_category])
+      if @vertical_market_category.update_attributes(vertical_market_category_params)
         format.html { redirect_to @vertical_market_category, notice: 'Vertical market category was successfully updated.' }
         format.json { head :no_content }
       else
@@ -142,6 +142,7 @@ class VerticalMarketCategoriesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
   private
 
     def crumb_with_fake_category(district_id = nil, neighborhood_id = nil)
@@ -155,5 +156,9 @@ class VerticalMarketCategoriesController < ApplicationController
 
       add_crumb "#{@vertical_market.name}", "#{@base_path}guide/#{@vertical_market.slug}"
       add_crumb "#{@vertical_market_category.name} Lists"
+    end
+
+    def vertical_market_category_params
+      params.require(:vertical_market_category).permit(:description, :name, :slug, :vertical_market_id, :default_logo, :search_term)
     end
 end

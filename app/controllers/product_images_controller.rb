@@ -40,7 +40,7 @@ class ProductImagesController < ApplicationController
   # POST /product_images
   # POST /product_images.json
   def create
-    @product_image = ProductImage.new(params[:product_image])
+    @product_image = ProductImage.new(product_image_params)
 
     respond_to do |format|
       if @product_image.save
@@ -59,7 +59,7 @@ class ProductImagesController < ApplicationController
     @product_image = ProductImage.find(params[:id])
 
     respond_to do |format|
-      if @product_image.update_attributes(params[:product_image])
+      if @product_image.update_attributes(product_image_params)
         format.html { redirect_to @product_image, notice: 'Product image was successfully updated.' }
         format.json { head :no_content }
       else
@@ -97,5 +97,11 @@ class ProductImagesController < ApplicationController
   def convert_params
     params[:product_image][:image] = params[:product_image][:image][0]
     params
+  end
+
+  private
+
+  def product_image_params
+    params.require(:product_image).permit(:product_id, :image)
   end
 end

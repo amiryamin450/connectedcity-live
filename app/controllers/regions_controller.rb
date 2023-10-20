@@ -89,4 +89,10 @@ class RegionsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+
+  def region_params
+    params.require(:region).permit(:name, :region_code, :slug, :province_id, :show_in_menu, :subdomain)
+  end
 end

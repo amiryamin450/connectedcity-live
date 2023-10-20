@@ -43,7 +43,7 @@ class StateOrProvincesController < ApplicationController
   # POST /state_or_provinces
   # POST /state_or_provinces.json
   def create
-    @province = StateOrProvince.new(params[:province])
+    @province = StateOrProvince.new(province_params)
 
     respond_to do |format|
       if @province.save
@@ -62,7 +62,7 @@ class StateOrProvincesController < ApplicationController
     @province = StateOrProvince.find(params[:id])
 
     respond_to do |format|
-      if @province.update_attributes(params[:province])
+      if @province.update_attributes(province_params)
         format.html { redirect_to @province, notice: 'State or province was successfully updated.' }
         format.json { head :no_content }
       else
@@ -82,5 +82,11 @@ class StateOrProvincesController < ApplicationController
       format.html { redirect_to state_or_provinces_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def province_params
+    params.require(:province).permit(:name, :abbr, :country_code, :country_name, :province_code)
   end
 end

@@ -1,6 +1,6 @@
 class CitiesController < ApplicationController
   load_and_authorize_resource except: [:homepage, :status_updates, :events, :media_attachments]
-  before_filter :redirect_back_home, only: [:show]
+  before_action :redirect_back_home, only: [:show]
 
   layout "application"
 
@@ -74,7 +74,7 @@ class CitiesController < ApplicationController
   # POST /cities
   # POST /cities.json
   def create
-    @city = City.new(params[:city])
+    @city = City.new(city_params)
 
     respond_to do |format|
       if @city.save
@@ -93,7 +93,7 @@ class CitiesController < ApplicationController
     @city = City.find(params[:id])
 
     respond_to do |format|
-      if @city.update_attributes(params[:city])
+      if @city.update_attributes(city_params)
         format.html { redirect_to @city, notice: 'City was successfully updated.' }
         format.json { head :no_content }
       else
@@ -118,5 +118,11 @@ class CitiesController < ApplicationController
   def redirect_back_home
     #I have added this redirect to avoid broke code beacuse city model had changed to new model but code did not modified. 
     redirect_to root_path
+  end
+
+  private
+
+  def city_params
+    params.require(:city).permit(:csdname, :id, :csdtype, :slug, :municipality_id, :is_active, :geom)
   end
 end

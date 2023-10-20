@@ -1,4 +1,4 @@
-class Municipality < ActiveRecord::Base
+class Municipality < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
 
@@ -10,23 +10,16 @@ class Municipality < ActiveRecord::Base
   has_many :sub_neighborhoods, through: :neighborhoods
   has_many :locations
 
-  has_many :coupons, through: :locations, uniq: true
-  has_many :services, through: :locations, uniq: true
-  has_many :products, through: :locations, uniq: true
-  has_many :media_attachments, through: :locations, uniq: true
-  has_many :blog_entries, through: :locations, uniq: true
-  has_many :status_updates,through: :locations, uniq: true
-  has_many :news_articles, through: :locations, uniq: true
-  has_many :events, through: :locations, uniq: true
-
-  attr_accessible :name, :municipality_code
+  has_many :coupons, -> { distinct }, through: :locations
+  has_many :services, -> { distinct }, through: :locations
+  has_many :products, -> { distinct }, through: :locations
+  has_many :media_attachments, -> { distinct }, through: :locations
+  has_many :blog_entries, -> { distinct }, through: :locations
+  has_many :status_updates, -> { distinct },through: :locations
+  has_many :news_articles, -> { distinct }, through: :locations
+  has_many :events, -> { distinct }, through: :locations
 
   def access_link
     "#{region.access_link}/#{slug}"
   end
 end
-
-
-# Location.all.each do |lo|
-#   lo.update_attribute(:municipality_id, lo.city&.municipality_id)
-# end

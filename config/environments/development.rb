@@ -54,14 +54,15 @@ Connectbook::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 
   # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
+  # config.active_record.mass_assignment_sanitizer = :strict
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
-  config.active_record.auto_explain_threshold_in_seconds = 0.5
+  # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   # Do not compress assets
-  config.assets.compress = false
+  config.assets.js_compressor = :uglifier
+  config.assets.css_compressor = :sass
 
   # Expands the lines which load the assets
   config.assets.debug = false
@@ -86,6 +87,8 @@ Connectbook::Application.configure do
       s3_region: ENV['AWS_REGION'],
     }
   }
+
+  config.eager_load = false
 
 end
 #Tire::Configuration.url "http://10.10.0.55:9200"

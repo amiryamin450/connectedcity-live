@@ -50,8 +50,8 @@ class ProductsController < ApplicationController
   end
 
   def create
-    product_image_ids_param = params[:product].delete('product_image_ids')
-    @product = @location.products.new(params[:product])
+    product_image_ids_param = product_params.delete('product_image_ids')
+    @product = @location.products.new(product_params)
 
     if @product.save
       result = product_images_slide(product_image_ids_param)
@@ -72,7 +72,7 @@ class ProductsController < ApplicationController
   def update
     @product = Product.find(params[:id])
     respond_to do |format|
-      if @product.update_attributes(params[:product])
+      if @product.update_attributes(product_params)
         format.html { redirect_to [@location, @product], notice: 'Product was successfully updated.' }
         format.json { render json: { files: [@product.product_images.last.to_jq_upload]}, status: :created, product: @product }
       else
@@ -115,4 +115,9 @@ class ProductsController < ApplicationController
     end
   end
 
+  private
+
+  def product_params
+    params.require(:product).permit(:description, :name, :price, :sku, :slug, :product_id, :quantity, :image, :custom_pricing, :discount, :product_images_attributes, :category_id, :product_image_ids)
+  end
 end

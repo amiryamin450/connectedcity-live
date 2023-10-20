@@ -1,10 +1,10 @@
 class ClassifiedListingsController < ApplicationController
 
   load_and_authorize_resource
+
   # GET /classified_listings
   # GET /classified_listings.json
   def index
-
     @classified_listings = if user_signed_in?
       current_user.classified_listings
     else
@@ -13,17 +13,13 @@ class ClassifiedListingsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-
     end
   end
 
-
   def guide
-    # @classified_categories = ClassifiedCategory.includes(:classified_listings).all
     @vertical_market_classifieds = VerticalMarket.find_by_slug('classifieds')
     districts
-    # add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    # add_crumb 'Classifieds'
+
     render layout: "application_v_2"
   end
 
@@ -60,7 +56,7 @@ class ClassifiedListingsController < ApplicationController
   # POST /classified_listings
   # POST /classified_listings.json
   def create
-    @classified_listing = ClassifiedListing.new(params[:classified_listing])
+    @classified_listing = ClassifiedListing.new(classified_listing_params)
     @classified_listing.user_id = current_user.id
     respond_to do |format|
       if @classified_listing.save
@@ -79,7 +75,7 @@ class ClassifiedListingsController < ApplicationController
 
 
     respond_to do |format|
-      if @classified_listing.update_attributes(params[:classified_listing])
+      if @classified_listing.update_attributes(classified_listing_params)
         format.html { redirect_to @classified_listing, notice: 'Classified listing was successfully updated.' }
         format.json { render json: { files: [@classified_listing.classified_images.last.to_jq_upload]}, status: :created, location: @location }
       else
@@ -102,8 +98,13 @@ class ClassifiedListingsController < ApplicationController
   end
 
   private
+
   def districts
-    # because city is hardcoded everywhere already...
     @districts = District.where("city_id = ?", 5915022)
+  end
+
+  def classified_listing_params
+    params.require(:classified_listing).permit(:condition, :description, :price_cents, :title, :price, :classified_category_id, :address,
+      :address_1, :city_id, :province_id, :postal_code, :neighborhood_id, :active, :classified_images_attributes)
   end
 end

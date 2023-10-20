@@ -1,5 +1,5 @@
 class NewHomeCommunitiesController < ApplicationController
-  before_filter do
+  before_action do
     @new_home_community = NewHomeCommunity.find(params[:new_home_community_id]) if params[:new_home_community_id]
   end
 
@@ -58,7 +58,7 @@ class NewHomeCommunitiesController < ApplicationController
   # POST /new_home_communities
   # POST /new_home_communities.json
   def create
-    @new_home_community = @location.new_home_communities.new(params[:new_home_community])
+    @new_home_community = @location.new_home_communities.new(new_home_community_params)
 
     respond_to do |format|
       if @new_home_community.save
@@ -77,7 +77,7 @@ class NewHomeCommunitiesController < ApplicationController
     @new_home_community = NewHomeCommunity.find(params[:id])
 
     respond_to do |format|
-      if @new_home_community.update_attributes(params[:new_home_community])
+      if @new_home_community.update_attributes(new_home_community_params)
         format.html { redirect_to [@location, @new_home_community], notice: 'New home community was successfully updated.' }
         format.json { head :no_content }
       else
@@ -104,5 +104,13 @@ class NewHomeCommunitiesController < ApplicationController
     @status_update.destroy
 
     redirect_to :back
+  end
+
+  private
+
+  def new_home_community_params
+    params.require(:new_home_community).permit(:city_id, :description, :highlights, :location_id, :name,
+      :neighborhood_id, :province_id, :city, :province, :location, :neighborhood, :district_id, :cover_photo,
+      :address, :postal_code, :latitude, :longitude, :status_updates_attributes, :logo, :style)
   end
 end

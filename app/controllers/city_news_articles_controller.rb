@@ -263,7 +263,6 @@ class CityNewsArticlesController < ApplicationController
     end
   end
 
-
   def locations_manicipality municipality_slug, city_slug, district_slug, neighborhood_slug, sub_neighborhood_slug
     result_locations = []
     locations =[]
@@ -294,5 +293,11 @@ class CityNewsArticlesController < ApplicationController
 
     result_locations += other_results
     @locations_of_civic_news ||= result_locations
+  end
+
+  private
+
+  def city_news_articles_params
+    params.require(:city_news_article).permit(:city_news_category_id, :city_id, :district_id, :neighborhood_id, :content, :title, :slug, :image)
   end
 end

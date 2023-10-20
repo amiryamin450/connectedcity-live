@@ -1,4 +1,4 @@
-class Community < ActiveRecord::Base
+class Community < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
 
@@ -7,10 +7,5 @@ class Community < ActiveRecord::Base
   has_many :locations, :through => :cities
   has_many :vertical_market_categories, :through => :locations
 
-  attr_accessible :description, :name, :region_id
-
   validates_presence_of :name, :region_id
-
-
-
 end

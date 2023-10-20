@@ -1,4 +1,4 @@
-class RentalProperty < ActiveRecord::Base
+class RentalProperty < ApplicationRecord
   extend FriendlyId
 
   belongs_to :city
@@ -9,13 +9,6 @@ class RentalProperty < ActiveRecord::Base
 
   has_many :rental_units
   has_many :status_updates, as: :statusable, dependent: :destroy
-
-  attr_accessible :active, :address_1, :address_2, :city_id, :description,
-  :email, :facebook_url, :fax, :garage_types, :included_utilities,
-  :latitude, :longitude, :name, :neighborhood_description, :neighborhood_highlights,
-  :neighborhood_id, :pet_restrictions, :phone, :phone_count, :postal_code, :pov,
-  :property_features, :property_highlights, :province_id, :restrictions, :slug, :tag_line,
-  :website_url, :location_id, :location, :cover_photo, :district_id, :status_updates_attributes, :style
 
   friendly_id :name, use: [:slugged, :history]
 

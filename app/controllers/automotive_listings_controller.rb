@@ -55,7 +55,7 @@ class AutomotiveListingsController < ApplicationController
   # POST /automotive_listings
   # POST /automotive_listings.json
   def create
-    @automotive_listing = @location.automotive_listings.new (params[:automotive_listing])
+    @automotive_listing = @location.automotive_listings.new(automative_listing_params)
 
     respond_to do |format|
       if @automotive_listing.save
@@ -76,7 +76,7 @@ class AutomotiveListingsController < ApplicationController
 	@selected_maker = @automotive_listing.make
 
     respond_to do |format|
-      if @automotive_listing.update_attributes(params[:automotive_listing])
+      if @automotive_listing.update_attributes(automative_listing_params)
         format.html { redirect_to [@location, @automotive_listing], notice: 'Automotive listing was successfully updated.' }
         format.json { head :no_content }
       else
@@ -99,6 +99,17 @@ class AutomotiveListingsController < ApplicationController
   end
 
   private
+
+  def automative_listing_params
+    params.require(:automotive_listing).permit(
+      :accident, :body, :body_exterior, :convenience_features, :description,
+      :drivetrain, :enigine, :entertainment_features, :exterior_color, :interior_color,
+      :lighting_visibility_instruments, :local, :location_id, :make, :mileage, :model,
+      :powertrain_specs, :price_cents, :saftey_and_security, :seats_and_trim, :specs,
+      :status, :stock_number, :suspension_specs, :title, :transmission, :trim_level, :vehicle_type,
+      :year, :price, :main_image
+    )
+  end
 
   def get_auto_makers
   	["Acura",

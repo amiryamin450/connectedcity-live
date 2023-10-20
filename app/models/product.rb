@@ -1,4 +1,4 @@
-class Product < ActiveRecord::Base
+class Product < ApplicationRecord
   belongs_to :location
   has_many :product_images, dependent: :destroy
   belongs_to :category
@@ -8,8 +8,6 @@ class Product < ActiveRecord::Base
   friendly_id :name, use: [:slugged, :history]
 
   accepts_nested_attributes_for :product_images, :reject_if => lambda { |a| a[:image].nil? }, :allow_destroy => true
-
-  attr_accessible :description, :name, :price, :sku, :slug, :product_id, :quantity, :image, :custom_pricing, :discount, :product_images_attributes, :category_id, :product_image_ids
 
   has_attached_file :image, styles: {
                               thumb: "50x50#", list: "320", display: "640"

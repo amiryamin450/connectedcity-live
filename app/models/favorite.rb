@@ -1,7 +1,5 @@
-class Favorite < ActiveRecord::Base
+class Favorite < ApplicationRecord
   belongs_to :user
   belongs_to :location
-  has_many :location_status_updates, through: :location, source: :status_updates, uniq: true
-
-  attr_accessible :category, :location_id, :user_id, :location
+  has_many :location_status_updates, -> { distinct }, through: :location, source: :status_updates
 end

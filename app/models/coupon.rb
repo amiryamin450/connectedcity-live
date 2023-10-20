@@ -1,12 +1,10 @@
-class Coupon < ActiveRecord::Base
+class Coupon < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   has_many :redemptions
   belongs_to :location
 
-  attr_accessible :description, :expiration, :howmany, :name, :redemptions_count, :code_prefix, :image
-
-  has_attached_file :image, :styles => { :thumb => "75x75#", :large => "320", :display => "640", :list => "200x100"},
+  has_attached_file :image, :styles => { :thumb => "75x75#", :large => "320", :display => "640", :list => "200x100" },
                     :url => "/system/coupon/images/:id/:style/:basename.:extension",
                     :path => ":rails_root/public/system/coupon/images/:id/:style/:basename.:extension",
                     :default_url => "http://placehold.it/200x100"
@@ -16,7 +14,7 @@ class Coupon < ActiveRecord::Base
   validates :expiration, presence: true
   validates :howmany, presence: true,  numericality: { only_integer: true, greater_than: 0 }
 
-  default_scope where("expiration >= ?", Date.today)
+  default_scope { where("expiration >= ?", Date.today) }
 
   def current_coupon_code
     "#{code_prefix}-#{location.id}-#{how_many_left}"

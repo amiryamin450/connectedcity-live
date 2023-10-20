@@ -81,4 +81,10 @@ class EmploymentCategoriesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+
+  def employment_category_params
+    params.require(:employment_category).permit(:heading_color, :name, :slug)
+  end
 end

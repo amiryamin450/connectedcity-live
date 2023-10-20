@@ -40,6 +40,7 @@ $blue: #1c3656;
 $tenpx: .786em;
 $font-color: #333333;
 $gold: #fab301;
+$blueDark: #FFFFFF;
 
 .modal-backdrop, .modal-backdrop.fade.in {
   opacity: 0.7;
@@ -129,26 +130,19 @@ h1, h2, h3, h4, h5, h6 {
     li {
       float: left;
       list-style: none;
-      // background: transparent image-url('tab_li.png') no-repeat -15px 0;
+
       padding: 0;
       margin: 0;
-      // margin-right: 10px;
-      &.active {
-        // background: transparent image-url('tab_li_active.png') no-repeat -15px 0;
-      }
 
       a {
         color: #fff;
         font-family: 'Helvetica Neue', Helvetica, Arial;
         display: block;
-        // padding: 2px 25px 3px 5px;
         padding: 3px 5px 0px 5px;
         text-decoration: none;
         font-weight: bold;
         font-size: 11px;
         &.active {
-          // background-image: image-url('tab_a_active.png');
-          // padding-right: 35px;
           background: #fec00f;
           color: $blue;
           border-radius: 4px 4px 0px 0px;
@@ -164,20 +158,6 @@ h1, h2, h3, h4, h5, h6 {
       &.first {
         background-position: 0 0;
         padding-left: 5px;
-      }
-
-      &.last a {
-        // background-image: image-url('tab_end.png');
-        // padding-right: 35px;
-      }
-
-      &.last a.active {
-        // background-image: image-url('tab_end_active.png');
-
-      }
-
-      &.before-active a {
-        // background-image: image-url('tab_a_before_active.png');
       }
 
       ul.child-menu {
@@ -203,8 +183,6 @@ h1, h2, h3, h4, h5, h6 {
 
         }
       }
-
-
     }
   }
 }
@@ -298,14 +276,11 @@ div.favorite {
         text-decoration: none;
       }
     }
-
-
   }
 
   .location-logo {
     width: 70px;
     height: 55px;
-
   }
 }
 
@@ -497,15 +472,15 @@ div.login-block {
 .accent {
   display: block;
   text-decoration: none;
-  @include border-radius(6px);
-  @include background-image(linear-radient(color-stops($grey, $darkGrey, $grey)));
+  // @include border-radius(6px);
+  // @include background-image(linear-radient(color-stops($grey, $darkGrey, $grey)));
 
   padding: 1em;
   border: 1px solid $darkGrey;
   margin-bottom: .5em;
   &:hover {
     color: $white;
-    @include background-image(linear-radient(color-stops($grey, $blueDark, $blue)));
+    // @include background-image(linear-radient(color-stops($grey, $blueDark, $blue)));
     text-decoration: none;
   }
 }
@@ -516,7 +491,7 @@ div.login-block {
 }
 
 .header {
-  @include background-image(linear-radient(color-stops($grey, $blueDark, $blue)));
+  // @include background-image(linear-radient(color-stops($grey, $blueDark, $blue)));
   color: $white;
   padding: 10px;
 }
@@ -532,7 +507,7 @@ ul.location-list {
   > li {
     background: $white;
     border: 1px solid $darkGrey;
-    @include border-radius(4px);
+    // @include border-radius(4px);
     margin: 0 0 10px;
     overflow: hidden;
     padding: 8px 10px 0;
@@ -552,15 +527,15 @@ ul.location-list {
       margin: 0;
     }
     .body {
-      @include background-image(linear-radient(color-stops($grey, $blueDark, $blue)));
+      // @include background-image(linear-radient(color-stops($grey, $blueDark, $blue)));
       padding: 5px 10px;
       width: 100%;
       margin-left: -10px;
-      @include border-radius(0 0 4px 4px);
+      // @include border-radius(0 0 4px 4px);
       border-top: 1px solid $darkGrey;
 
       .activity-graph {
-        @include border-radius(3px);
+        // @include border-radius(3px);
         background-color: $white;
         border-color: $darkGrey $grey $grey $darkGrey;
         border-width: 1px;
@@ -658,7 +633,7 @@ ul.location-list {
     color: #999999;
   }
   .tweet-profile-img {
-    @include border-radius(5px);
+    // @include border-radius(5px);
   }
   a {
     color: #990000;

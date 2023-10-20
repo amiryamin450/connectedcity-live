@@ -1,49 +1,36 @@
 source 'https://rubygems.org'
-ruby '2.7.1'
-source 'https://transcona_media_network_inc_041:Cwdozx4xlGP5pW9b@gems.railslts.com' do
-# source 'https://transcona_media_network_inc_632:VmN5m93oVPbMILkv@gems.railslts.com' do
-  gem 'rails', '~> 3.2.22'
-  gem 'actionmailer',     :require => false
-  gem 'actionpack',       :require => false
-  gem 'activemodel',      :require => false
-  gem 'activerecord',     :require => false
-  gem 'activeresource',   :require => false
-  gem 'activesupport',    :require => false
-  gem 'railties',         :require => false
-  gem 'railslts-version', :require => false
-end
 
-# gem 'tire'
+ruby '2.7.8'
+gem 'rails', '5.2.3'
+
 gem 'ancestry'
 gem 'auto_html'
 gem 'bootstrap-datetimepicker-rails'
 gem 'bootstrap-wysihtml5-rails'
-gem 'bootstrap-sass'
-gem 'cancan'
+gem 'cancancan'
 gem 'cape'
 gem 'crummy'
 gem 'dalli'
-gem 'devise'
+gem 'devise', '~> 4.9.2'
 gem 'google-authenticator-rails'
 gem 'dropzonejs-rails'
-gem 'font-awesome-rails'
+gem 'font-awesome-rails', '~> 4.7.0.8'
 gem 'friendly_id'
 gem 'geocoder'
 gem 'instagram'
 gem 'jqcloud-rails'
 gem 'jquery-fileupload-rails'
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 4.6.0'
 gem 'jquery-ui-rails'
 gem 'jquery-validation-rails'
 gem 'kaminari'
 gem 'koala'
-gem 'mail_form'
+gem 'mail_form', '~> 1.10.0'
 gem 'mailboxer'
 gem 'mechanize'
 gem 'metamagic'
 gem 'money-rails'
-# gem 'mysql2', '~> 0.3.20'
-gem 'mysql2', git: 'https://github.com/makandra/mysql2', branch: '0.3.x-lts'
+gem 'mysql2'
 gem 'activerecord-mysql2spatial-adapter'
 gem 'nokogiri'
 gem 'oauth'
@@ -51,13 +38,13 @@ gem 'omniauth-facebook'
 gem 'paperclip'
 gem 'progress_bar'
 gem 'config', github: 'railsconfig/config'
-gem 'ransack'
+gem 'ransack', '~> 2.3.2'
 gem 'rgeo-activerecord'
 gem 'rgeo'
 gem 'rmagick', '~> 2.13.4'
 gem 'rolify'
 gem 'sidekiq'
-gem 'simple_form'
+gem 'simple_form', '~> 5.2.0'
 gem 'sinatra', require: false
 gem 'sitemap_generator'
 gem 'slim'
@@ -69,7 +56,7 @@ gem 'twitter'
 gem 'underscore-rails'
 gem 'whenever'
 gem 'yaml_db'
-gem 'haml', '~> 4.0.6'
+gem 'haml', '~> 6.2', '>= 6.2.3'
 gem 'puma'
 gem 'test-unit', '~> 3.0'
 gem 'rake', '< 11'
@@ -78,19 +65,15 @@ gem 'opentok', '~> 4.0'
 gem 'prismic.io', require: 'prismic'
 gem 'vonage'
 
-group :assets do
-  gem 'bootstrap-colorpicker-rails'
-  gem 'bootstrap-sass'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'compass-rails'
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'uglifier', '>= 1.0.3'
-  gem 'haml-rails'
-end
+gem 'bootstrap-colorpicker-rails'
+gem 'bootstrap-sass'
+gem 'coffee-rails', '~> 5.0.0'
+gem 'compass-rails'
+gem 'sass-rails',   '~> 6.0.0'
+gem 'uglifier', '>= 1.0.3'
+gem 'haml-rails', '~> 2.1.0'
 
 group :development, :test do
-  # gem 'activerecord-postgis-adapter'
-  # gem 'pg'
   gem 'factory_girl_rails'
   gem 'meta_request'
   gem 'rspec-rails'
@@ -110,11 +93,7 @@ end
 
 group :development do
   gem 'capistrano', '< 3.0.0'
-  gem 'quiet_assets'
   gem 'rvm-capistrano', require: false
   gem 'seed_dump'
   gem 'pry'
-  # gem 'byebug'
-  # gem 'pry-byebug'
-  # gem 'pry-rails'
 end

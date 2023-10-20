@@ -1,5 +1,6 @@
 class ClassifiedImagesController < ApplicationController
   load_and_authorize_resource
+
   def destroy
     @image = ClassifiedImage.find(params[:id])
     @image.destroy

@@ -1,4 +1,4 @@
-class Neighborhood < ActiveRecord::Base
+class Neighborhood < ApplicationRecord
   extend FriendlyId
 
   self.primary_key = 'nid'
@@ -11,9 +11,7 @@ class Neighborhood < ActiveRecord::Base
   belongs_to :neighborhood, :class_name => 'Neighborhood'
   has_many :sub_neighborhoods, :class_name => 'Neighborhood', :foreign_key => 'neighborhood_id'
 
-  default_scope order(:neighborhd)
-
-  attr_accessible :district_id, :district, :slug, :neighborhd, :geom, :id
+  default_scope { order(:neighborhd) }
 
   friendly_id :neighborhd, use: [:slugged]
 

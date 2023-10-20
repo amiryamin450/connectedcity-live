@@ -1,7 +1,6 @@
 class FavoritesController < ApplicationController
   respond_to :js
 
-
   def create
     @favorite = Favorite.create({location_id: params[:location_id], user_id: current_user.id, category: params[:category]})
     current_user.connection.clear_query_cache
@@ -30,5 +29,4 @@ class FavoritesController < ApplicationController
 
     render :toggle
   end
-
 end

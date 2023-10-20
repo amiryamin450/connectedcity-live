@@ -56,7 +56,7 @@ class RentalUnitsController < ApplicationController
   # POST /rental_units
   # POST /rental_units.json
   def create
-    @rental_unit = @rental_property.rental_units.new(params[:rental_unit])
+    @rental_unit = @rental_property.rental_units.new(rental_unit_params)
 
     respond_to do |format|
       if @rental_unit.save
@@ -75,7 +75,7 @@ class RentalUnitsController < ApplicationController
     @rental_unit = RentalUnit.find(params[:id])
 
     respond_to do |format|
-      if @rental_unit.update_attributes(params[:rental_unit])
+      if @rental_unit.update_attributes(rental_unit_params)
         format.html { redirect_to [@location, @rental_property, @rental_unit], notice: 'Rental unit was successfully updated.' }
         format.json { head :no_content }
       else
@@ -95,5 +95,13 @@ class RentalUnitsController < ApplicationController
       format.html { redirect_to rental_units_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def rental_unit_params
+    params.require(:rental_unit).permit(:availability, :bathrooms, :bedrooms, :date_available, :description,
+      :flooring_types, :included_appliances, :living_area, :property_id, :rent_amount, :unit_number,
+      :rental_property, :rental_property_id, :cover_photo)
   end
 end

@@ -68,7 +68,7 @@ class BusinessImprovementAreasController < ApplicationController
   # POST /business_improvement_areas
   # POST /business_improvement_areas.json
   def create
-    @business_improvement_area = BusinessImprovementArea.new(params[:business_improvement_area])
+    @business_improvement_area = BusinessImprovementArea.new(business_improvement_area_params)
 
     respond_to do |format|
       if @business_improvement_area.save
@@ -87,7 +87,7 @@ class BusinessImprovementAreasController < ApplicationController
     @business_improvement_area = BusinessImprovementArea.find(params[:id])
 
     respond_to do |format|
-      if @business_improvement_area.update_attributes(params[:business_improvement_area])
+      if @business_improvement_area.update_attributes(business_improvement_area_params)
         format.html { redirect_to @business_improvement_area, notice: 'Business improvement area was successfully updated.' }
         format.json { head :no_content }
       else
@@ -107,5 +107,11 @@ class BusinessImprovementAreasController < ApplicationController
       format.html { redirect_to business_improvement_areas_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def business_improvement_area_params
+    params.require(:business_improvement_area).permit(:description, :district_id, :name, :slug, :home_page_image, :district, :status_updates, :status_updates_attributes, :logo, :website_url, :use_carousel)
   end
 end

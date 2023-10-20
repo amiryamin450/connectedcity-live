@@ -1,18 +1,13 @@
-class BlogEntry < ActiveRecord::Base
+class BlogEntry < ApplicationRecord
   belongs_to :bloggable, polymorphic: true
-  belongs_to :location, foreign_key: "bloggable_id", conditions: { blog_entries: { bloggable_type: "Location" } }
+  belongs_to :location, -> { where(bloggable_type: 'Location') }, foreign_key: "bloggable_id"
   belongs_to :user
 
   extend FriendlyId
+
   friendly_id :title, use: [:slugged, :history]
 
-  default_scope order('created_at DESC')
+  default_scope { order('created_at DESC') }
 
-  attr_accessible :content, :location_id, :title, :user_id, :slug, :image
-
-  has_attached_file :image, styles: {
-    thumb: "50x50#", list: "320x200#"
-  },
-    default_url: "http://placehold.it/50x50"
-
+  has_attached_file :image, styles: { thumb: "50x50#", list: "320x200#" }, default_url: "http://placehold.it/50x50"
 end

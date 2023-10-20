@@ -1,23 +1,18 @@
-class StatusUpdate < ActiveRecord::Base
+class StatusUpdate < ApplicationRecord
   belongs_to :statusable, polymorphic: true
-  belongs_to :location, foreign_key: "statusable_id", conditions: { status_updates: { statusable_type: "Location" } }
+  belongs_to :location, -> { where(statusable_type: 'Location') }, foreign_key: "statusable_id"
   belongs_to :district
   belongs_to :neighborhood
   belongs_to :city
   belongs_to :province
   belongs_to :category
 
-  # serialize :vertical_markets, Array
-  # serialize :vertical_market_categories, Array
-
-  default_scope order('created_at DESC')
+  default_scope { order('created_at DESC') }
 
   has_attached_file :image, :styles => { :thumb => "40x40#", :large => "320x>"},
                     :url => "/system/status_update/:id/:style/:basename.:extension",
                     :path => ":rails_root/public/system/status_update/:id/:style/:basename.:extension"
 
-  attr_accessible :content, :provider, :district_id, :neighborhood_id, :latitude, :longitude, :city_id, :province_id,
-                  :vertical_markets, :vertical_market_categories, :image, :social_profile_ids, :category_id
   validates_attachment_presence :image
 
   attr_accessor :social_profile_ids

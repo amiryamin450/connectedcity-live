@@ -1,12 +1,10 @@
-class CityNewsArticle < ActiveRecord::Base
+class CityNewsArticle < ApplicationRecord
   extend FriendlyId
 
   belongs_to :city_news_category
   belongs_to :city
   belongs_to :district
   belongs_to :neighborhood
-
-  attr_accessible :city_news_category_id, :city_id, :district_id, :neighborhood_id, :content, :title, :slug, :image
 
   friendly_id :title, use: [:slugged, :history]
 

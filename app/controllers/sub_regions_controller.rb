@@ -5,6 +5,5 @@ class SubRegionsController < ApplicationController
     @sub_region = @region.sub_regions.find(params[:sub_region])
     add_crumb "#{@sub_region.name} Guide"
     @cities = @sub_region.cities    
-    
   end
 end

@@ -1,8 +1,8 @@
 class CartsController < ApplicationController
   layout "application_v_2"
 
-  before_filter :authenticate_user
-  before_filter :find_cart, except: [:new, :create]
+  before_action :authenticate_user
+  before_action :find_cart, except: [:new, :create]
 
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
   # GET /carts
@@ -98,7 +98,7 @@ class CartsController < ApplicationController
   # POST /carts
   # POST /carts.json
   def create
-    @cart = Cart.new(params[:cart])
+    @cart = Cart.new(cart_params)
 
     respond_to do |format|
       if @cart.save
@@ -115,7 +115,7 @@ class CartsController < ApplicationController
   # PUT /carts/1.json
   def update
     respond_to do |format|
-      if @cart.update_attributes(params[:cart])
+      if @cart.update_attributes(cart_params)
         format.html { redirect_to @cart, notice: 'Cart was successfully updated.' }
         format.json { head :no_content }
       else
@@ -188,4 +188,7 @@ class CartsController < ApplicationController
       redirect_to store_index_url, notice: 'Invalid cart'
     end
 
+    def cart_params
+      params.require(:cart).permit(:line_items_attributes)
+    end
 end

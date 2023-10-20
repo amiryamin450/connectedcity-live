@@ -1,12 +1,12 @@
-class Event < ActiveRecord::Base
+class Event < ApplicationRecord
   belongs_to :location
   belongs_to :category
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
-  attr_accessible :description, :email, :ends_at, :name, :starts_at, :url, :slug, :location_id, :image, :category_id, :latitude, :longitude
 
-  default_scope where("ends_at > ?", Time.now)
+  default_scope { where("ends_at > ?", Time.now) }
+
   scope :store_event, -> {
     where("ends_at > ?", Time.now - 180.days)
   }

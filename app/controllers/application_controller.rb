@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  before_filter :set_up
+  before_action :set_up
 
   def user_has_favorite?(location_id)
     @favorites.find {|f| f['location_id'] == location_id }
@@ -12,7 +12,6 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_path, :alert => exception.message
   end
-
 
   protected
 

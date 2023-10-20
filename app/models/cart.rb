@@ -1,7 +1,6 @@
-class Cart < ActiveRecord::Base
+class Cart < ApplicationRecord
   has_many :line_items, dependent: :destroy
   belongs_to :user
-  attr_accessible :line_items_attributes
 
   accepts_nested_attributes_for :line_items, allow_destroy: true
 

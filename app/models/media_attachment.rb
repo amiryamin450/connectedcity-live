@@ -1,4 +1,4 @@
-class MediaAttachment < ActiveRecord::Base
+class MediaAttachment < ApplicationRecord
 
   before_save :set_fields, :unless => :stream_video?
 
@@ -7,11 +7,9 @@ class MediaAttachment < ActiveRecord::Base
   belongs_to :category
   has_many :videos, dependent: :destroy
 
-  attr_accessible :attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source, :is_stream_video, :archive_id, :session_id, :description, :is_draft, :category_id, :latitude, :longitude
-
   validates_presence_of :attachment, :unless => :stream_video?
 
-  default_scope where(is_draft: false)
+  default_scope { where(is_draft: false) }
 
   def thumbnail_url style=:original
     if self.is_stream_video
@@ -34,6 +32,7 @@ class MediaAttachment < ActiveRecord::Base
   end
 
   protected
+
   def set_fields
     regex = /https?:\/\/(www.)?(youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/watch\?feature=player_embedded&v=)([A-Za-z0-9_-]*)(\&\S+)?(\S)*/
     youtube_id = attachment.scan(regex)[0][2]
@@ -45,5 +44,4 @@ class MediaAttachment < ActiveRecord::Base
     self.media_source_id = youtube_id
     self.attachment_html = "<iframe width='853' height='480' src='http://www.youtube.com/embed/#{youtube_id}' frameborder='0' allowfullscreen></iframe>"
   end
-
 end

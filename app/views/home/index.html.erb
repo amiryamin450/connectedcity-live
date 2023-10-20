@@ -113,7 +113,7 @@
                   }
                 }
 
-                function initializeSession(apiKey,sessionId ) {
+                function initializeSession(apiKey,sessionId) {
                   session_call = OT.initSession(apiKey, sessionId);
                   session_call.on('streamCreated', function streamCreated(event) {
                     var subscriberOptions = {

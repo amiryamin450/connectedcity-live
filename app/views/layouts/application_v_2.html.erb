@@ -27,11 +27,13 @@
     <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
+    <script src="https://media.twiliocdn.com/sdk/js/conversations/v2.0/twilio-conversations.min.js"></script>
+
     <script>
       $(document).ready(function() {
         $('#city-dropdown').on('change', function(event) {
           let cityId = event.target.value
-          if(cityId){
+          if(cityId) {
             $.ajax({
             url: `/home/get_districts?city_id=${cityId}`,
             method: "GET",
@@ -39,7 +41,7 @@
             }).done(function( response ) {
               resetDistrict();
               resetNeighbourhood();
-              resetSubNeighbourhood();  
+              resetSubNeighbourhood();
               $('#district-path').attr("href", `${response.route}/${cityId}`)
               $.each(response.districts, function(index, district) {
                 $('#district-dropdown').append($('<option>', {
@@ -48,13 +50,12 @@
                 }));
               })
             });
-          }else{
+          } else {
             $('#district-path').attr("href", '/')
             resetDistrict();
             resetNeighbourhood();
-            resetSubNeighbourhood();  
+            resetSubNeighbourhood();
           }
-          
         })
 
         $('#district-dropdown').on('change', function(event) {
@@ -81,7 +82,7 @@
         $('#neighbourhood-dropdown').on('change', function(event) {
           let neighborhoodId = event.target.value
           let districtID = $('#district-dropdown').val()
-          let url = neighborhoodId ? `/home/get_sub_neighborhoods?neighborhood_id=${neighborhoodId}`: `/home/get_sub_neighborhoods?district_id=${districtID}`  
+          let url = neighborhoodId ? `/home/get_sub_neighborhoods?neighborhood_id=${neighborhoodId}`: `/home/get_sub_neighborhoods?district_id=${districtID}`
           $.ajax({
             url: url,
             method: "GET",
@@ -169,22 +170,22 @@
       $(document).ready(function(){
         var current_user_id
         var sessionId, token
-        if('<%= user_signed_in?%>' == "true"){
-            if(parseInt('<%= current_user&.locations&.count%>') >0){
+        if('<%= user_signed_in?%>' == "true") {
+            if(parseInt('<%= current_user&.locations&.count%>') >0) {
               current_user_id = '<%= current_user&.id%>'
               var callInterval = setInterval(() => {
                 $.ajax({
                 url: `/video_calls/call_request?user_id=${current_user_id}`,
                 method: "GET",
                 dataType: "json",
-                }).done(function(response) {  
-                  if(response.list_user_call.length > 0 && response.list_user_call[0].status == "request_calling"){
+                }).done(function(response) {
+                  if(response.list_user_call.length > 0 && response.list_user_call[0].status == "request_calling") {
                     var user_call = response.list_user_call[0]
-                    if (!$('#modal-user-video-call').hasClass('show')){
+                    if (!$('#modal-user-video-call').hasClass('show')) {
                       $("#modal-video-call-request").modal('show')
                     }
                     $("#modal-call-title").html("Incomming Call From " + user_call.user_name);
-                    $("#accept-call").on("click",function(){
+                    $("#accept-call").on("click",function() {
                       $("#modal-video-call-request").modal('hide')
                       $("#modal-user-video-call").modal('show')
                       sessionId = user_call.session_id
@@ -204,7 +205,7 @@
                         $("#user-timer-count").html(hour + ":" + minute + ":" + updSecond)
                       }
                       var timer = setInterval(upTimer, 1000);
-                      
+
                       function handleError(error) {
                         if (error) {
                           console.error(error);
@@ -259,7 +260,7 @@
                           $("#user-turn-on-camera").addClass("d-none")
                           $("#user-turn-off-camera").removeClass("d-none")
                           $("#user-turn-on-audio").addClass("d-none")
-                          $("#user-turn-off-audio").removeClass("d-none") 
+                          $("#user-turn-off-audio").removeClass("d-none")
                           $.ajax({
                           url: `/video_calls/set_status_call`,
                           method: "PUT",
@@ -270,7 +271,7 @@
                           }
                           }).done(function( response) {
 
-                          })                                              
+                          })
                         })
 
                         $("#user-turn-off-camera").on("click",function(){
@@ -295,9 +296,9 @@
                           publisher.publishAudio(true);
                           $("#user-turn-on-audio").addClass("d-none")
                           $("#user-turn-off-audio").removeClass("d-none")
-                        }) 
+                        })
 
-                        $("#user-close-video").on("click",function(){ 
+                        $("#user-close-video").on("click",function(){
                           clearInterval(timer)
                           $("#user-publisher").html("")
                           $("#user-subscriber").html("")
@@ -307,7 +308,7 @@
                           $("#user-turn-on-camera").addClass("d-none")
                           $("#user-turn-off-camera").removeClass("d-none")
                           $("#user-turn-on-audio").addClass("d-none")
-                          $("#user-turn-off-audio").removeClass("d-none") 
+                          $("#user-turn-off-audio").removeClass("d-none")
                           $.ajax({
                           url: `/video_calls/set_status_call`,
                           method: "PUT",
@@ -318,9 +319,9 @@
                           }
                           }).done(function( response) {
 
-                          })                                              
+                          })
                         })
-                         
+
                       }
                       initializeSession(apiKey, sessionId)
                       $.ajax({
@@ -354,7 +355,7 @@
               }, 5000);
             }
           }
-        
+
           $('.items').slick({
             infinite: true,
             lazyLoad: 'ondemand',

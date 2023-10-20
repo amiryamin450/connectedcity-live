@@ -1,6 +1,4 @@
-class CarouselImage < ActiveRecord::Base
-
-  attr_accessible :caption, :title, :image, :url
+class CarouselImage < ApplicationRecord
   belongs_to :carouselable, polymorphic: true
 
   validates_presence_of :title
@@ -10,5 +8,4 @@ class CarouselImage < ActiveRecord::Base
     url: "/system/carousel/image/:id/:style/:basename.:extension",
     path: ":rails_root/public/system/carousel/image/:id/:style/:basename.:extension",
     default_url: "/system/carousel/image/missing.png"
-
 end

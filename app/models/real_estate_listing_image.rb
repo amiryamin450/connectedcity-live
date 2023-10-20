@@ -1,11 +1,10 @@
-class RealEstateListingImage < ActiveRecord::Base
+class RealEstateListingImage < ApplicationRecord
   belongs_to :real_estate_listing
 
   has_attached_file :image, :styles => { :thumb => "75x75#", :large => "320x240#", :display => "360x270#"},
                     :url => "/system/real_estate_listing_image/:id/:style/:basename.:extension",
                     :path => ":rails_root/public/system/real_estate_listing_image/:id/:style/:basename.:extension"
 
-  attr_accessible :real_estate_listing_id, :image
   validates_attachment_presence :image
   validates_attachment_size :image, :less_than => 5.megabytes
 

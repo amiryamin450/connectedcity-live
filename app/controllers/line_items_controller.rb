@@ -1,7 +1,7 @@
 class LineItemsController < ApplicationController
-  before_filter :authenticate_user
-  before_filter :find_cart, except: [:new, :create]
-  before_filter :find_line_item, except: [:new, :create, :index]
+  before_action :authenticate_user
+  before_action :find_cart, except: [:new, :create]
+  before_action :find_line_item, except: [:new, :create, :index]
 
   # GET /line_items
   # GET /line_items.json
@@ -133,5 +133,4 @@ class LineItemsController < ApplicationController
   def find_line_item
     @line_item = @cart.line_items.find(params[:id])
   end
-
 end

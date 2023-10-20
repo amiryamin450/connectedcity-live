@@ -3,7 +3,7 @@ class LocationsController < ApplicationController
   skip_load_and_authorize_resource :location, only: [:show, :edit, :update]
   PER_PAGE = 20
   layout 'location', :only => [:show]
-  before_filter :set_location, only: [:connect_stripe, :disconnect_stripe]
+  before_action :set_location, only: [:connect_stripe, :disconnect_stripe]
 
   def index
 
@@ -152,14 +152,14 @@ class LocationsController < ApplicationController
   # POST /locations
   # POST /locations.json
   def create
-    @location = Location.new(params[:location])
+    @location = Location.new(location_params)
 
     respond_to do |format|
       if @location.save
         format.html { redirect_to @location, notice: 'Location was successfully created.' }
         format.json { render json: @location, status: :created, location: @location }
       else
-        pr = params[:location]
+        pr = location_params
 
         if pr[:hall_id].present?
           @vertical_market_categories = VerticalMarketCategory.where(name: name_vertical_categories)
@@ -183,11 +183,11 @@ class LocationsController < ApplicationController
     @location = Location.unscoped.find(params[:id])
 
     respond_to do |format|
-      if @location.update_attributes(params[:location])
+      if @location.update_attributes(location_params)
         format.html { redirect_to cookies[:return_to].present? ? cookies[:return_to] : @location, notice: 'Location was successfully updated.' }
         format.json { render json: { files: [@location.location_images.last.to_jq_upload]}, status: :created, location: @location }
       else
-        puts params[:location].to_yaml
+        puts location_params.to_yaml
         puts @location.errors.to_yaml
 
         # format.html { render action: "edit" }
@@ -220,7 +220,7 @@ class LocationsController < ApplicationController
 
   def claim_process
     @location = Location.find(params[:id])
-    @location.assign_attributes params[:location].slice(:stripe_plan_id)
+    @location.assign_attributes location_params.slice(:stripe_plan_id)
     @location.payment_user = current_user
 
     begin
@@ -454,5 +454,17 @@ class LocationsController < ApplicationController
 
   def set_location
     @location = Location.find(params[:location_id])
+  end
+
+  def location_params
+    params.require(:location).permit(:address, :address_1, :business_id, :city_id, :community_id, :country_id, :email, :fax, :import_hash,
+      :imported, :latitude, :longitude, :name, :phone, :postal_code, :region_id, :show_fax, :show_phone,
+      :show_toll_free, :slug, :province_id, :toll_free, :website_url, :logo,
+      :location_images_attributes, :location_menus_attributes, :vertical_market_category_ids, :status_updates_attributes,
+      :blog_entries_attributes, :news_articles_attributes, :products_attributes, :services_attributes, :events_attributes,
+      :brand_ids, :brand_tokens, :content, :vertical_market_categories, :district, :yp_lid, :yp_categories, :yp_neighborhoods, :sub_neighborhood_id,
+      :city, :province, :district_id, :neighborhood, :country, :cover_photo, :neighborhood_id, :broker_id, :hall_id, :councillor_id, :commissioner_id, :business_improvement_area_id,
+      :user, :trade_association_ids, :media_attachments_attributes, :delete_cover_photo, :delete_logo,
+      :operating_hours_attributes, :stripe_plan_id, :municipality_id, :is_profile)
   end
 end

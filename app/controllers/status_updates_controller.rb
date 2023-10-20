@@ -1,5 +1,5 @@
 class StatusUpdatesController < ApplicationController
-  before_filter :location
+  before_action :location
   load_resource :location, :business_improvement_area
   load_and_authorize_resource :status_update, through: [:location, :business_improvement_area], except: :index
 
@@ -13,7 +13,7 @@ class StatusUpdatesController < ApplicationController
   end
 
   def create
-    @status_update = location.status_updates.build params[:status_update]
+    @status_update = location.status_updates.build status_update_params
     @status_update.latitude = @status_update.latitude.abs
     @status_update.longitude = -(@status_update.longitude.abs)
 
@@ -48,4 +48,11 @@ class StatusUpdatesController < ApplicationController
     @location ||= Location.unscoped.find(params[:location_id])
   end
 
+
+  private
+
+  def status_update_params
+    params.require(:status_update).permit(:content, :provider, :district_id, :neighborhood_id, :latitude, :longitude, :city_id, :province_id,
+      :vertical_markets, :vertical_market_categories, :image, :social_profile_ids, :category_id)
+  end
 end

@@ -1,4 +1,3 @@
-class Option < ActiveRecord::Base
+class Option < ApplicationRecord
   belongs_to :variant
-  attr_accessible :name, :variant_id
 end

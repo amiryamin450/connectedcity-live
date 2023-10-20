@@ -42,7 +42,7 @@ class BlogEntriesController < ApplicationController
   # POST /blog_entries
   # POST /blog_entries.json
   def create
-    @blog_entry = @location.blog_entries.new(params[:blog_entry])
+    @blog_entry = @location.blog_entries.new(blog_entry_params)
 
     respond_to do |format|
       if @blog_entry.save
@@ -61,7 +61,7 @@ class BlogEntriesController < ApplicationController
     @blog_entry = BlogEntry.find(params[:id])
 
     respond_to do |format|
-      if @blog_entry.update_attributes(params[:blog_entry])
+      if @blog_entry.update_attributes(blog_entry_params)
         format.html { redirect_to [@location, @blog_entry], notice: 'Blog entry was successfully updated.' }
         format.json { head :no_content }
       else
@@ -83,4 +83,9 @@ class BlogEntriesController < ApplicationController
     end
   end
 
+  private
+
+  def blog_entry_params
+    params.require(:blog_entry).permit(:content, :location_id, :title, :user_id, :slug, :image)
+  end
 end

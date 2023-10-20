@@ -1,4 +1,4 @@
-class AutomotiveListing < ActiveRecord::Base
+class AutomotiveListing < ApplicationRecord
 
   belongs_to :location
 
@@ -20,12 +20,6 @@ class AutomotiveListing < ActiveRecord::Base
       end
     }
   end
-
-  attr_accessible :accident, :body, :body_exterior, :convenience_features, :description, :drivetrain, :enigine,
-                  :entertainment_features, :exterior_color, :interior_color, :lighting_visibility_instruments,
-                  :local, :location_id, :make, :mileage, :model, :powertrain_specs, :price_cents, :saftey_and_security,
-                  :seats_and_trim, :specs, :status, :stock_number, :suspension_specs, :title, :transmission, :trim_level,
-                  :vehicle_type, :year, :price, :main_image
 
   monetize :price_cents
 

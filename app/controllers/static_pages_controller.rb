@@ -20,4 +20,5 @@ class StaticPagesController < ApplicationController
 
   def business_thank_you
   end
+
 end

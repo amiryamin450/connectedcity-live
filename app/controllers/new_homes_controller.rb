@@ -51,7 +51,7 @@ class NewHomesController < ApplicationController
   # POST /new_homes
   # POST /new_homes.json
   def create
-    @new_home = @new_home_community.new_homes.new(params[:new_home])
+    @new_home = @new_home_community.new_homes.new(new_home_params)
 
     respond_to do |format|
       if @new_home.save
@@ -70,7 +70,7 @@ class NewHomesController < ApplicationController
     @new_home = NewHome.find(params[:id])
 
     respond_to do |format|
-      if @new_home.update_attributes(params[:new_home])
+      if @new_home.update_attributes(new_home_params)
         format.html { redirect_to new_home_community_new_homes_path(@new_home_community), notice: 'New home was successfully updated.' }
         format.json { head :no_content }
       else
@@ -90,5 +90,14 @@ class NewHomesController < ApplicationController
       format.html { redirect_to new_homes_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def new_home_params
+    params.require(:new_home).permit(:address, :address_suite, :association_fee, :association_fee_period, :bathroom_comment,
+      :bathrooms, :bedroom_comment, :bedrooms, :city_id, :country_id, :description, :detail_view_url,
+      :latitude, :living_area, :location_id, :longitude, :neighborhood_id, :postal_code, :province_id, :slug, :title,
+      :virtual_tour_url, :year_built, :new_home_community_id, :list_price, :tax_amount, :cover_photo)
   end
 end

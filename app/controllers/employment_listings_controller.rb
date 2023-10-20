@@ -2,9 +2,8 @@ class EmploymentListingsController < ApplicationController
   PER_PAGE = 20
 
   load_and_authorize_resource :location, except: [:guide]
-  before_filter :load_employment_listing, except: [:guide, :index, :new, :create]
+  before_action :load_employment_listing, except: [:guide, :index, :new, :create]
   load_and_authorize_resource :employment_listing, through: [:location], except: [:guide]
-
 
   # GET /employment_listings
   # GET /employment_listings.json
@@ -22,7 +21,6 @@ class EmploymentListingsController < ApplicationController
   end
 
   def guide
-    # @employment_categories = EmploymentCategory.includes(:employment_listings).all
     @vertical_market = VerticalMarket.find_by_slug('employment-opportunities')
     @city = City.find(5915022)
     @carousel_images = @city.carousel_images
@@ -35,8 +33,6 @@ class EmploymentListingsController < ApplicationController
     @products = @city.products.limit(PER_PAGE)
     @coupons = @city.coupons.limit(PER_PAGE)
     @services = @city.services.limit(PER_PAGE)
-    # add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    # add_crumb 'Employment Opportunities'
     render layout: 'application_v_2'
   end
 
@@ -51,7 +47,7 @@ class EmploymentListingsController < ApplicationController
     add_crumb @employment_listing.title
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @employment_listing }
     end
   end
@@ -62,7 +58,7 @@ class EmploymentListingsController < ApplicationController
     @employment_listing = @location.employment_listings.new(application_deadline: Time.now + 2.weeks)
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.json { render json: @employment_listing }
     end
   end
@@ -114,11 +110,18 @@ class EmploymentListingsController < ApplicationController
   end
 
   private
+
   def load_employment_listing
     if user_signed_in? && @location.user_ids.include?(current_user.id)
       @employment_listing = EmploymentListing.unscoped.where(location_id: @location.id).find(params[:id])
     else
       @employment_listing = @location.employment_listings.find params[:id]
     end
+  end
+
+  def employment_listing_params
+    params.require(:employment_listing).permit(:advantages, :application_deadline, :description, :locations, :number,
+      :number_of_positions, :qualifications, :title, :location_id, :employment_category_id,
+      :cover_photo)
   end
 end

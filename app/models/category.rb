@@ -1,6 +1,4 @@
-class Category < ActiveRecord::Base
-  attr_accessible :name, :parent_id
-
+class Category < ApplicationRecord
   has_and_belongs_to_many :products
   has_and_belongs_to_many :status_updates
   has_and_belongs_to_many :events

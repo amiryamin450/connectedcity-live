@@ -1158,7 +1158,6 @@ ActiveRecord::Schema.define(:version => 20230929014748) do
     t.string   "last_name"
     t.string   "stripe_customer_id"
     t.integer  "cart_id"
-    t.string   "string"
     t.string   "phone_number"
     t.string   "verifying_request_id"
     t.string   "google_secret"

@@ -1,7 +1,7 @@
 class GuideController < ApplicationController
   layout "community_guide"
 
-  before_filter :setup
+  before_action :setup
 
   def index
     redirect_to guide_show_country_path :country => 'canada', :market => 'money'
