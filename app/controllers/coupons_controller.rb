@@ -41,7 +41,7 @@ class CouponsController < ApplicationController
     @coupon = @location.coupons.new(expiration: Date.today + 6.months)
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @coupon }
     end
   end

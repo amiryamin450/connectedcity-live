@@ -1654,7 +1654,7 @@ GEM
     font-awesome-rails (4.7.0.8)
       railties (>= 3.2, < 8.0)
     formatador (1.1.0)
-    friendly_id (5.5.0)
+    friendly_id (5.4.2)
       activerecord (>= 4.0.0)
     gemoji (4.0.1)
     geocoder (1.8.2)
@@ -1991,8 +1991,6 @@ GEM
     rvm-capistrano (1.5.6)
       capistrano (~> 2.15.4)
     sass (3.4.25)
-    sass-rails (6.0.0)
-      sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -2114,7 +2112,7 @@ DEPENDENCIES
   aws-sdk
   bootstrap-colorpicker-rails
   bootstrap-datetimepicker-rails
-  bootstrap-sass
+  bootstrap-sass (~> 3.4.1)
   bootstrap-wysihtml5-rails
   cancancan
   cape
@@ -2133,7 +2131,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   font-awesome-rails (~> 4.7.0.8)
-  friendly_id
+  friendly_id (~> 5.4.0)
   geocoder
   google-authenticator-rails
   guard-rspec
@@ -2174,7 +2172,7 @@ DEPENDENCIES
   rolify
   rspec-rails
   rvm-capistrano
-  sass-rails (~> 6.0.0)
+  sassc-rails (>= 2.1.0)
   seed_dump
   selenium-webdriver
   sidekiq

@@ -39,7 +39,7 @@ class RealEstateListingsController < ApplicationController
     @real_estate_listing = @location.real_estate_listings.new
     @real_estate_listing_styles = get_real_estate_listing_styles 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @real_estate_listing }
     end
   end

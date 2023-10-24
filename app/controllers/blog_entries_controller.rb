@@ -29,7 +29,7 @@ class BlogEntriesController < ApplicationController
   def new
     @blog_entry = @location.blog_entries.new(user_id: current_user.id)
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @blog_entry }
     end
   end

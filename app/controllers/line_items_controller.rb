@@ -28,7 +28,7 @@ class LineItemsController < ApplicationController
     @line_item = LineItem.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @line_item }
     end
   end

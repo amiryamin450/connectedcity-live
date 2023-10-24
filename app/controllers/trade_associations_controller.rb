@@ -29,7 +29,7 @@ class TradeAssociationsController < ApplicationController
     @trade_association = TradeAssociation.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @trade_association }
     end
   end

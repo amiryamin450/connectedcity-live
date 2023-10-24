@@ -28,7 +28,7 @@ class EmploymentCategoriesController < ApplicationController
     @employment_category = EmploymentCategory.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @employment_category }
     end
   end

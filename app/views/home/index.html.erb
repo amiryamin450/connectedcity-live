@@ -74,185 +74,185 @@
     if('<%= user_signed_in?%>' == "true"){
       if(parseInt('<%= current_user&.locations&.count%>') >0){
         current_user_id = '<%= current_user&.id%>'
-        var callInterval = setInterval(() => {
-          $.ajax({
-          url: `/video_calls/call_request?user_id=${current_user_id}`,
-          method: "GET",
-          dataType: "json",
-          }).done(function(response) {  
-            if(response.list_user_call.length > 0 && response.list_user_call[0].status == "request_calling"){
-              var user_call = response.list_user_call[0]
-              if (!$('#modal-user-video-call').hasClass('show')){
-                $("#modal-video-call-request").modal('show')
-              }
-              $("#modal-call-title").html("Incomming Call From " + user_call.user_name);
-              $("#accept-call").on("click",function(){
-                $("#modal-video-call-request").modal('hide')
-                $("#modal-user-video-call").modal('show')
-                sessionId = user_call.session_id
-                token = user_call.token
-                var session_call
-                var seconds = 0
-                var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
+        // var callInterval = setInterval(() => {
+        //   $.ajax({
+        //   url: `/video_calls/call_request?user_id=${current_user_id}`,
+        //   method: "GET",
+        //   dataType: "json",
+        //   }).done(function(response) {  
+        //     if(response.list_user_call.length > 0 && response.list_user_call[0].status == "request_calling"){
+        //       var user_call = response.list_user_call[0]
+        //       if (!$('#modal-user-video-call').hasClass('show')){
+        //         $("#modal-video-call-request").modal('show')
+        //       }
+        //       $("#modal-call-title").html("Incomming Call From " + user_call.user_name);
+        //       $("#accept-call").on("click",function(){
+        //         $("#modal-video-call-request").modal('hide')
+        //         $("#modal-user-video-call").modal('show')
+        //         sessionId = user_call.session_id
+        //         token = user_call.token
+        //         var session_call
+        //         var seconds = 0
+        //         var apiKey = "<%= ENV['VONAGE_API_KEY'] %>";
 
-                function upTimer() {
-                  ++seconds;
-                  let hour = Math.floor(seconds / 3600);
-                  if(hour < 10) hour = "0"+hour
-                  let minute = Math.floor((seconds - hour * 3600) / 60);
-                  if(minute < 10) minute = "0"+minute
-                  let updSecond = seconds - (hour * 3600 + minute * 60);
-                  if(updSecond < 10) updSecond = "0"+updSecond
-                  $("#user-timer-count").html(hour + ":" + minute + ":" + updSecond)
-                }
-                var timer = setInterval(upTimer, 1000);
+        //         function upTimer() {
+        //           ++seconds;
+        //           let hour = Math.floor(seconds / 3600);
+        //           if(hour < 10) hour = "0"+hour
+        //           let minute = Math.floor((seconds - hour * 3600) / 60);
+        //           if(minute < 10) minute = "0"+minute
+        //           let updSecond = seconds - (hour * 3600 + minute * 60);
+        //           if(updSecond < 10) updSecond = "0"+updSecond
+        //           $("#user-timer-count").html(hour + ":" + minute + ":" + updSecond)
+        //         }
+        //         var timer = setInterval(upTimer, 1000);
                 
-                function handleError(error) {
-                  if (error) {
-                    console.error(error);
-                  }
-                }
+        //         function handleError(error) {
+        //           if (error) {
+        //             console.error(error);
+        //           }
+        //         }
 
-                function initializeSession(apiKey,sessionId) {
-                  session_call = OT.initSession(apiKey, sessionId);
-                  session_call.on('streamCreated', function streamCreated(event) {
-                    var subscriberOptions = {
-                      insertMode: 'append',
-                      width: '100%',
-                      height: '100%',
-                      // subscribeToAudio: false
-                    };
-                    $("#user-subscriber").html("")
-                    var subscriber = session_call.subscribe(event.stream, 'user-subscriber', subscriberOptions, handleError);
-                  });
+        //         function initializeSession(apiKey,sessionId) {
+        //           session_call = OT.initSession(apiKey, sessionId);
+        //           session_call.on('streamCreated', function streamCreated(event) {
+        //             var subscriberOptions = {
+        //               insertMode: 'append',
+        //               width: '100%',
+        //               height: '100%',
+        //               // subscribeToAudio: false
+        //             };
+        //             $("#user-subscriber").html("")
+        //             var subscriber = session_call.subscribe(event.stream, 'user-subscriber', subscriberOptions, handleError);
+        //           });
 
-                  session_call.on('sessionDisconnected', function sessionDisconnected(event) {
-                    console.log('You were disconnected from the session.', event.reason);
-                  });
+        //           session_call.on('sessionDisconnected', function sessionDisconnected(event) {
+        //             console.log('You were disconnected from the session.', event.reason);
+        //           });
 
-                  // initialize the publisher
-                  var publisherOptions = {
-                    insertMode: 'append',
-                    width: '100%',
-                    height: '100%'
-                  };
-                  $("#user-publisher").html("")
-                  var publisher =  OT.initPublisher('user-publisher', publisherOptions, handleError);
-                  // Connect to the session
-                  session_call.connect(token, function callback(error) {
-                    if (error) {
-                      handleError(error);
-                    } else {
-                      // If the connection is successful, publish the publisher to the session
-                      session_call.publish(publisher, handleError);
-                    }
-                  });
+        //           // initialize the publisher
+        //           var publisherOptions = {
+        //             insertMode: 'append',
+        //             width: '100%',
+        //             height: '100%'
+        //           };
+        //           $("#user-publisher").html("")
+        //           var publisher =  OT.initPublisher('user-publisher', publisherOptions, handleError);
+        //           // Connect to the session
+        //           session_call.connect(token, function callback(error) {
+        //             if (error) {
+        //               handleError(error);
+        //             } else {
+        //               // If the connection is successful, publish the publisher to the session
+        //               session_call.publish(publisher, handleError);
+        //             }
+        //           });
 
-                  session_call.on('streamDestroyed', function sessionDisconnected(event) {
-                    $("#modal-user-video-call").modal("hide");
-                    $("#modal-end-video-call").modal("show")
-                    clearInterval(timer)
-                    $("#user-publisher").html("")
-                    $("#user-subscriber").html("")
-                    publisher.destroy()
-                    session_call.disconnect()
-                    $("#user-timer-count").html("00:00:00")
-                    $("#user-turn-on-camera").addClass("d-none")
-                    $("#user-turn-off-camera").removeClass("d-none")
-                    $("#user-turn-on-audio").addClass("d-none")
-                    $("#user-turn-off-audio").removeClass("d-none") 
-                    $.ajax({
-                    url: `/video_calls/set_status_call`,
-                    method: "PUT",
-                    data: {
-                      user_business_id: current_user_id,
-                      user_call_id: user_call.user_call_id,
-                      status: "available"
-                    }
-                    }).done(function( response) {
+        //           session_call.on('streamDestroyed', function sessionDisconnected(event) {
+        //             $("#modal-user-video-call").modal("hide");
+        //             $("#modal-end-video-call").modal("show")
+        //             clearInterval(timer)
+        //             $("#user-publisher").html("")
+        //             $("#user-subscriber").html("")
+        //             publisher.destroy()
+        //             session_call.disconnect()
+        //             $("#user-timer-count").html("00:00:00")
+        //             $("#user-turn-on-camera").addClass("d-none")
+        //             $("#user-turn-off-camera").removeClass("d-none")
+        //             $("#user-turn-on-audio").addClass("d-none")
+        //             $("#user-turn-off-audio").removeClass("d-none") 
+        //             $.ajax({
+        //             url: `/video_calls/set_status_call`,
+        //             method: "PUT",
+        //             data: {
+        //               user_business_id: current_user_id,
+        //               user_call_id: user_call.user_call_id,
+        //               status: "available"
+        //             }
+        //             }).done(function( response) {
 
-                    })                                              
-                  })
+        //             })                                              
+        //           })
 
-                  $("#user-turn-off-camera").on("click",function(){
-                    publisher.publishVideo(false);
-                    $("#user-turn-off-camera").addClass("d-none")
-                    $("#user-turn-on-camera").removeClass("d-none")
-                  })
+        //           $("#user-turn-off-camera").on("click",function(){
+        //             publisher.publishVideo(false);
+        //             $("#user-turn-off-camera").addClass("d-none")
+        //             $("#user-turn-on-camera").removeClass("d-none")
+        //           })
 
-                  $("#user-turn-on-camera").on("click",function(){
-                    publisher.publishVideo(true);
-                    $("#user-turn-on-camera").addClass("d-none")
-                    $("#user-turn-off-camera").removeClass("d-none")
-                  })
+        //           $("#user-turn-on-camera").on("click",function(){
+        //             publisher.publishVideo(true);
+        //             $("#user-turn-on-camera").addClass("d-none")
+        //             $("#user-turn-off-camera").removeClass("d-none")
+        //           })
 
-                  $("#user-turn-off-audio").on("click",function(){
-                    publisher.publishAudio(false);
-                    $("#user-turn-off-audio").addClass("d-none")
-                    $("#user-turn-on-audio").removeClass("d-none")
-                  })
+        //           $("#user-turn-off-audio").on("click",function(){
+        //             publisher.publishAudio(false);
+        //             $("#user-turn-off-audio").addClass("d-none")
+        //             $("#user-turn-on-audio").removeClass("d-none")
+        //           })
 
-                  $("#user-turn-on-audio").on("click",function(){
-                    publisher.publishAudio(true);
-                    $("#user-turn-on-audio").addClass("d-none")
-                    $("#user-turn-off-audio").removeClass("d-none")
-                  }) 
+        //           $("#user-turn-on-audio").on("click",function(){
+        //             publisher.publishAudio(true);
+        //             $("#user-turn-on-audio").addClass("d-none")
+        //             $("#user-turn-off-audio").removeClass("d-none")
+        //           }) 
 
-                  $("#user-close-video").on("click",function(){ 
-                    clearInterval(timer)
-                    $("#user-publisher").html("")
-                    $("#user-subscriber").html("")
-                    publisher.destroy()
-                    session_call.disconnect()
-                    $("#user-timer-count").html("00:00:00")
-                    $("#user-turn-on-camera").addClass("d-none")
-                    $("#user-turn-off-camera").removeClass("d-none")
-                    $("#user-turn-on-audio").addClass("d-none")
-                    $("#user-turn-off-audio").removeClass("d-none") 
-                    $.ajax({
-                    url: `/video_calls/set_status_call`,
-                    method: "PUT",
-                    data: {
-                      user_business_id: current_user_id,
-                      user_call_id: user_call.user_call_id,
-                      status: "available"
-                    }
-                    }).done(function( response) {
+        //           $("#user-close-video").on("click",function(){ 
+        //             clearInterval(timer)
+        //             $("#user-publisher").html("")
+        //             $("#user-subscriber").html("")
+        //             publisher.destroy()
+        //             session_call.disconnect()
+        //             $("#user-timer-count").html("00:00:00")
+        //             $("#user-turn-on-camera").addClass("d-none")
+        //             $("#user-turn-off-camera").removeClass("d-none")
+        //             $("#user-turn-on-audio").addClass("d-none")
+        //             $("#user-turn-off-audio").removeClass("d-none") 
+        //             $.ajax({
+        //             url: `/video_calls/set_status_call`,
+        //             method: "PUT",
+        //             data: {
+        //               user_business_id: current_user_id,
+        //               user_call_id: user_call.user_call_id,
+        //               status: "available"
+        //             }
+        //             }).done(function( response) {
 
-                    })                                              
-                  })
+        //             })                                              
+        //           })
                     
-                }
-                initializeSession(apiKey, sessionId)
-                $.ajax({
-                  url: `/video_calls/set_status_call`,
-                  method: "PUT",
-                  data: {
-                    user_business_id: current_user_id,
-                    user_call_id: user_call.user_call_id,
-                    accept: true,
-                    status: "accept_call"
-                  }
-                })
-                // clearInterval(callInterval)
-              })
-              $("#reject-call").on("click",function(){
-                $.ajax({
-                  url: `/video_calls/set_status_call`,
-                  method: "PUT",
-                  data: {
-                    user_business_id: current_user_id,
-                    user_call_id: user_call.user_call_id,
-                    status: "reject"
-                  }
-                })
-              })
-            }
-            if(response.list_user_call.length == 0){
-              $("#modal-video-call-request").modal('hide')
-            }
-          });
-        }, 5000);
+        //         }
+        //         initializeSession(apiKey, sessionId)
+        //         $.ajax({
+        //           url: `/video_calls/set_status_call`,
+        //           method: "PUT",
+        //           data: {
+        //             user_business_id: current_user_id,
+        //             user_call_id: user_call.user_call_id,
+        //             accept: true,
+        //             status: "accept_call"
+        //           }
+        //         })
+        //         // clearInterval(callInterval)
+        //       })
+        //       $("#reject-call").on("click",function(){
+        //         $.ajax({
+        //           url: `/video_calls/set_status_call`,
+        //           method: "PUT",
+        //           data: {
+        //             user_business_id: current_user_id,
+        //             user_call_id: user_call.user_call_id,
+        //             status: "reject"
+        //           }
+        //         })
+        //       })
+        //     }
+        //     if(response.list_user_call.length == 0){
+        //       $("#modal-video-call-request").modal('hide')
+        //     }
+        //   });
+        // }, 5000);
       }
     }
   })

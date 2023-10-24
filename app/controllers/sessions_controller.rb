@@ -1,6 +1,6 @@
 class SessionsController < Devise::SessionsController
 	layout 'application_v_2'
-	# before_action :verify_2factor, only: :create
+	before_action :verify_2factor, only: :create
 
 	def verify_two_factor
 		@valid_user = valid_user?

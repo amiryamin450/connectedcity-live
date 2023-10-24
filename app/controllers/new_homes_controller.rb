@@ -38,7 +38,7 @@ class NewHomesController < ApplicationController
     @new_home = @new_home_community.new_homes.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @new_home }
     end
   end

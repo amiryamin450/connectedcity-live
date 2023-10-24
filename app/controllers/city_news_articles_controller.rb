@@ -199,7 +199,7 @@ class CityNewsArticlesController < ApplicationController
     districts
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @city_news_article }
     end
   end

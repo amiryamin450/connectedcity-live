@@ -8,155 +8,172 @@
   @blog_entries = @vertical_market.get_blog_entries(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
   @coupons = @vertical_market.get_coupons(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
 %>
+
 <ul class="nav nav-tabs justify-content-start" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link active" data-toggle="tab" href="#Update">Update</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#Videos">Videos</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#Products">Products</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#Services">Services</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#Events">Events</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#News">News</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#Blogs">Blogs</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#Offers">Offers</a>
-    </li>
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#Update">Update</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#Videos">Videos</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#Products">Products</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#Services">Services</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#Events">Events</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#News">News</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#Blogs">Blogs</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#Offers">Offers</a>
+  </li>
 </ul>
+
 <!-- Tab panes -->
 <div class="tab-content">
-    <div id="Update" class="container tab-pane active">
-      <br>
-      <h3>Updates</h3><br>
-      <% if @status_updates.size > 0 %>
-          <% @status_updates.each do |status_update| %>
-            <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
-          <% end %>
-      <% else %>
-        <div class="alert">No Market Updates found.</div>
+  <div id="Update" class="container tab-pane active">
+    <br>
+    <h3>Updates</h3><br>
+    <% if @status_updates.size > 0 %>
+      <% @status_updates.each do |status_update| %>
+        <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
       <% end %>
-    </div>
-    <div id="Videos" class="container tab-pane fade">
-      <br>
-      <h3>Videos</h3><br>
-      <% if @media_attachments.size > 0 %>
-          <% @media_attachments.each do |media_attachment| %>
-            <%= render 'layouts/application_v_2/media_attachment_basic', media_attachment: media_attachment %>
-          <% end %>
-      <% else %>
-        <div class="alert">No Videos found.</div>
+    <% else %>
+      <div class="alert">No Market Updates found.</div>
+    <% end %>
+  </div>
+
+  <div id="Videos" class="container tab-pane fade">
+    <br>
+    <h3>Videos</h3><br>
+    <% if @media_attachments.size > 0 %>
+      <% @media_attachments.each do |media_attachment| %>
+        <%= render 'layouts/application_v_2/media_attachment_basic', media_attachment: media_attachment %>
       <% end %>
-    </div>
-    <!--  -->
-    <div id="Products" class="container tab-pane fade">
-      <br>
-      <h3>Products</h3>
-      <% if @products.size > 0 %>
-          <% @products.each do |product| %>
-            <%= render 'layouts/application_v_2/product', product: product %>
-          <% end %>
-      <% else %>
-        <div class="alert">No Products found.</div>
+    <% else %>
+      <div class="alert">No Videos found.</div>
+    <% end %>
+  </div>
+
+  <!--  -->
+  <div id="Products" class="container tab-pane fade">
+    <br>
+    <h3>Products</h3>
+    <% if @products.size > 0 %>
+      <% @products.each do |product| %>
+        <%= render 'layouts/application_v_2/product', product: product %>
       <% end %>
-    </div>
-    <!--  -->
-    <div id="Services" class="container tab-pane fade">
-      <br>
-      <h3>Services</h3>
-      <% if @services.size > 0 %>
-          <% @services.each do |service| %>
-            <%= render 'layouts/application_v_2/product', product: service %>
-          <% end %>
-      <% else %>
-        <div class="alert">No services found.</div>
+    <% else %>
+      <div class="alert">No Products found.</div>
+    <% end %>
+  </div>
+
+  <!--  -->
+  <div id="Services" class="container tab-pane fade">
+    <br>
+    <h3>Services</h3>
+    <% if @services.size > 0 %>
+      <% @services.each do |service| %>
+        <%= render 'layouts/application_v_2/product', product: service %>
       <% end %>
-    </div>
-    <!--  -->
-    <div id="Events" class="container tab-pane">
-      <br>
-      <h3>Events</h3><br>
-      <% if @events.size > 0 %>
-          <% @events.each do |event| %>
-            <%= render 'layouts/application_v_2/event', event: event %>
-          <% end %>
-      <% else %>
-        <div class="alert">No Events found.</div>
+    <% else %>
+      <div class="alert">No services found.</div>
+    <% end %>
+  </div>
+
+  <!--  -->
+  <div id="Events" class="container tab-pane">
+    <br>
+    <h3>Events</h3><br>
+    <% if @events.size > 0 %>
+      <% @events.each do |event| %>
+        <%= render 'layouts/application_v_2/event', event: event %>
       <% end %>
-    </div>
-    <div id="News" class="container tab-pane fade">
-      <br>
-      <h3>News</h3><br>
-      <% if @news_articles.size > 0 %>
-          <% @news_articles.each do |news_article| %>
-            <%= render 'layouts/application_v_2/news_article', news_article: news_article %>
-          <% end %>
-      <% else %>
-        <div class="alert">No News found.</div>
+    <% else %>
+      <div class="alert">No Events found.</div>
+    <% end %>
+  </div>
+
+  <div id="News" class="container tab-pane fade">
+    <br>
+    <h3>News</h3><br>
+    <% if @news_articles.size > 0 %>
+      <% @news_articles.each do |news_article| %>
+        <%= render 'layouts/application_v_2/news_article', news_article: news_article %>
       <% end %>
-    </div>
-    <div id="Blogs" class="container tab-pane fade">
-      <br>
-      <h3>Blogs</h3><br>
-      <% if @blog_entries.size > 0 %>
-          <% @blog_entries.each do |blog_entry| %>
-            <%= render 'layouts/application_v_2/blog_entry', blog_entry: blog_entry %>
-          <% end %>
-      <% else %>
-        <div class="alert">No Blogs found.</div>
+    <% else %>
+      <div class="alert">No News found.</div>
+    <% end %>
+  </div>
+
+  <div id="Blogs" class="container tab-pane fade">
+    <br>
+    <h3>Blogs</h3><br>
+    <% if @blog_entries.size > 0 %>
+      <% @blog_entries.each do |blog_entry| %>
+        <%= render 'layouts/application_v_2/blog_entry', blog_entry: blog_entry %>
       <% end %>
-    </div>
-    <div id="Offers" class="container tab-pane fade">
-      <br>
-      <h3>Offers</h3><br>
-      <%= render @coupons %>
-    </div>
+    <% else %>
+      <div class="alert">No Blogs found.</div>
+    <% end %>
+  </div>
+
+  <div id="Offers" class="container tab-pane fade">
+    <br>
+    <h3>Offers</h3><br>
+    <%= render @coupons %>
+  </div>
 </div>
+
 <% if @media_attachments.size > 0 %>
   <% @media_attachments.each do |media_attachment| %>
     <%= render 'layouts/application_v_2/video_popup_basic_version', media_attachment: media_attachment %>
   <% end %>
 <% end %>
+
 <% if @status_updates.size > 0 %>
   <% @status_updates.each do |status_update| %>
     <%= render 'status_updates/modal_content_latest', status_update: status_update %>
   <% end %>
 <% end %>
+
 <% if @news_articles.size > 0 %>
   <% @news_articles.each do |news_article| %>
     <%= render 'news_articles/modal_news_latest', news: news_article %>
   <% end %>
 <% end %>
+
 <% if @events.size > 0 %>
   <% @events.each do |event| %>
     <%= render 'status_updates/modal_event_latest', event: event %>
   <% end %>
 <% end %>
+
 <% if @products.size > 0 %>
   <% @products.each do |product| %>
     <%= render 'products/modal_content', product: product %>
   <% end %>
 <% end %>
+
 <% if @blog_entries.size > 0 %>
   <% @blog_entries.each do |blog| %>
     <%= render 'blog_entries/modal_content', blog: blog %>
   <% end %>
 <% end %>
+
 <% if @coupons.size > 0 %>
   <% @coupons.each do |coupon| %>
     <%= render 'coupons/modal_content', coupon: coupon %>
   <% end %>
 <% end %>
+
 <script type="text/javascript">
   $('.video-attachment-event-category').on('click', function() {
     var modal = $(this);
@@ -173,6 +190,7 @@
     var url = v.attr('data-src');
     v.attr('src', url)
   })
+
   $('.close.media-attachment-category').on('click', function() {
     var modal = $(this);
     var valueId = modal.attr('data-id');
@@ -181,7 +199,7 @@
     v.attr('src', '')
   })
 
-  $(".modal .close").click(function(){
+  $(".modal .close").click(function() {
     $('.modal-backdrop.in').remove();
   })
 </script>

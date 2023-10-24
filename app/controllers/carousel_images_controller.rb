@@ -31,7 +31,7 @@ class CarouselImagesController < ApplicationController
     @carousel_image = @carouselable.carousel_images.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @carousel_image }
     end
   end

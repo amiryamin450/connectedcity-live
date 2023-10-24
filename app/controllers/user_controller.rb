@@ -1,12 +1,13 @@
 class UserController < ApplicationController
-  before_action :authenticate_user
+  before_action :authenticate_user!
+  
   load_and_authorize_resource except: [:release_coupon, :coupons, :favorites]
 
-  skip_before_action :require_no_authentication, :only => [:new, :create]
+  # skip_before_action :require_no_authentication, :only => [:new, :create]
 
   def index
-
     @users = User.order(:first_name)
+
     respond_to do |format|
       format.html
       format.json { render json: @users.order(:email).where("email like ?", "%#{params[:q]}%") }
@@ -16,7 +17,7 @@ class UserController < ApplicationController
   def show
     @user = User.find(params[:id])
     @slug = @user.name.presence || @user.email.presence
-    @location = Location.unscoped.find_or_initialize_by_slug(@slug.parameterize('-'))
+    @location = Location.unscoped.find_or_initialize_by(slug: @slug.parameterize)
 
     if @location.new_record?
       init_empty_location
@@ -30,7 +31,7 @@ class UserController < ApplicationController
       redirect_to edit_location_path(@location)
     else
       respond_to do |format|
-        format.html { render layout: 'application_v_2' } # show.html.erb
+        format.html { render layout: 'application_v_2' }
         format.json { render json: @user }
       end
     end
@@ -59,7 +60,6 @@ class UserController < ApplicationController
   end
 
   def update
-
     @user = User.find(params[:id])
 
     password_changed = !params[:user][:password].empty?
@@ -70,8 +70,6 @@ class UserController < ApplicationController
       @user.update_without_password(params[:user])
     end
 
-
-
     if @user.update_attributes(params[:user])
       redirect_to user_index_path, :notice => "User updated."
     else
@@ -80,7 +78,6 @@ class UserController < ApplicationController
   end
 
   def destroy
-
     user = User.find(params[:id])
     unless user == current_user
       user.destroy
@@ -91,7 +88,6 @@ class UserController < ApplicationController
   end
 
   def autocomplete
-
   end
 
   def make_admin
@@ -115,7 +111,6 @@ class UserController < ApplicationController
     else
       VerticalMarket.where(ancestry_depth: 0)
     end
-     #where(params[:name].present? ? {slug: params[:name]} : {})
     @user = User.find(params[:id])
 
     location_ids = Favorite.where(user_id: params[:id]).pluck(:location_id).compact

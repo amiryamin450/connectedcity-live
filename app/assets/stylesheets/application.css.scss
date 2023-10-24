@@ -1,7 +1,8 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
 @import "advertising";
 @import "application_layout";
 @import "compass";
-@import "bootstrap";
 @import "bootstrap_and_overrides";
 @import "favorites.css.scss";
 @import "leaflet/leaflet";
@@ -397,17 +398,16 @@ input, textarea, .uneditable-input {
 
 .addthis {
   .addthis_toolbox { float: right; }
-
 }
 
 a {
- &.admin-link {
-  background: #000;
-  color: #FFF !important;
-  border-radius: 4px;
-  margin-left: 1.5em;
-  padding: 0px 10px;
-}
+  &.admin-link {
+    background: #000;
+    color: #FFF !important;
+    border-radius: 4px;
+    margin-left: 1.5em;
+    padding: 0px 10px;
+  }
 }
 
 ul.ui-autocomplete {

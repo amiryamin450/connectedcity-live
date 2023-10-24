@@ -15,7 +15,7 @@ gem 'devise', '~> 4.9.2'
 gem 'google-authenticator-rails'
 gem 'dropzonejs-rails'
 gem 'font-awesome-rails', '~> 4.7.0.8'
-gem 'friendly_id'
+gem 'friendly_id', '~> 5.4.0'
 gem 'geocoder'
 gem 'instagram'
 gem 'jqcloud-rails'
@@ -65,13 +65,17 @@ gem 'opentok', '~> 4.0'
 gem 'prismic.io', require: 'prismic'
 gem 'vonage'
 
+####################################################################
 gem 'bootstrap-colorpicker-rails'
-gem 'bootstrap-sass'
+
+gem 'bootstrap-sass', '~> 3.4.1'
+gem 'sassc-rails', '>= 2.1.0'
+
 gem 'coffee-rails', '~> 5.0.0'
 gem 'compass-rails'
-gem 'sass-rails',   '~> 6.0.0'
 gem 'uglifier', '>= 1.0.3'
 gem 'haml-rails', '~> 2.1.0'
+####################################################################
 
 group :development, :test do
   gem 'factory_girl_rails'

@@ -89,7 +89,7 @@ class VerticalMarketCategoriesController < ApplicationController
     @vertical_market_category = VerticalMarketCategory.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @vertical_market_category }
     end
   end

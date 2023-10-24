@@ -34,6 +34,12 @@ Connectbook::Application.routes.draw do
 
   # Routes that require authentication.
   authenticate :user do
+    resources :social_profiles, path: "social-profiles", only: [] do
+      collection do
+        get "", to: redirect { |_, request| "#{request.params[:redirect_to]}?#{request.params.except(:redirect_to, :social_network).to_query}" }, constraints: ->(request) { request.params[:code] }, as: ""
+      end
+    end
+
     resources :classified_images, only: [:destroy]
     resources :classified_listings, except: [:index, :show]
     resources :favorites, only: [:create, :destroy] do
@@ -58,6 +64,72 @@ Connectbook::Application.routes.draw do
 
     get "business/new", to: "locations#new"
 
+    #############################################
+    resources :locations, path: 'business', as: :locations, only: [:edit, :update] do
+      resources :automotive_listings, except: [:show]
+      resources :blog_entries, path: 'blog', except: [:show]
+      resources :coupons, except: [:show]
+      resources :employment_listings, except: [:show]
+      resources :events, except: [:show]
+      resources :media_attachments, only: [:new, :create, :index, :destroy]
+      resources :location_menus, except: [:show]
+      resources :news_articles, path: 'news', except: [:show]
+
+      resources :new_home_communities, except: [:show] do
+        resources :status_updates, only: [] do
+          member do
+            delete "destroy_status_update", controller: "new_home_communities", as: ''
+          end
+        end
+      end
+
+      resources :rental_properties, except: [:show] do
+        resources :status_updates, only: [] do
+          member do
+            delete "destroy_status_update", controller: "rental_properties", as: ''
+          end
+        end
+      end
+
+      resources :products, except: [:show] do
+        collection do
+          get 'specific/:category_id' => 'products#specific', as: :specific
+        end
+      end
+
+      resources :services, except: [:show]
+      resources :real_estate_listings, path: 'listings', except: [:show]
+      resources :status_updates, path: 'status-updates', only: [:index, :new, :create, :destroy]
+      resources :managers, only: [:new, :create, :destroy]
+      resources :messages, only: [:new, :create]
+
+      resources :real_estate_listings, path: 'listings', except: [:show] do
+        resources :real_estate_listings_images, only: [:destroy]
+      end
+
+      member do
+        with_options constraints: ->(request) { Location.find(request.params[:id]).user_ids.empty? } do
+          get 'claim', action: :claim, as: :claim
+          put 'claim', action: :claim_process
+        end
+        get 'release', action: :release, as: :release
+        get :connected_advertiser, as: :connected_advertiser
+      end
+
+
+      resources :social_profiles, path: "social-profiles", only: [:index, :destroy] do
+        new do
+          get ":social_network" => :new, as: ""
+        end
+
+        collection do
+          get ":social_network" => :create, constraints: ->(request) { request.params[:code] }, as: :create
+          get ":social_network" => :create, constraints: ->(request) { request.params[:oauth_token] && request.params[:oauth_verifier] }
+        end
+      end
+    end
+    #############################################
+
     resources :new_home_communities, except: [:show] do
       resources :new_homes, except: [:show]
     end
@@ -75,6 +147,7 @@ Connectbook::Application.routes.draw do
         get ":folder" => :index, constraints: { folder: /sent|trash/ }
       end
     end
+
     resources :messages, as: :mailboxer_conversations, only: [:show]
 
     get 'brands_autocomplete' => 'brands#autocomplete'
@@ -133,7 +206,6 @@ Connectbook::Application.routes.draw do
         resources :rental_units, except: [:show]
       end
 
-      # eg. business/action
       collection do
         get :pending_claims
         get :import
@@ -146,7 +218,7 @@ Connectbook::Application.routes.draw do
         get :get_sub_neighborhoods_by_neighborhood
         get :get_municipalites_by_province
       end
-      # eg. business/:id/action
+
       member do
         get :approve_claim
         get :reject_claim
@@ -184,6 +256,46 @@ Connectbook::Application.routes.draw do
 
   resources :user, only: :show
 
+  resources :locations, path: 'business', as: :locations, only: [:show] do
+    resources :automotive_listings, only: [:show]
+    resources :blog_entries, path: 'blog', only: [:show]
+    resources :coupons, only: [:show]
+    resources :employment_listings, only: [:show]
+    resources :events, only: [:show]
+    resources :media_attachments, only: [:show, :index]
+    resources :location_menus, only: [:show]
+    resources :news_articles, path: 'news', only: [:show]
+    resources :products, only: [:show]
+    resources :real_estate_listings, path: 'listings', only: [:show]
+    resources :services, only: [:show]
+
+    resources :new_home_communities, only: [:show] do
+      resources :new_homes, only: [:show]
+    end
+
+    resources :rental_properties, only: [:show] do
+      resources :rental_units, only: [:show]
+    end
+
+    resources :social_profiles, path: "social-profiles", only: [:show]
+
+    resources :media_attachments do
+      get :preview
+      collection do
+        post :start_archive
+        post :start_broadcast
+        get 'stop_broadcast/:broadcast_id' => 'media_attachments#stop_broadcast'
+        get 'stop_archive/:archive_id' => 'media_attachments#stop_archive'
+        get 'pause_archive/:archive_id' => 'media_attachments#pause_archive'
+        get 'resume_archive/:archive_id' => 'media_attachments#resume_archive'
+        get 'preview/:media_attachment_id' => 'media_attachments#preview'
+      end
+    end
+
+    get 'connect_stripe'
+    get 'disconnect_stripe'
+  end
+
   resources :videos do
     get 'check_video_url' => 'videos#check_video_url'
     get 'mute_video_audio' => 'videos#mute_video_audio'
@@ -193,12 +305,12 @@ Connectbook::Application.routes.draw do
   end
 
   # Static Pages
-  # get 'about' => 'StaticPages#about'
-  # get 'terms' => 'StaticPages#terms'
-  # get 'privacy' => 'StaticPages#privacy'
-  # get 'advertise' => 'StaticPages#advertise'
-  # get 'thankyou' => 'StaticPages#shopper_thank_you', as: :shopper_thank_you_path
-  # get 'businessthankyou' => 'StaticPages#business_thank_you', as: :business_thank_you_path
+  get 'about', controller: 'static_pages'
+  get 'terms', controller: 'static_pages'
+  get 'privacy', controller: 'static_pages'
+  get 'advertise', controller: 'static_pages'
+  get 'thankyou', controller: 'static_pages', action: 'shopper_thank_you', as: :shopper_thank_you_path
+  get 'businessthankyou', controller: 'static_pages', action: 'business_thank_you', as: :business_thank_you_path
 
   get 'contact' => 'contacts#new'
 

@@ -44,7 +44,7 @@ class ClassifiedListingsController < ApplicationController
     @classified_listing = ClassifiedListing.new(active: true)
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @classified_listing }
     end
   end

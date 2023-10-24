@@ -1,6 +1,6 @@
 class NewsArticle < ApplicationRecord
   belongs_to :newsable, polymorphic: true
-  belongs_to :location, -> { where(newsable_type: 'Location') }, foreign_key: "newsable_id"
+  belongs_to :location, -> { where(news_articles: { newsable_type: "Location" }) }, foreign_key: "newsable_id"
   belongs_to :user
   belongs_to :category
 
@@ -25,9 +25,9 @@ class NewsArticle < ApplicationRecord
 
   def geo_location
     if latitude.blank? || longitude.blank?
-      {:lat => self.newsable.latitude, :long => self.newsable.longitude}
+      { :lat => self.newsable.latitude, :long => self.newsable.longitude }
     else
-      {:lat => latitude, :long => longitude}
+      { :lat => latitude, :long => longitude }
     end
   end
 end

@@ -32,7 +32,7 @@ class CityNewsCategoriesController < ApplicationController
     @city_news_category = CityNewsCategory.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @city_news_category }
     end
   end

@@ -84,7 +84,7 @@ class CartsController < ApplicationController
     @cart = Cart.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @cart }
     end
   end

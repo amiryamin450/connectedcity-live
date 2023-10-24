@@ -238,7 +238,7 @@ class VerticalMarketsController < ApplicationController
     #@vertical_markets = VerticalMarket.arrange_as_array(:order => 'name', @vertical_market.possible_parents)
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @vertical_market }
     end
   end

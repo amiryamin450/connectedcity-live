@@ -27,7 +27,7 @@ class City < ApplicationRecord
 
   friendly_id :csdname, use: [:slugged]
 
-  has_attached_file :home_page_image, styles: {thumb: "100x100>"},
+  has_attached_file :home_page_image, styles: { thumb: "100x100>" },
                       default_url: '/assets/home_page_image/default.jpg'
 
   def name

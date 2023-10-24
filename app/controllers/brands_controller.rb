@@ -36,7 +36,7 @@ class BrandsController < ApplicationController
     @brand = Brand.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @brand }
     end
   end

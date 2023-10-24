@@ -41,7 +41,7 @@ class Location < ApplicationRecord
   has_many :real_estate_listings, dependent: :destroy
   has_many :rental_properties, dependent: :destroy
   has_many :new_home_communities, dependent: :destroy
-  has_many :vertical_markets, through: :vertical_market_categories
+
   has_many :employment_listings
   has_many :coupons, dependent: :destroy
   has_many :automotive_listings, dependent: :destroy
@@ -54,6 +54,8 @@ class Location < ApplicationRecord
   accepts_nested_attributes_for :operating_hours
 
   has_and_belongs_to_many :vertical_market_categories
+  has_many :vertical_markets, through: :vertical_market_categories
+
   has_and_belongs_to_many :brands
   has_and_belongs_to_many :trade_associations
 
@@ -163,8 +165,6 @@ class Location < ApplicationRecord
     integer :neighborhood_id
     integer :sub_neighborhood_id
     integer :municipality_id
-
-
   end
 
   private

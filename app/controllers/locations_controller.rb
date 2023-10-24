@@ -6,7 +6,6 @@ class LocationsController < ApplicationController
   before_action :set_location, only: [:connect_stripe, :disconnect_stripe]
 
   def index
-
     @search = Location.search(params[:q])
     @locations = @search.result.order(:name).page(params[:page])
 
@@ -16,7 +15,6 @@ class LocationsController < ApplicationController
   end
 
   def show
-
     @location = Location.unscoped.includes(:location_images).find(params[:id])
     @location_menus = Location.unscoped.includes(:location_menus).find(params[:id])
 
@@ -116,15 +114,14 @@ class LocationsController < ApplicationController
 
     # 3.times { @location.location_images.build }
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @location }
     end
   end
 
   # GET /locations/1/edit
   def edit
-
-    @location = Location.unscoped.find(params[:id])
+    @location = Location.unscoped.friendly.find(params[:id])
     if @location.is_profile
       @vertical_market_categories = VerticalMarketCategory.where(slug: 'connectedcitizen')
     elsif @location.hall_id.present?

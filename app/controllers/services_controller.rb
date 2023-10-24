@@ -37,7 +37,7 @@ class ServicesController < ApplicationController
     @service = @location.services.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @service }
     end
   end

@@ -40,7 +40,7 @@ class AutomotiveListingsController < ApplicationController
     @automotive_listing = @location.automotive_listings.new
 	@auto_makers = get_auto_makers
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @automotive_listing }
     end
   end

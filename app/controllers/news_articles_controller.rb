@@ -48,7 +48,7 @@ class NewsArticlesController < ApplicationController
     @news_article = @location.news_articles.new(user_id: current_user.id)
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @news_article }
     end
   end

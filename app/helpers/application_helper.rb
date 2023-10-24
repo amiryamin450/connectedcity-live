@@ -14,11 +14,6 @@ module ApplicationHelper
   end
 
   def get_current_district
-    # if @district == nil
-    #   current_district = @city
-    # else
-    #   current_district = @district
-    # end
     @sub_neigborhood || @neighborhood || @district || @city || @municipality
   end
 

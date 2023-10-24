@@ -49,7 +49,7 @@ class RentalPropertiesController < ApplicationController
     @rental_property_styles = RentalProperty::STYLES
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @rental_property }
     end
   end

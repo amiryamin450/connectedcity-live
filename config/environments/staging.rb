@@ -79,5 +79,4 @@ Connectbook::Application.configure do
   config.to_prepare do
     Devise::SessionsController.layout "application_v_2"
   end
-
 end

@@ -43,7 +43,7 @@ class NewHomeCommunitiesController < ApplicationController
     @new_home_community_styles = NewHomeCommunity::STYLES
     
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @new_home_community }
     end
   end

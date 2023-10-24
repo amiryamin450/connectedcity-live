@@ -1,6 +1,6 @@
 class BlogEntry < ApplicationRecord
   belongs_to :bloggable, polymorphic: true
-  belongs_to :location, -> { where(bloggable_type: 'Location') }, foreign_key: "bloggable_id"
+  belongs_to :location, -> { where(blog_entries: { bloggable_type: 'Location' }) }, foreign_key: "bloggable_id"
   belongs_to :user
 
   extend FriendlyId

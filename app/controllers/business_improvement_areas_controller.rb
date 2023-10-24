@@ -55,7 +55,7 @@ class BusinessImprovementAreasController < ApplicationController
     @business_improvement_area = BusinessImprovementArea.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @business_improvement_area }
     end
   end
