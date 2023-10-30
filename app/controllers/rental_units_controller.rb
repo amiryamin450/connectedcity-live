@@ -9,7 +9,7 @@ class RentalUnitsController < ApplicationController
     @rental_units = @rental_property.rental_units
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @rental_units }
     end
   end
@@ -32,7 +32,7 @@ class RentalUnitsController < ApplicationController
 
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @rental_unit }
     end
   end

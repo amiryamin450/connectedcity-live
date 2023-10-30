@@ -19,7 +19,7 @@ class VerticalMarketCategoriesController < ApplicationController
     @vertical_market_categories = @search.result.order(:name).page params[:page]
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @vertical_market_categories }
     end
   end
@@ -52,7 +52,7 @@ class VerticalMarketCategoriesController < ApplicationController
     add_crumb @vertical_market_category.vertical_market.name, "#{@base_path}guide/#{@vertical_market_category.vertical_market.slug}"
     add_crumb @vertical_market_category.name
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @vertical_market_category }
     end
   end

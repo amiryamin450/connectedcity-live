@@ -9,7 +9,7 @@ class NewsArticlesController < ApplicationController
     @news_articles = @location.news_articles
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @news_articles }
     end
   end
@@ -29,7 +29,7 @@ class NewsArticlesController < ApplicationController
     add_crumb "News"
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @news_article }
     end
   end

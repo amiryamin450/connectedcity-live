@@ -3,7 +3,6 @@ class FavoritesController < ApplicationController
 
   def create
     @favorite = Favorite.create({location_id: params[:location_id], user_id: current_user.id, category: params[:category]})
-    current_user.connection.clear_query_cache
     @favorites = current_user.favorites.all
     @location = @favorite.location
     @btn = 'like_button_v2'
@@ -13,7 +12,6 @@ class FavoritesController < ApplicationController
 
   def destroy
     favorite = Favorite.find(params[:id]).destroy
-    current_user.connection.clear_query_cache
     @favorites = current_user.favorites.all
     @location = Location.unscoped.find(favorite.location_id)
     @btn = @location.is_profile ? 'user_follow_button' : 'like_button_v2'

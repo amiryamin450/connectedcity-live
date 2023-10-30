@@ -8,7 +8,7 @@ class CountriesController < ApplicationController
     @countries = Country.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @countries }
     end
   end
@@ -19,7 +19,7 @@ class CountriesController < ApplicationController
     @country = Country.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @country }
     end
   end

@@ -18,7 +18,7 @@ class VerticalMarketsController < ApplicationController
     @test = VerticalMarket.roots
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @vertical_markets }
     end
   end
@@ -26,10 +26,10 @@ class VerticalMarketsController < ApplicationController
   # GET /vertical_markets/1
   # GET /vertical_markets/1.json
   def show
-    @vertical_market = VerticalMarket.find(params[:id])
+    @vertical_market = VerticalMarket.friendly.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @vertical_market }
     end
   end
@@ -39,9 +39,9 @@ class VerticalMarketsController < ApplicationController
   # Pretty sure it was named guide because its creator is out of ideas and obviously, it guide the instance variables @abc to the right values ...sneer... -Tom Tran
   def guide
     market_param = params[:market] === 'news' ? 'civic-news' : params[:market]
-    @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).find(market_param)
+    @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).friendly.find(market_param)
 
-        # init_category_values
+    # init_category_values
     if params[:market] === 'news'
       districts
       neighborhoods
@@ -52,6 +52,7 @@ class VerticalMarketsController < ApplicationController
       events_temp = []
       news_temp = []
       status_updates_temp = []
+
       locations_of_civic_news(params[:municipality_slug], params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each_with_index do |i, idx|
         media_filter = i.media_attachments
         events_filter = i.events
@@ -91,6 +92,7 @@ class VerticalMarketsController < ApplicationController
       neighborhood_slug = params[:neighborhood_slug]
       @neighborhood = neighborhood_slug ? Neighborhood.find_by_slug(neighborhood_slug) : nil
       @sub_neighborhood = params[:sub_neighborhood_slug] ? @neighborhood.sub_neighborhoods.find_by_slug(params[:sub_neighborhood_slug]) : nil
+
       if params[:city_slug] || district_slug || neighborhood_slug || params[:sub_neighborhood_slug]
         @municipality_of_city = @city.municipality
         @region_of_city = @municipality_of_city.region
@@ -294,9 +296,7 @@ class VerticalMarketsController < ApplicationController
   end
 
   def get_rental_unit_styles
-	[
-	  'Condominiums', 'Houses', 'Townhomes'
-	]
+	  ['Condominiums', 'Houses', 'Townhomes']
   end
 
   def categories_without_municipality

@@ -1,5 +1,20 @@
 <div class="pad10 holder" style="padding-left: 30px;">
-  <%= simple_form_for(@location, :html => { :multipart => true, class: 'form-horizontal location_business', id: 'fileupload' }) do |f| %>
+  <%= simple_form_for(
+    @location, 
+    :html => { :multipart => true, class: 'form-horizontal', id: 'fileupload' }, 
+    wrapper: :horizontal_form,
+    wrapper_mappings: {
+      boolean:       :horizontal_boolean,
+      check_boxes:   :horizontal_collection,
+      date:          :horizontal_multi_select,
+      datetime:      :horizontal_multi_select,
+      file:          :horizontal_file,
+      radio_buttons: :horizontal_collection,
+      range:         :horizontal_range,
+      time:          :horizontal_multi_select,
+      select:        :horizontal_select
+    }
+  ) do |f| %>
     <%= f.error_notification %>
     <div class="tabbable">
       <ul class="nav nav-pills">
@@ -30,9 +45,7 @@
             <%= link_to("Menus", location_location_menus_path(@location)) %>
           </li>
         <% else %>
-          <li>
-            <%#= link_to("Flyers", location_location_menus_path(@location)) %>
-          </li>
+          <li></li>
         <% end %>
         <% if @managers.present? %>
         <li>
@@ -58,14 +71,14 @@
       <div class="tab-content">
         <% if current_user.has_role? :admin %>
           <div class="tab-pane active" id="location">
-            <%= f.association :country %>
-            <%= f.association :province, collection: get_collection(Province, :country, :country_id, f.object)%>
-            <%= f.association :municipality,label: "Metro/Sub-Region", collection: get_collection(Municipality, :province, :province_id, f.object )%>
-            <%= f.association :city, collection: get_collection(City, :province, :pruid, f.object)%>
+            <%= f.association :country  %>
+            <%= f.association :province, collection: get_collection(Province, :country, :country_id, f.object) %>
+            <%= f.association :municipality,label: "Metro/Sub-Region", collection: get_collection(Municipality, :province, :province_id, f.object ) %>
+            <%= f.association :city, collection: get_collection(City, :province, :pruid, f.object) %>
             <%= f.association :district, collection: get_collection(District, :city, :city_id, f.object) %>
             <%= f.association :neighborhood, collection: get_collection(Neighborhood, :district, :district_id, f.object) %>
             <%= f.association :sub_neighborhood, collection: get_collection(Neighborhood, :neighborhood, :neighborhood_id, f.object) %>
-            <%= f.input :vertical_market_category_ids, label: "Vertical market categories", collection: @vertical_market_categories, input_html: { multiple: true }, disabled: !current_user.has_role?(:admin) %>
+            <%= f.input :vertical_market_category_ids, label: "Vertical market categories", collection: @vertical_market_categories, input_html: { multiple: true }, disabled: !current_user.has_role?(:admin), wrapper: :horizontal_collection_inline %>
           </div>
           <div class="tab-pane" id="agents">
             <%= link_to 'Create New Agent', new_location_path(broker_id: @location.id), class: 'btn'  %>
@@ -155,7 +168,6 @@
             <% end %>
             <%= link_to 'Create New Parks & Recreation Commissioners Member', new_location_path(commissioner_id: @location.id), class: 'btn'  %>
           </div>
-          
         <% end %>
         <div class="tab-pane <%= 'active' unless current_user.has_role? :admin %>" id="info">
           <%= f.input :broker_id, as: :hidden %>
@@ -166,7 +178,7 @@
           <%= f.input :address %>
           <%= f.input :latitude, as: :hidden %>
           <%= f.input :longitude, as: :hidden %>
-          <input id="value_address" class="hidden" value="<%= @location.address %>" ></input>
+          <input id="value_address" class="hidden" value="<%= @location.address %>" />
           <%= f.input :address_1 %>
           <%= f.input :postal_code %>
           <%= f.association :trade_associations %>

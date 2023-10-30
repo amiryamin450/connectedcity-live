@@ -19,6 +19,8 @@ class Event < ApplicationRecord
     thumb: "150x150#", list: "320x200#"
   }
 
+  validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
+
   def geo_location
     if latitude.blank? || longitude.blank?
       {:lat => self.location.latitude, :long => self.location.longitude}

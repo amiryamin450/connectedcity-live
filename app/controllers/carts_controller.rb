@@ -72,7 +72,7 @@ class CartsController < ApplicationController
       end
 
       respond_to do |format|
-        format.html # show.html.erb
+        format.html
         format.json { render json: @line_items }
       end
     end

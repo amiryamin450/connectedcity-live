@@ -8,7 +8,7 @@ class NewHomesController < ApplicationController
     @location = @new_home_community.location
     @new_homes = @new_home_community.new_homes
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @new_homes }
     end
   end
@@ -27,7 +27,7 @@ class NewHomesController < ApplicationController
     add_crumb @new_home.title
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @new_home }
     end
   end

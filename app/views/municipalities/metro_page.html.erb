@@ -12,7 +12,14 @@
     <div class="col-12 col-md-11">
       <div class="row">
         <div class="col-12 col-md-3">
-          <%= select_tag 'metro-municipality-dropdown', options_for_select(@municipalities.collect{ |m| [m.name, m.slug] }, :selected => @municipality.slug), {prompt: 'Metro/Sub-Region', class: 'form-control search-column input-group-prepend search-box'} %>
+          <%= 
+            # select_tag(
+            #   'metro-municipality-dropdown',
+            #   options_for_select(@municipalities.collect{ |m| [m.name, m.slug] },
+            #   :selected => @municipality.slug),
+            #   {prompt: 'Metro/Sub-Region', class: 'form-control search-column input-group-prepend search-box'}
+            # )
+          %>
         </div>
         <div class="col-12 col-md-3 mt-2 mt-md-0">
           <%= select_tag 'metro-city-dropdown', options_for_select(@cities.collect{ |c| [c.name, c.slug]}), prompt: 'City', class: 'form-control search-column input-group-prepend search-box' %>

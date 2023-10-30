@@ -165,20 +165,20 @@
     })
 
     if('<%= user_signed_in?%>' == "true" && $("#call-video").length > 0){
-      setInterval(()=>{
-        let location_id = '<%= @location.id%>'
-        $.ajax({
-          url: `/video_calls/get_status_from_location?location_id=${location_id}`,
-          method: "GET",
-          dataType: "json"
-          }).done(function( response) { 
-            if(response.user_available_call == true && response.location_available_call == true){
-              $("#call-video").html("<button class='btn btn-primary-color' data-toggle='modal'>Video Call</button>")
-            }else{
-              $("#call-video").html("<button class='btn btn-secondary' disabled aria-disabled='true'>Video Call</button>")
-            }
-          })
-        }, 5000)
+      // setInterval(()=>{
+      //   let location_id = '<%= @location.id%>'
+      //   $.ajax({
+      //     url: `/video_calls/get_status_from_location?location_id=${location_id}`,
+      //     method: "GET",
+      //     dataType: "json"
+      //     }).done(function( response) { 
+      //       if(response.user_available_call == true && response.location_available_call == true){
+      //         $("#call-video").html("<button class='btn btn-primary-color' data-toggle='modal'>Video Call</button>")
+      //       }else{
+      //         $("#call-video").html("<button class='btn btn-secondary' disabled aria-disabled='true'>Video Call</button>")
+      //       }
+      //     })
+      //   }, 5000)
     }
     $("#call-video").on("click",function(){
       $("#modal-video-call").modal("show");

@@ -1,6 +1,7 @@
 class EmploymentListingsController < ApplicationController
   PER_PAGE = 20
 
+  before_action :set_location, only: [:index, :new]
   load_and_authorize_resource :location, except: [:guide]
   before_action :load_employment_listing, except: [:guide, :index, :new, :create]
   load_and_authorize_resource :employment_listing, through: [:location], except: [:guide]
@@ -15,7 +16,7 @@ class EmploymentListingsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @employment_listings }
     end
   end
@@ -123,5 +124,9 @@ class EmploymentListingsController < ApplicationController
     params.require(:employment_listing).permit(:advantages, :application_deadline, :description, :locations, :number,
       :number_of_positions, :qualifications, :title, :location_id, :employment_category_id,
       :cover_photo)
+  end
+
+  def set_location
+    @location = Location.friendly.find(params[:location_id])
   end
 end

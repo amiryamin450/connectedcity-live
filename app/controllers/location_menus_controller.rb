@@ -1,4 +1,5 @@
 class LocationMenusController < ApplicationController
+  before_action :find_location, only: [:index, :create, :edit, :update, :show]
   load_resource :location
   load_and_authorize_resource :location_menu, through: [:location]
 
@@ -43,5 +44,9 @@ class LocationMenusController < ApplicationController
 
   def location_menu_params
     params.require(:location_menu).permit(:caption, :location_id, :image)
+  end
+
+  def find_location
+    @location = Location.friendly.find(params[:location_id])
   end
 end

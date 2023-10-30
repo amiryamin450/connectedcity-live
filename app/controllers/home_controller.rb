@@ -62,8 +62,11 @@ class HomeController < ApplicationController
 
   def get_cities
     @home_municipality = Municipality.find_by_slug(params[:municipality_id])
-    cities = @home_municipality&.cities&.sort_by(&:csdname)
-    render json: cities
+    cities = @home_municipality&.cities&.select(:csdname, :slug).sort_by(&:csdname)
+
+    respond_to do |format|
+      format.json { render json: cities.as_json }
+    end
   end
 
   def get_districts
@@ -73,7 +76,7 @@ class HomeController < ApplicationController
     region = municipality.region
     province = region.province
     route = "/#{province.slug}/#{region.slug}/#{municipality.slug}"
-    render json: {districts: districts, route: route}
+    render json: { districts: districts, route: route }
   end
 
   def get_neighborhoods
@@ -85,14 +88,14 @@ class HomeController < ApplicationController
       region = municipality.region
       province = region.province
       route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}"
-      render json: {neighborhoods: neighborhoods, route: route}
+      render json: { neighborhoods: neighborhoods, route: route }
     else
       city = City.find_by_slug(params[:city_id])
       municipality = city.municipality
       region = municipality.region
       province = region.province
       route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}"
-      render json: {neighborhoods: [], route: route}
+      render json: { neighborhoods: [], route: route }
     end
   end
 
@@ -107,7 +110,7 @@ class HomeController < ApplicationController
       province = region.province
       sub_neighborhoods = neighborhood&.sub_neighborhoods
       route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}/#{neighborhood.slug}"
-      render json: {sub_neighborhoods: sub_neighborhoods, route: route}
+      render json: { sub_neighborhoods: sub_neighborhoods, route: route }
     else
       district = District.find_by_slug(params[:district_id])
       neighborhoods = district.neighborhoods
@@ -116,7 +119,7 @@ class HomeController < ApplicationController
       region = municipality.region
       province = region.province
       route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}"
-      render json: {sub_neighborhoods: [], route: route}
+      render json: { sub_neighborhoods: [], route: route }
     end
   end
 
@@ -131,7 +134,7 @@ class HomeController < ApplicationController
       region = municipality.region
       province = region.province
       route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}/#{neighborhood.slug}/#{sub_neighborhood.slug}"
-      render json: {sub_neighborhood: sub_neighborhood, route: route}
+      render json: { sub_neighborhood: sub_neighborhood, route: route }
     else
       neighborhood = Neighborhood.find_by_slug(params[:neighborhood_id])
       district = neighborhood.district
@@ -140,7 +143,7 @@ class HomeController < ApplicationController
       region = municipality.region
       province = region.province
       route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}/#{neighborhood.slug}"
-      render json: {sub_neighborhood: [], route: route}
+      render json: { sub_neighborhood: [], route: route }
     end
   end
 end

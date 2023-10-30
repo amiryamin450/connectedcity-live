@@ -13,16 +13,18 @@
   <a class="open dropdown-toggle" data-bs-toggle="dropdown" href="#"><span></span></a>
 
   <div class="dropdown-menu">
-    <ul>
-      <li class="active"><%= link_to @city.name, root_path %></li>
-      <% @city.districts.each do |district|  %>
-        <% is_active = params[:district_route] == district.slug || params[:district_slug] == district.slug ? "active " : "" %>
-        <li class="<%= is_active%>sub-district ps-2">
-          <%= link_to district.name, district.access_link %>
-          <span class="<%= is_active %>location-dropdown-arrow">
-        </li>
-      <% end %>
-    </ul>
+    <% if @city.present? %>
+      <ul>
+        <li class="active"><%= link_to @city.name, root_path %></li>
+        <% @city.districts.each do |district|  %>
+          <% is_active = params[:district_route] == district.slug || params[:district_slug] == district.slug ? "active " : "" %>
+          <li class="<%= is_active%>sub-district ps-2">
+            <%= link_to district.name, district.access_link %>
+            <span class="<%= is_active %>location-dropdown-arrow">
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
 
     <div class="location-chooser-scroll-container">
       <ul class="w-100">

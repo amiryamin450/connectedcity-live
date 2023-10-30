@@ -7,7 +7,7 @@ class BusinessesController < ApplicationController
     @businesses = Business.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @businesses }
     end
   end
@@ -18,7 +18,7 @@ class BusinessesController < ApplicationController
     @business = Business.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @business }
     end
   end

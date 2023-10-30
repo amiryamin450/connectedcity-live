@@ -1,13 +1,15 @@
 class AutomotiveListingsController < ApplicationController
+  before_action :set_location, only: [:index, :new]
   load_resource :location
   load_and_authorize_resource :automotive_listing, through: [:location]
+
   # GET /automotive_listings
   # GET /automotive_listings.json
   def index
     @automotive_listings = @location.automotive_listings
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @automotive_listings }
     end
   end
@@ -15,9 +17,7 @@ class AutomotiveListingsController < ApplicationController
   # GET /automotive_listings/1
   # GET /automotive_listings/1.json
   def show
-
    @vertical_market = @location.vertical_market_categories.first.vertical_market
-
 
     add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_crumb @location.district.name, district_guide_path(@location.district) if @location.district
@@ -29,7 +29,7 @@ class AutomotiveListingsController < ApplicationController
     add_crumb @automotive_listing.title
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @automotive_listing }
     end
   end
@@ -38,7 +38,7 @@ class AutomotiveListingsController < ApplicationController
   # GET /automotive_listings/new.json
   def new
     @automotive_listing = @location.automotive_listings.new
-	@auto_makers = get_auto_makers
+    @auto_makers = get_auto_makers
     respond_to do |format|
       format.html 
       format.json { render json: @automotive_listing }
@@ -47,9 +47,9 @@ class AutomotiveListingsController < ApplicationController
 
   # GET /automotive_listings/1/edit
   def edit
-	@automotive_listing = AutomotiveListing.find(params[:id])
-	@auto_makers = get_auto_makers
-	@selected_maker = @automotive_listing.make
+    @automotive_listing = AutomotiveListing.find(params[:id])
+    @auto_makers = get_auto_makers
+    @selected_maker = @automotive_listing.make
   end
 
   # POST /automotive_listings
@@ -72,8 +72,8 @@ class AutomotiveListingsController < ApplicationController
   # PUT /automotive_listings/1.json
   def update
     @automotive_listing = AutomotiveListing.find(params[:id])
-	@auto_makers = get_auto_makers
-	@selected_maker = @automotive_listing.make
+    @auto_makers = get_auto_makers
+    @selected_maker = @automotive_listing.make
 
     respond_to do |format|
       if @automotive_listing.update_attributes(automative_listing_params)
@@ -99,6 +99,10 @@ class AutomotiveListingsController < ApplicationController
   end
 
   private
+
+  def set_location
+    @location = Location.friendly.find(params[:location_id])
+  end
 
   def automative_listing_params
     params.require(:automotive_listing).permit(

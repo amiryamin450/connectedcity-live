@@ -167,18 +167,18 @@ label {
 }
 
 
-.nav-list>li>a>[class*="icon-"]:first-child {
+.nav-list>li>a>[class*="fa-"]:first-child {
   display: inline-block;
   min-width: 30px;
   text-align: center;
   font-size: 18px;
 }
 
-.menu-min .nav-list > li > a .arrow {
+.menu-min .nav-list > li > a .fa-angle-right {
   display: none;
 }
 
-.nav-list > li > a .arrow {
+.nav-list > li > a .fa-angle-right {
   display: inline-block;
   width: 14px !important;
   height: 14px;

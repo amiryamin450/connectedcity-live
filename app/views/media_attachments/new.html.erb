@@ -8,7 +8,6 @@
 </div>
 <div id="messageModal" class="media-modal">
   <div class="modal-content">
-    <%# <span class="close">&times;</span> %>
     <div class="modal-body">
       <p>You must enter video title before recording. Please try again.</p>
     </div>
@@ -20,7 +19,6 @@
 
 <div id="warningCateModal" class="media-modal">
   <div class="modal-content">
-    <%# <span class="close">&times;</span> %>
     <div class="modal-body">
       <p>You must choose category before action. Please try again.</p>
     </div>
@@ -32,7 +30,6 @@
 
 <div id="warningLocationModal" class="media-modal">
   <div class="modal-content">
-    <%# <span class="close">&times;</span> %>
     <div class="modal-body">
       <p>You must enter location before action. Please try again.</p>
     </div>
@@ -44,7 +41,6 @@
 
 <div id="confirmModal" class="media-modal">
   <div class="modal-content">
-    <%# <span class="close">&times;</span> %>
     <div class="modal-body">
       <p>Would you like to discard current video and start recording a new video?</p>
     </div>
@@ -63,31 +59,31 @@
 </div>
 
 <script>
-  var messageModal = document.getElementById("messageModal");
-  var confirmModal = document.getElementById("confirmModal");
-  var warningCateModal = document.getElementById("warningCateModal");
-  var warningLocationModal = document.getElementById("warningLocationModal");
-  var closeMessageModal = document.getElementById("close-message-modal");
-  var closeConfirmModal = document.getElementById("close-confirm-modal");
-  var closeCateModal = document.getElementById("close-cate-modal");
-  var closeLocationModal = document.getElementById("close-location-modal");
+  // var messageModal = document.getElementById("messageModal");
+  // var confirmModal = document.getElementById("confirmModal");
+  // var warningCateModal = document.getElementById("warningCateModal");
+  // var warningLocationModal = document.getElementById("warningLocationModal");
+  // var closeMessageModal = document.getElementById("close-message-modal");
+  // var closeConfirmModal = document.getElementById("close-confirm-modal");
+  // var closeCateModal = document.getElementById("close-cate-modal");
+  // var closeLocationModal = document.getElementById("close-location-modal");
 
-  closeMessageModal.onclick = function() {
-    messageModal.style.display = "none";
-  }
-  closeConfirmModal.onclick = function() {
-    confirmModal.style.display = "none";
-  }
-  closeCateModal.onclick = function() {
-    warningCateModal.style.display = "none";
-  }
-  closeLocationModal.onclick = function() {
-    warningLocationModal.style.display = "none";
-  }
+  // closeMessageModal.onclick = function() {
+  //   messageModal.style.display = "none";
+  // }
+  // closeConfirmModal.onclick = function() {
+  //   confirmModal.style.display = "none";
+  // }
+  // closeCateModal.onclick = function() {
+  //   warningCateModal.style.display = "none";
+  // }
+  // closeLocationModal.onclick = function() {
+  //   warningLocationModal.style.display = "none";
+  // }
 
-  window.onclick = function(event) {
-    if (event.target == messageModal || event.target == confirmModal || event.target == warningCateModal || event.target == warningLocationModal) {
-      event.target.style.display = "none";
-    }
-  }
+  // window.onclick = function(event) {
+  //   if (event.target == messageModal || event.target == confirmModal || event.target == warningCateModal || event.target == warningLocationModal) {
+  //     event.target.style.display = "none";
+  //   }
+  // }
 </script>

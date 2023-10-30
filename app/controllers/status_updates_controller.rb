@@ -14,15 +14,18 @@ class StatusUpdatesController < ApplicationController
 
   def create
     @status_update = location.status_updates.build status_update_params
-    @status_update.latitude = @status_update.latitude.abs
-    @status_update.longitude = -(@status_update.longitude.abs)
+
+    if @status_update&.latitude&.abs.present? && @status_update&.longitude&.abs
+      @status_update.latitude = @status_update&.latitude&.abs
+      @status_update.longitude = -(@status_update&.longitude&.abs)
+    end
 
     respond_to do |format|
       format.json {
         if @status_update.save
-          render json: {success: true}
+          render json: { success: true }
         else
-          render json: {success: false, errors: @status_update.errors}, status: :unprocessable_entity
+          render json: { success: false, errors: @status_update.errors }, status: :unprocessable_entity
         end
       }
       format.html {
@@ -39,17 +42,14 @@ class StatusUpdatesController < ApplicationController
     @status_update = StatusUpdate.find(params[:id])
     @status_update.destroy
 
-    redirect_to :back
+    redirect_back fallback_location: location_status_updates_path
   end
 
   private
 
   def location
-    @location ||= Location.unscoped.find(params[:location_id])
+    @location ||= Location.unscoped.friendly.find(params[:location_id])
   end
-
-
-  private
 
   def status_update_params
     params.require(:status_update).permit(:content, :provider, :district_id, :neighborhood_id, :latitude, :longitude, :city_id, :province_id,

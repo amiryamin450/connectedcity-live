@@ -1,9 +1,13 @@
 class LocationsController < ApplicationController
+
+  before_action :set_location, only: [:connect_stripe, :disconnect_stripe, :connected_advertiser]
   load_and_authorize_resource :location
+
   skip_load_and_authorize_resource :location, only: [:show, :edit, :update]
+
   PER_PAGE = 20
+
   layout 'location', :only => [:show]
-  before_action :set_location, only: [:connect_stripe, :disconnect_stripe]
 
   def index
     @search = Location.search(params[:q])
@@ -15,8 +19,8 @@ class LocationsController < ApplicationController
   end
 
   def show
-    @location = Location.unscoped.includes(:location_images).find(params[:id])
-    @location_menus = Location.unscoped.includes(:location_menus).find(params[:id])
+    @location = Location.unscoped.includes(:location_images).friendly.find(params[:id])
+    @location_menus = Location.unscoped.includes(:location_menus).friendly.find(params[:id])
 
     # because we have two sources for the location carousel images (cover photo and location images),
     # get them into one collection for ease of display
@@ -300,7 +304,7 @@ class LocationsController < ApplicationController
   end
 
   def connected_advertiser
-    @location = Location.find(params[:id])
+    @location = Location.friendly.find(params[:id])
   end
 
   def import
@@ -450,7 +454,7 @@ class LocationsController < ApplicationController
   private
 
   def set_location
-    @location = Location.find(params[:location_id])
+    @location = Location.unscoped.friendly.find(params[:location_id])
   end
 
   def location_params

@@ -5,7 +5,7 @@ class ProductImagesController < ApplicationController
     @product_images = ProductImage.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @product_images }
     end
   end
@@ -16,7 +16,7 @@ class ProductImagesController < ApplicationController
     @product_image = ProductImage.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @product_image }
     end
   end
