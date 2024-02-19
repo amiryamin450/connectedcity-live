@@ -101,3 +101,5 @@ group :development do
   gem 'seed_dump'
   gem 'pry'
 end
+
+gem 'next_rails'

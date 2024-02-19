@@ -1,5 +1,5 @@
 class LocationMenusController < ApplicationController
-  before_action :find_location, only: [:index]
+  before_action :find_location, only: [:index, :create, :edit, :update, :show]
   load_resource :location
   load_and_authorize_resource :location_menu, through: [:location]
 

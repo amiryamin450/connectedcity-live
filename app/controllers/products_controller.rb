@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
-  before_action :set_location_and_product, only: [:show, :edit]
-  before_action :set_location, only: [:new, :index, :specific]
+  before_action :set_location_and_product, only: [:show, :edit, :destroy, :update]
+  before_action :set_location, only: [:new, :index, :specific, :create]
 
   load_resource :location, except: [:deeper_categories, :select_category]
   load_and_authorize_resource :product, through: [:location], except: [:deeper_categories, :select_category, :specific]
@@ -73,7 +73,7 @@ class ProductsController < ApplicationController
   end
 
   def update
-    @product = Product.find(params[:id])
+    @product = Product.friendly.find(params[:id])
     respond_to do |format|
       if @product.update_attributes(product_params)
         format.html { redirect_to [@location, @product], notice: 'Product was successfully updated.' }
@@ -126,11 +126,11 @@ class ProductsController < ApplicationController
   end
 
   def set_location_and_product
-    @location = Location.friendly.find(params[:location_id])
+    @location = Location.unscoped.friendly.find(params[:location_id])
     @product = @location.products.friendly.find(params[:id])
   end
 
   def set_location
-    @location = Location.friendly.find(params[:location_id])
+    @location = Location.unscoped.friendly.find(params[:location_id])
   end
 end

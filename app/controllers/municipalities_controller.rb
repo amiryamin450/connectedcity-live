@@ -112,10 +112,11 @@ class MunicipalitiesController < ApplicationController
       render json: {route: route}
     end
   end
+
+
   private
 
   def key_metro_prismic
     "#{params[:province_slug]}-#{params[:region_slug]}-#{params[:municipality_slug]}"
   end
-
 end

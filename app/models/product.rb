@@ -13,7 +13,8 @@ class Product < ApplicationRecord
                     :url => "/system/products/image/:id/:style/:basename.:extension",
                     :path => ":rails_root/public/system/products/image/:id/:style/:basename.:extension",
                     default_url: "http://placehold.it/50x50"
-  validates_attachment_presence :image
+
+  validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
   validates :name, presence: true
   validates :category_id, presence: true
