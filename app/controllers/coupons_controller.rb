@@ -1,8 +1,10 @@
 class CouponsController < ApplicationController
+
   before_action :authenticate_user, only: [:redeem, :claim]
 
-  # These must remain in this order.
+  before_action :load_location, except: [:redeem, :claim]
   load_and_authorize_resource :location, except: [:redeem, :claim]
+
   before_action :load_coupon, except: [:redeem, :claim, :index, :new, :create]
   load_and_authorize_resource :coupon, through: [:location], except: [:redeem, :claim]
 
@@ -16,7 +18,7 @@ class CouponsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @coupons }
     end
   end
@@ -41,7 +43,7 @@ class CouponsController < ApplicationController
     @coupon = @location.coupons.new(expiration: Date.today + 6.months)
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @coupon }
     end
   end
@@ -95,7 +97,6 @@ class CouponsController < ApplicationController
     end
   end
 
-
   def claim
     @coupon = Coupon.find(params[:id])
     @coupon.redemptions.create(user_id: current_user.id, redeemed: false)
@@ -118,6 +119,10 @@ class CouponsController < ApplicationController
     else
       @coupon = @location.coupons.find params[:id]
     end
+  end
+
+  def load_location
+    @location = Location.friendly.find(params[:location_id])
   end
 
   def coupon_params

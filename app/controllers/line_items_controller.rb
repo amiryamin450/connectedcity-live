@@ -8,7 +8,7 @@ class LineItemsController < ApplicationController
   def index
     @line_items = @cart.line_items
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @line_items }
     end
   end
@@ -17,7 +17,7 @@ class LineItemsController < ApplicationController
   # GET /line_items/1.json
   def show
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @line_item }
     end
   end

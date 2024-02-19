@@ -1,13 +1,14 @@
 class TradeAssociationsController < ApplicationController
+  before_action :find_trade_association, only: [:show]
   load_and_authorize_resource
-  
+
   # GET /trade_associations
   # GET /trade_associations.json
   def index
     @trade_associations = TradeAssociation.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @trade_associations }
     end
   end
@@ -15,10 +16,9 @@ class TradeAssociationsController < ApplicationController
   # GET /trade_associations/1
   # GET /trade_associations/1.json
   def show
-    @trade_association = TradeAssociation.find(params[:id])
     @status_updates = @trade_association.status_updates + @trade_association.location_status_updates
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @trade_association }
     end
   end
@@ -29,7 +29,7 @@ class TradeAssociationsController < ApplicationController
     @trade_association = TradeAssociation.new
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @trade_association }
     end
   end
@@ -86,7 +86,12 @@ class TradeAssociationsController < ApplicationController
   private
 
   def trade_association_params
-    params.require(:trade_association).permit(:description, :name, :slug, :website_url, :city, :province, :home_page_image, :logo, :city, :province,
+    params.require(:trade_association).permit(:description, :name, :slug, :website_url,
+      :city, :province, :home_page_image, :logo, :city, :province,
       :city_id, :province_id, :status_updates_attributes)
+  end
+
+  def find_trade_association
+    @trade_association = TradeAssociation.friendly.find(params[:id])
   end
 end

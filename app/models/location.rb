@@ -60,6 +60,7 @@ class Location < ApplicationRecord
   has_and_belongs_to_many :trade_associations
 
   friendly_id :name, use: [:slugged, :history]
+
   attr_reader :brand_tokens
   attr_accessor :delete_cover_photo, :delete_logo
 
@@ -67,10 +68,14 @@ class Location < ApplicationRecord
     :url => "/system/location/logo/:id/:style/:basename.:extension",
     :path => ":rails_root/public/system/location/logo/:id/:style/:basename.:extension"
 
+  validates_attachment_content_type :logo, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
+
   has_attached_file :cover_photo, :styles => { :thumb => "100x178", :cover => "1280" },
     :url => "/system/location/cover_photo/:id/:style/:basename.:extension",
     :path => ":rails_root/public/system/location/cover_photo/:id/:style/:basename.:extension",
     :default_url => "/default_images/location/cover_photo/cover/missing.jpg"
+
+  validates_attachment_content_type :cover_photo, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
   accepts_nested_attributes_for :location_images, :reject_if => lambda { |a| a[:image].nil? }, :allow_destroy => true
   accepts_nested_attributes_for :location_menus, :reject_if => lambda { |a| a[:image].nil? }, :allow_destroy => true

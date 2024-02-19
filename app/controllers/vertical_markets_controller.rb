@@ -18,7 +18,7 @@ class VerticalMarketsController < ApplicationController
     @test = VerticalMarket.roots
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @vertical_markets }
     end
   end
@@ -26,10 +26,10 @@ class VerticalMarketsController < ApplicationController
   # GET /vertical_markets/1
   # GET /vertical_markets/1.json
   def show
-    @vertical_market = VerticalMarket.find(params[:id])
+    @vertical_market = VerticalMarket.friendly.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @vertical_market }
     end
   end
@@ -39,7 +39,7 @@ class VerticalMarketsController < ApplicationController
   # Pretty sure it was named guide because its creator is out of ideas and obviously, it guide the instance variables @abc to the right values ...sneer... -Tom Tran
   def guide
     market_param = params[:market] === 'news' ? 'civic-news' : params[:market]
-    @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).find(market_param)
+    @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).friendly.find(market_param)
 
         # init_category_values
     if params[:market] === 'news'

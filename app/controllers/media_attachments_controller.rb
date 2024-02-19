@@ -193,7 +193,7 @@ class MediaAttachmentsController < ApplicationController
   private
 
   def set_location
-    @location ||= Location.unscoped.find(params[:location_id])
+    @location ||= Location.unscoped.friendly.find(params[:location_id])
   end
 
   def media_attachment_params

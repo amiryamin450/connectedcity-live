@@ -9,9 +9,7 @@ class Product < ApplicationRecord
 
   accepts_nested_attributes_for :product_images, :reject_if => lambda { |a| a[:image].nil? }, :allow_destroy => true
 
-  has_attached_file :image, styles: {
-                              thumb: "50x50#", list: "320", display: "640"
-                              },
+  has_attached_file :image, styles: { thumb: "50x50#", list: "320", display: "640" },
                     :url => "/system/products/image/:id/:style/:basename.:extension",
                     :path => ":rails_root/public/system/products/image/:id/:style/:basename.:extension",
                     default_url: "http://placehold.it/50x50"

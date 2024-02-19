@@ -12,7 +12,7 @@ class ClassifiedListingsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
     end
   end
 
@@ -33,7 +33,7 @@ class ClassifiedListingsController < ApplicationController
     add_crumb @classified_listing.title
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @classified_listing.classified_images.map { |file| file.to_jq_upload } }
     end
   end

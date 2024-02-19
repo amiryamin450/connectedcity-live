@@ -7,7 +7,7 @@ class AutomotiveListingsController < ApplicationController
     @automotive_listings = @location.automotive_listings
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @automotive_listings }
     end
   end
@@ -29,7 +29,7 @@ class AutomotiveListingsController < ApplicationController
     add_crumb @automotive_listing.title
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @automotive_listing }
     end
   end

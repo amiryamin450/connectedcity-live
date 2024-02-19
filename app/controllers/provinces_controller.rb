@@ -8,7 +8,7 @@ class StateOrProvincesController < ApplicationController
     @provinces = StateOrProvince.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @provinces }
     end
   end
@@ -19,7 +19,7 @@ class StateOrProvincesController < ApplicationController
     @province = StateOrProvince.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @province }
     end
   end

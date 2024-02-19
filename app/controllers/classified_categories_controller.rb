@@ -6,7 +6,7 @@ class ClassifiedCategoriesController < ApplicationController
     @classified_categories = ClassifiedCategory.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @classified_categories }
     end
   end
@@ -21,7 +21,7 @@ class ClassifiedCategoriesController < ApplicationController
     add_crumb @classified_category.name
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @classified_category }
     end
   end

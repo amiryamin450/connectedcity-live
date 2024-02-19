@@ -1,6 +1,7 @@
 class BusinessImprovementAreasController < ApplicationController
   PER_PAGE = 20
 
+  before_action :find_business_improvement_areas, only: [:show]
   load_and_authorize_resource
   # GET /business_improvement_areas
   # GET /business_improvement_areas.json
@@ -8,7 +9,7 @@ class BusinessImprovementAreasController < ApplicationController
     @business_improvement_areas = BusinessImprovementArea.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @business_improvement_areas }
     end
   end
@@ -113,5 +114,9 @@ class BusinessImprovementAreasController < ApplicationController
 
   def business_improvement_area_params
     params.require(:business_improvement_area).permit(:description, :district_id, :name, :slug, :home_page_image, :district, :status_updates, :status_updates_attributes, :logo, :website_url, :use_carousel)
+  end
+
+  def find_business_improvement_areas
+    @business_improvement_area = BusinessImprovementArea.friendly.find(params[:id])
   end
 end

@@ -9,7 +9,7 @@ class CarouselImagesController < ApplicationController
     @carousel_images = @carouselable.carousel_images 
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @carousel_images }
     end
   end
@@ -20,7 +20,7 @@ class CarouselImagesController < ApplicationController
     @carousel_image = CarouselImage.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @carousel_image }
     end
   end

@@ -19,10 +19,9 @@ class MunicipalitiesController < ApplicationController
   end
 
   def metro_page
-    @municipality = Municipality.find_by_slug(params[:municipality_slug])
+    @municipality = Municipality.find_by(slug: params[:municipality_slug])
+
     if (@municipality.present?)
-      # @neighbourhoods = @district.neighborhoods
-      # @neighborhood = @neighbourhoods.find { |nbh| nbh.slug == params[:neighborhood_slug] }
       @municipalities = @municipality.region.municipalities
       response = api.query(Prismic::Predicates.at("my.location.uid", key_metro_prismic))
       @documents = response.results.present? ? response.results[0]["location.slide_images"] : []

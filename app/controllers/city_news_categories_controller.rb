@@ -6,7 +6,7 @@ class CityNewsCategoriesController < ApplicationController
     @city_news_categories = CityNewsCategory.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @city_news_categories }
     end
   end
@@ -21,7 +21,7 @@ class CityNewsCategoriesController < ApplicationController
     add_crumb @city_news_category.name
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @city_news_category }
     end
   end

@@ -12,7 +12,14 @@
     <div class="col-12 col-md-11">
       <div class="row">
         <div class="col-12 col-md-3">
-          <%= select_tag 'metro-municipality-dropdown', options_for_select(@municipalities.collect{ |m| [m.name, m.slug] }, :selected => @municipality.slug), {prompt: 'Metro/Sub-Region', class: 'form-control search-column input-group-prepend search-box'} %>
+          <%=
+            # select_tag(
+            #   'metro-municipality-dropdown',
+            #   options_for_select(@municipalities.collect{ |m| [m.name, m.slug] },
+            #   :selected => @municipality.slug),
+            #   {prompt: 'Metro/Sub-Region', class: 'form-control search-column input-group-prepend search-box'}
+            # )
+          %>
         </div>
         <div class="col-12 col-md-3 mt-2 mt-md-0">
           <%= select_tag 'metro-city-dropdown', options_for_select(@cities.collect{ |c| [c.name, c.slug]}), prompt: 'City', class: 'form-control search-column input-group-prepend search-box' %>
@@ -60,7 +67,7 @@
           </div>
         </div>
       </div>
-      <!-- End -->  
+      <!-- End -->
     </div>
   </div>
 </div>
@@ -94,7 +101,7 @@
         $('#metro-path').attr("href", '/')
         resetCity()
         resetDistrict();
-        resetNeighbourhood(); 
+        resetNeighbourhood();
       }
     })
 
@@ -119,7 +126,7 @@
       }else{
         $('#metro-path').attr("href", '#')
         resetDistrict();
-        resetNeighbourhood(); 
+        resetNeighbourhood();
       }
     })
 
@@ -146,7 +153,7 @@
     $('#metro-neighbourhood-dropdown').on('change', function(event) {
       let neighborhoodId = event.target.value
       let districtID = $('#metro-district-dropdown').val()
-      let url = neighborhoodId ? `/municipalities/get_sub_neighborhoods?neighborhood_id=${neighborhoodId}`: `/municipalities/get_sub_neighborhoods?district_id=${districtID}`  
+      let url = neighborhoodId ? `/municipalities/get_sub_neighborhoods?neighborhood_id=${neighborhoodId}`: `/municipalities/get_sub_neighborhoods?district_id=${districtID}`
       $.ajax({
         url: url,
         method: "GET",

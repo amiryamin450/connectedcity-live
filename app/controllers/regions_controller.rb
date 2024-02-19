@@ -7,7 +7,7 @@ class RegionsController < ApplicationController
     @regions = Region.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @regions }
     end
   end
@@ -18,7 +18,7 @@ class RegionsController < ApplicationController
     @region = Region.find_by_subdomain(request.subdomain)
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @region }
     end
   end

@@ -11,7 +11,7 @@ class CitiesController < ApplicationController
     @cities = City.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @cities }
     end
   end
@@ -22,7 +22,7 @@ class CitiesController < ApplicationController
     @city = City.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @city }
     end
   end

@@ -12,7 +12,7 @@ class RentalPropertiesController < ApplicationController
   def index
     @rental_properties = @location.rental_properties
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @rental_properties }
     end
   end
@@ -37,7 +37,7 @@ class RentalPropertiesController < ApplicationController
     add_crumb @rental_property.name
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @rental_property }
     end
   end

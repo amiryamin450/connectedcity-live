@@ -45,11 +45,8 @@ class StatusUpdatesController < ApplicationController
   private
 
   def location
-    @location ||= Location.unscoped.find(params[:location_id])
+    @location ||= Location.unscoped.friendly.find(params[:location_id])
   end
-
-
-  private
 
   def status_update_params
     params.require(:status_update).permit(:content, :provider, :district_id, :neighborhood_id, :latitude, :longitude, :city_id, :province_id,

@@ -1,4 +1,5 @@
 class ServicesController < ApplicationController
+  before_action :load_location
   load_resource :location
   load_and_authorize_resource :service, through: [:location]
 
@@ -8,7 +9,7 @@ class ServicesController < ApplicationController
     @services = @location.services
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @services }
     end
   end
@@ -26,7 +27,7 @@ class ServicesController < ApplicationController
     add_crumb @service.name
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @service }
     end
   end
@@ -95,5 +96,9 @@ class ServicesController < ApplicationController
 
   def service_params
     params.require(:service).permit(:description, :name, :sku, :slug, :location_id, :image, :price)
+  end
+
+  def load_location
+    @location = Location.friendly.find(params[:location_id])
   end
 end

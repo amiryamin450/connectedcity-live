@@ -7,7 +7,7 @@ class RealEstateListingsController < ApplicationController
   def index
     @real_estate_listings = @location.real_estate_listings
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @real_estate_listings }
     end
   end
@@ -28,7 +28,7 @@ class RealEstateListingsController < ApplicationController
     add_crumb @real_estate_listing.title
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json:  @real_estate_listing.real_estate_listing_images.map{|file| file.to_jq_upload }  }
     end
   end

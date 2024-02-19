@@ -8,7 +8,7 @@ class CommunitiesController < ApplicationController
     @communities = @search.result.page(params[:page]).per(10)
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @communities }
     end
   end
@@ -19,7 +19,7 @@ class CommunitiesController < ApplicationController
     @community = Community.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @community }
     end
   end

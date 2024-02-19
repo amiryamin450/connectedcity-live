@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  before_action :load_location
   load_resource :location
   # load_and_authorize_resource :event, through: [:location], except: [:show, :edit, :update, :destroy]
 
@@ -10,7 +11,7 @@ class EventsController < ApplicationController
   def show
     @event = Event.unscoped.find(params[:id])
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @event }
     end
   end
@@ -69,5 +70,9 @@ class EventsController < ApplicationController
 
   def event_params
     params.require(:event).permit(:description, :email, :ends_at, :name, :starts_at, :url, :slug, :location_id, :image, :category_id, :latitude, :longitude)
+  end
+
+  def load_location
+    @location = Location.friendly.find(params[:location_id])
   end
 end

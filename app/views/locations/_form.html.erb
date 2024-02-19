@@ -30,9 +30,7 @@
             <%= link_to("Menus", location_location_menus_path(@location)) %>
           </li>
         <% else %>
-          <li>
-            <%#= link_to("Flyers", location_location_menus_path(@location)) %>
-          </li>
+          <li></li>
         <% end %>
         <% if @managers.present? %>
         <li>
@@ -166,7 +164,7 @@
           <%= f.input :address %>
           <%= f.input :latitude, as: :hidden %>
           <%= f.input :longitude, as: :hidden %>
-          <input id="value_address" class="hidden" value="<%= @location.address %>" ></input>
+          <input id="value_address" class="hidden" value="<%= @location.address %>" />
           <%= f.input :address_1 %>
           <%= f.input :postal_code %>
           <%= f.association :trade_associations %>

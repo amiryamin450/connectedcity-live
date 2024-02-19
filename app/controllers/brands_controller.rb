@@ -1,5 +1,7 @@
 class BrandsController < ApplicationController
+  before_action :find_brand, only: [:show]
   load_and_authorize_resource except: [:autocomplete]
+
   # GET /brands
   # GET /brands.json
   def index
@@ -7,7 +9,7 @@ class BrandsController < ApplicationController
     @brands = @search.result.order(:name).page(params[:page])
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @brands.where("name like ?", "%#{params[:q]}%")  }
     end
   end
@@ -22,10 +24,8 @@ class BrandsController < ApplicationController
   # GET /brands/1
   # GET /brands/1.json
   def show
-    @brand = Brand.find(params[:id])
-
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @brand }
     end
   end
@@ -94,5 +94,9 @@ class BrandsController < ApplicationController
 
   def brand_params
     params.require(:brand).permit(:description, :name, :slug, :logo, :website_url, :status_updates_attributes, :home_page_image)
+  end
+
+  def find_brand
+    @brand = Brand.friendly.find(params[:id])
   end
 end
