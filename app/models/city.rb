@@ -3,9 +3,9 @@ class City < ApplicationRecord
 
   self.table_name = "maponics_subdivisions"
 
+  has_many :districts
   has_many :neighborhoods, through: :districts
   has_many :sub_neighborhoods, through: :neighborhoods
-  has_many :districts
   has_many :locations
   has_many :status_updates
   has_many :news_articles, -> { distinct }, through: :locations
