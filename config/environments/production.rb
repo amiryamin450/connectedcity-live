@@ -67,7 +67,7 @@ Connectbook::Application.configure do
 
   # ActionMailer Config
   # config.action_mailer.delivery_method = :amazon_ses
-  AWS.config(region: Settings.aws_region)
+  # AWS.config(region: Settings.aws_region)
   # Setup for production - deliveries, no errors raised
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = false

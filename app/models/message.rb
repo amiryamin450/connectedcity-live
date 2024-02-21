@@ -1,5 +1,5 @@
 class Message < ApplicationRecord
-  belongs_to :sender, class_name: Location
+  belongs_to :sender, class_name: "Location"
   # include ActiveModel::Validations
   # include ActiveModel::Conversion
 
