@@ -31,7 +31,7 @@ end
 module Connectbook
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.0
+    config.load_defaults 6.0
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -69,8 +69,8 @@ module Connectbook
 
     config.paths['app/views'] << "app/views/devise"
 
-    config.assets.paths.concat(
-      Compass::Frameworks::ALL.map { |f| f.stylesheets_directory }
-    )
+    # config.assets.paths.concat(
+    #   Compass::Frameworks::ALL.map { |f| f.stylesheets_directory }
+    # )
   end
 end
