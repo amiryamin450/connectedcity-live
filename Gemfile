@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 ruby '2.7.8'
-gem 'rails', '5.2.3'
+gem 'rails', '6.0'
 
 gem 'ancestry'
 gem 'auto_html'
