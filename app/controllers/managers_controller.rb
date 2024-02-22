@@ -35,8 +35,8 @@ class ManagersController < ApplicationController
   private
 
   def handle_breadcrumbs
-    add_crumb @location.name, "#{@base_path}business/#{@location.slug}"
-    add_crumb "Editing #{@location.name}"
+    add_breadcrumb @location.name, "#{@base_path}business/#{@location.slug}"
+    add_breadcrumb "Editing #{@location.name}"
   end
 
   def location

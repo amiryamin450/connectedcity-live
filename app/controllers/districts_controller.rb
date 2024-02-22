@@ -57,8 +57,8 @@ class DistrictsController < ApplicationController
       @blog_entries = @district.blog_entries.limit(PER_PAGE)
       @products = @district.products.limit(PER_PAGE)
       @coupons = @district.coupons.limit(PER_PAGE)
-      add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-      add_crumb @district.name
+      add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+      add_breadcrumb @district.name
     else
         send_file("#{Rails.root}/public/sitemap.xml", filename: "sitemap.xml", type: "application/xml")
     end

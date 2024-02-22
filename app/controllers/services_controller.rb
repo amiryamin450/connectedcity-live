@@ -19,12 +19,12 @@ class ServicesController < ApplicationController
   def show
     @service = Service.find(params[:id])
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb @service.location.district.name, district_guide_path(@service.location.district) if @service.location.district
-    add_crumb @service.location.neighborhood.name if @service.location.neighborhood
-    add_crumb @service.location.broker.name, "#{@base_path}business/#{@service.location.broker.slug}" if @service.location.broker.present?
-    add_crumb @service.location.name, "#{@base_path}business/#{@service.location.slug}"
-    add_crumb @service.name
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb @service.location.district.name, district_guide_path(@service.location.district) if @service.location.district
+    add_breadcrumb @service.location.neighborhood.name if @service.location.neighborhood
+    add_breadcrumb @service.location.broker.name, "#{@base_path}business/#{@service.location.broker.slug}" if @service.location.broker.present?
+    add_breadcrumb @service.location.name, "#{@base_path}business/#{@service.location.slug}"
+    add_breadcrumb @service.name
 
     respond_to do |format|
       format.html

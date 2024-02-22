@@ -1,6 +1,4 @@
-require_relative 'boot'
-
-# require File.expand_path('../boot', __FILE__)
+require_relative "boot"
 
 require "rails"
 # Pick the frameworks you want:
@@ -14,29 +12,45 @@ require "action_mailer/railtie"
 # require "action_text/engine"
 require "action_view/railtie"
 # require "action_cable/engine"
-require "sprockets/railtie"
+# require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
-if defined?(Bundler)
-  # If you precompile assets before deploying to production, use this line
-  # Bundler.require(*Rails.groups(:assets => %w(development test)))
-  # If you want your assets lazily compiled in production, use this line
-  # Bundler.require(:default, :assets, Rails.env)
-
-  # Require the gems listed in Gemfile, including any gems
-  # you've limited to :test, :development, or :production.
-  Bundler.require(*Rails.groups)
-end
+# Require the gems listed in Gemfile, including any gems
+# you've limited to :test, :development, or :production.
+Bundler.require(*Rails.groups)
 
 module Connectbook
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 7.0
 
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration can go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded after loading
-    # the framework and any gems in your application.
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    # config.autoload_lib(ignore: %w(assets tasks))
+    config.autoload_paths += %W(#{config.root}/lib)
+
+    # Configuration for the application, engines, and railties goes here.
+    #
+    # These settings can be overridden in specific environments using the files
+    # in config/environments, which are processed later.
+    #
+    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
+    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
+    config.time_zone = 'Pacific Time (US & Canada)'
+
+    # Enable escaping HTML in JSON.
+    config.active_support.escape_html_entities_in_json = true
+
+    # config.eager_load_paths << Rails.root.join("extras")
+
+    config.action_mailer.default_url_options = { :host => Settings.host }
+    Rails.application.routes.default_url_options[:host] = Settings.host
+
+    config.paths['app/views'] << "app/views/devise"
+
+    # Don't generate system test files.
+    config.generators.system_tests = nil
 
     # Don't generate RSpec tests for views and helpers
     config.generators do |g|
@@ -51,26 +65,6 @@ module Connectbook
       g.fixture_replacement :factory_girl, :dir => "spec/factories"
     end
 
-    # Custom directories with classes and modules you want to be autoloadable.
-    # config.autoload_paths += %W(#{config.root}/extras)
-    config.autoload_paths += %W(#{config.root}/lib)
 
-    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    config.time_zone = 'Pacific Time (US & Canada)'
-
-    # Enable escaping HTML in JSON.
-    config.active_support.escape_html_entities_in_json = true
-
-    # config.exceptions_app = self.routes
-
-    config.action_mailer.default_url_options = { :host => Settings.host }
-    Rails.application.routes.default_url_options[:host] = Settings.host
-
-    config.paths['app/views'] << "app/views/devise"
-
-    # config.assets.paths.concat(
-    #   Compass::Frameworks::ALL.map { |f| f.stylesheets_directory }
-    # )
   end
 end

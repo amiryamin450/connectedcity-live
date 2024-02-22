@@ -18,14 +18,14 @@ class RealEstateListingsController < ApplicationController
 
     @vertical_market = @location.vertical_market_categories.first.vertical_market
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb @location.district.name, district_guide_path(@location.district) if @location.district
-    add_crumb @location.neighborhood.name if @location.neighborhood
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb @location.district.name, district_guide_path(@location.district) if @location.district
+    add_breadcrumb @location.neighborhood.name if @location.neighborhood
 
-    add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
-    add_crumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
-    add_crumb @location.name, "#{@base_path}business/#{@location.slug}"
-    add_crumb @real_estate_listing.title
+    add_breadcrumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
+    add_breadcrumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
+    add_breadcrumb @location.name, "#{@base_path}business/#{@location.slug}"
+    add_breadcrumb @real_estate_listing.title
 
     respond_to do |format|
       format.html

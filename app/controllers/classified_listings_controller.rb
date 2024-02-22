@@ -27,10 +27,10 @@ class ClassifiedListingsController < ApplicationController
   # GET /classified_listings/1.json
   def show
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb 'Classifieds', classifieds_path
-    add_crumb @classified_listing.classified_category.name, classified_category_path(@classified_listing.classified_category)
-    add_crumb @classified_listing.title
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb 'Classifieds', classifieds_path
+    add_breadcrumb @classified_listing.classified_category.name, classified_category_path(@classified_listing.classified_category)
+    add_breadcrumb @classified_listing.title
 
     respond_to do |format|
       format.html

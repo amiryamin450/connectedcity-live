@@ -14,8 +14,8 @@ class MessagesController < ApplicationController
                      end
     @conversations = @conversations.sort_by(&:updated_at).reverse unless @conversations.nil?
 
-    add_crumb "Messaging"
-    add_crumb t("messaging.#{@folder}"), url_for(folder: params[:folder])
+    add_breadcrumb "Messaging"
+    add_breadcrumb t("messaging.#{@folder}"), url_for(folder: params[:folder])
   end
 
   def show
@@ -35,8 +35,8 @@ class MessagesController < ApplicationController
 
     current_manager.mark_as_read @conversation
 
-    add_crumb "Messaging"
-    add_crumb @conversation.subject, url_for(@conversation)
+    add_breadcrumb "Messaging"
+    add_breadcrumb @conversation.subject, url_for(@conversation)
   end
 
   def new

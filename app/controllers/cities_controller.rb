@@ -34,8 +34,8 @@ class CitiesController < ApplicationController
     @events = @city.events.order(:starts_at).limit(PER_PAGE)
     @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
     @districts = @city.districts
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, @base_path
-    add_crumb "#{@city.name} Guide"
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, @base_path
+    add_breadcrumb "#{@city.name} Guide"
   end
 
   def status_updates

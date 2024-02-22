@@ -24,11 +24,11 @@ class NewHomeCommunitiesController < ApplicationController
     @vertical_market = @location.vertical_market_categories.first.vertical_market
 
 
-    add_crumb @district.name, district_guide_path(@district) if @district
-    add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
-    add_crumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
-    add_crumb @location.name, "#{@base_path}business/#{@location.slug}"
-    add_crumb @new_home_community.name
+    add_breadcrumb @district.name, district_guide_path(@district) if @district
+    add_breadcrumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
+    add_breadcrumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
+    add_breadcrumb @location.name, "#{@base_path}business/#{@location.slug}"
+    add_breadcrumb @new_home_community.name
 
     respond_to do |format|
       format.html

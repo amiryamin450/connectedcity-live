@@ -181,10 +181,10 @@ class CityNewsArticlesController < ApplicationController
   def show
     @city_news_article = CityNewsArticle.find(params[:id])
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb 'City News', city_news_guide_path
-    add_crumb @city_news_article.city_news_category.name, city_news_category_path(@city_news_article.city_news_category)
-    add_crumb @city_news_article.title
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb 'City News', city_news_guide_path
+    add_breadcrumb @city_news_article.city_news_category.name, city_news_category_path(@city_news_article.city_news_category)
+    add_breadcrumb @city_news_article.title
 
     respond_to do |format|
       format.html

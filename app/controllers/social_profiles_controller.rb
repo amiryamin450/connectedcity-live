@@ -7,8 +7,8 @@ class SocialProfilesController < ApplicationController
   def index
     @social_profiles = @owner.social_profiles unless @social_profiles
 
-    add_crumb @owner.name, url_for(@owner)
-    add_crumb "Social Profiles"
+    add_breadcrumb @owner.name, url_for(@owner)
+    add_breadcrumb "Social Profiles"
   end
 
   def new
@@ -57,9 +57,9 @@ class SocialProfilesController < ApplicationController
         @accounts = api.get_connections("me", "accounts").map do |account| { name: account["name"], id: account["id"] } end
 
         if @accounts.any?
-          add_crumb @owner.name, url_for(@owner)
-          add_crumb "Social Profiles", url_for([@owner, :social_profiles])
-          add_crumb "Select a Facebook Page"
+          add_breadcrumb @owner.name, url_for(@owner)
+          add_breadcrumb "Social Profiles", url_for([@owner, :social_profiles])
+          add_breadcrumb "Select a Facebook Page"
 
           return render "social_profiles/facebook/new"
         else

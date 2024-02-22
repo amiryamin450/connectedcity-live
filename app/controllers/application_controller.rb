@@ -110,7 +110,7 @@ class ApplicationController < ActionController::Base
     # if params[:sub_region].present?
     #   @sub_region = @region.sub_regions.find(params[:sub_region])
     #   @page_title_part = @sub_region.name
-    #   add_crumb @sub_region.name, subregion_guide_path(@sub_region)
+    #   add_breadcrumb @sub_region.name, subregion_guide_path(@sub_region)    
     # end
   end
 
@@ -118,7 +118,7 @@ class ApplicationController < ActionController::Base
     # if params[:city].present?
     #   @city = @sub_region.cities.find(params[:city])
     #   @page_title_part = @city.name
-    #   add_crumb @city.name, city_guide_path(@sub_region, @city)
+    #   add_breadcrumb @city.name, city_guide_path(@sub_region, @city)
     # end
   end
 
@@ -126,7 +126,7 @@ class ApplicationController < ActionController::Base
     # if params[:district_route].present?
     #   @district = District.find(params[:district_route])
     #   @page_title_part = @district.name
-    #   add_crumb @district.name, district_path(@district)
+    #   add_breadcrumb @district.name, district_path(@district)
     # end
   end
 
@@ -144,11 +144,11 @@ class ApplicationController < ActionController::Base
 
   def set_location_dependent_vertical_market_crumbs
     @vertical_market = @location.vertical_market_categories.first.vertical_market
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, @base_path
-    add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
-    # add_crumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
-    add_crumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
-    add_crumb @location.name, location_path(@location)
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, @base_path
+    add_breadcrumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
+    # add_breadcrumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
+    add_breadcrumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
+    add_breadcrumb @location.name, location_path(@location)
   end
 
   def category_news

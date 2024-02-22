@@ -41,11 +41,11 @@ class EmploymentListingsController < ApplicationController
   # GET /employment_listings/1
   # GET /employment_listings/1.json
   def show
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, @base_path
-    add_crumb 'Employment Opportunities', employment_opportunity_url
-    add_crumb @employment_listing.employment_category.name, employment_category_path(@employment_listing.employment_category)
-    add_crumb @location.name, location_path(@location)
-    add_crumb @employment_listing.title
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, @base_path
+    add_breadcrumb 'Employment Opportunities', employment_opportunity_url
+    add_breadcrumb @employment_listing.employment_category.name, employment_category_path(@employment_listing.employment_category)
+    add_breadcrumb @location.name, location_path(@location)
+    add_breadcrumb @employment_listing.title
 
     respond_to do |format|
       format.html

@@ -20,13 +20,13 @@ class NewsArticlesController < ApplicationController
     @location = Location.find(params[:location_id])
     @news_article = NewsArticle.find(params[:id])
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb @location.district.name, district_guide_path(@location.district) if @location.district
-    add_crumb @location.neighborhood.name if @location.neighborhood
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb @location.district.name, district_guide_path(@location.district) if @location.district
+    add_breadcrumb @location.neighborhood.name if @location.neighborhood
 
-    add_crumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
-    add_crumb @location.name, location_path(@location)
-    add_crumb "News"
+    add_breadcrumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
+    add_breadcrumb @location.name, location_path(@location)
+    add_breadcrumb "News"
 
     respond_to do |format|
       format.html

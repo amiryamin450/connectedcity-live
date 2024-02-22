@@ -170,20 +170,20 @@ class VerticalMarketsController < ApplicationController
         @markers = @auto_listings.values.flatten.map(&:location)
       end
 
-      add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-      add_crumb @district.name, district_guide_path(@district) if @district
-      add_crumb @neighborhood.name if @neighborhood
-      add_crumb @sub_neigborhood.name if @sub_neigborhood
+      add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+      add_breadcrumb @district.name, district_guide_path(@district) if @district
+      add_breadcrumb @neighborhood.name if @neighborhood
+      add_breadcrumb @sub_neigborhood.name if @sub_neigborhood
 
       @vertical_market.ancestors.each do |ancestor|
-        add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
+        add_breadcrumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
       end
 
       @vertical_market.ancestors.each do |ancestor|
-        add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
+        add_breadcrumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
       end
 
-      add_crumb "#{@vertical_market.name} Guide"
+      add_breadcrumb "#{@vertical_market.name} Guide"
     end
     render layout: "application_v_2"
   end
@@ -219,18 +219,18 @@ class VerticalMarketsController < ApplicationController
     end
 
     @results = @search.results
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb @district.name, district_guide_path(@district) if @district
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb @district.name, district_guide_path(@district) if @district
 
     if @vertical_market.present?
       @vertical_market.ancestors.each do |ancestor|
-        add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
+        add_breadcrumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
       end
     end
 
-    add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}" if @vertical_market
+    add_breadcrumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}" if @vertical_market
 
-    add_crumb 'Search Results'
+    add_breadcrumb 'Search Results'
   end
 
   # GET /vertical_markets/new

@@ -32,9 +32,9 @@ class CouponsController < ApplicationController
       @coupons = @location.coupons
     end
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, @base_path
-    add_crumb @location.name, "#{@base_path}business/#{@location.slug}"
-    add_crumb @coupon.name
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, @base_path
+    add_breadcrumb @location.name, "#{@base_path}business/#{@location.slug}"
+    add_breadcrumb @coupon.name
   end
 
   # GET /coupons/new

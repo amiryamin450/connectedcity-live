@@ -27,7 +27,7 @@ class RegionsController < ApplicationController
     layout = "community_guide"
     @region = Region.find_by_subdomain(request.subdomain)
     @sub_regions = @region.sub_regions
-    add_crumb "#{@region.name} Guide"
+    add_breadcrumb "#{@region.name} Guide"
   end
 
   # GET /regions/new

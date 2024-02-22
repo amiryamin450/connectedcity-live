@@ -70,19 +70,19 @@ class LocationsController < ApplicationController
     cookies[:return_to] = "#{@base_path}business/#{@location.slug}"
 
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb @location.district.name, district_guide_path(@location.district.name) if @location.district
-    add_crumb @location.neighborhood.name if @location.neighborhood
-    add_crumb @location.sub_neighborhood.name if @location.sub_neighborhood
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb @location.district.name, district_guide_path(@location.district.name) if @location.district
+    add_breadcrumb @location.neighborhood.name if @location.neighborhood
+    add_breadcrumb @location.sub_neighborhood.name if @location.sub_neighborhood
 
     @vertical_market.ancestors.each do |ancestor|
-      add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
+      add_breadcrumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
     end
 
-    add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}" if @vertical_market
+    add_breadcrumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}" if @vertical_market
 
-    add_crumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
-    add_crumb @location.name
+    add_breadcrumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
+    add_breadcrumb @location.name
     respond_to do |format|
       format.html {render layout: "application_v_2"}
       format.json { render json:  @location.location_images.map{|file| file.to_jq_upload }.to_json(include: :location_images)  }
@@ -146,8 +146,8 @@ class LocationsController < ApplicationController
     end
 
     @managers = @location.managers.includes(:user)
-    add_crumb @location.name, "#{@base_path}business/#{@location.slug}"
-    add_crumb "Editing #{@location.name}"
+    add_breadcrumb @location.name, "#{@base_path}business/#{@location.slug}"
+    add_breadcrumb "Editing #{@location.name}"
   end
 
   # POST /locations

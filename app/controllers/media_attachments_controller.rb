@@ -14,12 +14,12 @@ class MediaAttachmentsController < ApplicationController
     @other_media = @location.media_attachments.order("created_at ASC").all - [@media_attachment]
 
     @vertical_market = @location.vertical_market_categories&.first&.vertical_market
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, @base_path
-    add_crumb @vertical_market&.name, "#{@base_path}guide/#{@vertical_market&.slug}"
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, @base_path
+    add_breadcrumb @vertical_market&.name, "#{@base_path}guide/#{@vertical_market&.slug}"
 
-    add_crumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
-    add_crumb @location.name, location_path(@location)
-    add_crumb 'Media'
+    add_breadcrumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
+    add_breadcrumb @location.name, location_path(@location)
+    add_breadcrumb 'Media'
 
   end
 

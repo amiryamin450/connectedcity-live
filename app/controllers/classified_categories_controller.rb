@@ -16,9 +16,9 @@ class ClassifiedCategoriesController < ApplicationController
   def show
     @classified_category = ClassifiedCategory.find(params[:id])
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb 'Classifieds', classifieds_path
-    add_crumb @classified_category.name
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb 'Classifieds', classifieds_path
+    add_breadcrumb @classified_category.name
 
     respond_to do |format|
       format.html
