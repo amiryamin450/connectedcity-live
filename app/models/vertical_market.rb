@@ -45,7 +45,7 @@ class VerticalMarket < ApplicationRecord
       .includes(locations: [:city])
       .where(vertical_market_id: self.subtree_ids, locations: location_params(municipality, city, district, neighborhood, sub_neighborhood))
       .group("`vertical_market_categories`.`id`, `locations`.`id`")
-      .order("`vertical_market_categories`.`name` ASC, IF(`locations`.`logo_file_name` IS NULL, 0, 1) DESC, `locations`.`updated_at` DESC")
+      .order(Arel.sql("`vertical_market_categories`.`name` ASC, IF(`locations`.`logo_file_name` IS NULL, 0, 1) DESC, `locations`.`updated_at` DESC"))
   end
 
   def get_media_attachments(municipality = nil, city = nil, district = nil, neighborhood = nil, sub_neighborhood = nil)
