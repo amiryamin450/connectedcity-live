@@ -62,7 +62,7 @@ module Connectbook
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
 
-    config.exceptions_app = self.routes
+    # config.exceptions_app = self.routes
 
     config.action_mailer.default_url_options = { :host => Settings.host }
     Rails.application.routes.default_url_options[:host] = Settings.host
