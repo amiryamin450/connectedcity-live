@@ -1517,6 +1517,7 @@ GEM
       railties (>= 3.0)
     buftok (0.2.0)
     builder (3.2.4)
+    byebug (11.1.3)
     cancancan (3.5.0)
     cape (1.8.0)
     capistrano (2.15.11)
@@ -2117,6 +2118,7 @@ DEPENDENCIES
   bootstrap-datetimepicker-rails
   bootstrap-sass (~> 3.4.1)
   bootstrap-wysihtml5-rails
+  byebug
   cancancan
   cape
   capistrano (< 3.0.0)

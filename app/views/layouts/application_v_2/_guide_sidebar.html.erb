@@ -8,7 +8,6 @@
   @blog_entries = @vertical_market.get_blog_entries(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
   @coupons = @vertical_market.get_coupons(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
 %>
-
 <ul class="nav nav-tabs justify-content-start" role="tablist">
   <li class="nav-item">
     <a class="nav-link active" data-toggle="tab" href="#Update">Update</a>
@@ -41,7 +40,7 @@
   <div id="Update" class="container tab-pane active">
     <br>
     <h3>Updates</h3><br>
-    <% if @status_updates.size > 0 %>
+    <% if @status_updates.length > 0 %>
       <% @status_updates.each do |status_update| %>
         <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
       <% end %>

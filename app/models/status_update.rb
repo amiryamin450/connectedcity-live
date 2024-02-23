@@ -1,6 +1,8 @@
 class StatusUpdate < ApplicationRecord
   belongs_to :statusable, polymorphic: true
-  belongs_to :location, -> { where(status_updates: { statusable_type: "Location" }) }, foreign_key: "statusable_id"
+
+  belongs_to :location, foreign_key: "statusable_id"
+  # belongs_to :location, -> { joins(:status_updates).where(status_updates: { statusable_type: "Location" }) }, foreign_key: "statusable_id"
   belongs_to :district
   belongs_to :neighborhood
   belongs_to :city
