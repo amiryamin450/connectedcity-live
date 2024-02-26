@@ -34,7 +34,7 @@
                 </tr>
               </thead>
               <tbody>
-                <%= form_tag '', id: `form_#{index}`, action: nil, remote: true do |f| %>
+                <%= form_with action: nil do |f| %>
                   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
                   <% line_items[index].each_with_index do |data, i| %>
                     <% product = data[:product] %>
