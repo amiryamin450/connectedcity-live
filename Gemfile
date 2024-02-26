@@ -84,6 +84,7 @@ gem 'haml-rails', '~> 2.1.0'
 ####################################################################
 
 group :development, :test do
+  gem 'byebug'
   gem 'factory_girl_rails'
   gem 'meta_request'
   gem 'rspec-rails'
