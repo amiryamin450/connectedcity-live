@@ -42,7 +42,10 @@ gem 'activerecord-mysql2spatial-adapter'
 gem 'nokogiri'
 gem 'oauth'
 gem 'omniauth-facebook'
+# paperclip currently has a outdate issue that can't work with Ruby 3.0 and newer
 gem 'paperclip'
+# We fix paperclip by monkey patching it at the moment, we also can fix it by alternate it with 'kt-paperclip' gem
+# gem 'kt-paperclip', '~> 7.2', '>= 7.2.1'
 gem 'progress_bar'
 gem 'config', github: 'railsconfig/config'
 # gem 'ransack', '~> 2.3.2'
