@@ -40,46 +40,46 @@ class StatusUpdate < ApplicationRecord
   end
 
   # TODO Should this be done asynchronously?
-  def push
-    return if social_profile_ids.nil? || social_profile_ids.empty?
+  # def push
+  #   return if social_profile_ids.nil? || social_profile_ids.empty?
 
-    if statusable.respond_to?(:social_profiles) && statusable.social_profiles.any?
-      statusable.social_profiles.each do |social_profile|
-        next unless social_profile_ids.include?(social_profile.id.to_s)
+  #   if statusable.respond_to?(:social_profiles) && statusable.social_profiles.any?
+  #     statusable.social_profiles.each do |social_profile|
+  #       next unless social_profile_ids.include?(social_profile.id.to_s)
 
-        case social_profile.social_network
-        when :twitter
-          begin
-            client = Twitter::REST::Client.new do |config|
-              config.consumer_key = Settings.twitter_consumer_key
-              config.consumer_secret = Settings.twitter_consumer_secret
-              config.access_token = social_profile.access_token
-              config.access_token_secret = social_profile.access_token_secret
-            end
+  #       case social_profile.social_network
+  #       when :twitter
+  #         begin
+  #           client = Twitter::REST::Client.new do |config|
+  #             config.consumer_key = Settings.twitter_consumer_key
+  #             config.consumer_secret = Settings.twitter_consumer_secret
+  #             config.access_token = social_profile.access_token
+  #             config.access_token_secret = social_profile.access_token_secret
+  #           end
 
-            if image.present? && image.is_a?(Paperclip::Attachment)
-              client.update_with_media content, open(image.path)
-            else
-              client.update content
-            end
-          rescue
-          end
-        when :facebook
-          begin
-            api = Koala::Facebook::API.new social_profile.access_token
+  #           if image.present? && image.is_a?(Paperclip::Attachment)
+  #             client.update_with_media content, open(image.path)
+  #           else
+  #             client.update content
+  #           end
+  #         rescue
+  #         end
+  #       when :facebook
+  #         begin
+  #           api = Koala::Facebook::API.new social_profile.access_token
 
-            if image.present? && image.is_a?(Paperclip::Attachment)
-              api.put_picture image.path, image.content_type, message: content
-            else
-              api.put_wall_post content
-            end
-          rescue
-          end
-        end
-      end
-    end
-  end
-  after_create :push
+  #           if image.present? && image.is_a?(Paperclip::Attachment)
+  #             api.put_picture image.path, image.content_type, message: content
+  #           else
+  #             api.put_wall_post content
+  #           end
+  #         rescue
+  #         end
+  #       end
+  #     end
+  #   end
+  # end
+  # after_create :push
 
   def statusable_v2
     statusable || Location.unscoped.find(statusable_id)
