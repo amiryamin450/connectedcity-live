@@ -79,9 +79,9 @@ class VerticalMarket < ApplicationRecord
                       .where(locations: location_params(municipality, city, district, neighborhood, sub_neighborhood))
 
     if status_updates.present? && add_subtrees
-      status_updates = status_updates.where(location: { vertical_market_categories: { vertical_market_id: self.subtree_ids } })
+      status_updates = status_updates.where(locations: { vertical_market_categories: { vertical_market_id: self.subtree_ids } })
     elsif vertical_market_category
-      status_updates = status_updates.where(location: { vertical_market_categories: { id: vertical_market_category.id } })
+      status_updates = status_updates.where(locations: { vertical_market_categories: { id: vertical_market_category.id } })
     end
 
     status_updates = status_updates.order("`status_updates`.`created_at` DESC").limit(200) if status_updates.present?
