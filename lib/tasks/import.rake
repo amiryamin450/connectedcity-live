@@ -257,7 +257,7 @@ end
 task :update_locations => :environment do
   #Location.all.each do |l|
   #  vmc = ActiveRecord::Base.connection.select_one("SELECT vertical_market_category_id FROM locations_vertical_market_categories WHERE location_id = #{l.id}")
-  #  l.update_attributes(vmc)
+  #  l.update(vmc)
   #  puts "#{l.name} vertical_market_category: #{l.vertical_market_category_id}"
   #end
 

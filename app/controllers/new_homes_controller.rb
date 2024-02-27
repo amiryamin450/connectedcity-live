@@ -70,7 +70,7 @@ class NewHomesController < ApplicationController
     @new_home = NewHome.find(params[:id])
 
     respond_to do |format|
-      if @new_home.update_attributes(new_home_params)
+      if @new_home.update(new_home_params)
         format.html { redirect_to new_home_community_new_homes_path(@new_home_community), notice: 'New home was successfully updated.' }
         format.json { head :no_content }
       else

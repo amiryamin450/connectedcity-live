@@ -75,7 +75,7 @@ class CouponsController < ApplicationController
     @coupon = Coupon.find(params[:id])
 
     respond_to do |format|
-      if @coupon.update_attributes(coupon_params)
+      if @coupon.update(coupon_params)
         format.html { redirect_to [@location, @coupon], notice: 'Coupon was successfully updated.' }
         format.json { head :no_content }
       else

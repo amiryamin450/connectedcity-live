@@ -77,7 +77,7 @@ class NewHomeCommunitiesController < ApplicationController
     @new_home_community = NewHomeCommunity.find(params[:id])
 
     respond_to do |format|
-      if @new_home_community.update_attributes(new_home_community_params)
+      if @new_home_community.update(new_home_community_params)
         format.html { redirect_to [@location, @new_home_community], notice: 'New home community was successfully updated.' }
         format.json { head :no_content }
       else

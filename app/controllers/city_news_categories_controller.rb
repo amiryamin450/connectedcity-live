@@ -64,7 +64,7 @@ class CityNewsCategoriesController < ApplicationController
     # @city_news_category = CityNewsCategory.find(params[:id])
 
     respond_to do |format|
-      if @city_news_category.update_attributes(city_news_category_params)
+      if @city_news_category.update(city_news_category_params)
         format.html { redirect_to city_news_categories_url, notice: 'City news category was successfully updated.' }
         format.json { head :no_content }
       else

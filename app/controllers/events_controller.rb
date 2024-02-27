@@ -50,7 +50,7 @@ class EventsController < ApplicationController
 
     def update
     @event = Event.unscoped.friendly.find(params[:id])
-    if @event.update_attributes(event_params)
+    if @event.update(event_params)
       redirect_to [@location, @event], notice: 'Event was successfully updated.'
     else
       render action: :edit

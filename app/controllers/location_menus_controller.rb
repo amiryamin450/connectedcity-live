@@ -28,7 +28,7 @@ class LocationMenusController < ApplicationController
   def update
     @location_menu = LocationMenu.find(params[:id])
 
-    if @location_menu.update_attributes(location_menu_params)
+    if @location_menu.update(location_menu_params)
       redirect_to [@location, @location_menu], notice: 'Menu was successfully updated.'
     else
       render action: "edit"

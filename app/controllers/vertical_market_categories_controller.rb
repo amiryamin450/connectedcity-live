@@ -121,7 +121,7 @@ class VerticalMarketCategoriesController < ApplicationController
     @vertical_market_category = VerticalMarketCategory.find(params[:id])
 
     respond_to do |format|
-      if @vertical_market_category.update_attributes(vertical_market_category_params)
+      if @vertical_market_category.update(vertical_market_category_params)
         format.html { redirect_to @vertical_market_category, notice: 'Vertical market category was successfully updated.' }
         format.json { head :no_content }
       else

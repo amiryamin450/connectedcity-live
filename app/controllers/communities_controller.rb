@@ -62,7 +62,7 @@ class CommunitiesController < ApplicationController
     @community = Community.find(params[:id])
 
     respond_to do |format|
-      if @community.update_attributes(community_params)
+      if @community.update(community_params)
         format.html { redirect_to @community, notice: 'Community was successfully updated.' }
         format.json { head :no_content }
       else

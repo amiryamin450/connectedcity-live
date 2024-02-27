@@ -72,10 +72,8 @@ class ClassifiedListingsController < ApplicationController
   # PUT /classified_listings/1
   # PUT /classified_listings/1.json
   def update
-
-
     respond_to do |format|
-      if @classified_listing.update_attributes(classified_listing_params)
+      if @classified_listing.update(classified_listing_params)
         format.html { redirect_to @classified_listing, notice: 'Classified listing was successfully updated.' }
         format.json { render json: { files: [@classified_listing.classified_images.last.to_jq_upload]}, status: :created, location: @location }
       else

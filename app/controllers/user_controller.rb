@@ -65,12 +65,12 @@ class UserController < ApplicationController
     password_changed = !params[:user][:password].empty?
 
     successfully_updated = if password_changed
-      @user.update_attributes(params[:user])
+      @user.update(params[:user])
     else
       @user.update_without_password(params[:user])
     end
 
-    if @user.update_attributes(params[:user])
+    if @user.update(params[:user])
       redirect_to user_index_path, :notice => "User updated."
     else
       redirect_to user_path, :alert => "Unable to update user."

@@ -233,7 +233,7 @@ class CityNewsArticlesController < ApplicationController
     # @city_news_article = CityNewsArticle.find(params[:id])
 
     respond_to do |format|
-      if @city_news_article.update_attributes(params[:city_news_article])
+      if @city_news_article.update(params[:city_news_article])
         format.html { redirect_to @city_news_article, notice: 'City news article was successfully updated.' }
         format.json { head :no_content }
       else

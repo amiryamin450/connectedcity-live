@@ -51,7 +51,7 @@ class MediaAttachmentsController < ApplicationController
   end
 
   def update
-    if @media_attachment.update_attributes(media_attachment_params)
+    if @media_attachment.update(media_attachment_params)
       @media_attachment.update_attribute(:is_draft, false)
       redirect_to [@location, @media_attachment], notice: 'Media Attachment was successfully updated.'
     else
@@ -151,7 +151,7 @@ class MediaAttachmentsController < ApplicationController
     video = Video.find_by_broadcast_id(params[:broadcast_id])
     if video.present?
       archive = vonage.stop_archive({archive_id: video.archive_id})
-      video.update_attributes(status: 'stopped', livestream: false)
+      video.update(status: 'stopped', livestream: false)
     end
     render json: {broadcast: broadcast.to_json}, status: :ok
   end

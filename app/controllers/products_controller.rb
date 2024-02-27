@@ -75,7 +75,7 @@ class ProductsController < ApplicationController
   def update
     @product = Product.friendly.find(params[:id])
     respond_to do |format|
-      if @product.update_attributes(product_params)
+      if @product.update(product_params)
         format.html { redirect_to [@location, @product], notice: 'Product was successfully updated.' }
         format.json { render json: { files: [@product.product_images.last.to_jq_upload]}, status: :created, product: @product }
       else

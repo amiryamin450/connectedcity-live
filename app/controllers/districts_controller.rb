@@ -28,7 +28,7 @@ class DistrictsController < ApplicationController
   end
 
   def update
-    if @district.update_attributes(district_params)
+    if @district.update(district_params)
       redirect_to districts_path, notice: 'The District was updated successfully.'
     else
       render action: 'edit'

@@ -89,7 +89,7 @@ class EmploymentListingsController < ApplicationController
   # PUT /employment_listings/1.json
   def update
     respond_to do |format|
-      if @employment_listing.update_attributes(params[:employment_listing])
+      if @employment_listing.update(params[:employment_listing])
         format.html { redirect_to [@location, @employment_listing], notice: 'Employment listing was successfully updated.' }
         format.json { head :no_content }
       else

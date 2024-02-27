@@ -63,7 +63,7 @@ class CarouselImagesController < ApplicationController
     @carousel_image = CarouselImage.find(params[:id])
 
     respond_to do |format|
-      if @carousel_image.update_attributes(carousel_image_params)
+      if @carousel_image.update(carousel_image_params)
         format.html { redirect_to polymorphic_url([@carouselable, :carousel_images]), notice: 'Carousel image was successfully updated.' }
         format.json { head :no_content }
       else

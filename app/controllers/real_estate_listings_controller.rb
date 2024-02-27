@@ -76,7 +76,7 @@ class RealEstateListingsController < ApplicationController
 
 
     respond_to do |format|
-      if @real_estate_listing.update_attributes(real_estate_listing_params)
+      if @real_estate_listing.update(real_estate_listing_params)
         format.html { redirect_to [@location, @real_estate_listing], notice: 'Real estate listing was successfully updated.' }
         format.json { render json: { files: [@real_estate_listing.real_estate_listing_images.last.to_jq_upload]}, status: :created, location: @location }
       else

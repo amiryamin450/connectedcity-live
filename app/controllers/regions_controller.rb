@@ -68,7 +68,7 @@ class RegionsController < ApplicationController
     @region = Region.find(params[:id])
 
     respond_to do |format|
-      if @region.update_attributes(params[:region])
+      if @region.update(params[:region])
         format.html { redirect_to @region, notice: 'Region was successfully updated.' }
         format.json { head :no_content }
       else

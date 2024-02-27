@@ -64,7 +64,7 @@ class ClassifiedCategoriesController < ApplicationController
     # @classified_category = ClassifiedCategory.find(params[:id])
 
     respond_to do |format|
-      if @classified_category.update_attributes(classified_category_params)
+      if @classified_category.update(classified_category_params)
         format.html { redirect_to @classified_category, notice: 'Classified category was successfully updated.' }
         format.json { head :no_content }
       else

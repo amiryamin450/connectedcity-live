@@ -70,7 +70,7 @@ class ServicesController < ApplicationController
     @service = Service.find(params[:id])
 
     respond_to do |format|
-      if @service.update_attributes(service_params)
+      if @service.update(service_params)
         format.html { redirect_to @location, notice: 'Service was successfully updated.' }
         format.json { head :no_content }
       else

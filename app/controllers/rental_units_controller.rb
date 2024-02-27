@@ -75,7 +75,7 @@ class RentalUnitsController < ApplicationController
     @rental_unit = RentalUnit.find(params[:id])
 
     respond_to do |format|
-      if @rental_unit.update_attributes(rental_unit_params)
+      if @rental_unit.update(rental_unit_params)
         format.html { redirect_to [@location, @rental_property, @rental_unit], notice: 'Rental unit was successfully updated.' }
         format.json { head :no_content }
       else

@@ -62,7 +62,7 @@ class CountriesController < ApplicationController
     @country = Country.find(params[:id])
 
     respond_to do |format|
-      if @country.update_attributes(country_params)
+      if @country.update(country_params)
         format.html { redirect_to @country, notice: 'Country was successfully updated.' }
         format.json { head :no_content }
       else

@@ -184,7 +184,7 @@ class LocationsController < ApplicationController
     @location = Location.unscoped.find(params[:id])
 
     respond_to do |format|
-      if @location.update_attributes(location_params)
+      if @location.update(location_params)
         format.html { redirect_to cookies[:return_to].present? ? cookies[:return_to] : @location, notice: 'Location was successfully updated.' }
         format.json { render json: { files: [@location.location_images.last.to_jq_upload]}, status: :created, location: @location }
       else

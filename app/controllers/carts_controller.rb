@@ -115,7 +115,7 @@ class CartsController < ApplicationController
   # PUT /carts/1.json
   def update
     respond_to do |format|
-      if @cart.update_attributes(cart_params)
+      if @cart.update(cart_params)
         format.html { redirect_to @cart, notice: 'Cart was successfully updated.' }
         format.json { head :no_content }
       else

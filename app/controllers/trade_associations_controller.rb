@@ -61,7 +61,7 @@ class TradeAssociationsController < ApplicationController
     # @trade_association = TradeAssociation.find(params[:id])
 
     respond_to do |format|
-      if @trade_association.update_attributes(trade_association_params)
+      if @trade_association.update(trade_association_params)
         format.html { redirect_to @trade_association, notice: 'Trade association was successfully updated.' }
         format.json { head :no_content }
       else

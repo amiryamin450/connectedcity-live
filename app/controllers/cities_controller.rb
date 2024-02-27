@@ -93,7 +93,7 @@ class CitiesController < ApplicationController
     @city = City.find(params[:id])
 
     respond_to do |format|
-      if @city.update_attributes(city_params)
+      if @city.update(city_params)
         format.html { redirect_to @city, notice: 'City was successfully updated.' }
         format.json { head :no_content }
       else

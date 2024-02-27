@@ -62,7 +62,7 @@ class ProvincesController < ApplicationController
     @province = StateOrProvince.find(params[:id])
 
     respond_to do |format|
-      if @province.update_attributes(province_params)
+      if @province.update(province_params)
         format.html { redirect_to @province, notice: 'State or province was successfully updated.' }
         format.json { head :no_content }
       else

@@ -59,7 +59,7 @@ class ProductImagesController < ApplicationController
     @product_image = ProductImage.find(params[:id])
 
     respond_to do |format|
-      if @product_image.update_attributes(product_image_params)
+      if @product_image.update(product_image_params)
         format.html { redirect_to @product_image, notice: 'Product image was successfully updated.' }
         format.json { head :no_content }
       else

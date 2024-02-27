@@ -5,7 +5,7 @@ class VideosController < ApplicationController
     media_attachment = @video.media_attachment
 
     if params[:video][:media_attachment_attributes].present?
-      media_attachment.update_attributes(params[:video][:media_attachment_attributes])
+      media_attachment.update(params[:video][:media_attachment_attributes])
       media_attachment.update_attribute(:is_draft, false)
     end
 
@@ -41,7 +41,7 @@ class VideosController < ApplicationController
   def update_media_attachment
     video = Video.find_by_id(params[:video_id])
     media_attachment = video.media_attachment
-    media_attachment.update_attributes(JSON.parse(params[:media_attachment]))
+    media_attachment.update(JSON.parse(params[:media_attachment]))
     render nothing: true, status: :ok
   end
 

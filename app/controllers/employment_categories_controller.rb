@@ -60,7 +60,7 @@ class EmploymentCategoriesController < ApplicationController
     # @employment_category = EmploymentCategory.find(params[:id])
 
     respond_to do |format|
-      if @employment_category.update_attributes(params[:employment_category])
+      if @employment_category.update(params[:employment_category])
         format.html { redirect_to @employment_category, notice: 'Employment category was successfully updated.' }
         format.json { head :no_content }
       else
