@@ -1,4 +1,4 @@
-FROM ruby:2.7.8 AS rails-toolbox
+FROM ruby:3.0.5 AS rails-toolbox
 
 RUN apt-get update -qq && apt-get install -y nodejs imagemagick libmagickcore-dev libmagickwand-dev ffmpeg
 WORKDIR /myapp

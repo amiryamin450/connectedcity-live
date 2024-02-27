@@ -1,6 +1,6 @@
 require "active_support/core_ext/integer/time"
 
-Rails.application.configure do
+Connectbook::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded any time
@@ -32,6 +32,15 @@ Rails.application.configure do
 
     config.cache_store = :null_store
   end
+
+  # Log to STDOUT by default
+  config.logger = ActiveSupport::Logger.new(STDOUT)
+  .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
+  .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
+
+  # config.log_level = :debug
+  # config.logger = Logger.new(STDOUT)
+  # config.logger.level = Logger::DEBUG
 
   config.action_mailer.raise_delivery_errors = true
 
