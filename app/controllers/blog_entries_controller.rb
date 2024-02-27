@@ -1,4 +1,5 @@
 class BlogEntriesController < ApplicationController
+  before_action :load_location, only: [:index, :new, :create, :update]
   load_resource :location
   load_and_authorize_resource :blog_entry, through: [:location]
 
@@ -84,6 +85,11 @@ class BlogEntriesController < ApplicationController
   end
 
   private
+
+  def load_location
+    id_param = params[:location_id].presence || params[:id]
+    @location = Location.unscoped.friendly.find(id_param)
+  end
 
   def blog_entry_params
     params.require(:blog_entry).permit(:content, :location_id, :title, :user_id, :slug, :image)

@@ -1,5 +1,6 @@
 class VerticalMarketsController < ApplicationController
   layout :resolve_layout
+  load_and_authorize_resource find_by: :slug, only: [:edit, :update, :show, :destroy]
   load_and_authorize_resource except: [:search, :guide]
 
   def resolve_layout
@@ -26,7 +27,7 @@ class VerticalMarketsController < ApplicationController
   # GET /vertical_markets/1
   # GET /vertical_markets/1.json
   def show
-    @vertical_market = VerticalMarket.friendly.find(params[:id])
+    # @vertical_market = VerticalMarket.friendly.find(params[:id])
 
     respond_to do |format|
       format.html
@@ -247,7 +248,7 @@ class VerticalMarketsController < ApplicationController
 
   # GET /vertical_markets/1/edit
   def edit
-    @vertical_market = VerticalMarket.find(params[:id])
+    # @vertical_market = VerticalMarket.find(params[:id])
     #@vertical_markets = VerticalMarket.arrange_as_array(:order => 'name', @vertical_market.possible_parents)
   end
 
@@ -270,10 +271,10 @@ class VerticalMarketsController < ApplicationController
   # PUT /vertical_markets/1
   # PUT /vertical_markets/1.json
   def update
-    @vertical_market = VerticalMarket.find(params[:id])
+    # @vertical_market = VerticalMarket.find(params[:id])
 
     respond_to do |format|
-      if @vertical_market.update_attributes(vertical_market_params)
+      if @vertical_market.update(vertical_market_params)
         format.html { redirect_to @vertical_market, notice: 'Vertical market was successfully updated.' }
         format.json { head :no_content }
       else
@@ -286,7 +287,7 @@ class VerticalMarketsController < ApplicationController
   # DELETE /vertical_markets/1
   # DELETE /vertical_markets/1.json
   def destroy
-    @vertical_market = VerticalMarket.find(params[:id])
+    # @vertical_market = VerticalMarket.find(params[:id])
     @vertical_market.destroy
 
     respond_to do |format|

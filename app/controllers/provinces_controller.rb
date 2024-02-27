@@ -1,4 +1,4 @@
-class StateOrProvincesController < ApplicationController
+class ProvincesController < ApplicationController
   load_and_authorize_resource
   layout "admin"
 

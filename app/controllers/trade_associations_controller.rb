@@ -1,6 +1,6 @@
 class TradeAssociationsController < ApplicationController
-  before_action :find_trade_association, only: [:show]
-  load_and_authorize_resource
+  # before_action :find_trade_association, only: [:show]
+  load_and_authorize_resource find_by: :slug
 
   # GET /trade_associations
   # GET /trade_associations.json
@@ -36,7 +36,7 @@ class TradeAssociationsController < ApplicationController
 
   # GET /trade_associations/1/edit
   def edit
-    @trade_association = TradeAssociation.find(params[:id])
+    # @trade_association = TradeAssociation.find(params[:id])
   end
 
   # POST /trade_associations
@@ -58,7 +58,7 @@ class TradeAssociationsController < ApplicationController
   # PUT /trade_associations/1
   # PUT /trade_associations/1.json
   def update
-    @trade_association = TradeAssociation.find(params[:id])
+    # @trade_association = TradeAssociation.find(params[:id])
 
     respond_to do |format|
       if @trade_association.update_attributes(trade_association_params)
@@ -74,7 +74,7 @@ class TradeAssociationsController < ApplicationController
   # DELETE /trade_associations/1
   # DELETE /trade_associations/1.json
   def destroy
-    @trade_association = TradeAssociation.find(params[:id])
+    # @trade_association = TradeAssociation.find(params[:id])
     @trade_association.destroy
 
     respond_to do |format|

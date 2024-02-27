@@ -1,5 +1,5 @@
 class ClassifiedCategoriesController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource find_by: :slug
   # GET /classified_categories
   # GET /classified_categories.json
   def index
@@ -14,7 +14,7 @@ class ClassifiedCategoriesController < ApplicationController
   # GET /classified_categories/1
   # GET /classified_categories/1.json
   def show
-    @classified_category = ClassifiedCategory.find(params[:id])
+    # @classified_category = ClassifiedCategory.find(params[:id])
 
     add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_breadcrumb 'Classifieds', classifieds_path
@@ -39,7 +39,7 @@ class ClassifiedCategoriesController < ApplicationController
 
   # GET /classified_categories/1/edit
   def edit
-    @classified_category = ClassifiedCategory.find(params[:id])
+    # @classified_category = ClassifiedCategory.find(params[:id])
   end
 
   # POST /classified_categories
@@ -61,7 +61,7 @@ class ClassifiedCategoriesController < ApplicationController
   # PUT /classified_categories/1
   # PUT /classified_categories/1.json
   def update
-    @classified_category = ClassifiedCategory.find(params[:id])
+    # @classified_category = ClassifiedCategory.find(params[:id])
 
     respond_to do |format|
       if @classified_category.update_attributes(classified_category_params)
@@ -77,7 +77,7 @@ class ClassifiedCategoriesController < ApplicationController
   # DELETE /classified_categories/1
   # DELETE /classified_categories/1.json
   def destroy
-    @classified_category = ClassifiedCategory.find(params[:id])
+    # @classified_category = ClassifiedCategory.find(params[:id])
     @classified_category.destroy
 
     respond_to do |format|

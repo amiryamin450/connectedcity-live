@@ -1,5 +1,5 @@
 class EmploymentCategoriesController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource find_by: :slug
   # GET /employment_categories
   # GET /employment_categories.json
   def index
@@ -14,7 +14,7 @@ class EmploymentCategoriesController < ApplicationController
   # GET /employment_categories/1
   # GET /employment_categories/1.json
   def show
-    @employment_category = EmploymentCategory.find(params[:id])
+    # @employment_category = EmploymentCategory.find(params[:id])
 
     respond_to do |format|
       format.html
@@ -35,7 +35,7 @@ class EmploymentCategoriesController < ApplicationController
 
   # GET /employment_categories/1/edit
   def edit
-    @employment_category = EmploymentCategory.find(params[:id])
+    # @employment_category = EmploymentCategory.find(params[:id])
   end
 
   # POST /employment_categories
@@ -57,7 +57,7 @@ class EmploymentCategoriesController < ApplicationController
   # PUT /employment_categories/1
   # PUT /employment_categories/1.json
   def update
-    @employment_category = EmploymentCategory.find(params[:id])
+    # @employment_category = EmploymentCategory.find(params[:id])
 
     respond_to do |format|
       if @employment_category.update_attributes(params[:employment_category])
@@ -73,7 +73,7 @@ class EmploymentCategoriesController < ApplicationController
   # DELETE /employment_categories/1
   # DELETE /employment_categories/1.json
   def destroy
-    @employment_category = EmploymentCategory.find(params[:id])
+    # @employment_category = EmploymentCategory.find(params[:id])
     @employment_category.destroy
 
     respond_to do |format|

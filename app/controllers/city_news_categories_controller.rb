@@ -1,5 +1,5 @@
 class CityNewsCategoriesController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource find_by: :slug
   # GET /city_news_categories
   # GET /city_news_categories.json
   def index
@@ -14,7 +14,7 @@ class CityNewsCategoriesController < ApplicationController
   # GET /city_news_categories/1
   # GET /city_news_categories/1.json
   def show
-    @city_news_category = CityNewsCategory.find(params[:id])
+    # @city_news_category = CityNewsCategory.find(params[:id])
 
     add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_breadcrumb 'City News', city_news_guide_path
@@ -39,7 +39,7 @@ class CityNewsCategoriesController < ApplicationController
 
   # GET /city_news_categories/1/edit
   def edit
-    @city_news_category = CityNewsCategory.find(params[:id])
+    # @city_news_category = CityNewsCategory.find(params[:id])
   end
 
   # POST /city_news_categories
@@ -61,7 +61,7 @@ class CityNewsCategoriesController < ApplicationController
   # PUT /city_news_categories/1
   # PUT /city_news_categories/1.json
   def update
-    @city_news_category = CityNewsCategory.find(params[:id])
+    # @city_news_category = CityNewsCategory.find(params[:id])
 
     respond_to do |format|
       if @city_news_category.update_attributes(city_news_category_params)
@@ -77,7 +77,7 @@ class CityNewsCategoriesController < ApplicationController
   # DELETE /city_news_categories/1
   # DELETE /city_news_categories/1.json
   def destroy
-    @city_news_category = CityNewsCategory.find(params[:id])
+    # @city_news_category = CityNewsCategory.find(params[:id])
     @city_news_category.destroy
 
     respond_to do |format|

@@ -1,4 +1,5 @@
 class CityNewsArticlesController < ApplicationController
+  load_and_authorize_resource find_by: :slug, only: [:edit, :update, :show, :destroy]
   load_and_authorize_resource except: [:guide, :index, :filter_updates, :filter_media_attachments, :filter_news_articles, :filter_events, :get_neighborhoods, :get_sub_neighborhoods, :get_route_sub_neighborhoods]
 
   PER_PAGE = 20
@@ -179,7 +180,7 @@ class CityNewsArticlesController < ApplicationController
   # GET /city_news_articles/1
   # GET /city_news_articles/1.json
   def show
-    @city_news_article = CityNewsArticle.find(params[:id])
+    # @city_news_article = CityNewsArticle.find(params[:id])
 
     add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_breadcrumb 'City News', city_news_guide_path
@@ -206,7 +207,7 @@ class CityNewsArticlesController < ApplicationController
 
   # GET /city_news_articles/1/edit
   def edit
-    @city_news_article = CityNewsArticle.find(params[:id])
+    # @city_news_article = CityNewsArticle.find(params[:id])
     districts
   end
 
@@ -229,7 +230,7 @@ class CityNewsArticlesController < ApplicationController
   # PUT /city_news_articles/1
   # PUT /city_news_articles/1.json
   def update
-    @city_news_article = CityNewsArticle.find(params[:id])
+    # @city_news_article = CityNewsArticle.find(params[:id])
 
     respond_to do |format|
       if @city_news_article.update_attributes(params[:city_news_article])
@@ -245,7 +246,7 @@ class CityNewsArticlesController < ApplicationController
   # DELETE /city_news_articles/1
   # DELETE /city_news_articles/1.json
   def destroy
-    @city_news_article = CityNewsArticle.find(params[:id])
+    # @city_news_article = CityNewsArticle.find(params[:id])
     @city_news_article.destroy
 
     respond_to do |format|

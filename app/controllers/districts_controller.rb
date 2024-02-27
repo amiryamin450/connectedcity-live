@@ -1,7 +1,7 @@
 class DistrictsController < ApplicationController
   include PrismicController
 
-  load_and_authorize_resource :district, except: :homepage
+  load_and_authorize_resource :district, find_by: :slug, except: :homepage
 
   PER_PAGE = 20
 
