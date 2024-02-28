@@ -1,4 +1,4 @@
-class CreateListingTable < ActiveRecord::Migration
+class CreateListingTable < ActiveRecord::Migration[7.0]
   def change
     create_table :real_estate_listings do |t|
       t.string :listing_source

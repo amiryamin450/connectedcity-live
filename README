@@ -19,6 +19,8 @@ A better approach is to use Docker for both dev and production. This project has
     # environment:
       # RAILS_ENV: "${RAILS_ENV}"
 ```
++ Comment this line in `config/environments/development.rb` if using Mac
+  `config.file_watcher = ActiveSupport::EventedFileUpdateChecker`
 
 + Download below files from https://drive.google.com/drive/u/1/folders/1Kw1h1LgML56bWJAHqrniH0FGD-yPZd3g and put in root folder of source code.
 ```

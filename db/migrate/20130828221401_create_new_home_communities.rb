@@ -1,4 +1,4 @@
-class CreateNewHomeCommunities < ActiveRecord::Migration
+class CreateNewHomeCommunities < ActiveRecord::Migration[7.0]
   def change
     create_table :new_home_communities do |t|
       t.string :name

@@ -1,4 +1,4 @@
-class AddAttachmentImageToLocationImages < ActiveRecord::Migration
+class AddAttachmentImageToLocationImages < ActiveRecord::Migration[7.0]
   def self.up
     change_table :location_images do |t|
       t.has_attached_file :image

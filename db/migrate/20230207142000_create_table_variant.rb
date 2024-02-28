@@ -1,4 +1,4 @@
-class CreateTableVariant < ActiveRecord::Migration
+class CreateTableVariant < ActiveRecord::Migration[7.0]
   def up
     create_table :variants do |t|
       t.integer :product_id

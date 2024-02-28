@@ -1,4 +1,4 @@
-class CreateStateOrProvinces < ActiveRecord::Migration
+class CreateStateOrProvinces < ActiveRecord::Migration[7.0]
   def change
     create_table :state_or_provinces do |t|
       t.string :name

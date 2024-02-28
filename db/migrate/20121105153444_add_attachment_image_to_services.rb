@@ -1,4 +1,4 @@
-class AddAttachmentImageToServices < ActiveRecord::Migration
+class AddAttachmentImageToServices < ActiveRecord::Migration[7.0]
   def self.up
     change_table :services do |t|
       t.has_attached_file :image

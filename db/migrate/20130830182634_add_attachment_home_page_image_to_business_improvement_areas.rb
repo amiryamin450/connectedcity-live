@@ -1,4 +1,4 @@
-class AddAttachmentHomePageImageToBusinessImprovementAreas < ActiveRecord::Migration
+class AddAttachmentHomePageImageToBusinessImprovementAreas < ActiveRecord::Migration[7.0]
   def self.up
     change_table :business_improvement_areas do |t|
       t.attachment :home_page_image

@@ -1,4 +1,4 @@
-class CreateRealEstateListingImages < ActiveRecord::Migration
+class CreateRealEstateListingImages < ActiveRecord::Migration[7.0]
   def change
     create_table :real_estate_listing_images do |t|
       t.integer :real_estate_listing_id

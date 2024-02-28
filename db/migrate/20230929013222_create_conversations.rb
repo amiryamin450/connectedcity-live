@@ -1,4 +1,4 @@
-class CreateConversations < ActiveRecord::Migration
+class CreateConversations < ActiveRecord::Migration[7.0]
   def up
     create_table :conversations do |t|
       t.integer :recipient_id

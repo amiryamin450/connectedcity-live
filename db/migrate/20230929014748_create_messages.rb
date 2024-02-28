@@ -1,4 +1,4 @@
-class CreateMessages < ActiveRecord::Migration
+class CreateMessages < ActiveRecord::Migration[7.0]
   def up
     create_table :messages do |t|
       t.text :body

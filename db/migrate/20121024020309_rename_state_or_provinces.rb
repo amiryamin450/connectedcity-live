@@ -1,4 +1,4 @@
-class RenameStateOrProvinces < ActiveRecord::Migration
+class RenameStateOrProvinces < ActiveRecord::Migration[7.0]
   def up
     rename_table :state_or_provinces, :provinces
   end

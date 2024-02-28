@@ -1,4 +1,4 @@
-class CreateOperatingHours < ActiveRecord::Migration
+class CreateOperatingHours < ActiveRecord::Migration[7.0]
   def change
     create_table :operating_hours do |t|
       t.integer :day, null: false

@@ -1,4 +1,4 @@
-class CreateSubRegions < ActiveRecord::Migration
+class CreateSubRegions < ActiveRecord::Migration[7.0]
   def change
     create_table :sub_regions do |t|
       t.string :name

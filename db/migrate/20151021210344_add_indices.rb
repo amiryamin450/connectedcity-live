@@ -1,4 +1,4 @@
-class AddIndices < ActiveRecord::Migration
+class AddIndices < ActiveRecord::Migration[7.0]
   def change
     add_index :locations_vertical_market_categories, [:vertical_market_category_id, :location_id], unique: true, name: "lvmc_vertical_market_category_id_location_id"
     add_index :media_attachments, [:attachable_id, :attachable_type]

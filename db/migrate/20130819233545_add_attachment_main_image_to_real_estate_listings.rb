@@ -1,4 +1,4 @@
-class AddAttachmentMainImageToRealEstateListings < ActiveRecord::Migration
+class AddAttachmentMainImageToRealEstateListings < ActiveRecord::Migration[7.0]
   def self.up
     change_table :real_estate_listings do |t|
       t.attachment :main_image

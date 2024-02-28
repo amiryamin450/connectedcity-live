@@ -1,4 +1,4 @@
-class RenameStateOrProvinceIdRegions < ActiveRecord::Migration
+class RenameStateOrProvinceIdRegions < ActiveRecord::Migration[7.0]
   def up
     rename_column :regions, :state_or_province_id, :province_id
     rename_column :cities, :state_or_province_id, :province_id

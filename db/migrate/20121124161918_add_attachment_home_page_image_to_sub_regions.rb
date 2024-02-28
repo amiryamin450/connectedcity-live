@@ -1,4 +1,4 @@
-class AddAttachmentHomePageImageToSubRegions < ActiveRecord::Migration
+class AddAttachmentHomePageImageToSubRegions < ActiveRecord::Migration[7.0]
   def self.up
     change_table :sub_regions do |t|
       t.has_attached_file :home_page_image

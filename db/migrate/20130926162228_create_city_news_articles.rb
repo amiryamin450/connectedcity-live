@@ -1,4 +1,4 @@
-class CreateCityNewsArticles < ActiveRecord::Migration
+class CreateCityNewsArticles < ActiveRecord::Migration[7.0]
   def change
     create_table :city_news_articles do |t|
       t.text :content

@@ -1,4 +1,4 @@
-class AddAttachmentLogoToNewHomeCommunities < ActiveRecord::Migration
+class AddAttachmentLogoToNewHomeCommunities < ActiveRecord::Migration[7.0]
   def self.up
     change_table :new_home_communities do |t|
       t.attachment :logo

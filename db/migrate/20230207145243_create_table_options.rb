@@ -1,4 +1,4 @@
-class CreateTableOptions < ActiveRecord::Migration
+class CreateTableOptions < ActiveRecord::Migration[7.0]
   def up
     create_table :options do |t|
       t.integer :variant_id

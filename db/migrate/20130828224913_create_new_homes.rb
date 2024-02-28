@@ -1,4 +1,4 @@
-class CreateNewHomes < ActiveRecord::Migration
+class CreateNewHomes < ActiveRecord::Migration[7.0]
   def change
     create_table :new_homes do |t|
       t.integer :location_id

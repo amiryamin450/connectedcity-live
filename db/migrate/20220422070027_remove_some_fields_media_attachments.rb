@@ -1,4 +1,4 @@
-class RemoveSomeFieldsMediaAttachments < ActiveRecord::Migration
+class RemoveSomeFieldsMediaAttachments < ActiveRecord::Migration[7.0]
 
   def up
     remove_column :media_attachments, :archive_id

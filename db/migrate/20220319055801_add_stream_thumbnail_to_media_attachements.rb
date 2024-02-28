@@ -1,4 +1,4 @@
-class AddStreamThumbnailToMediaAttachements < ActiveRecord::Migration
+class AddStreamThumbnailToMediaAttachements < ActiveRecord::Migration[7.0]
   def self.up
     change_table :media_attachments do |t|
       t.has_attached_file :stream_thumbnail

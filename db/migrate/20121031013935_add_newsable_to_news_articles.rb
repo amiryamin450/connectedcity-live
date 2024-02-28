@@ -1,4 +1,4 @@
-class AddNewsableToNewsArticles < ActiveRecord::Migration
+class AddNewsableToNewsArticles < ActiveRecord::Migration[7.0]
   def change
     add_column :news_articles, :newsable_id, :integer
     add_column :news_articles, :newsable_type, :string

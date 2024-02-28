@@ -1,4 +1,4 @@
-class CreateRedemptions < ActiveRecord::Migration
+class CreateRedemptions < ActiveRecord::Migration[7.0]
   def change
     create_table :redemptions do |t|
       t.integer :coupon_id

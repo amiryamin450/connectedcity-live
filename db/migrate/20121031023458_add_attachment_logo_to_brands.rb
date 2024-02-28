@@ -1,4 +1,4 @@
-class AddAttachmentLogoToBrands < ActiveRecord::Migration
+class AddAttachmentLogoToBrands < ActiveRecord::Migration[7.0]
   def self.up
     change_table :brands do |t|
       t.has_attached_file :logo

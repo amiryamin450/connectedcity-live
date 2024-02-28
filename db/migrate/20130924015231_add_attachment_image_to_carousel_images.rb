@@ -1,4 +1,4 @@
-class AddAttachmentImageToCarouselImages < ActiveRecord::Migration
+class AddAttachmentImageToCarouselImages < ActiveRecord::Migration[7.0]
   def self.up
     change_table :carousel_images do |t|
       t.attachment :image

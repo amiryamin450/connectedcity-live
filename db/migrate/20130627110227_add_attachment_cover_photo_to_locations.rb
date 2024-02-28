@@ -1,4 +1,4 @@
-class AddAttachmentCoverPhotoToLocations < ActiveRecord::Migration
+class AddAttachmentCoverPhotoToLocations < ActiveRecord::Migration[7.0]
   def self.up
     change_table :locations do |t|
       t.attachment :cover_photo

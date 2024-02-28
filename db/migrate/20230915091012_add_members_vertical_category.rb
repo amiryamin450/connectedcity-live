@@ -1,4 +1,4 @@
-class AddMembersVerticalCategory < ActiveRecord::Migration
+class AddMembersVerticalCategory < ActiveRecord::Migration[7.0]
   def up
     members_vm = VerticalMarket.create(name: 'Members', slug: 'members', ancestry_depth: 0)
     VerticalMarket.find_by_name('Friends').update_column(:ancestry, members_vm.id.to_s)

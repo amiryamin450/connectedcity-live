@@ -1,4 +1,4 @@
-class CreateRentalProperties < ActiveRecord::Migration
+class CreateRentalProperties < ActiveRecord::Migration[7.0]
   def change
     create_table :rental_properties do |t|
       t.string :name

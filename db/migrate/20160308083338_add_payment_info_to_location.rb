@@ -1,4 +1,4 @@
-class AddPaymentInfoToLocation < ActiveRecord::Migration
+class AddPaymentInfoToLocation < ActiveRecord::Migration[7.0]
   def change
     change_table :locations do |t|
       t.integer :payment_user_id

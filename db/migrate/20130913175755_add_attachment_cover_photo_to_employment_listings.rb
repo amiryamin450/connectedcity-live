@@ -1,4 +1,4 @@
-class AddAttachmentCoverPhotoToEmploymentListings < ActiveRecord::Migration
+class AddAttachmentCoverPhotoToEmploymentListings < ActiveRecord::Migration[7.0]
   def self.up
     change_table :employment_listings do |t|
       t.attachment :cover_photo

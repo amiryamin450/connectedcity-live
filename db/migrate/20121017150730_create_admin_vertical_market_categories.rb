@@ -1,4 +1,4 @@
-class CreateAdminVerticalMarketCategories < ActiveRecord::Migration
+class CreateAdminVerticalMarketCategories < ActiveRecord::Migration[7.0]
   def change
     create_table :admin_vertical_market_categories do |t|
       t.string :name

@@ -1,4 +1,4 @@
-class AddProvinceIdMunicipality < ActiveRecord::Migration
+class AddProvinceIdMunicipality < ActiveRecord::Migration[7.0]
   def up
     add_column :municipalities, :province_id, :integer
   end

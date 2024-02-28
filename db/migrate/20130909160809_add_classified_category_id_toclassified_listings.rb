@@ -1,4 +1,4 @@
-class AddClassifiedCategoryIdToclassifiedListings < ActiveRecord::Migration
+class AddClassifiedCategoryIdToclassifiedListings < ActiveRecord::Migration[7.0]
   def up
   end
 

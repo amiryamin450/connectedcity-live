@@ -1,4 +1,4 @@
-class ChangePostalCodeFieldNameOnClassifiedListings < ActiveRecord::Migration
+class ChangePostalCodeFieldNameOnClassifiedListings < ActiveRecord::Migration[7.0]
   def up
     rename_column :classified_listings, :prostal_code, :postal_code
   end

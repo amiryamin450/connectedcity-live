@@ -1,4 +1,4 @@
-class AddAttachmentImageToBlogEntries < ActiveRecord::Migration
+class AddAttachmentImageToBlogEntries < ActiveRecord::Migration[7.0]
   def self.up
     change_table :blog_entries do |t|
       t.attachment :image

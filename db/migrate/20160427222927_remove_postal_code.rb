@@ -1,4 +1,4 @@
-class RemovePostalCode < ActiveRecord::Migration
+class RemovePostalCode < ActiveRecord::Migration[7.0]
   def up
   	remove_column :users, :postal_code
   end
