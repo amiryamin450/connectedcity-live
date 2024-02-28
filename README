@@ -24,6 +24,7 @@ A better approach is to use Docker for both dev and production. This project has
 ```
 .env
 dump_db_file.sql
+config/master.key
 ```
 
 + Stop your mysql local service
