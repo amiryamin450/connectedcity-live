@@ -103,7 +103,7 @@ class NewHomeCommunitiesController < ApplicationController
     @status_update = StatusUpdate.find(params[:id])
     @status_update.destroy
 
-    redirect_to :back
+    redirect_back
   end
 
   private

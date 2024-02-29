@@ -65,7 +65,7 @@ class MessagesController < ApplicationController
       end
 
       unless @conversation.is_participant? current_manager
-        return redirect_to :back
+        return redirect_back
       end
 
       receipt = current_manager.reply_to_conversation @conversation, @message.body
@@ -106,7 +106,7 @@ class MessagesController < ApplicationController
       end
     end
 
-    redirect_to :back
+    redirect_back
   end
 
   def messenger
