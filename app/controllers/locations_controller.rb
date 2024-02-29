@@ -442,7 +442,7 @@ class LocationsController < ApplicationController
   def connect_stripe
     @stripe_account_link = StripeService.new(location: @location, user: current_user).create_account_link
 
-    redirect_to @stripe_account_link
+    redirect_to @stripe_account_link, allow_other_host: true
   end
 
   def disconnect_stripe

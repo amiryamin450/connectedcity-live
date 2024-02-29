@@ -168,7 +168,7 @@ class CartsController < ApplicationController
   def checkout
     checkout_session = StripeService.new(cart: @cart, params: params).checkout
   
-    redirect_to checkout_session.url
+    redirect_to checkout_session.url, allow_other_host: true
   end
 
   def checkout_successful

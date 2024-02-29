@@ -10,7 +10,7 @@ class PrismicOauthController < ActionController::Base
       redirect_uri: get_callback_url,
       scope: "master+releases"
     )
-    redirect_to url
+    redirect_to url, allow_other_host: true
   end
 
   def callback
@@ -24,7 +24,7 @@ class PrismicOauthController < ActionController::Base
     if token
       session['ACCESS_TOKEN'] = token
       url = params['redirect_uri'] || root_path
-      redirect_to url
+      redirect_to url, allow_other_host: true
     else
       render "Can't sign you in", status: :unauthorized
     end
