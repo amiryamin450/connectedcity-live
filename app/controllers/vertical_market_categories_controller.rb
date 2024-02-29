@@ -34,7 +34,7 @@ class VerticalMarketCategoriesController < ApplicationController
     set_neighborhood
     set_bia
    
-    @vertical_market_category = VerticalMarketCategory.find(params[:id])
+    @vertical_market_category = VerticalMarketCategory.friendly.find(params[:id])
     @vertical_market = @vertical_market_category.vertical_market
 
     add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path

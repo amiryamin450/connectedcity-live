@@ -1,6 +1,6 @@
 class LocationsController < ApplicationController
 
-  before_action :set_location, only: [:connect_stripe, :disconnect_stripe, :connected_advertiser]
+  before_action :set_location, only: [:connect_stripe, :disconnect_stripe, :connected_advertiser, :update]
   load_and_authorize_resource :location
 
   skip_load_and_authorize_resource :location, only: [:show, :edit, :update]
@@ -181,8 +181,6 @@ class LocationsController < ApplicationController
   # PUT /locations/1
   # PUT /locations/1.json
   def update
-    @location = Location.unscoped.find(params[:id])
-
     respond_to do |format|
       if @location.update(location_params)
         format.html { redirect_to cookies[:return_to].present? ? cookies[:return_to] : @location, notice: 'Location was successfully updated.' }

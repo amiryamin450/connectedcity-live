@@ -34,7 +34,7 @@ class VerticalMarketCategory < ApplicationRecord
   end
 
   def get_locations_paged(municipality = nil, city = nil, district = nil, neighborhood = nil, sub_neighborhood = nil, page = 0, bia = nil)
-    result = locations.order("IF(logo_file_name IS NULL, 0, 1) DESC").order("updated_at DESC").order("name ASC")
+    result = locations.order(Arel.sql("IF(logo_file_name IS NULL, 0, 1) DESC")).order("updated_at DESC").order("name ASC")
     result = result.where('locations.municipality_id = ?', municipality.id) if municipality.present?
     result = result.where('locations.city_id = ?', city.id) if city.present?
 
