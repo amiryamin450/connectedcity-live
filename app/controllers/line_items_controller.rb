@@ -60,6 +60,8 @@ class LineItemsController < ApplicationController
     qty_line_item = @line_item.quantity
     qty_param = params[:quantity]
     @line_item.quantity = qty_param > qty_product ? qty_product : qty_param
+    list_items = @cart.line_items
+    @cart.list_items = list_items
 
     respond_to do |format|
       if @line_item.save
