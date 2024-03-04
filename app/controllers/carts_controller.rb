@@ -50,7 +50,10 @@ class CartsController < ApplicationController
           }
         end
       end
-      render 'show.js.erb' , :formats => [:json], :handlers => [:erb]
+
+      respond_to do |format|
+        format.js { render 'show' }
+      end
     else
       @back_url = URI(request.referer || '').path
       session[:return_to] = URI(request.referer || '').path
@@ -151,7 +154,10 @@ class CartsController < ApplicationController
           }
         end
       end
-      render 'clear.js.erb'
+
+    respond_to do |format|
+      format.js { render 'clear' }
+    end
   end
 
   # DELETE /carts/1

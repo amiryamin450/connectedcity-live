@@ -119,10 +119,15 @@ class LineItemsController < ApplicationController
         end
       end
     end
-    if @is_empty
-      render 'carts/show.js.erb' , :formats => [:json], :handlers => [:erb]
-    else
-      render 'destroy.js.erb', :formats => [:json], :handlers => [:erb]
+
+    respond_to do |format|
+      format.js do
+        if @is_empty
+          render 'carts/show'
+        else
+          render 'destroy'
+        end
+      end
     end
   end
 

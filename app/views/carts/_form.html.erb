@@ -137,7 +137,7 @@
     </div>
     <div class="col-md-2">
       <% titleClearCart = back_url.include?('slug') ? 'Clear all items' : 'Clear Cart' %>
-      <form action=<%#= clear_cart_path(@cart.id) %> method="POST" id="clear-cart" >
+      <form id="clear-cart">
         <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
         <% if back_url.include?('slug') %>
           <%= hidden_field_tag :location_id, line_items[0][0][:location][:id] %>
@@ -316,8 +316,6 @@
         method: "GET",
         dataType: "script",
         headers: {
-          Accept: 'script',
-          'Content-Type': 'script',
           'X-CSRF-Token': $('input[name=authenticity_token]').val(),
         },
       })
