@@ -29,9 +29,11 @@ class ProductsController < ApplicationController
     #   redirect_to edit_location_path(@location)
     #   flash[:danger] = "Please connect to Stripe before add products"
     # end
-
     @product = @location.products.new
-    @categories = Category.where(parent_id: nil).order(:name)
+    categories_news_ids = @categories_news.ids
+    categories_news_ids += Category.where(name: ["Federal Updates", "Provincial Updates"]).ids
+    @categories = Category.where(parent_id: nil).where.not(id: categories_news_ids).order(:name)
+
     if params[:category_id].present? && params[:category_id] != 'all'
       @product.category_id = params[:category_id]
       category = Category.find(params[:category_id])
