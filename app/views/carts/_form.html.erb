@@ -88,34 +88,17 @@
       <% end %>
     </div>
     <div class="col-md-3 tax-container">
-      <div class="tax-view">
-        <div class="row" style="margin: 0px">
-          <div class="col-md-4" style="padding-right: 0px">
-            <div class="title-tax font-weight-bold" style="margin-top: 20px">Sub-Total:</div>
-            <% if @cart.has_tax_pst %><div class="title-tax font-weight-bold"><%="Tax 1 (PST)"%></div><% end %>
-            <% if @cart.has_tax_gst %><div class="title-tax font-weight-bold"><%="Tax 2 (GST)"%></div><% end %>
-            <div class="line" style="margin-top: 20px"></div>
-            <div class="title-tax font-weight-bold">Total:</div>
-          </div>
-          <div class="col-md-3" style="padding: 0px">
-            <div class="title-price" style="margin-top: 20px; height: 24px;"></div>
-            <% if @cart.has_tax_pst %><div class="price-tax font-weight-bold"><%= "#{@cart.tax_pst_format}%" %></div><% end %>
-            <% if @cart.has_tax_gst %><div class="price-tax font-weight-bold"><%= "#{@cart.tax_gst_format}%" %></div><% end %>
-            <div class="line" style="margin-top: 20px"></div>
-          </div>
-          <div class="col-md-5" style="padding-left: 0px">
-            <div class="title-price font-weight-bold sub-total" style="margin-top: 20px"><%= number_to_currency(@cart.total_price_net, unit: '$') %></div>
-            <% if @cart.has_tax_pst %><div class="title-price font-weight-bold tax-pst"><%= number_to_currency(@cart.tax_pst_price, unit: '$') %></div><% end %>
-            <% if @cart.has_tax_gst %><div class="title-price font-weight-bold tax-gst"><%= number_to_currency(@cart.tax_gst_price, unit: '$') %></div><% end %>
-            <div class="line" style="margin-top: 20px"></div>
-            <div class="title-price font-weight-bold total"><%= number_to_currency(@cart.total_price_gross, unit: '$') %></div>
-          </div>
-        </div>
-        <div class="btn-checkout-row">
-          <%= form_tag checkout_carts_path do %>
-            <%= hidden_field_tag "location_id", params[:slug] %>
-            <%= submit_tag 'Checkout', class: "btn btn-primary checkout-button" %>
-          <% end %>
+      <div class="payment-options-container">
+        <div class="payment-options">
+          <span class="payment-option active">
+            Visa/MC
+          </span>
+          <span class="payment-option">
+            PayPal
+          </span>
+          <span class="payment-option">
+            G Pay
+          </span>
         </div>
       </div>
       <div class="coupon-view">
@@ -125,6 +108,59 @@
           <button class="apply-button">Apply</button>
         </div>
       </div>
+      <div class="delivery-options-container">
+        <div>
+          <strong>Delivery Options</strong>
+        </div>
+        <div class="delivery-options">
+          <div class="delivery-option">
+            <%= radio_button_tag "delivery_option", 0, true %>
+            <span>Pick Up in Store</span>
+          </div>
+          <div class="delivery-option">
+            <%= radio_button_tag "delivery_option", 1, false, disabled: true %>
+            <span>Standard via Canada Post</span>
+          </div>
+          <div class="delivery-option">
+            <%= radio_button_tag "delivery_option", 2, false, disabled: true %>
+            <span>Express via Courier</span>
+          </div>
+        </div>
+      </div>
+      <div class="tax-view">
+        <div class="row" style="margin: 0px">
+          <div class="col-md-4" style="padding-right: 0px">
+            <div class="title-tax font-weight-bold" style="margin-top: 20px">Sub-Total:</div>
+            <% if @cart.has_tax_pst %><div class="title-tax font-weight-bold"><%="Tax 1 (PST)"%></div><% end %>
+            <% if @cart.has_tax_gst %><div class="title-tax font-weight-bold"><%="Tax 2 (GST)"%></div><% end %>
+            <div><strong>Delivery</strong></div>
+            <div class="line" style="margin-top: 20px"></div>
+            <div class="title-tax font-weight-bold">Total:</div>
+          </div>
+          <div class="col-md-3" style="padding: 0px">
+            <div class="title-price" style="margin-top: 20px; height: 24px;"></div>
+            <% if @cart.has_tax_pst %><div class="price-tax font-weight-bold"><%= "#{@cart.tax_pst_format}%" %></div><% end %>
+            <% if @cart.has_tax_gst %><div class="price-tax font-weight-bold"><%= "#{@cart.tax_gst_format}%" %></div><% end %>
+            <div class="hide" style="opacity: 0;">Temp text</div>
+            <div class="line" style="margin-top: 20px"></div>
+          </div>
+          <div class="col-md-5" style="padding-left: 0px">
+            <div class="title-price font-weight-bold sub-total" style="margin-top: 20px"><%= number_to_currency(@cart.total_price_net, unit: '$') %></div>
+            <% if @cart.has_tax_pst %><div class="title-price font-weight-bold tax-pst"><%= number_to_currency(@cart.tax_pst_price, unit: '$') %></div><% end %>
+            <% if @cart.has_tax_gst %><div class="title-price font-weight-bold tax-gst"><%= number_to_currency(@cart.tax_gst_price, unit: '$') %></div><% end %>
+            <div><strong>FREE</strong></div>
+            <div class="line" style="margin-top: 20px"></div>
+            <div class="title-price font-weight-bold total"><%= number_to_currency(@cart.total_price_gross, unit: '$') %></div>
+          </div>
+        </div>
+        <div class="btn-checkout-row">
+          <%= form_tag checkout_carts_path do %>
+            <%= hidden_field_tag "location_id", params[:slug] %>
+            <%= submit_tag 'Place Order', class: "btn btn-primary checkout-button" %>
+          <% end %>
+        </div>
+      </div>
+
     </div>
   </div>
 <% end %>
