@@ -32,6 +32,8 @@ Connectbook::Application.routes.draw do
     post :checkout, on: :collection
   end
 
+  resources :orders, only: [:index, :show, :update]
+
   # Routes that require authentication.
   authenticate :user do
     resources :social_profiles, path: "social-profiles", only: [] do

@@ -55,24 +55,62 @@ class StripeService
 
   def checkout_successful
     charge = Stripe::Checkout::Session.retrieve(@params[:session_id])
-
+    byebug
     if charge.present? && charge.status == 'complete'
-      OrderMailer.order_created(nil, @cart.user).deliver
-      list_items = query_list_items(@params[:location_id])
+      checkout_only_one_shop = @params[:location_id].present?
+      merchants = []
 
-      list_items.group_by(&:location_id).each do |location_id, items|
-        location = Location.find(location_id)
-        @cart.list_items = items
-        merchant_total_receive = (@cart.total_price_gross * 100 * (100 - ENV['SERVICE_FEE'].to_f) / 100 - 30).to_i
-
-        Stripe::Transfer.create({
-          amount: merchant_total_receive,
-          destination: location.stripe_account_id,
-          currency: 'cad'
-        })
+      if checkout_only_one_shop
+        location = Location.unscoped.friendly.find(@params[:location_id])
+        merchants.push(location) if location.present?
+      else
+        locations = Location.where(id: @cart.line_items.pluck(:location_id).uniq)
+        merchants = locations if locations.present?
       end
+
+      merchants.each do |merchant|
+        order = Order.create(
+          status: :in_progress,
+          payment_method: "visa/mc",
+          customer: @cart.user,
+          seller: merchant,
+          shipment_attributes: {
+            status: :preparing,
+            delivery_method: :pickup_in_store,
+            shipping_name: charge.shipping_details.name,
+            shipping_address: charge.shipping_details.address
+          }
+        )
+
+        if order.persisted?
+          line_items = @cart.line_items.where(location_id: merchant.id)
+          line_items.update_all(paid: true, order_id: order.id, cart_id: nil)
+
+          # recipients = [@cart.user.email, merchant.email, "brian1@yopmail.com", "gtaylor@connectedcity.com"]
+          # recipients.each do |recipient|
+          #   OrderMailer.order_created(recipient, order, @cart.user).deliver
+          # end
+
+        else
+          raise "Can't create an order with error: #{order.errors.full_messages}!"
+        end
+      end
+
+      # list_items = query_list_items(@params[:location_id])
+
+      # list_items.group_by(&:location_id).each do |location_id, items|
+      #   location = Location.find(location_id)
+      #   @cart.list_items = items
+      #   merchant_total_receive = (@cart.total_price_gross * 100 * (100 - ENV['SERVICE_FEE'].to_f) / 100 - 30).to_i
+
+      #   Stripe::Transfer.create({
+      #     amount: merchant_total_receive,
+      #     destination: location.stripe_account_id,
+      #     currency: 'cad'
+      #   })
+      # end
     end
-    
+
   end
 
   private

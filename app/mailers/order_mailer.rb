@@ -1,9 +1,10 @@
 class OrderMailer < ActionMailer::Base
   default from: 'donotreply@connectedcity.com'
 
-  def order_created(order, user)
+  def order_created(recipient_email, order, user)
+    @recipient_email = recipient_email
     @user = user
     @order = order
-    mail(to: @user.email, subject: 'e-Receipt – Order 12345689')
+    mail(to: @recipient_email, subject: "e-Receipt – Order #{@order.display_number}")
   end
 end
