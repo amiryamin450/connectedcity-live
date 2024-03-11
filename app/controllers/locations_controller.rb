@@ -1,6 +1,6 @@
 class LocationsController < ApplicationController
 
-  before_action :set_location, only: [:connect_stripe, :disconnect_stripe, :connected_advertiser, :update]
+  before_action :set_location, only: [:connect_stripe, :disconnect_stripe, :connected_advertiser, :update, :destroy, :claim]
   load_and_authorize_resource :location
 
   skip_load_and_authorize_resource :location, only: [:show, :edit, :update]
@@ -10,7 +10,10 @@ class LocationsController < ApplicationController
   layout 'location', :only => [:show]
 
   def index
-    @search = Location.search(params[:q])
+    # @search = Location.search { fulltext params[:q] }
+    # @locations = Location.all
+    @search = Location.ransack(params[:q])
+    # @search = Location.search { fulltext params[:q] }
     @locations = @search.result.order(:name).page(params[:page])
 
     respond_to do |format|
@@ -154,6 +157,10 @@ class LocationsController < ApplicationController
   # POST /locations.json
   def create
     @location = Location.new(location_params)
+    unless @location.sub_neighborhood.present?
+      sub_neighborhood = Neighborhood.find_by_neighborhd params[:location][:sub_neighborhood_id]
+      @location.sub_neighborhood = sub_neighborhood if sub_neighborhood.present?
+    end
 
     respond_to do |format|
       if @location.save
@@ -181,8 +188,14 @@ class LocationsController < ApplicationController
   # PUT /locations/1
   # PUT /locations/1.json
   def update
+    @location.assign_attributes(location_params)
+    unless @location.sub_neighborhood.present?
+      sub_neighborhood = Neighborhood.find_by_neighborhd params[:location][:sub_neighborhood_id]
+      @location.sub_neighborhood = sub_neighborhood if sub_neighborhood.present?
+    end
+
     respond_to do |format|
-      if @location.update(location_params)
+      if @location.save
         format.html { redirect_to cookies[:return_to].present? ? cookies[:return_to] : @location, notice: 'Location was successfully updated.' }
         format.json { render json: { files: [@location.location_images.last.to_jq_upload]}, status: :created, location: @location }
       else
@@ -199,7 +212,6 @@ class LocationsController < ApplicationController
   # DELETE /locations/1
   # DELETE /locations/1.json
   def destroy
-    @location = Location.find(params[:id])
     @location.destroy
 
     respond_to do |format|
@@ -209,7 +221,6 @@ class LocationsController < ApplicationController
   end
 
   def claim
-    @location = Location.find(params[:id])
     @location.stripe_plan_id = 'yearly-new'
 
     respond_to do |format|
@@ -404,7 +415,9 @@ class LocationsController < ApplicationController
   def get_cities_by_municipality
     if params[:municipality_slug]
       @municipality = Municipality.find_by_id(params[:municipality_slug])
-      render json: @municipality.cities
+      cities = @municipality.cities.select(City.without_geom_column)
+
+      render json: cities
     else
       render json: []
     end
@@ -422,7 +435,9 @@ class LocationsController < ApplicationController
   def get_neighborhoods_by_district
     if params[:district_slug]
       @district = District.find_by_id(params[:district_slug])
-      render json: @district.neighborhoods
+      neighborhoods = @district.neighborhoods.select(Neighborhood.without_geom_column)
+
+      render json: neighborhoods
     else
       render json: []
     end
@@ -430,7 +445,7 @@ class LocationsController < ApplicationController
 
   def get_sub_neighborhoods_by_neighborhood
     if params[:neighborhood_slug]
-      @sub_neighborhood = Neighborhood.where(neighborhood_id: params[:neighborhood_slug])
+      @sub_neighborhood = Neighborhood.where(neighborhood_id: params[:neighborhood_slug]).select(Neighborhood.without_geom_column)
       render json: @sub_neighborhood
     else
       render json: []
@@ -460,11 +475,12 @@ class LocationsController < ApplicationController
     params.require(:location).permit(:address, :address_1, :business_id, :city_id, :community_id, :country_id, :email, :fax, :import_hash,
       :imported, :latitude, :longitude, :name, :phone, :postal_code, :region_id, :show_fax, :show_phone,
       :show_toll_free, :slug, :province_id, :toll_free, :website_url, :logo,
-      :location_images_attributes, :location_menus_attributes, :vertical_market_category_ids, :status_updates_attributes,
-      :blog_entries_attributes, :news_articles_attributes, :products_attributes, :services_attributes, :events_attributes,
       :brand_ids, :brand_tokens, :content, :vertical_market_categories, :district, :yp_lid, :yp_categories, :yp_neighborhoods, :sub_neighborhood_id,
       :city, :province, :district_id, :neighborhood, :country, :cover_photo, :neighborhood_id, :broker_id, :hall_id, :councillor_id, :commissioner_id, :business_improvement_area_id,
-      :user, :trade_association_ids, :media_attachments_attributes, :delete_cover_photo, :delete_logo,
-      :operating_hours_attributes, :stripe_plan_id, :municipality_id, :is_profile)
+      :user, :delete_cover_photo, :delete_logo, :stripe_plan_id, :municipality_id, :is_profile,
+      trade_association_ids: [], vertical_market_category_ids: [],
+      media_attachments_attributes: {}, operating_hours_attributes: {}, location_images_attributes: {}, location_menus_attributes: {},
+      status_updates_attributes: {}, blog_entries_attributes: {}, news_articles_attributes: {}, products_attributes: {},
+      services_attributes: {}, events_attributes: {},)
   end
 end

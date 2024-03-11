@@ -7,25 +7,25 @@ class Location < ApplicationRecord
 
   before_validation :clear_images?
 
-  belongs_to :business
+  belongs_to :business, optional: true
   belongs_to :city
   belongs_to :country
   belongs_to :province
   belongs_to :district
   belongs_to :neighborhood
   belongs_to :sub_neighborhood, class_name: 'Neighborhood', foreign_key: 'sub_neighborhood_id'
-  belongs_to :business_improvement_area
-  belongs_to :payment_user, class_name: 'User'
+  belongs_to :business_improvement_area, optional: true
+  belongs_to :payment_user, class_name: 'User', optional: true
   belongs_to :municipality
 
   has_many :agents, class_name: 'Location', foreign_key: 'broker_id', dependent: :destroy
   has_many :city_halls, class_name: 'Location', foreign_key: 'hall_id', dependent: :destroy
-  has_many :city_councillors, class_name: 'Location', foreign_key: 'councillor_id', dependent: :destroy
-  has_many :park_recreation_commissioners, class_name: 'Location', foreign_key: 'commissioner_id', dependent: :destroy
-  belongs_to :broker, class_name: 'Location'
-  belongs_to :hall, class_name: 'Location'
-  belongs_to :councillor, class_name: 'Location'
-  belongs_to :commissioner, class_name: 'Location'
+  has_many :city_councillors, -> { order 'name ASC' }, class_name: 'Location', foreign_key: 'councillor_id', dependent: :destroy
+  has_many :park_recreation_commissioners, -> { order 'name ASC' }, class_name: 'Location', foreign_key: 'commissioner_id', dependent: :destroy
+  belongs_to :broker, class_name: 'Location', optional: true
+  belongs_to :hall, class_name: 'Location', optional: true
+  belongs_to :councillor, class_name: 'Location', optional: true
+  belongs_to :commissioner, class_name: 'Location', optional: true
 
   has_many :favorites, dependent: :destroy
   has_many :status_updates, as: :statusable, dependent: :destroy
@@ -89,6 +89,10 @@ class Location < ApplicationRecord
 
   validates_presence_of :address, :name, :vertical_market_category_ids, :province_id, :country_id, :city_id, :district_id, :municipality_id, unless: :is_profile
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["address", "address_1", "available_call", "broker_id", "business_id", "business_improvement_area_id", "city_id", "claim_pending", "commissioner_id", "community_id", "content", "councillor_id", "country_id", "cover_photo_content_type", "cover_photo_file_name", "cover_photo_file_size", "cover_photo_updated_at", "created_at", "district_id", "email", "fax", "hall_id", "id", "import_hash", "imported", "is_profile", "latitude", "logo_content_type", "logo_file_name", "logo_file_size", "logo_updated_at", "longitude", "municipality_id", "name", "neighborhood", "neighborhood_id", "payment_user_id", "phone", "postal_code", "province_id", "region_id", "show_fax", "show_phone", "show_toll_free", "slug", "stripe_account_id", "stripe_plan_id", "stripe_subscription_id", "sub_neighborhood_id", "toll_free", "updated_at", "vertical_market_category_id", "website_url", "yp_categories", "yp_lid", "yp_neighborhoods"]
+  end
+
   def self.find_by_vertical_market
     vertical_market_categories
   end
@@ -130,47 +134,47 @@ class Location < ApplicationRecord
     {:lat => latitude, :long => longitude}
   end
 
-  searchable do
-    text :name, boost: 5
-    text :address, boost: 3
+  # searchable do
+  #   text :name, boost: 5
+  #   text :address, boost: 3
 
-    text :content, :phone
+  #   text :content, :phone
 
-    text :brand, boost: 3 do
-      brands.map(&:name)
-    end
+  #   text :brand, boost: 3 do
+  #     brands.map(&:name)
+  #   end
 
-    text :product, boost: 3 do
-      products.map(&:name)
-    end
+  #   text :product, boost: 3 do
+  #     products.map(&:name)
+  #   end
 
-    text :service, boost: 3 do
-      services.map(&:name)
-    end
+  #   text :service, boost: 3 do
+  #     services.map(&:name)
+  #   end
 
-    text :category do
-      vertical_market_categories.map(&:name)
-    end
+  #   text :category do
+  #     vertical_market_categories.map(&:name)
+  #   end
 
-    text :vertical_market_name do
-      vertical_markets.map(&:name)
-    end
+  #   text :vertical_market_name do
+  #     vertical_markets.map(&:name)
+  #   end
 
-    text :city do
-      city.name if city.present?
-    end
+  #   text :city do
+  #     city.name if city.present?
+  #   end
 
-    integer :vertical_market_ids, :multiple => true do
-      vertical_markets.map(&:id)
-    end
+  #   integer :vertical_market_ids, :multiple => true do
+  #     vertical_markets.map(&:id)
+  #   end
 
-    integer :district_id
-    integer :city_id
-    integer :business_improvement_area_id
-    integer :neighborhood_id
-    integer :sub_neighborhood_id
-    integer :municipality_id
-  end
+  #   integer :district_id
+  #   integer :city_id
+  #   integer :business_improvement_area_id
+  #   integer :neighborhood_id
+  #   integer :sub_neighborhood_id
+  #   integer :municipality_id
+  # end
 
   private
     def assign_neighborhood

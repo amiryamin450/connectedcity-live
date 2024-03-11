@@ -30,6 +30,10 @@ class City < ApplicationRecord
   has_attached_file :home_page_image, styles: { thumb: "100x100>" },
                       default_url: '/assets/home_page_image/default.jpg'
 
+  def self.without_geom_column
+    column_names - ["geom"]
+  end
+
   def name
     csdname
   end
