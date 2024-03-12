@@ -13,7 +13,7 @@ class Location < ApplicationRecord
   belongs_to :province
   belongs_to :district
   belongs_to :neighborhood
-  belongs_to :sub_neighborhood, class_name: 'Neighborhood', foreign_key: 'sub_neighborhood_id'
+  belongs_to :sub_neighborhood, class_name: 'Neighborhood', foreign_key: 'sub_neighborhood_id', optional: true
   belongs_to :business_improvement_area, optional: true
   belongs_to :payment_user, class_name: 'User', optional: true
   belongs_to :municipality
