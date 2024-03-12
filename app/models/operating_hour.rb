@@ -19,7 +19,7 @@ class OperatingHour < ApplicationRecord
   end
 
   def day=(day)
-    day = day.to_i if (day.is_a?(String) && self.class.days.values.include?(day.to_i))
+    day = day.to_i if (day.is_a?(String) && self.class.days.values.map(&:to_s).include?(day))
     day = self.class.days[day.to_sym] unless day.is_a? Integer
     super day
   end
