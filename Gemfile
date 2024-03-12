@@ -4,10 +4,7 @@ source 'https://rubygems.org'
 ruby '3.0.5'
 gem 'rails', '~> 7.0.5'
 
-#FIx the rails 7 - ruby 2 isssue 
-# gem 'ransack', github: 'activerecord-hackery/ransack'
 gem 'faraday'
-
 gem 'ancestry'
 gem 'auto_html'
 gem 'bootstrap-datetimepicker-rails'
@@ -44,11 +41,10 @@ gem 'oauth'
 gem 'omniauth-facebook'
 # paperclip currently has a outdate issue that can't work with Ruby 3.0 and newer
 # gem 'paperclip'
-# We fix paperclip by monkey patching it at the moment, we also can fix it by alternate it with 'kt-paperclip' gem
+# We use 'kt-paperclip' gem for alternate 'paperclip'
 gem 'kt-paperclip', '~> 7.2', '>= 7.2.1'
 gem 'progress_bar'
 gem 'config', github: 'railsconfig/config'
-# gem 'ransack', '~> 2.3.2'
 gem 'ransack'
 gem 'rgeo-activerecord'
 gem 'rgeo'

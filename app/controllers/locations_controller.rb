@@ -10,10 +10,7 @@ class LocationsController < ApplicationController
   layout 'location', :only => [:show]
 
   def index
-    # @search = Location.search { fulltext params[:q] }
-    # @locations = Location.all
     @search = Location.ransack(params[:q])
-    # @search = Location.search { fulltext params[:q] }
     @locations = @search.result.order(:name).page(params[:page])
 
     respond_to do |format|
