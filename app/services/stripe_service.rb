@@ -86,10 +86,10 @@ class StripeService
           line_items = @cart.line_items.where(location_id: merchant.id)
           line_items.update_all(paid: true, order_id: order.id, cart_id: nil)
 
-          # recipients = [@cart.user.email, merchant.email, "brian1@yopmail.com", "gtaylor@connectedcity.com"]
-          # recipients.each do |recipient|
-          #   OrderMailer.order_created(recipient, order, @cart.user).deliver
-          # end
+          recipients = [@cart.user.email, merchant.email, "brian1@yopmail.com", "gtaylor@connectedcity.com"]
+          recipients.each do |recipient|
+            OrderMailer.order_created(recipient, order, @cart.user).deliver
+          end
 
         else
           raise "Can't create an order with error: #{order.errors.full_messages}!"
