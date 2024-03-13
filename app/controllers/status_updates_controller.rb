@@ -13,28 +13,22 @@ class StatusUpdatesController < ApplicationController
   end
 
   def create
-    @status_update = location.status_updates.build status_update_params
-
+    @status_update = location.status_updates.new(status_update_params)
     if @status_update&.latitude&.abs.present? && @status_update&.longitude&.abs
       @status_update.latitude = @status_update&.latitude&.abs
       @status_update.longitude = -(@status_update&.longitude&.abs)
     end
 
+    is_success = @status_update.save
+
     respond_to do |format|
-      format.json {
-        if @status_update.save
-          render json: { success: true }
-        else
-          render json: { success: false, errors: @status_update.errors }, status: :unprocessable_entity
-        end
-      }
-      format.html {
-        if !@status_update.save
-          render :new
-        else
-          redirect_to action: :index
-        end
-      }
+      if is_success
+        format.html { redirect_to action: :index }
+        format.json { render json: { success: is_success } }
+      else
+        format.html { render :new }
+        format.json { render json: { success: is_success, errors: @status_update.errors }, status: :unprocessable_entity }
+      end
     end
   end
 

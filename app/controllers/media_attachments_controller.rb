@@ -93,9 +93,9 @@ class MediaAttachmentsController < ApplicationController
           video.thumbnail = params[:thumbnail]
           video.save
         end
-        render nothing: true, status: :created
+        head :created
       else
-        render nothing: true, status: :unprocessable_entity
+        head :unprocessable_entity
       end
     else
       render json: {msg: "Failed to connect to OpenTok"}, status: :error
@@ -139,7 +139,7 @@ class MediaAttachmentsController < ApplicationController
         )
         render json: {broadcast_id: broadcast.id, archive_id: archive.id}, status: :ok
       else
-        render nothing: true, status: :unprocessable_entity
+        head :unprocessable_entity
       end
     else
       render json: {msg: "Failed to connect to OpenTok"}, status: :error
@@ -166,7 +166,7 @@ class MediaAttachmentsController < ApplicationController
         video.update_attribute(:video_url, url)
       end
     end
-    render nothing: true, status: :ok
+    head :ok
   end
 
   def get_vonage_token

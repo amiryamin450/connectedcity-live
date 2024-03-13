@@ -4,7 +4,7 @@ class MediaAttachment < ApplicationRecord
 
   belongs_to :attachable, polymorphic: true
   belongs_to :location, foreign_key: "attachable_id"
-  belongs_to :category
+  belongs_to :category, optional: true
   has_many :videos, dependent: :destroy
 
   validates_presence_of :attachment, :unless => :stream_video?

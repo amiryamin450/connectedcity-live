@@ -7,7 +7,7 @@ class StatusUpdate < ApplicationRecord
   belongs_to :neighborhood
   belongs_to :city
   belongs_to :province
-  belongs_to :category
+  belongs_to :category, optional: true
 
   default_scope { order('created_at DESC') }
 
@@ -24,7 +24,7 @@ class StatusUpdate < ApplicationRecord
   validates_attachment_size :image, less_than: 5.megabytes
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/, message: "Please upload a valid image. Accepted types include jpg, png."
 
-  before_save do
+  before_validation do
     if self.statusable
       self.district_id = self.statusable.district_id
       self.neighborhood_id = self.statusable.neighborhood_id
