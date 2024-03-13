@@ -7,7 +7,7 @@
   <div class="customer-section">
     <p class="title"> Buyer Info </p>
     <div class="customer-info">
-      <% address = @order.shipment.shipping_address %>
+      <% address = JSON.parse(@order.shipment.shipping_address) %>
       <p> Name: <%= @order.shipment.shipping_name %> </p>
       <p> Address: <%= "#{address["line1"]}, #{address["city"]}, #{address["state"]}" %> </p>
     </div>

@@ -23,7 +23,7 @@
 
   <div style="gap:100px;display:flex;margin-top:15px">
     <div>
-      <% address = @order.shipment.shipping_address %>
+      <% address = JSON.parse(@order.shipment.shipping_address) %>
       <b>Shipping To:</b>
       <p style="margin-top: 5px">
         <%= @order.shipment.shipping_name %>

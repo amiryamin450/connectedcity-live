@@ -5,7 +5,7 @@ class AddShipments < ActiveRecord::Migration[7.0]
       t.integer :status, default: 0
       t.integer :delivery_method, default: 0
       t.string :shipping_name
-      t.json :shipping_address
+      t.text :shipping_address
       t.datetime :shipped_at
       t.references :order, null: false, foreign_key: true
 

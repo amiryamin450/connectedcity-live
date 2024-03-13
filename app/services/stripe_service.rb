@@ -78,7 +78,7 @@ class StripeService
             status: :preparing,
             delivery_method: :pickup_in_store,
             shipping_name: charge.shipping_details.name,
-            shipping_address: charge.shipping_details.address
+            shipping_address: charge.shipping_details.address.to_json
           }
         )
 
