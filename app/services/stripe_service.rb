@@ -55,7 +55,7 @@ class StripeService
 
   def checkout_successful
     charge = Stripe::Checkout::Session.retrieve(@params[:session_id])
-    byebug
+
     if charge.present? && charge.status == 'complete'
       checkout_only_one_shop = @params[:location_id].present?
       merchants = []
