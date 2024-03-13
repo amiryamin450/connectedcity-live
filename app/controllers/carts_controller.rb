@@ -172,12 +172,14 @@ class CartsController < ApplicationController
   end
 
   def checkout
+    byebug
     checkout_session = StripeService.new(cart: @cart, params: params).checkout
   
     redirect_to checkout_session.url, allow_other_host: true
   end
 
   def checkout_successful
+    byebug
     StripeService.new(cart: @cart, params: params).checkout_successful
   
     redirect_to cart_url(@cart)

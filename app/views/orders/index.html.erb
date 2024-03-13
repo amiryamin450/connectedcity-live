@@ -1,0 +1,39 @@
+<div class="orders-container">
+  <div class="actions-buttons">
+    <button> View My Business' Orders</button>
+  </div>
+  <div class="header-section">
+    <h3> Order Tracking - My Purchases </h3>
+    <p>
+      <span> Sort order by: </span>
+      Sort selection
+    </p>
+  </div>
+  <div class="orders-table-section">
+    <div class="orders-table">
+      <% @orders.find_each do |order| %>
+        <div class="order-item">
+          <div class="order-business">
+            <div class="business-name"> <%= order.seller.name %> </div>
+            <div class="business-image">
+              <% if order.seller.cover_photo.present? %>
+                <%= image_tag order.seller.cover_photo.url, alt: "business-cover" %>
+              <% end %>
+            </div>
+          </div>
+          <div class="order-details">
+            <p> Status: <%= order.status.humanize %> </p>
+            <p> Payment method: <%= order.payment_method.upcase %> </p>
+            <p> Shipping status: <%= order.shipment.display_status %> </p>
+            <p> <strong> Order total: 0 </strong> </p>
+            <%= link_to 'View order details', order_path(order) %>
+          </div>
+          <div class="order-tracking-info">
+            <div> Order ID: #<%= order.display_number %> </div>
+            <div> Order Time: <%= order.created_at %> </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
