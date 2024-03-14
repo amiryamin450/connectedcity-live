@@ -4,8 +4,8 @@ class VideosController < ApplicationController
     @video = Video.find_by_id(params[:id])
     media_attachment = @video.media_attachment
 
-    if params[:video][:media_attachment_attributes].present?
-      media_attachment.update(params[:video][:media_attachment_attributes])
+    if media_attachment_params.present?
+      media_attachment.update(media_attachment_params)
       media_attachment.update_attribute(:is_draft, false)
     end
 
@@ -110,5 +110,9 @@ class VideosController < ApplicationController
       obj = bucket.objects["#{ENV['VONAGE_API_KEY']}/#{@video.archive_id}/archive.mp4"].write(file, content_type: "video/mp4")
       File.delete(file)
     end
+  end
+
+  def media_attachment_params
+    params.require(:video).permit(:media_attachment_attributes)
   end
 end
