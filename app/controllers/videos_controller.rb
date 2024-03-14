@@ -6,7 +6,7 @@ class VideosController < ApplicationController
 
     if media_attachment_params.present?
       media_attachment.update(media_attachment_params)
-      media_attachment.update_attribute(:is_draft, false)
+      media_attachment.reload.update_attribute(:is_draft, false)
     end
 
     location = media_attachment.location
