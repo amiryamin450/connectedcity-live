@@ -28,7 +28,7 @@
           <div class="description-field">
             <label class="d-block" for="video_media_attachment_attributes_description">Description</label>
             <%= ff.text_area :description, rows: 7, maxlength: 1500 %>
-            <span id="description-count"><%= "#{media_attachment.description.length}/1500" %></span>
+            <span id="description-count"><%= "#{media_attachment.description&.length}/1500" %></span>
           </div>
         <% end %>
       </div>

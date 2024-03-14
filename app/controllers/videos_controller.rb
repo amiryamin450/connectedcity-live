@@ -3,7 +3,11 @@ class VideosController < ApplicationController
   def update
     @video = Video.find_by_id(params[:id])
     media_attachment = @video.media_attachment
-    media_attachment.update(media_attachment_params, is_draft: false) if media_attachment_params.present?
+
+    if media_attachment_params.present?
+      params[:video][:media_attachment_attributes][:is_draft] = false
+      media_attachment.update(media_attachment_params)
+    end
 
     location = media_attachment.location
     redirect_to location_media_attachments_url(location)
@@ -108,7 +112,11 @@ class VideosController < ApplicationController
     end
   end
 
+  def video_params
+    params.require(:video).permit(media_attachment_attributes: {})
+  end
+
   def media_attachment_params
-    params.require(:video).permit(:media_attachment_attributes)
+    video_params.require(:media_attachment_attributes).permit(:title, :description, :is_draft)
   end
 end
