@@ -6,6 +6,8 @@ class Video < ApplicationRecord
     :url => "/system/video/thumbnail/:id/:style/:basename.:extension",
     :path => ":rails_root/public/system/video/thumbnail/:id/:style/:basename.:extension"
 
+  validates_attachment_content_type :thumbnail, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
+
   def media_attachment
     MediaAttachment.unscoped { super }
   end
