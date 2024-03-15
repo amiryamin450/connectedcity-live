@@ -67,10 +67,12 @@ class ApplicationController < ActionController::Base
     #the line below previously had: !request.fullpath.include? "guide"
     #this was causing the navigation for listings at the neighbourhood level to break
     # - Don Marges, March 22, 2017
+    # Brian NUS - don't know what it does for, so just overwride some line to prevent issue
     @base_path = if params[:district_route].present? and params[:neighborhood].present? and request.fullpath.include? "guide"
                     cookies[:base_path] = "/#{params[:district_route]}/#{params[:neighborhood]}/"
                     cookies[:district_route] = params[:district_route]
-                    @district = District.find(params[:district_route])
+                    @district = District.find_by_id(params[:district_route])
+                    @district = District.find_by_slug(params[:district_route]) if @district.blank?
                     @neighborhood = Neighborhood.find(params[:neighborhood])
                     "/#{params[:district_route]}/#{params[:neighborhood]}/"
                   elsif request.fullpath.include? "sitemap.xml"
@@ -78,11 +80,13 @@ class ApplicationController < ActionController::Base
                   elsif params[:district_route].present?
                     cookies[:base_path] = "/#{params[:district_route]}/#{params[:neighborhood]}/"
                     cookies[:district_route] = params[:district_route]
-                    @district = District.find(params[:district_route])
+                    @district = District.find_by_id(params[:district_route])
+                    @district = District.find_by_slug(params[:district_route]) if @district.blank?
                     cookies[:base_path] = "/#{params[:district_route]}/"
                     "/#{params[:district_route]}/"
                   elsif cookies[:base_path].present? and params['action'] != 'guide'
-                    @district = District.find(cookies[:district_route])
+                    @district = District.find_by_id(cookies[:district_route])
+                    @district = District.find_by_slug(cookies[:district_route]) if @district.blank?
                     cookies[:base_path]
                   else
                     cookies.delete(:base_path)

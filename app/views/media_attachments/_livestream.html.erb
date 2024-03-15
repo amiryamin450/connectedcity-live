@@ -179,7 +179,7 @@
           session_id: vonageData.sessionId,
           media_attachment: {
             title: $('#media_attachment_title').val(),
-            descreption: $('#media_attachment_description').val()
+            description: $('#media_attachment_description').val()
           }
         };
         $.post(`/business/${locationSlug}/media_attachments/start_broadcast.json`, options)

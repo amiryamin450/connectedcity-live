@@ -108,7 +108,7 @@ class HomeController < ApplicationController
       municipality = city.municipality
       region = municipality.region
       province = region.province
-      sub_neighborhoods = neighborhood&.sub_neighborhoods
+      sub_neighborhoods = neighborhood&.sub_neighborhoods.select(Neighborhood.without_geom_column)
       route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}/#{neighborhood.slug}"
       render json: { sub_neighborhoods: sub_neighborhoods, route: route }
     else

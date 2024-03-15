@@ -73,7 +73,7 @@ class MunicipalitiesController < ApplicationController
   def get_neighborhoods
     if (params[:district_id].present?)
       district = District.find_by_slug(params[:district_id])
-      neighborhoods = district&.neighborhoods
+      neighborhoods = district&.neighborhoods.select(Neighborhood.without_geom_column)
       city = district.city
       municipality = city.municipality
       region = municipality.region

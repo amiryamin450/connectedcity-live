@@ -63,7 +63,7 @@ class CityNewsArticlesController < ApplicationController
   def get_neighborhoods 
     if params[:district_slug].present?
       district = District.find_by_slug(params[:district_slug])
-      neighborhoods = district.neighborhoods
+      neighborhoods = district.neighborhoods.select(Neighborhood.without_geom_column)
       route = "/#{district&.city.slug}/#{district.slug}/guide/news"
       render json: {
         neighborhoods: neighborhoods,
@@ -82,7 +82,7 @@ class CityNewsArticlesController < ApplicationController
   def get_sub_neighborhoods
     if params[:neighborhood_slug].present?
       neighborhood = Neighborhood.find_by_slug(params[:neighborhood_slug])
-      sub_neis = neighborhood.sub_neighborhoods
+      sub_neis = neighborhood.sub_neighborhoods.select(Neighborhood.without_geom_column)
       route = "/#{neighborhood&.district&.city&.slug}/#{neighborhood.district&.slug}/#{neighborhood.slug}/guide/news"
       render json: {
         sub_neighborhoods: sub_neis,
