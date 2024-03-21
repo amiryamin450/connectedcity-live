@@ -1,54 +1,56 @@
-<h1>Managing <%= @location.name %>'s Media </h1>
-<% if @media_attachments.size > 0 %>
-<table class="table table-bordered table-striped table-hover">
-  <thead>
-  <tr>
-    <th style="width: 20%;">Title</th>
-    <th style="width: 30%;">Description</th>
-    <th style="width: 25%;">Thumbnail</th>
-    <th style="width: 25%;"></th>
-  </tr>
-  </thead>
+<div class="media-attachment-new-ui-container px-3 pb-3 px-md-5 pb-md-5">
+  <h1 class="my-4">Managing <%= @location.name %>'s Media </h1>
+  <% if @media_attachments.size > 0 %>
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+      <th style="width: 20%;">Title</th>
+      <th style="width: 30%;">Description</th>
+      <th style="width: 25%;">Thumbnail</th>
+      <th style="width: 25%;"></th>
+    </tr>
+    </thead>
 
-  <tbody>
+    <tbody>
 
-  <% @media_attachments.each do |media| %>
-      <tr>
-        <td><%= media.title %></td>
-        <td><%= media.description %></td>
-        <td>
-        <div class="row-fluid">
-          <div class="span6">
-            <%= image_tag(media.thumbnail_url, style:
-        "width: 120px;") %>
-          </div>
-          <% if media.is_stream_video %>
+    <% @media_attachments.each do |media| %>
+        <tr>
+          <td><%= media.title %></td>
+          <td><%= media.description %></td>
+          <td>
+          <div class="row-fluid">
             <div class="span6">
-              <label data-id="<%= media.videos.first&.id %>" class="btn btn-primary edit-thumbnail">
-                <input type="file" style="display: none;" data-id="<%= media.videos.first&.id %>" accept= "image/*">
-                Edit thumbnail
-              </label>
+              <%= image_tag(media.thumbnail_url, style:
+          "width: 120px;") %>
             </div>
-          <% end %>
-        </div>
-        </td>
-        <td>
-          <div class="btn-group">
-            <%= link_to 'show', [@location, media], class: 'btn btn-mini' %>
-            <%= link_to 'delete', [@location, media], method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+            <% if media.is_stream_video %>
+              <div class="span6 mt-2">
+                <label data-id="<%= media.videos.first&.id %>" class="btn btn-primary edit-thumbnail">
+                  <input type="file" style="display: none;" data-id="<%= media.videos.first&.id %>" accept= "image/*">
+                  Edit thumbnail
+                </label>
+              </div>
+            <% end %>
           </div>
-        </td>
-      </tr>
+          </td>
+          <td>
+            <div class="btn-group">
+              <%= link_to 'show', [@location, media], class: 'btn btn-mini' %>
+              <%= link_to 'delete', [@location, media], method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+            </div>
+          </td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <%= paginate @media_attachments %>
+  <% else %>
+  <div class="alert notice">No Attachements found.</div>
   <% end %>
-  </tbody>
-</table>
-<%= paginate @media_attachments %>
-<% else %>
-<div class="alert notice">No Attachements found.</div>
-<% end %>
 
-<%= link_to 'New Media Attachment', new_location_media_attachment_path(@location), class: 'btn btn-primary' %>
-<%= link_to "Back to #{@location.name}", @location, class: 'btn' %>
+  <%= link_to 'New Media Attachment', new_location_media_attachment_path(@location), class: 'btn btn-primary' %>
+  <%= link_to "Back to #{@location.name}", @location, class: 'btn' %>
+</div>
 
 <script>
   document.querySelectorAll('.edit-thumbnail').forEach(item => {

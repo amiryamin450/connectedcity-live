@@ -24,9 +24,10 @@ class Product < ApplicationRecord
                     numericality: { greater_than: 0.1, less_than: 1000000 }
   validates :sku, length: { maximum: 25 }
 
-  after_save do |product|
-    Sunspot.index! product.location if product.location
-  end
+  # We will transfer to ransack search, don't need this anymore
+  # after_save do |product|
+  #   Sunspot.index! product.location if product.location
+  # end
 
   def disabled
     quantity.nil? || quantity == 0

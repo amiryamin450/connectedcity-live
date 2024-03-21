@@ -6,6 +6,8 @@ class MediaAttachmentsController < ApplicationController
   skip_load_and_authorize_resource :media_attachment, only: [:vonage_archive_callback, :get_vonage_token, :get_broadcast_token, :get_livestream_token]
   PER_PAGE = 5
 
+  layout "application_v_2"
+
   def index
     @media_attachments = @location.media_attachments.order('created_at DESC').page(params[:page]).per(PER_PAGE)
   end
