@@ -13,7 +13,7 @@ class MediaAttachment < ApplicationRecord
 
   def thumbnail_url style=:original
     if self.is_stream_video
-      self.videos.first&.thumbnail&.file? ? self.videos.first.thumbnail.url(style) : "/assets/home_page_image/default.jpg"
+      self.videos.first&.thumbnail&.file? ? self.videos.first.thumbnail.url(style) : "home_page_image/default.jpg"
     else
       self.thumb_url
     end
