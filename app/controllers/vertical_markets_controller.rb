@@ -191,7 +191,7 @@ class VerticalMarketsController < ApplicationController
 
   def search
     vm = nil
-    vm = VerticalMarket.find(params[:market]) if params[:market].present?
+    vm = VerticalMarket.find(params[:market_id]) if params[:market_id].present?
     @municipality = municipality = Municipality.find_by_slug(params[:municipality_slug]) if params[:municipality_slug]
     @city = city  = City.find_by_slug(params[:city_slug]) if params[:city_slug].present?
     @district = district = District.find_by_slug(params[:district_slug]) if params[:district_slug].present?
