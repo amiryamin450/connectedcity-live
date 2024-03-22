@@ -9,6 +9,8 @@ class Coupon < ApplicationRecord
                     :path => ":rails_root/public/system/coupon/images/:id/:style/:basename.:extension",
                     :default_url => "http://placehold.it/200x100"
 
+  validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
+
   validates :name, presence: true
   validates :description, presence: true
   validates :expiration, presence: true
