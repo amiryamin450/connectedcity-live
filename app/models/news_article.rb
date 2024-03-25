@@ -23,6 +23,14 @@ class NewsArticle < ApplicationRecord
 
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/, message: "Please upload a valid image. Accepted types include jpg, png."
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["category_id", "content", "created_at", "id", "image_content_type", "image_file_name", "image_file_size", "image_updated_at", "latitude", "longitude", "newsable_id", "newsable_type", "slug", "title", "updated_at", "user_id"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["category", "location", "user"]
+  end
+
   def geo_location
     if latitude.blank? || longitude.blank?
       { :lat => self.newsable.latitude, :long => self.newsable.longitude }

@@ -24,6 +24,14 @@ class StatusUpdate < ApplicationRecord
   validates_attachment_size :image, less_than: 5.megabytes
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/, message: "Please upload a valid image. Accepted types include jpg, png."
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["category_id", "city_id", "content", "created_at", "district_id", "id", "image_content_type", "image_file_name", "image_file_size", "image_updated_at", "latitude", "longitude", "neighborhood_id", "provider", "province_id", "statusable_id", "statusable_type", "title", "updated_at", "vertical_market_categories", "vertical_markets"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["city", "district", "location", "neighborhood", "province"]
+  end
+
   before_validation do
     if self.statusable
       self.district_id = self.statusable.district_id

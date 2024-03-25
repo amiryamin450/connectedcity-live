@@ -11,6 +11,14 @@ class MediaAttachment < ApplicationRecord
 
   default_scope { where(is_draft: false) }
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["attachable_id", "attachable_type", "attachment", "attachment_html", "category_id", "created_at", "description", "id", "is_draft", "is_stream_video", "latitude", "longitude", "media_source", "media_source_id", "thumb_url", "title", "updated_at"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["category", "location", "videos"]
+  end
+
   def thumbnail_url style=:original
     if self.is_stream_video
       self.videos.first&.thumbnail&.file? ? self.videos.first.thumbnail.url(style) : "home_page_image/default.jpg"
