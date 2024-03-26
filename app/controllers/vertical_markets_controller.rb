@@ -6,7 +6,8 @@ class VerticalMarketsController < ApplicationController
   def resolve_layout
     case action_name
     when "guide", "search"
-      "community_guide"
+      # "community_guide"
+      "application_v_2"
     else
       "application"
     end
@@ -113,7 +114,8 @@ class VerticalMarketsController < ApplicationController
       categories_without_municipality
       case @vertical_market.id
       when 1
-        @auto_listings = AutomotiveListing.limit(SEE_MORE_LIMIT)
+        @auto_listings = AutomotiveListing.ransack(title_or_make_or_description_cont: params[:search]).result.limit(SEE_MORE_LIMIT) if params[:search].present?
+        @auto_listings = AutomotiveListing.limit(SEE_MORE_LIMIT) unless @auto_listings.present?
       when 17
         if @municipality.present?
           city_ids = @municipality.cities.pluck(:id)

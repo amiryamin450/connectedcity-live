@@ -93,6 +93,10 @@ class Location < ApplicationRecord
     ["address", "address_1", "available_call", "broker_id", "business_id", "business_improvement_area_id", "city_id", "claim_pending", "commissioner_id", "community_id", "content", "councillor_id", "country_id", "cover_photo_content_type", "cover_photo_file_name", "cover_photo_file_size", "cover_photo_updated_at", "created_at", "district_id", "email", "fax", "hall_id", "id", "import_hash", "imported", "is_profile", "latitude", "logo_content_type", "logo_file_name", "logo_file_size", "logo_updated_at", "longitude", "municipality_id", "name", "neighborhood", "neighborhood_id", "payment_user_id", "phone", "postal_code", "province_id", "region_id", "show_fax", "show_phone", "show_toll_free", "slug", "stripe_account_id", "stripe_plan_id", "stripe_subscription_id", "sub_neighborhood_id", "toll_free", "updated_at", "vertical_market_category_id", "website_url", "yp_categories", "yp_lid", "yp_neighborhoods"]
   end
 
+  def self.ransackable_associations(auth_object = nil)
+    ["agents", "automotive_listings", "blog_entries", "brands", "broker", "business", "business_improvement_area", "city", "city_councillors", "city_halls", "commissioner", "conversations", "councillor", "country", "coupons", "district", "employment_listings", "events", "favorites", "hall", "location_images", "location_menus", "managers", "media_attachments", "messages", "municipality", "neighborhood", "new_home_communities", "news_articles", "operating_hours", "park_recreation_commissioners", "payment_user", "products", "province", "real_estate_listings", "receipts", "rental_properties", "services", "slugs", "social_profiles", "status_updates", "sub_neighborhood", "trade_associations", "users", "vertical_market_categories", "vertical_markets", "videos"]
+  end
+
   def self.find_by_vertical_market
     vertical_market_categories
   end

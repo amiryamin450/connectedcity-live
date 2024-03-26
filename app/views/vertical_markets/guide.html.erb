@@ -106,7 +106,7 @@
                   <% if [174, 164, 114].include?(@vertical_market.id) %>
                     <%= render 'layouts/application_v_2/guide_sidebar_municipality' %>
                   <% else %>
-                    <%= render 'layouts/application_v_2/guide_sidebar' %>
+                    <%= render 'layouts/application_v_2/guide_sidebar', using_search: true %>
                   <% end %>
                 </div>
             </div>
@@ -115,7 +115,7 @@
           <div class="col-md-8">
             <div class="category-body">
               <br>
-              <%= render 'share/search_box', url: @url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'all categories' %>
+              <%= render 'share/search_box', url: '', opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'all categories' %>
               <div class="vertical-market-categories">
                 <%= render 'guide/vertical_market_categories', :type_arg => 'country' %>
               </div>
