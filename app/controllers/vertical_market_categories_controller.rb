@@ -1,6 +1,6 @@
 class VerticalMarketCategoriesController < ApplicationController
   layout :resolve_layout
-  load_and_authorize_resource except: [:show_auto_listing_makers, :show]
+  load_and_authorize_resource find_by: :slug, except: [:show_auto_listing_makers, :show]
 
   def resolve_layout
     case action_name
@@ -14,7 +14,7 @@ class VerticalMarketCategoriesController < ApplicationController
   # GET /admin/vertical_market_categories.json
   def index
 
-    @search = VerticalMarketCategory.search(params[:q])
+    @search = VerticalMarketCategory.ransack(params[:q])
 
     @vertical_market_categories = @search.result.order(:name).page params[:page]
 
@@ -96,7 +96,7 @@ class VerticalMarketCategoriesController < ApplicationController
 
   # GET /admin/vertical_market_categories/1/edit
   def edit
-    @vertical_market_category = VerticalMarketCategory.find(params[:id])
+    # @vertical_market_category = VerticalMarketCategory.find(params[:id])
   end
 
   # POST /admin/vertical_market_categories
@@ -118,7 +118,7 @@ class VerticalMarketCategoriesController < ApplicationController
   # PUT /admin/vertical_market_categories/1
   # PUT /admin/vertical_market_categories/1.json
   def update
-    @vertical_market_category = VerticalMarketCategory.find(params[:id])
+    # @vertical_market_category = VerticalMarketCategory.find(params[:id])
 
     respond_to do |format|
       if @vertical_market_category.update(vertical_market_category_params)
@@ -134,7 +134,7 @@ class VerticalMarketCategoriesController < ApplicationController
   # DELETE /admin/vertical_market_categories/1
   # DELETE /admin/vertical_market_categories/1.json
   def destroy
-    @vertical_market_category = VerticalMarketCategory.find(params[:id])
+    # @vertical_market_category = VerticalMarketCategory.find(params[:id])
     @vertical_market_category.destroy
 
     respond_to do |format|

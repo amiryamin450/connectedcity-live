@@ -25,6 +25,10 @@ class VerticalMarketCategory < ApplicationRecord
   validates_presence_of :name
   validates_presence_of :vertical_market_id, :message => 'Please Select a Vertical Market.'
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["created_at", "default_logo_content_type", "default_logo_file_name", "default_logo_file_size", "default_logo_updated_at", "description", "id", "name", "search_term", "slug", "updated_at", "vertical_market_id"]
+  end
+
   def get_locations(city = nil, district = nil, neighborhood = nil, options={})
     result = locations.order("logo_updated_at DESC").order("name ASC").limit(20)
     result = result.where('locations.city_id = 5915022')
