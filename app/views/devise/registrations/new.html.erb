@@ -13,6 +13,7 @@
 		  	<%= f.input :last_name, required: true, input_html: { class: "form-control w-100 w-md-50" }, label_html: { class: 'fw-bold mt-2' } %>
 		  	<%= f.input :email, required: true, input_html: { class: "form-control w-100 w-md-50" }, label_html: { class: 'fw-bold mt-2' } %>
 		   	<%= f.input :phone_number, required: true, input_html: { type: 'tel', class: "form-control w-100 w-md-50" }, label_html: { class: 'fw-bold mt-2' } %>
+		  	<%= f.input :address, required: true, input_html: { class: "form-control w-100 w-md-50" }, label_html: { class: 'fw-bold mt-2' } %>
 		  	<% if f.object.password_required? %>
 				<%= f.input :password, required: true, input_html: { class: "form-control w-100 w-md-50" }, label_html: { class: 'fw-bold mt-2' } %>
 				<%= f.input :password_confirmation, required: true, input_html: { class: "form-control w-100 w-md-50" }, label_html: { class: 'fw-bold mt-2' } %>
@@ -45,6 +46,7 @@
 	</div>
 </div>
 
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_MAP_KEY'] %>&libraries=places&callback=initMap&sensor=false" async defer></script>
 
 <script type="text/javascript">
 	var telInput = document.querySelector('#user_phone_number')
@@ -79,4 +81,12 @@
 		$form.get(0).submit();
 	})
 
+	function initMap() {
+    var options = { componentRestrictions: {country: 'ca'} }
+		var address_input = document.getElementById('user_address')
+    var autocomplete = new google.maps.places.Autocomplete(address_input, options);
+    autocomplete.addListener('place_changed', function() {
+			// Do something if needed
+    });
+  }
 </script>
