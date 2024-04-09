@@ -34,7 +34,8 @@
         <%= simple_form_for @location, url: claim_location_path(@location), html: { class: 'edit_location form-horizontal' } do |f| %>
           <div class="payment-errors alert alert-error"></div>
 
-          <%= f.input :stripe_plan_id, as: :radio, collection: [['Monthly ($49.95/month)', 'monthly'], ['Yearly ($499.40/year)', 'yearly']], required: true, label: "Payment Plan Options:", label_html: {class: "fw-bold"}, wrapper_html: {class: "mb-3"}, item_wrapper_class: "d-block ms-auto w-75", input_html: {class: "me-2"} %>
+          <%= f.input :stripe_plan_id, as: :radio_buttons, collection: [['Monthly ($49.95/month)', 'monthly'], ['Yearly ($499.40/year)', 'yearly']],
+          required: true, label: "Payment Plan Options:", label_html: {class: ""}, wrapper_html: {class: "d-inline mb-3"}, item_wrapper_class: "d-block", input_html: {class: "me-2"} %>
 
           <div class="card-input p-3 text-start" style="background-color: #c7ccd3">
             <div class="control-group string required mb-3">
