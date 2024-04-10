@@ -233,7 +233,7 @@ class LocationsController < ApplicationController
     # return redirect_back(fallback_location: location_path(@location)) if @location.user_ids.present?
 
     # @location.assign_attributes location_params.slice(:stripe_plan_id)
-    @location.payment_user = current_user
+    # @location.payment_user = current_user
 
     # begin
       # if @location.payment_user.stripe_customer_id
@@ -259,7 +259,7 @@ class LocationsController < ApplicationController
       @location.claim_pending = true
       @location.save validate: false
 
-      # LocationMailer.claim_approved_email(@location, current_user).deliver
+      LocationMailer.pending_claim_email(@location, current_user).deliver
 
       redirect_to location_path(@location)
     rescue => e
@@ -269,22 +269,21 @@ class LocationsController < ApplicationController
   end
 
   def approve_claim
-    # @location = Location.find(params[:id])
-    @location.users << @location.super_admin unless @location.manager_ids.include?(@location.super_admin_id)
+    @location.users << @location.super_admin unless @location.user_ids.include?(@location.super_admin_id)
     @location.claim_pending = false
-    if @location.save
+    if @location.save validate: false
       LocationMailer.claim_approved_email(@location, @location.super_admin).deliver
     end
     redirect_to pending_claims_locations_path
   end
 
   def reject_claim
-    # @location = Location.find(params[:id])
     # @location.users.destroy_all
     user = @location.super_admin
     @location.super_admin = nil
+    @location.managers.find_by(user_id: user.id)&.destroy
     @location.claim_pending = false
-    if @location.save
+    if @location.save validate: false
       LocationMailer.claim_rejected_email(@location, user).deliver
     end
     redirect_to pending_claims_locations_path
@@ -473,7 +472,7 @@ class LocationsController < ApplicationController
   private
 
   def check_claim_business
-    return redirect_back(fallback_location: location_path(@location)) if @location.business_owner.present?
+    return redirect_to location_path(@location) if @location.business_owner.present?
   end
 
   def set_location

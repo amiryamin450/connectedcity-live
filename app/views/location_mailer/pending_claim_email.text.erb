@@ -1,0 +1,17 @@
+A user has claimed a location. Details below.
+
+  Location
+
+  Name: <%= @location.name %>
+
+  Address: <%= @location.address + ", " + @location.city&.name + ", " + @location.province&.abbr.to_s %>
+
+  User
+
+  Name: <%= @user.name %>
+
+  Username: <%= @user.username if @user.username.present? %>
+
+  Email: <%= @user.email %>
+
+  To review pending claims, please <%= link_to 'click here', pending_claims_locations_url %>.

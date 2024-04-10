@@ -4,7 +4,8 @@ class LocationMailer < ActionMailer::Base
   def pending_claim_email(location, user)
     @user = user
     @location = location
-    mail(to: 'admin@connectedcity.com', subject: 'Location Claimed!')
+    # mail(to: 'admin@connectedcity.com', subject: 'Location Claimed!')
+    mail(to: 'brian_test@yopmail.com', subject: 'Location Claimed!')
   end
 
   def claim_rejected_email(location, user)

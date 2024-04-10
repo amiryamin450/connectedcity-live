@@ -4,7 +4,7 @@
 </h3>
 <p>
   Name: <%= @location.name %><br />
-  Address: <%= @location.address + ", " + @location.city.name + ", " + @location.province.abbr %><br />
+  Address: <%= @location.address + ", " + @location.city&.name + ", " + @location.province&.abbr.to_s %><br />
 </p>
 <h3>
   User
