@@ -110,10 +110,8 @@ Connectbook::Application.routes.draw do
       end
 
       member do
-        with_options constraints: ->(request) { Location.friendly.find(request.params[:id]).user_ids.empty? } do
-          get 'claim', action: :claim, as: :claim
-          put 'claim', action: :claim_process
-        end
+        get 'claim', action: :claim, as: :claim
+        put 'claim', action: :claim_process
         get 'release', action: :release, as: :release
         get :connected_advertiser, as: :connected_advertiser
       end

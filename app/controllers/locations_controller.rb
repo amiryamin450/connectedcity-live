@@ -1,9 +1,11 @@
 class LocationsController < ApplicationController
 
   before_action :set_location, only: [:connect_stripe, :disconnect_stripe, :connected_advertiser, :update, :destroy, :claim]
-  load_and_authorize_resource :location
+  load_and_authorize_resource :location, find_by: :slug
 
   skip_load_and_authorize_resource :location, only: [:show, :edit, :update]
+
+  before_action :check_claim_business, only: [:claim, :claim_process]
 
   PER_PAGE = 20
 
@@ -218,6 +220,8 @@ class LocationsController < ApplicationController
   end
 
   def claim
+    # return redirect_back(fallback_location: location_path(@location)) if @location.user_ids.present?
+
     @location.stripe_plan_id = 'yearly-new'
 
     respond_to do |format|
@@ -226,35 +230,38 @@ class LocationsController < ApplicationController
   end
 
   def claim_process
-    @location = Location.find(params[:id])
-    @location.assign_attributes location_params.slice(:stripe_plan_id)
+    # return redirect_back(fallback_location: location_path(@location)) if @location.user_ids.present?
+
+    # @location.assign_attributes location_params.slice(:stripe_plan_id)
     @location.payment_user = current_user
 
+    # begin
+      # if @location.payment_user.stripe_customer_id
+        # customer = Stripe::Customer.retrieve @location.payment_user.stripe_customer_id
+      # else
+        # customer = Stripe::Customer.create email: @location.payment_user.email
+
+        # @location.payment_user.stripe_customer_id = customer.id
+        # @location.payment_user.save validate: false
+      # end
+    # rescue => e
+      # flash[:error] = e.message
+      # return redirect_to claim_location_path
+    # end
+
     begin
-      if @location.payment_user.stripe_customer_id
-        customer = Stripe::Customer.retrieve @location.payment_user.stripe_customer_id
-      else
-        customer = Stripe::Customer.create email: @location.payment_user.email
+      # subscription = customer.subscriptions.create plan: @location.stripe_plan_id,
+                                                  #  source: params[:stripeToken]
 
-        @location.payment_user.stripe_customer_id = customer.id
-        @location.payment_user.save validate: false
-      end
-    rescue => e
-      flash[:error] = e.message
-      return redirect_to claim_location_path
-    end
-
-    begin
-      subscription = customer.subscriptions.create plan: @location.stripe_plan_id,
-                                                   source: params[:stripeToken]
-
-      @location.stripe_subscription_id = subscription.id
-      @location.users << current_user
+      # @location.stripe_subscription_id = subscription.id
+      # @location.users << current_user
+      @location.super_admin = current_user  # set business_owner
+      @location.claim_pending = true
       @location.save validate: false
 
-      LocationMailer.claim_approved_email(@location, current_user).deliver
+      # LocationMailer.claim_approved_email(@location, current_user).deliver
 
-      redirect_to connected_advertiser_location_path(@location)
+      redirect_to location_path(@location)
     rescue => e
       flash[:error] = e.message
       return redirect_to claim_location_path
@@ -262,19 +269,21 @@ class LocationsController < ApplicationController
   end
 
   def approve_claim
-    @location = Location.find(params[:id])
-    @location.claim_pending = 0
+    # @location = Location.find(params[:id])
+    @location.users << @location.super_admin unless @location.manager_ids.include?(@location.super_admin_id)
+    @location.claim_pending = false
     if @location.save
-      LocationMailer.claim_approved_email(@location, @location.users.first).deliver
+      LocationMailer.claim_approved_email(@location, @location.super_admin).deliver
     end
     redirect_to pending_claims_locations_path
   end
 
   def reject_claim
-    @location = Location.find(params[:id])
-    user = @location.users.first
-    @location.users.destroy_all
-    @location.claim_pending = 0
+    # @location = Location.find(params[:id])
+    # @location.users.destroy_all
+    user = @location.super_admin
+    @location.super_admin = nil
+    @location.claim_pending = false
     if @location.save
       LocationMailer.claim_rejected_email(@location, user).deliver
     end
@@ -282,7 +291,7 @@ class LocationsController < ApplicationController
   end
 
   def release
-    @location = Location.find(params[:id])
+    # @location = Location.find(params[:id])
     @location.claim_pending = false
     @location.user_ids = nil
     @location.stripe_plan_id = nil
@@ -302,7 +311,7 @@ class LocationsController < ApplicationController
   end
 
   def pending_claims
-    @locations = Location.all(:conditions => { :claim_pending => 1})
+    @locations = Location.where(claim_pending: true)
 
     respond_to do |format|
       format.html
@@ -462,6 +471,10 @@ class LocationsController < ApplicationController
   end
 
   private
+
+  def check_claim_business
+    return redirect_back(fallback_location: location_path(@location)) if @location.business_owner.present?
+  end
 
   def set_location
     id_param = params[:id].presence || params[:location_id]

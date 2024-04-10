@@ -1,5 +1,5 @@
 class ManagersController < ApplicationController
-  load_and_authorize_resource :location
+  load_and_authorize_resource :location, find_by: :slug
   load_and_authorize_resource :manager, through: :location
 
   def new

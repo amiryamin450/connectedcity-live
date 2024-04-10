@@ -116,7 +116,7 @@ class StripeService
   private
 
   def stripe_account
-    if @location.stripe_account_id
+    if @location.stripe_account_id.present?
       Stripe::Account.retrieve(@location.stripe_account_id)
     else
       nil

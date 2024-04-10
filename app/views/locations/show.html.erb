@@ -184,9 +184,11 @@
                             <a class="btn btn-primary-outline" style="background-color: #10375C; color: #fff; display: flex; justify-content: center;" href=<%="/business/#{@location.slug}/edit" %>>Edit</a>
                           </div>
                         <% end %>
-                        <div class="col-4" style="padding-right: 0px; padding-left: 0px;">
-                          <%= link_to "Claim Business", claim_location_path, class: "btn btn-primary-outline" %>
-                        </div>
+                        <% if @location.business_owner.blank? %>
+                          <div class="col-4" style="padding-right: 0px; padding-left: 0px;">
+                            <%= link_to "Claim Business", claim_location_path, class: "btn btn-primary-outline" %>
+                          </div>
+                        <% end %>
                         <div class="col-2" style="padding-right: 0px; padding-left: 0px; margin-left: 15px; text-align: center;" id="favorite-<%= @location.id %>">
                           <%= render 'favorites/like_button_v2', location_id: @location.id, vertical_market_slug: @location.vertical_markets.first.slug if user_signed_in? and @location.vertical_markets.present? %>
                         </div>
