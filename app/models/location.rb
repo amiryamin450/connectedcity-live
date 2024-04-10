@@ -141,47 +141,47 @@ class Location < ApplicationRecord
     {:lat => latitude, :long => longitude}
   end
 
-  # searchable do
-  #   text :name, boost: 5
-  #   text :address, boost: 3
+  searchable do
+    text :name, boost: 5
+    text :address, boost: 3
 
-  #   text :content, :phone
+    text :content, :phone
 
-  #   text :brand, boost: 3 do
-  #     brands.map(&:name)
-  #   end
+    text :brand, boost: 3 do
+      brands.map(&:name)
+    end
 
-  #   text :product, boost: 3 do
-  #     products.map(&:name)
-  #   end
+    text :product, boost: 3 do
+      products.map(&:name)
+    end
 
-  #   text :service, boost: 3 do
-  #     services.map(&:name)
-  #   end
+    text :service, boost: 3 do
+      services.map(&:name)
+    end
 
-  #   text :category do
-  #     vertical_market_categories.map(&:name)
-  #   end
+    text :category do
+      vertical_market_categories.map(&:name)
+    end
 
-  #   text :vertical_market_name do
-  #     vertical_markets.map(&:name)
-  #   end
+    text :vertical_market_name do
+      vertical_markets.map(&:name)
+    end
 
-  #   text :city do
-  #     city.name if city.present?
-  #   end
+    text :city do
+      city.name if city.present?
+    end
 
-  #   integer :vertical_market_ids, :multiple => true do
-  #     vertical_markets.map(&:id)
-  #   end
+    integer :vertical_market_ids, :multiple => true do
+      vertical_markets.map(&:id)
+    end
 
-  #   integer :district_id
-  #   integer :city_id
-  #   integer :business_improvement_area_id
-  #   integer :neighborhood_id
-  #   integer :sub_neighborhood_id
-  #   integer :municipality_id
-  # end
+    integer :district_id
+    integer :city_id
+    integer :business_improvement_area_id
+    integer :neighborhood_id
+    integer :sub_neighborhood_id
+    integer :municipality_id
+  end
 
   private
     def assign_neighborhood
