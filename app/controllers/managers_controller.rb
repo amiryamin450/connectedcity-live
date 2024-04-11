@@ -3,16 +3,14 @@ class ManagersController < ApplicationController
   load_and_authorize_resource :manager, through: :location
 
   def new
-    @location = location
     @manager = @location.managers.build
     handle_breadcrumbs
   end
 
   def create
-    @location = location
     @manager = @location.managers.build
     @manager.creating_from_email!
-    @manager.assign_attributes(new_manager_email: params[:manager][:new_manager_email])
+    @manager.assign_attributes(new_manager_email: manager_params[:new_manager_email])
 
     if @manager.save
       ManagerMailer.new_manager_email(@location, @manager.user).deliver
@@ -24,8 +22,6 @@ class ManagersController < ApplicationController
   end
 
   def destroy
-    @location = location
-
     @manager = Manager.find(params[:id])
     @manager.destroy
 
@@ -34,13 +30,12 @@ class ManagersController < ApplicationController
 
   private
 
+  def manager_params
+    params.require(:manager).permit!
+  end
+
   def handle_breadcrumbs
     add_breadcrumb @location.name, "#{@base_path}business/#{@location.slug}"
     add_breadcrumb "Editing #{@location.name}"
   end
-
-  def location
-    @location ||= Location.find(params[:location_id])
-  end
-
 end
