@@ -7,7 +7,7 @@ class Location < ApplicationRecord
 
   before_validation :clear_images?
 
-  belongs_to :super_admin, class_name: "User"
+  belongs_to :super_admin, class_name: "User", optional: true
   alias :business_owner :super_admin
 
   belongs_to :business, optional: true
