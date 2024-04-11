@@ -207,9 +207,9 @@
               <hr>
               <div class="description">
                   <h4>Description</h4>
-                  <p class="short-description mt-0"><%= truncate_html(strip_tags(@location.content.html_safe), length: 50) %></p>
+                  <p class="short-description mt-0"><%= truncate_html(strip_tags(@location.content&.html_safe), length: 50) %></p>
                   <div class="collapse" id="textCollapse1">
-                    <%= strip_tags(@location.content.html_safe) %>
+                    <%= strip_tags(@location.content&.html_safe) %>
                   </div>
                   <a class="text-dark small expand-text" data-bs-toggle="collapse" href="#textCollapse1" role="button" aria-expanded="false" aria-controls="textCollapse" onclick="hideShortDescription('.description')">
                       View more
