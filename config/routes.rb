@@ -285,7 +285,6 @@ Connectbook::Application.routes.draw do
 
     resources :media_attachments do
       get :preview
-      post :create_youtube_video
       collection do
         post :start_archive
         post :start_broadcast
