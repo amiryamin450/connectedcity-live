@@ -39,6 +39,10 @@ class MediaAttachment < ApplicationRecord
     end
   end
 
+  def youtube_source?
+    media_source.downcase == "youtube"
+  end
+
   protected
 
   def set_fields
@@ -46,10 +50,20 @@ class MediaAttachment < ApplicationRecord
     youtube_id = attachment.scan(regex)[0][2]
 
     # TODO: handle failure case for the call below
-    self.title = JSON.load(open("https://www.googleapis.com/youtube/v3/videos?id=#{youtube_id}&key=#{ENV['GOOGLE_API_KEY']}&part=snippet"))['items'][0]['snippet']['title']
-    self.thumb_url = "https://img.youtube.com/vi/#{youtube_id}/0.jpg"
-    self.media_source = 'youtube'
-    self.media_source_id = youtube_id
-    self.attachment_html = "<iframe width='853' height='480' src='http://www.youtube.com/embed/#{youtube_id}' frameborder='0' allowfullscreen></iframe>"
+    begin
+      file_data = URI.open("https://www.googleapis.com/youtube/v3/videos?id=#{youtube_id}&key=#{ENV['GOOGLE_API_KEY']}&part=snippet")
+    rescue
+      errors.add(:can_not_get_video_info, "Can not get info of the attached Youtube video!") unless file_data.present?
+    end
+    
+    if file_data.present?
+      json_data = file_data.read
+      self.title ||= JSON.parse(json_data)['items'][0]['snippet']['title']
+      self.thumb_url = "https://img.youtube.com/vi/#{youtube_id}/0.jpg"
+      self.media_source = 'youtube'
+      self.media_source_id = youtube_id
+      self.attachment_html = "<iframe width='853' height='480' src='http://www.youtube.com/embed/#{youtube_id}' frameborder='0' allowfullscreen></iframe>"
+    end
+
   end
 end

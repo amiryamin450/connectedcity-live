@@ -38,15 +38,25 @@ class MediaAttachmentsController < ApplicationController
     render layout: 'application_v_2'
   end
 
+  def new_youtube_video
+    @media_attachment = @location.media_attachments.new
+
+    render layout: 'application_v_2'
+  end
+
   def edit
   end
 
   def create
     @media_attachment = @location.media_attachments.new(media_attachment_params)
     if @media_attachment.save
-      @media_attachment.update_attribute(:is_draft, true)
+      if @media_attachment.youtube_source?
+        redirect_to location_media_attachment_path(@location, @media_attachment)
+      else
+        @media_attachment.update_attribute(:is_draft, true)
 
-      render action: :preview
+        render action: :preview
+      end      
     else
       render action: :new
     end

@@ -73,7 +73,11 @@ Connectbook::Application.routes.draw do
       resources :coupons, except: [:show]
       resources :employment_listings, except: [:show]
       resources :events, except: [:show]
-      resources :media_attachments, only: [:new, :create, :index, :destroy]
+      resources :media_attachments, only: [:new, :create, :index, :destroy] do
+        collection do
+          get :new_youtube_video
+        end
+      end
       resources :location_menus, except: [:show]
       resources :news_articles, path: 'news', except: [:show]
 
@@ -281,6 +285,7 @@ Connectbook::Application.routes.draw do
 
     resources :media_attachments do
       get :preview
+      post :create_youtube_video
       collection do
         post :start_archive
         post :start_broadcast

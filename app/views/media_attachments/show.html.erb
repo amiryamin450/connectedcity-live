@@ -9,7 +9,12 @@
           <iframe width='100%' height='480' src='<%= @media_attachment.videos.first&.video_url %>' frameborder='0' allowfullscreen></iframe>
         <% end %>
       <% else %>
-        <iframe width='100%' height='480' src="https://www.youtube.com/embed/#{@media_attachment.media_source_id}" frameborder='0' allowfullscreen></iframe>
+      <div class="span6">
+        <%
+          url = "https://www.youtube.com/embed/#{@media_attachment.media_source_id}"
+        %>
+        <iframe width='100%' height='480' src='<%= url %>' frameborder='0' allowfullscreen></iframe>
+      </div>
       <% end %>
     </div>
     <div class="span6">

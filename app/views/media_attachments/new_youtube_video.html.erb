@@ -1,0 +1,49 @@
+<div class="new-media-attachment p-3">
+  <h2 class="add-new-media-attachment-title">Add Video to <span class='location-name'><%= link_to @location.name, location_path(@location) %></span> Channel</h2>
+  <div class="row">
+    <div class="media-attachment-form">
+      <%= simple_form_for [@location, @media_attachment] do |f| %>
+        <div class="url-field" style="margin-bottom: 10px;">
+          <label for="media_attachment_url">
+            <abbr title="required">*</abbr>
+            Youtube url
+          </label>
+          <%= f.input_field :attachment, as: :url, required: true, autofocus: true %>
+        </div>
+        <div class="title-field" style="margin-bottom: 10px;">
+          <label for="media_attachment_title">
+            <abbr title="required">*</abbr>
+            Title
+          </label>
+          <%= f.text_field :title, required: true, autofocus: true, maxlength: 100 %>
+          <span id="title-count">0/100</span>
+        </div>
+        <div class="description-field">
+          <label for="media_attachment_description">Description</label>
+          <%= f.text_area :description, rows: 7, maxlength: 1500 %>
+          <span id="description-count">0/1500</span>
+        </div>
+        <div class="submit-video">
+          <%= f.submit "Add Video" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div id="messageModal" class="media-modal">
+  <div class="modal-content">
+    <div class="modal-body">
+      <p>You must enter video title before recording. Please try again.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="close-message-modal">Close</button>
+    </div>
+  </div>
+</div>
+<div id="loadingModal" class="media-modal">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div id="loader"></div>
+    </div>
+  </div>
+</div>
