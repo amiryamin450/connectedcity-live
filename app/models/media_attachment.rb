@@ -49,7 +49,6 @@ class MediaAttachment < ApplicationRecord
     regex = /https?:\/\/(www.)?(youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/watch\?feature=player_embedded&v=)([A-Za-z0-9_-]*)(\&\S+)?(\S)*/
     youtube_id = attachment.scan(regex)[0][2]
 
-    # TODO: handle failure case for the call below
     begin
       file_data = URI.open("https://www.googleapis.com/youtube/v3/videos?id=#{youtube_id}&key=#{ENV['GOOGLE_API_KEY']}&part=snippet")
     rescue
