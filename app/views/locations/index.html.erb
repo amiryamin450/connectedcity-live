@@ -20,10 +20,8 @@
     <th><%= sort_link(@search, :address, "Address") %></th>
     <th><%= sort_link(@search, :city_cdname, "City") %></th>
     <th>State</th>
-
     <th><%= sort_link(@search, :district_name, "District") %></th>
     <th><%= sort_link(@search, :neighborhood_neighborhd, "Neighborhood") %></th>
-
     <th>Postal Code</th>
     <th>Country</th>
     <th></th>
@@ -37,7 +35,6 @@
         <td><%= location.province.abbr if location.province %></td>
         <td><%= location.district&.name %></td>
         <td><%= location.neighborhood&.neighborhd %></td>
-
         <td><%= location.postal_code %></td>
         <td><%= location.country.country_code if location.country %></td>
         <td>

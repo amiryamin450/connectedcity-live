@@ -8,8 +8,6 @@ class AddColumnsAndIndexForNeighborhoods < ActiveRecord::Migration[7.0]
     change_column :neighborhoods, :created_at, :datetime, null: false
     change_column :neighborhoods, :updated_at, :datetime, null: false
 
-    # add_timestamps(:neighborhoods)
-
     change_column_null(:neighborhoods, :nid, false)
     add_index :neighborhoods, :nid, unique: true
   end
@@ -19,7 +17,6 @@ class AddColumnsAndIndexForNeighborhoods < ActiveRecord::Migration[7.0]
     remove_column :neighborhoods, :created_at
     remove_column :neighborhoods, :updated_at
 
-    # change_column_null(:neighborhoods, :nid, true)
     remove_index :neighborhoods, :nid
   end
 end
