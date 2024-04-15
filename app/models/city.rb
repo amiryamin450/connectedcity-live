@@ -30,6 +30,10 @@ class City < ApplicationRecord
   has_attached_file :home_page_image, styles: { thumb: "100x100>" },
                       default_url: '/assets/home_page_image/default.jpg'
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["cdname", "cdtype", "cduid", "cmaname", "cmauid", "csdname", "csdtype", "geom", "id", "is_active", "municipality_id", "prname", "pruid", "relver", "sactype", "slug"]
+  end
+
   def self.without_geom_column
     column_names - ["geom"]
   end

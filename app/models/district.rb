@@ -24,6 +24,10 @@ class District < ApplicationRecord
                     default_url: '/assets/home_page_image/default.jpg'
 
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["city_id", "created_at", "description", "home_page_image_content_type", "home_page_image_file_name", "home_page_image_file_size", "home_page_image_updated_at", "id", "name", "slug", "updated_at", "use_carousel"]
+  end
+
   def access_link
     "#{city.access_link}/#{slug}"
   end

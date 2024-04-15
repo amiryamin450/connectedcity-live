@@ -15,6 +15,13 @@ class Neighborhood < ApplicationRecord
 
   friendly_id :neighborhd, use: [:slugged]
 
+  def self.ransackable_attributes(auth_object = nil)
+    # ["ncs_code", "neighborhd", "neighborhood_id", "nid", "place", "placecode", "po_name", "release", "slug", "state", "statefips"]
+    # ["neighborhd", "neighborhood_id", "nid"]
+    # ["neighborhd"]
+    ["cbsa", "cbsacode", "cbsatype", "cenlat", "cenlon", "color", "country", "county", "countyfips", "district_id", "geom", "logo_image", "mcd", "mcdfips", "metro", "nbr_type", "ncs_code", "neighborhd", "neighborhood_id", "nid", "place", "placecode", "po_name", "release", "slug", "state", "statefips"]
+  end
+
   def self.without_geom_column
     column_names - ["geom"]
   end

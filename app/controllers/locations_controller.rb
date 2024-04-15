@@ -13,8 +13,8 @@ class LocationsController < ApplicationController
 
   def index
     @search = Location.ransack(params[:q])
-    @locations = @search.result.order(:name).page(params[:page])
-
+    @locations = @search.result.page(params[:page])
+    
     respond_to do |format|
       format.html
     end
