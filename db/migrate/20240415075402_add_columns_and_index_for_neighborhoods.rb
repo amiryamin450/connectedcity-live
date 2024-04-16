@@ -14,9 +14,9 @@ class AddColumnsAndIndexForNeighborhoods < ActiveRecord::Migration[7.0]
 
 
   def down
-    # remove_column :neighborhoods, :created_at
-    # remove_column :neighborhoods, :updated_at
+    remove_column :neighborhoods, :created_at
+    remove_column :neighborhoods, :updated_at
 
-    # remove_index :neighborhoods, :nid
+    remove_index :neighborhoods, :nid
   end
 end
