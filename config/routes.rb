@@ -211,6 +211,7 @@ Connectbook::Application.routes.draw do
       end
 
       collection do
+        post :bulk_delete
         get :pending_claims
         get :import
         post "import", action: :do_import

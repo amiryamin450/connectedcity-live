@@ -201,3 +201,38 @@ h5 {
 .payment-errors:empty {
    display: none;
 }
+
+.location-paginate {
+  .pagination {
+    ul {
+      display: flex;
+      list-style: none;
+      padding: 0;
+
+      li {
+        margin: 0 auto;
+        padding: 0 1em;
+
+        a {
+          color: #19314F;
+        }
+      }
+
+      li.active {
+        background-color: #19314F;
+        
+        a {
+          color: #FFF;
+        }
+      }
+
+      li.disabled {
+        background-color: unset;
+      }
+    }
+  }
+}
+
+.header-actions {
+  margin: 10px 0 20px;
+}

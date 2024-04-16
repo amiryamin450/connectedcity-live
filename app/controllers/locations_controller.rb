@@ -7,7 +7,7 @@ class LocationsController < ApplicationController
 
   before_action :check_claim_business, only: [:claim, :claim_process]
 
-  PER_PAGE = 20
+  PER_PAGE = 100
 
   layout 'location', :only => [:show]
 
@@ -212,6 +212,18 @@ class LocationsController < ApplicationController
   # DELETE /locations/1.json
   def destroy
     @location.destroy
+
+    respond_to do |format|
+      format.html { redirect_to locations_url }
+      format.json { head :no_content }
+    end
+  end
+
+  def bulk_delete
+    return redirect_to locations_path unless params[:location_ids].present?
+
+    locations = Location.where(id: params[:location_ids])
+    locations.destroy_all
 
     respond_to do |format|
       format.html { redirect_to locations_url }
