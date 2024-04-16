@@ -1,15 +1,15 @@
 class AddColumnsAndIndexForNeighborhoods < ActiveRecord::Migration[7.0]
   def up
-    add_column :neighborhoods, :created_at, :datetime, null: true
-    add_column :neighborhoods, :updated_at, :datetime, null: true
+    # add_column :neighborhoods, :created_at, :datetime, null: true
+    # add_column :neighborhoods, :updated_at, :datetime, null: true
 
-    Neighborhood.update_all(created_at: Time.current, updated_at: Time.current)
+    # Neighborhood.update_all(created_at: Time.current, updated_at: Time.current)
 
-    change_column :neighborhoods, :created_at, :datetime, null: false
-    change_column :neighborhoods, :updated_at, :datetime, null: false
+    # change_column :neighborhoods, :created_at, :datetime, null: false
+    # change_column :neighborhoods, :updated_at, :datetime, null: false
 
-    change_column_null(:neighborhoods, :nid, false)
-    add_index :neighborhoods, :nid, unique: true
+    # change_column_null(:neighborhoods, :nid, false)
+    # add_index :neighborhoods, :nid, unique: true
   end
 
 
