@@ -8,4 +8,8 @@ class Country < ApplicationRecord
   has_many :locations
 
   validates_presence_of :country_code, :name
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["country_code", "created_at", "id", "name", "slug", "updated_at"]
+  end
 end

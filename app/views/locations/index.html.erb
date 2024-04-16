@@ -19,24 +19,47 @@
     <th><%= sort_link(@search, :name, "Name") %></th>
     <th><%= sort_link(@search, :address, "Address") %></th>
     <th><%= sort_link(@search, :city_cdname, "City") %></th>
-    <th>State</th>
+    <th><%= sort_link(@search, :province_province_code, "State") %></th>
     <th><%= sort_link(@search, :district_name, "District") %></th>
     <th><%= sort_link(@search, :neighborhood_neighborhd, "Neighborhood") %></th>
-    <th>Postal Code</th>
-    <th>Country</th>
+    <th><%= sort_link(@search, :postal_code, "Postal Code") %></th>
+    <th><%= sort_link(@search, :country_country_code, "Country") %></th>
+    <th>Category</th>
+    <th>Sub-Category</th>
+    <th>Sub-Sub Category</th>
     <th></th>
   </tr>
 
   <% @locations.each do |location| %>
+    <% @sub_sub_categories = location.vertical_market_categories %>
+    <% @vertical_markets = location.vertical_markets %>
+    <% @sub_categories = @vertical_markets %>
+    <% @categories = @vertical_markets.map(&:ancestors).flatten.uniq %>
+
       <tr>
         <td><%= location.name %></td>
         <td><%= location.address %></td>
         <td><%= location.city.name if location.city.present? %></td>
-        <td><%= location.province.abbr if location.province %></td>
+        <td><%= location.province.province_code if location.province %></td>
         <td><%= location.district&.name %></td>
         <td><%= location.neighborhood&.neighborhd %></td>
         <td><%= location.postal_code %></td>
         <td><%= location.country.country_code if location.country %></td>
+        <td>
+          <% @categories.map do |c| %>
+            <p><%= c.name %></p>
+          <% end %>
+        </td>
+        <td>
+          <% @sub_categories.map do |sc| %>
+            <p><%= sc.name %></p>
+          <% end %>
+        </td>
+        <td>
+          <% @sub_sub_categories.map do |ssc| %>
+            <p><%= ssc.name %></p>
+          <% end %>
+        </td>
         <td>
           <div class="btn-group">
             <%= link_to 'Show', location, :class => 'btn btn-mini' %>
