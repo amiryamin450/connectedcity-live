@@ -7,8 +7,8 @@
 </div>
 <%= search_form_for @search, class: 'form-search mb-3' do |f| %>
   <div class="input-append">
-      <%= f.text_field :name_cont, class: 'search-query' %>
-      <%= f.submit "Search", class: 'btn' %>
+    <%= f.text_field :name_or_neighborhood_neighborhd_cont, class: 'search-query', id: 'business-search' %>
+    <%= f.submit "Search", class: 'btn' %>
   </div>
 <% end -%>
 

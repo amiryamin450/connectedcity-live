@@ -7,13 +7,14 @@ class LocationsController < ApplicationController
 
   before_action :check_claim_business, only: [:claim, :claim_process]
 
-  PER_PAGE = 100
+  PER_PAGE = 20
+  BUSINESS_PER_PAGE = 100
 
   layout 'location', :only => [:show]
 
   def index
     @search = Location.ransack(params[:q])
-    @locations = @search.result.page(params[:page])
+    @locations = @search.result.includes(:neighborhood).page(params[:page]).per(BUSINESS_PER_PAGE)
 
     respond_to do |format|
       format.html
