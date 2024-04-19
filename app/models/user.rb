@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  paginates_per 100
   rolify
 
   acts_as_messageable

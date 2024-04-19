@@ -7,6 +7,7 @@ class UserController < ApplicationController
 
   def index
     @users = User.order(:first_name)
+    @users = @users.page(params[:page])
 
     respond_to do |format|
       format.html
