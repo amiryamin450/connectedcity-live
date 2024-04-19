@@ -6,6 +6,7 @@ class LocationsController < ApplicationController
   skip_load_and_authorize_resource :location, only: [:show, :edit, :update]
 
   before_action :check_claim_business, only: [:claim, :claim_process]
+  before_action :check_active_location?, only: [:show]
 
   PER_PAGE = 20
   BUSINESS_PER_PAGE = 100
@@ -497,6 +498,12 @@ class LocationsController < ApplicationController
   end
 
   private
+
+  def check_active_location?
+    @location = Location.unscoped.friendly.find(params[:id])
+
+    return redirect_back fallback_location: root_path if @location.present? && @location.in_active?
+  end
 
   def valid_statuses? status
     [:active, :in_active].include? status.to_sym
