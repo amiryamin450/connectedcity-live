@@ -3,6 +3,9 @@ class Location < ApplicationRecord
 
   default_scope { where(is_profile: false) }
 
+  scope :active, -> { where(active: true) }
+  scope :in_active, -> { where(active: false) }
+
   acts_as_messageable
 
   before_validation :clear_images?

@@ -6,8 +6,14 @@
   <%= link_to 'Export Businesses', export_locations_path %>
 </div>
 <%= search_form_for @search, class: 'form-search mb-3' do |f| %>
+  <% @statuses_options = [
+      ['Active', :active],
+      ['In-Active', :in_active]
+    ]
+  %>
   <div class="input-append">
     <%= f.text_field :name_or_neighborhood_neighborhd_cont, class: 'search-query', id: 'business-search' %>
+    <%= select_tag :status, options_for_select(@statuses_options), prompt: 'All', class: 'status-filter' %>
     <%= f.submit "Search", class: 'btn' %>
   </div>
 <% end -%>
@@ -31,6 +37,7 @@
         <%= check_box_tag :selecte_all, false, false %>
       </th>
       <th><%= sort_link(@search, :name, "Name") %></th>
+      <th><%= sort_link(@search, :active, "Status") %></th>
       <th><%= sort_link(@search, :address, "Address") %></th>
       <th><%= sort_link(@search, :city_cdname, "City") %></th>
       <th><%= sort_link(@search, :province_province_code, "State") %></th>
@@ -55,6 +62,7 @@
             <%= check_box_tag "location_ids[]", location.id, false %>
           </td>
           <td><%= location.name %></td>
+          <td><%= location.active? %></td>
           <td><%= location.address %></td>
           <td><%= location.city.name if location.city.present? %></td>
           <td><%= location.province.province_code if location.province %></td>

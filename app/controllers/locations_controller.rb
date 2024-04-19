@@ -13,7 +13,9 @@ class LocationsController < ApplicationController
   layout 'location', :only => [:show]
 
   def index
-    @search = Location.ransack(params[:q])
+    status = ["active", "in_active"].include?(params[:status]) ? params[:status] : ""
+    @filtered_locations = status.present? ? Location.send(status.to_sym) : Location.all
+    @search = @filtered_locations.ransack(params[:q])
     @locations = @search.result.includes(:neighborhood).page(params[:page]).per(BUSINESS_PER_PAGE)
 
     respond_to do |format|
