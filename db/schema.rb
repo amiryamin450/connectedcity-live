@@ -539,7 +539,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_023002) do
     t.boolean "is_profile", default: false
     t.bigint "owner_id"
     t.bigint "super_admin_id"
-    t.boolean "active", default: true
+    t.integer "status", default: 0
     t.index ["city_id"], name: "city_id"
     t.index ["community_id"], name: "community_id"
     t.index ["country_id"], name: "country_id"

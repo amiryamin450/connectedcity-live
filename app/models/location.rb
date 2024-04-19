@@ -3,9 +3,6 @@ class Location < ApplicationRecord
 
   default_scope { where(is_profile: false) }
 
-  scope :active, -> { where(active: true) }
-  scope :in_active, -> { where(active: false) }
-
   acts_as_messageable
 
   before_validation :clear_images?
@@ -94,6 +91,8 @@ class Location < ApplicationRecord
   accepts_nested_attributes_for :media_attachments, allow_destroy: true
 
   validates_presence_of :address, :name, :vertical_market_category_ids, :province_id, :country_id, :city_id, :district_id, :municipality_id, unless: :is_profile
+
+  enum status: [:active, :in_active]
 
   def self.ransackable_attributes(auth_object = nil)
     ["address", "address_1", "available_call", "broker_id", "business_id", "business_improvement_area_id", "city_id", "claim_pending", "commissioner_id", "community_id", "content", "councillor_id", "country_id", "cover_photo_content_type", "cover_photo_file_name", "cover_photo_file_size", "cover_photo_updated_at", "created_at", "district_id", "email", "fax", "hall_id", "id", "import_hash", "imported", "is_profile", "latitude", "logo_content_type", "logo_file_name", "logo_file_size", "logo_updated_at", "longitude", "municipality_id", "name", "neighborhood_id", "payment_user_id", "phone", "postal_code", "province_id", "region_id", "show_fax", "show_phone", "show_toll_free", "slug", "stripe_account_id", "stripe_plan_id", "stripe_subscription_id", "sub_neighborhood_id", "toll_free", "updated_at", "vertical_market_category_id", "website_url", "yp_categories", "yp_lid", "yp_neighborhoods"]

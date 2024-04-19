@@ -227,6 +227,7 @@ Connectbook::Application.routes.draw do
       member do
         get :approve_claim
         get :reject_claim
+        get 'update_status/:status', action: :update_status, as: :update_status
       end
     end
 

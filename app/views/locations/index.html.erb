@@ -13,7 +13,7 @@
   %>
   <div class="input-append">
     <%= f.text_field :name_or_neighborhood_neighborhd_cont, class: 'search-query', id: 'business-search' %>
-    <%= select_tag :status, options_for_select(@statuses_options), prompt: 'All', class: 'status-filter' %>
+    <%= select_tag :status, options_for_select(@statuses_options, params[:status]), prompt: 'All', class: 'status-filter' %>
     <%= f.submit "Search", class: 'btn' %>
   </div>
 <% end -%>
@@ -37,7 +37,7 @@
         <%= check_box_tag :selecte_all, false, false %>
       </th>
       <th><%= sort_link(@search, :name, "Name") %></th>
-      <th><%= sort_link(@search, :active, "Status") %></th>
+      <th><%= sort_link(@search, :status, "Active") %></th>
       <th><%= sort_link(@search, :address, "Address") %></th>
       <th><%= sort_link(@search, :city_cdname, "City") %></th>
       <th><%= sort_link(@search, :province_province_code, "State") %></th>
@@ -89,6 +89,11 @@
             <div class="btn-group">
               <%= link_to 'Show', location, :class => 'btn btn-mini' %>
               <%= link_to 'Edit', edit_location_path(location), :class => 'btn btn-mini' %>
+              <% if location.active? %>
+                <%= link_to 'In-Active', update_status_location_path(location, :in_active), :class => 'btn btn-mini' %>
+              <% else %>
+                <%= link_to 'Active', update_status_location_path(location, :active), :class => 'btn btn-mini' %>
+              <% end %>
               <%= link_to 'Destroy', location, method: :delete, data: {confirm: 'Are you sure?'}, :class => 'btn btn-mini' %>
             </div>
           </td>

@@ -1,6 +1,6 @@
 class LocationsController < ApplicationController
 
-  before_action :set_location, only: [:connect_stripe, :disconnect_stripe, :connected_advertiser, :update, :destroy, :claim]
+  before_action :set_location, only: [:connect_stripe, :disconnect_stripe, :connected_advertiser, :update, :destroy, :claim, :update_status]
   load_and_authorize_resource :location, find_by: :slug
 
   skip_load_and_authorize_resource :location, only: [:show, :edit, :update]
@@ -219,6 +219,18 @@ class LocationsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to locations_url }
       format.json { head :no_content }
+    end
+  end
+
+  def update_status
+    return unless valid_statuses? params[:status]
+
+    @location.assign_attributes(status: params[:status])
+    @location.save(validate: false)
+
+    respond_to do |format|
+      format.html { redirect_to locations_url }
+      format.json { render json: @location }
     end
   end
 
@@ -485,6 +497,10 @@ class LocationsController < ApplicationController
   end
 
   private
+
+  def valid_statuses? status
+    [:active, :in_active].include? status.to_sym
+  end
 
   def check_claim_business
     return redirect_to location_path(@location) if @location.business_owner.present?
