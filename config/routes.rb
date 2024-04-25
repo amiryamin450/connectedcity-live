@@ -195,6 +195,10 @@ Connectbook::Application.routes.draw do
     end
 
     resources :user, controller: 'user' do
+      collection do
+        post :bulk_delete
+      end
+
       member do
         get :make_admin
         get :remove_admin

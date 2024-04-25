@@ -10,7 +10,7 @@ class UserController < ApplicationController
     @users = @users.page(params[:page])
 
     respond_to do |format|
-      format.html
+      format.html { render layout: 'application_v_2' }
       format.json { render json: @users.order(:email).where("email like ?", "%#{params[:q]}%") }
     end
   end
@@ -85,6 +85,18 @@ class UserController < ApplicationController
       redirect_to user_index_path, :notice => "User deleted."
     else
       redirect_to users_path, :notice => "Can't delete yourself."
+    end
+  end
+
+  def bulk_delete
+    return redirect_to user_index_path unless params[:user_ids].present?
+
+    users = User.where(id: params[:user_ids])
+    users.destroy_all
+
+    respond_to do |format|
+      format.html { redirect_to user_index_url }
+      format.json { render json: { success: true}  }
     end
   end
 
