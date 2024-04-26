@@ -2,7 +2,8 @@
   <%= form_tag url, class: 'search-form', method: :get do %>
     <div class="input-group">
       <%= search_field_tag :search, params[:search], placeholder: "What are you looking for?", class: "form-control search-column" %>
-      <div class="input-group-prepend search-box d-none d-sm-block">
+      <% hide_select_box ||= false %>
+      <div class="input-group-prepend search-box d-none d-sm-block <%= hide_select_box.present? && hide_select_box ? 'd-sm-none' : '' %>">
         <%= select_tag :market_id, opts, prompt: all_promt, class: 'form-control' %>
       </div>
       <div class="input-group-append">

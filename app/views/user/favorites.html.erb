@@ -95,12 +95,12 @@ r = 0
           <div class="col-md-8">
             <div class="category-body">
               <br>
-              <%= render 'share/search_box', url: @url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'all categories' %>
+              <%= render 'share/search_box', url: @url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'all categories', hide_select_box: true %>
               <div class="vertical-market-categories">
                 <% if @friend_locations.count > 0 %>
                   <div class="card-label-one">
                     <div class="title heading">
-                      <h4>Members</h4>
+                      <h4>Friends</h4>
                       &nbsp;&nbsp;
                       <%= link_to 'See More +', '#', class: 'see-more' %>
                       &nbsp;&nbsp;

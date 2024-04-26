@@ -119,10 +119,11 @@ class UserController < ApplicationController
   end
 
   def favorites
-    @vertical_markets = if params[:name]
-      VerticalMarket.where(slug: params[:name])
+    if params[:name].present?
+      @vertical_market = VerticalMarket.find_by(slug: params[:name])
+      @vertical_markets = [@vertical_market]
     else
-      VerticalMarket.where(ancestry_depth: 0)
+      @vertical_markets = VerticalMarket.where(ancestry_depth: 0)
     end
     @user = User.find(params[:id])
 
