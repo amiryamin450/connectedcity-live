@@ -162,7 +162,7 @@ class HomeController < ApplicationController
       region = municipality.region
       province = region.province
       route = "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}/#{neighborhood.slug}/#{sub_neighborhood.slug}"
-      render json: { sub_neighborhood: sub_neighborhood, route: route }
+      render json: { sub_neighborhood: sub_neighborhood.as_json_without_geom.to_json, route: route }
     else
       neighborhood = Neighborhood.find_by_slug(params[:neighborhood_id])
       district = neighborhood.district

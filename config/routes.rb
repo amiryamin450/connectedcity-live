@@ -339,27 +339,27 @@ Connectbook::Application.routes.draw do
 
   resources 'contacts', only: [:new, :create]
 
-  get '/metro/:municipality_slug/guide/:market/:sub_market' => 'vertical_markets#guide', as: :municipality_sub_market_guide
-  get '/metro/:municipality_slug/guide/:market' => 'vertical_markets#guide', as: :municipality_guide
+  get '/metro/:municipality_slug/channel/:market/:sub_market' => 'vertical_markets#guide', as: :municipality_sub_market_guide
+  get '/metro/:municipality_slug/channel/:market' => 'vertical_markets#guide', as: :municipality_guide
 
-  get '/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug/guide/:market' => 'vertical_markets#guide', as: :city_district_nbh_sub_guide
-  get '/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug/guide/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_nbh_sub_sub_market_guide
+  get '/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug/channel/:market' => 'vertical_markets#guide', as: :city_district_nbh_sub_guide
+  get '/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug/channel/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_nbh_sub_sub_market_guide
 
-  get '/:city_slug/:district_slug/:neighborhood_slug/guide/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_neighborhood_sub_market_guide
-  get '/:city_slug/:district_slug/:neighborhood_slug/guide/:market' => 'vertical_markets#guide', as: :city_district_neighborhood_guide
+  get '/:city_slug/:district_slug/:neighborhood_slug/channel/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_neighborhood_sub_market_guide
+  get '/:city_slug/:district_slug/:neighborhood_slug/channel/:market' => 'vertical_markets#guide', as: :city_district_neighborhood_guide
 
-  get '/:city_slug/:district_route/guide/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_sub_market_guide
-  get '/:city_slug/:district_route/guide/:market' => 'vertical_markets#guide', as: :city_district_guide
+  get '/:city_slug/:district_route/channel/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_sub_market_guide
+  get '/:city_slug/:district_route/channel/:market' => 'vertical_markets#guide', as: :city_district_guide
 
-  get '/:city_slug/guide/:market/:sub_market' => 'vertical_markets#guide', as: :city_sub_market_guide
-  get '/:city_slug/guide/:market' => 'vertical_markets#guide', as: :city_guide
+  get '/:city_slug/channel/:market/:sub_market' => 'vertical_markets#guide', as: :city_sub_market_guide
+  get '/:city_slug/channel/:market' => 'vertical_markets#guide', as: :city_guide
 
-  get ':district_route/guide/:market' => 'vertical_markets#guide', as: :top_district_guide
-  get '/guide/:market' => 'vertical_markets#guide', as: :region_market_guide
-  get 'guide/:market/:sub_market' => 'vertical_markets#guide', as: :region_sub_market_guide
+  get ':district_route/channel/:market' => 'vertical_markets#guide', as: :top_district_guide
+  get '/channel/:market' => 'vertical_markets#guide', as: :region_market_guide
+  get 'channel/:market/:sub_market' => 'vertical_markets#guide', as: :region_sub_market_guide
 
   get ':district_route/business/:id' => 'locations#show', as: :district_location_path
-  get ':district_route/:neighborhood/guide/:market' => 'vertical_markets#guide', as: :district_neighborhood_guide
+  get ':district_route/:neighborhood/channel/:market' => 'vertical_markets#guide', as: :district_neighborhood_guide
   get ':district_route/:neighborhood_route/news' => 'city_news_articles#guide'
   get ':district_route/:neighborhood/business/:id' => 'locations#show', as: :district_neighborhood_location
 

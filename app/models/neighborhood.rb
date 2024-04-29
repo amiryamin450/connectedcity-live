@@ -24,7 +24,7 @@ class Neighborhood < ApplicationRecord
   end
 
   def as_json_without_geom
-    json_data = attributes
+    json_data = attributes.symbolize_keys
     json_data.delete(:geom)
 
     json_data
