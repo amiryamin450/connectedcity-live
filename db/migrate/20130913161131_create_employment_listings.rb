@@ -1,4 +1,4 @@
-class CreateEmploymentListings < ActiveRecord::Migration
+class CreateEmploymentListings < ActiveRecord::Migration[7.0]
   def change
     create_table :employment_listings do |t|
       t.string :title

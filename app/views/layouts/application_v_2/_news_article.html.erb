@@ -1,12 +1,12 @@
 <div class="row">
-  <div class="inner-img col-md-3 col-4">
-    <%= link_to (image_tag news_article.newsable&.logo&.url), location_path(news_article.newsable)%></a>
+  <div class="col-12 text-center">
+    <%= link_to (image_tag news_article.newsable&.logo&.url, class: "w-25 m-auto"), location_path(news_article.newsable)%></a>
   </div>
-  <div class="col-md-9 col-8">
+  <div class="col-12 px-3 pt-2">
     <div class="row">
       <div class="inner-card-title col-md-7">
         <h5><%#= link_to news_article.newsable.name, location_path(news_article.newsable) %>
-          <%= link_to ("#{news_article.title}"), "#", class: "status-update-image", data: { target: "#news-#{news_article.id}-model", toggle: 'modal'} %>
+          <%= link_to ("#{news_article.title}"), "#", class: "status-update-image", data: { 'bs-target': "#news-#{news_article.id}-model", 'bs-toggle': 'modal'} %>
         </h5>
       </div>
       <div class="inner-card-time col-md-5">
@@ -15,13 +15,13 @@
     </div>
     <div class="inner-card-description">
       <div class="content"> <%= sanitize(news_article.content) %> </div>
-      <%= link_to "View More", "#", class: "status-update-image", data: { target: "#news-#{news_article.id}-model", toggle: 'modal'} if news_article.content.present? %>
+      <%= link_to "View More", "#", class: "status-update-image", data: { 'bs-target': "#news-#{news_article.id}-model", 'bs-toggle': 'modal'} if news_article.content.present? %>
     </div>
   </div>
   <div class="col-md-12">
     <div class="update-banner">
       <% if news_article.image? %>
-        <%= link_to (image_tag news_article.image.url), "#", class: "status-update-image", data: { target: "#news-#{news_article.id}-model", toggle: 'modal'} %>
+        <%= link_to (image_tag news_article.image.url), "#", class: "status-update-image", data: { 'bs-target': "#news-#{news_article.id}-model", 'bs-toggle': 'modal'} %>
         <%#= render 'news_articles/modal_news_latest', news: news_article %>
       <% end %>
     </div>

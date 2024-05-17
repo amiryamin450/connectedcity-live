@@ -1,4 +1,4 @@
-class AddRelationshipUserCart < ActiveRecord::Migration
+class AddRelationshipUserCart < ActiveRecord::Migration[7.0]
   def up
     add_column :users, :cart_id, :integer unless column_exists?(:users, :cart_id)
     add_column :provinces, :tax_pst, :float, default: 0.0 unless column_exists?(:provinces, :tax_pst)

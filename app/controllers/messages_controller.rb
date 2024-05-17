@@ -1,4 +1,6 @@
 class MessagesController < ApplicationController
+  layout 'application_v_2'
+
   def index
     @folder = params[:folder] || "inbox"
 
@@ -12,8 +14,8 @@ class MessagesController < ApplicationController
                      end
     @conversations = @conversations.sort_by(&:updated_at).reverse unless @conversations.nil?
 
-    add_crumb "Messaging"
-    add_crumb t("messaging.#{@folder}"), url_for(folder: params[:folder])
+    add_breadcrumb "Messaging"
+    add_breadcrumb t("messaging.#{@folder}"), url_for(folder: params[:folder])
   end
 
   def show
@@ -33,8 +35,8 @@ class MessagesController < ApplicationController
 
     current_manager.mark_as_read @conversation
 
-    add_crumb "Messaging"
-    add_crumb @conversation.subject, url_for(@conversation)
+    add_breadcrumb "Messaging"
+    add_breadcrumb @conversation.subject, url_for(@conversation)
   end
 
   def new
@@ -63,7 +65,7 @@ class MessagesController < ApplicationController
       end
 
       unless @conversation.is_participant? current_manager
-        return redirect_to :back
+        return redirect_back
       end
 
       receipt = current_manager.reply_to_conversation @conversation, @message.body
@@ -104,7 +106,45 @@ class MessagesController < ApplicationController
       end
     end
 
-    redirect_to :back
+    redirect_back
+  end
+
+  def messenger
+    @current_profile = current_user.profile
+    @conversations = Conversation.includes(:recipient, :messages).where("recipient_id = ? OR sender_id = ?", @current_profile.id, @current_profile.id)
+
+    location_ids = Favorite.where(user_id: current_user).pluck(:location_id).compact
+    @chat_boxes = Location.unscoped.joins(:vertical_market_categories)
+                          .where(id: location_ids, is_profile: true)
+                          .reject { |box| box.id.in?(@conversations.map{|c| [c.recipient.id, c.sender.id] }.flatten) }
+
+    if params[:recipient].present?
+      @recipient_profile = Location.unscoped.find_by_slug(params[:recipient])
+      @conversation = Conversation.lookup(@current_profile.id, @recipient_profile.id)
+      @messages = @conversation.messages
+    end
+  end
+
+  def send_message
+    @conversation = Conversation.includes(:recipient).find(params[:id])
+    @message = @conversation.messages.create(body: params[:message][:body], sender_id: params[:message][:sender_id])
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def reload_messages
+    @recipient_profile = Location.unscoped.find_by_slug(params[:recipient])
+    @current_profile = current_user.profile
+    @conversation = Conversation.lookup(@current_profile.id, @recipient_profile.id)
+    @messages = @conversation.messages.where(has_seen: false, sender_id: @recipient_profile.id).order(:created_at)
+    msgs = @messages.pluck(:id)
+    @messages.update_all(has_seen: true)
+
+    respond_to do |format|
+      format.json { render json: Message.where(id: msgs) }
+    end
   end
 
   private

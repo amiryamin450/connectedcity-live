@@ -54,7 +54,7 @@ NOTE Rental (rental)
       <div class="title heading index-11">
         <h4>Automotive Listings</h4>
         &nbsp;&nbsp;
-        <%= link_to 'More + ', '#', class: 'see-more', data: { element: 'auto-listings' } %>
+        <%= link_to 'See More +', '#', class: 'see-more', data: { element: 'auto-listings' } %>
         &nbsp;&nbsp;
         <%= link_to ' See All', "#{@base_path}guide/auto-listings", class: 'see-all' %>
       </div>
@@ -90,9 +90,9 @@ NOTE Rental (rental)
   <% end %>
   <% @vertical_market.categories_new(@municipality, @city, @district, @neighborhood, @sub_neighborhood).each_with_index do |category, r| %>
     <%
-
-    locations = category.locations[0..19]
-    markers |= category.locations
+      locations = category.locations[0..19]
+      locations = category.locations.ransack(name_or_website_url_or_content_cont: params[:search]).result[0..19] if params[:search].present?
+      markers |= category.locations
     %>
 
     <% if locations.any? && !@categories_without_municipality_ids.include?(category.id) %>
@@ -102,15 +102,7 @@ NOTE Rental (rental)
 <% end %>
 
 <%= javascript_tag do %>
-  window.locations = <%= raw markers.collect { |m|
-    u = if m.respond_to?(:location)
-      url_for([m.location, m])
-    else
-      url_for(m)
-    end
-
-    {:name => m.name, :url => u, :latitude => m.latitude, :longitude => m.longitude, :thumb => m.logo.file? ? m.logo.url(:bia_display) : nil}
-  }.to_json %>;
+  window.locations = <%= raw map_locations_data(markers) %>;
 <% end %>
 
 
@@ -120,9 +112,7 @@ NOTE Rental (rental)
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <p>

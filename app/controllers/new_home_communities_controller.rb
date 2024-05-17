@@ -1,5 +1,5 @@
 class NewHomeCommunitiesController < ApplicationController
-  before_filter do
+  before_action do
     @new_home_community = NewHomeCommunity.find(params[:new_home_community_id]) if params[:new_home_community_id]
   end
 
@@ -13,7 +13,7 @@ class NewHomeCommunitiesController < ApplicationController
     @new_home_communities = @location.new_home_communities
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @new_home_communities }
     end
   end
@@ -24,14 +24,14 @@ class NewHomeCommunitiesController < ApplicationController
     @vertical_market = @location.vertical_market_categories.first.vertical_market
 
 
-    add_crumb @district.name, district_guide_path(@district) if @district
-    add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
-    add_crumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
-    add_crumb @location.name, "#{@base_path}business/#{@location.slug}"
-    add_crumb @new_home_community.name
+    add_breadcrumb @district.name, district_guide_path(@district) if @district
+    add_breadcrumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
+    add_breadcrumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
+    add_breadcrumb @location.name, "#{@base_path}business/#{@location.slug}"
+    add_breadcrumb @new_home_community.name
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @new_home_community }
     end
   end
@@ -43,7 +43,7 @@ class NewHomeCommunitiesController < ApplicationController
     @new_home_community_styles = NewHomeCommunity::STYLES
     
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @new_home_community }
     end
   end
@@ -58,7 +58,7 @@ class NewHomeCommunitiesController < ApplicationController
   # POST /new_home_communities
   # POST /new_home_communities.json
   def create
-    @new_home_community = @location.new_home_communities.new(params[:new_home_community])
+    @new_home_community = @location.new_home_communities.new(new_home_community_params)
 
     respond_to do |format|
       if @new_home_community.save
@@ -77,7 +77,7 @@ class NewHomeCommunitiesController < ApplicationController
     @new_home_community = NewHomeCommunity.find(params[:id])
 
     respond_to do |format|
-      if @new_home_community.update_attributes(params[:new_home_community])
+      if @new_home_community.update(new_home_community_params)
         format.html { redirect_to [@location, @new_home_community], notice: 'New home community was successfully updated.' }
         format.json { head :no_content }
       else
@@ -103,6 +103,14 @@ class NewHomeCommunitiesController < ApplicationController
     @status_update = StatusUpdate.find(params[:id])
     @status_update.destroy
 
-    redirect_to :back
+    redirect_back
+  end
+
+  private
+
+  def new_home_community_params
+    params.require(:new_home_community).permit(:city_id, :description, :highlights, :location_id, :name,
+      :neighborhood_id, :province_id, :city, :province, :location, :neighborhood, :district_id, :cover_photo,
+      :address, :postal_code, :latitude, :longitude, :status_updates_attributes, :logo, :style)
   end
 end

@@ -19,10 +19,9 @@ class MunicipalitiesController < ApplicationController
   end
 
   def metro_page
-    @municipality = Municipality.find_by_slug(params[:municipality_slug])
+    @municipality = Municipality.find_by(slug: params[:municipality_slug])
+
     if (@municipality.present?)
-      # @neighbourhoods = @district.neighborhoods
-      # @neighborhood = @neighbourhoods.find { |nbh| nbh.slug == params[:neighborhood_slug] }
       @municipalities = @municipality.region.municipalities
       response = api.query(Prismic::Predicates.at("my.location.uid", key_metro_prismic))
       @documents = response.results.present? ? response.results[0]["location.slide_images"] : []
@@ -74,7 +73,7 @@ class MunicipalitiesController < ApplicationController
   def get_neighborhoods
     if (params[:district_id].present?)
       district = District.find_by_slug(params[:district_id])
-      neighborhoods = district&.neighborhoods
+      neighborhoods = district&.neighborhoods.select(Neighborhood.without_geom_column)
       city = district.city
       municipality = city.municipality
       region = municipality.region
@@ -113,10 +112,11 @@ class MunicipalitiesController < ApplicationController
       render json: {route: route}
     end
   end
+
+
   private
 
   def key_metro_prismic
     "#{params[:province_slug]}-#{params[:region_slug]}-#{params[:municipality_slug]}"
   end
-
 end

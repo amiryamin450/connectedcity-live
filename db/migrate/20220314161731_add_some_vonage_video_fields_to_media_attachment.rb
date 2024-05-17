@@ -1,4 +1,4 @@
-class AddSomeVonageVideoFieldsToMediaAttachment < ActiveRecord::Migration
+class AddSomeVonageVideoFieldsToMediaAttachment < ActiveRecord::Migration[7.0]
   def change
     add_column :media_attachments, :is_stream_video, :boolean, default: false
     add_column :media_attachments, :archive_id, :string

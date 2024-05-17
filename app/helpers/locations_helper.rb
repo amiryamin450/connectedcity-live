@@ -13,7 +13,9 @@ module LocationsHelper
   end
 
   def show_edit_button?(user_signed_in, current_user, location = nil)
-    if user_signed_in and current_user.has_role? :admin
+    if location.is_profile
+      false
+    elsif user_signed_in and current_user.has_role? :admin
       true
     elsif user_signed_in and location and current_user.can_manage_location? location
       true

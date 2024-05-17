@@ -1,6 +1,6 @@
 class VerticalMarketCategoriesController < ApplicationController
   layout :resolve_layout
-  load_and_authorize_resource except: [:show_auto_listing_makers, :show]
+  load_and_authorize_resource find_by: :slug, except: [:show_auto_listing_makers, :show]
 
   def resolve_layout
     case action_name
@@ -14,12 +14,12 @@ class VerticalMarketCategoriesController < ApplicationController
   # GET /admin/vertical_market_categories.json
   def index
 
-    @search = VerticalMarketCategory.search(params[:q])
+    @search = VerticalMarketCategory.ransack(params[:q])
 
     @vertical_market_categories = @search.result.order(:name).page params[:page]
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @vertical_market_categories }
     end
   end
@@ -34,25 +34,25 @@ class VerticalMarketCategoriesController < ApplicationController
     set_neighborhood
     set_bia
    
-    @vertical_market_category = VerticalMarketCategory.find(params[:id])
+    @vertical_market_category = VerticalMarketCategory.friendly.find(params[:id])
     @vertical_market = @vertical_market_category.vertical_market
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
 
     if @bia
-      add_crumb @bia.district.name, district_guide_path(@bia.district) if @bia.district
-      add_crumb @bia.name, url_for(@bia)
+      add_breadcrumb @bia.district.name, district_guide_path(@bia.district) if @bia.district
+      add_breadcrumb @bia.name, url_for(@bia)
     end
     @municipality = params[:municipality_slug] ? Municipality.find_by_slug(params[:municipality_slug]) : nil
     @city = params[:city_slug] ? City.find_by_slug(params[:city_slug]) : nil
     @district = params[:district_slug] ? District.find_by_slug(params[:district_slug]) : nil
     @neighborhood = params[:neighborhood_slug] ? Neighborhood.find_by_slug(:neighborhood_slug) : nil
     @sub_neighborhood = params[:sub_neighborhood_slug] ? Neighborhood.find_by_slug(:sub_neighborhood_slug) : nil
-    add_crumb @vertical_market_category.vertical_market.parent.name, "#{@base_path}guide/#{@vertical_market_category.vertical_market.parent.slug}" unless @vertical_market_category.vertical_market.parent.nil?
-    add_crumb @vertical_market_category.vertical_market.name, "#{@base_path}guide/#{@vertical_market_category.vertical_market.slug}"
-    add_crumb @vertical_market_category.name
+    add_breadcrumb @vertical_market_category.vertical_market.parent.name, "#{@base_path}guide/#{@vertical_market_category.vertical_market.parent.slug}" unless @vertical_market_category.vertical_market.parent.nil?
+    add_breadcrumb @vertical_market_category.vertical_market.name, "#{@base_path}guide/#{@vertical_market_category.vertical_market.slug}"
+    add_breadcrumb @vertical_market_category.name
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @vertical_market_category }
     end
   end
@@ -89,20 +89,20 @@ class VerticalMarketCategoriesController < ApplicationController
     @vertical_market_category = VerticalMarketCategory.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @vertical_market_category }
     end
   end
 
   # GET /admin/vertical_market_categories/1/edit
   def edit
-    @vertical_market_category = VerticalMarketCategory.find(params[:id])
+    # @vertical_market_category = VerticalMarketCategory.find(params[:id])
   end
 
   # POST /admin/vertical_market_categories
   # POST /admin/vertical_market_categories.json
   def create
-    @vertical_market_category = VerticalMarketCategory.new(params[:vertical_market_category])
+    @vertical_market_category = VerticalMarketCategory.new(vertical_market_category_params)
 
     respond_to do |format|
       if @vertical_market_category.save
@@ -118,10 +118,10 @@ class VerticalMarketCategoriesController < ApplicationController
   # PUT /admin/vertical_market_categories/1
   # PUT /admin/vertical_market_categories/1.json
   def update
-    @vertical_market_category = VerticalMarketCategory.find(params[:id])
+    # @vertical_market_category = VerticalMarketCategory.find(params[:id])
 
     respond_to do |format|
-      if @vertical_market_category.update_attributes(params[:vertical_market_category])
+      if @vertical_market_category.update(vertical_market_category_params)
         format.html { redirect_to @vertical_market_category, notice: 'Vertical market category was successfully updated.' }
         format.json { head :no_content }
       else
@@ -134,7 +134,7 @@ class VerticalMarketCategoriesController < ApplicationController
   # DELETE /admin/vertical_market_categories/1
   # DELETE /admin/vertical_market_categories/1.json
   def destroy
-    @vertical_market_category = VerticalMarketCategory.find(params[:id])
+    # @vertical_market_category = VerticalMarketCategory.find(params[:id])
     @vertical_market_category.destroy
 
     respond_to do |format|
@@ -142,18 +142,23 @@ class VerticalMarketCategoriesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
   private
 
     def crumb_with_fake_category(district_id = nil, neighborhood_id = nil)
-      add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-      add_crumb district.name, district_guide_path(district) if district_id.present? && district.where(id: district_id).first
-      add_crumb neighborhood.name if neighborhood_id.present? && neighborhood = Neighborhood.where(id: neighborhood_id).first
+      add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+      add_breadcrumb district.name, district_guide_path(district) if district_id.present? && district.where(id: district_id).first
+      add_breadcrumb neighborhood.name if neighborhood_id.present? && neighborhood = Neighborhood.where(id: neighborhood_id).first
 
       @vertical_market.ancestors.each do |ancestor|
-        add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
+        add_breadcrumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
       end
 
-      add_crumb "#{@vertical_market.name}", "#{@base_path}guide/#{@vertical_market.slug}"
-      add_crumb "#{@vertical_market_category.name} Lists"
+      add_breadcrumb "#{@vertical_market.name}", "#{@base_path}guide/#{@vertical_market.slug}"
+      add_breadcrumb "#{@vertical_market_category.name} Lists"
+    end
+
+    def vertical_market_category_params
+      params.require(:vertical_market_category).permit(:description, :name, :slug, :vertical_market_id, :default_logo, :search_term)
     end
 end

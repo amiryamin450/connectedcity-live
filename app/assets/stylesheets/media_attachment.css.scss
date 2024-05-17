@@ -23,6 +23,11 @@
     }
   }
 
+  .media-attachment-form input, .media-attachment-form textarea {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
   #subscribers {
     height: 600px;
   }
@@ -58,9 +63,12 @@
 
   .add-new-media-attachment-title {
     margin-bottom: 40px;
+    font-size: 31px;
+    font-weight: bold;
 
-    .location-name {
-      color: blue;
+    .location-name a {
+      color:#08c !important;
+      text-decoration: none;
     }
   }
 
@@ -170,7 +178,7 @@
 
   .uploaded-date {
     position: absolute;
-    bottom: 5%;
+    bottom: 0;
   }
 
   h1 {
@@ -259,8 +267,39 @@
 }
 
 .additional-videos {
+  margin-top: 50px;
+
+  .video-media-container {
+    position: relative;
+    padding: 50px 15px;
+
+    .thumbnail-container {
+      width: 300px;
+      height: 200px;
+    }
+
+    .video-title {
+      font-size: 1rem;
+      // position: absolute;
+      // bottom: 0;
+      // left: 15px;
+
+      a {
+        color: #122e51;
+        text-decoration: none;
+        white-space: wrap;
+      }
+    }
+  }
+
   .media {
     position: relative;
+
+    img {
+      // width: 100%;
+      max-width: 300px;
+      max-height: 200px;
+    }
 
     .now-playing {
       position: absolute;
@@ -295,7 +334,7 @@
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 40%;
+    width: 60%;
   }
 
   /* The Close Button */
@@ -349,6 +388,10 @@
       height: 350px;
     }
   }
+
+  .media-modal .modal-content {
+    width: 40%;
+  }
 }
 
 @media only screen and (min-width: 1440px) {
@@ -378,4 +421,11 @@
   font-size: 20px;
   font-weight: 500;
   padding: 5px;
+}
+
+#OT_flip {
+  background-image: image-url('flip-camera-icon.png');
+  background-size: 30px;
+  background-position: center;
+  right: 37px;
 }

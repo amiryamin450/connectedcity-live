@@ -1,4 +1,4 @@
-class AddColumnShoppingCart < ActiveRecord::Migration
+class AddColumnShoppingCart < ActiveRecord::Migration[7.0]
   def up
     add_column :line_items, :location_id, :integer
   end

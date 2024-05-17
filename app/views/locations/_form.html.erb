@@ -1,5 +1,20 @@
 <div class="pad10 holder" style="padding-left: 30px;">
-  <%= simple_form_for(@location, :html => { :multipart => true, class: 'form-horizontal location_business', id: 'fileupload' }) do |f| %>
+  <%= simple_form_for(
+    @location,
+    :html => { :multipart => true, class: 'form-horizontal', id: 'fileupload' },
+    wrapper: :horizontal_form,
+    wrapper_mappings: {
+      boolean:       :horizontal_boolean,
+      check_boxes:   :horizontal_collection,
+      date:          :horizontal_multi_select,
+      datetime:      :horizontal_multi_select,
+      file:          :horizontal_file,
+      radio_buttons: :horizontal_collection,
+      range:         :horizontal_range,
+      time:          :horizontal_multi_select,
+      select:        :horizontal_select
+    }
+  ) do |f| %>
     <%= f.error_notification %>
     <div class="tabbable">
       <ul class="nav nav-pills">
@@ -14,9 +29,11 @@
             <a href="#info" data-toggle="tab">Info</a>
           </li>
         <% end %>
-        <li>
-          <a href="#operating-hours" data-toggle="tab">Operating Hours</a>
-        </li>
+        <% unless @location.is_profile %>
+          <li>
+            <a href="#operating-hours" data-toggle="tab">Operating Hours</a>
+          </li>
+        <% end %>
         <li>
           <a href="#profile" data-toggle="tab">Profile</a>
         </li>
@@ -28,9 +45,7 @@
             <%= link_to("Menus", location_location_menus_path(@location)) %>
           </li>
         <% else %>
-          <li>
-            <%#= link_to("Flyers", location_location_menus_path(@location)) %>
-          </li>
+          <li></li>
         <% end %>
         <% if @managers.present? %>
         <li>
@@ -47,23 +62,28 @@
           <li> <a href="#city-councillors" data-toggle="tab">City Councillors</a> </li>
           <li> <a href="#park-recreation-commissioners" data-toggle="tab">Parks & Recreation Commissioners</a> </li>
         <% end %>
+        <% unless @location.new_record? %>
+          <li>
+            <a href="#ecommerce-store" data-toggle="tab">eCommerce Store</a>
+          </li>
+        <% end %>
       </ul>
       <div class="tab-content">
         <% if current_user.has_role? :admin %>
           <div class="tab-pane active" id="location">
-            <%= f.association :country %>
-            <%= f.association :province, collection: get_collection(Province, :country, :country_id, f.object)%>
-            <%= f.association :municipality,label: "Metro/Sub-Region", collection: get_collection(Municipality, :province, :province_id, f.object )%>
-            <%= f.association :city, collection: get_collection(City, :province, :pruid, f.object)%>
+            <%= f.association :country  %>
+            <%= f.association :province, collection: get_collection(Province, :country, :country_id, f.object) %>
+            <%= f.association :municipality,label: "Metro/Sub-Region", collection: get_collection(Municipality, :province, :province_id, f.object ) %>
+            <%= f.association :city, collection: get_collection(City, :province, :pruid, f.object) %>
             <%= f.association :district, collection: get_collection(District, :city, :city_id, f.object) %>
             <%= f.association :neighborhood, collection: get_collection(Neighborhood, :district, :district_id, f.object) %>
             <%= f.association :sub_neighborhood, collection: get_collection(Neighborhood, :neighborhood, :neighborhood_id, f.object) %>
-            <%= f.input :vertical_market_category_ids, label: "Vertical market categories", collection: @vertical_market_categories, input_html: { multiple: true }, disabled: !current_user.has_role?(:admin) %>
+            <%= f.input :vertical_market_category_ids, label: "Vertical market categories", collection: @vertical_market_categories, input_html: { multiple: true }, disabled: !current_user.has_role?(:admin), wrapper: :horizontal_collection_inline %>
           </div>
           <div class="tab-pane" id="agents">
             <%= link_to 'Create New Agent', new_location_path(broker_id: @location.id), class: 'btn'  %>
           </div>
-          
+
           <div class="tab-pane" id="city-hall">
             <% if @location.city_halls.size > 0 %>
               <table class="table table-bordered table-striped table-hover" style="width: 98%;">
@@ -148,7 +168,6 @@
             <% end %>
             <%= link_to 'Create New Parks & Recreation Commissioners Member', new_location_path(commissioner_id: @location.id), class: 'btn'  %>
           </div>
-          
         <% end %>
         <div class="tab-pane <%= 'active' unless current_user.has_role? :admin %>" id="info">
           <%= f.input :broker_id, as: :hidden %>
@@ -159,7 +178,7 @@
           <%= f.input :address %>
           <%= f.input :latitude, as: :hidden %>
           <%= f.input :longitude, as: :hidden %>
-          <input id="value_address" class="hidden" value="<%= @location.address %>" ></input>
+          <input id="value_address" class="hidden" value="<%= @location.address %>" />
           <%= f.input :address_1 %>
           <%= f.input :postal_code %>
           <%= f.association :trade_associations %>
@@ -201,7 +220,7 @@
           <%= f.input :content, input_html: {class: '', style: 'width: 810px; height: 350px;', placeholder: 'Enter text ...'} %>
           <%= f.input :website_url %>
           <%= f.input :email %>
-          <%= f.input :logo, as: :logo_preview %>
+          <%= f.input :logo, label: "#{@location.is_profile ? 'My photo' : 'Logo'}", as: :logo_preview %>
           <%= f.input :delete_logo, as: :boolean %>
           <%= f.input :cover_photo, as: :logo_preview %>
           <%= f.input :delete_cover_photo, as: :boolean %>
@@ -213,6 +232,18 @@
         <div class="tab-pane" id="managers">
           <%= render 'managers'  %>
         </div>
+        <% end %>
+        <% unless @location.new_record? %>
+          <div class="tab-pane" id="ecommerce-store">
+            <% stripe_connect_status = StripeService.new(location: @location).stripe_connect_status %>
+            <% if stripe_connect_status %>
+              Stripe Account is connected
+              <%= link_to 'Disconnect', location_disconnect_stripe_path(@location), onclick: "return confirm('Are you sure to disconnect your account?')" %>
+            <% else %>
+              <%= link_to 'Stripe Connect',location_connect_stripe_path(@location), class: 'd-block' %>
+            <% end %>
+            <%= link_to 'Product Management', location_products_path(@location), class: 'd-block' %>
+          </div>
         <% end %>
       </div>
     </div>
@@ -342,7 +373,7 @@
           })
         });
       })
-      
+
       $('#location_neighborhood_id').on('change', function(event) {
         let neighborhoodSlug = event.target.value
         let url = neighborhoodSlug ? `/business/get_sub_neighborhoods_by_neighborhood?neighborhood_slug=${neighborhoodSlug}` : `/business/get_sub_neighborhoods_by_neighborhood`
@@ -407,7 +438,7 @@
   function isBlankLongitude() {
     return $("#location_longitude").val().trim().length === 0
   }
-  
+
   function resetProvince() {
     $('#location_province_id').find('option').remove();
     $('#location_province_id').append($('<option>', {

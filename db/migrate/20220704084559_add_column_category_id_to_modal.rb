@@ -1,4 +1,4 @@
-class AddColumnCategoryIdToModal < ActiveRecord::Migration
+class AddColumnCategoryIdToModal < ActiveRecord::Migration[7.0]
   def up
     add_column :events, :category_id, :integer
     add_column :media_attachments, :category_id, :integer

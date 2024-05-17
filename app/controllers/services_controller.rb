@@ -1,4 +1,5 @@
 class ServicesController < ApplicationController
+  before_action :load_location
   load_resource :location
   load_and_authorize_resource :service, through: [:location]
 
@@ -8,7 +9,7 @@ class ServicesController < ApplicationController
     @services = @location.services
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @services }
     end
   end
@@ -18,15 +19,15 @@ class ServicesController < ApplicationController
   def show
     @service = Service.find(params[:id])
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb @service.location.district.name, district_guide_path(@service.location.district) if @service.location.district
-    add_crumb @service.location.neighborhood.name if @service.location.neighborhood
-    add_crumb @service.location.broker.name, "#{@base_path}business/#{@service.location.broker.slug}" if @service.location.broker.present?
-    add_crumb @service.location.name, "#{@base_path}business/#{@service.location.slug}"
-    add_crumb @service.name
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb @service.location.district.name, district_guide_path(@service.location.district) if @service.location.district
+    add_breadcrumb @service.location.neighborhood.name if @service.location.neighborhood
+    add_breadcrumb @service.location.broker.name, "#{@base_path}business/#{@service.location.broker.slug}" if @service.location.broker.present?
+    add_breadcrumb @service.location.name, "#{@base_path}business/#{@service.location.slug}"
+    add_breadcrumb @service.name
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @service }
     end
   end
@@ -37,7 +38,7 @@ class ServicesController < ApplicationController
     @service = @location.services.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @service }
     end
   end
@@ -50,7 +51,7 @@ class ServicesController < ApplicationController
   # POST /services
   # POST /services.json
   def create
-    @service = @location.services.new(params[:service])
+    @service = @location.services.new(service_params)
 
     respond_to do |format|
       if @service.save
@@ -69,7 +70,7 @@ class ServicesController < ApplicationController
     @service = Service.find(params[:id])
 
     respond_to do |format|
-      if @service.update_attributes(params[:service])
+      if @service.update(service_params)
         format.html { redirect_to @location, notice: 'Service was successfully updated.' }
         format.json { head :no_content }
       else
@@ -89,5 +90,15 @@ class ServicesController < ApplicationController
       format.html { redirect_to location_services_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def service_params
+    params.require(:service).permit(:description, :name, :sku, :slug, :location_id, :image, :price)
+  end
+
+  def load_location
+    @location = Location.friendly.find(params[:location_id])
   end
 end

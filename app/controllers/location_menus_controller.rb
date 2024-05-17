@@ -1,4 +1,5 @@
 class LocationMenusController < ApplicationController
+  before_action :find_location, only: [:index, :create, :edit, :update, :show, :destroy]
   load_resource :location
   load_and_authorize_resource :location_menu, through: [:location]
 
@@ -15,7 +16,7 @@ class LocationMenusController < ApplicationController
   end
 
   def create
-    @location_menu = @location.location_menus.new(params[:location_menu])
+    @location_menu = @location.location_menus.new(location_menu_params)
 
     if @location_menu.save
       redirect_to @location, notice: 'Menu was successfully created.'      
@@ -27,7 +28,7 @@ class LocationMenusController < ApplicationController
   def update
     @location_menu = LocationMenu.find(params[:id])
 
-    if @location_menu.update_attributes(params[:location_menu])
+    if @location_menu.update(location_menu_params)
       redirect_to [@location, @location_menu], notice: 'Menu was successfully updated.'
     else
       render action: "edit"
@@ -37,5 +38,15 @@ class LocationMenusController < ApplicationController
   def destroy
     @location_menu.destroy
     redirect_to location_location_menus_url
+  end
+
+  private
+
+  def location_menu_params
+    params.require(:location_menu).permit(:caption, :location_id, :image)
+  end
+
+  def find_location
+    @location = Location.friendly.find(params[:location_id])
   end
 end

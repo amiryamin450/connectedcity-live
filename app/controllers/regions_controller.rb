@@ -7,7 +7,7 @@ class RegionsController < ApplicationController
     @regions = Region.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @regions }
     end
   end
@@ -18,7 +18,7 @@ class RegionsController < ApplicationController
     @region = Region.find_by_subdomain(request.subdomain)
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @region }
     end
   end
@@ -27,7 +27,7 @@ class RegionsController < ApplicationController
     layout = "community_guide"
     @region = Region.find_by_subdomain(request.subdomain)
     @sub_regions = @region.sub_regions
-    add_crumb "#{@region.name} Guide"
+    add_breadcrumb "#{@region.name} Guide"
   end
 
   # GET /regions/new
@@ -36,7 +36,7 @@ class RegionsController < ApplicationController
     @region = Region.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @region }
     end
   end
@@ -68,7 +68,7 @@ class RegionsController < ApplicationController
     @region = Region.find(params[:id])
 
     respond_to do |format|
-      if @region.update_attributes(params[:region])
+      if @region.update(params[:region])
         format.html { redirect_to @region, notice: 'Region was successfully updated.' }
         format.json { head :no_content }
       else
@@ -88,5 +88,11 @@ class RegionsController < ApplicationController
       format.html { redirect_to regions_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def region_params
+    params.require(:region).permit(:name, :region_code, :slug, :province_id, :show_in_menu, :subdomain)
   end
 end

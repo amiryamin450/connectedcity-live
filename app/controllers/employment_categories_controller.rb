@@ -1,12 +1,12 @@
 class EmploymentCategoriesController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource find_by: :slug
   # GET /employment_categories
   # GET /employment_categories.json
   def index
     @employment_categories = EmploymentCategory.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @employment_categories }
     end
   end
@@ -14,10 +14,10 @@ class EmploymentCategoriesController < ApplicationController
   # GET /employment_categories/1
   # GET /employment_categories/1.json
   def show
-    @employment_category = EmploymentCategory.find(params[:id])
+    # @employment_category = EmploymentCategory.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @employment_category }
     end
   end
@@ -28,14 +28,14 @@ class EmploymentCategoriesController < ApplicationController
     @employment_category = EmploymentCategory.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @employment_category }
     end
   end
 
   # GET /employment_categories/1/edit
   def edit
-    @employment_category = EmploymentCategory.find(params[:id])
+    # @employment_category = EmploymentCategory.find(params[:id])
   end
 
   # POST /employment_categories
@@ -57,10 +57,10 @@ class EmploymentCategoriesController < ApplicationController
   # PUT /employment_categories/1
   # PUT /employment_categories/1.json
   def update
-    @employment_category = EmploymentCategory.find(params[:id])
+    # @employment_category = EmploymentCategory.find(params[:id])
 
     respond_to do |format|
-      if @employment_category.update_attributes(params[:employment_category])
+      if @employment_category.update(params[:employment_category])
         format.html { redirect_to @employment_category, notice: 'Employment category was successfully updated.' }
         format.json { head :no_content }
       else
@@ -73,12 +73,18 @@ class EmploymentCategoriesController < ApplicationController
   # DELETE /employment_categories/1
   # DELETE /employment_categories/1.json
   def destroy
-    @employment_category = EmploymentCategory.find(params[:id])
+    # @employment_category = EmploymentCategory.find(params[:id])
     @employment_category.destroy
 
     respond_to do |format|
       format.html { redirect_to employment_categories_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def employment_category_params
+    params.require(:employment_category).permit(:heading_color, :name, :slug)
   end
 end

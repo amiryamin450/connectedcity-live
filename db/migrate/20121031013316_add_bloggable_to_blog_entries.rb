@@ -1,4 +1,4 @@
-class AddBloggableToBlogEntries < ActiveRecord::Migration
+class AddBloggableToBlogEntries < ActiveRecord::Migration[7.0]
   def change
     add_column :blog_entries, :bloggable_id, :integer
     add_column :blog_entries, :bloggable_type, :string

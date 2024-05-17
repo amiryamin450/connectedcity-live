@@ -8,7 +8,7 @@ module ClassifiedListingsHelper
   end
 
   def classified_condition(listing)
-    CLASSIFIED_CONDITION_OPTIONS.index(listing.condition)
+    CLASSIFIED_CONDITION_OPTIONS.key(listing.condition)
   end
 
 end

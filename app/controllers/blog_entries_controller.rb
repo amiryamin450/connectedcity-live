@@ -1,4 +1,5 @@
 class BlogEntriesController < ApplicationController
+  before_action :load_location, only: [:index, :new, :create, :update]
   load_resource :location
   load_and_authorize_resource :blog_entry, through: [:location]
 
@@ -8,7 +9,7 @@ class BlogEntriesController < ApplicationController
     @blog_entries = @location.blog_entries
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @blog_entries }
     end
   end
@@ -19,7 +20,7 @@ class BlogEntriesController < ApplicationController
     @blog_entry = BlogEntry.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @blog_entry }
     end
   end
@@ -29,7 +30,7 @@ class BlogEntriesController < ApplicationController
   def new
     @blog_entry = @location.blog_entries.new(user_id: current_user.id)
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @blog_entry }
     end
   end
@@ -42,7 +43,7 @@ class BlogEntriesController < ApplicationController
   # POST /blog_entries
   # POST /blog_entries.json
   def create
-    @blog_entry = @location.blog_entries.new(params[:blog_entry])
+    @blog_entry = @location.blog_entries.new(blog_entry_params)
 
     respond_to do |format|
       if @blog_entry.save
@@ -61,7 +62,7 @@ class BlogEntriesController < ApplicationController
     @blog_entry = BlogEntry.find(params[:id])
 
     respond_to do |format|
-      if @blog_entry.update_attributes(params[:blog_entry])
+      if @blog_entry.update_attributes(blog_entry_params)
         format.html { redirect_to [@location, @blog_entry], notice: 'Blog entry was successfully updated.' }
         format.json { head :no_content }
       else
@@ -83,4 +84,14 @@ class BlogEntriesController < ApplicationController
     end
   end
 
+  private
+
+  def load_location
+    id_param = params[:location_id].presence || params[:id]
+    @location = Location.unscoped.friendly.find(id_param)
+  end
+
+  def blog_entry_params
+    params.require(:blog_entry).permit(:content, :location_id, :title, :user_id, :slug, :image)
+  end
 end

@@ -1,31 +1,33 @@
 <div class="input-group-prepend user-dropdown dropleft dropdown-submenu">
-  <button class="btn dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/cc_2.0/icon/landing-page-user-icon.svg"> <i class="far fa-chevron-down"></i></button>
+  <button class="btn dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/cc_2.0/icon/landing-page-user-icon.svg"> <i class="far fa-chevron-down m-0 ml-sm-2"></i></button>
     <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenuButton">
       <li class="dropdown-submenu">
         <div  class="dropdown-item title" tabindex="-1">Account</div>
         <ul class="dropdown-menu">
-          <li class="dropdown-item" style="padding: 0px;"><%= link_to 'Edit Account', edit_user_registration_path , style: "display: block; padding: 0.25rem 1.5rem;"%></li>
-          <li class="dropdown-item"  style="padding: 0px;"><%= link_to 'My Classifieds', classified_listings_path, style: "display: block; padding: 0.25rem 1.5rem;" %></li>
-          <li class="dropdown-item"  style="padding: 0px;"><%= link_to 'My Coupons', coupons_user_path(current_user), style: "display: block; padding: 0.25rem 1.5rem;" %></li>
+          <li class="dropdown-item" style="padding: 0px;"><%= link_to 'My Profile', user_path(current_user, edit: true), class: "d-block text-decoration-none py-1 px-2 px-md-4" %></li>
+          <li class="dropdown-item" style="padding: 0px;"><%= link_to 'Edit Account', edit_user_registration_path, class: "d-block text-decoration-none py-1 px-2 px-md-4" %></li>
+          <li class="dropdown-item"  style="padding: 0px;"><%= link_to 'My Classifieds', classified_listings_path, class: "d-block text-decoration-none py-1 px-2 px-md-4" %></li>
+          <li class="dropdown-item"  style="padding: 0px;"><%= link_to 'My Coupons', coupons_user_path(current_user), class: "d-block text-decoration-none py-1 px-2 px-md-4" %></li>
           <% url = user_signed_in? ? cart_path(@cart) : new_user_session_path %>
-          <li class="dropdown-item"  style="padding: 0px;"><%= link_to 'My Cart', url, style: "display: block; padding: 0.25rem 1.5rem;" %></li>
+          <li class="dropdown-item"  style="padding: 0px;"><%= link_to 'My Cart', url, class: "d-block text-decoration-none py-1 px-2 px-md-4" %></li>
         </ul>
       </li>
       <li class="dropdown-submenu">
-        <div  class="dropdown-item title" tabindex="-1" href="#">Favorites</div>
+        <div  class="dropdown-item title" tabindex="-1" href=>
+          <%= link_to "Favorites", fav_link(), class: "text-decoration-none", tabindex: "-1" %>
+        </div>
         <ul class="dropdown-menu">
         <% @vertical_markets_all.each do |item| %>
-          <li class="dropdown-item" style="padding: 0px;"><a tabindex="-1" style="display: block; padding: 0.25rem 1.5rem;" href=<%= fav_link item %>><%= "#{item.name} #{fav_count item}" %></a></li>
+          <li class="dropdown-item p-0">
+            <%= link_to "#{item.name} #{fav_count item}", fav_link(item), class: "d-block text-decoration-none py-1 px-2 px-md-4", tabindex: "-1" %>
+          </li>
         <% end %>
         </ul>
       </li>
       <li class="dropdown-submenu">
-        <div  class="dropdown-item title" tabindex="-1" href="#">Messaging</div>
-        <ul class="dropdown-menu">
-          <li class="dropdown-item" style="padding: 0px;"><%= link_to 'Inbox', messages_path, style: "display: block; padding: 0.25rem 1.5rem;" %></li>
-          <li class="dropdown-item" style="padding: 0px;"><%= link_to 'Send items', messages_path(folder: 'sent'), style: "display: block; padding: 0.25rem 1.5rem;" %></li>
-          <li class="dropdown-item" style="padding: 0px;"><%= link_to 'Trash', messages_path(folder: 'trash'), style: "display: block; padding: 0.25rem 1.5rem;" %></li>
-        </ul>
+        <div  class="dropdown-item" tabindex="-1" href=>
+          <%= link_to "Messaging", messenger_path, class: "text-decoration-none", tabindex: "-1" %>
+        </div>
       </li>
       <% if user_signed_in? and current_user.has_role? :admin %>
         <% admin_list = [
@@ -48,7 +50,7 @@
           <ul class="dropdown-menu">
           <% admin_list.each do |item| %>
             <li class="dropdown-item" style="padding: 0px;">
-              <a tabindex="-1" style="display: block; padding: 0.25rem 1.5rem;" href=<%="#{item[:href]}"%>><%=item[:name]%></a></li>
+              <a tabindex="-1" class="d-block text-decoration-none py-1 px-2 px-md-4" href=<%="#{item[:href]}"%>><%=item[:name]%></a></li>
           <% end %>
           </ul>
         </li>
@@ -59,7 +61,7 @@
           <ul class="dropdown-menu">
           <% current_user.locations.each do |location| %>
             <li class="dropdown-item" style="padding: 0px;">
-              <%= link_to location.name, connected_advertiser_location_path(location), style: "display: block; padding: 0.25rem 1.5rem;" %>
+              <%= link_to location.name, connected_advertiser_location_path(location), class: "d-block text-decoration-none py-1 px-2 px-md-4" %>
             </li>
             <% end %>
           </ul>
@@ -67,6 +69,6 @@
       <% end %>
 
       <div role="separator" class="dropdown-divider"></div>
-      <%= link_to 'Logout', destroy_user_session_path, class: "dropdown-item", method: :delete, style: "display: block; padding: 0.25rem 1.5rem;" %>
+      <%= link_to 'Logout', destroy_user_session_path, class: "dropdown-item", method: :get, class: "d-block text-decoration-none py-1 ps-4 pe-2 pe-md-4" %>
     </ul>
 </div>

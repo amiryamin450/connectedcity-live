@@ -1,4 +1,4 @@
-class CreateClassifiedCategories < ActiveRecord::Migration
+class CreateClassifiedCategories < ActiveRecord::Migration[7.0]
   def change
     create_table :classified_categories do |t|
       t.string :name

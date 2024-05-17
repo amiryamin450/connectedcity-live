@@ -1,10 +1,10 @@
 class EmploymentListingsController < ApplicationController
   PER_PAGE = 20
 
+  before_action :set_location, only: [:index, :new]
   load_and_authorize_resource :location, except: [:guide]
-  before_filter :load_employment_listing, except: [:guide, :index, :new, :create]
+  before_action :load_employment_listing, except: [:guide, :index, :new, :create]
   load_and_authorize_resource :employment_listing, through: [:location], except: [:guide]
-
 
   # GET /employment_listings
   # GET /employment_listings.json
@@ -16,13 +16,12 @@ class EmploymentListingsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @employment_listings }
     end
   end
 
   def guide
-    # @employment_categories = EmploymentCategory.includes(:employment_listings).all
     @vertical_market = VerticalMarket.find_by_slug('employment-opportunities')
     @city = City.find(5915022)
     @carousel_images = @city.carousel_images
@@ -35,8 +34,6 @@ class EmploymentListingsController < ApplicationController
     @products = @city.products.limit(PER_PAGE)
     @coupons = @city.coupons.limit(PER_PAGE)
     @services = @city.services.limit(PER_PAGE)
-    # add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    # add_crumb 'Employment Opportunities'
     render layout: 'application_v_2'
   end
 
@@ -44,14 +41,14 @@ class EmploymentListingsController < ApplicationController
   # GET /employment_listings/1
   # GET /employment_listings/1.json
   def show
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, @base_path
-    add_crumb 'Employment Opportunities', employment_opportunity_url
-    add_crumb @employment_listing.employment_category.name, employment_category_path(@employment_listing.employment_category)
-    add_crumb @location.name, location_path(@location)
-    add_crumb @employment_listing.title
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, @base_path
+    add_breadcrumb 'Employment Opportunities', employment_opportunity_url
+    add_breadcrumb @employment_listing.employment_category.name, employment_category_path(@employment_listing.employment_category)
+    add_breadcrumb @location.name, location_path(@location)
+    add_breadcrumb @employment_listing.title
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @employment_listing }
     end
   end
@@ -62,7 +59,7 @@ class EmploymentListingsController < ApplicationController
     @employment_listing = @location.employment_listings.new(application_deadline: Time.now + 2.weeks)
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.json { render json: @employment_listing }
     end
   end
@@ -92,7 +89,7 @@ class EmploymentListingsController < ApplicationController
   # PUT /employment_listings/1.json
   def update
     respond_to do |format|
-      if @employment_listing.update_attributes(params[:employment_listing])
+      if @employment_listing.update(params[:employment_listing])
         format.html { redirect_to [@location, @employment_listing], notice: 'Employment listing was successfully updated.' }
         format.json { head :no_content }
       else
@@ -114,11 +111,22 @@ class EmploymentListingsController < ApplicationController
   end
 
   private
+
   def load_employment_listing
     if user_signed_in? && @location.user_ids.include?(current_user.id)
       @employment_listing = EmploymentListing.unscoped.where(location_id: @location.id).find(params[:id])
     else
       @employment_listing = @location.employment_listings.find params[:id]
     end
+  end
+
+  def employment_listing_params
+    params.require(:employment_listing).permit(:advantages, :application_deadline, :description, :locations, :number,
+      :number_of_positions, :qualifications, :title, :location_id, :employment_category_id,
+      :cover_photo)
+  end
+
+  def set_location
+    @location = Location.friendly.find(params[:location_id])
   end
 end

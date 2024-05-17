@@ -1,10 +1,12 @@
 class MediaAttachmentsController < ApplicationController
-
+  before_action :set_location, except: [:vonage_archive_callback, :get_vonage_token, :get_broadcast_token, :get_livestream_token]
   load_resource :location
   skip_load_resource :location, only: [:vonage_archive_callback, :get_vonage_token, :get_broadcast_token, :get_livestream_token]
   load_and_authorize_resource :media_attachment, through: [:location]
   skip_load_and_authorize_resource :media_attachment, only: [:vonage_archive_callback, :get_vonage_token, :get_broadcast_token, :get_livestream_token]
   PER_PAGE = 5
+
+  layout "application_v_2"
 
   def index
     @media_attachments = @location.media_attachments.order('created_at DESC').page(params[:page]).per(PER_PAGE)
@@ -13,13 +15,13 @@ class MediaAttachmentsController < ApplicationController
   def show
     @other_media = @location.media_attachments.order("created_at ASC").all - [@media_attachment]
 
-    @vertical_market = @location.vertical_market_categories.first.vertical_market
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, @base_path
-    add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
-    # add_crumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
-    add_crumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
-    add_crumb @location.name, location_path(@location)
-    add_crumb 'Media'
+    @vertical_market = @location.vertical_market_categories&.first&.vertical_market
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, @base_path
+    add_breadcrumb @vertical_market&.name, "#{@base_path}guide/#{@vertical_market&.slug}"
+
+    add_breadcrumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
+    add_breadcrumb @location.name, location_path(@location)
+    add_breadcrumb 'Media'
 
   end
 
@@ -27,29 +29,41 @@ class MediaAttachmentsController < ApplicationController
     @is_location_normal = @location.hall_id.blank? && @location.councillor_id.blank? && @location.commissioner_id.blank?
     @is_municipality = !@is_location_normal || @location.slug === 'city-of-vancouver'
     @vertical_market = @location.vertical_market_categories.first.vertical_market if @location.vertical_market_categories.size > 0
-    if [164, 174].include?(@vertical_market.id)
+    if [164, 174].include?(@vertical_market&.id)
       names = @vertical_market.id === 164 ? 'Provincial Updates' : 'Federal Updates'
       @categories_news = Category.where(name: names)
     end
     @media_attachment = @location.media_attachments.new
+
+    render layout: 'application_v_2'
+  end
+
+  def new_youtube_video
+    @media_attachment = @location.media_attachments.new
+
+    render layout: 'application_v_2'
   end
 
   def edit
   end
 
   def create
-    @media_attachment = @location.media_attachments.new(params[:media_attachment])
+    @media_attachment = @location.media_attachments.new(media_attachment_params)
     if @media_attachment.save
-      @media_attachment.update_attribute(:is_draft, true)
+      if @media_attachment.youtube_source?
+        redirect_to location_media_attachment_path(@location, @media_attachment)
+      else
+        @media_attachment.update_attribute(:is_draft, true)
 
-      render action: :preview
+        render action: :preview
+      end      
     else
       render action: :new
     end
   end
 
   def update
-    if @media_attachment.update_attributes(params[:media_attachment])
+    if @media_attachment.update(media_attachment_params)
       @media_attachment.update_attribute(:is_draft, false)
       redirect_to [@location, @media_attachment], notice: 'Media Attachment was successfully updated.'
     else
@@ -91,9 +105,9 @@ class MediaAttachmentsController < ApplicationController
           video.thumbnail = params[:thumbnail]
           video.save
         end
-        render nothing: true, status: :created
+        head :created
       else
-        render nothing: true, status: :unprocessable_entity
+        head :unprocessable_entity
       end
     else
       render json: {msg: "Failed to connect to OpenTok"}, status: :error
@@ -137,7 +151,7 @@ class MediaAttachmentsController < ApplicationController
         )
         render json: {broadcast_id: broadcast.id, archive_id: archive.id}, status: :ok
       else
-        render nothing: true, status: :unprocessable_entity
+        head :unprocessable_entity
       end
     else
       render json: {msg: "Failed to connect to OpenTok"}, status: :error
@@ -149,7 +163,7 @@ class MediaAttachmentsController < ApplicationController
     video = Video.find_by_broadcast_id(params[:broadcast_id])
     if video.present?
       archive = vonage.stop_archive({archive_id: video.archive_id})
-      video.update_attributes(status: 'stopped', livestream: false)
+      video.update(status: 'stopped', livestream: false)
     end
     render json: {broadcast: broadcast.to_json}, status: :ok
   end
@@ -164,7 +178,7 @@ class MediaAttachmentsController < ApplicationController
         video.update_attribute(:video_url, url)
       end
     end
-    render nothing: true, status: :ok
+    head :ok
   end
 
   def get_vonage_token
@@ -186,5 +200,15 @@ class MediaAttachmentsController < ApplicationController
 
   def vonage
     @vonage ||= VonageService.new
+  end
+
+  private
+
+  def set_location
+    @location ||= Location.unscoped.friendly.find(params[:location_id])
+  end
+
+  def media_attachment_params
+    params.require(:media_attachment).permit(:attachable_id, :attachable_type, :attachment, :attachment_html, :title, :thumb_url, :media_source_id, :media_source, :is_stream_video, :archive_id, :session_id, :description, :is_draft, :category_id, :latitude, :longitude)
   end
 end

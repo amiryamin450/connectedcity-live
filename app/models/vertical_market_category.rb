@@ -1,22 +1,18 @@
-class VerticalMarketCategory < ActiveRecord::Base
+class VerticalMarketCategory < ApplicationRecord
   paginates_per 15
   extend FriendlyId
   belongs_to :vertical_market
 
   has_and_belongs_to_many :locations
-  has_many :status_updates,     :through => :locations, uniq: true
-  has_many :media_attachments,  :through => :locations, uniq: true
-  has_many :coupons,            :through => :locations, uniq: true
-  has_many :products,           :through => :locations, uniq: true
-  has_many :services,           :through => :locations, uniq: true
-  has_many :events,             :through => :locations, uniq: true
-  has_many :news_articles,      :through => :locations, uniq: true
-  has_many :blog_entries,       :through => :locations, uniq: true
+  has_many :status_updates, -> { distinct },     through: :locations
+  has_many :media_attachments, -> { distinct },  through: :locations
+  has_many :coupons, -> { distinct },            through: :locations
+  has_many :products, -> { distinct },           through: :locations
+  has_many :services, -> { distinct },           through: :locations
+  has_many :events, -> { distinct },             through: :locations
+  has_many :news_articles, -> { distinct },      through: :locations
+  has_many :blog_entries, -> { distinct },       through: :locations
 
-  # This is actually broken in MySQL 5.7
-  # default_scope order('vertical_market_categories.name')
-
-  attr_accessible :description, :name, :slug, :vertical_market_id, :default_logo, :search_term
   friendly_id :name, use: [:slugged, :history]
 
   has_attached_file :default_logo, :styles => {:thumb => "70x55", :list => "168x80"},
@@ -29,6 +25,10 @@ class VerticalMarketCategory < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :vertical_market_id, :message => 'Please Select a Vertical Market.'
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["created_at", "default_logo_content_type", "default_logo_file_name", "default_logo_file_size", "default_logo_updated_at", "description", "id", "name", "search_term", "slug", "updated_at", "vertical_market_id"]
+  end
+
   def get_locations(city = nil, district = nil, neighborhood = nil, options={})
     result = locations.order("logo_updated_at DESC").order("name ASC").limit(20)
     result = result.where('locations.city_id = 5915022')
@@ -37,16 +37,15 @@ class VerticalMarketCategory < ActiveRecord::Base
     result
   end
 
-
   def get_locations_paged(municipality = nil, city = nil, district = nil, neighborhood = nil, sub_neighborhood = nil, page = 0, bia = nil)
-    result = locations.order("IF(logo_file_name IS NULL, 0, 1) DESC").order("updated_at DESC").order("name ASC")
+    result = locations.order(Arel.sql("IF(logo_file_name IS NULL, 0, 1) DESC")).order("updated_at DESC").order("name ASC")
     result = result.where('locations.municipality_id = ?', municipality.id) if municipality.present?
     result = result.where('locations.city_id = ?', city.id) if city.present?
-    # result = result.where(business_improvement_area_id: bia.id) if bia.present?
+
     result = result.where('locations.district_id = ?', district.id) if district.present?
     result = result.where('locations.neighborhood_id = ?', neighborhood.id) if neighborhood.present?
     result = result.where('locations.sub_neighborhood_id = ?', sub_neighborhood.id) if sub_neighborhood.present?
-    # result = result.where
+
     result.page(page).per(DEFAULT_PER_PAGE)
   end
 

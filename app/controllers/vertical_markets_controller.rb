@@ -1,11 +1,13 @@
 class VerticalMarketsController < ApplicationController
   layout :resolve_layout
+  load_and_authorize_resource find_by: :slug, only: [:edit, :update, :show, :destroy]
   load_and_authorize_resource except: [:search, :guide]
 
   def resolve_layout
     case action_name
     when "guide", "search"
-      "community_guide"
+      # "community_guide"
+      "application_v_2"
     else
       "application"
     end
@@ -18,7 +20,7 @@ class VerticalMarketsController < ApplicationController
     @test = VerticalMarket.roots
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @vertical_markets }
     end
   end
@@ -26,10 +28,10 @@ class VerticalMarketsController < ApplicationController
   # GET /vertical_markets/1
   # GET /vertical_markets/1.json
   def show
-    @vertical_market = VerticalMarket.find(params[:id])
+    # @vertical_market = VerticalMarket.friendly.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @vertical_market }
     end
   end
@@ -39,9 +41,9 @@ class VerticalMarketsController < ApplicationController
   # Pretty sure it was named guide because its creator is out of ideas and obviously, it guide the instance variables @abc to the right values ...sneer... -Tom Tran
   def guide
     market_param = params[:market] === 'news' ? 'civic-news' : params[:market]
-    @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).find(market_param)
+    @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).friendly.find(market_param)
 
-        # init_category_values
+    # init_category_values
     if params[:market] === 'news'
       districts
       neighborhoods
@@ -52,6 +54,7 @@ class VerticalMarketsController < ApplicationController
       events_temp = []
       news_temp = []
       status_updates_temp = []
+
       locations_of_civic_news(params[:municipality_slug], params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each_with_index do |i, idx|
         media_filter = i.media_attachments
         events_filter = i.events
@@ -91,6 +94,7 @@ class VerticalMarketsController < ApplicationController
       neighborhood_slug = params[:neighborhood_slug]
       @neighborhood = neighborhood_slug ? Neighborhood.find_by_slug(neighborhood_slug) : nil
       @sub_neighborhood = params[:sub_neighborhood_slug] ? @neighborhood.sub_neighborhoods.find_by_slug(params[:sub_neighborhood_slug]) : nil
+
       if params[:city_slug] || district_slug || neighborhood_slug || params[:sub_neighborhood_slug]
         @municipality_of_city = @city.municipality
         @region_of_city = @municipality_of_city.region
@@ -110,7 +114,8 @@ class VerticalMarketsController < ApplicationController
       categories_without_municipality
       case @vertical_market.id
       when 1
-        @auto_listings = AutomotiveListing.limit(SEE_MORE_LIMIT)
+        @auto_listings = AutomotiveListing.ransack(title_or_make_or_description_cont: params[:search]).result.limit(SEE_MORE_LIMIT) if params[:search].present?
+        @auto_listings = AutomotiveListing.limit(SEE_MORE_LIMIT) unless @auto_listings.present?
       when 17
         if @municipality.present?
           city_ids = @municipality.cities.pluck(:id)
@@ -168,27 +173,27 @@ class VerticalMarketsController < ApplicationController
         @markers = @auto_listings.values.flatten.map(&:location)
       end
 
-      add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-      add_crumb @district.name, district_guide_path(@district) if @district
-      add_crumb @neighborhood.name if @neighborhood
-      add_crumb @sub_neigborhood.name if @sub_neigborhood
+      add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+      add_breadcrumb @district.name, district_guide_path(@district) if @district
+      add_breadcrumb @neighborhood.name if @neighborhood
+      add_breadcrumb @sub_neigborhood.name if @sub_neigborhood
 
       @vertical_market.ancestors.each do |ancestor|
-        add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
+        add_breadcrumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
       end
 
       @vertical_market.ancestors.each do |ancestor|
-        add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
+        add_breadcrumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
       end
 
-      add_crumb "#{@vertical_market.name} Guide"
+      add_breadcrumb "#{@vertical_market.name} Guide"
     end
     render layout: "application_v_2"
   end
 
   def search
     vm = nil
-    vm = VerticalMarket.find(params[:market]) if params[:market].present?
+    vm = VerticalMarket.find(params[:market_id]) if params[:market_id].present?
     @municipality = municipality = Municipality.find_by_slug(params[:municipality_slug]) if params[:municipality_slug]
     @city = city  = City.find_by_slug(params[:city_slug]) if params[:city_slug].present?
     @district = district = District.find_by_slug(params[:district_slug]) if params[:district_slug].present?
@@ -217,18 +222,18 @@ class VerticalMarketsController < ApplicationController
     end
 
     @results = @search.results
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb @district.name, district_guide_path(@district) if @district
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb @district.name, district_guide_path(@district) if @district
 
     if @vertical_market.present?
       @vertical_market.ancestors.each do |ancestor|
-        add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
+        add_breadcrumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
       end
     end
 
-    add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}" if @vertical_market
+    add_breadcrumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}" if @vertical_market
 
-    add_crumb 'Search Results'
+    add_breadcrumb 'Search Results'
   end
 
   # GET /vertical_markets/new
@@ -238,21 +243,21 @@ class VerticalMarketsController < ApplicationController
     #@vertical_markets = VerticalMarket.arrange_as_array(:order => 'name', @vertical_market.possible_parents)
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @vertical_market }
     end
   end
 
   # GET /vertical_markets/1/edit
   def edit
-    @vertical_market = VerticalMarket.find(params[:id])
+    # @vertical_market = VerticalMarket.find(params[:id])
     #@vertical_markets = VerticalMarket.arrange_as_array(:order => 'name', @vertical_market.possible_parents)
   end
 
   # POST /vertical_markets
   # POST /vertical_markets.json
   def create
-    @vertical_market = VerticalMarket.new(params[:vertical_market])
+    @vertical_market = VerticalMarket.new(vertical_market_params)
 
     respond_to do |format|
       if @vertical_market.save
@@ -268,10 +273,10 @@ class VerticalMarketsController < ApplicationController
   # PUT /vertical_markets/1
   # PUT /vertical_markets/1.json
   def update
-    @vertical_market = VerticalMarket.find(params[:id])
+    # @vertical_market = VerticalMarket.find(params[:id])
 
     respond_to do |format|
-      if @vertical_market.update_attributes(params[:vertical_market])
+      if @vertical_market.update(vertical_market_params)
         format.html { redirect_to @vertical_market, notice: 'Vertical market was successfully updated.' }
         format.json { head :no_content }
       else
@@ -284,7 +289,7 @@ class VerticalMarketsController < ApplicationController
   # DELETE /vertical_markets/1
   # DELETE /vertical_markets/1.json
   def destroy
-    @vertical_market = VerticalMarket.find(params[:id])
+    # @vertical_market = VerticalMarket.find(params[:id])
     @vertical_market.destroy
 
     respond_to do |format|
@@ -294,9 +299,7 @@ class VerticalMarketsController < ApplicationController
   end
 
   def get_rental_unit_styles
-	[
-	  'Condominiums', 'Houses', 'Townhomes'
-	]
+	  ['Condominiums', 'Houses', 'Townhomes']
   end
 
   def categories_without_municipality
@@ -398,5 +401,11 @@ class VerticalMarketsController < ApplicationController
     
     result_locations += other_results
     @locations_of_civic_news ||= result_locations
+  end
+
+  private
+
+  def vertical_market_params
+    params.require(:vertical_market).permit(:description, :name, :slug, :parent_id)
   end
 end

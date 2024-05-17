@@ -4,9 +4,9 @@ class VideosController < ApplicationController
     @video = Video.find_by_id(params[:id])
     media_attachment = @video.media_attachment
 
-    if params[:video][:media_attachment_attributes].present?
-      media_attachment.update_attributes(params[:video][:media_attachment_attributes])
-      media_attachment.update_attribute(:is_draft, false)
+    if media_attachment_params.present?
+      params[:video][:media_attachment_attributes][:is_draft] = false
+      media_attachment.update(media_attachment_params)
     end
 
     location = media_attachment.location
@@ -18,7 +18,7 @@ class VideosController < ApplicationController
     cmd = "ffmpeg -i '#{@video.video_url}' -c copy -an #{Rails.root}/public/archive.mp4"
     system( cmd )
     upload_video_to_s3
-    render nothing: true, status: :ok
+    head :ok
   end
 
   def upload_audio
@@ -27,7 +27,7 @@ class VideosController < ApplicationController
     system( cmd )
     upload_video_to_s3
 
-    render nothing: true, status: :ok
+    head :ok
   end
 
   def upload_thumbnail
@@ -35,14 +35,14 @@ class VideosController < ApplicationController
     @video.thumbnail = params[:file]
     @video.save
 
-    render nothing: true, status: :ok
+    head :ok
   end
 
   def update_media_attachment
     video = Video.find_by_id(params[:video_id])
     media_attachment = video.media_attachment
-    media_attachment.update_attributes(JSON.parse(params[:media_attachment]))
-    render nothing: true, status: :ok
+    media_attachment.update(JSON.parse(params[:media_attachment]))
+    head :ok
   end
 
   def check_video_url
@@ -87,6 +87,8 @@ class VideosController < ApplicationController
 
   def show
     @video = Video.find_by_id(params[:id])
+
+    render layout: 'application_v_2'
   end
 
   def destroy
@@ -99,6 +101,7 @@ class VideosController < ApplicationController
   end
 
   private
+
   def upload_video_to_s3
     file = File.open("#{Rails.root}/public/archive.mp4")
     if file.present?
@@ -107,5 +110,13 @@ class VideosController < ApplicationController
       obj = bucket.objects["#{ENV['VONAGE_API_KEY']}/#{@video.archive_id}/archive.mp4"].write(file, content_type: "video/mp4")
       File.delete(file)
     end
+  end
+
+  def video_params
+    params.require(:video).permit(media_attachment_attributes: {})
+  end
+
+  def media_attachment_params
+    video_params.require(:media_attachment_attributes).permit(:title, :description, :is_draft)
   end
 end

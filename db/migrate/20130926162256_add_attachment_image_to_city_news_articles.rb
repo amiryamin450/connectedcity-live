@@ -1,4 +1,4 @@
-class AddAttachmentImageToCityNewsArticles < ActiveRecord::Migration
+class AddAttachmentImageToCityNewsArticles < ActiveRecord::Migration[7.0]
   def self.up
     change_table :city_news_articles do |t|
       t.attachment :image

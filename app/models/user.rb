@@ -1,7 +1,9 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
+  paginates_per 100
   rolify
 
   acts_as_messageable
+  acts_as_google_authenticated issuer: 'ConnectedCity'
 
   has_one :cart, dependent: :destroy
   has_many :locations
@@ -20,12 +22,9 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable,
          omniauth_providers: [:facebook]
 
-  # Setup accessible (or protected) attributes for your model
-  # attr_accessible :role_ids, :as => :admin
-  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me
-
   validates :first_name, presence: true, unless: ->(u) { u.persisted? && u.first_name_changed? }
   validates :last_name, presence: true, unless: ->(u) { u.persisted? && u.last_name_changed? }
+  validates :phone_number, presence: true, on: :create
 
   rolify after_add: ->(u,_){ u.touch }, after_remove: ->(u,_){ u.touch }
 
@@ -96,4 +95,24 @@ class User < ActiveRecord::Base
     end
   end
 
+  def build_qr_code
+    self.set_google_secret
+    self.google_qr_uri
+  end
+
+  def profile
+    location = Location.unscoped.where(email: email, is_profile: true).first
+    unless location
+      slug = name.presence || email.presence
+      location = Location.new
+      location.slug = slug.parameterize('-')
+      location.is_profile = true
+      location.content = ''
+      location.name = slug
+      location.email = email
+      location.vertical_market_categories << VerticalMarketCategory.find_by_slug('connectedcitizen')    
+      location.save 
+    end
+    location
+  end
 end

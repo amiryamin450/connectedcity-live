@@ -1,4 +1,4 @@
-class AddAttachmentCoverPhotoToRentalUnits < ActiveRecord::Migration
+class AddAttachmentCoverPhotoToRentalUnits < ActiveRecord::Migration[7.0]
   def self.up
     change_table :rental_units do |t|
       t.attachment :cover_photo

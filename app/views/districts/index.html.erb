@@ -14,7 +14,7 @@
   <% @districts.each do |district| %>
   <tr>
     <td><%= district.name %></td>
-    <td><%= district.city.name %></td>
+    <td><%= district.city&.name %></td>
     <td><%= district.slug %></td>
     <td><%= district.created_at.to_s(:short) %></td>
     <td>

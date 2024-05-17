@@ -1,18 +1,24 @@
 <div id="sidebar-shortcuts">
-  <a href="#" class="menu-toggle"><i class="icon-chevron-sign-left"></i><!--<span>Menu</span>--></a>
+  <a href="#" class="menu-toggle">
+    <%= fa_icon 'chevron-circle-left' %>
+  </a>
 </div>
+
 <div id="sidebar-shortcuts-mini">
-  <a href="#" class="menu-toggle"><i class="icon-chevron-sign-right"></i></a>
+  <a href="#" class="menu-toggle">
+    <%= fa_icon 'chevron-circle-right' %>
+  </a>
 </div>
+
 <ul class="nav nav-list">
   <li>
     <a href="#" data-toggle="user-sidebar" class="dropdown-toggle">
-      <i class="icon-user"></i>
+      <%= fa_icon 'user' %>
       <span>Account</span>
-      <b class="arrow icon-angle-right"></b>
+      <%= fa_icon 'angle-right' %>
     </a>
-    <ul class="submenu hide" id="user-sidebar">
 
+    <ul class="submenu hide" id="user-sidebar">
       <% if user_signed_in? %>
         <li> <%= link_to '<i class="icon-pencil"></i> Edit account'.html_safe, edit_user_registration_path %> </li>
         <li><%= link_to '<i class="icon-list"></i> My Classifieds'.html_safe, classified_listings_path %></li>
@@ -22,156 +28,154 @@
         <li><%= link_to 'Login', new_user_session_path %> </li>
         <li> <%= link_to 'Sign up', new_user_registration_path %></li>
       <% end %>
-
     </ul>
 
   </li>
 
   <li>
     <a href="#" data-toggle="favorites" class="dropdown-toggle" >
-      <i class="icon-star"></i>
+      <%= fa_icon 'star' %>
       <span>Favorites</span>
-      <b class="arrow icon-angle-right"></b>
+      <%= fa_icon 'angle-right' %>
     </a>
     <ul class="submenu hide" id="favorites">
       <%= render 'favorites' %>
     </ul>
   </li>
 
-<% if user_signed_in? %>
-<li>
-  <a href="#" data-toggle="messaging" class="dropdown-toggle">
-    <i class="icon-envelope"></i>
-    <span>Messaging</span>
-    <b class="arrow icon-angle-right"></b>
-  </a>
-  <ul class="submenu hide" id="messaging">
+  <% if user_signed_in? %>
     <li>
-      <%= link_to messages_path do %>
-        <i class="icon-envelope"></i>
-        <span><%= t "messages.inbox" %></span>
-      <% end %>
-    </li>
-    <% ["sent", "trash"].each do |folder| %>
-      <li>
-        <%= link_to messages_path(folder: folder) do %>
-          <i class="icon-envelope"></i>
-          <span><%= t "messaging.#{folder}" %></span>
+      <a href="#" data-toggle="messaging" class="dropdown-toggle">
+        <%= fa_icon 'envelope' %>
+        <span>Messaging</span>
+        <%= fa_icon 'angle-right' %>
+      </a>
+      <ul class="submenu hide" id="messaging">
+        <li>
+          <%= link_to messages_path do %>
+            <%= fa_icon 'envelope' %>
+            <span><%= t "messages.inbox" %></span>
+          <% end %>
+        </li>
+        <% ["sent", "trash"].each do |folder| %>
+          <li>
+            <%= link_to messages_path(folder: folder) do %>
+              <%= fa_icon 'envelope' %>
+              <span><%= t "messaging.#{folder}" %></span>
+            <% end %>
+          </li>
         <% end %>
-      </li>
-    <% end %>
-  </ul>
-</li>
-<% end %>
+      </ul>
+    </li>
+  <% end %>
 
-<% if user_signed_in? and current_user.has_role? :admin %>
-<li>
-   <a href="#" data-toggle="admin" class="dropdown-toggle" >
-      <i class="icon-gears"></i>
-      <span>Admin</span>
-      <b class="arrow icon-angle-right"></b>
-    </a>
-    <ul class="submenu hide" id="admin">
+  <% if user_signed_in? and current_user.has_role? :admin %>
+    <li>
+      <a href="#" data-toggle="admin" class="dropdown-toggle" >
+          <%= fa_icon 'gears' %>
+          <span>Admin</span>
+          <%= fa_icon 'angle-right' %>
+        </a>
+        <ul class="submenu hide" id="admin">
 
-      <li class="">
-        <a href="/vertical_markets">
-          <i class="icon-cog"></i>
-          <span>Vertical Markets</span>
-        </a>
-      </li>
-      <li class="">
-        <a href="/vertical_market_categories">
-          <i class="icon-tags"></i>
-          <span>Vertical Market Categories</span>
-        </a>
-      </li>
-      <li class="">
-        <a href="/city_news_categories">
-          <i class="icon-globe"></i>
-          <span>City News Categories</span>
-        </a>
-      </li>
-      <li class="">
-        <a href="/city-news">
-          <i class="icon-globe"></i>
-          <span>Manage City News</span>
-        </a>
-      </li>
-      <li class="">
-        <a href="/classified_categories">
-          <i class="icon-globe"></i>
-          <span>Classified Categories</span>
-        </a>
-      </li>
-      <li class="">
-        <a href="/employment_categories">
-          <i class="icon-globe"></i>
-          <span>Employment Categories</span>
-        </a>
-      </li>
-      <li class="">
-        <a href="/brands">
-          <i class="icon-globe"></i>
-          <span>Brand Management</span>
-        </a>
-      </li>
-      <li class="">
-        <a href="/districts">
-          <i class="icon-globe"></i>
-          <span>Districts</span>
-        </a>
-      </li>
-      <li class="">
-        <a href="/neighbourhoods">
-          <i class="icon-home"></i>
-          <span>BIA Management</span>
-        </a>
-      </li>
-      <li class="">
-        <a href="/trade_associations">
-          <i class="icon-home"></i>
-          <span>Trade Associations</span>
-        </a>
-      </li>
-      <li class="">
-        <a href="/business">
-          <i class="icon-home"></i>
-          <span>Businesses</span>
-        </a>
-      </li>
-      <li class="">
-        <a href="/business/new">
-          <i class="icon-plus"></i>
-          <span>Add Business</span>
-        </a>
-      </li>
-      <li class="">
-        <a href="/user">
-          <i class="icon-user"></i>
-          <span>Users</span>
-        </a>
-      </li>
-    </ul>
-</li>
-<% end %>
+          <li class="">
+            <a href="/vertical_markets">
+              <i class="icon-cog"></i>
+              <span>Vertical Markets</span>
+            </a>
+          </li>
+          <li class="">
+            <a href="/vertical_market_categories">
+              <i class="icon-tags"></i>
+              <span>Vertical Market Categories</span>
+            </a>
+          </li>
+          <li class="">
+            <a href="/city_news_categories">
+              <i class="icon-globe"></i>
+              <span>City News Categories</span>
+            </a>
+          </li>
+          <li class="">
+            <a href="/city-news">
+              <i class="icon-globe"></i>
+              <span>Manage City News</span>
+            </a>
+          </li>
+          <li class="">
+            <a href="/classified_categories">
+              <i class="icon-globe"></i>
+              <span>Classified Categories</span>
+            </a>
+          </li>
+          <li class="">
+            <a href="/employment_categories">
+              <i class="icon-globe"></i>
+              <span>Employment Categories</span>
+            </a>
+          </li>
+          <li class="">
+            <a href="/brands">
+              <i class="icon-globe"></i>
+              <span>Brand Management</span>
+            </a>
+          </li>
+          <li class="">
+            <a href="/districts">
+              <i class="icon-globe"></i>
+              <span>Districts</span>
+            </a>
+          </li>
+          <li class="">
+            <a href="/neighbourhoods">
+              <i class="icon-home"></i>
+              <span>BIA Management</span>
+            </a>
+          </li>
+          <li class="">
+            <a href="/trade_associations">
+              <i class="icon-home"></i>
+              <span>Trade Associations</span>
+            </a>
+          </li>
+          <li class="">
+            <a href="/business">
+              <i class="icon-home"></i>
+              <span>Businesses</span>
+            </a>
+          </li>
+          <li class="">
+            <a href="/business/new">
+              <i class="icon-plus"></i>
+              <span>Add Business</span>
+            </a>
+          </li>
+          <li class="">
+            <a href="/user">
+              <%= fa_icon 'user' %>
+              <span>Users</span>
+            </a>
+          </li>
+        </ul>
+    </li>
+  <% end %>
 
-<% if user_signed_in? and current_user.has_locations? %>
-<li>
-   <a href="#" data-toggle="locations" class="dropdown-toggle" >
-      <i class="icon-bookmark"></i>
-      <span>My Locations</span>
-      <b class="arrow icon-angle-right"></b>
-    </a>
-    <ul class="submenu hide" id="locations">
-      <% current_user.locations.each do |location| %>
-      <li class="">
+  <% if user_signed_in? and current_user.has_locations? %>
+    <li>
+      <a href="#" data-toggle="locations" class="dropdown-toggle" >
+          <%= fa_icon "bookmark" %>
+          <span>My Locations</span>
+          <%= fa_icon 'angle-right' %>
+        </a>
+        <ul class="submenu hide" id="locations">
+          <% current_user.locations.each do |location| %>
+          <li class="">
 
-        <%= link_to location.name, connected_advertiser_location_path(location) %>
+            <%= link_to location.name, connected_advertiser_location_path(location) %>
 
-      </li>
-      <% end -%>
-    </ul>
-</li>
-<% end %>
-
+          </li>
+          <% end -%>
+        </ul>
+    </li>
+  <% end %>
 </ul>

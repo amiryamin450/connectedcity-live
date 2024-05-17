@@ -1,8 +1,6 @@
 Connectbook::Application.routes.draw do
-
   resources :home do
     collection do
-      # get :city_landing
       get :get_regions
       get :get_municipalities
       get :get_cities
@@ -10,32 +8,31 @@ Connectbook::Application.routes.draw do
       get :get_neighborhoods
       get :get_sub_neighborhood
       get :get_sub_neighborhoods
-      
     end
   end
 
-  # devise_for :users, controllers: {
-  #   omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations",
-  # }
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations", confirmations: "confirmations", sessions: "sessions" }
 
-  devise_for :users, controllers: {
-    omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations",
-  } do
+  devise_scope :user do
     get 'business_sign_up', :to => 'devise/registrations#new', as: :business_sign_up
     get '/users/sign_out' => 'devise/sessions#destroy'
+    post :verify_two_factor, to: 'sessions#verify_two_factor'
+    post :request_reset_2fa_code, to: 'sessions#request_reset_2fa_code'
+    get 'reset_2fa_code/:id', to: 'sessions#reset_2fa_code'
   end
 
-  # devise_scope :user do
-  #   get '/login' => 'devise/sessions#new'
-  #   get '/logout' => 'devise/sessions#destroy'
-  # end
-
   resources :line_items
+
   resources :carts do
     member do
       post :clear
+      get  :checkout_successful
     end
+
+    post :checkout, on: :collection
   end
+
+  resources :orders, only: [:index, :show, :update]
 
   # Routes that require authentication.
   authenticate :user do
@@ -47,17 +44,14 @@ Connectbook::Application.routes.draw do
 
     resources :classified_images, only: [:destroy]
     resources :classified_listings, except: [:index, :show]
-    resources :favorites, only: [:create, :destroy]
+    resources :favorites, only: [:create, :destroy] do
+      post :user_follow, on: :collection
+    end
     resources :location_images, only: [:destroy]
     resources :product_images, only: [:destroy, :new, :create] do
       collection do
         post :upload_images
       end
-    end
-
-    resources :business_improvement_areas, path: 'neighbourhoods', except: [:show] do
-      resources :messages, only: [:new, :create]
-      resources :carousel_images, defaults: { carouselable: 'business_improvement_area' }
     end
 
     resources :coupons, only: [] do
@@ -70,34 +64,45 @@ Connectbook::Application.routes.draw do
       resources :carousel_images, defaults: { carouselable: 'district' }
     end
 
+    get "business/new", to: "locations#new"
+
+    #############################################
     resources :locations, path: 'business', as: :locations, only: [:edit, :update] do
       resources :automotive_listings, except: [:show]
       resources :blog_entries, path: 'blog', except: [:show]
       resources :coupons, except: [:show]
       resources :employment_listings, except: [:show]
       resources :events, except: [:show]
-      resources :media_attachments, only: [:new, :create, :index, :destroy]
+      resources :media_attachments, only: [:new, :create, :index, :destroy] do
+        collection do
+          get :new_youtube_video
+        end
+      end
       resources :location_menus, except: [:show]
       resources :news_articles, path: 'news', except: [:show]
+
       resources :new_home_communities, except: [:show] do
         resources :status_updates, only: [] do
           member do
-            delete "destroy_status_update", to: "new_home_communities#destroy_status_update", as: "", path: ""
+            delete "destroy_status_update", controller: "new_home_communities", as: ''
           end
         end
       end
+
       resources :rental_properties, except: [:show] do
         resources :status_updates, only: [] do
           member do
-            delete "destroy_status_update", to: "rental_properties#destroy_status_update", as: "", path: ""
+            delete "destroy_status_update", controller: "rental_properties", as: ''
           end
         end
       end
+
       resources :products, except: [:show] do
         collection do
           get 'specific/:category_id' => 'products#specific', as: :specific
         end
       end
+
       resources :services, except: [:show]
       resources :real_estate_listings, path: 'listings', except: [:show]
       resources :status_updates, path: 'status-updates', only: [:index, :new, :create, :destroy]
@@ -109,16 +114,14 @@ Connectbook::Application.routes.draw do
       end
 
       member do
-        with_options constraints: ->(request) { Location.find(request.params[:id]).user_ids.empty? } do
-          get 'claim', action: :claim, as: :claim
-          put 'claim', action: :claim_process
-        end
+        get 'claim', action: :claim, as: :claim
+        put 'claim', action: :claim_process
         get 'release', action: :release, as: :release
         get :connected_advertiser, as: :connected_advertiser
       end
 
+
       resources :social_profiles, path: "social-profiles", only: [:index, :destroy] do
-        # eg. social_profiles/new/action
         new do
           get ":social_network" => :new, as: ""
         end
@@ -129,6 +132,7 @@ Connectbook::Application.routes.draw do
         end
       end
     end
+    #############################################
 
     resources :new_home_communities, except: [:show] do
       resources :new_homes, except: [:show]
@@ -138,6 +142,7 @@ Connectbook::Application.routes.draw do
       member do
         get :coupons
         get :favorites
+        put :update_profile
       end
     end
 
@@ -146,16 +151,17 @@ Connectbook::Application.routes.draw do
         get ":folder" => :index, constraints: { folder: /sent|trash/ }
       end
     end
+
     resources :messages, as: :mailboxer_conversations, only: [:show]
 
     get 'brands_autocomplete' => 'brands#autocomplete'
     get 'profile' => 'profile#show'
     get 'redeem/coupon/:id', to: 'coupons#redeem', as: :redeem_coupon
     get 'release/coupon/:id', to: 'user#release_coupon', as: :release_coupon
-
-    # This isn't being called anywhere and requires users to be logged in.
-    # ^FD 2015-08-14
-    # get 'js/autocomplete/users' => 'autocomplete#users', as: :users_autocomplete
+    get 'messenger', to: 'messages#messenger'
+    get 'messenger/:recipient', to: 'messages#messenger'
+    post 'messenger/send_message', to: 'messages#send_message', as: :send_message
+    get 'reload_messages', to: 'messages#reload_messages', as: :reload_messages
   end
 
   # Routes that require an authenticated administrator.
@@ -189,6 +195,10 @@ Connectbook::Application.routes.draw do
     end
 
     resources :user, controller: 'user' do
+      collection do
+        post :bulk_delete
+      end
+
       member do
         get :make_admin
         get :remove_admin
@@ -204,8 +214,8 @@ Connectbook::Application.routes.draw do
         resources :rental_units, except: [:show]
       end
 
-      # eg. business/action
       collection do
+        post :bulk_delete
         get :pending_claims
         get :import
         post "import", action: :do_import
@@ -217,10 +227,11 @@ Connectbook::Application.routes.draw do
         get :get_sub_neighborhoods_by_neighborhood
         get :get_municipalites_by_province
       end
-      # eg. business/:id/action
+
       member do
         get :approve_claim
         get :reject_claim
+        get 'update_status/:status', action: :update_status, as: :update_status
       end
     end
 
@@ -230,21 +241,13 @@ Connectbook::Application.routes.draw do
 
   end
 
-  # resources :city_news_articles, path: 'news', only: [:guide] do
-  #   member do
-  #     get 'guide', action: :guide
-  #   end
-  # end
-
-  # Unauthenticated routes
-
   resources :brands, only: [:show]
   resources :business_improvement_areas, path: 'neighbourhoods', only: [:show] do
     member do
       get :status_updates
     end
   end
-  resources :city_news_articles, path: 'city-news', only: [:show]
+
   resources :city_news_categories, only: [:show]
   resources :classified_categories, only: [:show]
   resources :classified_listings, only: [:index, :show]
@@ -260,6 +263,8 @@ Connectbook::Application.routes.draw do
     resources :carousel_images, defaults: { carouselable: 'city' }
     resources :city_news_articles, path: 'news', only: [:show, :index]
   end
+
+  resources :user, only: :show
 
   resources :locations, path: 'business', as: :locations, only: [:show] do
     resources :automotive_listings, only: [:show]
@@ -296,7 +301,11 @@ Connectbook::Application.routes.draw do
         get 'preview/:media_attachment_id' => 'media_attachments#preview'
       end
     end
+
+    get 'connect_stripe'
+    get 'disconnect_stripe'
   end
+
   resources :videos do
     get 'check_video_url' => 'videos#check_video_url'
     get 'mute_video_audio' => 'videos#mute_video_audio'
@@ -305,13 +314,14 @@ Connectbook::Application.routes.draw do
     post :upload_audio
   end
 
-  #Static Pages
-  get 'about' => 'StaticPages#about'
-  get 'terms' => 'StaticPages#terms'
-  get 'privacy' => 'StaticPages#privacy'
-  get 'advertise' => 'StaticPages#advertise'
-  get 'thankyou' => 'StaticPages#shopper_thank_you', as: :shopper_thank_you_path
-  get 'businessthankyou' => 'StaticPages#business_thank_you', as: :business_thank_you_path
+  # Static Pages
+  get 'about', controller: 'static_pages'
+  get 'terms', controller: 'static_pages'
+  get 'privacy', controller: 'static_pages'
+  get 'advertise', controller: 'static_pages'
+  get 'thankyou', controller: 'static_pages', action: 'shopper_thank_you', as: :shopper_thank_you_path
+  get 'businessthankyou', controller: 'static_pages', action: 'business_thank_you', as: :business_thank_you_path
+
   get 'contact' => 'contacts#new'
 
   post 'media_attachments/vonage_archive_callback' => 'media_attachments#vonage_archive_callback'
@@ -326,39 +336,30 @@ Connectbook::Application.routes.draw do
   get 'video_calls/get_status_from_location' => 'video_calls#get_status_from_location'
   put 'video_calls/set_available_call_location' => 'video_calls#set_available_call_location'
   get 'video_calls/get_available_call_location' => 'video_calls#get_available_call_location'
-  
+
   resources 'contacts', only: [:new, :create]
 
-  # get '/districts/:district_id/news' => action: :guide
+  get '/metro/:municipality_slug/channel/:market/:sub_market' => 'vertical_markets#guide', as: :municipality_sub_market_guide
+  get '/metro/:municipality_slug/channel/:market' => 'vertical_markets#guide', as: :municipality_guide
 
-  # These actions don't expect a sub_market parameters so I removed them for
-  # now. ^FD 2015-08-14
-  # get 'search/:market/:sub_market' => 'vertical_markets#search', as: :region_sub_market_search
-  # get 'guide/:market/:sub_market' => 'vertical_markets#guide', as: :region_sub_market_guide
-  # get ':district_route/search/:market/:sub_market' => 'vertical_markets#search'
+  get '/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug/channel/:market' => 'vertical_markets#guide', as: :city_district_nbh_sub_guide
+  get '/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug/channel/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_nbh_sub_sub_market_guide
 
-  # get ':city_slug/guide/:market' => 'vertical_markets#guide', as: :city_guide
-  get '/metro/:municipality_slug/guide/:market/:sub_market' => 'vertical_markets#guide', as: :municipality_sub_market_guide
-  get '/metro/:municipality_slug/guide/:market' => 'vertical_markets#guide', as: :municipality_guide
+  get '/:city_slug/:district_slug/:neighborhood_slug/channel/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_neighborhood_sub_market_guide
+  get '/:city_slug/:district_slug/:neighborhood_slug/channel/:market' => 'vertical_markets#guide', as: :city_district_neighborhood_guide
 
-  get '/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug/guide/:market' => 'vertical_markets#guide', as: :city_district_nbh_sub_guide
-  get '/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug/guide/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_nbh_sub_sub_market_guide
+  get '/:city_slug/:district_route/channel/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_sub_market_guide
+  get '/:city_slug/:district_route/channel/:market' => 'vertical_markets#guide', as: :city_district_guide
 
-  get '/:city_slug/:district_slug/:neighborhood_slug/guide/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_neighborhood_sub_market_guide
-  get '/:city_slug/:district_slug/:neighborhood_slug/guide/:market' => 'vertical_markets#guide', as: :city_district_neighborhood_guide
+  get '/:city_slug/channel/:market/:sub_market' => 'vertical_markets#guide', as: :city_sub_market_guide
+  get '/:city_slug/channel/:market' => 'vertical_markets#guide', as: :city_guide
 
-  get '/:city_slug/:district_route/guide/:market/:sub_market' => 'vertical_markets#guide', as: :city_district_sub_market_guide
-  get '/:city_slug/:district_route/guide/:market' => 'vertical_markets#guide', as: :city_district_guide
-
-  get '/:city_slug/guide/:market/:sub_market' => 'vertical_markets#guide', as: :city_sub_market_guide
-  get '/:city_slug/guide/:market' => 'vertical_markets#guide', as: :city_guide
-
-  get ':district_route/guide/:market' => 'vertical_markets#guide', as: :top_district_guide
-  get '/guide/:market' => 'vertical_markets#guide', as: :region_market_guide
-  get 'guide/:market/:sub_market' => 'vertical_markets#guide', as: :region_sub_market_guide
+  get ':district_route/channel/:market' => 'vertical_markets#guide', as: :top_district_guide
+  get '/channel/:market' => 'vertical_markets#guide', as: :region_market_guide
+  get 'channel/:market/:sub_market' => 'vertical_markets#guide', as: :region_sub_market_guide
 
   get ':district_route/business/:id' => 'locations#show', as: :district_location_path
-  get ':district_route/:neighborhood/guide/:market' => 'vertical_markets#guide', as: :district_neighborhood_guide
+  get ':district_route/:neighborhood/channel/:market' => 'vertical_markets#guide', as: :district_neighborhood_guide
   get ':district_route/:neighborhood_route/news' => 'city_news_articles#guide'
   get ':district_route/:neighborhood/business/:id' => 'locations#show', as: :district_neighborhood_location
 
@@ -369,15 +370,13 @@ Connectbook::Application.routes.draw do
   get '/:city_slug/:district_slug/:neighborhood_slug/search' => 'vertical_markets#search', as: :city_district_nbh_search
   get '/:city_slug/:district_slug/search' => 'vertical_markets#search', as: :city_district_search
   get '/:city_slug/search' => 'vertical_markets#search', as: :city_search
-  # get '/:city/:district_route/:neighborhood/search/:market' => 'vertical_markets#search'
-  # get ':district_route/search' => 'vertical_markets#search'
+
   get ':district_route/search/:market' => 'vertical_markets#search'
 
   get 'employment-opportunities' => 'employment_listings#guide', as: :employment_opportunity
   get 'classifieds' => 'classified_listings#guide', as: :classifieds
   get 'neighbourhoods/:business_improment_area_id/category/:id' => 'vertical_market_categories#show', as: :business_improvement_area_vertical_market_category
-  # get ':district_route/:neighborhood/category/:id' => 'vertical_market_categories#show'
-  # get ':district_route/category/:id' => 'vertical_market_categories#show'
+
   get 'category/auto_makes/:make' => 'vertical_market_categories#show_auto_listing_makers', as: :auto_make_show
   get '/metro/:municipality_slug/category/:id' => 'vertical_market_categories#show', as: :municipality_category_show
   get '/:city_slug/:district_slug/:neighborhood_slug/:sub_neighborhood_slug/category/:id' => 'vertical_market_categories#show', as: :city_district_neighborhood_sub_category_show
@@ -385,8 +384,8 @@ Connectbook::Application.routes.draw do
   get '/:city_slug/:district_slug/category/:id' => 'vertical_market_categories#show', as: :city_district_category_show
   get '/:city_slug/category/:id' => 'vertical_market_categories#show', as: :city_category_show
   get '/category/:id' => 'vertical_market_categories#show', as: :category_show
-  # get 'news' => 'city_news_articles#guide', as: :city_news_guide
-  resources :city_news_articles  do#, to: 'city_news_articles#guide' , as: :city_news_guide do
+
+  resources :city_news_articles  do
     collection do
       get :get_neighborhoods
       get :get_sub_neighborhoods
@@ -404,8 +403,8 @@ Connectbook::Application.routes.draw do
 
   root to: 'home#index'
 
-  #I'm hard-coding these Marketing URLs for now...
-  #The idea is to have connectedcity.com/kitsilano but having this interferes with the district route.
+  # I'm hard-coding these Marketing URLs for now...
+  # The idea is to have connectedcity.com/kitsilano but having this interferes with the district route.
   get 'arbutus-ridge', to: redirect('/neighbourhoods/arbutus-ridge')
   get 'coal-harbour', to: redirect('/neighbourhoods/coal-harbour')
   get 'downtown-eastside', to: redirect('/neighbourhoods/downtown-eastside')
@@ -435,19 +434,12 @@ Connectbook::Application.routes.draw do
   get 'west-end', to: redirect('/neighbourhoods/west-end')
   get 'yaletown', to: redirect('/neighbourhoods/yaletown')
 
-  #End Marketing URLs
-
   get '/vancouver/', to: 'home#city_landing', as: :city_landing
-  # get ':district_route', to: 'districts#homepage', as: :district_guide
+
   get '/vancouver/:district_route', to: 'districts#homepage', as: :district_guide
-  # resources :business_improvement_areas, path: '/:province_slug/:region_slug/:municipality_slug/:city_slug/:district_slug', only: [:show] do
-  #   member do
-  #     get :status_updates
-  #   end
-  # end
 
+  match ':status', to: 'errors#show', constraints: { status: /\d{3}/ }, as: :error_page, via: :get
 
-  match ':status', to: 'errors#show', constraints: { status: /\d{3}/ }, as: :error_page
   resources :municipalities do
     collection do
       get :get_manicipalities
@@ -467,5 +459,4 @@ Connectbook::Application.routes.draw do
 
   get 'deeper_categories', to: 'products#deeper_categories'
   post 'select_category', to: 'products#select_category'
-
 end

@@ -1,4 +1,4 @@
-class AddAttachmentImageToCoupons < ActiveRecord::Migration
+class AddAttachmentImageToCoupons < ActiveRecord::Migration[7.0]
   def self.up
     change_table :coupons do |t|
       t.attachment :image

@@ -3,7 +3,7 @@
     <header>
       <h2>Operating Hours</h2>
     </header>
-    <dl>
+    <dl style="font-size:13px">
       <% location.operating_hours.where("starts_at IS NOT NULL OR closed = 1").each do |operating_hour| %>
         <dt><%= operating_hour.day.to_s.humanize %></dt>
         <dd>

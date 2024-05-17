@@ -1,12 +1,12 @@
 <div class="row">
-  <div class="inner-img col-md-3 col-4">
-    <%= link_to (image_tag blog_entry.bloggable.logo.url), [blog_entry.bloggable, blog_entry]%></a>
+  <div class="col-12 text-center">
+    <%= link_to (image_tag blog_entry.bloggable.logo.url, class: "w-25 m-auto"), [blog_entry.bloggable, blog_entry]%></a>
   </div>
-  <div class="col-md-9 col-8">
+  <div class="col-12 px-3 pt-2">
     <div class="row">
       <div class="inner-card-title col-md-12">
         <h5><%#= link_to blog_entry.title, [blog_entry.bloggable, blog_entry] %>
-           <%= link_to ("#{blog_entry.title}"), "#", class: "status-update-image", data: { target: "#blog-#{blog_entry.id}-model", toggle: 'modal'} %>
+           <%= link_to ("#{blog_entry.title}"), "#", class: "status-update-image", data: { 'bs-target': "#blog-#{blog_entry.id}-model", 'bs-toggle': 'modal'} %>
         </h5>
       </div>
       <div class="inner-card-title col-md-12 inner-by">

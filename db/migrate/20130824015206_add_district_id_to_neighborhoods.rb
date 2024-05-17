@@ -1,4 +1,4 @@
-class AddDistrictIdToNeighborhoods < ActiveRecord::Migration
+class AddDistrictIdToNeighborhoods < ActiveRecord::Migration[7.0]
   def change
     add_column :neighborhoods, :district_id, :int
   end

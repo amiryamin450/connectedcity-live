@@ -8,7 +8,7 @@ class CommunitiesController < ApplicationController
     @communities = @search.result.page(params[:page]).per(10)
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @communities }
     end
   end
@@ -19,7 +19,7 @@ class CommunitiesController < ApplicationController
     @community = Community.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @community }
     end
   end
@@ -30,7 +30,7 @@ class CommunitiesController < ApplicationController
     @community = Community.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @community }
     end
   end
@@ -43,7 +43,7 @@ class CommunitiesController < ApplicationController
   # POST /communities
   # POST /communities.json
   def create
-    @community = Community.new(params[:community])
+    @community = Community.new(community_params)
 
     respond_to do |format|
       if @community.save
@@ -62,7 +62,7 @@ class CommunitiesController < ApplicationController
     @community = Community.find(params[:id])
 
     respond_to do |format|
-      if @community.update_attributes(params[:community])
+      if @community.update(community_params)
         format.html { redirect_to @community, notice: 'Community was successfully updated.' }
         format.json { head :no_content }
       else
@@ -82,5 +82,11 @@ class CommunitiesController < ApplicationController
       format.html { redirect_to communities_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def community_params
+    params.require(:community).permit(:description, :name, :region_id)
   end
 end

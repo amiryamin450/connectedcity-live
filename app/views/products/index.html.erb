@@ -32,5 +32,8 @@
 <div class="alert notice">No products found.</div>
 <% end %>
 
+<%# TODO: Require connect to Stripe before add product %>
+<%# can_add_product = StripeService.new(@location).stripe_connect_status %>
+<%#= link_to 'New Product', can_add_product ? new_location_product_path(@location) : edit_location_path(@location), onclick: can_add_product ? nil : "return confirm('Please connect to Stripe before add products.\\nSelect eCommerce Store tab on your business page to add it.')", class: 'btn btn-primary' %>
 <%= link_to 'New Product', new_location_product_path(@location), class: 'btn btn-primary' %>
 <%= link_to "Back to #{@location.name}", @location, class: 'btn' %>

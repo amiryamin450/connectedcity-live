@@ -1,4 +1,4 @@
-class RenameVerticalMarketCategoryLocationTable < ActiveRecord::Migration
+class RenameVerticalMarketCategoryLocationTable < ActiveRecord::Migration[7.0]
   def up
     rename_table :vertical_market_categories_locations, :locations_vertical_market_categories
   end

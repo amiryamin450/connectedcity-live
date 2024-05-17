@@ -1,51 +1,60 @@
-class City < ActiveRecord::Base
-    include FriendlyId
+class City < ApplicationRecord
+  include FriendlyId
 
-    self.table_name = "maponics_subdivisions"
+  self.table_name = "maponics_subdivisions"
 
-    has_many :neighborhoods, through: :districts
-    has_many :sub_neighborhoods, through: :neighborhoods
-    has_many :districts
-    has_many :locations
-    has_many :status_updates
-    has_many :news_articles, through: :locations, uniq: true
-    has_many :events, through: :locations, uniq: true
-    has_many :business_improvement_areas, through: :districts
-    has_many :city_news_articles
-    has_many :coupons, through: :locations, uniq: true
-    has_many :services, through: :locations, uniq: true
-    has_many :products, through: :locations, uniq: true
-    has_many :media_attachments, through: :locations, uniq: true
-    has_many :carousel_images, as: :carouselable
-    has_many :blog_entries, through: :locations, uniq: true
+  has_many :districts
+  has_many :neighborhoods, through: :districts
+  has_many :sub_neighborhoods, through: :neighborhoods
+  has_many :locations
+  has_many :status_updates
+  has_many :news_articles, -> { distinct }, through: :locations
+  has_many :events, -> { distinct }, through: :locations
+  has_many :coupons, -> { distinct }, through: :locations
+  has_many :services, -> { distinct }, through: :locations
+  has_many :products, -> { distinct }, through: :locations
+  has_many :media_attachments, -> { distinct }, through: :locations
+  has_many :blog_entries, -> { distinct }, through: :locations
+  has_many :business_improvement_areas, through: :districts
+  has_many :city_news_articles
+  has_many :carousel_images, as: :carouselable
 
-    belongs_to :maponics_division, class_name: "MaponicsDivision", foreign_key: "cduid"
-    belongs_to :province, foreign_key: "pruid"
-    belongs_to :municipality
+  belongs_to :maponics_division, class_name: "MaponicsDivision", foreign_key: "cduid"
+  belongs_to :province, foreign_key: "pruid"
+  belongs_to :municipality
 
-    default_scope where(is_active: true).order(:csdname)
+  default_scope { where(is_active: true).order(:csdname) }
 
-    friendly_id :csdname, use: [:slugged]
-    attr_accessible :csdname, :id, :csdtype, :slug, :municipality_id, :is_active, :geom
+  friendly_id :csdname, use: [:slugged]
 
-    def name
-      csdname
-    end
+  has_attached_file :home_page_image, styles: { thumb: "100x100>" },
+                      default_url: '/assets/home_page_image/default.jpg'
 
-    def label
-      "#{csdname} - #{csdtype}"
-    end
+  def self.ransackable_attributes(auth_object = nil)
+    ["cdname", "cdtype", "cduid", "cmaname", "cmauid", "csdname", "csdtype", "geom", "id", "is_active", "municipality_id", "prname", "pruid", "relver", "sactype", "slug"]
+  end
 
-    def title
-      csdname
-    end
+  def self.without_geom_column
+    column_names - ["geom"]
+  end
 
-    def wkt
-      MaponicsSubdivision.select(%q{AsText(geom) as geom}).where(:id => id).map(&:geom).first
-    end
+  def name
+    csdname
+  end
 
+  def label
+    "#{csdname} - #{csdtype}"
+  end
 
-    has_attached_file :home_page_image, styles: {thumb: "100x100>"},
-                        default_url: '/assets/home_page_image/default.jpg'
+  def title
+    csdname
+  end
 
+  def wkt
+    MaponicsSubdivision.select(%q{AsText(geom) as geom}).where(:id => id).map(&:geom).first
+  end
+
+  def access_link
+    "#{municipality.access_link}/#{slug}"
+  end
 end

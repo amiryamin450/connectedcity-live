@@ -1,4 +1,4 @@
-class CreateLocationMenus < ActiveRecord::Migration
+class CreateLocationMenus < ActiveRecord::Migration[7.0]
   def change
     create_table :location_menus do |t|
       t.string :caption

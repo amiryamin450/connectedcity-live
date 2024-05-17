@@ -5,12 +5,11 @@ class NewsArticlesController < ApplicationController
   # GET /news_articles
   # GET /news_articles.json
   def index
-
     @location = Location.find(params[:location_id])
     @news_articles = @location.news_articles
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @news_articles }
     end
   end
@@ -21,16 +20,16 @@ class NewsArticlesController < ApplicationController
     @location = Location.find(params[:location_id])
     @news_article = NewsArticle.find(params[:id])
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb @location.district.name, district_guide_path(@location.district) if @location.district
-    add_crumb @location.neighborhood.name if @location.neighborhood
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb @location.district.name, district_guide_path(@location.district) if @location.district
+    add_breadcrumb @location.neighborhood.name if @location.neighborhood
 
-    add_crumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
-    add_crumb @location.name, location_path(@location)
-    add_crumb "News"
+    add_breadcrumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
+    add_breadcrumb @location.name, location_path(@location)
+    add_breadcrumb "News"
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @news_article }
     end
   end
@@ -49,7 +48,7 @@ class NewsArticlesController < ApplicationController
     @news_article = @location.news_articles.new(user_id: current_user.id)
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @news_article }
     end
   end
@@ -72,7 +71,7 @@ class NewsArticlesController < ApplicationController
   def create
 
     @location = Location.find(params[:location_id])
-    @news_article = @location.news_articles.new(params[:news_article])
+    @news_article = @location.news_articles.new(news_article_params)
 
     respond_to do |format|
       if @news_article.save
@@ -91,7 +90,7 @@ class NewsArticlesController < ApplicationController
     @news_article = NewsArticle.find(params[:id])
     @location = Location.find(params[:location_id])
     respond_to do |format|
-      if @news_article.update_attributes(params[:news_article])
+      if @news_article.update(news_article_params)
         format.html { redirect_to location_news_article_path(@location, @news_article), notice: 'News article was successfully updated.' }
         format.json { head :no_content }
       else
@@ -112,5 +111,11 @@ class NewsArticlesController < ApplicationController
       format.html { redirect_to polymorphic_url([@newsable, :news_articles]) }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def news_article_params
+    params.require(:news_article).permit(:content, :location_id, :title, :user_id, :slug, :user, :image, :category_id, :latitude, :longitude)
   end
 end

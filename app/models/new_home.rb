@@ -1,4 +1,4 @@
-class NewHome < ActiveRecord::Base
+class NewHome < ApplicationRecord
 
   belongs_to :city
   belongs_to :province
@@ -6,15 +6,6 @@ class NewHome < ActiveRecord::Base
 
   extend FriendlyId
   friendly_id :slugged_address, use: [:slugged, :history]
-
-
-
-  attr_accessible :address, :address_suite, :association_fee, :association_fee_period, :bathroom_comment,
-                  :bathrooms, :bedroom_comment, :bedrooms, :city_id, :country_id, :description, :detail_view_url,
-                  :latitude, :living_area, :location_id, :longitude, :neighborhood_id, :postal_code, :province_id, :slug, :title,
-                  :virtual_tour_url, :year_built, :new_home_community_id, :list_price, :tax_amount, :cover_photo
-
-
 
   has_attached_file :cover_photo, :styles => { :thumb => "100x178" },
     :url => "/system/new_homes/cover_photo/:id/:style/:basename.:extension",

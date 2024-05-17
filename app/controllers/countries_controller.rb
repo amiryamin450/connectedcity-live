@@ -8,7 +8,7 @@ class CountriesController < ApplicationController
     @countries = Country.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @countries }
     end
   end
@@ -19,7 +19,7 @@ class CountriesController < ApplicationController
     @country = Country.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @country }
     end
   end
@@ -30,7 +30,7 @@ class CountriesController < ApplicationController
     @country = Country.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @country }
     end
   end
@@ -43,7 +43,7 @@ class CountriesController < ApplicationController
   # POST /countries
   # POST /countries.json
   def create
-    @country = Country.new(params[:country])
+    @country = Country.new(country_params)
 
     respond_to do |format|
       if @country.save
@@ -62,7 +62,7 @@ class CountriesController < ApplicationController
     @country = Country.find(params[:id])
 
     respond_to do |format|
-      if @country.update_attributes(params[:country])
+      if @country.update(country_params)
         format.html { redirect_to @country, notice: 'Country was successfully updated.' }
         format.json { head :no_content }
       else
@@ -82,5 +82,11 @@ class CountriesController < ApplicationController
       format.html { redirect_to countries_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def country_params
+    params.require(:country).permit(:country_code, :name)
   end
 end

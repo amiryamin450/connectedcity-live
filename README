@@ -19,14 +19,23 @@ A better approach is to use Docker for both dev and production. This project has
     # environment:
       # RAILS_ENV: "${RAILS_ENV}"
 ```
++ Comment this line in `config/environments/development.rb` if using Mac
+  `config.file_watcher = ActiveSupport::EventedFileUpdateChecker`
 
 + Download below files from https://drive.google.com/drive/u/1/folders/1Kw1h1LgML56bWJAHqrniH0FGD-yPZd3g and put in root folder of source code.
 ```
 .env
 dump_db_file.sql
+config/master.key
 ```
 
-+ `docker-compose up web`
++ Stop your mysql local service
+
+`sudo service mysql stop`
+
++ Run app
+
+`docker-compose up web -d && docker attach $(docker-compose ps -q web)`
 
 + Open new console tab to setup database:
 ```
@@ -46,7 +55,7 @@ City.unscoped.update_all is_active: true
 
 The data must be indexed before you can start searching in the app. The following command can be used for 'reindexing', but it will cause errors
 
-`docker-compose run web bundle exec sunspot:solr:reindex`
+`docker-compose run web bundle exec rake sunspot:solr:reindex`
 
 You might get the response from Solr with the exception: `undefined field type`. This is because Solr will try to clean up the original indexes first but because there is nothing there, it does not know how to clean up the indexes.
 
@@ -83,6 +92,64 @@ In the above, your solr is running at `localhost:8983` and `development` is the 
 
 After running the above command successfully, go back to Rails console and retry. If you get the same error on other fields, repeat the above `curl` command but replace the `name` with the correct field name having the issue.
 
+```
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "replace-field":{
+     "name":"service_text",
+     "type":"strings",
+     "omitNorms":false }
+}' http://localhost:8983/solr/development/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "replace-field":{
+     "name":"brand_text",
+     "type":"strings",
+     "omitNorms":false }
+}' http://localhost:8983/solr/development/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "replace-field":{
+     "name":"product_text",
+     "type":"strings",
+     "omitNorms":false }
+}' http://localhost:8983/solr/development/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "replace-field":{
+     "name":"address_text",
+     "type":"strings",
+     "omitNorms":false }
+}' http://localhost:8983/solr/development/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "replace-field":{
+     "name":"name_text",
+     "type":"strings",
+     "omitNorms":false }
+}' http://localhost:8983/solr/development/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "replace-field":{
+     "name":"model_text",
+     "type":"strings",
+     "omitNorms":false }
+}' http://localhost:8983/solr/development/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "replace-field":{
+     "name":"make_text",
+     "type":"strings",
+     "omitNorms":false }
+}' http://localhost:8983/solr/development/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "replace-field":{
+     "name":"title_text",
+     "type":"strings",
+     "omitNorms":false }
+}' http://localhost:8983/solr/development/schema
+```
+
 # Deployment
 
 + Un-comment below snippet in `docker-compose.yml`
@@ -106,5 +173,6 @@ heroku container:release web
 heroku run bash
 RAILS_ENV=production bundle exec rake db:migrate
 ```
-
+ If it shows `error: exec format error` on heroku push, update Dockerfile line:1 into `FROM --platform=linux/amd64 ruby:2.7.1 AS rails-toolbox`
+ 
  Note that all changes on your local will be deployed to server, not only committed code.

@@ -1,6 +1,7 @@
 class BusinessImprovementAreasController < ApplicationController
   PER_PAGE = 20
 
+  before_action :find_business_improvement_areas, only: [:show]
   load_and_authorize_resource
   # GET /business_improvement_areas
   # GET /business_improvement_areas.json
@@ -8,7 +9,7 @@ class BusinessImprovementAreasController < ApplicationController
     @business_improvement_areas = BusinessImprovementArea.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @business_improvement_areas }
     end
   end
@@ -34,9 +35,9 @@ class BusinessImprovementAreasController < ApplicationController
     @cities = @city.municipality.cities
     @districts = @city.districts
     @district = @districts.find{|d| d.id == @business_improvement_area.district_id}
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb @district.name, district_guide_path(@business_improvement_area.district) if @district
-    add_crumb @business_improvement_area.name
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb @district.name, district_guide_path(@business_improvement_area.district) if @district
+    add_breadcrumb @business_improvement_area.name
 
     respond_to do |format|
       format.html { render layout: "application_v_2" }
@@ -55,7 +56,7 @@ class BusinessImprovementAreasController < ApplicationController
     @business_improvement_area = BusinessImprovementArea.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @business_improvement_area }
     end
   end
@@ -68,7 +69,7 @@ class BusinessImprovementAreasController < ApplicationController
   # POST /business_improvement_areas
   # POST /business_improvement_areas.json
   def create
-    @business_improvement_area = BusinessImprovementArea.new(params[:business_improvement_area])
+    @business_improvement_area = BusinessImprovementArea.new(business_improvement_area_params)
 
     respond_to do |format|
       if @business_improvement_area.save
@@ -87,7 +88,7 @@ class BusinessImprovementAreasController < ApplicationController
     @business_improvement_area = BusinessImprovementArea.find(params[:id])
 
     respond_to do |format|
-      if @business_improvement_area.update_attributes(params[:business_improvement_area])
+      if @business_improvement_area.update_attributes(business_improvement_area_params)
         format.html { redirect_to @business_improvement_area, notice: 'Business improvement area was successfully updated.' }
         format.json { head :no_content }
       else
@@ -107,5 +108,15 @@ class BusinessImprovementAreasController < ApplicationController
       format.html { redirect_to business_improvement_areas_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def business_improvement_area_params
+    params.require(:business_improvement_area).permit(:description, :district_id, :name, :slug, :home_page_image, :district, :status_updates, :status_updates_attributes, :logo, :website_url, :use_carousel)
+  end
+
+  def find_business_improvement_areas
+    @business_improvement_area = BusinessImprovementArea.friendly.find(params[:id])
   end
 end

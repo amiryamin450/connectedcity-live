@@ -1,5 +1,6 @@
 class RentalPropertiesController < ApplicationController
-  before_filter do
+
+  before_action do
     @rental_property = RentalProperty.find(params[:rental_property_id]) if params[:rental_property_id]
   end
 
@@ -11,7 +12,7 @@ class RentalPropertiesController < ApplicationController
   def index
     @rental_properties = @location.rental_properties
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @rental_properties }
     end
   end
@@ -22,21 +23,21 @@ class RentalPropertiesController < ApplicationController
 
    @vertical_market = @location.vertical_market_categories.first.vertical_market
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
 
     # FIXME Cities don't currently work but should be part of the breadcrumbs.
     #       Once support for more than once city has been added, fix this.
-    add_crumb @city.name, root_path if @city
-    add_crumb @location.district.name, district_guide_path(@location.district) if @location.district
-    add_crumb @location.neighborhood.name if @location.neighborhood
+    add_breadcrumb @city.name, root_path if @city
+    add_breadcrumb @location.district.name, district_guide_path(@location.district) if @location.district
+    add_breadcrumb @location.neighborhood.name if @location.neighborhood
 
-    add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
-    add_crumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
-    add_crumb @location.name, "#{@base_path}business/#{@location.slug}"
-    add_crumb @rental_property.name
+    add_breadcrumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
+    add_breadcrumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
+    add_breadcrumb @location.name, "#{@base_path}business/#{@location.slug}"
+    add_breadcrumb @rental_property.name
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @rental_property }
     end
   end
@@ -48,7 +49,7 @@ class RentalPropertiesController < ApplicationController
     @rental_property_styles = RentalProperty::STYLES
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @rental_property }
     end
   end
@@ -62,7 +63,7 @@ class RentalPropertiesController < ApplicationController
   # POST /rental_properties
   # POST /rental_properties.json
   def create
-    @rental_property = @location.rental_properties.new(params[:rental_property])
+    @rental_property = @location.rental_properties.new(rental_property_params)
 
     respond_to do |format|
       if @rental_property.save
@@ -81,7 +82,7 @@ class RentalPropertiesController < ApplicationController
     @rental_property = RentalProperty.find(params[:id])
 
     respond_to do |format|
-      if @rental_property.update_attributes(params[:rental_property])
+      if @rental_property.update(rental_property_params)
         format.html { redirect_to [@location, @rental_property], notice: 'Rental property was successfully updated.' }
         format.json { head :no_content }
       else
@@ -107,6 +108,17 @@ class RentalPropertiesController < ApplicationController
     @status_update = StatusUpdate.find(params[:id])
     @status_update.destroy
 
-    redirect_to :back
+    redirect_back
+  end
+
+  private
+
+  def rental_property_params
+    params.require(:rental_property).permit(:active, :address_1, :address_2, :city_id, :description,
+      :email, :facebook_url, :fax, :garage_types, :included_utilities,
+      :latitude, :longitude, :name, :neighborhood_description, :neighborhood_highlights,
+      :neighborhood_id, :pet_restrictions, :phone, :phone_count, :postal_code, :pov,
+      :property_features, :property_highlights, :province_id, :restrictions, :slug, :tag_line,
+      :website_url, :location_id, :location, :cover_photo, :district_id, :status_updates_attributes, :style)
   end
 end

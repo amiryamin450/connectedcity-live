@@ -1,7 +1,8 @@
-# Load the rails application
-require File.expand_path('../application', __FILE__)
+# Load the Rails application.
+require_relative "application"
+# require File.expand_path('../application', __FILE__)
 
-# Initialize the rails application
+# Initialize the Rails application.
 Connectbook::Application.initialize!
 
 require File.expand_path('../../lib/patches/mysql2_adapter', __FILE__)

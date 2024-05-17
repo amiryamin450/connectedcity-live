@@ -9,7 +9,7 @@ class VideoCallsController < ActionController::Base
       users.each  do|user|
           video_call = VideoCall.find_by_user_business_id_and_user_call_id(user.id, current_user.id)
           if video_call.present? 
-            video_call.update_attributes(session_id: session_id, status: "request_calling", token: token, location_id: @location.id)
+            video_call.update(session_id: session_id, status: "request_calling", token: token, location_id: @location.id)
           else
             VideoCall.create(user_business_id: user.id, user_call_id: current_user.id, session_id: session_id, status: "request_calling", token: token, location_id: @location.id)
           end

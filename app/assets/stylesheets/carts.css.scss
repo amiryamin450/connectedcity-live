@@ -1,3 +1,52 @@
 // Place all the styles related to the carts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.payment-options-container {
+  margin-bottom: 15px;
+
+  .payment-options {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    color: #000;
+    background-color: #fff;
+    border: 2px 1px;
+    border-style: solid;
+    border-color: #10375C;
+    border-radius: 5px;
+
+    .payment-option {
+      display: inline-block;
+      flex: 1;
+      text-align: center;
+      border-left: 1px solid #31353a;
+      border-right: 1px solid #31353a;
+      padding: 5px 0;
+
+      &.active {
+        background-color: #10375C;
+        color: #fff;
+      }
+    }
+  }
+}
+
+.delivery-options-container {
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  padding: 10px;
+
+  .delivery-options {
+    margin-top: 10px;
+
+    .delivery-option {
+      margin-top: 5px;
+
+      span {
+        margin-left: 10px;
+      }
+    }
+  }
+}

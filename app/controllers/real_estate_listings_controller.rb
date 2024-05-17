@@ -7,7 +7,7 @@ class RealEstateListingsController < ApplicationController
   def index
     @real_estate_listings = @location.real_estate_listings
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @real_estate_listings }
     end
   end
@@ -18,17 +18,17 @@ class RealEstateListingsController < ApplicationController
 
     @vertical_market = @location.vertical_market_categories.first.vertical_market
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb @location.district.name, district_guide_path(@location.district) if @location.district
-    add_crumb @location.neighborhood.name if @location.neighborhood
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb @location.district.name, district_guide_path(@location.district) if @location.district
+    add_breadcrumb @location.neighborhood.name if @location.neighborhood
 
-    add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
-    add_crumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
-    add_crumb @location.name, "#{@base_path}business/#{@location.slug}"
-    add_crumb @real_estate_listing.title
+    add_breadcrumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
+    add_breadcrumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
+    add_breadcrumb @location.name, "#{@base_path}business/#{@location.slug}"
+    add_breadcrumb @real_estate_listing.title
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json:  @real_estate_listing.real_estate_listing_images.map{|file| file.to_jq_upload }  }
     end
   end
@@ -39,7 +39,7 @@ class RealEstateListingsController < ApplicationController
     @real_estate_listing = @location.real_estate_listings.new
     @real_estate_listing_styles = get_real_estate_listing_styles 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @real_estate_listing }
     end
   end
@@ -57,7 +57,7 @@ class RealEstateListingsController < ApplicationController
   # POST /real_estate_listings
   # POST /real_estate_listings.json
   def create
-    @real_estate_listing = @location.real_estate_listings.new(params[:real_estate_listing])
+    @real_estate_listing = @location.real_estate_listings.new(real_estate_listing_params)
 
     respond_to do |format|
       if @real_estate_listing.save
@@ -76,7 +76,7 @@ class RealEstateListingsController < ApplicationController
 
 
     respond_to do |format|
-      if @real_estate_listing.update_attributes(params[:real_estate_listing])
+      if @real_estate_listing.update(real_estate_listing_params)
         format.html { redirect_to [@location, @real_estate_listing], notice: 'Real estate listing was successfully updated.' }
         format.json { render json: { files: [@real_estate_listing.real_estate_listing_images.last.to_jq_upload]}, status: :created, location: @location }
       else
@@ -107,5 +107,72 @@ class RealEstateListingsController < ApplicationController
 	  'Houses',
 	  'Townhomes'
 	]
+  end
+
+  def real_estate_listing_params
+    params.require(:real_estate_listing).permit(
+      :listing_source,
+      :email,
+      :web_bug_url,
+      :listing_source_id,
+      :provider_listing_id,
+      :provider,
+      :regional_mls_number,
+      :regional_mls_number_visible,
+      :last_update_date,
+      :status,
+      :title,
+      :detail_view_url,
+      :country,
+      :province,
+      :address,
+      :address_visible,
+      :address_suite,
+      :postal_code,
+      :latitude,
+      :longitude,
+      :city,
+      :description,
+      :list_price,
+      :tax_amount,
+      :property_type,
+      :style,
+      :lot_comment,
+      :lot_legal,
+      :rental_price,
+      :rental_period,
+      :rental_currency,
+      :bedrooms,
+      :bedroom_comment,
+      :bathrooms,
+      :bathroom_comment,
+      :garage,
+      :garage_stalls,
+      :garage_style,
+      :garage_comment,
+      :living_area,
+      :living_area_unit,
+      :year_built,
+      :year_built_comment,
+      :broker_name,
+      :list_date,
+      :virtual_tour_url,
+      :association_fee,
+      :association_fee_period,
+      :association_fee_currency,
+      :neighborhood,
+      :location,
+      :slug,
+      :city_id,
+      :country_id,
+      :province_id,
+      :location_id,
+      :main_image,
+      :real_estate_listing_images,
+      :district_id,
+      :neighborhood_id,
+      :status_updates_attributes,
+      :real_estate_listing_images_attributes
+    )
   end
 end

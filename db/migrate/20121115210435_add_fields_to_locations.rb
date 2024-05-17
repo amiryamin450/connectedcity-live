@@ -1,4 +1,4 @@
-class AddFieldsToLocations < ActiveRecord::Migration
+class AddFieldsToLocations < ActiveRecord::Migration[7.0]
   def change
     add_column :locations, :district_id, :integer
     add_column :locations, :yp_lid, :string

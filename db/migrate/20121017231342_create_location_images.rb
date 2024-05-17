@@ -1,4 +1,4 @@
-class CreateLocationImages < ActiveRecord::Migration
+class CreateLocationImages < ActiveRecord::Migration[7.0]
   def change
     create_table :location_images do |t|
       t.string :caption

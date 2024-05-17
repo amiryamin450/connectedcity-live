@@ -1,11 +1,10 @@
-class ProductImage < ActiveRecord::Base
+class ProductImage < ApplicationRecord
   belongs_to :product
 
   has_attached_file :image, :styles => { thumb: "50x50#", list: "320", display: "640"},
                     :url => "/system/product_image/:id/:style/:basename.:extension",
                     :path => ":rails_root/public/system/product_image/:id/:style/:basename.:extension"
 
-  attr_accessible :product_id, :image
   validates_attachment_presence :image
   validates_attachment_size :image, :less_than => 5.megabytes
 

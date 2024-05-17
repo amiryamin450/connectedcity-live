@@ -1,4 +1,4 @@
-class CreateClassifiedListings < ActiveRecord::Migration
+class CreateClassifiedListings < ActiveRecord::Migration[7.0]
   def change
     create_table :classified_listings do |t|
       t.string :title

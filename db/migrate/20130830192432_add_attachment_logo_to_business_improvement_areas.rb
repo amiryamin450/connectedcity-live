@@ -1,4 +1,4 @@
-class AddAttachmentLogoToBusinessImprovementAreas < ActiveRecord::Migration
+class AddAttachmentLogoToBusinessImprovementAreas < ActiveRecord::Migration[7.0]
   def self.up
     change_table :business_improvement_areas do |t|
       t.attachment :logo

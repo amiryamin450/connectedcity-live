@@ -1,4 +1,4 @@
-class CreateMediaAttatchments < ActiveRecord::Migration
+class CreateMediaAttatchments < ActiveRecord::Migration[7.0]
   def change
     create_table :media_attatchments do |t|
       t.text :attatchment

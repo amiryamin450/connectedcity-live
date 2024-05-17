@@ -79,20 +79,7 @@
           <div class="col-md-7">
             <div class="category-body">
               <br>
-              <div class="search-box advance-search-box">
-                <%= form_tag "#{@base_path}search", class: 'search-form', method: :get do %>
-                  <div class="input-group">
-                    <%# <input type="text" class="form-control search-input" placeholder="What are you looking for?" aria-label="Search input with dropdown button"> %>
-                    <%= search_field_tag :search, params[:search], placeholder: "What are you looking for?", class: "form-control search-column" %>
-                    <div class="input-group-prepend search-box ">
-                      <%= select_tag 'market', options_for_select(@employment_category), prompt: 'All Categories', class: 'form-control' %>
-                    </div>
-                    <div class="input-group-append">
-                      <button class="btn search-box-btn" type="submit"><img src="/cc_2.0/icon/search-icon.svg"></button>
-                    </div>
-                  </div>
-                <% end %>
-              </div>
+              <%= render 'share/search_box', url: "#{@base_path}search", opts: options_for_select(@employment_category), all_promt: 'All Categories' %>
               <div class="row py-2" style="display: flex;">
                 <p class="col-md-5" style="display: flex; align-items: center; margin-bottom: 0px;">Filter by Employment Categogy</p>
                  <%= select_tag 'market', options_for_select(@employment_category), prompt: '(All)', class: 'form-control col-md-5' %>
@@ -107,7 +94,7 @@
                   <div class="card-label-one">
                   <div class="title">
                     <h4>&nbsp;<%= item[0] %>&nbsp;</h4>
-                    <%= link_to 'More + ', '#', class: 'see-more' %>
+                    <%= link_to 'See More +', '#', class: 'see-more' %>
 
                     <% #if @business_improvement_area_id %>
                       &nbsp;&nbsp;&nbsp;

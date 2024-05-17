@@ -1,22 +1,22 @@
 <div class="row">
-  <div class="span8 video-session">
+  <div class="col-12 col-md-7 col-lg-8 video-session">
     <div class="stream-area">
       <div id="subscribers" style="display: none"></div>
     </div>
     <div id="default-video-img">
-      <img id="placeholder-img" src="/assets/default_video_image.jpeg" alt="Video Placeholder Stock Image"/>
+      <%= image_tag("default_video_image.jpeg", class: "w-100", id: "placeholder-img", alt: "Video Placeholder Stock Image" ) %>
     </div>
   </div>
-  <div class="span4">
+  <div class="col-12 col-md-5 col-lg-4">
     <div class="row buttons-group">
-      <div class="span4">
-        <button class="btn btn-success create-archive" id="start-archive">Start Recording</button>
+      <div class="col-12 col-md-4 ps-0">
+        <button class="btn btn-success create-archive h-100" id="start-archive">Start Recording</button>
       </div>
-      <div class="span4">
-        <button class="btn btn-danger" id="stop-archive" disabled>Stop Recording</button>
+      <div class="col-12 col-md-4 ps-0">
+        <button class="btn btn-danger h-100" id="stop-archive" disabled>Stop Recording</button>
       </div>
-      <div class="span4">
-        <button class="btn btn-primary" id="preview-video" disabled>Preview Video</button>
+      <div class="col-12 col-md-4 ps-0">
+        <button class="btn btn-primary h-100" id="preview-video" disabled>Preview Video</button>
       </div>
     </div>
     <div class="media-attachment-form">
@@ -29,7 +29,7 @@
           <%= f.text_field :title, required: true, autofocus: true, maxlength: 100 %>
           <span id="title-count">0/100</span>
         </div>
-        <% if @is_municipality || [174, 164, 114].include?(@vertical_market.id) %>
+        <% if @is_municipality || [174, 164, 114].include?(@vertical_market&.id) %>
           <% hidden = [174, 164].include?(@vertical_market.id) ? 'display: none' : 'display: block' %>
           <div class="control-group string required category" style="<%= hidden %>">
             <%= f.label :category %>
@@ -38,7 +38,7 @@
             </div>
           </div>
         <% end %>
-        <% if [174, 164, 114].include?(@vertical_market.id) %>
+        <% if [174, 164, 114].include?(@vertical_market&.id) %>
           <div class="auto-search-wrapper control-group required" style="margin-bottom: 20px; display: block;">
             <label class="string required optional control-label">Location</label>
             <div class="controls">
@@ -153,10 +153,10 @@
         return;
       }
 
-      var need_category = "<%= [174, 164, 114].include?(@vertical_market.id) %>"
+      var need_category = "<%= [174, 164, 114].include?(@vertical_market&.id) %>"
       if (need_category === "true") {
         var categoryId = document.getElementById('category_id').value
-        var municipality = "<%= @vertical_market.id === 114 %>"
+        var municipality = "<%= @vertical_market&.id === 114 %>"
 
         if (categoryId.length === 0 && municipality === "true" ) {
           document.getElementById("warningCateModal").style.display = "block";
@@ -240,10 +240,10 @@
 
                 document.getElementById('preview-video').addEventListener("click", function(event) {
 
-                  var need_category = "<%= [174, 164, 114].include?(@vertical_market.id) %>"
+                  var need_category = "<%= [174, 164, 114].include?(@vertical_market&.id) %>"
                   if (need_category === "true") {
                     var categoryId = document.getElementById('category_id').value
-                    var municipality = "<%= @vertical_market.id === 114 %>"
+                    var municipality = "<%= @vertical_market&.id === 114 %>"
 
                     if (categoryId.length === 0 && municipality === "true" ) {
                       document.getElementById("warningCateModal").style.display = "block";
@@ -283,11 +283,11 @@
         function updateMedia(videoId) {
           var title = document.getElementById('media_attachment_title').value;
           var description = document.getElementById('media_attachment_description').value;
-          var municipality = "<%= @vertical_market.id === 114 %>"
-          var need_category = "<%= [174, 164].include?(@vertical_market.id) %>"
+          var municipality = "<%= @vertical_market&.id === 114 %>"
+          var need_category = "<%= [174, 164].include?(@vertical_market&.id) %>"
           var cateId = municipality === "true" ? document.getElementById('category_id').value : null
           var lat = need_category === "true" || municipality === "true" ? $("#media_attachment_latitude").val() : null
-          var lon = need_category === "true" || municipality === "true" ? $("#media_attachment_latitude").val() : null
+          var lon = need_category === "true" || municipality === "true" ? $("#media_attachment_longitude").val() : null
           if (need_category === "true") {
             cateId = <%= @categories_news[0].id %>
           }
@@ -340,6 +340,11 @@
                 console.log(error);
               } else {
                 console.log('Publishing a stream.');
+
+                $('.OT_mirrored.OT_root.OT_publisher.OT_fit-mode-cover').append("<button class='OT_edge-bar-item OT_mute OT_mode-auto' id='OT_flip' type='button'>Flip</button>");
+                $('#OT_flip').click(function() {
+                  publisher.cycleVideo();
+                })
               }
             });
           }

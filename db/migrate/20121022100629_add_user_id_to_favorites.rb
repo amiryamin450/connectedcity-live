@@ -1,4 +1,4 @@
-class AddUserIdToFavorites < ActiveRecord::Migration
+class AddUserIdToFavorites < ActiveRecord::Migration[7.0]
   def change
     add_column :favorites, :user_id, :integer
   end

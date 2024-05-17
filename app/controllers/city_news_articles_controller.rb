@@ -1,4 +1,5 @@
 class CityNewsArticlesController < ApplicationController
+  load_and_authorize_resource find_by: :slug, only: [:edit, :update, :show, :destroy]
   load_and_authorize_resource except: [:guide, :index, :filter_updates, :filter_media_attachments, :filter_news_articles, :filter_events, :get_neighborhoods, :get_sub_neighborhoods, :get_route_sub_neighborhoods]
 
   PER_PAGE = 20
@@ -9,7 +10,7 @@ class CityNewsArticlesController < ApplicationController
     @news_articles = CityNewsArticle.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @news_articles }
     end
   end
@@ -62,7 +63,7 @@ class CityNewsArticlesController < ApplicationController
   def get_neighborhoods 
     if params[:district_slug].present?
       district = District.find_by_slug(params[:district_slug])
-      neighborhoods = district.neighborhoods
+      neighborhoods = district.neighborhoods.select(Neighborhood.without_geom_column)
       route = "/#{district&.city.slug}/#{district.slug}/guide/news"
       render json: {
         neighborhoods: neighborhoods,
@@ -81,7 +82,7 @@ class CityNewsArticlesController < ApplicationController
   def get_sub_neighborhoods
     if params[:neighborhood_slug].present?
       neighborhood = Neighborhood.find_by_slug(params[:neighborhood_slug])
-      sub_neis = neighborhood.sub_neighborhoods
+      sub_neis = neighborhood.sub_neighborhoods.select(Neighborhood.without_geom_column)
       route = "/#{neighborhood&.district&.city&.slug}/#{neighborhood.district&.slug}/#{neighborhood.slug}/guide/news"
       render json: {
         sub_neighborhoods: sub_neis,
@@ -115,15 +116,14 @@ class CityNewsArticlesController < ApplicationController
 
   def filter_updates
     temp = []
-    if params[:category_id].blank?
-      locations_manicipality(params[:municipality_slug], params[:city_slug], (params[:district_slug]|| params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each do |i|
-        temp << i.status_updates if i.status_updates.length > 0
-      end
-      @filter_status_updates = temp.flatten.sort_by(&:created_at).reverse
-    else
-      temp = StatusUpdate.where(category_id: params[:category_id])
-      @filter_status_updates = temp.flatten.sort_by(&:created_at).reverse
+    conditions = params[:category_id].blank? ? {} : {category_id: params[:category_id]}
+
+    locations_manicipality(params[:municipality_slug], params[:city_slug], (params[:district_slug] || params[:district_route]), params[:neighborhood_slug], params[:sub_neighborhood_slug]).each do |i|
+      temp << i.status_updates.where(conditions) if i.status_updates.length > 0
     end
+
+    @filter_status_updates = temp.flatten.sort_by(&:created_at).reverse
+
     respond_to do |format|
       format.js
     end
@@ -180,15 +180,15 @@ class CityNewsArticlesController < ApplicationController
   # GET /city_news_articles/1
   # GET /city_news_articles/1.json
   def show
-    @city_news_article = CityNewsArticle.find(params[:id])
+    # @city_news_article = CityNewsArticle.find(params[:id])
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb 'City News', city_news_guide_path
-    add_crumb @city_news_article.city_news_category.name, city_news_category_path(@city_news_article.city_news_category)
-    add_crumb @city_news_article.title
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb 'City News', city_news_guide_path
+    add_breadcrumb @city_news_article.city_news_category.name, city_news_category_path(@city_news_article.city_news_category)
+    add_breadcrumb @city_news_article.title
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @city_news_article }
     end
   end
@@ -200,14 +200,14 @@ class CityNewsArticlesController < ApplicationController
     districts
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @city_news_article }
     end
   end
 
   # GET /city_news_articles/1/edit
   def edit
-    @city_news_article = CityNewsArticle.find(params[:id])
+    # @city_news_article = CityNewsArticle.find(params[:id])
     districts
   end
 
@@ -230,10 +230,10 @@ class CityNewsArticlesController < ApplicationController
   # PUT /city_news_articles/1
   # PUT /city_news_articles/1.json
   def update
-    @city_news_article = CityNewsArticle.find(params[:id])
+    # @city_news_article = CityNewsArticle.find(params[:id])
 
     respond_to do |format|
-      if @city_news_article.update_attributes(params[:city_news_article])
+      if @city_news_article.update(params[:city_news_article])
         format.html { redirect_to @city_news_article, notice: 'City news article was successfully updated.' }
         format.json { head :no_content }
       else
@@ -246,7 +246,7 @@ class CityNewsArticlesController < ApplicationController
   # DELETE /city_news_articles/1
   # DELETE /city_news_articles/1.json
   def destroy
-    @city_news_article = CityNewsArticle.find(params[:id])
+    # @city_news_article = CityNewsArticle.find(params[:id])
     @city_news_article.destroy
 
     respond_to do |format|
@@ -263,7 +263,6 @@ class CityNewsArticlesController < ApplicationController
       @area = klass.find(params["#{klass.name.underscore}_route"])
     end
   end
-
 
   def locations_manicipality municipality_slug, city_slug, district_slug, neighborhood_slug, sub_neighborhood_slug
     result_locations = []
@@ -295,5 +294,11 @@ class CityNewsArticlesController < ApplicationController
 
     result_locations += other_results
     @locations_of_civic_news ||= result_locations
+  end
+
+  private
+
+  def city_news_articles_params
+    params.require(:city_news_article).permit(:city_news_category_id, :city_id, :district_id, :neighborhood_id, :content, :title, :slug, :image)
   end
 end

@@ -1,0 +1,126 @@
+.orders-container {
+  min-height: 450px;
+  padding: 10px 20px;
+
+  .order-item {
+    padding: 10px 15px;
+    margin: 20px 0;
+    border: 1px solid #10375C;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+
+    .business-image {
+      height: 150px;
+      width: 180px;
+      margin-top: 5px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+    }
+
+    .order-tracking-info {
+      text-align: right;
+    }
+  }
+}
+
+.order-page {
+  min-height: 450px;
+  padding: 50px 20px;
+
+  .heading-section {
+    h3 {
+      margin-bottom: 25px;
+    }
+  }
+
+  .customer-section {
+    margin-top: 35px;
+
+    .customer-info {
+      max-width: 90%;
+      margin: 0 auto;
+      border: 1px solid #10375C;
+      padding: 20px;
+    }
+  }
+
+  .shipping-section {
+    max-width: 92%;
+    margin: 25px auto 30px;
+
+    .tracking-history {
+      margin-left: 40px;
+      margin-top: 5px;
+    }
+  }
+
+  .list-items-section {
+    .list-items-group {
+      position: relative;
+      border: 1px solid #10375C;
+
+      .name {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translate(10%, -50%);
+        background: #fff;
+      }
+
+      .list-items {
+        padding: 10px 20px;
+
+        table {
+          width: 100%;
+
+          th {
+            padding: 25px 0;
+          }
+
+          td {
+            padding: 0 10px;
+          }
+
+          .product-image {
+            height: 120px;
+            width: 120px;
+            margin-top: 5px;
+            padding: 0 10px;
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              border-radius: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .pricing-section {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+
+    .pricing-data {
+      min-width: 260px;
+
+      .line {
+        margin-top: 10px;
+        border-top: 1px solid black;
+      }
+
+      .payment-method {
+        margin-top: 20px;
+      }
+    }
+  }
+}

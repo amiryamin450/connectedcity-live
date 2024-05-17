@@ -1,0 +1,109 @@
+<div class="order-page">
+  <div class="heading-section">
+    <h3> Order Details </h3>
+    <p> Order number: <%= @order.display_number %> </p>
+    <p> Status: <%= @order.status.humanize %> </p>
+  </div>
+  <div class="customer-section">
+    <p class="title"> Buyer Info </p>
+    <div class="customer-info">
+      <% address = JSON.parse(@order.shipment.shipping_address) %>
+      <p> Name: <%= @order.shipment.shipping_name %> </p>
+      <p> Address: <%= "#{address["line1"]}, #{address["city"]}, #{address["state"]}" %> </p>
+    </div>
+    <div class="shipping-section">
+      <div class="title"> Shipping status </div>
+      <div class="tracking-history">
+        <ul>
+          <li>
+            <span> <%= @order.created_at.strftime("%Y-%m-%d") %> </span>
+            <span> Seller received your order. </span>
+          </li>
+          <% if @order.confirmed_ready_at %>
+            <li>
+              <span> <%= @order.confirmed_ready_at.strftime("%Y-%m-%d") %> </span>
+              <span> Seller confirmed order ready for pick-up. </span>
+            </li>
+          <% end %>
+          <% if @order.shipment.shipped_at %>
+            <li>
+              <span> <%= @order.shipment.shipped_at.strftime("%Y-%m-%d") %> </span>
+              <span> Order received. </span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="list-items-section">
+    <div class="list-items-group">
+      <div class="name">
+        <h5> <%= @order.seller.name %> </h5>
+      </div>
+      <div class="list-items">
+        <table>
+          <thead>
+            <th> Product </th>
+            <th></th>
+            <th> Quantity </th>
+            <th> Unit price </th>
+            <th> Discount </th>
+            <th> Subtotal </th>
+          </thead>
+          <tbody>
+            <% @order.line_items.each do |item| %>
+              <tr>
+                <td class="product-image">
+                  <% if item.product.image.present? %>
+                    <%= image_tag item.product.image.url(:list), alt: 'product-img' %>
+                  <% end %>
+                </td>
+                <td>
+                  <p> <%= item.product.name %> </p>
+                  <p> Variant </p>
+                </td>
+                <td> <%= item.quantity %> </td>
+                <td> <%= number_to_currency(item.product.price, unit: '$') %> </td>
+                <td> <%= number_to_currency(item.discount, unit: '$') %> </td>
+                <td> <%= number_to_currency(item.total_price, unit: '$') %> </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="pricing-section">
+    <div class="pricing-data">
+      <div class="row">
+        <div class="col-md-4" style="padding-right: 0px">
+          <div> Sub-Total: </div>
+          <div> Tax 1 (PST): </div>
+          <div> Tax 2 (GST): </div>
+          
+          <div><strong>Shipping</strong></div>
+          <div class="line" style="margin-top: 20px"></div>
+          <div>Total:</div>
+        </div>
+        <div class="col-md-3" style="padding: 0px; text-align: center;">
+          <div class="hide" style="opacity: 0;">Temp text</div>
+          <div> 5% </div>
+          <div> 7% </div>
+          <div class="hide" style="opacity: 0;">Temp text</div>
+          <div class="line" style="margin-top: 20px"></div>
+        </div>
+        <div class="col-md-5" style="padding-left: 0px">
+          <div> $99.90 </div>
+          <div> $5.00 </div>
+          <div> $6.99 </div>
+          <div><strong>Free shipping</strong></div>
+          <div class="line" style="margin-top: 20px"></div>
+          <div> $111.89 </div>
+        </div>
+      </div>
+      <div class="row payment-method">
+        <p class="col-md-12"> Payment method: <%= @order.payment_method.upcase %> </p>
+      </div>
+    </div>
+  </div>
+</div>

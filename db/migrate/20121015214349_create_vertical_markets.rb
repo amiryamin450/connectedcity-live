@@ -1,4 +1,4 @@
-class CreateVerticalMarkets < ActiveRecord::Migration
+class CreateVerticalMarkets < ActiveRecord::Migration[7.0]
   def change
     create_table :vertical_markets do |t|
       t.string :name

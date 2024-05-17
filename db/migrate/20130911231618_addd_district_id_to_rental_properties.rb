@@ -1,4 +1,4 @@
-class AdddDistrictIdToRentalProperties < ActiveRecord::Migration
+class AdddDistrictIdToRentalProperties < ActiveRecord::Migration[7.0]
   def up
     add_column :rental_properties, :district_id, :integer
   end

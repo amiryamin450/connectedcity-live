@@ -1,13 +1,14 @@
 # TODO: remove, no longer used
-class SubRegion < ActiveRecord::Base
+class SubRegion < ApplicationRecord
 
   belongs_to :region
 
-
   has_many :cities
+
   has_many :locations, through: :cities
-  has_many :status_updates, through: :locations, uniq: true
-  has_many :news_articles, through: :locations, uniq: true
+
+  has_many :status_updates, -> { distinct }, through: :locations
+  has_many :news_articles, -> { distinct }, through: :locations
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
@@ -15,6 +16,4 @@ class SubRegion < ActiveRecord::Base
   has_attached_file :home_page_image, 
                     styles: {thumb: "100x100>"},
                     default_url: '/assets/home_page_image/:style/default.jpg'
-
-  attr_accessible :description, :name, :region_id, :slug, :region, :home_page_image
 end

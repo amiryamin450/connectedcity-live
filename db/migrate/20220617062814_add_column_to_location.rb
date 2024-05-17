@@ -1,4 +1,4 @@
-class AddColumnToLocation < ActiveRecord::Migration
+class AddColumnToLocation < ActiveRecord::Migration[7.0]
   def up
     add_column :locations, :hall_id, :integer
     add_column :locations, :councillor_id, :integer

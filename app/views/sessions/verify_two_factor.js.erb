@@ -1,0 +1,9 @@
+<% if defined?(@valid_user) && @valid_user %>
+  $("#new_user").replaceWith('<%= escape_javascript render(partial: 'devise/sessions/form', locals: { otp: true }) %>');
+  $("#user_password").val('<%= params[:password] %>');
+  <% unless @user.required_otp_for_login %>
+    $('body').append('<%= escape_javascript render(partial: 'devise/sessions/user_generate_2fa_qr_modal') %>');
+    var qrModal = new bootstrap.Modal($('#generate-2fa-qr'), {keyboard: false});
+    qrModal.show();
+  <% end %>
+<% end %>

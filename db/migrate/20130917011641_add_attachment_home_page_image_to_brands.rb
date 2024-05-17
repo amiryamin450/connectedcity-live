@@ -1,4 +1,4 @@
-class AddAttachmentHomePageImageToBrands < ActiveRecord::Migration
+class AddAttachmentHomePageImageToBrands < ActiveRecord::Migration[7.0]
   def self.up
     change_table :brands do |t|
       t.attachment :home_page_image

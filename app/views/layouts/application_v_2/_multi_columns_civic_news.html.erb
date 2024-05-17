@@ -63,7 +63,7 @@
   </div>
 </div>
 
-
+<%= javascript_include_tag "application_v_2" %>
 <!-- Add the slick-theme.css if you want default styling -->
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <!-- Add the slick-theme.css if you want default styling -->
@@ -102,7 +102,6 @@
 <% end %>
 
 <script type="text/javascript">
-  $(document).ready(function(){
     $('#multiple_items_civic_news.multi').slick({
       infinite: true,
       slidesToShow: 4,
@@ -170,7 +169,7 @@
         data:{
           sub_neighborhood_slug: subNeighborhoodId,
           neighborhood_slug: neighborhoodId,
-          disctrict_slug: disctrictId,
+          district_slug: disctrictId,
           city_slug: cityId
         },
         dataType: "script",
@@ -185,7 +184,7 @@
         data:{
           sub_neighborhood_slug: subNeighborhoodId,
           neighborhood_slug: neighborhoodId,
-          disctrict_slug: disctrictId,
+          district_slug: disctrictId,
           city_slug: cityId
         },
         dataType: "script",
@@ -200,7 +199,7 @@
         data:{
           sub_neighborhood_slug: subNeighborhoodId,
           neighborhood_slug: neighborhoodId,
-          disctrict_slug: disctrictId,
+          district_slug: disctrictId,
           city_slug: cityId
         },
         dataType: "script",
@@ -215,14 +214,20 @@
         data:{
           sub_neighborhood_slug: subNeighborhoodId,
           neighborhood_slug: neighborhoodId,
-          disctrict_slug: disctrictId,
+          district_slug: disctrictId,
           city_slug: cityId
         },
         dataType: "script",
       })
     })
 
+    // $(".modal").on('show.bs.modal', function(){
+    //   setTimeout(function() { $('.modal-backdrop.in').remove(); }, 500)
+    // })
 
+    $(".modal .close").click(function(){
+      $('.modal-backdrop.in').remove();
+    })
     //   .done(function( response ) {
     //     debugger
     //     $('.status-updates-data').empty()
@@ -250,5 +255,4 @@
     //     // })
     //   });
     // })
-  });
 </script>

@@ -1,4 +1,4 @@
-class CreateCityNewsCategories < ActiveRecord::Migration
+class CreateCityNewsCategories < ActiveRecord::Migration[7.0]
   def change
     create_table :city_news_categories do |t|
       t.string :name

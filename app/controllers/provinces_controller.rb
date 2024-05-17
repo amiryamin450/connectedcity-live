@@ -1,4 +1,4 @@
-class StateOrProvincesController < ApplicationController
+class ProvincesController < ApplicationController
   load_and_authorize_resource
   layout "admin"
 
@@ -8,7 +8,7 @@ class StateOrProvincesController < ApplicationController
     @provinces = StateOrProvince.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @provinces }
     end
   end
@@ -19,7 +19,7 @@ class StateOrProvincesController < ApplicationController
     @province = StateOrProvince.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @province }
     end
   end
@@ -30,7 +30,7 @@ class StateOrProvincesController < ApplicationController
     @province = StateOrProvince.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @province }
     end
   end
@@ -43,7 +43,7 @@ class StateOrProvincesController < ApplicationController
   # POST /state_or_provinces
   # POST /state_or_provinces.json
   def create
-    @province = StateOrProvince.new(params[:province])
+    @province = StateOrProvince.new(province_params)
 
     respond_to do |format|
       if @province.save
@@ -62,7 +62,7 @@ class StateOrProvincesController < ApplicationController
     @province = StateOrProvince.find(params[:id])
 
     respond_to do |format|
-      if @province.update_attributes(params[:province])
+      if @province.update(province_params)
         format.html { redirect_to @province, notice: 'State or province was successfully updated.' }
         format.json { head :no_content }
       else
@@ -82,5 +82,11 @@ class StateOrProvincesController < ApplicationController
       format.html { redirect_to state_or_provinces_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def province_params
+    params.require(:province).permit(:name, :abbr, :country_code, :country_name, :province_code)
   end
 end

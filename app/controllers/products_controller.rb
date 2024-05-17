@@ -1,4 +1,7 @@
 class ProductsController < ApplicationController
+  before_action :set_location_and_product, only: [:show, :edit, :destroy, :update]
+  before_action :set_location, only: [:new, :index, :specific, :create]
+
   load_resource :location, except: [:deeper_categories, :select_category]
   load_and_authorize_resource :product, through: [:location], except: [:deeper_categories, :select_category, :specific]
 
@@ -7,12 +10,12 @@ class ProductsController < ApplicationController
   end
 
   def show
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb @product.location.district.name, district_guide_path(@product.location.district) if @product.location.district
-    add_crumb @product.location.neighborhood.name if @product.location.neighborhood
-    add_crumb @product.location.broker.name, "#{@base_path}business/#{@product.location.broker.slug}" if @product.location.broker.present?
-    add_crumb @product.location.name, "#{@base_path}business/#{@product.location.slug}"
-    add_crumb @product.name
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb @product.location.district.name, district_guide_path(@product.location.district) if @product.location.district
+    add_breadcrumb @product.location.neighborhood.name if @product.location.neighborhood
+    add_breadcrumb @product.location.broker.name, "#{@base_path}business/#{@product.location.broker.slug}" if @product.location.broker.present?
+    add_breadcrumb @product.location.name, "#{@base_path}business/#{@product.location.slug}"
+    add_breadcrumb @product.name
     @cart = user_signed_in? ? current_user.cart : nil
     respond_to do |format|
       format.html { render layout: "application_v_2"}
@@ -21,8 +24,16 @@ class ProductsController < ApplicationController
   end
 
   def new
+    # TODO: Require connect to Stripe before add product
+    # unless StripeService.new(@location).stripe_connect_status
+    #   redirect_to edit_location_path(@location)
+    #   flash[:danger] = "Please connect to Stripe before add products"
+    # end
     @product = @location.products.new
-    @categories = Category.where(parent_id: nil).order(:name)
+    categories_news_ids = @categories_news.ids
+    categories_news_ids += Category.where(name: ["Federal Updates", "Provincial Updates"]).ids
+    @categories = Category.where(parent_id: nil).where.not(id: categories_news_ids).order(:name)
+
     if params[:category_id].present? && params[:category_id] != 'all'
       @product.category_id = params[:category_id]
       category = Category.find(params[:category_id])
@@ -40,12 +51,12 @@ class ProductsController < ApplicationController
   end
 
   def edit
-    @product = Product.find(params[:id])
+    @product = Product.friendly.find(params[:id])
   end
 
   def create
-    product_image_ids_param = params[:product].delete('product_image_ids')
-    @product = @location.products.new(params[:product])
+    product_image_ids_param = product_params.delete('product_image_ids')
+    @product = @location.products.new(product_params)
 
     if @product.save
       result = product_images_slide(product_image_ids_param)
@@ -64,9 +75,9 @@ class ProductsController < ApplicationController
   end
 
   def update
-    @product = Product.find(params[:id])
+    @product = Product.friendly.find(params[:id])
     respond_to do |format|
-      if @product.update_attributes(params[:product])
+      if @product.update(product_params)
         format.html { redirect_to [@location, @product], notice: 'Product was successfully updated.' }
         format.json { render json: { files: [@product.product_images.last.to_jq_upload]}, status: :created, product: @product }
       else
@@ -74,7 +85,7 @@ class ProductsController < ApplicationController
         format.html { render action: "edit" }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
-    end  
+    end
   end
 
   def destroy
@@ -109,4 +120,19 @@ class ProductsController < ApplicationController
     end
   end
 
+  private
+
+  def product_params
+    params.require(:product).permit(:description, :name, :price, :sku, :slug, :product_id, :quantity, :image,
+      :custom_pricing, :discount, :product_images_attributes, :category_id, :product_image_ids)
+  end
+
+  def set_location_and_product
+    @location = Location.unscoped.friendly.find(params[:location_id])
+    @product = @location.products.friendly.find(params[:id])
+  end
+
+  def set_location
+    @location = Location.unscoped.friendly.find(params[:location_id])
+  end
 end

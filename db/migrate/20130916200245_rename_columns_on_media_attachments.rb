@@ -1,4 +1,4 @@
-class RenameColumnsOnMediaAttachments < ActiveRecord::Migration
+class RenameColumnsOnMediaAttachments < ActiveRecord::Migration[7.0]
   def up
     rename_column :media_attachments, :attatchable_id, :attachable_id
     rename_column :media_attachments, :attatchable_type, :attachable_type

@@ -110,13 +110,13 @@
 }
 
 h5 {
-  @include background(linear-gradient(color-stops(#666, #000)));
+  // @include background(linear-gradient(color-stops(#666, #000)));
   margin: 0;
   margin-bottom: 1em;
   padding: 5px 10px;
   color: #FEC111;
   a {
-    color: $white;
+    // color: $white;
     font-size: .8em;
   }
 }
@@ -142,7 +142,7 @@ h5 {
 .brand-name {
   font-size: .8em;
   font-weight: bold;
-  color: $blue;
+  // color: $blue;
   text-align: center;
 }
 
@@ -200,4 +200,39 @@ h5 {
 
 .payment-errors:empty {
    display: none;
+}
+
+.location-paginate {
+  .pagination {
+    ul {
+      display: flex;
+      list-style: none;
+      padding: 0;
+
+      li {
+        margin: 0 auto;
+        padding: 0 1em;
+
+        a {
+          color: #19314F;
+        }
+      }
+
+      li.active {
+        background-color: #19314F;
+        
+        a {
+          color: #FFF;
+        }
+      }
+
+      li.disabled {
+        background-color: unset;
+      }
+    }
+  }
+}
+
+.header-actions {
+  margin: 10px 0 20px;
 }

@@ -1,6 +1,6 @@
 class CarouselImagesController < ApplicationController
   load_and_authorize_resource
-  before_filter :get_carouselable
+  before_action :get_carouselable
 
 
   # GET /carousel_images
@@ -9,7 +9,7 @@ class CarouselImagesController < ApplicationController
     @carousel_images = @carouselable.carousel_images 
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @carousel_images }
     end
   end
@@ -20,7 +20,7 @@ class CarouselImagesController < ApplicationController
     @carousel_image = CarouselImage.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @carousel_image }
     end
   end
@@ -31,7 +31,7 @@ class CarouselImagesController < ApplicationController
     @carousel_image = @carouselable.carousel_images.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @carousel_image }
     end
   end
@@ -44,7 +44,7 @@ class CarouselImagesController < ApplicationController
   # POST /carousel_images
   # POST /carousel_images.json
   def create
-    @carousel_image = @carouselable.carousel_images.new(params[:carousel_image])
+    @carousel_image = @carouselable.carousel_images.new(carousel_image_params)
 
     respond_to do |format|
       if @carousel_image.save
@@ -63,7 +63,7 @@ class CarouselImagesController < ApplicationController
     @carousel_image = CarouselImage.find(params[:id])
 
     respond_to do |format|
-      if @carousel_image.update_attributes(params[:carousel_image])
+      if @carousel_image.update(carousel_image_params)
         format.html { redirect_to polymorphic_url([@carouselable, :carousel_images]), notice: 'Carousel image was successfully updated.' }
         format.json { head :no_content }
       else
@@ -96,5 +96,7 @@ class CarouselImagesController < ApplicationController
     params[(params[:carouselable].singularize + "_id").to_sym]
   end
 
-
+  def carousel_image_params
+    params.require(:carousel_image).permit(:caption, :title, :image, :url)
+  end
 end

@@ -1,4 +1,4 @@
-class CreateSocialProfiles < ActiveRecord::Migration
+class CreateSocialProfiles < ActiveRecord::Migration[7.0]
   def change
     create_table :social_profiles do |t|
       t.integer :social_network, null: false

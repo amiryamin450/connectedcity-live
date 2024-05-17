@@ -39,7 +39,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
     var municipality = "<%= @vertical_market&.id === 114 %>";;
-    var need_category = "<%= [174, 164].include?(@vertical_marke&t.id) %>"
+    var need_category = "<%= [174, 164].include?(@vertical_market&.id) %>"
     if (need_category === "true") {
       var value = <%= @categories_news[0].id %>
       $("form#new_news_article select").val(value);

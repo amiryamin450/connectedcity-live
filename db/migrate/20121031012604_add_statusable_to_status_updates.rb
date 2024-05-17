@@ -1,4 +1,4 @@
-class AddStatusableToStatusUpdates < ActiveRecord::Migration
+class AddStatusableToStatusUpdates < ActiveRecord::Migration[7.0]
   def change
     add_column :status_updates, :statusable_id, :integer
     add_column :status_updates, :statusable_type, :string

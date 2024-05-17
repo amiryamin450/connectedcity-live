@@ -1,0 +1,21 @@
+<%= simple_form_for(resource, as: resource_name, url: new_user_session_path, method: :post, html: {class: 'form-vertical', id: 'new_user' }) do |f| %>
+  <%= f.input :email, autofocus: true, require: true, input_html: { class: "form-control w-100 w-md-50" }, wrapper_html: { class: "col-12 col-md-6" }, label_html: { class: 'fw-bold mt-2' } %>
+  <%= f.input :password, require: true, input_html: { class: "form-control w-100 w-md-50" }, wrapper_html: { class: "col-12 col-md-6" }, label_html: { class: 'fw-bold mt-2' } %>
+  <div class="user-otp col-12 col-md-6 <%= 'd-none' unless defined?(otp) %>">
+    <%= label_tag :otp, 'OTP', class: "form-label fw-bold mt-2" %>
+    <div class="controls">
+      <%= text_field_tag :otp, nil, pattern: '^\d{6}$', maxlength: 6, class: "form-control w-100 w-md-50", require: true %>
+    </div>
+    <% if resource && resource.required_otp_for_login %>
+      <%= link_to 'Reset your authentication code here', '#', id: 'resetPasswordBtn', data: {testda: 'sda'} %>
+    <% end %>
+  </div>
+  <%= f.input :remember_me, as: :boolean, input_html: { class: 'form-check-input' } if devise_mapping.rememberable? %>
+  <%= f.button :submit, "Login", class: 'btn-primary', id: "requestOTP", type: defined?(otp) ? 'submit' : 'button', style: "width:64px" %>
+<% end %>
+
+<script>
+  $("#resetPasswordBtn").click(function() {
+    sendAjaxRequest("<%= request_reset_2fa_code_path %>")
+  });
+</script>

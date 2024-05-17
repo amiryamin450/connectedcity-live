@@ -1,18 +1,18 @@
 <div class="row-fluid status-update">
   <div class="span2">
-      <%= image_tag status_update.statusable.logo.url %>
+      <%= image_tag status_update.statusable_v2.logo.url %>
   </div>
   <div class="span10">
-    <div class="name"><%= link_to status_update.statusable.name, statusable_path(status_update.statusable) %> <span class="time-ago"> <%= "#{time_ago_in_words(status_update.created_at)} ago" %></span></div>
+    <div class="name"><%= link_to status_update.statusable_v2.name, statusable_path(status_update.statusable_v2) %> <span class="time-ago"> <%= "#{time_ago_in_words(status_update.created_at)} ago" %></span></div>
     <div><%= status_update.content %>
     <% if status_update.image? %>
-      <%= link_to(content_tag(:span, "View Image", class: "status-update-image", data: { location: status_update.statusable.name}), '#status_update_image', data: {toggle: 'modal'}) %>
+      <%= link_to(content_tag(:span, "View Image", class: "status-update-image", data: { location: status_update.statusable_v2.name}), '#status_update_image', data: {toggle: 'modal'}) %>
       <div class='modal-content hidden'>
         <%= render 'status_updates/modal_content', status_update: status_update %>
       </div>
     <% end %>
     </div>
-    <% status_update_hash = {url: location_url(status_update.statusable), title: status_update.statusable.name, content: status_update.content, image: status_update.image.url} %>
+    <% status_update_hash = {url: location_url(status_update.statusable_v2), title: status_update.statusable_v2.name, content: status_update.content, image: status_update.image.url} %>
     <%= render_social_media_buttons(status_update_hash) %>
   </div>
 </div>

@@ -1,14 +1,14 @@
 class LineItemsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :find_cart, except: [:new, :create]
-  before_filter :find_line_item, except: [:new, :create, :index]
+  before_action :authenticate_user
+  before_action :find_cart, except: [:new, :create]
+  before_action :find_line_item, except: [:new, :create, :index]
 
   # GET /line_items
   # GET /line_items.json
   def index
     @line_items = @cart.line_items
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @line_items }
     end
   end
@@ -17,7 +17,7 @@ class LineItemsController < ApplicationController
   # GET /line_items/1.json
   def show
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @line_item }
     end
   end
@@ -28,7 +28,7 @@ class LineItemsController < ApplicationController
     @line_item = LineItem.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @line_item }
     end
   end
@@ -60,6 +60,8 @@ class LineItemsController < ApplicationController
     qty_line_item = @line_item.quantity
     qty_param = params[:quantity]
     @line_item.quantity = qty_param > qty_product ? qty_product : qty_param
+    list_items = @cart.line_items
+    @cart.list_items = list_items
 
     respond_to do |format|
       if @line_item.save
@@ -117,10 +119,15 @@ class LineItemsController < ApplicationController
         end
       end
     end
-    if @is_empty
-      render 'carts/show.js.erb' , :formats => [:json], :handlers => [:erb]
-    else
-      render 'destroy.js.erb', :formats => [:json], :handlers => [:erb]
+
+    respond_to do |format|
+      format.js do
+        if @is_empty
+          render 'carts/show'
+        else
+          render 'destroy'
+        end
+      end
     end
   end
 
@@ -133,5 +140,4 @@ class LineItemsController < ApplicationController
   def find_line_item
     @line_item = @cart.line_items.find(params[:id])
   end
-
 end

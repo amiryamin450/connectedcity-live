@@ -1,6 +1,8 @@
 class VonageService
   API_KEY = ENV["VONAGE_API_KEY"]
   SECRET_KEY = ENV['VONAGE_SECRET_KEY']
+  API_KEY_2FA = ENV["VONAGE_2FA_API_KEY"]
+  SECRET_KEY_2FA = ENV['VONAGE_2FA_SECRET_KEY']
 
   def opentok
     opentok = OpenTok::OpenTok.new API_KEY, SECRET_KEY
@@ -68,6 +70,49 @@ class VonageService
       file.close
       File.delete(file)
       media_attachment.save
+    end
+  end
+
+  def self.verify_2fa(user)
+    client = Vonage::Client.new(
+      api_key: API_KEY_2FA,
+      api_secret: SECRET_KEY_2FA
+    )
+
+    if user.verifying_request_id.present?
+      client.verify.cancel(user.verifying_request_id) rescue nil
+      user.verifying_request_id = nil
+      user.save!
+    end
+
+    response = client.verify.request(
+      number: user.phone_number,
+      brand: 'ConnectedCity'
+    )
+
+    if response
+      user.verifying_request_id = response.request_id
+      user.save!
+    end
+  end
+
+  def self.verify_2fa_otp(user, code)
+    client = Vonage::Client.new(
+      api_key: API_KEY_2FA,
+      api_secret: SECRET_KEY_2FA
+    )
+
+    response = client.verify.check(
+      request_id: user.verifying_request_id,
+      code: code
+    ) rescue nil
+
+    if response
+      user.verifying_request_id = nil
+      user.save!
+      true
+    else
+      false
     end
   end
 end

@@ -1,11 +1,11 @@
 <div class="row">
-  <div class="inner-img col-md-3 col-4">
-    <%= link_to (image_tag coupon.location.logo.url), statusable_path(coupon.location)%></a>
+  <div class="col-12 text-center">
+    <%= link_to (image_tag coupon.location.logo.url, class: "w-25 m-auto"), statusable_path(coupon.location)%></a>
   </div>
-  <div class="col-md-9 col-8">
+  <div class="col-12 px-3 pt-2">
     <div class="row">
       <div class="inner-card-title col-md-7">
-        <h5><%= link_to ("#{coupon.name}"), "#", class: "status-update-image", data: { target: "#coupon-#{coupon.id}-model", toggle: 'modal'} %>
+        <h5><%= link_to ("#{coupon.name}"), "#", class: "status-update-image", data: { 'bs-target': "#coupon-#{coupon.id}-model", 'bs-toggle': 'modal'} %>
         </h5>
       </div>
       <div class="inner-card-time col-md-5">
@@ -14,13 +14,13 @@
     </div>
     <div class="inner-card-description">
       <div class="content"> <%= sanitize(coupon.description) %> </div>
-      <%= link_to "View More", "#", class: "status-update-image", data: { target: "#coupon-#{coupon.id}-model", toggle: 'modal'} if coupon.description.present? %>
+      <%= link_to "View More", "#", class: "status-update-image", data: { 'bs-target': "#coupon-#{coupon.id}-model", 'bs-toggle': 'modal'} if coupon.description.present? %>
     </div>
   </div>
   <% if coupon.image? %>
     <div class="col-md-12">
       <div class="update-banner">
-        <%= link_to (image_tag coupon.image.url), "#", class: "status-update-image", data: { target: "#coupon-#{coupon.id}-model", toggle: 'modal'} %>
+        <%= link_to (image_tag coupon.image.url), "#", class: "status-update-image", data: { 'bs-target': "#coupon-#{coupon.id}-model", 'bs-toggle': 'modal'} %>
       </div>
     </div>
   <% end %>

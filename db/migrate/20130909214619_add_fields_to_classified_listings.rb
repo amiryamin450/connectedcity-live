@@ -1,4 +1,4 @@
-class AddFieldsToClassifiedListings < ActiveRecord::Migration
+class AddFieldsToClassifiedListings < ActiveRecord::Migration[7.0]
   def change
     add_column :classified_listings, :address, :string
     add_column :classified_listings, :address_1, :string

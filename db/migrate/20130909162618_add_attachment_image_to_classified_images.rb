@@ -1,4 +1,4 @@
-class AddAttachmentImageToClassifiedImages < ActiveRecord::Migration
+class AddAttachmentImageToClassifiedImages < ActiveRecord::Migration[7.0]
   def self.up
     change_table :classified_images do |t|
       t.attachment :image

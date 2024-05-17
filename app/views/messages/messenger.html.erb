@@ -1,0 +1,72 @@
+<div class="row messenger m-0 px-2" style="height:calc(100vh - 140px)">
+  <div class="col-8 col-md-4 p-0 border-end messenger-offcanvas messenger-offcanvas-start" id="offcanvasMessagesList">
+    <% @conversations.each do |conversation| %>
+      <%= link_to "/messenger/#{conversation.opposed_location(current_user.profile).slug}", class: "chatbox-item d-block p-2 border-bottom text-decoration-none" do %>
+        <h5><%= conversation.opposed_location(current_user.profile).email %></h5>
+        <div class="latest-message">
+          <span><%= truncate_html(conversation.messages&.last&.body, length: 30 ) %></span>
+          <span class="float-end"><%= conversation.messages.last.created_at.strftime("%H:%M") %></span>
+        </div>
+      <% end %>
+    <% end %>
+
+    <% @chat_boxes.each do |box| %>
+      <%= link_to "/messenger/#{box.slug}", class: "chatbox-item d-block p-2 border-bottom text-decoration-none" do %>
+        <h5><%= box.email %></h5>
+        <div class="latest-message">
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="col-12 col-md-8 position-relative conversation h-100" data-conversation-id="<%= @conversation&.id %>">
+    <% if @conversation.present? %>
+      <div class="heading border-bottom d-flex px-2">
+        <% logo = @recipient_profile&.logo&.present? ? @recipient_profile&.logo&.url : "default-avatar-icon.jpeg" %>
+        <%= image_tag logo %>
+        <h5 class="overflow-hidden"><%= @recipient_profile.name.presence || @recipient_profile.email.presence %></h5>
+      </div>
+
+      <div class="messages-list">
+        <ul>
+          <% @messages.each do |msg| %>
+              <%= render 'messages/message', message: msg, sender_id: @current_profile.id %>
+          <% end %>
+        </ul>
+      </div>
+
+      <%= simple_form_for @conversation.messages.new, url: send_message_path(id: @conversation.id), remote: true do |f| %>
+        <div class="send-message-line d-flex w-100 pe-3 position-absolute">
+          <%= f.hidden_field :sender_id, value: @current_profile.id %>
+          <%= f.text_area :body, class: 'form-control h-100' %>
+          <%= f.submit '>', class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <button class="btn btn-primary toggle-messages-list-btn d-block d-md-none" data-bs-toggle="offcanvas" href="#offcanvasMessagesList"></button>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $(".messages-list").scrollTop(9999999999);
+
+    <% if @conversation %>
+      var callInterval = setInterval(() => {
+        $.ajax({
+          url: "<%= reload_messages_path(recipient: params[:recipient]) %>",
+          method: "GET",
+          dataType: "json",
+        }).done(function(response) {
+          var conversation = $(".conversation[data-conversation-id='<%= @conversation.id %>']");
+          if (response.length > 0) {
+            response.forEach((message) => {
+              conversation.find('.messages-list').find('ul').append(`<li class='row'><div><div class='message-received'>${message.body}</div></div></li>`);
+            });
+            conversation.find(".messages-list").scrollTop(9999999999);
+          }
+        });
+      }, 5000);
+    <% end %>
+  })
+</script>

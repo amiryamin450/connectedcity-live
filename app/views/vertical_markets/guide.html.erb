@@ -1,11 +1,11 @@
 <% @current_market =
-    if @sub_market
-      @sub_market.name
-    elsif @vertical_market.respond_to?(:name)
-      @vertical_market.name
-    else
-      @vertical_market
-    end
+  if @sub_market
+    @sub_market.name
+  elsif @vertical_market.respond_to?(:name)
+    @vertical_market.name
+  else
+    @vertical_market
+  end
 %>
 <%
   @neighbourhood_param = params[:neighborhood] || params[:neighborhood_slug]
@@ -106,7 +106,7 @@
                   <% if [174, 164, 114].include?(@vertical_market.id) %>
                     <%= render 'layouts/application_v_2/guide_sidebar_municipality' %>
                   <% else %>
-                    <%= render 'layouts/application_v_2/guide_sidebar' %>
+                    <%= render 'layouts/application_v_2/guide_sidebar', using_search: true %>
                   <% end %>
                 </div>
             </div>
@@ -115,20 +115,7 @@
           <div class="col-md-8">
             <div class="category-body">
               <br>
-              <div class="search-box advance-search-box">
-                <%= form_tag @url, class: 'search-form', method: :get do %>
-                    <div class="input-group">
-                      <%# <input type="text" class="form-control search-input" placeholder="What are you looking for?" aria-label="Search input with dropdown button"> %>
-                      <%= search_field_tag :search, params[:search], placeholder: "What are you looking for?", class: "form-control search-column" %>
-                      <div class="input-group-prepend search-box ">
-                        <%= select_tag 'market', options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), prompt: 'all categories', class: 'form-control' %>
-                      </div>
-                      <div class="input-group-append">
-                        <button class="btn search-box-btn" type="submit"><img src="/cc_2.0/icon/search-icon.svg"></button>
-                      </div>
-                    </div>
-                  <% end %>
-              </div>
+              <%= render 'share/search_box', url: '', opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'all categories' %>
               <div class="vertical-market-categories">
                 <%= render 'guide/vertical_market_categories', :type_arg => 'country' %>
               </div>

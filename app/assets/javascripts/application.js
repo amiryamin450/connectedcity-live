@@ -14,7 +14,6 @@
 //= require linkify.min.js
 //= require linkify-jquery.min.js
 //= require jquery_ujs
-//= require jquery.ui.all
 //= require jquery-fileupload
 //= require jquery-tokeninput/jquery.tokeninput
 //= require jquery.flexslider-min.js

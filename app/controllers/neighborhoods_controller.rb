@@ -19,7 +19,7 @@ class NeighborhoodsController < ApplicationController
   end
 
   def update
-    if @neighborhood.update_attributes(params[:neighborhood])
+    if @neighborhood.update(params[:neighborhood])
       redirect_to neighborhoods_path, notice: 'The Neighborhood was updated successfully.'
     else
       render action: 'edit'

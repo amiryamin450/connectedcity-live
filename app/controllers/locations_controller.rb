@@ -1,12 +1,23 @@
 class LocationsController < ApplicationController
-  load_and_authorize_resource
+
+  before_action :set_location, only: [:connect_stripe, :disconnect_stripe, :connected_advertiser, :update, :destroy, :claim, :update_status]
+  load_and_authorize_resource :location, find_by: :slug
+
+  skip_load_and_authorize_resource :location, only: [:show, :edit, :update]
+
+  before_action :check_claim_business, only: [:claim, :claim_process]
+  before_action :check_active_location?, only: [:show]
+
   PER_PAGE = 20
+  BUSINESS_PER_PAGE = 100
+
   layout 'location', :only => [:show]
 
   def index
-
-    @search = Location.search(params[:q])
-    @locations = @search.result.order(:name).page(params[:page])
+    status = ["active", "in_active"].include?(params[:status]) ? params[:status] : ""
+    @filtered_locations = status.present? ? Location.send(status.to_sym) : Location.all
+    @search = @filtered_locations.ransack(params[:q])
+    @locations = @search.result.includes(:neighborhood).page(params[:page]).per(BUSINESS_PER_PAGE)
 
     respond_to do |format|
       format.html
@@ -14,9 +25,8 @@ class LocationsController < ApplicationController
   end
 
   def show
-
-    @location = Location.includes(:location_images).find(params[:id])
-    @location_menus = Location.includes(:location_menus).find(params[:id])
+    @location = Location.unscoped.includes(:location_images).friendly.find(params[:id])
+    @location_menus = Location.unscoped.includes(:location_menus).friendly.find(params[:id])
 
     # because we have two sources for the location carousel images (cover photo and location images),
     # get them into one collection for ease of display
@@ -66,19 +76,19 @@ class LocationsController < ApplicationController
     cookies[:return_to] = "#{@base_path}business/#{@location.slug}"
 
 
-    add_crumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_crumb @location.district.name, district_guide_path(@location.district.name) if @location.district
-    add_crumb @location.neighborhood.name if @location.neighborhood
-    add_crumb @location.sub_neighborhood.name if @location.sub_neighborhood
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb @location.district.name, district_guide_path(@location.district.name) if @location.district
+    add_breadcrumb @location.neighborhood.name if @location.neighborhood
+    add_breadcrumb @location.sub_neighborhood.name if @location.sub_neighborhood
 
     @vertical_market.ancestors.each do |ancestor|
-      add_crumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
+      add_breadcrumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
     end
 
-    add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}" if @vertical_market
+    add_breadcrumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}" if @vertical_market
 
-    add_crumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
-    add_crumb @location.name
+    add_breadcrumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
+    add_breadcrumb @location.name
     respond_to do |format|
       format.html {render layout: "application_v_2"}
       format.json { render json:  @location.location_images.map{|file| file.to_jq_upload }.to_json(include: :location_images)  }
@@ -114,16 +124,17 @@ class LocationsController < ApplicationController
 
     # 3.times { @location.location_images.build }
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @location }
     end
   end
 
   # GET /locations/1/edit
   def edit
-
-    @location = Location.find(params[:id])
-    if @location.hall_id.present?
+    @location = Location.unscoped.friendly.find(params[:id])
+    if @location.is_profile
+      @vertical_market_categories = VerticalMarketCategory.where(slug: 'connectedcitizen')
+    elsif @location.hall_id.present?
       @vertical_market_categories = VerticalMarketCategory.where(name: name_vertical_categories)
     elsif @location.councillor_id.present?
       @vertical_market_categories = VerticalMarketCategory.where(slug: 'city-councillors')
@@ -141,21 +152,25 @@ class LocationsController < ApplicationController
     end
 
     @managers = @location.managers.includes(:user)
-    add_crumb @location.name, "#{@base_path}business/#{@location.slug}"
-    add_crumb "Editing #{@location.name}"
+    add_breadcrumb @location.name, "#{@base_path}business/#{@location.slug}"
+    add_breadcrumb "Editing #{@location.name}"
   end
 
   # POST /locations
   # POST /locations.json
   def create
-    @location = Location.new(params[:location])
+    @location = Location.new(location_params)
+    unless @location.sub_neighborhood.present?
+      sub_neighborhood = Neighborhood.find_by_neighborhd params[:location][:sub_neighborhood_id]
+      @location.sub_neighborhood = sub_neighborhood if sub_neighborhood.present?
+    end
 
     respond_to do |format|
       if @location.save
         format.html { redirect_to @location, notice: 'Location was successfully created.' }
         format.json { render json: @location, status: :created, location: @location }
       else
-        pr = params[:location]
+        pr = location_params
 
         if pr[:hall_id].present?
           @vertical_market_categories = VerticalMarketCategory.where(name: name_vertical_categories)
@@ -176,14 +191,18 @@ class LocationsController < ApplicationController
   # PUT /locations/1
   # PUT /locations/1.json
   def update
-    @location = Location.find(params[:id])
+    @location.assign_attributes(location_params)
+    unless @location.sub_neighborhood.present?
+      sub_neighborhood = Neighborhood.find_by_neighborhd params[:location][:sub_neighborhood_id]
+      @location.sub_neighborhood = sub_neighborhood if sub_neighborhood.present?
+    end
 
     respond_to do |format|
-      if @location.update_attributes(params[:location])
+      if @location.save
         format.html { redirect_to cookies[:return_to].present? ? cookies[:return_to] : @location, notice: 'Location was successfully updated.' }
         format.json { render json: { files: [@location.location_images.last.to_jq_upload]}, status: :created, location: @location }
       else
-        puts params[:location].to_yaml
+        puts location_params.to_yaml
         puts @location.errors.to_yaml
 
         # format.html { render action: "edit" }
@@ -196,7 +215,6 @@ class LocationsController < ApplicationController
   # DELETE /locations/1
   # DELETE /locations/1.json
   def destroy
-    @location = Location.find(params[:id])
     @location.destroy
 
     respond_to do |format|
@@ -205,69 +223,102 @@ class LocationsController < ApplicationController
     end
   end
 
+  def update_status
+    return unless valid_statuses? params[:status]
+
+    @location.assign_attributes(status: params[:status])
+    @location.save(validate: false)
+
+    respond_to do |format|
+      format.html { redirect_to locations_url }
+      format.json { render json: @location }
+    end
+  end
+
+  def bulk_delete
+    return redirect_to locations_path unless params[:location_ids].present?
+
+    locations = Location.where(id: params[:location_ids])
+    locations.destroy_all
+
+    respond_to do |format|
+      format.html { redirect_to locations_url }
+      format.json { head :no_content }
+    end
+  end
+
   def claim
-    @location = Location.find(params[:id])
+    # return redirect_back(fallback_location: location_path(@location)) if @location.user_ids.present?
+
     @location.stripe_plan_id = 'yearly-new'
+
+    respond_to do |format|
+      format.html {render layout: "application_v_2"}
+    end
   end
 
   def claim_process
-    @location = Location.find(params[:id])
-    @location.assign_attributes params[:location].slice(:stripe_plan_id)
-    @location.payment_user = current_user
+    # return redirect_back(fallback_location: location_path(@location)) if @location.user_ids.present?
+
+    # @location.assign_attributes location_params.slice(:stripe_plan_id)
+    # @location.payment_user = current_user
+
+    # begin
+      # if @location.payment_user.stripe_customer_id
+        # customer = Stripe::Customer.retrieve @location.payment_user.stripe_customer_id
+      # else
+        # customer = Stripe::Customer.create email: @location.payment_user.email
+
+        # @location.payment_user.stripe_customer_id = customer.id
+        # @location.payment_user.save validate: false
+      # end
+    # rescue => e
+      # flash[:error] = e.message
+      # return redirect_to claim_location_path
+    # end
 
     begin
-      if @location.payment_user.stripe_customer_id
-        customer = Stripe::Customer.retrieve @location.payment_user.stripe_customer_id
-      else
-        customer = Stripe::Customer.create email: @location.payment_user.email
+      # subscription = customer.subscriptions.create plan: @location.stripe_plan_id,
+                                                  #  source: params[:stripeToken]
 
-        @location.payment_user.stripe_customer_id = customer.id
-        @location.payment_user.save validate: false
-      end
-    rescue => e
-      flash[:error] = e.message
-      return render :claim
-    end
-
-    begin
-      subscription = customer.subscriptions.create plan: @location.stripe_plan_id,
-                                                   source: params[:stripeToken]
-
-      @location.stripe_subscription_id = subscription.id
-      @location.users << current_user
+      # @location.stripe_subscription_id = subscription.id
+      # @location.users << current_user
+      @location.super_admin = current_user  # set business_owner
+      @location.claim_pending = true
       @location.save validate: false
 
-      LocationMailer.claim_approved_email(@location, current_user).deliver
+      LocationMailer.pending_claim_email(@location, current_user).deliver
 
-      redirect_to connected_advertiser_location_path(@location)
+      redirect_to location_path(@location)
     rescue => e
       flash[:error] = e.message
-      return render :claim
+      return redirect_to claim_location_path
     end
   end
 
   def approve_claim
-    @location = Location.find(params[:id])
-    @location.claim_pending = 0
-    if @location.save
-      LocationMailer.claim_approved_email(@location, @location.users.first).deliver
+    @location.users << @location.super_admin unless @location.user_ids.include?(@location.super_admin_id)
+    @location.claim_pending = false
+    if @location.save validate: false
+      LocationMailer.claim_approved_email(@location, @location.super_admin).deliver
     end
     redirect_to pending_claims_locations_path
   end
 
   def reject_claim
-    @location = Location.find(params[:id])
-    user = @location.users.first
-    @location.users.destroy_all
-    @location.claim_pending = 0
-    if @location.save
+    # @location.users.destroy_all
+    user = @location.super_admin
+    @location.super_admin = nil
+    @location.managers.find_by(user_id: user.id)&.destroy
+    @location.claim_pending = false
+    if @location.save validate: false
       LocationMailer.claim_rejected_email(@location, user).deliver
     end
     redirect_to pending_claims_locations_path
   end
 
   def release
-    @location = Location.find(params[:id])
+    # @location = Location.find(params[:id])
     @location.claim_pending = false
     @location.user_ids = nil
     @location.stripe_plan_id = nil
@@ -287,7 +338,7 @@ class LocationsController < ApplicationController
   end
 
   def pending_claims
-    @locations = Location.all(:conditions => { :claim_pending => 1})
+    @locations = Location.where(claim_pending: true)
 
     respond_to do |format|
       format.html
@@ -295,7 +346,7 @@ class LocationsController < ApplicationController
   end
 
   def connected_advertiser
-    @location = Location.find(params[:id])
+    @location = Location.friendly.find(params[:id])
   end
 
   def import
@@ -397,7 +448,9 @@ class LocationsController < ApplicationController
   def get_cities_by_municipality
     if params[:municipality_slug]
       @municipality = Municipality.find_by_id(params[:municipality_slug])
-      render json: @municipality.cities
+      cities = @municipality.cities.select(City.without_geom_column)
+
+      render json: cities
     else
       render json: []
     end
@@ -415,7 +468,9 @@ class LocationsController < ApplicationController
   def get_neighborhoods_by_district
     if params[:district_slug]
       @district = District.find_by_id(params[:district_slug])
-      render json: @district.neighborhoods
+      neighborhoods = @district.neighborhoods.select(Neighborhood.without_geom_column)
+
+      render json: neighborhoods
     else
       render json: []
     end
@@ -423,10 +478,56 @@ class LocationsController < ApplicationController
 
   def get_sub_neighborhoods_by_neighborhood
     if params[:neighborhood_slug]
-      @sub_neighborhood = Neighborhood.where(neighborhood_id: params[:neighborhood_slug])
+      @sub_neighborhood = Neighborhood.where(neighborhood_id: params[:neighborhood_slug]).select(Neighborhood.without_geom_column)
       render json: @sub_neighborhood
     else
       render json: []
     end
+  end
+
+  def connect_stripe
+    @stripe_account_link = StripeService.new(location: @location, user: current_user).create_account_link
+
+    redirect_to @stripe_account_link, allow_other_host: true
+  end
+
+  def disconnect_stripe
+    StripeService.new(location: @location).remove_stripe_account
+
+    redirect_to edit_location_url(@location)
+  end
+
+  private
+
+  def check_active_location?
+    @location = Location.unscoped.friendly.find(params[:id])
+
+    return redirect_back fallback_location: root_path if @location.present? && @location.in_active?
+  end
+
+  def valid_statuses? status
+    [:active, :in_active].include? status.to_sym
+  end
+
+  def check_claim_business
+    return redirect_to location_path(@location) if @location.business_owner.present?
+  end
+
+  def set_location
+    id_param = params[:id].presence || params[:location_id]
+    @location = Location.unscoped.friendly.find(id_param)
+  end
+
+  def location_params
+    params.require(:location).permit(:address, :address_1, :business_id, :city_id, :community_id, :country_id, :email, :fax, :import_hash,
+      :imported, :latitude, :longitude, :name, :phone, :postal_code, :region_id, :show_fax, :show_phone,
+      :show_toll_free, :slug, :province_id, :toll_free, :website_url, :logo,
+      :brand_ids, :brand_tokens, :content, :vertical_market_categories, :district, :yp_lid, :yp_categories, :yp_neighborhoods, :sub_neighborhood_id,
+      :city, :province, :district_id, :neighborhood, :country, :cover_photo, :neighborhood_id, :broker_id, :hall_id, :councillor_id, :commissioner_id, :business_improvement_area_id,
+      :user, :delete_cover_photo, :delete_logo, :stripe_plan_id, :municipality_id, :is_profile,
+      trade_association_ids: [], vertical_market_category_ids: [],
+      media_attachments_attributes: {}, operating_hours_attributes: {}, location_images_attributes: {}, location_menus_attributes: {},
+      status_updates_attributes: {}, blog_entries_attributes: {}, news_articles_attributes: {}, products_attributes: {},
+      services_attributes: {}, events_attributes: {},)
   end
 end

@@ -1,4 +1,4 @@
-class NewHomeCommunity < ActiveRecord::Base
+class NewHomeCommunity < ApplicationRecord
 
   belongs_to :city
   belongs_to :province
@@ -11,10 +11,6 @@ class NewHomeCommunity < ActiveRecord::Base
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
-
-  attr_accessible :city_id, :description, :highlights, :location_id, :name,
-  :neighborhood_id, :province_id, :city, :province, :location, :neighborhood, :district_id, :cover_photo,
-  :address, :postal_code, :latitude, :longitude, :status_updates_attributes, :logo, :style
 
   geocoded_by :full_street_address
   after_validation :geocode

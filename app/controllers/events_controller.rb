@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
+  before_action :load_location
   load_resource :location
-  load_and_authorize_resource :event, through: [:location], except: [:show, :edit, :update, :destroy]
+  # load_and_authorize_resource :event, through: [:location], except: [:show, :edit, :update, :destroy]
 
   def index
     @location = Location.find_by_slug(params[:location_id])
@@ -8,9 +9,9 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = Event.unscoped.find(params[:id])
+    @event = Event.unscoped.friendly.find(params[:id])
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @event }
     end
   end
@@ -27,7 +28,7 @@ class EventsController < ApplicationController
   end
 
   def edit
-    @event = Event.unscoped.find(params[:id])
+    @event = Event.unscoped.friendly.find(params[:id])
     @location = @event.location
     @is_location_normal = @location.hall_id.blank? && @location.councillor_id.blank? && @location.commissioner_id.blank?
     @is_municipality = !@is_location_normal || @location.slug === 'city-of-vancouver'
@@ -39,7 +40,7 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = @location.events.new(params[:event])
+    @event = @location.events.new(event_params)
     if @event.save
       redirect_to [@location, @event], notice: 'Event was successfully created.'
     else
@@ -48,8 +49,8 @@ class EventsController < ApplicationController
   end
 
     def update
-    @event = Event.unscoped.find(params[:id])
-    if @event.update_attributes(params[:event])
+    @event = Event.unscoped.friendly.find(params[:id])
+    if @event.update(event_params)
       redirect_to [@location, @event], notice: 'Event was successfully updated.'
     else
       render action: :edit
@@ -57,7 +58,7 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    @event = Event.unscoped.find(params[:id])
+    @event = Event.unscoped.friendly.find(params[:id])
     @event.destroy
     redirect_to location_events_url
   end
@@ -65,4 +66,13 @@ class EventsController < ApplicationController
   def check_scope
   end
 
+  private
+
+  def event_params
+    params.require(:event).permit(:description, :email, :ends_at, :name, :starts_at, :url, :slug, :location_id, :image, :category_id, :latitude, :longitude)
+  end
+
+  def load_location
+    @location = Location.friendly.find(params[:location_id])
+  end
 end

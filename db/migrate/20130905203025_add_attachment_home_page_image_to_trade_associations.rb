@@ -1,4 +1,4 @@
-class AddAttachmentHomePageImageToTradeAssociations < ActiveRecord::Migration
+class AddAttachmentHomePageImageToTradeAssociations < ActiveRecord::Migration[7.0]
   def self.up
     change_table :trade_associations do |t|
       t.attachment :home_page_image

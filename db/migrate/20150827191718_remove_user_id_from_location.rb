@@ -1,4 +1,4 @@
-class RemoveUserIdFromLocation < ActiveRecord::Migration
+class RemoveUserIdFromLocation < ActiveRecord::Migration[7.0]
   def up
     remove_column :locations, :user_id
   end

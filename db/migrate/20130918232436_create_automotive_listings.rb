@@ -1,4 +1,4 @@
-class CreateAutomotiveListings < ActiveRecord::Migration
+class CreateAutomotiveListings < ActiveRecord::Migration[7.0]
   def change
     create_table :automotive_listings do |t|
       t.string :title

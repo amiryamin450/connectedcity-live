@@ -1,4 +1,4 @@
-class AddPrimaryKeyToCity < ActiveRecord::Migration
+class AddPrimaryKeyToCity < ActiveRecord::Migration[7.0]
   def up
     rename_column :maponics_subdivisions, :csduid, :id
     change_column :maponics_subdivisions, :id, :integer

@@ -7,25 +7,32 @@
 
 %>
 <%= render 'images_slider' %>
-<div class="landing-page-heading-filter">
-  <div class="row filter">
-    <div class="col-11">
+<div class="landing-page-heading-filter" style="text-align: -webkit-center">
+  <div class="row filter px-3 px-md-0 w-100">
+    <div class="col-12 col-md-11">
       <div class="row">
-        <div class="col-3">
-          <%= select_tag 'metro-municipality-dropdown', options_for_select(@municipalities.collect{ |m| [m.name, m.slug] }, :selected => @municipality.slug), {prompt: 'Metro/Sub-Region', class: 'form-control search-column input-group-prepend search-box'} %>
+        <div class="col-12 col-md-3">
+          <%=
+            # select_tag(
+            #   'metro-municipality-dropdown',
+            #   options_for_select(@municipalities.collect{ |m| [m.name, m.slug] },
+            #   :selected => @municipality.slug),
+            #   {prompt: 'Metro/Sub-Region', class: 'form-control search-column input-group-prepend search-box'}
+            # )
+          %>
         </div>
-        <div class="col-3">
+        <div class="col-12 col-md-3 mt-2 mt-md-0">
           <%= select_tag 'metro-city-dropdown', options_for_select(@cities.collect{ |c| [c.name, c.slug]}), prompt: 'City', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
-        <div class="col-3">
+        <div class="col-12 col-md-3 mt-2 mt-md-0">
           <%= select_tag 'metro-district-dropdown', raw("<option>District</option>"), prompt: 'District', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
-        <div class="col-3">
+        <div class="col-12 col-md-3 mt-2 mt-md-0">
           <%= select_tag 'metro-neighbourhood-dropdown', raw("<option>Neighbourhood</option>"), prompt: 'Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
         </div>
       </div>
     </div>
-    <div class="col-1">
+    <div class="col-12 col-md-1 mt-2 mt-md-0">
       <a href="javascript:void(0)" id="metro-path">
         <button type="button" class="btn-primary btn">Go<i class="far fa-chevron-right"></i></button>
       </a>
@@ -60,7 +67,7 @@
           </div>
         </div>
       </div>
-      <!-- End -->  
+      <!-- End -->
     </div>
   </div>
 </div>
@@ -94,7 +101,7 @@
         $('#metro-path').attr("href", '/')
         resetCity()
         resetDistrict();
-        resetNeighbourhood(); 
+        resetNeighbourhood();
       }
     })
 
@@ -119,7 +126,7 @@
       }else{
         $('#metro-path').attr("href", '#')
         resetDistrict();
-        resetNeighbourhood(); 
+        resetNeighbourhood();
       }
     })
 
@@ -146,7 +153,7 @@
     $('#metro-neighbourhood-dropdown').on('change', function(event) {
       let neighborhoodId = event.target.value
       let districtID = $('#metro-district-dropdown').val()
-      let url = neighborhoodId ? `/municipalities/get_sub_neighborhoods?neighborhood_id=${neighborhoodId}`: `/municipalities/get_sub_neighborhoods?district_id=${districtID}`  
+      let url = neighborhoodId ? `/municipalities/get_sub_neighborhoods?neighborhood_id=${neighborhoodId}`: `/municipalities/get_sub_neighborhoods?district_id=${districtID}`
       $.ajax({
         url: url,
         method: "GET",

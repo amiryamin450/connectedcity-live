@@ -5,7 +5,8 @@
     <ul class="clearfix">
       <li class="first"><a href="#market-updates">Updates</a></li>
       <li><a href="#media">Videos</a></li>
-      <li><a href="#listings">Featured</a></li>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#services">Services</a></li>
       <li><a href="#events">Events</a></li>
       <li><a href="#news">News</a></li>
       <li><a href="#blogs">Blogs</a></li>
@@ -20,9 +21,14 @@
     </div>
   </div>
 
-  <div id="listings">
-    <h4>Featured</h4>
+  <div id="products">
+    <h4>Products</h4>
     <%= render @vertical_market.get_products(@municipality, @city, @district, @neighborhood, @sub_neighborhood) %>
+  </div>
+
+  <div id="services">
+    <h4>Services</h4>
+    <%= render @vertical_market.get_services(@municipality, @city, @district, @neighborhood, @sub_neighborhood) %>
   </div>
 
   <div id="events">

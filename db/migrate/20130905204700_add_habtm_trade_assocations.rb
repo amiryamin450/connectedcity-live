@@ -1,4 +1,4 @@
-class AddHabtmTradeAssocations < ActiveRecord::Migration
+class AddHabtmTradeAssocations < ActiveRecord::Migration[7.0]
   def up
     create_table :locations_trade_associations, :id =>false do |t|
       t.integer :trade_association_id

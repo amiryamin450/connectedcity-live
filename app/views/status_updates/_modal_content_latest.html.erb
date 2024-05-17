@@ -1,11 +1,9 @@
-<div class="modal fade" id=<%="status-#{status_update.id}-model"%>>
-  <div class="modal-dialog modal-xl" style="max-width: 80%;">
+<div class="modal fade" id=<%="status-#{status_update.id}-model"%> data-backdrop="static">
+  <div class="modal-dialog modal-xl mx-auto" style="max-width: 80%;">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="statusModalLongTitle"><%= status_update.statusable.name%></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h5 class="modal-title" id="statusModalLongTitle"><%= status_update.statusable_v2&.name%></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="row">
@@ -14,9 +12,9 @@
               <%= image_tag status_update.image.url %>
             </div>
           </div>
-          <div class="col-md-6 ">
+          <div class="col-md-6 px-0">
             <div class="location-info-popup" style="margin-top: 5px;">
-              <%= render 'locations/location_information', location: status_update.statusable, content: status_update.content, claim_business: false, show_neighborhood: true %>
+              <%= render 'locations/location_information', location: status_update.statusable_v2, content: status_update.content, claim_business: false, show_neighborhood: true %>
 
               <div class="row-fluid">
                 <div class="span12">

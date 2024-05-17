@@ -1,4 +1,4 @@
-class AutomotiveListing < ActiveRecord::Base
+class AutomotiveListing < ApplicationRecord
 
   belongs_to :location
 
@@ -20,12 +20,6 @@ class AutomotiveListing < ActiveRecord::Base
       end
     }
   end
-
-  attr_accessible :accident, :body, :body_exterior, :convenience_features, :description, :drivetrain, :enigine,
-                  :entertainment_features, :exterior_color, :interior_color, :lighting_visibility_instruments,
-                  :local, :location_id, :make, :mileage, :model, :powertrain_specs, :price_cents, :saftey_and_security,
-                  :seats_and_trim, :specs, :status, :stock_number, :suspension_specs, :title, :transmission, :trim_level,
-                  :vehicle_type, :year, :price, :main_image
 
   monetize :price_cents
 
@@ -56,4 +50,12 @@ class AutomotiveListing < ActiveRecord::Base
   scope :make_by, ->(make) {
     where(make: make)
   }
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["accident", "body", "body_exterior", "convenience_features", "created_at", "description", "drivetrain", "enigine", "entertainment_features", "exterior_color", "id", "interior_color", "lighting_visibility_instruments", "local", "location_id", "main_image_content_type", "main_image_file_name", "main_image_file_size", "main_image_updated_at", "make", "mileage", "model", "powertrain_specs", "price_cents", "saftey_and_security", "seats_and_trim", "specs", "status", "stock_number", "suspension_specs", "title", "transmission", "trim_level", "updated_at", "vehicle_type", "year"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["location"]
+  end
 end

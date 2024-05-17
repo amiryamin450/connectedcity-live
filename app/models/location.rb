@@ -1,29 +1,34 @@
-class Location < ActiveRecord::Base
+class Location < ApplicationRecord
   extend FriendlyId
+
+  default_scope { where(is_profile: false) }
 
   acts_as_messageable
 
   before_validation :clear_images?
 
-  belongs_to :business
+  belongs_to :super_admin, class_name: "User", optional: true
+  alias :business_owner :super_admin
+
+  belongs_to :business, optional: true
   belongs_to :city
   belongs_to :country
   belongs_to :province
   belongs_to :district
   belongs_to :neighborhood
-  belongs_to :sub_neighborhood, class_name: 'Neighborhood', foreign_key: 'sub_neighborhood_id'
-  belongs_to :business_improvement_area
-  belongs_to :payment_user, class_name: 'User'
+  belongs_to :sub_neighborhood, class_name: 'Neighborhood', foreign_key: 'sub_neighborhood_id', optional: true
+  belongs_to :business_improvement_area, optional: true
+  belongs_to :payment_user, class_name: 'User', optional: true
   belongs_to :municipality
 
   has_many :agents, class_name: 'Location', foreign_key: 'broker_id', dependent: :destroy
   has_many :city_halls, class_name: 'Location', foreign_key: 'hall_id', dependent: :destroy
-  has_many :city_councillors, class_name: 'Location', foreign_key: 'councillor_id', dependent: :destroy, :order => 'name ASC'
-  has_many :park_recreation_commissioners, class_name: 'Location', foreign_key: 'commissioner_id', dependent: :destroy, :order => 'name ASC'
-  belongs_to :broker, class_name: 'Location'
-  belongs_to :hall, class_name: 'Location'
-  belongs_to :councillor, class_name: 'Location'
-  belongs_to :commissioner, class_name: 'Location'
+  has_many :city_councillors, -> { order 'name ASC' }, class_name: 'Location', foreign_key: 'councillor_id', dependent: :destroy
+  has_many :park_recreation_commissioners, -> { order 'name ASC' }, class_name: 'Location', foreign_key: 'commissioner_id', dependent: :destroy
+  belongs_to :broker, class_name: 'Location', optional: true
+  belongs_to :hall, class_name: 'Location', optional: true
+  belongs_to :councillor, class_name: 'Location', optional: true
+  belongs_to :commissioner, class_name: 'Location', optional: true
 
   has_many :favorites, dependent: :destroy
   has_many :status_updates, as: :statusable, dependent: :destroy
@@ -39,45 +44,41 @@ class Location < ActiveRecord::Base
   has_many :real_estate_listings, dependent: :destroy
   has_many :rental_properties, dependent: :destroy
   has_many :new_home_communities, dependent: :destroy
-  has_many :vertical_markets, through: :vertical_market_categories
+
   has_many :employment_listings
   has_many :coupons, dependent: :destroy
   has_many :automotive_listings, dependent: :destroy
   has_many :managers
   has_many :users, through: :managers
   has_many :social_profiles, as: :owner, dependent: :destroy
+  has_many :conversations, foreign_key: :sender_id
 
-  has_many :operating_hours, order: :day, dependent: :destroy
+  has_many :operating_hours, dependent: :destroy
   accepts_nested_attributes_for :operating_hours
 
-  has_and_belongs_to_many :vertical_market_categories, :order => 'name ASC'
+  has_and_belongs_to_many :vertical_market_categories
+  has_many :vertical_markets, through: :vertical_market_categories
+
   has_and_belongs_to_many :brands
   has_and_belongs_to_many :trade_associations
 
   friendly_id :name, use: [:slugged, :history]
+
   attr_reader :brand_tokens
   attr_accessor :delete_cover_photo, :delete_logo
-
-  attr_accessible :address, :address_1, :business_id, :city_id, :community_id, :country_id, :email, :fax, :import_hash,
-    :imported, :latitude, :longitude, :name, :phone, :postal_code, :region_id, :show_fax, :show_phone,
-    :show_toll_free, :slug, :province_id, :toll_free, :website_url, :logo,
-    :location_images_attributes, :location_menus_attributes, :vertical_market_category_ids, :status_updates_attributes,
-    :blog_entries_attributes, :news_articles_attributes, :products_attributes, :services_attributes, :events_attributes,
-    :brand_ids, :brand_tokens, :content, :vertical_market_categories, :district, :yp_lid, :yp_categories, :yp_neighborhoods, :sub_neighborhood_id,
-    :city, :province, :district_id, :neighborhood, :country, :cover_photo, :neighborhood_id, :broker_id, :hall_id, :councillor_id, :commissioner_id, :business_improvement_area_id,
-    :user, :trade_association_ids, :media_attachments_attributes, :delete_cover_photo, :delete_logo,
-    :operating_hours_attributes, :stripe_plan_id, :municipality_id
 
   has_attached_file :logo, :styles => { :thumb => "70x55", :list => "168x80", :bia_display => "250x100"},
     :url => "/system/location/logo/:id/:style/:basename.:extension",
     :path => ":rails_root/public/system/location/logo/:id/:style/:basename.:extension"
-    # ,
-    # :default_url => "http://placehold.it/250x150"
+
+  validates_attachment_content_type :logo, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
   has_attached_file :cover_photo, :styles => { :thumb => "100x178", :cover => "1280" },
     :url => "/system/location/cover_photo/:id/:style/:basename.:extension",
     :path => ":rails_root/public/system/location/cover_photo/:id/:style/:basename.:extension",
     :default_url => "/default_images/location/cover_photo/cover/missing.jpg"
+
+  validates_attachment_content_type :cover_photo, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
   accepts_nested_attributes_for :location_images, :reject_if => lambda { |a| a[:image].nil? }, :allow_destroy => true
   accepts_nested_attributes_for :location_menus, :reject_if => lambda { |a| a[:image].nil? }, :allow_destroy => true
@@ -89,12 +90,17 @@ class Location < ActiveRecord::Base
   accepts_nested_attributes_for :events, allow_destroy: true
   accepts_nested_attributes_for :media_attachments, allow_destroy: true
 
-  validates_presence_of :address, :name, :vertical_market_category_ids, :province_id, :country_id, :city_id, :district_id, :municipality_id
+  validates_presence_of :address, :name, :vertical_market_category_ids, :province_id, :country_id, :city_id, :district_id, :municipality_id, unless: :is_profile
 
-  # geocoded_by :full_street_address
+  enum status: [:active, :in_active]
 
-  # after_validation :geocode
-  # after_save :assign_neighborhood
+  def self.ransackable_attributes(auth_object = nil)
+    ["address", "address_1", "available_call", "broker_id", "business_id", "business_improvement_area_id", "city_id", "claim_pending", "commissioner_id", "community_id", "content", "councillor_id", "country_id", "cover_photo_content_type", "cover_photo_file_name", "cover_photo_file_size", "cover_photo_updated_at", "created_at", "district_id", "email", "fax", "hall_id", "id", "import_hash", "imported", "is_profile", "latitude", "logo_content_type", "logo_file_name", "logo_file_size", "logo_updated_at", "longitude", "municipality_id", "name", "neighborhood_id", "payment_user_id", "phone", "postal_code", "province_id", "region_id", "show_fax", "show_phone", "show_toll_free", "slug", "stripe_account_id", "stripe_plan_id", "stripe_subscription_id", "sub_neighborhood_id", "toll_free", "updated_at", "vertical_market_category_id", "website_url", "yp_categories", "yp_lid", "yp_neighborhoods"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["agents", "automotive_listings", "blog_entries", "brands", "broker", "business", "business_improvement_area", "city", "city_councillors", "city_halls", "commissioner", "conversations", "councillor", "country", "coupons", "district", "employment_listings", "events", "favorites", "hall", "location_images", "location_menus", "managers", "media_attachments", "messages", "municipality", "neighborhood", "new_home_communities", "news_articles", "operating_hours", "park_recreation_commissioners", "payment_user", "products", "province", "real_estate_listings", "receipts", "rental_properties", "services", "slugs", "social_profiles", "status_updates", "sub_neighborhood", "trade_associations", "users", "vertical_market_categories", "vertical_markets", "videos"]
+  end
 
   def self.find_by_vertical_market
     vertical_market_categories
@@ -177,8 +183,6 @@ class Location < ActiveRecord::Base
     integer :neighborhood_id
     integer :sub_neighborhood_id
     integer :municipality_id
-
-
   end
 
   private

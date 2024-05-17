@@ -1,0 +1,102 @@
+<div style="text-align:center">
+  <h2 style="margin-bottom:0">WE’VE RECEIVED YOUR PAYMENT</h2>
+  <div>Order Number: <%= @order.number %> </div>
+
+  <p>
+    Great news, <%= @user.name %>.<br/>
+    The item(s) listed below have been paid for!
+  </p>
+</div>
+
+<h3>Payment Details:</h3>
+<div style="padding:0 30px">
+  <b>Transaction Details:</b>
+  <br/>
+  <b>Merchant:</b> <a href="#"> <%= @order.seller.name %> </a>
+  <br/>
+  <b>Payment Method:</b> <%= @order.payment_method.upcase %>
+  <br/>
+  <b>Amount:</b> $1,768.93
+  <br/>
+  <b>Transaction Date:</b> <%= @order.created_at %>
+  <br/>
+
+  <div style="gap:100px;display:flex;margin-top:15px">
+    <div>
+      <% address = JSON.parse(@order.shipment.shipping_address) %>
+      <b>Shipping To:</b>
+      <p style="margin-top: 5px">
+        <%= @order.shipment.shipping_name %>
+        <br/>
+        <%= "#{address["line1"]}, #{address["city"]}, #{address["state"]}" %>
+      </p>
+    </div>
+  </div>
+
+  <b>Payment Information</b>
+  <p style="margin-top:5px">
+    Thank you for your payment to <a href="#"> <%= @order.seller.name %> </a>.
+    You will receive an email for a pick-up or delivery instructions after the merchant confirm your order are ready for pick up.
+  </p>
+
+  <table style="display: none; width: 100%;text-align:left;border-collapse:collapse">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th style="text-align:right">Cost</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="vertical-align: baseline;">
+        <td>
+          Summer Sofa
+          <br/>
+          SKU: 123456789
+          <br/>
+          Colour: Black
+          <br/>
+          Size: Large
+        </td>
+        <td>1</td>
+        <td style="text-align:right">$1,579.40</td>
+      </tr>
+      <tr style="height:10px">
+        <td colspan="3"></td>
+      </tr>
+      <tr>
+        <td>Shipping & Handling:</td>
+        <td></td>
+        <td style="text-align:right">$0.00</td>
+      </tr>
+      <tr>
+        <td>Goods & Services Tax (GST):</td>
+        <td></td>
+        <td style="text-align:right">$78.97</td>
+      </tr>
+      <tr>
+        <td>Provincial Sales Tax (PST):</td>
+        <td></td>
+        <td style="text-align:right">$110.56</td>
+      </tr>
+      <tr>
+        <td>Harmonized Sales Tax (HST):</td>
+        <td></td>
+        <td style="text-align:right">$0.00</td>
+      </tr>
+      <tr style="border-top: 2px solid black">
+        <td><b>Transaction Total</b></td>
+        <td></td>
+        <td style="text-align:right"><b>$1,768.93</b></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br/>
+  <p>Have questions about your order? Visit our online <a href="#">Help Desk</a> for answers anytime.</p>
+  <p>Thanks again for shopping at <a href=<% root_url%>>ConnectedCity.com</a>.</p>
+  <p>
+    Best Regards,
+    <br/>Online Customer Service
+  </p>
+</div>

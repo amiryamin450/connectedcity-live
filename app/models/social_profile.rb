@@ -1,6 +1,4 @@
-class SocialProfile < ActiveRecord::Base
-  attr_accessible :access_token, :access_token_secret, :owner, :social_network, :uid
-
+class SocialProfile < ApplicationRecord
   belongs_to :owner, polymorphic: true
 
   def self.social_networks

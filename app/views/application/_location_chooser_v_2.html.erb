@@ -1,0 +1,56 @@
+<% current_location = get_current_district %>
+<%
+  district_url_suffix = if params[:market].present?
+                          "/guide/#{params[:market]}"
+                        elsif params[:controller] == "vertical_market_categories" && params[:id]
+                          "/category/#{params[:id]}"
+                        else
+                          ""
+                        end
+%>
+
+<div class="location-block dropdown">
+  <a class="open dropdown-toggle" data-bs-toggle="dropdown" href="#"><span></span></a>
+
+  <div class="dropdown-menu">
+    <% if @city.present? %>
+      <ul>
+        <li class="active"><%= link_to @city.name, root_path %></li>
+        <% @city.districts.each do |district|  %>
+          <% is_active = params[:district_route] == district.slug || params[:district_slug] == district.slug ? "active " : "" %>
+          <li class="<%= is_active%>sub-district ps-2">
+            <%= link_to district.name, district.access_link %>
+            <span class="<%= is_active %>location-dropdown-arrow">
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <div class="location-chooser-scroll-container">
+      <ul class="w-100">
+        <% @district&.neighborhoods&.each do |bia| %>
+          <%
+                bia_url = if params[:controller] == "vertical_market_categories" && params[:id]
+                            "/neighbourhoods/#{bia.slug}/category/#{params[:id]}"
+                          else
+                            @district_link = District.find_by_id(bia.district_id)
+                            if @vertical_market && current_user && !current_user.has_role?(:admin)
+                              district_neighborhood_guide_path(@district_link.slug, bia.slug, @vertical_market.slug)
+
+                            #NOTE: This check is needed if you are creating a new vertical market! @vertical_market will be valid, but is blank so that's why I have the check on line 48. - Don Marges, May 19, 2017
+                            elsif @vertical_market && @vertical_market.id == nil && current_user && current_user.has_role?(:admin)
+                              "/neighbourhoods/#{bia.slug}"
+                            elsif @vertical_market
+                              city_district_neighborhood_guide_path(@district_link.city&.slug, @district_link.slug, bia.slug, @vertical_market.slug)
+                            else
+                              "/neighbourhoods/#{bia.slug}"
+                            end
+                          end
+          %>
+          <li class="<%= 'active' if [params[:neighborhood_slug], params[:id]].include?(bia.slug) %>"><%= link_to bia.neighborhd, bia.access_link %></li>
+        <% end %>
+      </ul>
+    </div>
+
+  </div>
+</div>

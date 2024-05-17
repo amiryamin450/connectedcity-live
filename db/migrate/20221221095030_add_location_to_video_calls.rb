@@ -1,4 +1,4 @@
-class AddLocationToVideoCalls < ActiveRecord::Migration
+class AddLocationToVideoCalls < ActiveRecord::Migration[7.0]
   def change
     add_column :video_calls, :location_id, :integer
   end

@@ -1,4 +1,4 @@
-class CreateStatusUpdateCategoryTable < ActiveRecord::Migration
+class CreateStatusUpdateCategoryTable < ActiveRecord::Migration[7.0]
   def up
     create_table :categories_status_updates do |t|
       t.integer :category_id

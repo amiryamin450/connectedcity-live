@@ -17,3 +17,14 @@
     }
   }
 }
+
+// For city_landing and other pages
+.landing-page-heading-filter.communities-page {
+  .search-box.advance-search-box {
+    border: 1px solid #dedede;
+    .input-group-prepend.search-box {
+      border: none;
+      max-height: 41px;
+    }
+  }
+}

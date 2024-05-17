@@ -1,0 +1,4 @@
+var conversation = $(".conversation[data-conversation-id='<%= @conversation.id %>']");
+conversation.find('.messages-list').find('ul').append("<%= j(render 'messages/message', message: @message, sender_id: @message.sender_id) %>");
+conversation.find(".messages-list").scrollTop(9999999999);
+conversation.find('textarea').val('');

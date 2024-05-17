@@ -1,8 +1,6 @@
-class ClassifiedImage < ActiveRecord::Base
+class ClassifiedImage < ApplicationRecord
 
   belongs_to :classified_listing
-
-  attr_accessible :image, :classified_listing, :classified_listing_id
 
   has_attached_file :image, :styles => { :thumb => "75x75#", :large => "320", :display => "640"},
                     :url => "/system/classified_images/:id/:style/:basename.:extension",

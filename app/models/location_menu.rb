@@ -1,13 +1,12 @@
-class LocationMenu < ActiveRecord::Base
+class LocationMenu < ApplicationRecord
   belongs_to :location
-
-  attr_accessible :caption, :location_id, :image
 
   has_attached_file :image, :styles => { :thumb => "75x75#", :large => "320x240#", :display => "360x270#"},
                     :url => "/system/location_menu/:id/:style/:basename.:extension",
                     :path => ":rails_root/public/system/location_menu/:id/:style/:basename.:extension"
 
-  validates_attachment_presence :image
+  validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
+
   validates_attachment_size :image, :less_than => 5.megabytes
 
   include Rails.application.routes.url_helpers

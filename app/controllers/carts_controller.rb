@@ -1,8 +1,8 @@
 class CartsController < ApplicationController
   layout "application_v_2"
 
-  before_filter :authenticate_user!
-  before_filter :find_cart, except: [:new, :create]
+  before_action :authenticate_user
+  before_action :find_cart, except: [:new, :create]
 
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
   # GET /carts
@@ -14,12 +14,18 @@ class CartsController < ApplicationController
   # GET /carts/1
   # GET /carts/1.json
   def show
+    if params[:slug].present? && params[:slug] == 'back'
+      redirect_to @cart
+      return
+    end
+
     location_id = nil
     if params[:slug].present?
       location = Location.find_by_slug(params[:slug])
       location_id = location&.id
     end
-    if location_id.present? || (params[:slug].present? && params[:slug] == 'back')
+
+    if location_id.present?
       if location_id.present?
         @back_url = "/carts/#{@cart.id}?slug=back"
         list_items = @cart.line_items.where(location_id: location_id)
@@ -44,7 +50,10 @@ class CartsController < ApplicationController
           }
         end
       end
-      render 'show.js.erb' , :formats => [:json], :handlers => [:erb]
+
+      respond_to do |format|
+        format.js { render 'show' }
+      end
     else
       @back_url = URI(request.referer || '').path
       session[:return_to] = URI(request.referer || '').path
@@ -64,8 +73,9 @@ class CartsController < ApplicationController
           }
         end
       end
+
       respond_to do |format|
-        format.html # show.html.erb
+        format.html
         format.json { render json: @line_items }
       end
     end
@@ -77,7 +87,7 @@ class CartsController < ApplicationController
     @cart = Cart.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @cart }
     end
   end
@@ -91,7 +101,7 @@ class CartsController < ApplicationController
   # POST /carts
   # POST /carts.json
   def create
-    @cart = Cart.new(params[:cart])
+    @cart = Cart.new(cart_params)
 
     respond_to do |format|
       if @cart.save
@@ -108,7 +118,7 @@ class CartsController < ApplicationController
   # PUT /carts/1.json
   def update
     respond_to do |format|
-      if @cart.update_attributes(params[:cart])
+      if @cart.update(cart_params)
         format.html { redirect_to @cart, notice: 'Cart was successfully updated.' }
         format.json { head :no_content }
       else
@@ -144,7 +154,10 @@ class CartsController < ApplicationController
           }
         end
       end
-      render 'clear.js.erb'
+
+    respond_to do |format|
+      format.js { render 'clear' }
+    end
   end
 
   # DELETE /carts/1
@@ -158,6 +171,18 @@ class CartsController < ApplicationController
     end
   end
 
+  def checkout
+    checkout_session = StripeService.new(cart: @cart, params: params).checkout
+  
+    redirect_to checkout_session.url, allow_other_host: true
+  end
+
+  def checkout_successful
+    StripeService.new(cart: @cart, params: params).checkout_successful
+  
+    redirect_to cart_url(@cart)
+  end
+
   private
 
     def find_cart
@@ -169,4 +194,7 @@ class CartsController < ApplicationController
       redirect_to store_index_url, notice: 'Invalid cart'
     end
 
+    def cart_params
+      params.require(:cart).permit(:line_items_attributes)
+    end
 end

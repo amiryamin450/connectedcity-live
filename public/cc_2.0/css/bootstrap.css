@@ -6766,6 +6766,10 @@ a.close.disabled {
   vertical-align: text-top !important;
 }
 
+.align-super {
+  vertical-align: super !important;
+}
+
 .bg-primary {
   background-color: #007bff !important;
 }

@@ -72,7 +72,7 @@ task :import_cities => :environment do
     city = City.unscoped.find_by_csdname(data[:ct_name])
     mun = Municipality.find_by_name(data[:mun_name])
     if city.present?
-      city.update_attributes({is_active: true, municipality_id: mun.id}) if mun.present?
+      city.update({is_active: true, municipality_id: mun.id}) if mun.present?
     end
   end
 end
@@ -118,7 +118,7 @@ task :import_neighbourhoods => :environment do
     district = District.find_by_name(data[:dt_name])
 
     if neighborhood.present?
-      neighborhood.update_attributes({district_id: district.id, neighborhd: data[:nei_name]}) if district.present?
+      neighborhood.update({district_id: district.id, neighborhd: data[:nei_name]}) if district.present?
     end
   end
 end

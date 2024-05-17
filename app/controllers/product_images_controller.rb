@@ -5,7 +5,7 @@ class ProductImagesController < ApplicationController
     @product_images = ProductImage.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @product_images }
     end
   end
@@ -16,7 +16,7 @@ class ProductImagesController < ApplicationController
     @product_image = ProductImage.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @product_image }
     end
   end
@@ -27,7 +27,7 @@ class ProductImagesController < ApplicationController
     @product_image = ProductImage.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @product_image }
     end
   end
@@ -40,7 +40,7 @@ class ProductImagesController < ApplicationController
   # POST /product_images
   # POST /product_images.json
   def create
-    @product_image = ProductImage.new(params[:product_image])
+    @product_image = ProductImage.new(product_image_params)
 
     respond_to do |format|
       if @product_image.save
@@ -59,7 +59,7 @@ class ProductImagesController < ApplicationController
     @product_image = ProductImage.find(params[:id])
 
     respond_to do |format|
-      if @product_image.update_attributes(params[:product_image])
+      if @product_image.update(product_image_params)
         format.html { redirect_to @product_image, notice: 'Product image was successfully updated.' }
         format.json { head :no_content }
       else
@@ -97,5 +97,11 @@ class ProductImagesController < ApplicationController
   def convert_params
     params[:product_image][:image] = params[:product_image][:image][0]
     params
+  end
+
+  private
+
+  def product_image_params
+    params.require(:product_image).permit(:product_id, :image)
   end
 end

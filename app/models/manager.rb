@@ -1,4 +1,4 @@
-class Manager < ActiveRecord::Base
+class Manager < ApplicationRecord
 
   belongs_to :user
   belongs_to :location
@@ -11,8 +11,6 @@ class Manager < ActiveRecord::Base
   validate :validate_new_manager, if: -> { new_manager_email.present? }
 
   attr_accessor :new_manager_email
-
-  attr_accessible :new_manager_email
 
   def creating_from_email!
     @creating_from_email = true

@@ -1,4 +1,4 @@
-<%= simple_form_for [@location, @event] do |f| %>
+<%= simple_form_for [@location, @event], :html => { :multipart => true, id: 'new_event' } do |f| %>
 <div class="form-inputs">
   <%= f.input :name %>
   <%= f.input :email %>
@@ -63,6 +63,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
+    var image_exist = <%= @event.image.blank? %>;
     var municipality = "<%= @vertical_market&.id === 114 %>";
     var valid = "<%= [174, 164, 114].include?(@vertical_market&.id) %>"
     $("#new_event").validate({
@@ -73,7 +74,7 @@
         },
         'event[description]': {
           required: true,
-          maxlength: 1500,
+          maxlength: 3000,
         },
         'event[url]': {
           maxlength: 300,
@@ -99,13 +100,13 @@
           required: function(){ return valid === "true" && isBlankLongitude() },
         },
         'event[image]': {
-          required: true,
+          required: function(){ return image_exist },
         },
       }
     });
     $("form#new_event").on('submit', function(e) {
       var isvalid = $("form#new_event").valid();
-      if (isvalid) {
+      if (!isvalid) {
           e.preventDefault();
       }
       if (valid === 'true') {

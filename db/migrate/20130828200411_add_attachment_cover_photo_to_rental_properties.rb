@@ -1,4 +1,4 @@
-class AddAttachmentCoverPhotoToRentalProperties < ActiveRecord::Migration
+class AddAttachmentCoverPhotoToRentalProperties < ActiveRecord::Migration[7.0]
   def self.up
     change_table :rental_properties do |t|
       t.attachment :cover_photo

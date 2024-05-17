@@ -1,4 +1,4 @@
-class AddSlugToNewsArticles < ActiveRecord::Migration
+class AddSlugToNewsArticles < ActiveRecord::Migration[7.0]
   def change
     add_column :news_articles, :slug, :string
   end

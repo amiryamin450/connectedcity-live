@@ -1,4 +1,4 @@
-class CreateVideoCalls < ActiveRecord::Migration
+class CreateVideoCalls < ActiveRecord::Migration[7.0]
   def up
     create_table :video_calls do |t|
       t.string :session_id

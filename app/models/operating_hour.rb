@@ -1,7 +1,5 @@
-class OperatingHour < ActiveRecord::Base
+class OperatingHour < ApplicationRecord
   belongs_to :location
-
-  attr_accessible :starts_at, :ends_at, :closed, :day
 
   before_validation do
     self.starts_at = self.ends_at = nil if starts_at == ends_at
@@ -21,7 +19,7 @@ class OperatingHour < ActiveRecord::Base
   end
 
   def day=(day)
-    day = day.to_i if (day.is_a?(String) && self.class.days.values.include?(day.to_i))
+    day = day.to_i if (day.is_a?(String) && self.class.days.values.map(&:to_s).include?(day))
     day = self.class.days[day.to_sym] unless day.is_a? Integer
     super day
   end

@@ -9,7 +9,7 @@ class RentalUnitsController < ApplicationController
     @rental_units = @rental_property.rental_units
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @rental_units }
     end
   end
@@ -21,18 +21,18 @@ class RentalUnitsController < ApplicationController
     @vertical_market = @location.vertical_market_categories.first.vertical_market
 
 
-    add_crumb @district.name, district_guide_path(@district) if @district
-    add_crumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
-    add_crumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
-    add_crumb @location.name, "#{@base_path}business/#{@location.slug}"
-    add_crumb @rental_property.name, "/business/#{@location.slug}/rental_properties/#{@rental_property.slug}"
-    add_crumb "Unit: #{@rental_unit.unit_number}"
+    add_breadcrumb @district.name, district_guide_path(@district) if @district
+    add_breadcrumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
+    add_breadcrumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
+    add_breadcrumb @location.name, "#{@base_path}business/#{@location.slug}"
+    add_breadcrumb @rental_property.name, "/business/#{@location.slug}/rental_properties/#{@rental_property.slug}"
+    add_breadcrumb "Unit: #{@rental_unit.unit_number}"
 
 
 
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @rental_unit }
     end
   end
@@ -43,7 +43,7 @@ class RentalUnitsController < ApplicationController
     @rental_unit = @rental_property.rental_units.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @rental_unit }
     end
   end
@@ -56,7 +56,7 @@ class RentalUnitsController < ApplicationController
   # POST /rental_units
   # POST /rental_units.json
   def create
-    @rental_unit = @rental_property.rental_units.new(params[:rental_unit])
+    @rental_unit = @rental_property.rental_units.new(rental_unit_params)
 
     respond_to do |format|
       if @rental_unit.save
@@ -75,7 +75,7 @@ class RentalUnitsController < ApplicationController
     @rental_unit = RentalUnit.find(params[:id])
 
     respond_to do |format|
-      if @rental_unit.update_attributes(params[:rental_unit])
+      if @rental_unit.update(rental_unit_params)
         format.html { redirect_to [@location, @rental_property, @rental_unit], notice: 'Rental unit was successfully updated.' }
         format.json { head :no_content }
       else
@@ -95,5 +95,13 @@ class RentalUnitsController < ApplicationController
       format.html { redirect_to rental_units_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def rental_unit_params
+    params.require(:rental_unit).permit(:availability, :bathrooms, :bedrooms, :date_available, :description,
+      :flooring_types, :included_appliances, :living_area, :property_id, :rent_amount, :unit_number,
+      :rental_property, :rental_property_id, :cover_photo)
   end
 end

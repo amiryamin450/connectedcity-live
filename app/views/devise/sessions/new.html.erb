@@ -3,11 +3,36 @@
                 title: ["User Login", :site],
                 separator: " — "
 %>
-<h2>Login</h2>
-<%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-vertical' }) do |f| %>
-  <%= f.input :email, :autofocus => true %>
-  <%= f.input :password %>
-  <%= f.input :remember_me, :as => :boolean if devise_mapping.rememberable? %>
-  <%= f.button :submit, "Login", :class => 'btn-primary' %>
-<% end %>
-<%= render "devise/shared/links" %>
+
+<div class="container-fluid content-holder p-5">
+  <div class="row-fluid">
+    <h2>Login</h2>
+    <%= render "form" %>
+    <%= render "devise/shared/links" %>
+  </div>
+</div>
+
+<script>
+  function formSubmit() {
+    $("#new_user").submit();
+  }
+
+  $("#requestOTP").click(function() {
+    sendAjaxRequest("<%= verify_two_factor_path %>")
+  });
+    
+  function sendAjaxRequest(path) {
+    var userEmail = $("#user_email").val();
+    var userPassword = $("#user_password").val();
+    $.ajax({
+      url: path,
+      method: "POST",
+      dataType: "script",
+      headers: { 'X-CSRF-Token': $('input[name=authenticity_token]').val() },
+      data: {
+        email: userEmail,
+        password: userPassword
+      }        
+    })
+  }
+</script>
