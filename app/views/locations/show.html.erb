@@ -267,12 +267,12 @@
                     <%= render 'status_updates' %>
                     <div class="divider mt-5"></div>
                   </div>
-                  <div id="Articles" class="container tab-pane fade">
+                  <div id="Articles" class="container tab-pane">
                     <%= render 'news_articles' %>
                     <div class="divider mt-5"></div>
                   </div>
                 <% if (![174, 164, 114].include?(@vertical_market.id) && @is_location_normal && request.path != '/business/city-of-vancouver') %>
-                  <div id="Entries" class="container tab-pane fade">
+                  <div id="Entries" class="container tab-pane">
                     <%= render 'blog_entry' %>
                     <div class="divider mt-5"></div>
                   </div>
@@ -609,6 +609,3 @@
   window.locations = <%= raw map_locations_data([@location]) %>;
 </script>
 <%= render 'status_updates/status_update_new' %>
-
-
-

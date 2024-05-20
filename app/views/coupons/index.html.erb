@@ -1,36 +1,38 @@
-<h1>Managing <%= @location.name %>'s Coupons </h1>
-<% if @coupons.size > 0 %>
-    <table class="table table-bordered table-striped table-hover">
-      <tr>
-        <th>Name</th>
-        <th>Expiration</th>
-        <th>How many</th>
-        <th>Times Claimed</th>
-        <th>Times Redeemed</th>
-        <th></th>
-      </tr>
+<div class="px-3 pb-3 px-md-5 pb-md-5">
+  <h1 class="my-4">Managing <%= @location.name %>'s Coupons </h1>
+  <% if @coupons.size > 0 %>
+      <table class="table table-bordered table-striped table-hover">
+        <tr>
+          <th>Name</th>
+          <th>Expiration</th>
+          <th>How many</th>
+          <th>Times Claimed</th>
+          <th>Times Redeemed</th>
+          <th></th>
+        </tr>
 
-    <% @coupons.each do |coupon| %>
-      <tr>
-        <td><%= coupon.name %></td>
-        <td><%= coupon.expiration %></td>
-        <td><%= coupon.howmany %></td>
-        <td><%= coupon.redemptions_count %></td>
-        <td><%= coupon.times_redeemed %></td>
-        <td>
-          <div class="btn-group">
-            <%= link_to 'show', [@location, coupon], class: 'btn btn-mini' %>
-            <%= link_to 'edit', edit_location_coupon_path(@location, coupon), class: 'btn btn-mini' %>
-            <%= link_to 'delete', [@location, coupon], method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
-          </div>
-        </td>
-      </tr>
-    <% end %>
-    </table>
-<% else %>
-    <div class="alert notice">No Coupons Found</div>
-<% end %>
-<br />
+      <% @coupons.each do |coupon| %>
+        <tr>
+          <td><%= coupon.name %></td>
+          <td><%= coupon.expiration %></td>
+          <td><%= coupon.howmany %></td>
+          <td><%= coupon.redemptions_count %></td>
+          <td><%= coupon.times_redeemed %></td>
+          <td>
+            <div class="btn-group">
+              <%= link_to 'show', [@location, coupon], class: 'btn btn-mini' %>
+              <%= link_to 'edit', edit_location_coupon_path(@location, coupon), class: 'btn btn-mini' %>
+              <%= link_to 'delete', [@location, coupon], method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+      </table>
+  <% else %>
+      <div class="alert notice">No Coupons Found</div>
+  <% end %>
+  <br />
 
-<%= link_to 'New Coupon', new_location_coupon_path(@location), class: 'btn btn-primary' %>
-<%= link_to "Back to #{@location.name}", @location, class: 'btn' %>
+  <%= link_to 'New Coupon', new_location_coupon_path(@location), class: 'btn btn-primary' %>
+  <%= link_to "Back to #{@location.name}", @location, class: 'btn' %>
+</div>

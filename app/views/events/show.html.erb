@@ -1,28 +1,30 @@
-<h1><%= @event.name %></h1>
-<div class="dates">
-  <%=  "<strong>Starts:</strong> #{@event.starts_at.strftime('%b. %d, %Y %l:%M %p')}".html_safe if @event.starts_at.present? %>
-  <%=  " | <strong>Ends:</strong> #{@event.ends_at.strftime('%b. %d, %Y %l:%M %p')}".html_safe if @event.ends_at.present? %>
-</div>
-<div class="event-info">
-  <%= link_to "Event Website", @event.url, target: "_blank" if @event.url? %>
-  <%= "#{@event.url? ? '|' : ''} #{mail_to(@event.email, 'Email Event Organizer')}".html_safe if @event.email.present? %>
-  <% if user_signed_in? %>
-    <%= link_to "| Send a message", "#", data: { toggle: "modal", target: "#new_message" } %>
+<div class="p-4">
+  <h1><%= @event.name %></h1>
+  <div class="dates">
+    <%=  "<strong>Starts:</strong> #{@event.starts_at.strftime('%b. %d, %Y %l:%M %p')}".html_safe if @event.starts_at.present? %>
+    <%=  " | <strong>Ends:</strong> #{@event.ends_at.strftime('%b. %d, %Y %l:%M %p')}".html_safe if @event.ends_at.present? %>
+  </div>
+  <div class="event-info">
+    <%= link_to "Event Website", @event.url, target: "_blank" if @event.url? %>
+    <%= "#{@event.url? ? '|' : ''} #{mail_to(@event.email, 'Email Event Organizer')}".html_safe if @event.email.present? %>
+    <% if user_signed_in? %>
+      <%= link_to "| Send a message", "#", data: { toggle: "modal", target: "#new_message" } %>
+    <% end %>
+  </div>
+  <div><%= image_tag @event.image.url if @event.image.present? %></div>
+  <div>
+    <p>
+      <%= @event.description.html_safe %>
+    </p>
+  </div>
+
+  <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+  <div style="margin-top: 1.5em">
+    <%= link_to "Edit", edit_location_event_path(@location, @event), class: 'btn btn-primary' %>
+    <%= link_to "Create New Event", new_location_event_path(@location), class: 'btn' %>
+    <%= link_to "Back to #{@location.name}", @location, class: 'btn' %>
+  </div>
   <% end %>
-</div>
-<div><%= image_tag @event.image.url if @event.image.present? %></div>
-<div>
-  <p>
-    <%= @event.description.html_safe %>
-  </p>
-</div>
 
-<% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
-<div style="margin-top: 1.5em">
-  <%= link_to "Edit", edit_location_event_path(@location, @event), class: 'btn btn-primary' %>
-  <%= link_to "Create New Event", new_location_event_path(@location), class: 'btn' %>
-  <%= link_to "Back to #{@location.name}", @location, class: 'btn' %>
+  <%= render 'messages/modal_new' %>
 </div>
-<% end %>
-
-<%= render 'messages/modal_new' %>

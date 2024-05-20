@@ -1,15 +1,18 @@
-<h1><%= @service.name %></h1>
+<div class="p-4">
 
-<div><%= image_tag @service.image.url %></div>
-<% if user_signed_in? && current_user.can_manage_location?(@location) %>
-  <div><strong>SKU:</strong> <%= @service.sku %></div>
-<% end %>
-<div><%= number_to_currency @service.price %></div>
-<div><%= @service.description.html_safe %></div>
+  <h1><%= @service.name %></h1>
 
-<% if (user_signed_in? && current_user.has_role?(:admin)) || (user_signed_in? && current_user.can_manage_location?(@location)) %>
-<div style="margin-top: 1.5em">
-  <%= link_to "Edit", edit_location_service_path(@location, @service), class: 'btn btn-primary' %>
-  <%= link_to "Create New service", new_location_service_path(@location), class: 'btn' %>
+  <div><%= image_tag @service.image.url %></div>
+  <% if user_signed_in? && current_user.can_manage_location?(@location) %>
+    <div><strong>SKU:</strong> <%= @service.sku %></div>
+  <% end %>
+  <div><%= number_to_currency @service.price %></div>
+  <div><%= @service.description.html_safe %></div>
+
+  <% if (user_signed_in? && current_user.has_role?(:admin)) || (user_signed_in? && current_user.can_manage_location?(@location)) %>
+  <div style="margin-top: 1.5em">
+    <%= link_to "Edit", edit_location_service_path(@location, @service), class: 'btn btn-primary' %>
+    <%= link_to "Create New service", new_location_service_path(@location), class: 'btn' %>
+  </div>
+  <% end %>
 </div>
-<% end %>

@@ -1,11 +1,12 @@
 class NewsArticlesController < ApplicationController
+  before_action :set_location, except: [:destroy]
   load_resource :location
   load_and_authorize_resource :news_article, through: [:location]
+  layout "application_v_2"
 
   # GET /news_articles
   # GET /news_articles.json
   def index
-    @location = Location.find(params[:location_id])
     @news_articles = @location.news_articles
 
     respond_to do |format|
@@ -17,7 +18,6 @@ class NewsArticlesController < ApplicationController
   # GET /news_articles/1
   # GET /news_articles/1.json
   def show
-    @location = Location.find(params[:location_id])
     @news_article = NewsArticle.find(params[:id])
 
     add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
@@ -37,7 +37,6 @@ class NewsArticlesController < ApplicationController
   # GET /news_articles/new
   # GET /news_articles/new.json
   def new
-    @location = Location.find(params[:location_id])
     @is_location_normal = @location.hall_id.blank? && @location.councillor_id.blank? && @location.commissioner_id.blank?
     @is_municipality = !@is_location_normal || @location.slug === 'city-of-vancouver'
     @vertical_market = @location.vertical_market_categories.first.vertical_market if @location.vertical_market_categories.size > 0
@@ -48,7 +47,7 @@ class NewsArticlesController < ApplicationController
     @news_article = @location.news_articles.new(user_id: current_user.id)
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @news_article }
     end
   end
@@ -56,7 +55,6 @@ class NewsArticlesController < ApplicationController
   # GET /news_articles/1/edit
   def edit
     @news_article = NewsArticle.find(params[:id])
-    @location = Location.find(params[:location_id])
     @is_location_normal = @location.hall_id.blank? && @location.councillor_id.blank? && @location.commissioner_id.blank?
     @is_municipality = !@is_location_normal || @location.slug === 'city-of-vancouver'
     @vertical_market = @location.vertical_market_categories.first.vertical_market if @location.vertical_market_categories.size > 0
@@ -69,8 +67,6 @@ class NewsArticlesController < ApplicationController
   # POST /news_articles
   # POST /news_articles.json
   def create
-
-    @location = Location.find(params[:location_id])
     @news_article = @location.news_articles.new(news_article_params)
 
     respond_to do |format|
@@ -88,7 +84,6 @@ class NewsArticlesController < ApplicationController
   # PUT /news_articles/1.json
   def update
     @news_article = NewsArticle.find(params[:id])
-    @location = Location.find(params[:location_id])
     respond_to do |format|
       if @news_article.update(news_article_params)
         format.html { redirect_to location_news_article_path(@location, @news_article), notice: 'News article was successfully updated.' }
@@ -114,6 +109,10 @@ class NewsArticlesController < ApplicationController
   end
 
   private
+
+  def set_location
+    @location = Location.unscoped.friendly.find(params[:location_id])
+  end
 
   def news_article_params
     params.require(:news_article).permit(:content, :location_id, :title, :user_id, :slug, :user, :image, :category_id, :latitude, :longitude)

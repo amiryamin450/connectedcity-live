@@ -5,6 +5,7 @@ class EmploymentListingsController < ApplicationController
   load_and_authorize_resource :location, except: [:guide]
   before_action :load_employment_listing, except: [:guide, :index, :new, :create]
   load_and_authorize_resource :employment_listing, through: [:location], except: [:guide]
+  layout "application_v_2"
 
   # GET /employment_listings
   # GET /employment_listings.json

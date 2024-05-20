@@ -2,6 +2,7 @@ class BlogEntriesController < ApplicationController
   before_action :load_location, only: [:index, :new, :create, :update]
   load_resource :location
   load_and_authorize_resource :blog_entry, through: [:location]
+  layout "application_v_2"
 
   # GET /blog_entries
   # GET /blog_entries.json
@@ -30,7 +31,7 @@ class BlogEntriesController < ApplicationController
   def new
     @blog_entry = @location.blog_entries.new(user_id: current_user.id)
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @blog_entry }
     end
   end

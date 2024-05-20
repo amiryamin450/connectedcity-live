@@ -2,6 +2,7 @@ class ServicesController < ApplicationController
   before_action :load_location
   load_resource :location
   load_and_authorize_resource :service, through: [:location]
+  layout "application_v_2"
 
   # GET /services
   # GET /services.json
@@ -38,7 +39,7 @@ class ServicesController < ApplicationController
     @service = @location.services.new
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @service }
     end
   end

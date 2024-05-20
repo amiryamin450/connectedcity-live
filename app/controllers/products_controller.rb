@@ -4,6 +4,7 @@ class ProductsController < ApplicationController
 
   load_resource :location, except: [:deeper_categories, :select_category]
   load_and_authorize_resource :product, through: [:location], except: [:deeper_categories, :select_category, :specific]
+  layout "application_v_2"
 
   def index
     @products = @location.products

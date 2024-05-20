@@ -2,6 +2,7 @@ class StatusUpdatesController < ApplicationController
   before_action :location
   load_resource :location, :business_improvement_area
   load_and_authorize_resource :status_update, through: [:location, :business_improvement_area], except: :index
+  layout "application_v_2"
 
   def index
     @status_updates = location.status_updates

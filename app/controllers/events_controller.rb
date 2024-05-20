@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   before_action :load_location
   load_resource :location
+  layout "application_v_2"
   # load_and_authorize_resource :event, through: [:location], except: [:show, :edit, :update, :destroy]
 
   def index

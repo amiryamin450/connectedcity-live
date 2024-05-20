@@ -7,6 +7,7 @@ class CouponsController < ApplicationController
 
   before_action :load_coupon, except: [:redeem, :claim, :index, :new, :create]
   load_and_authorize_resource :coupon, through: [:location], except: [:redeem, :claim]
+  layout "application_v_2"
 
   # GET /coupons
   # GET /coupons.json
