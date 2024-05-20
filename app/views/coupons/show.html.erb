@@ -1,6 +1,5 @@
 <div class="p-4">
-  <p id="notice"><%= notice %></p>
-  <h1><%= @coupon.name %></h1>
+  <h1 class="my-4"><%= @coupon.name %></h1>
 
   <div>
     <%= image_tag @coupon.image.url(:display), class: 'thumbnail' %>
@@ -12,28 +11,26 @@
   <div><strong>Expires On: </strong><%= @coupon.expiration.strftime("%m/%d/%Y") %></div>
   <div><%= "<strong>#{@coupon.redemptions_count}</strong> of <strong>#{@coupon.howmany}</strong> claimed.".html_safe %></div>
 
-    <% if user_signed_in? and  @coupon.redemptions.exists?(user_id: current_user.id) %>
+  <% if user_signed_in? and  @coupon.redemptions.exists?(user_id: current_user.id) %>
     <div style="margin: 10px 0px">
       <%= image_tag @coupon.qr_code(current_user.id) %>
     </div>
-    <% end %>
+  <% end %>
 
   <div style="margin-top: 20px;">
-  <% if user_signed_in? %>
-    <% if current_user.coupons.exists?(@coupon.id) %>
-    <%= link_to "In my coupons", coupons_user_path(current_user), class: 'btn btn-danger' %>
-    <% else %>
-      <% if @coupon.how_many_left > 0 %>
-      <%= link_to 'Get Coupon', claim_coupon_path(@coupon), class: 'btn btn-success' %>
+    <% if user_signed_in? %>
+      <% if current_user.coupons.exists?(@coupon.id) %>
+        <%= link_to "In my coupons", coupons_user_path(current_user), class: 'btn btn-danger' %>
+      <% else %>
+        <% if @coupon.how_many_left > 0 %>
+        <%= link_to 'Get Coupon', claim_coupon_path(@coupon), class: 'btn btn-success' %>
+        <% end %>
       <% end %>
+    <% else %>
+      <%= link_to 'Sign in to get coupon', new_user_session_path, class: 'btn btn-info' %>
     <% end %>
-  <% else %>
-    <%= link_to 'Sign in to get coupon', new_user_session_path, class: 'btn btn-info' %>
-
-  <% end %>
-
     <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
-  <%= link_to "Edit", edit_location_coupon_path(@location, @coupon), class: 'btn btn-primary' %>
-  <% end %>
+      <%= link_to "Edit", edit_location_coupon_path(@location, @coupon), class: 'btn btn-primary' %>
+    <% end %>
   </div>
 </div>
