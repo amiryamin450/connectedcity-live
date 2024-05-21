@@ -2,6 +2,7 @@ class StatusUpdatesController < ApplicationController
   before_action :location
   load_resource :location, :business_improvement_area
   load_and_authorize_resource :status_update, through: [:location, :business_improvement_area], except: :index
+  before_action :status_update, only: [:show, :edit, :update]
   layout "application_v_2"
 
   def index
@@ -11,6 +12,12 @@ class StatusUpdatesController < ApplicationController
   def new
     @status_update = location.status_updates.build
     @status_update.social_profile_ids = location.social_profiles.pluck(:id).map(&:to_s)
+  end
+
+  def show
+  end
+
+  def edit
   end
 
   def create
@@ -33,6 +40,14 @@ class StatusUpdatesController < ApplicationController
     end
   end
 
+  def update
+    if @status_update.update(status_update_params)
+      redirect_to action: :index
+    else
+      render :edit
+    end
+  end
+
   def destroy
     @status_update = StatusUpdate.find(params[:id])
     @status_update.destroy
@@ -41,6 +56,10 @@ class StatusUpdatesController < ApplicationController
   end
 
   private
+
+  def status_update
+    @status_update = StatusUpdate.find_by_id(params[:id])
+  end
 
   def location
     @location ||= Location.unscoped.friendly.find(params[:location_id])

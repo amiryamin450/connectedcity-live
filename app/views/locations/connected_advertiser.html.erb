@@ -1,90 +1,92 @@
-<h1>Connected Advertiser</h1>
-<h3><%= link_to @location.name, @location %></h3>
-<div class="row-fluid">
-  <div class="span3">
-    <a href="<%= location_status_updates_path(@location) %>">
-      <div class="pad10 holder">
-        <img src="/assets/cc-status-updater.png" />
-      </div>
-    </a>
-  </div>
-  <div class="span3">
-    <a href="<%= location_blog_entries_path(@location) %>">
-      <div class="pad10 holder">
-        <img src="/assets/cc-expert-adviser.png" />
-      </div>
-    </a>
-  </div>
-  <div class="span3">
-    <a href="<%= location_news_articles_path(@location) %>">
-      <div class="pad10 holder">
-        <img src="/assets/cc-news-publisher.png" />
-      </div>
-    </a>
-  </div>
-  <div class="span3">
-    <a href="<%= location_media_attachments_path(@location) %>">
-      <div class="pad10 holder">
-        <img src="/assets/cc-video-broadcaster.png" />
-      </div>
-    </a>
-  </div>
-</div>
-
-<div class="row-fluid">
-  <div class="span3">
-    <a href="<%= location_coupons_path(@location) %>">
-      <div class="pad10 holder">
-        <img src="/assets/cc-deal-promoter.png" />
-      </div>
-    </a>
-  </div>
-  <div class="span3">
-    <a href="<%= location_events_path(@location) %>">
-      <div class="pad10 holder">
-        <img src="/assets/cc-event-organizer.png" />
-      </div>
-    </a>
-  </div>
-  <div class="span3">
-    <a href="<%= location_products_path(@location) %>">
-      <div class="pad10 holder">
-        <img src="/assets/cc-product-retailer.png" />
-      </div>
-    </a>
-  </div>
-  <div class="span3">
-    <a href="<%= location_services_path(@location) %>">
-      <div class="pad10 holder">
-        <img src="/assets/cc-service-provider.png" />
-      </div>
-    </a>
-  </div>
-</div>
-
-<div class="row-fluid">
-  <div class="span3">
-    <a href="<%= edit_location_path(@location) %>">
-      <div class="pad10 holder">
-        <img src="/assets/cc-profile-manager.png" />
-      </div>
-    </a>
-  </div>
-  <div class="span3">
-    <a href="<%= location_employment_listings_path(@location) %>">
-      <div class="pad10 holder">
-        <img src="/assets/cc-job-organizer.png" />
-      </div>
-    </a>
-  </div>
-  <div class="span3">
-    <div class="pad10 holder disabled">
-      <img src="/assets/cc-market-researcher.png" />
+<div id="connected-advertiser" class="px-5">
+  <h1>Connected Advertiser</h1>
+  <h3><%= link_to @location.name, @location %></h3>
+  <div class="row-fluid">
+    <div class="span3">
+      <a href="<%= location_status_updates_path(@location) %>">
+        <div class="pad10 holder">
+          <img src="/assets/cc-status-updater.png" />
+        </div>
+      </a>
+    </div>
+    <div class="span3">
+      <a href="<%= location_blog_entries_path(@location) %>">
+        <div class="pad10 holder">
+          <img src="/assets/cc-expert-adviser.png" />
+        </div>
+      </a>
+    </div>
+    <div class="span3">
+      <a href="<%= location_news_articles_path(@location) %>">
+        <div class="pad10 holder">
+          <img src="/assets/cc-news-publisher.png" />
+        </div>
+      </a>
+    </div>
+    <div class="span3">
+      <a href="<%= location_media_attachments_path(@location) %>">
+        <div class="pad10 holder">
+          <img src="/assets/cc-video-broadcaster.png" />
+        </div>
+      </a>
     </div>
   </div>
-  <div class="span3">
-    <div class="pad10 holder disabled">
-      <img src="/assets/cc-business-networker.png" />
+
+  <div class="row-fluid">
+    <div class="span3">
+      <a href="<%= location_coupons_path(@location) %>">
+        <div class="pad10 holder">
+          <img src="/assets/cc-deal-promoter.png" />
+        </div>
+      </a>
+    </div>
+    <div class="span3">
+      <a href="<%= location_events_path(@location) %>">
+        <div class="pad10 holder">
+          <img src="/assets/cc-event-organizer.png" />
+        </div>
+      </a>
+    </div>
+    <div class="span3">
+      <a href="<%= location_products_path(@location) %>">
+        <div class="pad10 holder">
+          <img src="/assets/cc-product-retailer.png" />
+        </div>
+      </a>
+    </div>
+    <div class="span3">
+      <a href="<%= location_services_path(@location) %>">
+        <div class="pad10 holder">
+          <img src="/assets/cc-service-provider.png" />
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="row-fluid">
+    <div class="span3">
+      <a href="<%= edit_location_path(@location) %>">
+        <div class="pad10 holder">
+          <img src="/assets/cc-profile-manager.png" />
+        </div>
+      </a>
+    </div>
+    <div class="span3">
+      <a href="<%= location_employment_listings_path(@location) %>">
+        <div class="pad10 holder">
+          <img src="/assets/cc-job-organizer.png" />
+        </div>
+      </a>
+    </div>
+    <div class="span3">
+      <div class="pad10 holder disabled">
+        <img src="/assets/cc-market-researcher.png" />
+      </div>
+    </div>
+    <div class="span3">
+      <div class="pad10 holder disabled">
+        <img src="/assets/cc-business-networker.png" />
+      </div>
     </div>
   </div>
 </div>

@@ -1,7 +1,8 @@
 class BlogEntriesController < ApplicationController
-  before_action :load_location, only: [:index, :new, :create, :update]
-  load_resource :location
-  load_and_authorize_resource :blog_entry, through: [:location]
+  before_action :load_blog_entry, only: [:show, :edit, :update, :destroy]
+  before_action :load_location, only: [:index, :new, :show, :edit, :create, :update, :destroy]
+  load_resource :location, except: [:show, :edit]
+  load_and_authorize_resource :blog_entry, through: [:location], except: [:show, :edit]
   layout "application_v_2"
 
   # GET /blog_entries
@@ -18,8 +19,6 @@ class BlogEntriesController < ApplicationController
   # GET /blog_entries/1
   # GET /blog_entries/1.json
   def show
-    @blog_entry = BlogEntry.find(params[:id])
-
     respond_to do |format|
       format.html
       format.json { render json: @blog_entry }
@@ -38,7 +37,6 @@ class BlogEntriesController < ApplicationController
 
   # GET /blog_entries/1/edit
   def edit
-    @blog_entry = BlogEntry.find(params[:id])
   end
 
   # POST /blog_entries
@@ -48,7 +46,7 @@ class BlogEntriesController < ApplicationController
 
     respond_to do |format|
       if @blog_entry.save
-        format.html { redirect_to [@location, @blog_entry], notice: 'Blog entry was successfully created.' }
+        format.html { redirect_to action: :index, notice: 'Blog entry was successfully created.' }
         format.json { render json: @blog_entry, status: :created, location: @blog_entry }
       else
         format.html { render action: "new" }
@@ -60,11 +58,9 @@ class BlogEntriesController < ApplicationController
   # PUT /blog_entries/1
   # PUT /blog_entries/1.json
   def update
-    @blog_entry = BlogEntry.find(params[:id])
-
     respond_to do |format|
-      if @blog_entry.update_attributes(blog_entry_params)
-        format.html { redirect_to [@location, @blog_entry], notice: 'Blog entry was successfully updated.' }
+      if @blog_entry.update(blog_entry_params)
+        format.html { redirect_to action: :index, notice: 'Blog entry was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -76,7 +72,6 @@ class BlogEntriesController < ApplicationController
   # DELETE /blog_entries/1
   # DELETE /blog_entries/1.json
   def destroy
-    @blog_entry = BlogEntry.find(params[:id])
     @blog_entry.destroy
 
     respond_to do |format|
@@ -87,12 +82,16 @@ class BlogEntriesController < ApplicationController
 
   private
 
+  def load_blog_entry
+    @blog_entry ||= BlogEntry.unscoped.friendly.find(params[:id])
+  end
+
   def load_location
     id_param = params[:location_id].presence || params[:id]
     @location = Location.unscoped.friendly.find(id_param)
   end
 
   def blog_entry_params
-    params.require(:blog_entry).permit(:content, :location_id, :title, :user_id, :slug, :image)
+    params.require(:blog_entry).permit(:content, :title, :user_id, :image)
   end
 end

@@ -1,6 +1,23 @@
-<h1>Editing status_update</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @status_update %> |
-<%= link_to 'Back', status_updates_path %>
+<div class="p-4">
+  <h3 class="my-4">Editing Status Update</h3>
+  <%= simple_form_for [@location, @status_update] do |f| %>
+    <%= f.error_notification %>
+    <div class="form-inputs">
+      <%= f.label 'Content' %>
+      <%= f.input :content, as: :text, input_html: { :rows => 3, style: 'width: 90%' } %>
+      <%= f.label 'Image' %>
+      <% if @status_update.image.present? %>
+        <div class="pb-3">
+          <%= image_tag @status_update.image.url, style: "height: 300px; width: auto;" %>
+        </div>
+      <% end %>
+      <%= f.input :image, as: :file, label: false %>
+      <% if @location.respond_to?(:social_profiles) && @location.social_profiles.any? %>
+        <% social_profiles = @location.social_profiles.reject(&:instagram?).map do |social_profile| [social_profile.social_network.to_s.humanize, social_profile.id.to_s] end %>
+        <%= f.input :social_profile_ids, as: :check_boxes, collection: social_profiles, label: "Also publish to" %>
+      <% end %>
+    </div>
+    <%= f.button :submit, :class => 'btn btn-primary my-3', id: 'status-update-submit' %>
+    <%= link_to "Cancel", location_status_updates_path(@location), class: 'btn mx-3' %>
+  <% end %>
+</div>

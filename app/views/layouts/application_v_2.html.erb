@@ -157,7 +157,9 @@
 
     <!-- Main Section -->
     <%= render '/layouts/application_v_2/alert' %>
-    <%= yield%>
+    <div class="container-fluid content-holder">
+      <%= yield %>
+    </div>
     <%= render 'modal_call/modal_call_request'%>
     <%= render 'modal_call/modal_user_call'%>
     <%= render 'modal_call/modal_message_reject'%>

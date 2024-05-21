@@ -12,6 +12,7 @@ class LocationsController < ApplicationController
   BUSINESS_PER_PAGE = 100
 
   layout 'location', :only => [:show]
+  layout "application_v_2", :only => [:connected_advertiser]
 
   def index
     status = ["active", "in_active"].include?(params[:status]) ? params[:status] : ""
@@ -124,7 +125,7 @@ class LocationsController < ApplicationController
 
     # 3.times { @location.location_images.build }
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @location }
     end
   end
@@ -426,7 +427,7 @@ class LocationsController < ApplicationController
     name_categories = name_vertical_categories + name_vertical_categories_others
     VerticalMarketCategory.where("name NOT IN (?)", name_categories).order(:name)
   end
-  
+
   def get_provinces_by_country
     if params[:country_slug]
       @country = Country.find_by_id(params[:country_slug])

@@ -206,7 +206,7 @@ Connectbook::Application.routes.draw do
     end
 
     resources :locations, path: 'business', as: :locations, except: [:show] do
-      resources :status_updates, path: 'status-updates', except: [:index, :new, :create]
+      resources :status_updates, path: 'status-updates'
       resources :new_home_communities, except: [:show] do
         resources :new_homes, except: [:show]
       end
@@ -268,7 +268,7 @@ Connectbook::Application.routes.draw do
 
   resources :locations, path: 'business', as: :locations, only: [:show] do
     resources :automotive_listings, only: [:show]
-    resources :blog_entries, path: 'blog', only: [:show]
+    resources :blog_entries, path: 'blog'
     resources :coupons, only: [:show]
     resources :employment_listings, only: [:show]
     resources :events, only: [:show]

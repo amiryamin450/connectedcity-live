@@ -1,3 +1,38 @@
 .disabled {
   background: rgba(0, 0, 0, 0.5);
 }
+
+#connected-advertiser {
+  h1 {
+    font-size: 36px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  h3 {
+    font-size: 24px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  a {
+    color: #337ab7;
+    text-decoration: none;
+  }
+
+  .holder {
+    border-radius: 2px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 2px #666;
+    margin-bottom: 1.5em;
+
+    img {
+      border-radius: 2px;
+    }
+  }
+
+  .pad10 {
+    padding: 10px;
+  }
+
+}

@@ -1,51 +1,25 @@
 
 <div class="p-4">
-  <% content_for :page_title do %>
-    <%= "#{@blog_entry.bloggable.name}'s Blog" %>
-  <% end %>
-  <div class="row-fluid">
-    <div class="span9">
-      <h4><%= @blog_entry.title %></h4>
-      <div class="submitted">
-        <%= @blog_entry.created_at.strftime('%m-%d-%Y %l:%M %p') %>
-      </div>
+  <h3 class="my-4"><%= "#{@blog_entry.bloggable.name}'s Blog" %></h3>
+  <div class="px-3">
+    <h6>Title</h6>
+    <p><%= @blog_entry.title %></p>
+    <h6>Content</h6>
+    <p>
       <%= @blog_entry.content.html_safe %>
-
-      <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
-        <div style="margin-top: 1.5em">
-          <%= link_to "Edit", edit_location_blog_entry_path(@location, @blog_entry), class: 'btn btn-primary' %>
-          <%= link_to "Create New Blog Entry", new_location_blog_entry_path(@location), class: 'btn' %>
-        </div>
-      <% end %>
-
-    </div>
-    <div class="span3">
-      <% if @blog_entry.image.exists? %>
-        <div class="thumbnail">
-          <%= image_tag @blog_entry.image.url %>
-        </div>
-      <% end %>
-
-      <div class="info">
-        <address>
-          <strong><%= link_to @location.name, @location %></strong><br />
-          <%= @location.address %><br/>
-          <%= "#{@location.city&.name} #{@location.province&.abbr}, #{@location.postal_code}" %><br />
-        </address>
+    </p>
+    <% if @blog_entry.image.present? %>
+      <div class="py-3">
+        <h6>Image</h6>
+        <%= image_tag @blog_entry.image.url, class: 'thumbnail' %>
       </div>
-
-      <% if @location.blog_entries.size > 1 %>
-      <div class="blog-entries" style="margin-top: 1em;">
-        <h5>Recent Blog Entries</h5>
-        <ul>
-          <% @location.blog_entries.each do |blog| %>
-            <% unless blog == @blog_entry %>
-              <li><%= link_to blog.title, [@location, blog] %></li>
-            <% end %>
-          <% end %>
-        </ul>
+    <% end %>
+    <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+      <div class="py-3">
+        <%= link_to "Edit Blog Entry", edit_location_blog_entry_path(@location, @blog_entry), class: 'btn btn-primary' %>
+        <%= link_to "Back to Manage #{@location.name}'s Blog", location_blog_entries_path(@location), class: 'btn mx-4' %>
       </div>
-      <% end %>
+    <% end %>
     </div>
   </div>
 </div>

@@ -1,6 +1,6 @@
 class BlogEntry < ApplicationRecord
   belongs_to :bloggable, polymorphic: true
-  belongs_to :location, -> { where(blog_entries: { bloggable_type: 'Location' }) }, foreign_key: "bloggable_id"
+  belongs_to :location, foreign_key: "bloggable_id"
   belongs_to :user
 
   extend FriendlyId
@@ -9,5 +9,10 @@ class BlogEntry < ApplicationRecord
 
   default_scope { order('created_at DESC') }
 
-  has_attached_file :image, styles: { thumb: "50x50#", list: "320x200#" }, default_url: "http://placehold.it/50x50"
+  has_attached_file :image, styles: { thumb: "50x50#", :large => "320x>" },
+                    :url => "/system/blog_entry/:id/:style/:basename.:extension",
+                    :path => ":rails_root/public/system/blog_entry/:id/:style/:basename.:extension"
+
+  validates_attachment_size :image, less_than: 5.megabytes
+  validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/, message: "Please upload a valid image. Accepted types include jpg, png."
 end

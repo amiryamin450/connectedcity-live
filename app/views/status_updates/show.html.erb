@@ -1,25 +1,19 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <b>Title:</b>
-  <%= @status_update.title %>
-</p>
-
-<p>
-  <b>Content:</b>
-  <%= @status_update.content %>
-</p>
-
-<p>
-  <b>Provider:</b>
-  <%= @status_update.provider %>
-</p>
-
-<p>
-  <b>Location:</b>
-  <%= @status_update.location_id %>
-</p>
-
-
-<%= link_to 'Edit', edit_status_update_path(@status_update) %> |
-<%= link_to 'Back', status_updates_path %>
+<div class="p-4">
+  <h3 class="my-4">Status Update</h3>
+  <div class="px-3">
+    <h6>Content</h6>
+    <p>
+      <%= @status_update.content.html_safe %>
+    </p>
+    <% if @status_update.image.present? %>
+      <div class="py-3">
+        <h6>Image</h6>
+        <%= image_tag @status_update.image.url, class: 'thumbnail' %>
+      </div>
+    <% end %>
+    <div class="py-3">
+      <%= link_to 'Edit Status Update', edit_location_status_update_path(@location, @status_update), class: 'btn btn-primary' %>
+      <%= link_to "Back to Manage #{@location.name}'s Status Updates", location_status_updates_path(@location), class: 'btn mx-4' %>
+    </div>
+  </div>
+</div>

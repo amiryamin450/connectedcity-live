@@ -10,6 +10,7 @@
 @import "carts";
 @import "orders";
 @import "users";
+@import "connected_advertiser";
 
 // Headings
 h1,
@@ -84,6 +85,10 @@ h3 {
   border-color: #b94a48;
 }
 // End Control Group
+
+.content-holder {
+  padding-top: 15px;
+}
 
 #new_status_update {
   .form-inputs {
@@ -1159,8 +1164,8 @@ h3 {
       padding: 0;
     }
   }
-   
-   
+
+
   .message-sent {
     position: relative;
     background-color: #D9EDF7;
@@ -1170,8 +1175,8 @@ h3 {
     float: right;
     width: auto;
   }
-   
-   
+
+
   .message-received {
     background-color: #F1F0F0;
     border-color: #EEEEEE;
@@ -1195,7 +1200,7 @@ h3 {
       font-weight: bold;
       padding: 0;
     }
-  
+
     .messenger-offcanvas {
       position: fixed;
       bottom: 0;
