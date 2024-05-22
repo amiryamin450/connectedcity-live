@@ -1,15 +1,19 @@
-<div class="p-4">
-  <h1 class="my-4"><%= @coupon.name %></h1>
-
+<div class="px-3 pb-3 px-md-5 pb-md-5">
+  <h2 class="my-4"><%= @coupon.name %></h2>
   <div>
-    <%= image_tag @coupon.image.url(:display), class: 'thumbnail' %>
+    <%= image_tag @coupon.image.url, class: 'thumbnail' %>
   </div>
+  <h6>Description</h6>
   <p>
     <%= @coupon.description.html_safe %>
   </p>
-
-  <div><strong>Expires On: </strong><%= @coupon.expiration.strftime("%m/%d/%Y") %></div>
-  <div><%= "<strong>#{@coupon.redemptions_count}</strong> of <strong>#{@coupon.howmany}</strong> claimed.".html_safe %></div>
+  <p>
+    <h6 style="display: inline;">Expires On: </h6>
+    <span><%= @coupon.expiration.strftime("%m/%d/%Y") %></span>
+  </p>
+  <div >
+    <%= "<strong>#{@coupon.redemptions_count}</strong> of <strong>#{@coupon.howmany}</strong> claimed.".html_safe %>
+  </div>
 
   <% if user_signed_in? and  @coupon.redemptions.exists?(user_id: current_user.id) %>
     <div style="margin: 10px 0px">
@@ -20,17 +24,18 @@
   <div style="margin-top: 20px;">
     <% if user_signed_in? %>
       <% if current_user.coupons.exists?(@coupon.id) %>
-        <%= link_to "In my coupons", coupons_user_path(current_user), class: 'btn btn-danger' %>
+        <%= link_to "In my deals", coupons_user_path(current_user), class: 'btn btn-danger me-3' %>
       <% else %>
         <% if @coupon.how_many_left > 0 %>
-        <%= link_to 'Get Coupon', claim_coupon_path(@coupon), class: 'btn btn-success' %>
+          <%= link_to 'Get Deal', claim_coupon_path(@coupon), class: 'btn btn-success me-3' %>
         <% end %>
       <% end %>
     <% else %>
-      <%= link_to 'Sign in to get coupon', new_user_session_path, class: 'btn btn-info' %>
+      <%= link_to 'Sign in to get deal', new_user_session_path, class: 'btn btn-info me-3' %>
     <% end %>
     <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
-      <%= link_to "Edit", edit_location_coupon_path(@location, @coupon), class: 'btn btn-primary' %>
+      <%= link_to "Edit Deal", edit_location_coupon_path(@location, @coupon), class: 'btn btn-primary' %>
     <% end %>
+    <%= link_to "Back to Manage #{@location.name}'s Deals", location_coupons_path(@location), class: 'btn mx-4' %>
   </div>
 </div>

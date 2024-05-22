@@ -1,9 +1,10 @@
 class UserController < ApplicationController
   before_action :authenticate_user!
-  
+
   load_and_authorize_resource except: [:release_coupon, :coupons, :favorites]
 
   # skip_before_action :require_no_authentication, :only => [:new, :create]
+  layout "application_v_2", only: [:coupons]
 
   def index
     @users = User.order(:first_name)

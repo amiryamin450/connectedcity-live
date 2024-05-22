@@ -61,7 +61,7 @@ class CouponsController < ApplicationController
 
     respond_to do |format|
       if @coupon.save
-        format.html { redirect_to [@location, @coupon], notice: 'Coupon was successfully created.' }
+        format.html { redirect_to action: :index, notice: 'Coupon was successfully created.' }
         format.json { render json: @coupon, status: :created, location: @coupon }
       else
         format.html { render action: "new" }
@@ -77,7 +77,7 @@ class CouponsController < ApplicationController
 
     respond_to do |format|
       if @coupon.update(coupon_params)
-        format.html { redirect_to [@location, @coupon], notice: 'Coupon was successfully updated.' }
+        format.html { redirect_to action: :index, notice: 'Coupon was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

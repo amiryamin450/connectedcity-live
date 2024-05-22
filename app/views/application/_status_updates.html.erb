@@ -10,7 +10,7 @@
       <li><a href="#events">Events</a></li>
       <li><a href="#news">News</a></li>
       <li><a href="#blogs">Blogs</a></li>
-      <li class="last"><a href="#offers">Offers</a></li>
+      <li class="last"><a href="#offers">Deals</a></li>
     </ul>
   </div>
 
@@ -44,7 +44,7 @@
     <%= render @vertical_market.get_blog_entries(@municipality, @city, @district, @neighborhood, @sub_neighborhood) %>
   </div>
   <div id="offers">
-    <h4>Offers</h4>
+    <h4>Deals</h4>
     <%= render @vertical_market.get_coupons %>
   </div>
 

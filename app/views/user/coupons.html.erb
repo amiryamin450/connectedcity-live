@@ -1,26 +1,26 @@
-<h1>My Coupons</h1>
-
-<% if @coupons.size > 0 %>
+<div class="px-3 pb-3 px-md-5 pb-md-5">
+  <h2>My Deals</h2>
+  <% if @coupons.size > 0 %>
     <table class="table table-bordered table-striped table-hover">
       <tr>
         <th>Name</th>
         <th>Expiration</th>
         <th></th>
       </tr>
-
-    <% @coupons.each do |coupon| %>
-      <tr>
-        <td><%= link_to coupon.name, [coupon.location, coupon] %></td>
-        <td><%= coupon.expiration.strftime("%m/%d/%Y") %></td>
-        <td>
-          <div class="btn-group">
-            <%= link_to 'show', [coupon.location, coupon], class: 'btn btn-mini' %>
-            <%= link_to 'release', release_coupon_path(coupon.redemptions.where(user_id: current_user.id).first.id), class: 'btn btn-mini' %>
-          </div>
-        </td>
-      </tr>
-    <% end %>
+      <% @coupons.each do |coupon| %>
+        <tr>
+          <td><%= link_to coupon.name, [coupon.location, coupon] %></td>
+          <td><%= coupon.expiration.strftime("%m/%d/%Y") %></td>
+          <td>
+            <div class="btn-group">
+              <%= link_to 'Show', [coupon.location, coupon], class: 'btn btn-mini' %>
+              <%= link_to 'Release', release_coupon_path(coupon.redemptions.where(user_id: current_user.id).first.id), class: 'btn btn-mini' %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
     </table>
-<% else %>
-    <div class="alert notice">No Coupons Found</div>
-<% end %>
+  <% else %>
+    <div class="alert notice">No Deals Found.</div>
+  <% end %>
+</div>

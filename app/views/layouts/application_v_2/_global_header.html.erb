@@ -31,7 +31,7 @@
                   <div class="dropdown-menu">
                     <%= link_to 'Edit account', edit_user_registration_path, class: "dropdown-item" %>
                     <%= link_to 'My Classifieds', classified_listings_path, class: "dropdown-item" %>
-                    <%= link_to 'My Coupons', coupons_user_path(current_user), class: "dropdown-item" %>
+                    <%= link_to 'My Deals', coupons_user_path(current_user), class: "dropdown-item" %>
                     <%= link_to 'My Cart', cart_path(@cart), class: "dropdown-item" %>
                     <div role="separator" class="dropdown-divider"></div>
                     <%= link_to 'Logout', destroy_user_session_path, class: "dropdown-item", method: :delete %>
