@@ -1,6 +1,6 @@
 class Event < ApplicationRecord
   belongs_to :location
-  belongs_to :category
+  belongs_to :category, optional: true
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
@@ -15,9 +15,9 @@ class Event < ApplicationRecord
   validates :description, presence: true, length: { in: 1..3000 }
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }, length: { in: 1..300 }
 
-  has_attached_file :image, styles: {
-    thumb: "150x150#", list: "320x200#"
-  }
+  has_attached_file :image, styles: { thumb: "150x150#", list: "320x200#"},
+                    :url => "/system/event/images/:id/:style/:basename.:extension",
+                    :path => ":rails_root/public/system/event/images/:id/:style/:basename.:extension"
 
   validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
