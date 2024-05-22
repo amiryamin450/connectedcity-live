@@ -1,5 +1,6 @@
 class NewsArticlesController < ApplicationController
-  before_action :set_location, except: [:destroy]
+  before_action :news_article, only: [:show, :edit, :update, :destroy]
+  before_action :set_location
   load_resource :location
   load_and_authorize_resource :news_article, through: [:location]
   layout "application_v_2"
@@ -18,8 +19,6 @@ class NewsArticlesController < ApplicationController
   # GET /news_articles/1
   # GET /news_articles/1.json
   def show
-    @news_article = NewsArticle.find(params[:id])
-
     add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_breadcrumb @location.district.name, district_guide_path(@location.district) if @location.district
     add_breadcrumb @location.neighborhood.name if @location.neighborhood
@@ -54,7 +53,6 @@ class NewsArticlesController < ApplicationController
 
   # GET /news_articles/1/edit
   def edit
-    @news_article = NewsArticle.find(params[:id])
     @is_location_normal = @location.hall_id.blank? && @location.councillor_id.blank? && @location.commissioner_id.blank?
     @is_municipality = !@is_location_normal || @location.slug === 'city-of-vancouver'
     @vertical_market = @location.vertical_market_categories.first.vertical_market if @location.vertical_market_categories.size > 0
@@ -71,7 +69,7 @@ class NewsArticlesController < ApplicationController
 
     respond_to do |format|
       if @news_article.save
-        format.html { redirect_to location_news_article_url(@location, @news_article), notice: 'News article was successfully created.' }
+        format.html { redirect_to action: :index, notice: 'News article was successfully created.' }
         format.json { render json: @news_article, status: :created, location: @news_article }
       else
         format.html { render action: "new" }
@@ -83,10 +81,9 @@ class NewsArticlesController < ApplicationController
   # PUT /news_articles/1
   # PUT /news_articles/1.json
   def update
-    @news_article = NewsArticle.find(params[:id])
     respond_to do |format|
       if @news_article.update(news_article_params)
-        format.html { redirect_to location_news_article_path(@location, @news_article), notice: 'News article was successfully updated.' }
+        format.html { redirect_to action: :index, notice: 'News article was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -98,23 +95,25 @@ class NewsArticlesController < ApplicationController
   # DELETE /news_articles/1
   # DELETE /news_articles/1.json
   def destroy
-    @news_article = NewsArticle.find(params[:id])
-    @newsable = @news_article.newsable_type.constantize.find(@news_article.newsable_id)
     @news_article.destroy
 
     respond_to do |format|
-      format.html { redirect_to polymorphic_url([@newsable, :news_articles]) }
+      format.html { redirect_to action: :index }
       format.json { head :no_content }
     end
   end
 
   private
 
+  def news_article
+    @news_article = NewsArticle.unscoped.friendly.find(params[:id])
+  end
+
   def set_location
     @location = Location.unscoped.friendly.find(params[:location_id])
   end
 
   def news_article_params
-    params.require(:news_article).permit(:content, :location_id, :title, :user_id, :slug, :user, :image, :category_id, :latitude, :longitude)
+    params.require(:news_article).permit(:content, :title, :user_id, :slug, :user, :image, :category_id, :latitude, :longitude)
   end
 end

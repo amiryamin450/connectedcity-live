@@ -1,6 +1,5 @@
 <%= simple_form_for [@location, @news_article] do |f| %>
   <%= f.error_notification %>
-
   <div class="form-inputs">
     <%= f.input :user_id, as: :hidden %>
     <%= f.input :title, input_html: { class: 'input-xxlarge' } %>
@@ -28,9 +27,9 @@
     <%= f.input :content, as: :text, input_html: { class: 'input-block-level wysihtml5' } %>
     <%= f.input :image, as: :logo_preview %>
   </div>
-
   <div class="form-actions">
-    <%= f.button :submit, class: 'btn btn-primary' %>
+    <%= f.button :submit, class: 'btn btn-primary my-3' %>
+    <%= link_to "Cancel", location_news_articles_path, class: 'btn m-3' %>
   </div>
 <% end %>
 
@@ -115,4 +114,3 @@
     });
   }
 </script>
-

@@ -1,32 +1,31 @@
-<div class="media-attachment-new-ui-container px-3 pb-3 px-md-5 pb-md-5">
-  <h1 class="my-4">News Articles for <%= @location.name %></h1>
-    <% if @news_articles.size > 0 %>
+<div class="px-3 pb-3 px-md-5 pb-md-5">
+  <h1 class="my-4">Manage <%= @location.name %>'s News Articles</h1>
+  <% if @news_articles.size > 0 %>
     <table class="table table-bordered table-striped table-hover">
-    <tr>
-      <th>Title</th>
-      <th>Author</th>
-      <th>Created</th>
-      <th></th>
-    </tr>
-
-    <% @news_articles.each do |news_article| %>
-    <tr>
-      <td><%= news_article.title %></td>
-      <td><%= news_article.user.name %></td>
-      <td><%= news_article.created_at %></td>
-      <td>
-        <div class="btn-group">
-          <%= link_to 'Show', location_news_article_path(@location, news_article), class: 'btn btn-mini' %>
-        <%= link_to 'Edit', edit_location_news_article_path(@location, news_article), class: 'btn btn-mini' %>
-        <%= link_to 'Destroy', location_news_article_path(@location, news_article), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
-        </div>
-      </td>
-    </tr>
-    <% end %>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Created</th>
+        <th></th>
+      </tr>
+      <% @news_articles.each do |news_article| %>
+        <tr>
+          <td><%= news_article.title %></td>
+          <td><%= news_article.user.name %></td>
+          <td><%= news_article.created_at %></td>
+          <td>
+            <div class="btn-group">
+              <%= link_to 'Show', location_news_article_path(@location, news_article), class: 'btn btn-mini' %>
+              <%= link_to 'Edit', edit_location_news_article_path(@location, news_article), class: 'btn btn-mini' %>
+              <%= link_to 'Destroy', location_news_article_path(@location, news_article), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
     </table>
-    <% else %>
-        <div class="alert info">No Results</div>
-    <% end %>
+  <% else %>
+    <div class="alert info">No Results</div>
+  <% end %>
   <%= link_to 'Create News Article', new_location_news_article_path, class: 'btn btn-primary' %>
-  <%= link_to "Return to #{@location.name}", @location, class: 'btn' %>
+  <%= link_to "Back to #{@location.name}", @location, class: 'btn' %>
 </div>
