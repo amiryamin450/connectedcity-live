@@ -1,25 +1,22 @@
 
-<div class="p-4">
-  <h3 class="my-4"><%= "#{@blog_entry.bloggable.name}'s Blog" %></h3>
-  <div class="px-3">
-    <h6>Title</h6>
-    <p><%= @blog_entry.title %></p>
-    <h6>Content</h6>
-    <p>
-      <%= @blog_entry.content.html_safe %>
-    </p>
-    <% if @blog_entry.image.present? %>
-      <div class="py-3">
-        <h6>Image</h6>
-        <%= image_tag @blog_entry.image.url, class: 'thumbnail' %>
-      </div>
-    <% end %>
-    <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
-      <div class="py-3">
-        <%= link_to "Edit Blog Entry", edit_location_blog_entry_path(@location, @blog_entry), class: 'btn btn-primary' %>
-        <%= link_to "Back to Manage #{@location.name}'s Blog", location_blog_entries_path(@location), class: 'btn mx-4' %>
-      </div>
-    <% end %>
+<div class="px-3 pb-3 px-md-5 pb-md-5">
+  <h2 class="my-4"><%= "#{@blog_entry.bloggable.name}'s Blog" %></h2>
+  <h6>Title</h6>
+  <p><%= @blog_entry.title %></p>
+  <h6>Content</h6>
+  <p>
+    <%= @blog_entry.content.html_safe %>
+  </p>
+  <% if @blog_entry.image.present? %>
+    <div class="py-3">
+      <h6>Image</h6>
+      <%= image_tag @blog_entry.image.url, class: 'thumbnail' %>
     </div>
-  </div>
+  <% end %>
+  <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
+    <div class="py-3">
+      <%= link_to "Edit Blog Entry", edit_location_blog_entry_path(@location, @blog_entry), class: 'btn btn-primary' %>
+      <%= link_to "Back to Manage #{@location.name}'s Blog", location_blog_entries_path(@location), class: 'btn mx-4' %>
+    </div>
+  <% end %>
 </div>
