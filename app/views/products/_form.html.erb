@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
 <%= simple_form_for [@location, @product], :html => { :multipart => true, class: 'form-horizontal', id: 'new_product' } do |f| %>
 <%= f.error_notification %>
 
@@ -47,7 +49,7 @@
   <div class="row-fluid fileupload-buttonbar">
     <div class="span7">
       <!-- The fileinput-button span is used to style the file input field as button -->
-      <span class="btn btn-mini btn-success fileinput-button" style="margin-left: 20px">
+      <span class="btn btn-mini btn-success fileinput-button">
         <i class="icon-plus icon-white"></i>
         <span>Add files</span>
         <%= f.file_field :image, :multiple => true %>
@@ -69,8 +71,8 @@
 <% end %>
 
 <div class="form-actions">
-  <button class="btn btn-primary submit-new-product">Create Product</button>
-  <%= link_to 'Cancel', location_products_path(@location), class: 'btn'  %>
+  <button class="btn btn-primary submit-new-product"><%= "#{@product.new_record? ? "Create" : "Update"} Product" %></button>
+  <%= link_to 'Cancel', location_products_path(@location), class: 'btn m-3' %>
 </div>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>

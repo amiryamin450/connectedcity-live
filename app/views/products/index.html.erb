@@ -1,36 +1,34 @@
 <div class="px-3 pb-3 px-md-5 pb-md-5">
-  <h1 class="my-4">Managing <%= @location.name %>'s Products </h1>
+  <h1 class="my-4">Manage <%= @location.name %>'s Products </h1>
   <% if @products.size > 0 %>
-  <table class="table table-bordered table-striped table-hover">
-    <thead>
-    <tr>
-      <th>Name</th>
-      <th>Sku</th>
-      <th>Price</th>
-      <th></th>
-    </tr>
-    </thead>
-
-    <tbody>
-
-    <% @products.each do |product| %>
-        <tr>
-          <td><%= product.name %></td>
-          <td><%= product.sku %></td>
-          <td><%= display_pricing product %></td>
-          <td>
-            <div class="btn-group">
-              <%= link_to 'show', [@location, product], class: 'btn btn-mini' %>
-              <%= link_to 'edit', edit_location_product_path(@location, product), class: 'btn btn-mini' %>
-              <%= link_to 'delete', [@location, product], method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
-            </div>
-          </td>
-        </tr>
-    <% end %>
-    </tbody>
-  </table>
+    <table class="table table-bordered table-striped table-hover">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Sku</th>
+        <th>Price</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+        <% @products.each do |product| %>
+          <tr>
+            <td><%= product.name %></td>
+            <td><%= product.sku %></td>
+            <td><%= display_pricing product %></td>
+            <td>
+              <div class="btn-group">
+                <%= link_to 'Show', [@location, product], class: 'btn btn-mini' %>
+                <%= link_to 'Edit', edit_location_product_path(@location, product), class: 'btn btn-mini' %>
+                <%= link_to 'Delete', [@location, product], method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% else %>
-  <div class="alert notice">No products found.</div>
+    <div class="alert notice">No products found.</div>
   <% end %>
 
   <%# TODO: Require connect to Stripe before add product %>
