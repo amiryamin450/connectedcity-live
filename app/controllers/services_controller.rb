@@ -1,4 +1,5 @@
 class ServicesController < ApplicationController
+  before_action :load_service, only: [:show, :edit, :update, :destroy]
   before_action :load_location
   load_resource :location
   load_and_authorize_resource :service, through: [:location]
@@ -18,8 +19,6 @@ class ServicesController < ApplicationController
   # GET /services/1
   # GET /services/1.json
   def show
-    @service = Service.find(params[:id])
-
     add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_breadcrumb @service.location.district.name, district_guide_path(@service.location.district) if @service.location.district
     add_breadcrumb @service.location.neighborhood.name if @service.location.neighborhood
@@ -46,7 +45,6 @@ class ServicesController < ApplicationController
 
   # GET /services/1/edit
   def edit
-    @service = Service.find(params[:id])
   end
 
   # POST /services
@@ -56,7 +54,7 @@ class ServicesController < ApplicationController
 
     respond_to do |format|
       if @service.save
-        format.html { redirect_to @location, notice: 'Service was successfully created.' }
+        format.html { redirect_to action: :index, notice: 'Service was successfully created.' }
         format.json { render json: @service, status: :created, location: @service }
       else
         format.html { render action: "new" }
@@ -68,11 +66,9 @@ class ServicesController < ApplicationController
   # PUT /services/1
   # PUT /services/1.json
   def update
-    @service = Service.find(params[:id])
-
     respond_to do |format|
       if @service.update(service_params)
-        format.html { redirect_to @location, notice: 'Service was successfully updated.' }
+        format.html { redirect_to action: :index, notice: 'Service was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -84,7 +80,6 @@ class ServicesController < ApplicationController
   # DELETE /services/1
   # DELETE /services/1.json
   def destroy
-    @service = Service.find(params[:id])
     @service.destroy
 
     respond_to do |format|
@@ -101,5 +96,9 @@ class ServicesController < ApplicationController
 
   def load_location
     @location = Location.friendly.find(params[:location_id])
+  end
+
+  def load_service
+    @service = Service.friendly.find(params[:id])
   end
 end
