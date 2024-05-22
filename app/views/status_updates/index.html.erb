@@ -1,12 +1,10 @@
 <div class="px-3 pb-3 px-md-5 pb-md-5">
   <h1 class="my-4">Manage <%= @location.name %>'s Status Updates</h1>
-
   <table class="table table-bordered table-striped table-hover">
     <tr>
       <th>Content</th>
       <th></th>
     </tr>
-
     <% @status_updates.each do |status_update| %>
       <tr>
         <td><%= status_update.content %></td>
