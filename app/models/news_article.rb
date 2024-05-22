@@ -1,8 +1,8 @@
 class NewsArticle < ApplicationRecord
   belongs_to :newsable, polymorphic: true
-  belongs_to :location, -> { where(news_articles: { newsable_type: "Location" }) }, foreign_key: "newsable_id"
+  belongs_to :location, foreign_key: "newsable_id"
   belongs_to :user
-  belongs_to :category
+  belongs_to :category, optional: true
 
   extend FriendlyId
   friendly_id :title, use: [:slugged, :history]
