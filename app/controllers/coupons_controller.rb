@@ -13,9 +13,9 @@ class CouponsController < ApplicationController
   # GET /coupons.json
   def index
     if user_signed_in? && @location.user_ids.include?(current_user.id)
-      @coupons = Coupon.unscoped.where(location_id: @location.id)
+      @coupons = Coupon.unscoped.where(location_id: @location.id).order(created_at: :desc)
     else
-      @coupons = @location.coupons
+      @coupons = @location.coupons.order(created_at: :desc)
     end
 
     respond_to do |format|

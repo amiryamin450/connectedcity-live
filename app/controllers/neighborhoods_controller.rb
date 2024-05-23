@@ -47,14 +47,14 @@ class NeighborhoodsController < ApplicationController
       @districts = @city.districts
       @sub_neighborhoods = Neighborhood.where(neighborhood_id: @neighborhood.nid)
       @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
-      @blog_entries = @city.blog_entries.limit(PER_PAGE)
-      @products = @city.products.limit(PER_PAGE)
-      @coupons = @city.coupons.limit(PER_PAGE)
-      @services = @city.services.limit(PER_PAGE)
+      @blog_entries = @city.blog_entries.order('created_at DESC').limit(PER_PAGE)
+      @products = @city.products.order('created_at DESC').limit(PER_PAGE)
+      @coupons = @city.coupons.order('created_at DESC').limit(PER_PAGE)
+      @services = @city.services.order('created_at DESC').limit(PER_PAGE)
       @business_improvement_areas = @city.business_improvement_areas.unscoped.order("name ASC")
       @business_improvement_area = @business_improvement_areas.first
-      @status_updates = @district.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
-      @news = @business_improvement_area.news_articles.limit(PER_PAGE).order(:created_at)
+      @status_updates = @district.status_updates.where(statusable_type: 'Location').order('created_at DESC').limit(PER_PAGE)
+      @news = @business_improvement_area.news_articles.order('created_at DESC').limit(PER_PAGE)
       @events = @business_improvement_area.events.limit(200).order(:starts_at)
     end
 
