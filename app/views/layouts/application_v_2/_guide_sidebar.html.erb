@@ -8,6 +8,7 @@
   @blog_entries = @vertical_market.get_blog_entries(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
   @coupons = @vertical_market.get_coupons(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
 
+  using_search ||= false
   if using_search && params[:search].present?
     @status_updates = @status_updates.ransack(title_or_content_cont: params[:search]).result if @status_updates.present?
     @news_articles = @news_articles.ransack(title_or_content_cont: params[:search]).result if @news_articles.present?

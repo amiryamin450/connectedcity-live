@@ -5,7 +5,8 @@ class VerticalMarketCategoriesController < ApplicationController
   def resolve_layout
     case action_name
     when "show", "show_auto_listing_makers", "search"
-      "community_guide"
+      # "community_guide"
+      "application_v_2"
     else
       "application"
     end
@@ -48,9 +49,12 @@ class VerticalMarketCategoriesController < ApplicationController
     @district = params[:district_slug] ? District.find_by_slug(params[:district_slug]) : nil
     @neighborhood = params[:neighborhood_slug] ? Neighborhood.find_by_slug(:neighborhood_slug) : nil
     @sub_neighborhood = params[:sub_neighborhood_slug] ? Neighborhood.find_by_slug(:sub_neighborhood_slug) : nil
+    @current_district = (@municipality&.name || @sub_neighborhood&.name || @neighborhood&.name || @district&.name || @city&.name || 'Vancouver')
+
     add_breadcrumb @vertical_market_category.vertical_market.parent.name, "#{@base_path}guide/#{@vertical_market_category.vertical_market.parent.slug}" unless @vertical_market_category.vertical_market.parent.nil?
     add_breadcrumb @vertical_market_category.vertical_market.name, "#{@base_path}guide/#{@vertical_market_category.vertical_market.slug}"
     add_breadcrumb @vertical_market_category.name
+
     respond_to do |format|
       format.html
       format.json { render json: @vertical_market_category }
