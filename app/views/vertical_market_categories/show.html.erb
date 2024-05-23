@@ -14,8 +14,6 @@ metamagic title: "#{guide}".strip,
           description: "",
           canonical: ""#url_for(Rails.application.routes.recognize_path(request.path).merge({only_path: false, protocol: 'https'}))
 %>
-
-<h4><%= @vertical_market_category.name %></h4>
 <%
   # categories = @facets['categories']
   # neighborhoods = @facets['neighborhoods']
@@ -25,35 +23,129 @@ metamagic title: "#{guide}".strip,
   markers |= locations
   # has_filters = (request.parameters[:category].present? or request.parameters[:neighborhood].present? or request.parameters[:brand].present?) ? true : false
 %>
-<div class="row-fluid">
-  <%= paginate locations %>
-  <div class="location-holder">
-    <div class="clearfix">
-      <% locations.each do |location| %>
-        <div class="location-teaser clearfix">
-          <div style="height: 74px; text-align: center;">
-            <%= link_to(image_tag(get_location_image_url(location)), location)%>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="<%= root_path %>">Home</a></li>
+    <!-- provincial-services: 164 , federal-services: 174 -->
+    <% if [174, 164].include?(@vertical_market.id) %>
+      <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="#"><%= (@city&.name || 'Vancouver') %></a></li>
+      <% @vertical_market.ancestors.each do |ancestor| %>
+        <li class="breadcrumb-item active" aria-current="page"><a style="margin-left: 10px;" href="<%="#{@base_path}guide/#{ancestor.slug}"%>"><%=ancestor.name%></a></li>
+      <% end %>
+      <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="<%="#{@base_path}guide/#{@vertical_market.slug}"%>"><%= " #{@vertical_market.name}" %></a></li>
+    <% else %>
+      <% if @municipality%>
+         <% url = "/#{@municipality&.region&.province&.slug}/#{@municipality&.region&.slug}/#{@municipality&.slug}"%>
+        <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="<%= url %>"><%= (@municipality&.name || 'Vancouver') %></a></li>
+      <%end%>
+      <%if @city %>
+        <% url = "/#{@city&.municipality&.region&.province&.slug}/#{@city&.municipality&.region&.slug}/#{@city&.municipality&.slug}/#{@city.slug}"%>
+        <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="<%= url %>"><%= (@city&.name || 'Vancouver') %></a></li>
+      <%end%>
+      <% if @district %>
+        <% url = "/#{@district.city&.municipality&.region&.province&.slug}/#{@district.city&.municipality&.region&.slug}/#{@district.city&.municipality&.slug}/#{@district.city&.slug}/#{@district.slug}"%>
+        <li class="breadcrumb-item active" aria-current="page"><a style="margin-left: 10px;" href="<%=url%>"><%=@district.name%></a></li>
+      <% end %>
+      <%if @neighborhood %>
+        <% url = "/#{@neighborhood.district&.city&.municipality&.region&.province&.slug}/#{@neighborhood.district&.city&.municipality&.region&.slug}/#{@neighborhood.district&.city&.municipality&.slug}/#{@neighborhood.district&.city&.slug}/#{@neighborhood.district&.slug}/#{@neighborhood.slug}"%>
+        <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="<%= url%>"><%= @neighborhood.name%></a></li>
+      <% end %> 
+      <% if @sub_neighborhood %>
+        <% url = "/#{@sub_neighborhood.neighborhood&.district&.city&.municipality&.region&.province&.slug}/#{@sub_neighborhood.neighborhood&.district&.city&.municipality&.region&.slug}/#{@sub_neighborhood.neighborhood&.district&.city&.municipality&.slug}/#{@sub_neighborhood.neighborhood&.district&.city&.slug}/#{@sub_neighborhood.neighborhood&.district&.slug}/#{@sub_neighborhood.neighborhood&.slug}/#{@sub_neighborhood.slug}"%>
+        <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="<%=url%>"><%= @sub_neighborhood.name%></a></li>
+      <% end %>
+      <% @vertical_market.ancestors.each do |ancestor| %>
+        <li class="breadcrumb-item active" aria-current="page"><a style="margin-left: 10px;" href="<%="#{@base_path}guide/#{ancestor.slug}"%>"><%=ancestor.name%></a></li>
+      <% end %>
+      <% if @sub_market %>
+        <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="#"><%= " #{@vertical_market.name}" %></a></li>
+        <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="#"><%= " #{@sub_market.name} Guide" %></a></li>
+      <% else %>
+        <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="#"><%= " #{@vertical_market.name} Guide" %></a></li>
+      <% end %>
+    <% end %>
+  </ol>
+</nav>
+<!-- Breadcrumb End -->
+<div class="category-body-section">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <!--  Category -->
+        <div class="page-title">
+          <% if [174, 164].include?(@vertical_market.id) %>
+            <h3>Browse Members of <%= @vertical_market.id === 164 ? 'the Legislative Assembly in' : 'Parliament in' %> <%= @current_district %></h3>
+          <% else %>
+            <h3><%= @vertical_market.name %> in <%= @current_district %></h3>
+          <% end %>
+        </div>
+        <!-- End -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="category-sidebar">
+          <div class="map-section">
+            <div id="map"></div>
           </div>
-          <div style="width: 168px; margin-top: 5px; margin-bottom: 5px; font-size: 12px; min-height:24px;"><strong><%= link_to location.name, location %></strong></div>
-          <div style="width: 168px;"><%= "#{location.address}".html_safe %></div>
-          <div style="width: 168px;"><%= "#{location.city.name if location.city.present? } #{location.province&.abbr} #{location.postal_code}".html_safe %></div>
-          <div style="width: 168px; color: #1c3656;"><%= location.phone %></div>
-          <div id="favorite-<%= location.id %>" class="favorite">
-            <% if show_save_button?(user_signed_in?, location.vertical_markets.present?) %>
-              <%= render 'favorites/like_button_v2', location_id: location.id, vertical_market_slug: location.vertical_markets.first.slug if user_signed_in? and location.vertical_markets.present? %>
-            <% end %>
-            <% if !user_signed_in? %>
-                <%= render_login_popup %>
+          <div class="SideBar-tabs">
+            <!-- municipal-services 114-->
+            <% if [174, 164, 114].include?(@vertical_market.id) %>
+              <%= render 'layouts/application_v_2/guide_sidebar_municipality' %>
+            <% else %>
+              <%= render 'layouts/application_v_2/guide_sidebar' %>
             <% end %>
           </div>
         </div>
-      <% end %>
+      </div>
+      <!-- SideBar End -->
+      <div class="col-md-8">
+        <div class="category-body">
+          <br>
+          <%= render 'share/search_box', url: '', opts: options_from_collection_for_select([@vertical_market], 'id', 'name', @vertical_market.try(:id)), all_promt: 'all categories' %>
+          <div class="location-holder row card-row">
+            <% locations.each do |location| %>
+              <% cache "#{user_signed_in? ? "in" : "out"}_location_#{location.id}_#{location.updated_at}" do %>
+                <div class="col-md-2">
+                  <div class="category-body-card">
+                    <div class="img">
+                        <%= link_to image_tag(get_location_image_url(location)), location %>
+                    </div>
+                    <div class="title">
+                        <h4><%= link_to location.name, location %></h4>
+                    </div>
+                    <hr>
+                    <div class="contact-details">
+                      <span><i class="fal fa-map-marker-alt"></i>
+                        <%= "#{location.address}".html_safe %>
+                        <%= "#{location.city.name if location.city.present? } B.C. #{location.postal_code}".html_safe %>
+                      </span>
+                      <br>
+                      <span><i class="far fa-phone-alt"></i><%= location.phone %></span>
+                    </div>
+                    <div class="button favorite" id="favorite-<%= location.id %>">
+                      <% if show_save_button?(user_signed_in?, location.vertical_markets.present?) %>
+                        <%= render 'favorites/like_button_v2', location_id: location.id, vertical_market_slug: location.vertical_markets.first.slug if user_signed_in? and location.vertical_markets.present? %>
+                      <% end %>
+                      <% if !user_signed_in? %>
+                        <%= link_to "Follow", "#", class: "btn btn-primary", role: "button", data: { toggle: "modal", target: "#login_for_save" } %>
+                      <% end %>
+                      <%# <button class="btn btn-primary">Follow</button> %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="row-fluid">
+            <%= paginate locations %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-
 <%= javascript_tag do %>
   window.locations = <%= raw map_locations_data(markers) %>;
 <% end %>
-<%# render 'facets' %>
