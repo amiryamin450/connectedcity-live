@@ -1,7 +1,7 @@
 class EmploymentListingsController < ApplicationController
   PER_PAGE = 20
 
-  before_action :set_location, only: [:index, :new]
+  before_action :set_location, only: [:index, :new, :create, :edit, :update, :show, :destroy]
   load_and_authorize_resource :location, except: [:guide]
   before_action :load_employment_listing, except: [:guide, :index, :new, :create]
   load_and_authorize_resource :employment_listing, through: [:location], except: [:guide]
@@ -73,11 +73,11 @@ class EmploymentListingsController < ApplicationController
   # POST /employment_listings
   # POST /employment_listings.json
   def create
-    @employment_listing = @location.employment_listings.new(params[:employment_listing])
+    @employment_listing = @location.employment_listings.new(employment_listing_params)
 
     respond_to do |format|
-      if @employment_listing.save
-        format.html { redirect_to [@location, @employment_listing], notice: 'Employment listing was successfully created.' }
+      if @employment_listing.save!
+        format.html { redirect_to action: :index, notice: 'Employment listing was successfully created.' }
         format.json { render json: @employment_listing, status: :created, location: @employment_listing }
       else
         format.html { render action: "new" }
@@ -90,8 +90,8 @@ class EmploymentListingsController < ApplicationController
   # PUT /employment_listings/1.json
   def update
     respond_to do |format|
-      if @employment_listing.update(params[:employment_listing])
-        format.html { redirect_to [@location, @employment_listing], notice: 'Employment listing was successfully updated.' }
+      if @employment_listing.update(employment_listing_params)
+        format.html { redirect_to action: :index, notice: 'Employment listing was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

@@ -21,7 +21,7 @@
 <div style="font-size: 15px; margin-bottom: 5px;">
   <span class="see-more" style="cursor: pointer;" data-element=<%= "products-#{@location.id}" %>>See More +</span>
   &nbsp;|&nbsp;
-  <%= link_to 'See All', location_automotive_listings_path(@location), class: 'see-all' %>
+  <%= link_to 'See All', location_products_path(@location), class: 'see-all' %>
   &nbsp;|&nbsp;
   <%= link_to 'Manage', location_products_path(@location) %>
   &nbsp;|&nbsp;
@@ -135,4 +135,3 @@
     }
   })
 </script>
-

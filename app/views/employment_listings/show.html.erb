@@ -6,37 +6,51 @@ meta title: @employment_listing.title,
 
 %>
 
-<div class="p-4">
-  <h1> <%= @employment_listing.title %></h1>
-  <% if (user_signed_in? and current_user.can_manage_location? @location) %>
-  <div>
-    <%= link_to "Edit", edit_location_employment_listing_path(@location, @employment_listing) %>
-  </div>
-  <% end %>
+<div class="px-3 pb-3 px-md-5 pb-md-5">
+  <h2 class="my-4"> <%= @employment_listing.title %></h2>
 
-  <div style="margin: 15px 0;">
-    <%= image_tag @employment_listing.cover_photo.url(:display), class: 'thumbnail' %>
-  </div>
+  <h6>Cover Photo</h6>
+  <%= image_tag @employment_listing.cover_photo.url, class: 'thumbnail' %>
 
-  <h4>Description</h4>
+  <h6>Description</h6>
   <p>
     <%= @employment_listing.description.html_safe %>
   </p>
 
-    <h4>Advantages:</h4>
+  <h6>Advantages:</h6>
   <p>
-
     <%= @employment_listing.advantages.html_safe %>
   </p>
-    <h4>Qualifications:</h4>
-  <p>
-  <%= @employment_listing.qualifications.html_safe %>
-  </p>
-  <br/>
-  <br/>
 
-  <div><strong>Job Number:</strong> <%= @employment_listing.number %></div>
-  <div><strong>Locations:</strong> <%= @employment_listing.locations %></div>
-  <div><strong>Number of Positions:</strong> <%= @employment_listing.number_of_positions %></div>
-  <div><strong>Application Deadline:</strong> <%= @employment_listing.application_deadline.strftime("%b %d, %Y") %></div>
+  <h6>Qualifications:</h6>
+  <p>
+    <%= @employment_listing.qualifications.html_safe %>
+  </p>
+
+  <div class="mb-3">
+    <h6 class="d-inline">Job Number:</h6>
+    <%= @employment_listing.number %>
+  </div>
+
+  <div class="mb-3">
+    <h6 class="d-inline">Locations:</h6>
+    <%= @employment_listing.locations %>
+  </div>
+
+  <div class="mb-3">
+    <h6 class="d-inline">Number of Positions:</h6>
+    <%= @employment_listing.number_of_positions %>
+  </div>
+
+  <div class="mb-3">
+    <h6 class="d-inline">Application Deadline:</h6>
+    <%= @employment_listing.application_deadline&.strftime("%b %d, %Y") %>
+  </div>
+
+  <div>
+    <% if (user_signed_in? and current_user.can_manage_location? @location) %>
+      <%= link_to "Edit", edit_location_employment_listing_path(@location, @employment_listing),class: 'btn btn-primary' %>
+      <%= link_to "Back to Manage #{@location.name}'s Employment Listings", location_employment_listings_path(@location), class: 'btn m-4' %>
+    <% end %>
+  </div>
 </div>

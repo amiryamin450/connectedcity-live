@@ -11,10 +11,13 @@
     <%= f.input :qualifications, input_html: { class: 'input-block-level wysihtml5'} %>
     <%= f.input :number_of_positions, collection: (1..20), prompt: 'Select number of positions' %>
 
-    <div class="control-group">
-      <label for="employment_listing_application_deadline" class="string optional control-label">Application Deadline</label>
+    <div class="string required mb-4">
+      <label for="employment_listing_application_deadline" class="string form-label required">
+        Application Deadline
+        <abbr title="required">*</abbr>
+      </label>
       <div class="input-append" id="datepicker_starts" >
-        <%= f.input_field :application_deadline, as: :string,  data: { format: "yyyy-MM-dd" }, value: @employment_listing.application_deadline.strftime("%Y-%m-%d")   %>
+        <%= f.input_field :application_deadline, as: :string,  data: { format: "yyyy-MM-dd" }, value: @employment_listing.application_deadline&.strftime("%Y-%m-%d") %>
         <span class='add-on'>
           <i data-time-icon='icon-time' data-date-icon='icon-calendar'></i>
         </span>
@@ -27,6 +30,6 @@
 
   <div class="form-actions">
     <%= f.button :submit, class: 'btn btn-primary' %>
-    <%= link_to 'Back', :back, class: 'btn' %>
+    <%= link_to 'Cancel', location_employment_listings_path(@location), class: 'btn m-3'  %>
   </div>
 <% end %>

@@ -9,5 +9,7 @@ class EmploymentListing < ApplicationRecord
                     :url => "/system/employment_listing/image/:id/:style/:basename.:extension",
                     :path => ":rails_root/public/system/employment_listing/image/:id/:style/:basename.:extension"
 
+  validates_attachment_content_type :cover_photo, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
+
   default_scope { where("application_deadline >= ?", Date.today) }
 end
