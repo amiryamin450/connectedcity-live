@@ -2240,11 +2240,7 @@ ol.breadcrumb {
   color: #10375c;
 }
 
-.category-body-section
-  .category-sidebar
-  .SideBar-tabs
-  .nav-tabs
-  .nav-link.active {
+.category-body-section .category-sidebar .SideBar-tabs .nav-tabs .nav-item.active .nav-link {
   background-color: #10375c;
   color: #fff;
   border-color: transparent;
@@ -2686,7 +2682,7 @@ ol.breadcrumb {
   border-radius: 8px 8px 0px 0px;
 }
 
-.business-body-section .business-product-body .card-label-four .title > div { 
+.business-body-section .business-product-body .card-label-four .title > div {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }

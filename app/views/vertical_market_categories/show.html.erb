@@ -19,7 +19,7 @@ metamagic title: "#{guide}".strip,
   # neighborhoods = @facets['neighborhoods']
   # brands = @facets['brands']
   markers = []
-  locations = @vertical_market_category.get_locations_paged(@municipality, @city, @district, @neighborhood, @sub_neighborhood, params[:page], @bia)
+  locations = @vertical_market_category.get_locations_paged(@municipality, @city, @district, @neighborhood, @sub_neighborhood, params[:page], @bia).ransack(name_or_website_url_or_content_cont: params[:search]).result
   markers |= locations
   # has_filters = (request.parameters[:category].present? or request.parameters[:neighborhood].present? or request.parameters[:brand].present?) ? true : false
 %>
@@ -55,13 +55,32 @@ metamagic title: "#{guide}".strip,
         <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="<%=url%>"><%= @sub_neighborhood.name%></a></li>
       <% end %>
       <% @vertical_market.ancestors.each do |ancestor| %>
-        <li class="breadcrumb-item active" aria-current="page"><a style="margin-left: 10px;" href="<%="#{@base_path}guide/#{ancestor.slug}"%>"><%=ancestor.name%></a></li>
+        <% if @sub_neighborhood %>
+          <li class="breadcrumb-item"><a href="<%=city_district_nbh_sub_guide_path(@city&.slug, @district&.slug, @neighborhood&.slug, @sub_neighborhood&.slug, ancestor.slug)%>" style="margin-left: 10px;"><%=ancestor.name%></a></li>
+        <% elsif @neighborhood %>
+          <li class="breadcrumb-item"><a href="<%= city_district_neighborhood_guide_path(@city&.slug, @district&.slug, @neighborhood&.slug, ancestor.slug)%>" style="margin-left: 10px;"><%=ancestor.name%></a></li>
+        <% elsif @district %>
+          <li class="breadcrumb-item"><a href="<%= city_district_guide_path(@city&.slug, @district&.slug, ancestor.slug)%>" style="margin-left: 10px;"><%=ancestor.name%></a></li>
+        <% elsif @city %>
+          <li class="breadcrumb-item"><a href="<%=city_guide_path(@city&.slug, ancestor.slug)%>" style="margin-left: 10px;"><%=ancestor.name%></a></li>
+        <% elsif @municipality %>
+          <li class="breadcrumb-item"><a href="<%= municipality_guide_path(@municipality&.slug, ancestor.slug)%>" style="margin-left: 10px;"><%=ancestor.name%></a></li>
+        <%else%>
+          <li class="breadcrumb-item"><a href=<%="#"%> style="margin-left: 10px;"><%=ancestor.name%></a></li>
+        <% end %>
       <% end %>
-      <% if @sub_market %>
-        <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="#"><%= " #{@vertical_market.name}" %></a></li>
-        <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="#"><%= " #{@sub_market.name} Guide" %></a></li>
-      <% else %>
-        <li class="breadcrumb-item" aria-current="page"><a style="margin-left: 10px;" href="#"><%= " #{@vertical_market.name} Guide" %></a></li>
+      <% if @sub_neighborhood %>
+        <li class="breadcrumb-item"><a href="<%=city_district_nbh_sub_guide_path(@city&.slug, @district&.slug, @neighborhood&.slug, @sub_neighborhood&.slug,  @vertical_market.slug)%>" style="margin-left: 10px;"><%= @vertical_market.name%></a></li>
+      <% elsif @neighborhood %>
+        <li class="breadcrumb-item"><a href="<%= city_district_neighborhood_guide_path(@city&.slug, @district&.slug, @neighborhood&.slug,  @vertical_market.slug)%>" style="margin-left: 10px;"><%= @vertical_market.name%></a></li>
+      <% elsif @district %>
+        <li class="breadcrumb-item"><a href="<%= city_district_guide_path(@city&.slug, @district&.slug,  @vertical_market.slug)%>" style="margin-left: 10px;"><%= @vertical_market.name%></a></li>
+      <% elsif @city %>
+        <li class="breadcrumb-item"><a href="<%=city_guide_path(@city&.slug,  @vertical_market.slug)%>" style="margin-left: 10px;"><%= @vertical_market.name%></a></li>
+      <% elsif @municipality %>
+        <li class="breadcrumb-item"><a href="<%= municipality_guide_path(@municipality&.slug,  @vertical_market.slug)%>" style="margin-left: 10px;"><%= @vertical_market.name%></a></li>
+      <%else%>
+        <li class="breadcrumb-item"><a href=<%="#"%> style="margin-left: 10px;"><%=ancestor.name%></a></li>
       <% end %>
     <% end %>
   </ol>
