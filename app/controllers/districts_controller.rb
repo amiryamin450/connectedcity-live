@@ -50,13 +50,13 @@ class DistrictsController < ApplicationController
       @cities = @city.municipality.cities
       @districts = @city.districts
       @neighborhoods = @district.neighborhoods
-      @status_updates = @district.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
+      @status_updates = @district.status_updates.where(statusable_type: 'Location').limit(PER_PAGE).order('created_at DESC')
       @events = @district.events.order(:starts_at).limit(PER_PAGE)
       @media_attachments = @district.media_attachments.order('created_at DESC').limit(PER_PAGE)
-      @news = @district.news_articles.limit(PER_PAGE)
-      @blog_entries = @district.blog_entries.limit(PER_PAGE)
-      @products = @district.products.limit(PER_PAGE)
-      @coupons = @district.coupons.limit(PER_PAGE)
+      @news = @district.news_articles.limit(PER_PAGE).order('created_at DESC')
+      @blog_entries = @district.blog_entries.limit(PER_PAGE).order('created_at DESC')
+      @products = @district.products.limit(PER_PAGE).order('created_at DESC')
+      @coupons = @district.coupons.limit(PER_PAGE).order('created_at DESC')
       add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
       add_breadcrumb @district.name
     else
