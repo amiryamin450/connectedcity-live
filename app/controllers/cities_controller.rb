@@ -30,7 +30,7 @@ class CitiesController < ApplicationController
   def homepage
     @city = City.find(5915022)
     @carousel_images = @city.carousel_images
-    @status_updates = @city.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
+    @status_updates = @city.status_updates.where(statusable_type: 'Location').limit(PER_PAGE).order('created_at DESC')
     @events = @city.events.order(:starts_at).limit(PER_PAGE)
     @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
     @districts = @city.districts
@@ -40,7 +40,7 @@ class CitiesController < ApplicationController
 
   def status_updates
     city = City.find(5915022)
-    status_updates = city.status_updates.where(statusable_type: 'Location').where("created_at < ?", params[:from]).limit(PER_PAGE)
+    status_updates = city.status_updates.where(statusable_type: 'Location').where("created_at < ?", params[:from]).limit(PER_PAGE).order('created_at DESC')
     render partial: 'status_updates/market_updates', locals:{ status_updates: status_updates }, layout: false
   end
 
@@ -61,7 +61,7 @@ class CitiesController < ApplicationController
     @city = City.new
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @city }
     end
   end
@@ -116,7 +116,7 @@ class CitiesController < ApplicationController
   end
 
   def redirect_back_home
-    #I have added this redirect to avoid broke code beacuse city model had changed to new model but code did not modified. 
+    #I have added this redirect to avoid broke code beacuse city model had changed to new model but code did not modified.
     redirect_to root_path
   end
 

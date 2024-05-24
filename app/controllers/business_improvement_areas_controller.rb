@@ -17,15 +17,15 @@ class BusinessImprovementAreasController < ApplicationController
   # GET /business_improvement_areas/1
   # GET /business_improvement_areas/1.json
   def show
-    @status_updates = @business_improvement_area.all_status_updates.limit(PER_PAGE)
+    @status_updates = @business_improvement_area.all_status_updates.limit(PER_PAGE).order('created_at DESC')
     @tag_cloud = @business_improvement_area.vertical_market_categories.map { |vm| { text: vm.name, weight: vm.locations.where(business_improvement_area_id: @business_improvement_area.id).size, link: url_for([@business_improvement_area, vm]) }}.compact
     @events = @business_improvement_area.events.limit(200).order(:starts_at)
     @media_attachments = @business_improvement_area.media_attachments.limit(200).order('created_at DESC')
-    @blog_entries = @business_improvement_area.blog_entries.limit(PER_PAGE)
-    @products = @business_improvement_area.products.limit(PER_PAGE)
-    @coupons = @business_improvement_area.coupons.limit(PER_PAGE)
+    @blog_entries = @business_improvement_area.blog_entries.limit(PER_PAGE).order('created_at DESC')
+    @products = @business_improvement_area.products.limit(PER_PAGE).order('created_at DESC')
+    @coupons = @business_improvement_area.coupons.limit(PER_PAGE).order('created_at DESC')
     @news = @business_improvement_area.news_articles.limit(PER_PAGE).order(:created_at)
-    @services = @business_improvement_area.services.limit(PER_PAGE)
+    @services = @business_improvement_area.services.limit(PER_PAGE).order('created_at DESC')
     @district = @business_improvement_area.district
     @neighborhoods = @district.neighborhoods
     @neighborhood  = @neighborhoods.find{|nbd| nbd.neighborhd == @business_improvement_area.name}
@@ -56,7 +56,7 @@ class BusinessImprovementAreasController < ApplicationController
     @business_improvement_area = BusinessImprovementArea.new
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @business_improvement_area }
     end
   end

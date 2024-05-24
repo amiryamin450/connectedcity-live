@@ -15,7 +15,7 @@ class MunicipalitiesController < ApplicationController
   end
 
   def update
-    
+
   end
 
   def metro_page
@@ -30,11 +30,11 @@ class MunicipalitiesController < ApplicationController
       @neighbourhoods = @municipality.neighborhoods
       @sub_neighborhoods = @municipality.sub_neighborhoods
       @media_attachments = @municipality.media_attachments.order('created_at DESC').limit(PER_PAGE)
-      @blog_entries = @municipality.blog_entries.limit(PER_PAGE)
-      @products = @municipality.products.limit(PER_PAGE)
-      @coupons = @municipality.coupons.limit(PER_PAGE)
-      @services = @municipality.services.limit(PER_PAGE)
-      @status_updates = @municipality.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
+      @blog_entries = @municipality.blog_entries.limit(PER_PAGE).order('created_at DESC')
+      @products = @municipality.products.limit(PER_PAGE).order('created_at DESC')
+      @coupons = @municipality.coupons.limit(PER_PAGE).order('created_at DESC')
+      @services = @municipality.services.limit(PER_PAGE).order('created_at DESC')
+      @status_updates = @municipality.status_updates.where(statusable_type: 'Location').limit(PER_PAGE).order('created_at DESC')
       @news = @municipality.news_articles.limit(PER_PAGE).order(:created_at)
       @events = @municipality.events.limit(200).order(:starts_at)
     end

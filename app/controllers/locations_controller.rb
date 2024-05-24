@@ -63,9 +63,9 @@ class LocationsController < ApplicationController
       @category_id = 'all'
     else
       @media_attachments = @location.media_attachments.order('created_at DESC').limit(PER_PAGE)
-      @status_updates = @location.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
-      @articles = @location.news_articles.limit(PER_PAGE)
-      @events = @location.events.order(:starts_at).limit(PER_PAGE)
+      @status_updates = @location.status_updates.where(statusable_type: 'Location').limit(PER_PAGE).order('created_at DESC')
+      @articles = @location.news_articles.limit(PER_PAGE).order('created_at DESC')
+      @events = @location.events.order(:starts_at).limit(PER_PAGE).order('created_at DESC')
     end
 
     @vertical_market = @location.vertical_market_categories.first.vertical_market if @location.vertical_market_categories.size > 0
