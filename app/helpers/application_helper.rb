@@ -42,7 +42,7 @@ module ApplicationHelper
     elsif params[:municipality_slug] || @location&.municipality
       municipality_guide_path(params[:municipality_slug] || @location&.municipality&.slug, market)
     else
-      '#'
+      city_guide_path('vancouver', market)
     end
   end
 
@@ -65,12 +65,12 @@ module ApplicationHelper
       else
         city_district_sub_market_guide_path(@location&.city&.slug, @location&.district&.slug, parent.slug, child.slug)
       end
-    elsif params[:city_slug] || @location&.city 
+    elsif params[:city_slug] || @location&.city
         city_sub_market_guide_path(params[:city_slug] || @location&.city.slug, parent.slug, child.slug)
-    elsif params[:municipality_slug] || @location&.municipality 
+    elsif params[:municipality_slug] || @location&.municipality
         municipality_sub_market_guide_path(params[:municipality_slug] || @location&.municipality&.slug, parent.slug, child.slug)
     else
-      '#'
+      city_sub_market_guide_path('vancouver', parent.slug, child.slug)
     end
   end
 

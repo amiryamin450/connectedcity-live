@@ -1,5 +1,5 @@
 <%
-  @status_updates = current_user.favorites.map { |f| f.location_status_updates.includes(:statusable).first if f.location_status_updates.size > 0 }&.flatten&.compact&.sort_by(&:created_at)&.reverse
+  # @status_updates = current_user.favorites.map { |f| f.location_status_updates.includes(:statusable).first if f.location_status_updates.size > 0 }&.flatten&.compact&.sort_by(&:created_at)&.reverse
   @media_attachments = []
   @products = []
   @services = []
@@ -8,12 +8,12 @@
   @blog_entries = []
   @coupons = []
   # @friends = current_user.favorites.where(category: nil).map { |f| Location.unscoped.find(f.location_id).status_updates.includes(:statusable).first }&.flatten&.compact&.sort_by(&:created_at)&.reverse
-  @friends = @friend_locations.map{ |l| l.status_updates.includes(:statusable) }&.flatten&.compact&.sort_by(&:created_at)&.reverse
+  @friends = @friend_locations.present? ? @friend_locations.map{ |l| l.status_updates.includes(:statusable) }&.flatten&.compact&.sort_by(&:created_at)&.reverse : []
 %>
 
 <ul class="nav nav-tabs justify-content-start" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link active" data-toggle="tab" href="#Updates">Updates</a>
+  <li class="nav-item active">
+    <a class="nav-link" data-toggle="tab" href="#Updates">Updates</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" data-toggle="tab" href="#Videos">Videos</a>
@@ -43,7 +43,7 @@
 
 <!-- Tab panes -->
 <div class="tab-content">
-    <div id="Update" class="container tab-pane active">
+    <div id="Updates" class="container tab-pane active">
       <br>
       <h3>Updates</h3><br>
       <% if @status_updates.size > 0 %>
@@ -54,7 +54,7 @@
         <div class="alert">No Market Updates found.</div>
       <% end %>
     </div>
-    <div id="Videos" class="container tab-pane fade">
+    <div id="Videos" class="container tab-pane">
       <br>
       <h3>Videos</h3><br>
       <% if @media_attachments.size > 0 %>
@@ -66,7 +66,7 @@
       <% end %>
     </div>
     <!--  -->
-    <div id="Products" class="container tab-pane fade">
+    <div id="Products" class="container tab-pane">
       <br>
       <h3>Products</h3>
       <% if @products.size > 0 %>
@@ -78,7 +78,7 @@
       <% end %>
     </div>
     <!--  -->
-    <div id="Services" class="container tab-pane fade">
+    <div id="Services" class="container tab-pane">
       <br>
       <h3>Services</h3>
       <% if @services.size > 0 %>
@@ -101,7 +101,7 @@
         <div class="alert">No Events found.</div>
       <% end %>
     </div>
-    <div id="News" class="container tab-pane fade">
+    <div id="News" class="container tab-pane">
       <br>
       <h3>News</h3><br>
       <% if @news_articles.size > 0 %>
@@ -112,7 +112,7 @@
         <div class="alert">No News found.</div>
       <% end %>
     </div>
-    <div id="Blogs" class="container tab-pane fade">
+    <div id="Blogs" class="container tab-pane">
       <br>
       <h3>Blogs</h3><br>
       <% if @blog_entries.size > 0 %>
@@ -123,13 +123,13 @@
         <div class="alert">No Blogs found.</div>
       <% end %>
     </div>
-    <div id="Offers" class="container tab-pane fade">
+    <div id="Offers" class="container tab-pane">
       <br>
       <h3>Deals</h3><br>
       <%= render @coupons %>
     </div>
 
-    <div id="Friends" class="container tab-pane fade">
+    <div id="Friends" class="container tab-pane">
       <br>
       <h3>Friends</h3><br>
       <% if @friends.size > 0 %>

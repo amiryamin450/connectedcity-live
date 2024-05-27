@@ -14,14 +14,29 @@
       </li>
       <li class="dropdown-submenu">
         <div  class="dropdown-item title" tabindex="-1" href=>
-          <%= link_to "Favorites", fav_link(), class: "text-decoration-none", tabindex: "-1" %>
+          <%= link_to "My Newsfeeds", fav_link(), class: "text-decoration-none", tabindex: "-1" %>
         </div>
         <ul class="dropdown-menu">
-        <% @vertical_markets_all.each do |item| %>
           <li class="dropdown-item p-0">
-            <%= link_to "#{item.name} #{fav_count item}", fav_link(item), class: "d-block text-decoration-none py-1 px-2 px-md-4", tabindex: "-1" %>
+            <%= link_to "All Newsfeeds", fav_link(), class: "d-block text-decoration-none py-1 px-2 px-md-4", tabindex: "-1" %>
           </li>
-        <% end %>
+          <li class="dropdown-item p-0">
+            <%= link_to "My Friends", "/user/#{current_user.id}/favorites?name=friends", class: "d-block text-decoration-none py-1 px-2 px-md-4", tabindex: "-1" %>
+          </li>
+          <li class="dropdown-item p-0">
+            <%= link_to "My News Media", "/user/#{current_user.id}/favorites?name=news-media", class: "d-block text-decoration-none py-1 px-2 px-md-4", tabindex: "-1" %>
+          </li>
+          <li class="dropdown-item p-0">
+            <%= link_to "My Associations", "/user/#{current_user.id}/favorites?name=associations", class: "d-block text-decoration-none py-1 px-2 px-md-4", tabindex: "-1" %>
+          </li>
+          <li class="dropdown-item p-0">
+            <%= link_to "My Civic News", "/user/#{current_user.id}/favorites?name=civic-news", class: "d-block text-decoration-none py-1 px-2 px-md-4", tabindex: "-1" %>
+          </li>
+          <% @vertical_markets_all.each do |item| %>
+            <li class="dropdown-item p-0">
+              <%= link_to "#{item.name}", fav_link(item), class: "d-block text-decoration-none py-1 px-2 px-md-4", tabindex: "-1" %>
+            </li>
+          <% end %>
         </ul>
       </li>
       <li class="dropdown-submenu">

@@ -122,11 +122,33 @@ class UserController < ApplicationController
   def favorites
     if params[:name].present?
       @vertical_market = VerticalMarket.find_by(slug: params[:name])
-      @vertical_markets = [@vertical_market]
+      @vertical_markets = [@vertical_market].compact
     else
       @vertical_markets = VerticalMarket.where(ancestry_depth: 0)
     end
+
     @user = User.find(params[:id])
+
+    if params[:name].present? && params[:name] == 'associations'
+      slug = @user.name.presence || @user.email.presence
+      location = Location.unscoped.find_by(slug: slug.parameterize)
+      @trade_associations = location&.trade_associations
+      ids = []
+      @trade_associations.each do |association|
+        ids << association.locations.ids
+      end
+      @status_updates = StatusUpdate.where(statusable_id: ids.flatten.uniq)
+    else
+      vm_slugs = []
+      @vertical_markets.each do |vm|
+        vm_slugs << vm.slug
+        vm_slugs << vm.children.pluck(:slug) if vm.has_children?
+      end
+      vm_slugs = vm_slugs.flatten.uniq
+
+      favorites = Favorite.where(user_id: params[:id]).where(category: vm_slugs)
+      @status_updates = StatusUpdate.where(statusable_id: favorites.pluck(:location_id))
+    end
 
     location_ids = Favorite.where(user_id: params[:id]).pluck(:location_id).compact
     @friend_locations = Location.unscoped.joins(:vertical_market_categories).where("locations.id IN (?)", location_ids).where("vertical_market_categories.name = ?", "ConnectedCitizen")

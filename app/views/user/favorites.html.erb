@@ -22,8 +22,8 @@ r = 0
   </div>
 
   <div class="span8">
-    <h1><%= "#{current_user.name}'s Favorites" %></h1>
-    
+    <h1><%= "#{current_user.name}'s Newsfeeds" %></h1>
+
   </div>
 </div>
 
@@ -74,7 +74,7 @@ r = 0
           <div class="col-md-12">
             <!--  Category -->
             <div class="page-title pt-3">
-              <h3><%= "#{current_user.name}'s Favorites" %></h3>
+              <h3><%= "#{current_user.name}'s Newsfeeds" %></h3>
             </div>
             <!-- End -->
           </div>
@@ -97,10 +97,10 @@ r = 0
               <br>
               <%= render 'share/search_box', url: @url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'all categories', hide_select_box: true %>
               <div class="vertical-market-categories">
-                <% if @friend_locations.count > 0 %>
+                <% if @trade_associations.present? %>
                   <div class="card-label-one">
                     <div class="title heading">
-                      <h4>Friends</h4>
+                      <h4>Associations</h4>
                       &nbsp;&nbsp;
                       <%= link_to 'See More +', '#', class: 'see-more' %>
                       &nbsp;&nbsp;
@@ -108,7 +108,8 @@ r = 0
                     </div>
                   </div>
                   <div class="row card-row location-row-holder">
-                    <% @friend_locations.each do |location| %>
+                    <% @trade_associations.each do |association| %>
+                      <% association.locations.each do |location| %>
                         <div class="col-md-2">
                           <div class="category-body-card">
 
@@ -134,10 +135,11 @@ r = 0
                             </div>
 
                             <div id="favorite-<%= location.id %>" class="button favorite">
-                              <%= render 'favorites/like_button_v2', location_id: location.id if user_signed_in? %>
+                              <%#= render 'favorites/like_button_v2', location_id: location.id if user_signed_in? %>
                             </div>
                           </div>
                         </div>
+                      <% end %>
                     <%end%>
                   </div>
                 <% end %>
