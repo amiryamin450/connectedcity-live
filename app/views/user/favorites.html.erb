@@ -101,13 +101,9 @@ r = 0
                   <div class="card-label-one">
                     <div class="title heading">
                       <h4>Associations</h4>
-                      &nbsp;&nbsp;
-                      <%= link_to 'See More +', '#', class: 'see-more' %>
-                      &nbsp;&nbsp;
-                      <%= link_to ' See All', "#", class: 'see-all' %>
                     </div>
                   </div>
-                  <div class="row card-row location-row-holder">
+                  <div class="row card-row location-row-holder show">
                     <% @trade_associations.each do |association| %>
                       <% association.locations.each do |location| %>
                         <div class="col-md-2">
@@ -148,13 +144,15 @@ r = 0
                     <div class="card-label-one">
                       <div class="title heading">
                         <h4><%= vm.name %></h4>
-                        &nbsp;&nbsp;
-                        <%= link_to 'See More +', '#', class: 'see-more', data: { element: vm.id } %>
-                        &nbsp;&nbsp;
-                        <%= link_to ' See All', "#", class: 'see-all' %>
+                        <% if !params[:name].present? %>
+                          &nbsp;&nbsp;
+                          <%= link_to 'See More +', '#', class: 'see-more', data: { element: vm.id } %>
+                          &nbsp;&nbsp;
+                          <%= link_to ' See All', city_guide_path('vancouver', vm), class: 'see-all' %>
+                        <% end %>
                       </div>
                     </div>
-                    <div class="row card-row location-row-holder" id="cat-<%= vm.id %>">
+                    <div class="row card-row location-row-holder <%= params[:name].present? ? 'show' : '' %>" id="cat-<%= vm.id %>">
                       <% fav_categories(vm).each  do |f| %>
                         <div class="col-md-2">
                           <div class="category-body-card">

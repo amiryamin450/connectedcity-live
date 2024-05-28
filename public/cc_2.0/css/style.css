@@ -2550,7 +2550,7 @@ ol.breadcrumb {
 }
 .location-row-holder {
   overflow: hidden;
-  height: 280px;
+  height: 300px;
 }
 
 .location-row-holder.show {
