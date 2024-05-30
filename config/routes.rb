@@ -66,9 +66,9 @@ Connectbook::Application.routes.draw do
 
     get "business/new", to: "locations#new"
 
-    get "citizen/:id", to: "locations#show_citizen"
+    get "citizen/:id", to: "locations#show_citizen", as: :show_citizen
 
-    get "citizen/:id/edit", to: "locations#edit_citizen"
+    get "citizen/:id/edit", to: "locations#edit_citizen", as: :edit_citizen
 
     #############################################
     resources :locations, path: 'business', as: :locations, only: [:edit, :update] do

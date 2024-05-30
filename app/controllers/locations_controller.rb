@@ -11,8 +11,8 @@ class LocationsController < ApplicationController
   PER_PAGE = 20
   BUSINESS_PER_PAGE = 100
 
-  layout 'location', :only => [:show, :show_citizen]
-  layout "application_v_2", :only => [:connected_advertiser, :edit, :edit_citizen]
+  # layout 'location', :only => [:show, :show_citizen]
+  layout "application_v_2", :only => [:connected_advertiser, :edit, :edit_citizen, :show, :show_citizen]
 
   def index
     status = ["active", "in_active"].include?(params[:status]) ? params[:status] : ""
@@ -205,7 +205,7 @@ class LocationsController < ApplicationController
     @location = Location.unscoped.friendly.find(params[:id])
 
     if @location.is_profile
-      redirect_to "/citizen/#{@location.slug}/edit" and return
+      redirect_to edit_citizen_path(@location.slug) and return
     end
 
     if @location.is_profile

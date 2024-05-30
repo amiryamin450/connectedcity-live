@@ -23,4 +23,3 @@
 //= require bootstrap-sprockets
 //= require bootstrap-wysihtml5
 //= require bootstrap-datetimepicker
-//= require locations

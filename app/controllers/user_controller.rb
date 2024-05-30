@@ -31,7 +31,11 @@ class UserController < ApplicationController
 
     if params[:edit].present?
       if @location.is_profile
-        redirect_to "/citizen/#{@location.slug}/edit"
+        if params[:edit].to_s == "true"
+          redirect_to edit_citizen_path(@location.slug) and return
+        else
+          redirect_to show_citizen_path(@location.slug) and return
+        end
       else
         redirect_to edit_location_path(@location)
       end
