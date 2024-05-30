@@ -11,7 +11,11 @@
 @import "orders";
 @import "users";
 @import "connected_advertiser";
-
+@import "jquery-tokeninput/token-input-facebook";
+@import "bootstrap-wysihtml5/bootstrap3-wysihtml5";
+@import "bootstrap-datetimepicker";
+@import "bootstrap-colorpicker";
+@import "bootstrap-sprockets";
 // Headings
 h1,
 h2,
@@ -1269,4 +1273,15 @@ label.error {
       background-color: unset;
     }
   }
+}
+
+.location-nav .nav-item.active .nav-link {
+  background-color: #10375c;
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 2px -1px 5px #0000001a;
+}
+
+.hidden {
+  display: none;
 }

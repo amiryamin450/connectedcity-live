@@ -39,12 +39,21 @@
       <%#= render 'guide/location', location: location %>
       <div class="col-md-2">
         <div class="category-body-card">
-          <div class="img">
+          <% if category.slug == 'connectedcitizen' %>
+            <div class="img">
+              <%= link_to image_tag(get_location_image_url(location)), "/citizen/#{location.slug}" %>
+            </div>
+            <div class="title">
+              <h4><%= link_to location.name, "/citizen/#{location.slug}" %></h4>
+            </div>
+          <% else %>
+            <div class="img">
               <%= link_to image_tag(get_location_image_url(location)), location %>
-          </div>
-          <div class="title">
+            </div>
+            <div class="title">
               <h4><%= link_to location.name, location %></h4>
-          </div>
+            </div>
+          <% end %>
           <hr>
           <div class="contact-details">
               <span><i class="fal fa-map-marker-alt"></i>

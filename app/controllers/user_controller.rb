@@ -30,7 +30,11 @@ class UserController < ApplicationController
     @status_updates = @location.status_updates
 
     if params[:edit].present?
-      redirect_to edit_location_path(@location)
+      if @location.is_profile
+        redirect_to "/citizen/#{@location.slug}/edit"
+      else
+        redirect_to edit_location_path(@location)
+      end
     else
       respond_to do |format|
         format.html { render layout: 'application_v_2' }

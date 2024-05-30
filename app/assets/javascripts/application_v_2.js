@@ -19,3 +19,8 @@
 //= require bootstrap
 //= require vertical_market_category
 //= require map
+//= require jquery-tokeninput/jquery.tokeninput
+//= require bootstrap-sprockets
+//= require bootstrap-wysihtml5
+//= require bootstrap-datetimepicker
+//= require locations

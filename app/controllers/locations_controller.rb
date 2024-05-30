@@ -3,16 +3,16 @@ class LocationsController < ApplicationController
   before_action :set_location, only: [:connect_stripe, :disconnect_stripe, :connected_advertiser, :update, :destroy, :claim, :update_status]
   load_and_authorize_resource :location, find_by: :slug
 
-  skip_load_and_authorize_resource :location, only: [:show, :edit, :update]
+  skip_load_and_authorize_resource :location, only: [:show, :edit, :update, :edit_citizen, :show_citizen]
 
   before_action :check_claim_business, only: [:claim, :claim_process]
-  before_action :check_active_location?, only: [:show]
+  before_action :check_active_location?, only: [:show, :show_citizen]
 
   PER_PAGE = 20
   BUSINESS_PER_PAGE = 100
 
-  layout 'location', :only => [:show]
-  layout "application_v_2", :only => [:connected_advertiser]
+  layout 'location', :only => [:show, :show_citizen]
+  layout "application_v_2", :only => [:connected_advertiser, :edit, :edit_citizen]
 
   def index
     status = ["active", "in_active"].include?(params[:status]) ? params[:status] : ""
@@ -96,6 +96,76 @@ class LocationsController < ApplicationController
     end
   end
 
+  def show_citizen
+    @location = Location.unscoped.includes(:location_images).friendly.find(params[:id])
+    @location_menus = Location.unscoped.includes(:location_menus).friendly.find(params[:id])
+
+    # because we have two sources for the location carousel images (cover photo and location images),
+    # get them into one collection for ease of display
+    @location_carousel_images = @location.location_images.collect{ |li| li.image }
+    @location_carousel_images.unshift(@location.cover_photo) if @location.cover_photo.exists?
+
+    @location_menu_images = @location_menus.location_menus.collect{ |location_menu| location_menu.image }
+
+    @is_location_normal = @location.hall_id.blank? && @location.councillor_id.blank? && @location.commissioner_id.blank?
+    @is_municipality = !@is_location_normal || @location.slug === 'city-of-vancouver'
+    if (@is_location_normal)
+      lproducts = @location.products
+      @status_updates = @location.status_updates.page(params[:status_page]).per(7)
+      @articles = @location.news_articles.page(params[:article_page]).per(5)
+      @blog_entries = @location.blog_entries.page(params[:blog_page]).per(5)
+      @products = lproducts.order('created_at DESC').limit(20)
+      @services = @location.services.page(params[:service_page]).per(12)
+      @coupons = @location.coupons.page(params[:coupon_page]).per(12)
+      @media_attachments = @location.media_attachments.order('created_at DESC').limit(20)
+      @events = @location.events.page(params[:event_page]).per(12)
+      @listings = @location.real_estate_listings.page(params[:listing_page]).per(12)
+      @auto_listings = @location.automotive_listings.page(params[:auto_listing_page]).per(12) if @location.vertical_market_categories.exists?(40)
+
+      @rental_properties = @location.rental_properties.page(params[:rental_page]).per(12) if @location.vertical_market_categories.exists?(101)
+      @new_home_communities = @location.new_home_communities.page(params[:communities_page]).per(12) if @location.vertical_market_categories.exists?(102)
+
+      # TODO - should only happen if user is logged in and can post a status update
+      @status_update = @location.status_updates.build
+      @status_update.social_profile_ids = @location.social_profiles.pluck(:id).map(&:to_s)
+      category_ids = lproducts.group_by { |a| a.category_id.itself }.keys
+      category_ids.delete_at(category_ids.index(0)) if category_ids.include?(0)
+      @categories = Category.where(id: category_ids).order(:name)
+      @category_id = 'all'
+    else
+      @media_attachments = @location.media_attachments.order('created_at DESC').limit(PER_PAGE)
+      @status_updates = @location.status_updates.where(statusable_type: 'Location').limit(PER_PAGE).order('created_at DESC')
+      @articles = @location.news_articles.limit(PER_PAGE).order('created_at DESC')
+      @events = @location.events.order(:starts_at).limit(PER_PAGE).order('created_at DESC')
+    end
+
+    @vertical_market = @location.vertical_market_categories.first.vertical_market if @location.vertical_market_categories.size > 0
+    if [164, 174].include?(@vertical_market.id)
+      names = @vertical_market.id === 164 ? 'Provincial Updates' : 'Federal Updates'
+      @categories_news = Category.where(name: names)
+    end
+
+    cookies[:return_to] = "#{@base_path}business/#{@location.slug}"
+
+    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
+    add_breadcrumb @location.district.name, district_guide_path(@location.district.name) if @location.district
+    add_breadcrumb @location.neighborhood.name if @location.neighborhood
+    add_breadcrumb @location.sub_neighborhood.name if @location.sub_neighborhood
+
+    @vertical_market.ancestors.each do |ancestor|
+      add_breadcrumb ancestor.name, "#{@base_path}guide/#{ancestor.slug}"
+    end
+
+    add_breadcrumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}" if @vertical_market
+
+    add_breadcrumb @location.broker.name, "#{@base_path}business/#{@location.broker.slug}" if @location.broker.present?
+    add_breadcrumb @location.name
+    respond_to do |format|
+      format.html {render :show, layout: "application_v_2" }
+      format.json { render json:  @location.location_images.map{|file| file.to_jq_upload }.to_json(include: :location_images)  }
+    end
+  end
+
   # GET /locations/new
   # GET /locations/new.json
   def new
@@ -133,6 +203,11 @@ class LocationsController < ApplicationController
   # GET /locations/1/edit
   def edit
     @location = Location.unscoped.friendly.find(params[:id])
+
+    if @location.is_profile
+      redirect_to "/citizen/#{@location.slug}/edit" and return
+    end
+
     if @location.is_profile
       @vertical_market_categories = VerticalMarketCategory.where(slug: 'connectedcitizen')
     elsif @location.hall_id.present?
@@ -155,6 +230,29 @@ class LocationsController < ApplicationController
     @managers = @location.managers.includes(:user)
     add_breadcrumb @location.name, "#{@base_path}business/#{@location.slug}"
     add_breadcrumb "Editing #{@location.name}"
+  end
+
+  def edit_citizen
+    @location = Location.unscoped.friendly.find(params[:id])
+
+    if @location.is_profile
+      @vertical_market_categories = VerticalMarketCategory.where(slug: 'connectedcitizen')
+      cookies[:return_to] ||= request.referer
+
+      unless @location.operating_hours.any?
+        OperatingHour.days.keys.each do |day|
+          @location.operating_hours.build day: day
+        end
+      end
+
+      @managers = @location.managers.includes(:user)
+      add_breadcrumb @location.name, "#{@base_path}business/#{@location.slug}"
+      add_breadcrumb "Editing #{@location.name}"
+
+      render "edit"
+    else
+      redirect_to edit_location_path(params[:id])
+    end
   end
 
   # POST /locations
