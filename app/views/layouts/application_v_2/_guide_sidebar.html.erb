@@ -1,5 +1,5 @@
 <%
-  @status_updates = @vertical_market.get_status_updates(@municipality, @city, @district, @neighborhood, @sub_neighborhood, false, @vertical_market_category)
+  @status_updates = @vertical_market.get_status_updates(@municipality, @city, @district, @neighborhood, @sub_neighborhood, !@vertical_market_category.present?, @vertical_market_category)
   @media_attachments = @vertical_market.get_media_attachments(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
   @products = @vertical_market.get_products(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
   @services = @vertical_market.get_services(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
