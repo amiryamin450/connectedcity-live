@@ -1,12 +1,12 @@
 <%
   # @status_updates = current_user.favorites.map { |f| f.location_status_updates.includes(:statusable).first if f.location_status_updates.size > 0 }&.flatten&.compact&.sort_by(&:created_at)&.reverse
-  @media_attachments = []
-  @products = []
-  @services = []
-  @events = []
-  @news_articles = []
-  @blog_entries = []
-  @coupons = []
+  # @media_attachments = []
+  # @products = []
+  # @services = []
+  # @events = []
+  # @news_articles = []
+  # @blog_entries = []
+  # @coupons = []
   # @friends = current_user.favorites.where(category: nil).map { |f| Location.unscoped.find(f.location_id).status_updates.includes(:statusable).first }&.flatten&.compact&.sort_by(&:created_at)&.reverse
   @friends = @friend_locations.present? ? @friend_locations.map{ |l| l.status_updates.includes(:statusable) }&.flatten&.compact&.sort_by(&:created_at)&.reverse : []
 %>

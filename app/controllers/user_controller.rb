@@ -129,6 +129,7 @@ class UserController < ApplicationController
 
     @user = User.find(params[:id])
 
+    filter_ids = []
     if params[:name].present? && params[:name] == 'associations'
       slug = @user.name.presence || @user.email.presence
       location = Location.unscoped.find_by(slug: slug.parameterize)
@@ -137,7 +138,7 @@ class UserController < ApplicationController
       @trade_associations.each do |association|
         ids << association.locations.ids
       end
-      @status_updates = StatusUpdate.where(statusable_id: ids.flatten.uniq)
+      filter_ids = ids.flatten.uniq
     else
       vm_slugs = []
       @vertical_markets.each do |vm|
@@ -147,8 +148,17 @@ class UserController < ApplicationController
       vm_slugs = vm_slugs.flatten.uniq
 
       favorites = Favorite.where(user_id: params[:id]).where(category: vm_slugs)
-      @status_updates = StatusUpdate.where(statusable_id: favorites.pluck(:location_id))
+      filter_ids = favorites.pluck(:location_id)
     end
+
+    @status_updates = StatusUpdate.where(statusable_id: filter_ids).order("created_at DESC")
+    @media_attachments = MediaAttachment.where(attachable_id: filter_ids).order("created_at DESC")
+    @products = Product.where(location_id: filter_ids).order("created_at DESC")
+    @services = Service.where(location_id: filter_ids).order("created_at DESC")
+    @events = Event.where(location_id: filter_ids).order("created_at DESC")
+    @news_articles = NewsArticle.where(newsable_id: filter_ids).order("created_at DESC")
+    @blog_entries = BlogEntry.where(bloggable_id: filter_ids).order("created_at DESC")
+    @coupons = Coupon.where(location_id: filter_ids).order("created_at DESC")
 
     location_ids = Favorite.where(user_id: params[:id]).pluck(:location_id).compact
     @friend_locations = Location.unscoped.joins(:vertical_market_categories).where("locations.id IN (?)", location_ids).where("vertical_market_categories.name = ?", "ConnectedCitizen")
