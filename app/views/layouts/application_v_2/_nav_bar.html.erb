@@ -86,7 +86,7 @@
     // Show more button if there is items in dropdown
     $('.more').css('display', $('.more > .dropdown-menu').children().length > 3 ? 'block' : 'none');
     // Set mobile fullscreen dropdown
-    if ($('.opener').css('display') === 'block') { 
+    if ($('.opener').css('display') === 'block') {
       $('.more .dropdown-menu.offcanvas').addClass('offcanvas offcanvas-start')
 
       // Set height of mobile screen dropdown menu to fit menu
@@ -112,9 +112,7 @@
     if (!isMobile) { window.location.href = $(this).children('a').attr('href') }
 
     if (clickedEl == $(this)[0]) {
-      if ($(this).hasClass('open')) {
-        window.location.href = $(this).children('a').attr('href');
-      }
+      window.location.href = $(this).children('a').attr('href');
     } else {
       clickedEl = $(this)[0];
     }
