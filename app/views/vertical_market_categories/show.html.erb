@@ -112,13 +112,13 @@ metamagic title: "#{guide}".strip,
             <% if [174, 164, 114].include?(@vertical_market.id) %>
               <%= render 'layouts/application_v_2/guide_sidebar_municipality' %>
             <% else %>
-              <%= render 'layouts/application_v_2/guide_sidebar' %>
+              <%= render 'layouts/application_v_2/guide_sidebar', locations: locations %>
             <% end %>
           </div>
         </div>
       </div>
       <!-- SideBar End -->
-      <div class="col-md-8">
+      <div class="col-md-8 d-none d-md-block">
         <div class="category-body">
           <br>
           <%= render 'share/search_box', url: '', opts: options_from_collection_for_select([@vertical_market], 'id', 'name', @vertical_market.try(:id)), all_promt: 'all categories' %>

@@ -95,7 +95,7 @@ NOTE Rental (rental)
       markers |= category.locations
     %>
 
-    <% if locations.any? && !@categories_without_municipality_ids.include?(category.id) %>
+    <% if locations.any? && !@categories_without_municipality_ids&.include?(category.id) %>
       <%= render 'guide/category', category: category, r: r, locations: locations %>
     <% end %>
   <% end %>
@@ -125,4 +125,3 @@ NOTE Rental (rental)
     </div>
   </div>
 </div>
-
