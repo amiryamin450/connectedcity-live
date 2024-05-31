@@ -252,9 +252,11 @@
                   <li class="nav-item active">
                     <a class="nav-link" data-toggle="tab" href="#Update">Updates</a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#Articles">News</a>
-                  </li>
+                  <% if !@location.is_profile %>
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#Articles">News</a>
+                    </li>
+                  <% end %>
                 <% if (![174, 164, 114].include?(@vertical_market.id) && @is_location_normal && request.path != '/business/city-of-vancouver') %>
                   <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#Entries">Blog</a>

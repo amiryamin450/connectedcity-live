@@ -136,6 +136,25 @@ Connectbook::Application.routes.draw do
         end
       end
     end
+
+    resources :locations, path: 'citizen', as: :locations, only: [:edit, :update] do
+      resources :media_attachments, only: [:new, :create, :index, :destroy], as: :citizen_media_attachments do
+        collection do
+          get :new_youtube_video
+        end
+      end
+      resources :blog_entries, path: 'blog', as: :citizen_blog, except: [:show]
+      resources :status_updates, path: 'status-updates', only: [:index, :new, :create, :destroy], as: :citizen_status_updates
+      resources :products, except: [:show], as: :citizen_products do
+        collection do
+          get 'specific/:category_id' => 'products#specific', as: :specific
+        end
+      end
+      resources :services, except: [:show], as: :citizen_services
+      resources :events, except: [:show], as: :citizen_events
+      resources :real_estate_listings, path: 'listings', except: [:show], as: :citizen_listings
+    end
+
     #############################################
 
     resources :new_home_communities, except: [:show] do

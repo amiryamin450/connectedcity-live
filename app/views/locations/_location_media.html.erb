@@ -1,16 +1,16 @@
 <div class="card-label-two">
   <div class="title">
     <h4>Video</h4>
-    <%= link_to raw("<h4 class='secondary'>Record Video</h4>"), new_location_media_attachment_path(@location) %>
-    <%= link_to raw("<h4 class='secondary'>Record Live Video</h4>"), new_location_media_attachment_path(@location, {livestream: true}) %>
+    <%= link_to raw("<h4 class='secondary'>Record Video</h4>"), @location.is_profile ? new_location_citizen_media_attachment_path(@location) : new_location_media_attachment_path(@location) %>
+    <%= link_to raw("<h4 class='secondary'>Record Live Video</h4>"), @location.is_profile ? new_location_citizen_media_attachment_path(@location, {livestream: true}) : new_location_media_attachment_path(@location, {livestream: true}) %>
     <h4 class="secondary">Upload Video</h4>
-    <%= link_to raw("<h4 class='secondary'>Youtube</h4>"), new_youtube_video_location_media_attachments_path(@location) %>
+    <%= link_to raw("<h4 class='secondary'>Youtube</h4>"), @location.is_profile ? new_youtube_video_location_citizen_media_attachments_path(@location) : new_youtube_video_location_media_attachments_path(@location) %>
   </div>
 </div>
 <div>
   <%= link_to 'See More +', '#', class: 'see-more', data: { element: "media-#{@location.id}" } %>
 &nbsp;&nbsp;&nbsp;
-  <%= link_to ' See All', location_media_attachments_path(@location), class: 'see-all' %>
+  <%= link_to ' See All', @location.is_profile ? location_citizen_media_attachments_path(@location) : location_media_attachments_path(@location), class: 'see-all' %>
 </div>
 <% if @media_attachments.size > 0 %>
   <div class="row card-row media-row-holder" id="cat-media-<%= @location.id %>">
