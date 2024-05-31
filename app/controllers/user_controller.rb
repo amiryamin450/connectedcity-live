@@ -23,7 +23,7 @@ class UserController < ApplicationController
 
     if @location.new_record?
       init_empty_location
-      @location.save!
+      @location.save!(validate: false)
     end
 
     @media_attachments = @location.media_attachments.order('created_at DESC').limit(20)
