@@ -4,8 +4,8 @@
       <li class="dropdown-submenu">
         <div  class="dropdown-item title" tabindex="-1">Account</div>
         <ul class="dropdown-menu">
-          <li class="dropdown-item" style="padding: 0px;"><%= link_to 'My Profile', user_path(current_user, edit: true), class: "d-block text-decoration-none py-1 px-2 px-md-4" %></li>
-          <li class="dropdown-item" style="padding: 0px;"><%= link_to 'Edit Account', edit_user_registration_path, class: "d-block text-decoration-none py-1 px-2 px-md-4" %></li>
+          <li class="dropdown-item" style="padding: 0px;"><%= link_to 'My Channel', user_path(current_user, edit: false), class: "d-block text-decoration-none py-1 px-2 px-md-4" %></li>
+          <li class="dropdown-item" style="padding: 0px;"><%= link_to 'Edit Account', user_path(current_user, edit: true), class: "d-block text-decoration-none py-1 px-2 px-md-4" %></li>
           <li class="dropdown-item"  style="padding: 0px;"><%= link_to 'My Classifieds', classified_listings_path, class: "d-block text-decoration-none py-1 px-2 px-md-4" %></li>
           <li class="dropdown-item"  style="padding: 0px;"><%= link_to 'My Deals', coupons_user_path(current_user), class: "d-block text-decoration-none py-1 px-2 px-md-4" %></li>
           <% url = user_signed_in? ? cart_path(@cart) : new_user_session_path %>

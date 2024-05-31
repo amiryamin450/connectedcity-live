@@ -292,7 +292,15 @@
 
             <% if ![174, 164].include?(@vertical_market.id) && @is_location_normal %>
               <% vertical_market_category_id = VerticalMarketCategory.find_by_slug("municipal-government-and-agencies").id%>
-              <% if @location.vertical_market_categories.pluck(:id).include?(vertical_market_category_id) %>
+              <% if @location.is_profile %>
+                <%= render 'location_media' %>
+                <div class="products-content">
+                  <%= render 'location_products' %>
+                </div>
+                <%= render 'location_services' %>
+                <%= render 'location_events' %>
+                <%= render 'location_listings' %>
+              <% elsif @location.vertical_market_categories.pluck(:id).include?(vertical_market_category_id) %>
                 <%= render 'location_media' %>
                 <%= render 'location_events' %>
                 <%= render 'location_city_hall' %>
@@ -337,6 +345,7 @@
   </div>
 </div>
 <br>
+
 <script type="text/javascript">
   $(document).ready(function() {
     $("#toggle-available-call").on("click", function(){

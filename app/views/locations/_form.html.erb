@@ -1,4 +1,4 @@
-<div class="pad10 holder" style="padding-left: 30px;">
+<div class="p-3">
   <%= simple_form_for(
     @location,
     :html => { :multipart => true, class: 'form-horizontal', id: 'fileupload' },
@@ -16,240 +16,252 @@
     }
   ) do |f| %>
     <%= f.error_notification %>
-    <div class="tabbable">
-      <ul class="nav nav-pills">
-        <% if current_user.has_role? :admin %>
-          <li class="active">
-            <a href="#location" data-toggle="tab">Location</a></li>
-          <li>
-            <a href="#info" data-toggle="tab">Info</a>
-          </li>
-        <% else %>
-          <li class="active">
-            <a href="#info" data-toggle="tab">Info</a>
-          </li>
-        <% end %>
-        <% unless @location.is_profile %>
-          <li>
-            <a href="#operating-hours" data-toggle="tab">Operating Hours</a>
-          </li>
-        <% end %>
-        <li>
-          <a href="#profile" data-toggle="tab">Profile</a>
-        </li>
-        <li>
-          <a href="#images" data-toggle="tab">Images</a>
-        </li>
-        <% if is_food_and_dining(@location) %>
-          <li>
-            <%= link_to("Menus", location_location_menus_path(@location)) %>
-          </li>
-        <% else %>
-          <li></li>
-        <% end %>
-        <% if @managers.present? %>
-        <li>
-          <a href="#managers" data-toggle="tab">Managers</a>
-        </li>
-        <% end %>
-        <% if @location.vertical_market_category_ids.include?(100) %>
-          <li>
-            <a href="#agents" data-toggle="tab">Real Estate Agents</a>
-          </li>
-        <% end %>
-        <% if @location.vertical_market_category_ids.include?(324) %>
-          <li> <a href="#city-hall" data-toggle="tab">City Hall</a> </li>
-          <li> <a href="#city-councillors" data-toggle="tab">City Councillors</a> </li>
-          <li> <a href="#park-recreation-commissioners" data-toggle="tab">Parks & Recreation Commissioners</a> </li>
-        <% end %>
-        <% unless @location.new_record? %>
-          <li>
-            <a href="#ecommerce-store" data-toggle="tab">eCommerce Store</a>
-          </li>
-        <% end %>
-      </ul>
-      <div class="tab-content">
-        <% if current_user.has_role? :admin %>
-          <div class="tab-pane active" id="location">
-            <%= f.association :country  %>
-            <%= f.association :province, collection: get_collection(Province, :country, :country_id, f.object) %>
-            <%= f.association :municipality,label: "Metro/Sub-Region", collection: get_collection(Municipality, :province, :province_id, f.object ) %>
-            <%= f.association :city, collection: get_collection(City, :province, :pruid, f.object) %>
-            <%= f.association :district, collection: get_collection(District, :city, :city_id, f.object) %>
-            <%= f.association :neighborhood, collection: get_collection(Neighborhood, :district, :district_id, f.object) %>
-            <%= f.association :sub_neighborhood, collection: get_collection(Neighborhood, :neighborhood, :neighborhood_id, f.object) %>
-            <%= f.input :vertical_market_category_ids, label: "Vertical market categories", collection: @vertical_market_categories, input_html: { multiple: true }, disabled: !current_user.has_role?(:admin), wrapper: :horizontal_collection_inline %>
-          </div>
-          <div class="tab-pane" id="agents">
-            <%= link_to 'Create New Agent', new_location_path(broker_id: @location.id), class: 'btn'  %>
-          </div>
+    <div class="px-3 pb-3 px-md-5 pb-md-5">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="tabbable">
+            <ul class="location-nav nav nav-pills pb-4" role="tablist">
+              <% if current_user.has_role? :admin %>
+                <li class="nav-item active">
+                  <a class="nav-link" href="#location" data-toggle="tab">Location</a></li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#info" data-toggle="tab">Info</a>
+                </li>
+              <% else %>
+                <li class="nav-item active">
+                  <a class="nav-link" href="#info" data-toggle="tab">Info</a>
+                </li>
+              <% end %>
+              <% unless @location.is_profile %>
+                <li class="nav-item">
+                  <a class="nav-link" href="#operating-hours" data-toggle="tab">Operating Hours</a>
+                </li>
+              <% end %>
+              <li class="nav-item">
+                <a class="nav-link" href="#profile" data-toggle="tab">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#images" data-toggle="tab">Images</a>
+              </li>
+              <% if is_food_and_dining(@location) %>
+                <li class="nav-item">
+                  <%= link_to("Menus", location_location_menus_path(@location), class: "nav-link") %>
+                </li>
+              <% else %>
+                <li class="nav-item"></li>
+              <% end %>
+              <% if @managers.present? %>
+                <li class="nav-item">
+                  <a class="nav-link" href="#managers" data-toggle="tab">Managers</a>
+                </li>
+              <% end %>
+              <% if @location.vertical_market_category_ids.include?(100) %>
+                <li class="nav-item">
+                  <a class="nav-link" href="#agents" data-toggle="tab">Real Estate Agents</a>
+                </li>
+              <% end %>
+              <% if @location.vertical_market_category_ids.include?(324) %>
+                <li class="nav-item">
+                  <a class="nav-link" href="#city-hall" data-toggle="tab">City Hall</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#city-councillors" data-toggle="tab">City Councillors</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#park-recreation-commissioners" data-toggle="tab">Parks & Recreation Commissioners</a>
+                </li>
+              <% end %>
+              <% unless @location.new_record? %>
+                <li class="nav-item">
+                <a class="nav-link" href="#ecommerce-store" data-toggle="tab">eCommerce Store</a>
+                </li>
+              <% end %>
+            </ul>
+            <div class="tab-content">
+              <% if current_user.has_role? :admin %>
+                <div class="tab-pane active" id="location">
+                  <%= f.association :country  %>
+                  <%= f.association :province, collection: get_collection(Province, :country, :country_id, f.object) %>
+                  <%= f.association :municipality,label: "Metro/Sub-Region", collection: get_collection(Municipality, :province, :province_id, f.object ) %>
+                  <%= f.association :city, collection: get_collection(City, :province, :pruid, f.object) %>
+                  <%= f.association :district, collection: get_collection(District, :city, :city_id, f.object) %>
+                  <%= f.association :neighborhood, collection: get_collection(Neighborhood, :district, :district_id, f.object) %>
+                  <%= f.association :sub_neighborhood, collection: get_collection(Neighborhood, :neighborhood, :neighborhood_id, f.object) %>
+                  <%= f.input :vertical_market_category_ids, label: "Vertical market categories", collection: @vertical_market_categories, input_html: { multiple: true }, disabled: !current_user.has_role?(:admin), wrapper: :horizontal_multi_select %>
+                </div>
+                <div class="tab-pane" id="agents">
+                  <%= link_to 'Create New Agent', new_location_path(broker_id: @location.id), class: 'btn'  %>
+                </div>
 
-          <div class="tab-pane" id="city-hall">
-            <% if @location.city_halls.size > 0 %>
-              <table class="table table-bordered table-striped table-hover" style="width: 98%;">
-                <thead>
+                <div class="tab-pane" id="city-hall">
+                  <% if @location.city_halls.size > 0 %>
+                    <table class="table table-bordered table-striped table-hover" style="width: 98%;">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Title</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% @location.city_halls.each do |hall| %>
+                          <tr>
+                            <td><%= hall.name %></td>
+                            <td><%= hall.vertical_market_categories[0].name %></td>
+                            <td>
+                              <div class="btn-group">
+                                <%= link_to 'Delete', '#', method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+                                <%= link_to 'Edit', '#', class: 'btn btn-mini' %>
+                              </div>
+                            </td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  <% end %>
+                  <%= link_to 'Create New City Hall Member', new_location_path(hall_id: @location.id), class: 'btn'  %>
+                </div>
+                <div class="tab-pane" id="city-councillors">
+                  <% if @location.city_councillors.size > 0 %>
+                    <table class="table table-bordered table-striped table-hover" style="width: 98%;">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Title</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% @location.city_councillors.each do |item| %>
+                          <tr>
+                            <td><%= item.name %></td>
+                            <td><%= item.vertical_market_categories[0].name %></td>
+                            <td>
+                              <div class="btn-group">
+                                <%= link_to 'Delete', '#', method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+                                <%= link_to 'Edit', '#', class: 'btn btn-mini' %>
+                              </div>
+                            </td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  <% end %>
+                  <%= link_to 'Create New City Councillors Member', new_location_path(councillor_id: @location.id), class: 'btn'  %>
+                </div>
+                <div class="tab-pane" id="park-recreation-commissioners">
+                  <% if @location.park_recreation_commissioners.size > 0 %>
+                    <table class="table table-bordered table-striped table-hover" style="width: 98%;">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Title</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% @location.park_recreation_commissioners.each do |item| %>
+                          <tr>
+                            <td><%= item.name %></td>
+                            <td><%= item.vertical_market_categories[0].name %></td>
+                            <td>
+                              <div class="btn-group">
+                                <%= link_to 'Delete', '#', method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
+                                <%= link_to 'Edit', '#', class: 'btn btn-mini' %>
+                              </div>
+                            </td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  <% end %>
+                  <%= link_to 'Create New Parks & Recreation Commissioners Member', new_location_path(commissioner_id: @location.id), class: 'btn'  %>
+                </div>
+              <% end %>
+              <div class="tab-pane <%= 'active' unless current_user.has_role? :admin %>" id="info">
+                <%= f.input :broker_id, as: :hidden %>
+                <%= f.input :hall_id, as: :hidden %>
+                <%= f.input :councillor_id, as: :hidden %>
+                <%= f.input :commissioner_id, as: :hidden %>
+                <%= f.input :name %>
+                <%= f.input :address %>
+                <%= f.input :latitude, as: :hidden %>
+                <%= f.input :longitude, as: :hidden %>
+                <input id="value_address" class="hidden" value="<%= @location.address %>" />
+                <%= f.input :address_1 %>
+                <%= f.input :postal_code %>
+                <%= f.association :trade_associations %>
+                <%= f.input :phone %>
+                <%= f.input :show_phone %>
+                <%= f.input :toll_free %>
+                <%= f.input :show_toll_free %>
+                <%= f.input :fax %>
+                <%= f.input :show_fax %>
+                <div class="row mb-3 string optional location_brand_tokens">
+                  <label class="col-sm-3 col-form-label string optional" for="location_brand_ids">Brands</label>
+                  <div class="col-sm-9">
+                    <%= f.text_field :brand_tokens, data: {load: @location.brands}, class: "form-control" %>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane" id="operating-hours">
+                <table class="table table-striped table-compact table-bordered">
                   <tr>
-                    <th>Name</th>
-                    <th>Title</th>
-                    <th>Action</th>
+                    <th>Day</th>
+                    <th>Opens At</th>
+                    <th>Closes At</th>
+                    <th>Closed</th>
                   </tr>
-                </thead>
-                <tbody>
-                  <% @location.city_halls.each do |hall| %>
+                  <%= f.simple_fields_for :operating_hours do |operating_hour| %>
                     <tr>
-                      <td><%= hall.name %></td>
-                      <td><%= hall.vertical_market_categories[0].name %></td>
-                      <td>
-                        <div class="btn-group">
-                          <%= link_to 'Delete', '#', method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
-                          <%= link_to 'Edit', '#', class: 'btn btn-mini' %>
-                        </div>
-                      </td>
+                      <th>
+                        <%= operating_hour.object.day.to_s.humanize %></h4>
+                        <%= operating_hour.input_field :day, as: :hidden %>
+                      </th>
+                      <td><%= operating_hour.input_field :starts_at, as: :time, label: false, style: "width: auto;", default: Time.parse('0:00') %></td>
+                      <td><%= operating_hour.input_field :ends_at, as: :time, label: false, style: "width: auto;", default: Time.parse('0:00') %></td>
+                      <td><%= operating_hour.input_field :closed, label: false %></td>
                     </tr>
                   <% end %>
-                </tbody>
-              </table>
-            <% end %>
-            <%= link_to 'Create New City Hall Member', new_location_path(hall_id: @location.id), class: 'btn'  %>
-          </div>
-          <div class="tab-pane" id="city-councillors">
-            <% if @location.city_councillors.size > 0 %>
-              <table class="table table-bordered table-striped table-hover" style="width: 98%;">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Title</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @location.city_councillors.each do |item| %>
-                    <tr>
-                      <td><%= item.name %></td>
-                      <td><%= item.vertical_market_categories[0].name %></td>
-                      <td>
-                        <div class="btn-group">
-                          <%= link_to 'Delete', '#', method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
-                          <%= link_to 'Edit', '#', class: 'btn btn-mini' %>
-                        </div>
-                      </td>
-                    </tr>
+                </table>
+              </div>
+              <div class="tab-pane" id="profile"><%#  %>
+                <%= f.input :content, input_html: {class: '', style: 'width: 810px; height: 350px;', placeholder: 'Enter text ...'} %>
+                <%= f.input :website_url %>
+                <%= f.input :email %>
+                <%= f.input :logo, label: "#{@location.is_profile ? 'My photo' : 'Logo'}", as: :logo_preview %>
+                <%= f.input :delete_logo, as: :boolean %>
+                <%= f.input :cover_photo, as: :logo_preview %>
+                <%= f.input :delete_cover_photo, as: :boolean %>
+              </div>
+              <div class="tab-pane" id="images">
+                <%= render 'location_images', :f => f  %>
+              </div>
+              <% if @managers.present? %>
+              <div class="tab-pane" id="managers">
+                <%= render 'managers'  %>
+              </div>
+              <% end %>
+              <% unless @location.new_record? %>
+                <div class="tab-pane" id="ecommerce-store">
+                  <% stripe_connect_status = StripeService.new(location: @location).stripe_connect_status %>
+                  <% if stripe_connect_status %>
+                    Stripe Account is connected
+                    <%= link_to 'Disconnect', location_disconnect_stripe_path(@location), onclick: "return confirm('Are you sure to disconnect your account?')" %>
+                  <% else %>
+                    <%= link_to 'Stripe Connect',location_connect_stripe_path(@location), class: 'd-block' %>
                   <% end %>
-                </tbody>
-              </table>
-            <% end %>
-            <%= link_to 'Create New City Councillors Member', new_location_path(councillor_id: @location.id), class: 'btn'  %>
-          </div>
-          <div class="tab-pane" id="park-recreation-commissioners">
-            <% if @location.park_recreation_commissioners.size > 0 %>
-              <table class="table table-bordered table-striped table-hover" style="width: 98%;">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Title</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @location.park_recreation_commissioners.each do |item| %>
-                    <tr>
-                      <td><%= item.name %></td>
-                      <td><%= item.vertical_market_categories[0].name %></td>
-                      <td>
-                        <div class="btn-group">
-                          <%= link_to 'Delete', '#', method: :delete, data: {confirm: 'Are you sure?' }, class: 'btn btn-mini' %>
-                          <%= link_to 'Edit', '#', class: 'btn btn-mini' %>
-                        </div>
-                      </td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            <% end %>
-            <%= link_to 'Create New Parks & Recreation Commissioners Member', new_location_path(commissioner_id: @location.id), class: 'btn'  %>
-          </div>
-        <% end %>
-        <div class="tab-pane <%= 'active' unless current_user.has_role? :admin %>" id="info">
-          <%= f.input :broker_id, as: :hidden %>
-          <%= f.input :hall_id, as: :hidden %>
-          <%= f.input :councillor_id, as: :hidden %>
-          <%= f.input :commissioner_id, as: :hidden %>
-          <%= f.input :name %>
-          <%= f.input :address %>
-          <%= f.input :latitude, as: :hidden %>
-          <%= f.input :longitude, as: :hidden %>
-          <input id="value_address" class="hidden" value="<%= @location.address %>" />
-          <%= f.input :address_1 %>
-          <%= f.input :postal_code %>
-          <%= f.association :trade_associations %>
-          <%= f.input :phone %>
-          <%= f.input :show_phone %>
-          <%= f.input :toll_free %>
-          <%= f.input :show_toll_free %>
-          <%= f.input :fax %>
-          <%= f.input :show_fax %>
-          <div class="control-group string optional">
-            <label class="string optional control-label" for="location_brand_ids">Brands</label>
-            <div class="controls">
-              <%= f.text_field :brand_tokens, data: {load: @location.brands} %>
+                  <%= link_to 'Product Management', location_products_path(@location), class: 'd-block' %>
+                </div>
+              <% end %>
             </div>
           </div>
-        </div>
-        <div class="tab-pane" id="operating-hours">
-          <table class="table table-striped table-compact table-bordered">
-            <tr>
-              <th>Day</th>
-              <th>Opens At</th>
-              <th>Closes At</th>
-              <th>Closed</th>
-            </tr>
-            <%= f.simple_fields_for :operating_hours do |operating_hour| %>
-              <tr>
-                <th>
-                  <%= operating_hour.object.day.to_s.humanize %></h4>
-                  <%= operating_hour.input_field :day, as: :hidden %>
-                </th>
-                <td><%= operating_hour.input_field :starts_at, as: :time, label: false, style: "width: auto;", default: Time.parse('0:00') %></td>
-                <td><%= operating_hour.input_field :ends_at, as: :time, label: false, style: "width: auto;", default: Time.parse('0:00') %></td>
-                <td><%= operating_hour.input_field :closed, label: false %></td>
-              </tr>
-            <% end %>
-          </table>
-        </div>
-        <div class="tab-pane" id="profile">
-          <%= f.input :content, input_html: {class: '', style: 'width: 810px; height: 350px;', placeholder: 'Enter text ...'} %>
-          <%= f.input :website_url %>
-          <%= f.input :email %>
-          <%= f.input :logo, label: "#{@location.is_profile ? 'My photo' : 'Logo'}", as: :logo_preview %>
-          <%= f.input :delete_logo, as: :boolean %>
-          <%= f.input :cover_photo, as: :logo_preview %>
-          <%= f.input :delete_cover_photo, as: :boolean %>
-        </div>
-        <div class="tab-pane" id="images">
-          <%= render 'location_images', :f => f  %>
-        </div>
-        <% if @managers.present? %>
-        <div class="tab-pane" id="managers">
-          <%= render 'managers'  %>
-        </div>
-        <% end %>
-        <% unless @location.new_record? %>
-          <div class="tab-pane" id="ecommerce-store">
-            <% stripe_connect_status = StripeService.new(location: @location).stripe_connect_status %>
-            <% if stripe_connect_status %>
-              Stripe Account is connected
-              <%= link_to 'Disconnect', location_disconnect_stripe_path(@location), onclick: "return confirm('Are you sure to disconnect your account?')" %>
-            <% else %>
-              <%= link_to 'Stripe Connect',location_connect_stripe_path(@location), class: 'd-block' %>
-            <% end %>
-            <%= link_to 'Product Management', location_products_path(@location), class: 'd-block' %>
+          <div class="form-actions mt-5">
+            <%= f.button :submit, class: 'btn-primary' %>
+            <%= link_to 'Back', @location, class: 'btn' %>
           </div>
-        <% end %>
+        </div>
       </div>
-    </div>
-    <div class="form-actions">
-      <%= f.button :submit, class: 'btn-primary' %>
-      <%= link_to 'Back', @location, class: 'btn' %>
     </div>
   <% end %>
 </div>
