@@ -1,6 +1,6 @@
 <br><h4>Blog Entries
  <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location) %>
- <small><%= link_to "add", new_location_blog_entry_path(@location) %> | <%= link_to "manage", location_blog_entries_path(@location) %></small>
+ <small><%= link_to "add", @location.is_profile ? new_location_citizen_blog_path(@location) : new_location_blog_entry_path(@location) %> | <%= link_to "manage", @location.is_profile ? location_citizen_blog_index_path(@location) : location_blog_entries_path(@location) %></small>
  <% end %>
 </h4>
 <% if @blog_entries.size > 0 %>

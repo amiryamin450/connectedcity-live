@@ -7,7 +7,7 @@
       <%#= link_to "add", new_location_status_update_path(@location), class: 'small', role: :button, data: {toggle: 'modal'} %>
     <!-- | -->
     <%#= link_to "manage social profiles", polymorphic_path([@location, :social_profiles]), class: 'small', role: :button %>
-      <%= link_to "manage", location_status_updates_path(@location), class: 'small', role: :button  %>
+      <%= link_to "manage", @location.is_profile ? location_citizen_status_updates_path(@location) : location_status_updates_path(@location), class: 'small', role: :button  %>
     </small>
   <% end %>
   <i class="icon-chevron-down float-end" data-bs-toggle="collapse" href="#status_updates"></i>

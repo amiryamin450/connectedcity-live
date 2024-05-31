@@ -21,14 +21,14 @@
 <div style="font-size: 15px; margin-bottom: 5px;">
   <span class="see-more" style="cursor: pointer;" data-element=<%= "products-#{@location.id}" %>>See More +</span>
   &nbsp;|&nbsp;
-  <%= link_to 'See All', location_products_path(@location), class: 'see-all' %>
+  <%= link_to 'See All', @location.is_profile ? location_citizen_products_path(@location) : location_products_path(@location), class: 'see-all' %>
   &nbsp;|&nbsp;
-  <%= link_to 'Manage', location_products_path(@location) %>
+  <%= link_to 'Manage', @location.is_profile ? location_citizen_products_path(@location) : location_products_path(@location) %>
   &nbsp;|&nbsp;
   <%# TODO: Require connect to Stripe before add product %>
   <%# can_add_product = StripeService.new(@location).stripe_connect_status %>
   <%#= link_to 'Add', can_add_product ? new_location_product_path(@location, category_id: @category_id) : edit_location_path(@location), onclick: can_add_product ? nil : "return confirm('Please connect to Stripe before add products.\\nSelect eCommerce Store tab on your business page to add it.')" %>
-  <%= link_to 'Add', new_location_product_path(@location, category_id: @category_id) %>
+  <%= link_to 'Add', @location.is_profile ? new_location_citizen_product_path(@location, category_id: @category_id) : new_location_product_path(@location, category_id: @category_id) %>
 </div>
 <% if @products.size > 0 %>
   <div class="row card-row media-row-holder" id="cat-products-<%= @location.id %>">

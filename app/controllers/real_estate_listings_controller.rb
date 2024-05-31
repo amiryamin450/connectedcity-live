@@ -1,4 +1,5 @@
 class RealEstateListingsController < ApplicationController
+  before_action :load_location
   load_and_authorize_resource :location
   load_and_authorize_resource :real_estate_listing, through: :location
 
@@ -37,9 +38,9 @@ class RealEstateListingsController < ApplicationController
   # GET /real_estate_listings/new.json
   def new
     @real_estate_listing = @location.real_estate_listings.new
-    @real_estate_listing_styles = get_real_estate_listing_styles 
+    @real_estate_listing_styles = get_real_estate_listing_styles
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @real_estate_listing }
     end
   end
@@ -174,5 +175,9 @@ class RealEstateListingsController < ApplicationController
       :status_updates_attributes,
       :real_estate_listing_images_attributes
     )
+  end
+
+  def load_location
+    @location = Location.unscoped.friendly.find(params[:location_id])
   end
 end
