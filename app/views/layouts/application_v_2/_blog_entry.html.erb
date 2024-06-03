@@ -19,6 +19,13 @@
     <div class="inner-card-description">
       <div class="content"> <%= sanitize(blog_entry.content) %> </div>
     </div>
+    <% if blog_entry.image? %>
+      <div class="col-md-12">
+        <div class="update-banner">
+          <%= link_to(image_tag(blog_entry.image.url, class: 'blog_entry_image', data: {"large-image" => blog_entry.image.url}), '#blog_image', data: { 'bs-target': "#blog-#{blog_entry.id}-model", 'bs-toggle': 'modal'}) %>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
 <hr>

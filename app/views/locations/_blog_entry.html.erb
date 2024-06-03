@@ -8,8 +8,19 @@
       <article class="teaser">
         <!-- <div class="article-title"><%#= link_to blog.title, [@location, blog] %></div> -->
         <div class="article-title"><%= link_to ("#{blog.title}"), "#", class: "status-update-image", data: { 'bs-target': "#blog-#{blog.id}-model", 'bs-toggle': 'modal'} %></div>
-        <div class="article-published"><%= "#{time_ago_in_words(blog.created_at)} ago" %></div>
-        <div class="article-content"><%= truncate_html blog.content, length: 350, omission: "#{link_to(' [read more]', [@location, blog]).html_safe}" %></div>
+        <div class="row">
+          <div class="col-md-2">
+            <div class="img">
+              <%= link_to(image_tag(blog.image.url, class: 'blog-image', data: {"large-image" => blog.image.url, "location-name" => @location.name}), '#blog_image', data: { 'bs-target': "#blog-#{blog.id}-model", 'bs-toggle': 'modal'}) %>
+            </div>
+          </div>
+          <div class="col-md-10">
+            <p>
+            <div class="article-content"><%= truncate_html blog.content, length: 350, omission: "#{link_to(' [read more]', [@location, blog]).html_safe}" %></div>
+            </p>
+            <span class="article-published"><%= "#{time_ago_in_words(blog.created_at)} ago" %></span>
+          </div>
+        </div>
       </article>
     <%= render 'blog_entries/modal_content', blog: blog %>
   <% end %>
