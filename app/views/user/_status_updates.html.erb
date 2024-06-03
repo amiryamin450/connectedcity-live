@@ -7,8 +7,6 @@
   # @news_articles = []
   # @blog_entries = []
   # @coupons = []
-  # @friends = current_user.favorites.where(category: nil).map { |f| Location.unscoped.find(f.location_id).status_updates.includes(:statusable).first }&.flatten&.compact&.sort_by(&:created_at)&.reverse
-  @friends = @friend_locations.present? ? @friend_locations.map{ |l| l.status_updates.includes(:statusable) }&.flatten&.compact&.sort_by(&:created_at)&.reverse : []
 %>
 
 <ul class="nav nav-tabs justify-content-start" role="tablist">
@@ -35,9 +33,6 @@
   </li>
   <li class="nav-item">
     <a class="nav-link" data-toggle="tab" href="#Offers">Deals</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#Friends">Friends</a>
   </li>
 </ul>
 
@@ -128,18 +123,6 @@
       <h3>Deals</h3><br>
       <%= render @coupons %>
     </div>
-
-    <div id="Friends" class="container tab-pane">
-      <br>
-      <h3>Friends</h3><br>
-      <% if @friends.size > 0 %>
-          <% @friends.each do |friend| %>
-            <%= render 'layouts/application_v_2/status_update', status_update: friend %>
-          <% end %>
-      <% else %>
-        <div class="alert">No Friends found.</div>
-      <% end %>
-    </div>
 </div>
 
 <% @media_attachments.each do |media_attachment| %>
@@ -147,9 +130,6 @@
 <% end %>
 <% @status_updates.each do |status_update| %>
   <%= render 'status_updates/modal_content_latest', status_update: status_update %>
-<% end %>
-<% @friends.each do |friend| %>
-  <%= render 'status_updates/modal_content_latest', status_update: friend %>
 <% end %>
 <% @news_articles.each do |news_article| %>
   <%= render 'news_articles/modal_news_latest', news: news_article %>
