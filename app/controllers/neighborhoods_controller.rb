@@ -79,7 +79,7 @@ class NeighborhoodsController < ApplicationController
       @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
       @blog_entries = @city.blog_entries.limit(PER_PAGE)
       @products = @city.products.limit(PER_PAGE)
-      @coupons = @city.coupons.limit(PER_PAGE)
+      @coupons = @city.coupons.order('created_at DESC').limit(PER_PAGE)
       @services = @city.services.limit(PER_PAGE)
       @business_improvement_areas = @city.business_improvement_areas.unscoped.order("name ASC")
       @business_improvement_area = @business_improvement_areas.first
