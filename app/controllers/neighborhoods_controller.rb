@@ -84,7 +84,7 @@ class NeighborhoodsController < ApplicationController
       @business_improvement_areas = @city.business_improvement_areas.unscoped.order("name ASC")
       @business_improvement_area = @business_improvement_areas.first
       @status_updates = @district.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
-      @news = @business_improvement_area.news_articles.limit(PER_PAGE).order(:created_at)
+      @news = @sub_neighborhood.news_articles.limit(PER_PAGE).order(:created_at)
       @events = @business_improvement_area.events.limit(200).order(:starts_at)
     end
 
