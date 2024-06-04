@@ -76,16 +76,16 @@ class NeighborhoodsController < ApplicationController
       @districts = @city.districts
       @sub_neighborhoods = Neighborhood.where(neighborhood_id: @neighborhood.nid)
       @sub_neighborhood  = @sub_neighborhoods.find{|sub| sub.slug == params[:sub_neighborhood_slug]}
-      @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
-      @blog_entries = @city.blog_entries.limit(PER_PAGE)
-      @products = @city.products.limit(PER_PAGE)
-      @coupons = @city.coupons.order('created_at DESC').limit(PER_PAGE)
-      @services = @city.services.limit(PER_PAGE)
+      @media_attachments = apply_order(@sub_neighborhood.media_attachments).limit(PER_PAGE)
+      @blog_entries = apply_order(@sub_neighborhood.blog_entries).limit(PER_PAGE)
+      @products = apply_order(@sub_neighborhood.products).limit(PER_PAGE)
+      @coupons = apply_order(@sub_neighborhood.coupons).limit(PER_PAGE)
+      @services = apply_order(@sub_neighborhood.services).limit(PER_PAGE)
+      @status_updates = apply_order(@sub_neighborhood.status_updates).limit(PER_PAGE)
+      @news = apply_order(@sub_neighborhood.news_articles).limit(PER_PAGE)
+      @events = @sub_neighborhood.events.order(:starts_at).limit(PER_PAGE)
       @business_improvement_areas = @city.business_improvement_areas.unscoped.order("name ASC")
       @business_improvement_area = @business_improvement_areas.first
-      @status_updates = @district.status_updates.where(statusable_type: 'Location').limit(PER_PAGE)
-      @news = @sub_neighborhood.news_articles.limit(PER_PAGE).order(:created_at)
-      @events = @business_improvement_area.events.limit(200).order(:starts_at)
     end
 
     respond_to do |format|

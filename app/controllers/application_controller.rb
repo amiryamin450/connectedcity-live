@@ -104,6 +104,10 @@ class ApplicationController < ActionController::Base
     @vertical_markets_all = @results.reject{|i| ['civic-news', 'employment-opportunities', 'classifieds', 'members'].include?(i.slug)}
   end
 
+  def apply_order(relation, direction: "desc", column: "created_at")
+    relation.reorder("#{column} #{direction}")
+  end
+
   private
 
   def set_region
