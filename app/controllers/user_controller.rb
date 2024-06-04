@@ -18,14 +18,7 @@ class UserController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @slug = @user.name.presence || @user.email.presence
-    @location = Location.unscoped.find_or_initialize_by(slug: @slug.parameterize)
-
-    if @location.new_record?
-      init_empty_location
-      @location.save!(validate: false)
-    end
-
+    @location = @user.profile
     @media_attachments = @location.media_attachments.order('created_at DESC').limit(20)
     @status_updates = @location.status_updates
 
