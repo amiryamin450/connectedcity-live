@@ -14,4 +14,12 @@ class Service < ApplicationRecord
   after_save do |service|
     Sunspot.index! service.location if service.location
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["name", "description"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["location"]
+  end
 end

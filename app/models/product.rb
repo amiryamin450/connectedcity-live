@@ -24,6 +24,14 @@ class Product < ApplicationRecord
                     numericality: { greater_than: 0.1, less_than: 1000000 }
   validates :sku, length: { maximum: 25 }
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["name", "description", 'sku']
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["location", "category"]
+  end
+
   after_save do |product|
     Sunspot.index! product.location if product.location
   end

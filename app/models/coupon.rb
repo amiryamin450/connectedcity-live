@@ -35,4 +35,11 @@ class Coupon < ApplicationRecord
     redemptions.where(redeemed: true).size
   end
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["name", "description"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["location"]
+  end
 end

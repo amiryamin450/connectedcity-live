@@ -66,12 +66,12 @@ class VerticalMarket < ApplicationRecord
   end
 
   def get_status_updates(
-    municipality = nil, 
-    city = nil, 
-    district = nil, 
-    neighborhood = nil, 
-    sub_neighborhood = nil, 
-    add_subtrees = true, 
+    municipality = nil,
+    city = nil,
+    district = nil,
+    neighborhood = nil,
+    sub_neighborhood = nil,
+    add_subtrees = true,
     vertical_market_category = nil
   )
     status_updates = StatusUpdate
@@ -174,7 +174,7 @@ class VerticalMarket < ApplicationRecord
     status_updates = StatusUpdate
                       .joins(location: :vertical_market_categories)
                       .where(locations: location_params(municipality, city, district, neighborhood))
-    
+
     status_updates = status_updates
                       .where(vertical_market_categories: { vertical_market_id: self.subtree_ids })
                       .order("`status_updates`.`created_at` DESC")

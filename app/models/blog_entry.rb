@@ -15,4 +15,12 @@ class BlogEntry < ApplicationRecord
 
   validates_attachment_size :image, less_than: 5.megabytes
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/, message: "Please upload a valid image. Accepted types include jpg, png."
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["title", "content"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["location", "user"]
+  end
 end
