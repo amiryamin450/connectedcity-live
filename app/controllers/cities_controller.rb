@@ -30,9 +30,9 @@ class CitiesController < ApplicationController
   def homepage
     @city = City.find(5915022)
     @carousel_images = @city.carousel_images
-    @status_updates = @city.status_updates.where(statusable_type: 'Location').limit(PER_PAGE).order('created_at DESC')
-    @events = @city.events.order(:starts_at).limit(PER_PAGE)
-    @media_attachments = @city.media_attachments.order('created_at DESC').limit(PER_PAGE)
+    @status_updates = apply_order(@city.status_updates.where(statusable_type: 'Location')).limit(PER_PAGE)
+    @events = apply_order(@city.events, direction: "desc", column: "starts_at").limit(PER_PAGE)
+    @media_attachments = apply_order(@city.media_attachments).limit(PER_PAGE)
     @districts = @city.districts
     add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, @base_path
     add_breadcrumb "#{@city.name} Guide"

@@ -43,17 +43,17 @@ class HomeController < ApplicationController
         media_filter = media_filter.where(category_id: params[:market_id]) if media_filter.present?
       end
 
-      @status_updates = status_update_filter.order('created_at DESC').limit(PER_PAGE)
-      @news = news_filter.order('created_at DESC').limit(PER_PAGE)
-      @events = events_filter.order(:starts_at).limit(PER_PAGE)
-      @media_attachments = media_filter.order('created_at DESC').limit(PER_PAGE)
-
       @districts = @city.districts
       @cities = @city.municipality.cities
-      @blog_entries = @city.blog_entries.order('created_at DESC').limit(PER_PAGE)
-      @products = @city.products.order('created_at DESC').limit(PER_PAGE)
-      @coupons = @city.coupons.order('created_at DESC').limit(PER_PAGE)
-      @services = @city.services.order('created_at DESC').limit(PER_PAGE)
+
+      @status_updates = apply_order(status_update_filter).limit(PER_PAGE)
+      @news = apply_order(news_filter).limit(PER_PAGE)
+      @events = apply_order(events_filter, direction: "desc", column: "starts_at").limit(PER_PAGE)
+      @media_attachments = apply_order(media_filter).limit(PER_PAGE)
+      @blog_entries = apply_order(@city.blog_entries).limit(PER_PAGE)
+      @products = apply_order(@city.products).limit(PER_PAGE)
+      @coupons = apply_order(@city.coupons).limit(PER_PAGE)
+      @services = apply_order(@city.services).limit(PER_PAGE)
       @business_improvement_areas = @city.business_improvement_areas.unscoped.order("name ASC")
     else
       @carousel_images = []

@@ -29,14 +29,14 @@ class MunicipalitiesController < ApplicationController
       @districts = @municipality.districts
       @neighbourhoods = @municipality.neighborhoods
       @sub_neighborhoods = @municipality.sub_neighborhoods
-      @media_attachments = @municipality.media_attachments.order('created_at DESC').limit(PER_PAGE)
-      @blog_entries = @municipality.blog_entries.limit(PER_PAGE).order('created_at DESC')
-      @products = @municipality.products.limit(PER_PAGE).order('created_at DESC')
-      @coupons = @municipality.coupons.limit(PER_PAGE).order('created_at DESC')
-      @services = @municipality.services.limit(PER_PAGE).order('created_at DESC')
-      @status_updates = @municipality.status_updates.where(statusable_type: 'Location').limit(PER_PAGE).order('created_at DESC')
-      @news = @municipality.news_articles.limit(PER_PAGE).order(:created_at)
-      @events = @municipality.events.limit(200).order(:starts_at)
+      @media_attachments = apply_order(@municipality.media_attachments).limit(PER_PAGE)
+      @blog_entries = apply_order(@municipality.blog_entries).limit(PER_PAGE)
+      @products = apply_order(@municipality.products).limit(PER_PAGE)
+      @coupons = apply_order(@municipality.coupons).limit(PER_PAGE)
+      @services = apply_order(@municipality.services).limit(PER_PAGE)
+      @status_updates = apply_order(@municipality.status_updates.where(statusable_type: 'Location')).limit(PER_PAGE)
+      @news = apply_order(@municipality.news_articles).limit(PER_PAGE)
+      @events = apply_order(@municipality.events, direction: "desc", column: "starts_at").limit(200)
     end
 
     respond_to do |format|
