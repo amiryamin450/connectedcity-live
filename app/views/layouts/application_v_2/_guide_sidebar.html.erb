@@ -138,7 +138,14 @@
   <div id="Offers" class="container tab-pane">
     <br>
     <h3>Deals</h3><br>
-    <%= render @coupons %>
+    <%#= render @coupons %>
+    <% if @coupons.size > 0 %>
+      <% @coupons.each do |coupon| %>
+        <%= render 'layouts/application_v_2/coupon', coupon: coupon %>
+      <% end %>
+    <% else %>
+      <div class="alert">No Deals found.</div>
+    <% end %>
   </div>
   <div id="Business" class="container-fluid tab-pane d-md-none">
     <% if @vertical_market_category.present? %>
