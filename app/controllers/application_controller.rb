@@ -76,7 +76,7 @@ class ApplicationController < ActionController::Base
                     @neighborhood = Neighborhood.find(params[:neighborhood])
                     "/#{params[:district_route]}/#{params[:neighborhood]}/"
                   elsif request.fullpath.include? "sitemap.xml"
-                    
+
                   elsif params[:district_route].present?
                     cookies[:base_path] = "/#{params[:district_route]}/#{params[:neighborhood]}/"
                     cookies[:district_route] = params[:district_route]
@@ -118,7 +118,7 @@ class ApplicationController < ActionController::Base
     # if params[:sub_region].present?
     #   @sub_region = @region.sub_regions.find(params[:sub_region])
     #   @page_title_part = @sub_region.name
-    #   add_breadcrumb @sub_region.name, subregion_guide_path(@sub_region)    
+    #   add_breadcrumb @sub_region.name, subregion_guide_path(@sub_region)
     # end
   end
 
@@ -170,6 +170,52 @@ class ApplicationController < ActionController::Base
       'Streets & Transportation'
     ]
     @categories_news = Category.where(name: names)
+  end
+
+  def search_community
+    @status_updates = @status_updates.ransack(title_or_content_cont: params[:search]).result if @status_updates.present?
+
+    @news = @news.ransack(title_or_content_cont: params[:search]).result if @news.present?
+
+    @events = @events.ransack(name_or_description_cont: params[:search]).result if @events.present?
+
+    @media_attachments = @media_attachments.ransack(title_or_description_cont: params[:search]).result if @media_attachments.present?
+
+    @blog_entries = @blog_entries.ransack(title_or_content_cont: params[:search]).result if @blog_entries.present?
+
+    @products = @products.ransack(name_or_sku_or_description_cont: params[:search]).result if @products.present?
+
+    @coupons = @coupons.ransack(name_or_description_cont: params[:search]).result if @coupons.present?
+
+    @services = @services.ransack(name_or_description_cont: params[:search]).result if @services.present?
+  end
+
+  def filter_community
+    vertical_market = VerticalMarket.find(params[:market_id])
+
+    status_update_ids = vertical_market.get_status_updates(@municipality, @city, @district, @neighborhood, @sub_neigborhood, true).map(&:id)
+    @status_updates = @status_updates.where(id: status_update_ids) if @status_updates.present?
+
+    new_ids = vertical_market.get_news_articles_municipality(@municipality, @city, @district, @neighborhood, @sub_neigborhood).map(&:id)
+    @news = @news.where(id: new_ids) if @news.present?
+
+    event_ids = vertical_market.get_events_municipality(@municipality, @city, @district, @neighborhood, @sub_neigborhood).map(&:id)
+    @events = @events.where(id: event_ids) if @events.present?
+
+    media_ids = vertical_market.get_media_attachments_municipality(@municipality, @city, @district, @neighborhood, @sub_neigborhood).map(&:id)
+    @media_attachments = @media_attachments.where(id: media_ids) if @media_attachments.present?
+
+    blog_entry_ids = vertical_market.get_blog_entries(@municipality, @city, @district, @neighborhood, @sub_neigborhood).map(&:id)
+    @blog_entries = @blog_entries.where(id: blog_entry_ids) if @blog_entries.present?
+
+    product_ids = vertical_market.get_products(@municipality, @city, @district, @neighborhood, @sub_neigborhood).map(&:id)
+    @products = @products.where(id: product_ids) if @products.present?
+
+    coupon_ids = vertical_market.get_coupons(@municipality, @city, @district, @neighborhood, @sub_neigborhood).map(&:id)
+    @coupons = @coupons.where(id: coupon_ids) if @coupons.present?
+
+    service_ids = vertical_market.get_services(@municipality, @city, @district, @neighborhood, @sub_neigborhood).map(&:id)
+    @services = @services.where(id: service_ids) if @services.present?
   end
 
 end

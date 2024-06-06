@@ -1231,6 +1231,7 @@ ol.breadcrumb {
 }
 
 .landing-page-heading-filter .search-box .search-box-btn {
+  width: auto;
   background-color: #10375c;
   border-radius: 5px !important;
   padding: 5px 8px;
@@ -1289,7 +1290,13 @@ ol.breadcrumb {
 }
 
 .landing-page-heading-filter select {
+  border: none;
   font-size: 18px;
+}
+
+.landing-page-heading-filter select:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .landing-page-heading-filter .btn {

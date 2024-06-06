@@ -29,14 +29,32 @@ class MunicipalitiesController < ApplicationController
       @districts = @municipality.districts
       @neighbourhoods = @municipality.neighborhoods
       @sub_neighborhoods = @municipality.sub_neighborhoods
-      @media_attachments = apply_order(@municipality.media_attachments).limit(PER_PAGE)
-      @blog_entries = apply_order(@municipality.blog_entries).limit(PER_PAGE)
-      @products = apply_order(@municipality.products).limit(PER_PAGE)
-      @coupons = apply_order(@municipality.coupons).limit(PER_PAGE)
-      @services = apply_order(@municipality.services).limit(PER_PAGE)
-      @status_updates = apply_order(@municipality.status_updates.where(statusable_type: 'Location')).limit(PER_PAGE)
-      @news = apply_order(@municipality.news_articles).limit(PER_PAGE)
-      @events = apply_order(@municipality.events, direction: "desc", column: "starts_at").limit(200)
+
+      @status_updates = @municipality.status_updates.where(statusable_type: 'Location')
+      @news = @municipality.news_articles.where(newsable_type: "Location")
+      @events = @municipality.events
+      @media_attachments = @municipality.media_attachments
+      @blog_entries = @municipality.blog_entries
+      @products = @municipality.products
+      @coupons = @municipality.coupons
+      @services = @municipality.services
+
+      if params[:search].present?
+        search_community
+      end
+
+      if params[:market_id].present?
+        filter_community
+      end
+
+      @media_attachments = apply_order(@media_attachments).limit(PER_PAGE)
+      @blog_entries = apply_order(@blog_entries).limit(PER_PAGE)
+      @products = apply_order(@products).limit(PER_PAGE)
+      @coupons = apply_order(@coupons).limit(PER_PAGE)
+      @services = apply_order(@services).limit(PER_PAGE)
+      @status_updates = apply_order(@status_updates.where(statusable_type: 'Location')).limit(PER_PAGE)
+      @news = apply_order(@news).limit(PER_PAGE)
+      @events = apply_order(@events, direction: "desc", column: "starts_at").limit(200)
     end
 
     respond_to do |format|

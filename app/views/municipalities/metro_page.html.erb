@@ -7,35 +7,32 @@
 
 %>
 <%= render 'images_slider' %>
-<div class="landing-page-heading-filter" style="text-align: -webkit-center">
+<div class="landing-page-heading-filter communities-page" style="text-align: -webkit-center">
   <div class="row filter px-3 px-md-0 w-100">
-    <div class="col-12 col-md-11">
-      <div class="row">
-        <div class="col-12 col-md-3">
-          <%=
-            # select_tag(
-            #   'metro-municipality-dropdown',
-            #   options_for_select(@municipalities.collect{ |m| [m.name, m.slug] },
-            #   :selected => @municipality.slug),
-            #   {prompt: 'Metro/Sub-Region', class: 'form-control search-column input-group-prepend search-box'}
-            # )
-          %>
+    <div class="col-md-7 col-lg-7">
+      <div class="row px-3 px-md-0 w-100">
+        <div class="col-12 col-md-11">
+          <div class="row">
+            <div class="col-12 col-md-4 mt-2 mt-md-0">
+              <%= select_tag 'metro-city-dropdown', options_for_select(@cities.collect{ |c| [c.name, c.slug]}), prompt: 'City', class: 'form-control search-column input-group-prepend search-box' %>
+            </div>
+            <div class="col-12 col-md-4 mt-2 mt-md-0">
+              <%= select_tag 'metro-district-dropdown', raw("<option>District</option>"), prompt: 'District', class: 'form-control search-column input-group-prepend search-box' %>
+            </div>
+            <div class="col-12 col-md-4 mt-2 mt-md-0">
+              <%= select_tag 'metro-neighbourhood-dropdown', raw("<option>Neighbourhood</option>"), prompt: 'Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
+            </div>
+          </div>
         </div>
-        <div class="col-12 col-md-3 mt-2 mt-md-0">
-          <%= select_tag 'metro-city-dropdown', options_for_select(@cities.collect{ |c| [c.name, c.slug]}), prompt: 'City', class: 'form-control search-column input-group-prepend search-box' %>
-        </div>
-        <div class="col-12 col-md-3 mt-2 mt-md-0">
-          <%= select_tag 'metro-district-dropdown', raw("<option>District</option>"), prompt: 'District', class: 'form-control search-column input-group-prepend search-box' %>
-        </div>
-        <div class="col-12 col-md-3 mt-2 mt-md-0">
-          <%= select_tag 'metro-neighbourhood-dropdown', raw("<option>Neighbourhood</option>"), prompt: 'Neighbourhood', class: 'form-control search-column input-group-prepend search-box' %>
+        <div class="col-12 col-md-1 mt-2 mt-md-0">
+          <a href="javascript:void(0)" id="metro-path">
+            <button type="button" class="btn-primary btn w-auto">Go</button>
+          </a>
         </div>
       </div>
     </div>
-    <div class="col-12 col-md-1 mt-2 mt-md-0">
-      <a href="javascript:void(0)" id="metro-path">
-        <button type="button" class="btn-primary btn">Go<i class="far fa-chevron-right"></i></button>
-      </a>
+    <div class="col-md-5 col-lg-5">
+      <%= render 'share/search_box', url: '', opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', params[:market_id]), all_promt: 'All' %>
     </div>
   </div>
 </div>
