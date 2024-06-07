@@ -39,4 +39,8 @@ class Product < ApplicationRecord
   def disabled
     quantity.nil? || quantity == 0
   end
+
+  def location
+    Location.unscoped{ super }
+  end
 end
