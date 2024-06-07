@@ -105,14 +105,14 @@ class User < ApplicationRecord
     unless location
       slug = name.presence || email.presence
       location = Location.new
-      location.slug = slug.parameterize
+      # location.slug = slug.parameterize
       location.is_profile = true
       location.content = ''
       location.name = slug
       location.email = email
-      location.vertical_market_categories << VerticalMarketCategory.find_by_slug('connectedcitizen')    
-      location.save 
+      location.vertical_market_categories << VerticalMarketCategory.find_by_slug('connectedcitizen')
+      location.save
     end
-    location
+    location.reload
   end
 end

@@ -11,15 +11,15 @@ class Location < ApplicationRecord
   alias :business_owner :super_admin
 
   belongs_to :business, optional: true
-  belongs_to :city
-  belongs_to :country
-  belongs_to :province
-  belongs_to :district
-  belongs_to :neighborhood
+  belongs_to :city, optional: true
+  belongs_to :country, optional: true
+  belongs_to :province, optional: true
+  belongs_to :district, optional: true
+  belongs_to :neighborhood, optional: true
   belongs_to :sub_neighborhood, class_name: 'Neighborhood', foreign_key: 'sub_neighborhood_id', optional: true
   belongs_to :business_improvement_area, optional: true
   belongs_to :payment_user, class_name: 'User', optional: true
-  belongs_to :municipality
+  belongs_to :municipality, optional: true
 
   has_many :agents, class_name: 'Location', foreign_key: 'broker_id', dependent: :destroy
   has_many :city_halls, class_name: 'Location', foreign_key: 'hall_id', dependent: :destroy
@@ -62,7 +62,17 @@ class Location < ApplicationRecord
   has_and_belongs_to_many :brands
   has_and_belongs_to_many :trade_associations
 
-  friendly_id :name, use: [:slugged, :history]
+  friendly_id :slug_candidates, use: [:slugged, :history]
+
+  def slug_candidates
+    [:name, :name_and_sequence]
+  end
+
+  def name_and_sequence
+    slug = normalize_friendly_id(name)
+    sequence = Location.unscoped.where("slug like '#{slug}--%'").count + 2
+    "#{slug}--#{sequence}"
+  end
 
   attr_reader :brand_tokens
   attr_accessor :delete_cover_photo, :delete_logo
