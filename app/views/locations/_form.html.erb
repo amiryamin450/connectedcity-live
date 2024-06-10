@@ -21,7 +21,7 @@
         <div class="col-md-6">
           <div class="tabbable">
             <ul class="location-nav nav nav-pills pb-4" role="tablist">
-              <% if current_user.has_role? :admin %>
+              <% if current_user.has_role?(:admin) || @location.user_owns?(current_user) %>
                 <li class="nav-item active">
                   <a class="nav-link" href="#location" data-toggle="tab">Location</a></li>
                 <li class="nav-item">
@@ -78,7 +78,7 @@
               <% end %>
             </ul>
             <div class="tab-content">
-              <% if current_user.has_role? :admin %>
+              <% if current_user.has_role?(:admin) || @location.user_owns?(current_user) %>
                 <div class="tab-pane active" id="location">
                   <%= f.association :country  %>
                   <%= f.association :province, collection: get_collection(Province, :country, :country_id, f.object) %>
@@ -87,7 +87,7 @@
                   <%= f.association :district, collection: get_collection(District, :city, :city_id, f.object) %>
                   <%= f.association :neighborhood, collection: get_collection(Neighborhood, :district, :district_id, f.object) %>
                   <%= f.association :sub_neighborhood, collection: get_collection(Neighborhood, :neighborhood, :neighborhood_id, f.object) %>
-                  <%= f.input :vertical_market_category_ids, label: "Vertical market categories", collection: @vertical_market_categories, input_html: { multiple: true }, disabled: !current_user.has_role?(:admin), wrapper: :horizontal_multi_select %>
+                  <%= f.input :vertical_market_category_ids, label: "Vertical market categories", collection: @vertical_market_categories, input_html: { multiple: true }, disabled: !(current_user.has_role?(:admin) || @location.user_owns?(current_user)), wrapper: :horizontal_multi_select %>
                 </div>
                 <div class="tab-pane" id="agents">
                   <%= link_to 'Create New Agent', new_location_path(broker_id: @location.id), class: 'btn'  %>
@@ -178,7 +178,7 @@
                   <%= link_to 'Create New Parks & Recreation Commissioners Member', new_location_path(commissioner_id: @location.id), class: 'btn'  %>
                 </div>
               <% end %>
-              <div class="tab-pane <%= 'active' unless current_user.has_role? :admin %>" id="info">
+              <div class="tab-pane <%= 'active' if !(current_user.has_role?(:admin) || @location.user_owns?(current_user)) %>" id="info">
                 <%= f.input :broker_id, as: :hidden %>
                 <%= f.input :hall_id, as: :hidden %>
                 <%= f.input :councillor_id, as: :hidden %>

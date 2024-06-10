@@ -302,6 +302,15 @@ Connectbook::Application.routes.draw do
     resources :real_estate_listings, path: 'listings', only: [:show]
     resources :services, only: [:show]
 
+    collection do
+      get :get_provinces_by_country
+      get :get_cities_by_municipality
+      get :get_districts_by_city
+      get :get_neighborhoods_by_district
+      get :get_sub_neighborhoods_by_neighborhood
+      get :get_municipalites_by_province
+    end
+
     resources :new_home_communities, only: [:show] do
       resources :new_homes, only: [:show]
     end

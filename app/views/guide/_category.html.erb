@@ -63,7 +63,7 @@
               <br>
               <span><i class="far fa-phone-alt"></i><%= location.phone %></span>
           </div>
-          <div class="button favorite" id="favorite-<%= location.id %>">
+          <div class="button favorite favorite-<%= location.id %>" id="favorite-<%= location.id %>">
             <% if show_save_button?(user_signed_in?, location.vertical_markets.present?) %>
               <%= render 'favorites/like_button_v2', location_id: location.id, vertical_market_slug: location.vertical_markets.first.slug if user_signed_in? and location.vertical_markets.present? %>
             <% end %>

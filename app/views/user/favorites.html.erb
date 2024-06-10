@@ -178,7 +178,7 @@ r = 0
                               </span>
                             </div>
 
-                            <div id="favorite-<%= f.location.id %>" class="button favorite">
+                            <div id="favorite-<%= f.location.id %>" class="button favorite favorite-<%= f.location.id %>">
                               <%= render 'favorites/like_button_v2', location_id: f.location.id if user_signed_in? %>
                             </div>
                           </div>

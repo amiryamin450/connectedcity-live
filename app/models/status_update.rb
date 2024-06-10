@@ -3,10 +3,10 @@ class StatusUpdate < ApplicationRecord
 
   belongs_to :location, foreign_key: "statusable_id"
   # belongs_to :location, -> { joins(:status_updates).where(status_updates: { statusable_type: "Location" }) }, foreign_key: "statusable_id"
-  belongs_to :district
-  belongs_to :neighborhood
-  belongs_to :city
-  belongs_to :province
+  belongs_to :district, optional: true
+  belongs_to :neighborhood, optional: true
+  belongs_to :city, optional: true
+  belongs_to :province, optional: true
   belongs_to :category, optional: true
 
   default_scope { order('created_at DESC') }

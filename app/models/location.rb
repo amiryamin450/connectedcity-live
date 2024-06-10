@@ -1,7 +1,7 @@
 class Location < ApplicationRecord
   extend FriendlyId
 
-  default_scope { where(is_profile: false) }
+  # default_scope { where(is_profile: false) }
 
   acts_as_messageable
 

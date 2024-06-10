@@ -72,7 +72,7 @@ class User < ApplicationRecord
   end
 
   def can_manage_location?(location)
-    self.locations.where(id: location.id, claim_pending: 0).exists?
+    self.locations.unscoped.where(id: location.id, claim_pending: 0).exists?
   end
 
   def has_locations?
@@ -112,6 +112,7 @@ class User < ApplicationRecord
       location.email = email
       location.vertical_market_categories << VerticalMarketCategory.find_by_slug('connectedcitizen')
       location.save
+      location.users << self
     end
     location.reload
   end
