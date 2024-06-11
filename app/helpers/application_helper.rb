@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def alert_color(type)
-    case type
+    case type.to_sym
     when :error
       "danger"
     when :notice
