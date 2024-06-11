@@ -6,8 +6,8 @@ class City < ApplicationRecord
   has_many :districts
   has_many :neighborhoods, through: :districts
   has_many :sub_neighborhoods, through: :neighborhoods
-  has_many :locations
-  has_many :status_updates
+  has_many :locations, -> { where(is_profile: false) }
+  has_many :status_updates, -> { distinct }, through: :locations
   has_many :news_articles, -> { distinct }, through: :locations
   has_many :events, -> { distinct }, through: :locations
   has_many :coupons, -> { distinct }, through: :locations

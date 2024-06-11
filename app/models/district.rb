@@ -1,11 +1,11 @@
 class District < ApplicationRecord
   belongs_to :city
 
-  has_many :locations
+  has_many :locations, -> { where(is_profile: false) }
   has_many :neighborhoods
   has_many :business_improvement_areas
 
-  has_many :status_updates
+  has_many :status_updates, -> { distinct }, through: :locations
   has_many :news_articles, -> { distinct }, through: :locations
   has_many :media_attachments, -> { distinct }, through: :locations
   has_many :events, -> { distinct }, through: :locations

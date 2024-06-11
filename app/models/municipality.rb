@@ -8,7 +8,7 @@ class Municipality < ApplicationRecord
   has_many :districts, through: :cities
   has_many :neighborhoods, through: :districts
   has_many :sub_neighborhoods, through: :neighborhoods
-  has_many :locations
+  has_many :locations, -> { where(is_profile: false) }
 
   has_many :coupons, -> { distinct }, through: :locations
   has_many :services, -> { distinct }, through: :locations
