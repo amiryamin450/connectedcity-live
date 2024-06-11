@@ -7,7 +7,7 @@
 jQuery ->
   $('a.see-more').click ->
     id = $(this).data('element')
-    $('#cat-' + id).toggleClass 'show'
+    $("[id='cat-" + id + "']").toggleClass('show')
     if($(this).html() == "See More +")
       $(this).html "See Less +"
     else
@@ -21,5 +21,3 @@ jQuery ->
 
   for product_desc in product_descriptions
     $clamp(product_desc, {clamp: 3})
-
-  
