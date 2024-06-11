@@ -5,7 +5,7 @@ class Neighborhood < ApplicationRecord
 
   belongs_to :district
   belongs_to :city, foreign_key: "placecode"
-  has_many :locations_of_neighborhood, :class_name => "Location", foreign_key: 'neighborhood_id'
+  has_many :locations_of_neighborhood, -> { where(is_profile: false) }, :class_name => "Location", foreign_key: 'neighborhood_id'
   has_many :city_news_articles
 
   belongs_to :neighborhood, :class_name => 'Neighborhood'
@@ -22,7 +22,7 @@ class Neighborhood < ApplicationRecord
   has_many :events_of_neighborhood, -> { distinct }, through: :locations_of_neighborhood, source: :events
 
   # This is for sub_neighborhood
-  has_many :locations_of_sub_neighborhood, :class_name => "Location", foreign_key: 'sub_neighborhood_id'
+  has_many :locations_of_sub_neighborhood, -> { where(is_profile: false) }, :class_name => "Location", foreign_key: 'sub_neighborhood_id'
   has_many :coupons_of_sub_neighborhood, -> { distinct }, through: :locations_of_sub_neighborhood, source: :coupons
   has_many :services_of_sub_neighborhood, -> { distinct }, through: :locations_of_sub_neighborhood, source: :services
   has_many :products_of_sub_neighborhood, -> { distinct }, through: :locations_of_sub_neighborhood, source: :products
@@ -59,7 +59,7 @@ class Neighborhood < ApplicationRecord
   def blog_entries
     neighborhood_id.present? ? blog_entries_of_sub_neighborhood : blog_entries_of_neighborhood
   end
-  
+
   def status_updates
     neighborhood_id.present? ? status_updates_of_sub_neighborhood : status_updates_of_neighborhood
   end
