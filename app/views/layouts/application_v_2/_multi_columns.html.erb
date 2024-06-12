@@ -124,7 +124,7 @@
           <div class="alert">No Market Updates found.</div>
         <% end %>
       </div>
-      <div id="Videos" class="container tab-pane fade">
+      <div id="Videos" class="container tab-pane">
         <br>
         <h3>Videos</h3><br>
         <% if @media_attachments.size > 0 %>
@@ -136,7 +136,7 @@
         <% end %>
       </div>
       <!--  -->
-      <div id="Products" class="container tab-pane fade">
+      <div id="Products" class="container tab-pane">
         <br>
         <h3>Products</h3>
         <% if @products.size > 0 %>
@@ -148,7 +148,7 @@
         <% end %>
       </div>
       <!--  -->
-      <div id="Services" class="container tab-pane fade">
+      <div id="Services" class="container tab-pane">
         <br>
         <h3>Services</h3>
         <% if @services && @services.size > 0 %>
@@ -171,7 +171,7 @@
           <div class="alert">No Events found.</div>
         <% end %>
       </div>
-      <div id="News" class="container tab-pane fade">
+      <div id="News" class="container tab-pane">
         <br>
         <h3>News</h3><br>
         <% if @news_articles && @news_articles.size > 0 %>
@@ -182,7 +182,7 @@
           <div class="alert">No News found.</div>
         <% end %>
       </div>
-      <div id="Blogs" class="container tab-pane fade">
+      <div id="Blogs" class="container tab-pane">
         <br>
         <h3>Blogs</h3><br>
         <% if @blog_entries.size > 0 %>
@@ -193,7 +193,7 @@
           <div class="alert">No Blogs found.</div>
         <% end %>
       </div>
-      <div id="Offers" class="container tab-pane fade">
+      <div id="Offers" class="container tab-pane">
         <br>
         <h3>Deals</h3><br>
         <%#= render @coupons %>
