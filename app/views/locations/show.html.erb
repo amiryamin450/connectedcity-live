@@ -90,20 +90,20 @@
       <div class="col-md-6">
         <div class="business-info">
             <div class="business-card">
-              <div class="banner-img">
-                <% if @location_carousel_images.any? %>
+              <% if @location_carousel_images.any? %>
+                <div class="banner-img">
                   <%= image_tag @location_carousel_images.first.url %>
-                <% end %>
-              </div>
+                </div>
+              <% end %>
               <!--  -->
-              <div class="brand-contact-details">
+              <div class="brand-contact-details pt-3">
                   <div class="row row-card-details d-flex" style="display:flex !important">
-                    <div class="col-2" style="flex:unset !important">
-                        <div class="brand-icon">
-                          <%= image_tag @location.logo.url %>
-                        </div>
+                    <div class="col-12 col-md-2 align-content-center" style="flex:unset !important">
+                      <div class="brand-icon my-auto">
+                        <%= image_tag @location.logo.url %>
+                      </div>
                     </div>
-                    <div class="col-10">
+                    <div class="col-12 col-md-10">
                       <div class="row details-row">
                         <div class="col-12">
                             <div class="title">
@@ -177,34 +177,37 @@
               <% end %>
 
               <div class="operating-hours">
-                  <div class="btn" style="cursor: unset;">
-                    <div class="row justify-content-end">
-                        <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location)  %>
-                          <div class="col-2" style="padding-left: 0px;">
-                            <a class="btn btn-primary-outline" style="background-color: #10375C; color: #fff; display: flex; justify-content: center;" href=<%="/business/#{@location.slug}/edit" %>>Edit</a>
-                          </div>
-                        <% end %>
-                        <% if @location.business_owner.blank? %>
-                          <div class="col-4" style="padding-right: 0px; padding-left: 0px;">
-                            <%= link_to "Claim Business", claim_location_path, class: "btn btn-primary-outline" %>
-                          </div>
-                        <% end %>
-                        <% if user_signed_in? and !@location.user_owns?(current_user) and @location.vertical_markets.present? %>
-                          <div class="col-2 favorite-<%= @location.id %>" style="padding-right: 0px; padding-left: 0px; margin-left: 15px; text-align: center;" id="favorite-<%= @location.id %>">
-                            <%= render 'favorites/like_button_v2', location_id: @location.id, vertical_market_slug: @location.vertical_markets.first.slug %>
-                          </div>
-                        <% end %>
-                        <% if user_signed_in? && !@location.users.pluck(:id).include?(current_user&.id)%>
-                          <div class="col-3" style="padding-right: 0px;" id="call-video">
-                              <% if @location.available_call == true%>
-                                <button class="btn btn-primary-color" data-toggle="modal">Video Call</button>
-                              <%else%>
-                                <button class='btn btn-secondary' disabled aria-disabled='true'>Video Call</button>
-                              <%end%>
-                          </div>
+                <div class="btn" style="cursor: unset;">
+                  <div class="row justify-content-end align-items-center">
+                    <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location)  %>
+                      <div class="px-1 col-2 col-lg-2">
+                        <a class="btn btn-primary-outline px-1" style="background-color: #10375C; color: #fff;" href=<%="/business/#{@location.slug}/edit" %>>Edit</a>
+                      </div>
+                    <% end %>
+
+                    <% if @location.business_owner.blank? %>
+                      <div class="px-1 col-4 col-lg-4">
+                        <%= link_to "Claim Business", claim_location_path, class: "btn btn-primary-outline px-1" %>
+                      </div>
+                    <% end %>
+
+                    <% if user_signed_in? and !@location.user_owns?(current_user) and @location.vertical_markets.present? %>
+                      <div class="px-1 col-3 col-lg-3 favorite-<%= @location.id %>" id="favorite-<%= @location.id %>">
+                        <%= render 'favorites/like_button_v2', location_id: @location.id, vertical_market_slug: @location.vertical_markets.first.slug %>
+                      </div>
+                    <% end %>
+
+                    <% if user_signed_in? && !@location.users.pluck(:id).include?(current_user&.id)%>
+                      <div class="px-1 col-3 col-lg-3" id="call-video">
+                        <% if !@location.available_call == true%>
+                          <button class="btn btn-primary-color btn-primary-outline px-1" data-toggle="modal">Video Call</button>
+                        <%else%>
+                          <button class='btn btn-secondary px-1' disabled aria-disabled='true'>Video Call</button>
                         <%end%>
-                    </div>
+                      </div>
+                    <% end %>
                   </div>
+                </div>
               </div>
               <hr>
               <div class="description">

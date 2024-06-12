@@ -360,7 +360,7 @@ a:focus {
     .operating-hours
     .btn
     .btn-primary-outline {
-    padding: 5px 0px !important;
+    padding: 5px 0px;
   }
   .business-body-section .business-product-body .business-body-card .title h3 {
     font-size: 12px !important;
@@ -2850,12 +2850,11 @@ ol.breadcrumb {
   border-radius: 10px;
 }
 
-.business-body-section .business-info .brand-contact-details {
+/* .business-body-section .business-info .brand-contact-details {
   padding: 30px 0px 0px;
-}
+} */
 
 .business-body-section .business-info .brand-contact-details .brand-icon {
-  height: 100px;
   width: 100%;
 }
 
@@ -2939,6 +2938,11 @@ ol.breadcrumb {
   font-size: 14px;
   padding: 5px 30px;
   border-radius: 5px;
+}
+
+.business-body-section .business-info .operating-hours .btn .font-size-14 {
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .business-body-section
