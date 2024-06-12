@@ -540,7 +540,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_12_042059) do
     t.bigint "owner_id"
     t.bigint "super_admin_id"
     t.integer "status", default: 0
-    t.integer "user_id"
+    t.bigint "user_id"
     t.index ["city_id"], name: "city_id"
     t.index ["community_id"], name: "community_id"
     t.index ["country_id"], name: "country_id"
@@ -549,6 +549,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_12_042059) do
     t.index ["region_id"], name: "region_id"
     t.index ["slug"], name: "index_slug"
     t.index ["super_admin_id"], name: "index_locations_on_super_admin_id"
+    t.index ["user_id"], name: "index_locations_on_user_id"
     t.index ["yp_lid"], name: "index_locations_on_yp_lid"
   end
 
