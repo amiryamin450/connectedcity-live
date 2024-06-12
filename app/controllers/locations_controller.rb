@@ -298,14 +298,26 @@ class LocationsController < ApplicationController
 
     respond_to do |format|
       if @location.save
-        format.html { redirect_to cookies[:return_to].present? ? cookies[:return_to] : @location, notice: 'Location was successfully updated.' }
+        format.html {
+          if @location.is_profile
+            redirect_to show_citizen_path(@location.slug)
+          else
+            redirect_to cookies[:return_to].present? ? cookies[:return_to] : @location, notice: 'Location was successfully updated.'
+          end
+        }
         format.json { render json: { files: [@location.location_images.last.to_jq_upload]}, status: :created, location: @location }
       else
         puts location_params.to_yaml
         puts @location.errors.to_yaml
 
         # format.html { render action: "edit" }
-        format.html { redirect_to edit_location_path }
+        format.html {
+          if @location.is_profile
+            redirect_to edit_citizen_path(@location.slug)
+          else
+            redirect_to edit_location_path(@location)
+          end
+        }
         format.json { render json: @location.errors, status: :unprocessable_entity }
       end
     end
