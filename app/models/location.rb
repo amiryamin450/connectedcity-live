@@ -18,6 +18,7 @@ class Location < ApplicationRecord
   belongs_to :business_improvement_area, optional: true
   belongs_to :payment_user, class_name: 'User', optional: true
   belongs_to :municipality, optional: true
+  belongs_to :user, optional: true
 
   has_many :agents, class_name: 'Location', foreign_key: 'broker_id', dependent: :destroy
   has_many :city_halls, class_name: 'Location', foreign_key: 'hall_id', dependent: :destroy

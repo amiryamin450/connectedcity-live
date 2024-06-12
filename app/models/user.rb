@@ -14,7 +14,7 @@ class User < ApplicationRecord
   has_many :business_improvement_areas
   has_many :managers
   has_many :locations, through: :managers
-
+  has_one :citizen_location, class_name: "Location", dependent: :destroy
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -106,6 +106,7 @@ class User < ApplicationRecord
       slug = name.presence || email.presence
       location = Location.new
       # location.slug = slug.parameterize
+      location.user_id = self.id
       location.is_profile = true
       location.content = ''
       location.name = slug
