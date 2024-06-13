@@ -1,4 +1,5 @@
 class BusinessImprovementAreasController < ApplicationController
+  include PrismicController
   PER_PAGE = 20
 
   before_action :find_business_improvement_areas, only: [:show]
@@ -17,31 +18,50 @@ class BusinessImprovementAreasController < ApplicationController
   # GET /business_improvement_areas/1
   # GET /business_improvement_areas/1.json
   def show
-    @status_updates = @business_improvement_area.all_status_updates.limit(PER_PAGE).order('created_at DESC')
-    @tag_cloud = @business_improvement_area.vertical_market_categories.map { |vm| { text: vm.name, weight: vm.locations.where(business_improvement_area_id: @business_improvement_area.id).size, link: url_for([@business_improvement_area, vm]) }}.compact
-    @events = @business_improvement_area.events.limit(200).order(:starts_at)
-    @media_attachments = @business_improvement_area.media_attachments.limit(200).order('created_at DESC')
-    @blog_entries = @business_improvement_area.blog_entries.limit(PER_PAGE).order('created_at DESC')
-    @products = @business_improvement_area.products.limit(PER_PAGE).order('created_at DESC')
-    @coupons = @business_improvement_area.coupons.limit(PER_PAGE).order('created_at DESC')
-    @news = @business_improvement_area.news_articles.limit(PER_PAGE).order(:created_at)
-    @services = @business_improvement_area.services.limit(PER_PAGE).order('created_at DESC')
-    @district = @business_improvement_area.district
-    @neighborhoods = @district.neighborhoods
-    @neighborhood  = @neighborhoods.find{|nbd| nbd.neighborhd == @business_improvement_area.name}
-    @sub_neighborhoods = Neighborhood.where(neighborhood_id: @neighborhood.nid)
-    @sub_neighborhood  = @sub_neighborhoods.find{|sub| sub.slug == params[:sub_neighborhood_slug]}
-    @city = @district.city
-    @cities = @city.municipality.cities
-    @districts = @city.districts
-    @district = @districts.find{|d| d.id == @business_improvement_area.district_id}
-    add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_breadcrumb @district.name, district_guide_path(@business_improvement_area.district) if @district
-    add_breadcrumb @business_improvement_area.name
+    @neighborhood = Neighborhood.find_by_slug(params[:id])
+
+    if @neighborhood.present?
+      @district = @neighborhood.district
+      @neighbourhoods = @district.neighborhoods
+      @city = @district.city
+      @municipality = @city.municipality
+      @cities = @city.municipality.cities
+      @districts = @city.districts
+      @sub_neighborhoods = Neighborhood.where(neighborhood_id: @neighborhood.nid)
+
+      key_neighborhood_prismic = "#{@city.slug}-#{@district.slug}-#{@neighborhood.slug}"
+      response = api.query(Prismic::Predicates.at("my.location.uid", key_neighborhood_prismic))
+      @documents = response.results.present? ? response.results[0]["location.slide_images"] : []
+
+      @status_updates = @neighborhood.status_updates.where(statusable_type: 'Location')
+      @news = @neighborhood.news_articles.where(newsable_type: "Location")
+      @events = @neighborhood.events
+      @media_attachments = @neighborhood.media_attachments
+      @blog_entries = @neighborhood.blog_entries
+      @products = @neighborhood.products
+      @coupons = @neighborhood.coupons
+      @services = @neighborhood.services
+
+      if params[:search].present?
+        search_community
+      end
+
+      if params[:market_id].present?
+        filter_community
+      end
+
+      @media_attachments = apply_order(@media_attachments).limit(PER_PAGE)
+      @blog_entries = apply_order(@blog_entries).limit(PER_PAGE)
+      @products = apply_order(@products).limit(PER_PAGE)
+      @coupons = apply_order(@coupons).limit(PER_PAGE)
+      @services = apply_order(@services).limit(PER_PAGE)
+      @status_updates = apply_order(@status_updates).limit(PER_PAGE)
+      @news = apply_order(@news).limit(PER_PAGE)
+      @events = apply_order(@events, direction: "desc", column: "starts_at").limit(PER_PAGE)
+    end
 
     respond_to do |format|
-      format.html { render layout: "application_v_2" }
-      format.json { render json: @business_improvement_area }
+      format.html { render "neighborhoods/neighborhood_page", layout: "application_v_2" }
     end
   end
 
