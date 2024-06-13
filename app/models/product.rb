@@ -3,6 +3,7 @@ class Product < ApplicationRecord
   has_many :product_images, dependent: :destroy
   belongs_to :category
   has_many :variants, dependent: :destroy
+  has_many :line_items, dependent: :destroy
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
