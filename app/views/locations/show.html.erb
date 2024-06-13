@@ -221,29 +221,22 @@
                   </a>
               </div>
               <hr>
-              <% if @location.business_improvement_area.present? %>
+              <% if @location.neighborhood.present? %>
                 <div class="shopping-district">
-                    <h4>Shopping District</h4>
-                    <div class="row">
-                      <div class="col-md-3">
-                          <div class="img">
-                            <%= image_tag @location.business_improvement_area.logo.url %>
-                          </div>
-                      </div>
-                      <div class="col-md-9">
-                          <h4><%= @location.business_improvement_area.name %></h4>
-                          <p class="short-description"><%= truncate_html(strip_tags(@location.business_improvement_area.description), length: 50) %></p>
-                          <p class="collapse" id="textCollapse2">
-                            <%= strip_tags(@location.business_improvement_area.description.html_safe) %>
-                          </p>
-                          <a class="text-dark small expand-text" data-bs-toggle="collapse" href="#textCollapse2" role="button" aria-expanded="false" aria-controls="textCollapse" onclick="hideShortDescription('.shopping-district')">
-                              View more
-                          </a>
-                          <div class="shopping-district-btn">
-                            <%= link_to 'Learn More', @location.business_improvement_area, class: 'btn btn-primary' %>
-                          </div>
+                  <h4>Shopping District</h4>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="img">
+                        <%= image_tag @location.neighborhood.logo_image %>
                       </div>
                     </div>
+                    <div class="col-md-9">
+                      <h4><%= @location.neighborhood.neighborhd %></h4>
+                      <div class="shopping-district-btn">
+                        <%= link_to 'Visit', business_improvement_area_path(@location.neighborhood), class: 'btn btn-primary' %>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               <% end %>
             </div>
