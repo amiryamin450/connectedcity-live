@@ -1088,6 +1088,17 @@ label.error {
       }
     }
   }
+
+  .top-bar.app-v-3 {
+    .user-dropdown>.dropdown-menu {
+      top: unset;
+      right: 0;
+
+      &>.dropdown-submenu>.dropdown-menu a {
+        white-space: break-spaces;
+      }
+    }
+  }
 }
 
 // Claim Business Page
