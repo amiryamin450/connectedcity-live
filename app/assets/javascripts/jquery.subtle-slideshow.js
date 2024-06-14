@@ -46,6 +46,17 @@ $.fn.slideshow = function(options){
 
   console.log('Slideshow initialized.');
 
+  slideshow.append(
+    '<button class="slideshow-control carousel-control-prev"><span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span></button><button class="slideshow-control carousel-control-next"><span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span></button>'
+  );
+
+  $(".slideshow-control.carousel-control-prev").on("click", function () {
+    slideRefresh("prev");
+  });
+  $(".slideshow-control.carousel-control-next").on("click", function () {
+    slideRefresh();
+  });
+
   // Add the first slide to the slideshow
   slides.find('.' + settings.slideElementClass + ':first span.animate').addClass('active').css('animation-duration', cssAnimationDuration + 'ms')
   slides.find('.' + settings.slideElementClass + ':first').prependTo(slideshow);
@@ -91,7 +102,7 @@ $.fn.slideshow = function(options){
   }
 
   // Prepends a new slide to the slideshow element and fades out the previous one
-  function slideRefresh() {
+  function slideRefresh(direction = 'next') {
     console.log('Slide refresh triggered.');
     currentSlideStartTime = Date.now();
     var slideshowDOM = slideshow[0];
@@ -103,12 +114,20 @@ $.fn.slideshow = function(options){
       console.log('There are no slides in the slideshow.');
       slides.find('.' + settings.slideElementClass + ':first').prependTo(slideshow);
     }else{
-      slides.find('.' + settings.slideElementClass + ':first').prependTo(slideshow);
+      if (direction == "prev") {
+        slides.find('.' + settings.slideElementClass + ':last').prependTo(slideshow);
+      } else {
+        slides.find('.' + settings.slideElementClass + ':first').prependTo(slideshow);
+      }
       var slideElement = '#' + settings.slideshowId + ' .' + settings.slideElementClass;
       $(slideElement + ':first span.animate').addClass('active').css('animation-duration', cssAnimationDuration + 'ms');;
       $(slideElement + ':last').fadeOut(settings.fadeDuration, function(){
         $(slideElement + ':last span.animate').removeClass('active').css('animation-duration', '0ms');;
-        $(slideElement + ':last').appendTo(slides);
+        if (direction == "prev") {
+          $(slideElement + ":last").prependTo(slides);
+        } else {
+          $(slideElement + ":last").appendTo(slides);
+        }
         slides.find('.' + settings.slideElementClass).show(0);
       });
     }
