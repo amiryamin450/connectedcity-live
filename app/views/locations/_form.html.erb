@@ -190,7 +190,7 @@
                 <input id="value_address" class="hidden" value="<%= @location.address %>" />
                 <%= f.input :address_1 %>
                 <%= f.input :postal_code %>
-                <%= f.association :trade_associations %>
+                <%= f.association :trade_associations, label: "Associations", collection: TradeAssociation.all.order(:name) %>
                 <%= f.input :phone %>
                 <%= f.input :show_phone %>
                 <%= f.input :toll_free %>

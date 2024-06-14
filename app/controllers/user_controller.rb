@@ -138,7 +138,7 @@ class UserController < ApplicationController
       ids = []
       @trade_associations.each do |association|
         ids << association.locations.ids
-      end
+      end if @trade_associations.present?
       filter_ids = ids.flatten.uniq
     else
       vm_slugs = []

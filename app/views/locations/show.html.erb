@@ -303,6 +303,7 @@
                 </div>
                 <%= render 'location_services' %>
                 <%= render 'location_events' %>
+                <%= render 'location_trade_associations' %>
                 <%= render 'location_listings' %>
               <% elsif @location.vertical_market_categories.pluck(:id).include?(vertical_market_category_id) %>
                 <%= render 'location_media' %>
