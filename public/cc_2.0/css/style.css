@@ -595,6 +595,11 @@ ol.breadcrumb {
   border-radius: 5px;
 }
 
+.carousel-control-next,
+.carousel-control-prev {
+  width: 13%;
+}
+
 /*************************************/
 
 .district-slider .inner-slider .items {
@@ -1012,10 +1017,10 @@ ol.breadcrumb {
   background-color: #10375c;
 }
 
-.landing-page-slider .carousel-control-next-icon,
+/* .landing-page-slider .carousel-control-next-icon,
 .landing-page-slider .carousel-control-prev-icon {
   display: none;
-}
+} */
 
 .landing-page-slider .carousel-item {
   height: 570px;
@@ -2542,6 +2547,7 @@ ol.breadcrumb {
   font-size: 14px;
   padding: 5px 30px;
   border-radius: 5px;
+  min-width: 68px;
 }
 
 .category-body-section .category-body .category-body-card .button .btn.btn-danger {
