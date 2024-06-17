@@ -133,7 +133,7 @@ class UserController < ApplicationController
     filter_ids = []
     if params[:name].present? && params[:name] == 'associations'
       slug = @user.name.presence || @user.email.presence
-      location = Location.unscoped.find_by(slug: slug.parameterize)
+      location = Location.unscoped.find_by(slug: slug.parameterize) || @user.profile
       @trade_associations = location&.trade_associations
       ids = []
       @trade_associations.each do |association|
