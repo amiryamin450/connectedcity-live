@@ -8,6 +8,7 @@ class TradeAssociation < ApplicationRecord
   has_many :news_articles, as: :newsable, dependent: :destroy
   has_and_belongs_to_many :locations
   has_many :location_status_updates, -> { distinct }, through: :locations, source: :status_updates
+  has_many :location_events, -> { distinct }, through: :locations, source: :events
 
   accepts_nested_attributes_for :status_updates, allow_destroy: true
   accepts_nested_attributes_for :news_articles, allow_destroy: true

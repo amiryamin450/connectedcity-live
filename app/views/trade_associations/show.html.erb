@@ -1,122 +1,82 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 column association-banner">
+      <div class="image" style="background-image: url(<%= @trade_association.home_page_image.url %>)">
+      </div>
+    </div>
+  </div>
+</div><br>
 
 <div class="row-fluid">
-  <div class="span8">
-    <h1><%= @trade_association.name %>
-      <% if user_signed_in? and current_user.has_role? :admin %>
-      <small>
-        <%= link_to 'edit', edit_trade_association_path(@trade_association) %>
-      </small>
-      <% end -%>  
-    </h1>
-  </div>
-  <div class="span4">
-    <%= render 'search_form', { locals: {css_class: 'hidden-mobile'} } %>
-  </div>
+  <h1><%= @trade_association.name %>
+    <% if user_signed_in? and current_user.has_role? :admin %>
+    <small>
+      <%= link_to 'edit', edit_trade_association_path(@trade_association) %>
+    </small>
+    <% end -%>  
+  </h1>
 </div>
 
-<div class="row-fluid">
-  <div class="span8">
-    <div class="row-fluid">
-      <div class="span12 metro-img thumbnail">
-        <%= image_tag @trade_association.home_page_image.url %>
-      </div>
-    </div>
-
-    <div class="row-fluid">
-      <div class="span12">
-        <div class="holder pad10">
-          <h5>Featured Businesses</h5>
-          <div class="row-fluid">
-            <% @trade_association.locations.order("RAND()").limit(6).each do |location| %>
-            <div class="span2">
-              <div class="thumbnail">
-                <div style="min-height: 100px; text-align: center;">
-                  <%= link_to(image_tag(location.logo.url(:bia_display)), location) %>
-                </div>
-                
-                <div><%= location.name %></div>
-              </div>
-            </div>
-            <% end -%>  
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span6">
-        <div class="holder pad10">
-          <h5>Status Updates
-           <% if user_signed_in? and current_user.has_role? :admin %>
-           <small><%= link_to "(add)", "#status_update", class: 'small', role: :button, data: {toggle: 'modal'} %></small>
-           <% end %>
-         </h5>
-         <% if @status_updates.size > 0 %>
-         <% @status_updates.sort_by(&:created_at).reverse!.each do |update| %>
-         <div class="row-fluid status-update">
-          <div class="span2">
-            <%= image_tag update.statusable.logo.url if update.statusable.logo? %>
-          </div>
-          <div class="span10">
-            <div class="name"><%= link_to update.statusable.name, update.statusable %> <span class="time-ago"> <%= "#{time_ago_in_words(update.created_at)} ago" %></span></div>
-            <div><%= update.content %></div>
-          </div>                
-        </div>
-        <% end %>
-        <% else %>
-        <div class="alert">No Market Updates found.</div>
-        <% end %>
-
-      </div>
-    </div>
-    <div class="span6">
-      <div class="holder pad10">
-        <h5>Events</h5>
-        <% if @trade_association.news_articles.size > 0 %>
-        <% @trade_association.news_articles.order(:created_at).each do |article| %>
-
-        <div class="row-fluid article">
-          <div class="span1">
-            <%= image_tag article.newsable.logo.url(:thumb) if article.newsable.logo? %>
-          </div>
-          <div class="span11">
-            <div class="name"><%= link_to article.title, [article.newsable, article] %> <span class="time-ago"> <%= "#{time_ago_in_words(article.created_at)} ago" %>. by <%= link_to article.newsable.name, article.newsable %></span></div>
-            <div><%= truncate_html( article.content, :length => 300 ) %></div>
-
-          </div>                
-        </div>
-        <% end %>
-        <% else %>
-        <div class="alert">No Events found.</div>
-        <% end %>
-      </div>
+<div class="landing-page-heading-filter association-page mt-3 mb-5">
+  <div class="row px-3">
+    <div class="col-12">
+      <%= render 'share/search_box', url: '', opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', params[:market_id]), all_promt: 'All' %>
     </div>
   </div>
 </div>
 
-
-<div class="span4">
-  <%= render 'application/join_now' %>
-
+<div class="association-about-block mt-5 mb-3">
   <div class="row-fluid">
-    <div class="holder pad10 clearfix">
-      <h5>About <%= @trade_association.name %> BIA</h5>
-      <div class="pull-left clearfix" style="margin-right: 10px; margin-bottom: 10px;">
-        <%= image_tag(@trade_association.logo.url(:display), class: '') %>
-      </div>        
-      <%= @trade_association.description.html_safe %>
-      <div class="" style="margin-top: 10px; clear: both;">
-        <%= link_to "Visit us online!", @trade_association.website_url, class: 'btn btn-success input-block-level' if @trade_association.website_url.present? %>
+    <div class="holder px-3 ">
+      <div class="row">
+        <div class="col-md-6 col-12 logo border border-dark rounded">
+          <%= image_tag(@trade_association.logo.url(:display), class: '') %>
+        </div>
+        <div class="col-md-6 col-12 al">
+          <div class="about d-flex flex-column justify-content-between">
+            <h5>About <%= @trade_association.name %> BIA</h5>
+            <%= @trade_association.description.html_safe %>
+            <div class="w-50">
+              <%= link_to "Visit us online!", @trade_association.website_url, class: 'btn btn-success input-block-level' if @trade_association.website_url.present? %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
-</div>
 </div>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <!-- Shopping District Slider -->
+      <div class="district-slider">
+        <div class="slider-heading">
+          <h3> Featured Businesses </h3>
+        </div>
+        <div class="inner-slider">
+          <div class="items">
+            <% @trade_association.locations.order("RAND()").each do |location| %>
+              <div>
+                <div class="district-slider-img">
+                  <%= link_to(image_tag(get_location_image_url location), location) %>
+                </div>
+                <p>
+                  <%= link_to location.name, location %>
+                </p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <!-- End -->
+    </div>
+  </div>
+</div>
 
-<% if user_signed_in? and current_user.has_role? :admin %>
-<%############# status update ###############%>
+<%
 
-<%= render 'status_update_form' %>
-
-<% end %>
+%>
+<br>
+ <%= render "multi_columns" %>
+<br>

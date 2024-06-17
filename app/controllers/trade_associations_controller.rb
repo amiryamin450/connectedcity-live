@@ -1,4 +1,6 @@
 class TradeAssociationsController < ApplicationController
+  layout "application_v_2"
+
   # before_action :find_trade_association, only: [:show]
   load_and_authorize_resource find_by: :slug
 
@@ -17,6 +19,8 @@ class TradeAssociationsController < ApplicationController
   # GET /trade_associations/1.json
   def show
     @status_updates = @trade_association.status_updates + @trade_association.location_status_updates
+    @events = @trade_association.location_events
+
     respond_to do |format|
       format.html
       format.json { render json: @trade_association }

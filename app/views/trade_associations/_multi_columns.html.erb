@@ -1,0 +1,124 @@
+<div class="landing-page-three-column-section d-md-block d-none">
+  <div class="multi" id="multiple_items">
+    <div class="colla">
+      <h3 class="sticky-heading">Market Updates</h3><br>
+      <% if @status_updates.size > 0 %>
+          <% @status_updates.each do |status_update| %>
+            <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
+          <% end %>
+      <% else %>
+        <div class="alert">No Market Updates found.</div>
+      <% end %>
+    </div>
+    <div class="colla">
+      <h3 class="sticky-heading">Events</h3><br>
+      <% if @events.size > 0 %>
+          <% @events.each do |event| %>
+            <%= render 'layouts/application_v_2/event', event: event %>
+          <% end %>
+      <% else %>
+        <div class="alert">No Events found.</div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="category-body-section p-2 pt-4 d-block d-md-none">
+  <div class="category-sidebar"><div class="SideBar-tabs">
+    <ul class="nav nav-tabs justify-content-start" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#Update">Updates</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#Events">Events</a>
+      </li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div id="Update" class="container tab-pane active">
+        <br>
+        <h3>Updates</h3><br>
+        <% if @status_updates.size > 0 %>
+            <% @status_updates.each do |status_update| %>
+              <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
+            <% end %>
+        <% else %>
+          <div class="alert">No Market Updates found.</div>
+        <% end %>
+      </div>
+      <div id="Events" class="container tab-pane">
+        <br>
+        <h3>Events</h3><br>
+        <% if @events.size > 0 %>
+            <% @events.each do |event| %>
+              <%= render 'layouts/application_v_2/event', event: event %>
+            <% end %>
+        <% else %>
+          <div class="alert">No Events</div>
+        <% end %>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<% if @status_updates.size > 0 %>
+  <% @status_updates.each do |status_update| %>
+    <%= render 'status_updates/modal_content_latest', status_update: status_update %>
+  <% end %>
+<% end %>
+<% if @events.size > 0 %>
+  <% @events.each do |event| %>
+    <%= render 'status_updates/modal_event_latest', event: event %>
+  <% end %>
+<% end %>
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.multi').slick({
+      infinite: true,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      arrows: true,
+      speed: 300,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            infinite: true
+          }
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            infinite: true
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            infinite: true
+          }
+        }
+      ]
+    });
+  });
+</script>
+
+<script>
+  $(document).ready(function() {
+    $(".modal .close").click(function(){
+      $('.modal-backdrop.in').remove();
+    })
+  });
+</script>
