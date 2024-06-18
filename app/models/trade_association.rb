@@ -58,4 +58,23 @@ class TradeAssociation < ApplicationRecord
   def vertical_market_categories
     nil
   end
+
+  def vertical_market_location_ids
+    vertical_market_slugs = [
+      "business-associations",
+      "trade-associations",
+      "cultural-organizations",
+      "community-organizations"
+    ]
+
+    self.locations.joins(:vertical_markets).where("vertical_markets.slug IN (?) ", vertical_market_slugs).pluck(:id)
+  end
+
+  def vertical_market_status_updates
+    status_updates = StatusUpdate.where(statusable_id: vertical_market_location_ids).order("created_at DESC")
+  end
+
+  def vertical_market_events
+    status_updates = Event.where(location_id: vertical_market_location_ids).order("created_at DESC")
+  end
 end

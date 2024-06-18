@@ -43,6 +43,10 @@ class VerticalMarketsController < ApplicationController
     market_param = params[:market] === 'news' ? 'civic-news' : params[:market]
     @vertical_market = VerticalMarket.includes(vertical_market_categories: :locations).friendly.find(market_param)
 
+    if params[:sub_market] && @vertical_market.children&.find_by_slug(params[:sub_market]).present?
+      @vertical_market = @vertical_market.children&.find_by_slug(params[:sub_market])
+    end
+
     # init_category_values
     if params[:market] === 'news'
       districts
@@ -63,7 +67,7 @@ class VerticalMarketsController < ApplicationController
         if params[:search].present?
           media_filter = i.media_attachments.where("media_attachments.title LIKE ? OR media_attachments.description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if i.media_attachments.size > 0
           events_filter = i.events.where("events.name LIKE ? OR events.description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if i.events.size >0
-          news_filter = i.news_articles.where("news_articles.title LIKE ? OR news_articles.content LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if i.news_articles.size >0 
+          news_filter = i.news_articles.where("news_articles.title LIKE ? OR news_articles.content LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if i.news_articles.size >0
           status_update_filter = i.status_updates.where("status_updates.title LIKE ? OR status_updates.content LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if i.status_updates.size >0
         end
         if params[:market_id].present?
@@ -72,7 +76,7 @@ class VerticalMarketsController < ApplicationController
           news_filter = i.news_articles.where(category_id: params[:market_id]) if i.news_articles.size >0
           status_update_filter = i.status_updates.where(category_id: params[:market_id]) if i.status_updates.size >0
         end
-        
+
         media << media_filter if media_filter.size > 0
         events_temp << events_filter if events_filter.size > 0
         news_temp << news_filter if news_filter.size > 0
@@ -156,7 +160,7 @@ class VerticalMarketsController < ApplicationController
         else
           @commercial_listings = RealEstateListing.where property_type: 'Commercial',city_id: @city.id
         end
-       
+
         @commercial_listings = @commercial_listings.where district_id: @district.id if @district
         @commercial_listings = @commercial_listings.where neighborhood_id: @neighborhood.id if @neighborhood
         @commercial_listings = @commercial_listings.order :style
@@ -243,7 +247,7 @@ class VerticalMarketsController < ApplicationController
     #@vertical_markets = VerticalMarket.arrange_as_array(:order => 'name', @vertical_market.possible_parents)
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @vertical_market }
     end
   end
@@ -359,7 +363,7 @@ class VerticalMarketsController < ApplicationController
     end
   end
 
-  def sub_neighborhoods 
+  def sub_neighborhoods
     # because city is hardcoded everywhere already...
     if params[:neighborhood_slug].present?
       nei = Neighborhood.find_by_slug(params[:neighborhood_slug])
@@ -398,7 +402,7 @@ class VerticalMarketsController < ApplicationController
       # [164, 174, 114]
       other_results = Location.joins(:vertical_market_categories).where(vertical_market_categories: { vertical_market_id: [164, 174, 114]}).where(id: locations.pluck(:id))
     end
-    
+
     result_locations += other_results
     @locations_of_civic_news ||= result_locations
   end

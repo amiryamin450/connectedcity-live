@@ -105,37 +105,16 @@ r = 0
                   </div>
                   <div class="row card-row location-row-holder show">
                     <% @trade_associations.each do |association| %>
-                      <% association.locations.each do |location| %>
-                        <div class="col-md-2">
-                          <div class="category-body-card">
-
-                            <div class="img">
-                              <%= link_to(image_tag(get_location_image_url(location)), location)%>
-                            </div>
-
-                            <div class="title">
-                              <h4><%= link_to location.name, location %></h4>
-                            </div>
-                            <hr>
-
-                            <div class="contact-details">
-                              <span>
-                                <i class="fal fa-map-marker-alt"></i>
-                                <%= "#{location&.address} #{location&.city&.name } #{location&.province&.abbr} #{location&.postal_code}".html_safe %>
-                              </span>
-                              <br>
-                              <span>
-                                <i class="far fa-phone-alt"></i>
-                                <%= location.phone %>
-                              </span>
-                            </div>
-
-                            <div id="favorite-<%= location.id %>" class="button favorite">
-                              <%#= render 'favorites/like_button_v2', location_id: location.id if user_signed_in? %>
-                            </div>
+                      <div class="col-md-2">
+                        <div class="category-body-card">
+                          <div class="img">
+                            <%= link_to(image_tag(association.logo.url(:list)), association) %>
+                          </div>
+                          <div class="title mb-3">
+                            <h4><%= link_to association.name, association %></h4>
                           </div>
                         </div>
-                      <% end %>
+                      </div>
                     <%end%>
                   </div>
                 <% end %>

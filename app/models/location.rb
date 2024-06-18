@@ -1,6 +1,9 @@
 class Location < ApplicationRecord
   extend FriendlyId
 
+  scope :profile, -> { where(is_profile: true) }
+  scope :business, -> { where(is_profile: false) }
+
   acts_as_messageable
 
   before_validation :clear_images?

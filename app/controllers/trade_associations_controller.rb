@@ -18,8 +18,8 @@ class TradeAssociationsController < ApplicationController
   # GET /trade_associations/1
   # GET /trade_associations/1.json
   def show
-    @status_updates = @trade_association.status_updates + @trade_association.location_status_updates
-    @events = @trade_association.location_events
+    @status_updates = @trade_association.status_updates + @trade_association.vertical_market_status_updates
+    @events = @trade_association.vertical_market_events
 
     respond_to do |format|
       format.html

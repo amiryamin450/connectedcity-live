@@ -13,7 +13,7 @@
     <small>
       <%= link_to 'edit', edit_trade_association_path(@trade_association) %>
     </small>
-    <% end -%>  
+    <% end -%>
   </h1>
 </div>
 
@@ -56,7 +56,7 @@
         </div>
         <div class="inner-slider">
           <div class="items">
-            <% @trade_association.locations.order("RAND()").each do |location| %>
+            <% @trade_association.locations.business.order("RAND()").each do |location| %>
               <div>
                 <div class="district-slider-img">
                   <%= link_to(image_tag(get_location_image_url location), location) %>
