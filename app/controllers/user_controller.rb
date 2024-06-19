@@ -163,6 +163,8 @@ class UserController < ApplicationController
     @blog_entries = BlogEntry.where(bloggable_id: filter_ids).order("created_at DESC")
     @coupons = Coupon.where(location_id: filter_ids).order("created_at DESC")
 
+    @locations = Location.where(id: filter_ids)
+
     location_ids = Favorite.where(user_id: params[:id]).pluck(:location_id).compact
     @friend_locations = Location.unscoped.joins(:vertical_market_categories).where("locations.id IN (?)", location_ids).where("vertical_market_categories.name = ?", "ConnectedCitizen")
 

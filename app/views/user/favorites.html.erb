@@ -1,48 +1,3 @@
-<% if false %>
-<%
-r = 0
- # categories = @facets['categories']
- # neighborhoods = @facets['neighborhoods']
- # brands = @facets['brands']
- # has_filters = (request.parameters[:category].present? or request.parameters[:neighborhood].present? or request.parameters[:brand].present?) ? true : false
- markers = []
- %>
-
-
-
-
-
-
-<div class="row-fluid">
-  <div class="span4">
-    <div id="map-holder">
-      <div id="map"></div>
-    </div>
-    <div id="status_updates"><%= render partial: 'status_updates' %></div>
-  </div>
-
-  <div class="span8">
-    <h1><%= "#{current_user.name}'s Newsfeeds" %></h1>
-
-  </div>
-</div>
-
-
-
-
-<%= javascript_tag do %>
-  window.locations = <%= raw map_locations_data(markers) %>;
-<% end %>
-<% else %>
-<% @current_market =
-    if @sub_market
-      @sub_market.name
-    elsif @vertical_market.respond_to?(:name)
-      @vertical_market.name
-    else
-      @vertical_market
-    end
-%>
 <%
   @neighbourhood_param = params[:neighborhood] || params[:neighborhood_slug]
   @neighbourhood_slug = params[:neighborhood]  || params[:neighborhood_slug]
@@ -65,113 +20,115 @@ r = 0
   <% @url = city_search_path(params[:city_slug])%>
 <% elsif params[:municipality_slug] %>
   <% @url = municipality_search_path(params[:municipality_slug])%>
-<%else%>
+<% else %>
   <% @url = "#{@base_path}search"%>
 <% end %>
 <div class="category-body-section">
-    <div class="container-fluid">
-      <div class="row">
-          <div class="col-md-12">
-            <!--  Category -->
-            <div class="page-title pt-3">
-              <h3><%= "#{current_user.name}'s Newsfeeds" %></h3>
-            </div>
-            <!-- End -->
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+          <!--  Category -->
+          <div class="page-title pt-3">
+            <h3><%= "#{current_user.name}'s Newsfeeds" %></h3>
           </div>
-      </div>
-      <div class="row">
-          <div class="col-md-4">
-            <div class="category-sidebar">
-                <div class="map-section">
-                  <div id="map"></div>
-                </div>
-                <div class="SideBar-tabs">
-                  <!-- municipal-services 114-->
-                    <%= render partial: 'status_updates' %>
-                </div>
-            </div>
+          <!-- End -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+          <div class="category-sidebar">
+              <div class="map-section">
+                <div id="map"></div>
+              </div>
+              <div class="SideBar-tabs">
+                <!-- municipal-services 114-->
+                  <%= render partial: 'status_updates' %>
+              </div>
           </div>
-          <!-- SideBar End -->
-          <div class="col-md-8">
-            <div class="category-body">
-              <br>
-              <%= render 'share/search_box', url: @url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'all categories', hide_select_box: true %>
-              <div class="vertical-market-categories">
-                <% if @trade_associations.present? %>
+        </div>
+        <!-- SideBar End -->
+        <div class="col-md-8">
+          <div class="category-body">
+            <br>
+            <%= render 'share/search_box', url: @url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'all categories', hide_select_box: true %>
+            <div class="vertical-market-categories">
+              <% if @trade_associations.present? %>
+                <div class="card-label-one">
+                  <div class="title heading">
+                    <h4>Associations</h4>
+                  </div>
+                </div>
+                <div class="row card-row location-row-holder show">
+                  <% @trade_associations.each do |association| %>
+                    <div class="col-md-2">
+                      <div class="category-body-card">
+                        <div class="img">
+                          <%= link_to(image_tag(association.logo.url(:list)), association) %>
+                        </div>
+                        <div class="title mb-3">
+                          <h4><%= link_to association.name, association %></h4>
+                        </div>
+                      </div>
+                    </div>
+                  <%end%>
+                </div>
+              <% end %>
+              <% @vertical_markets.each do |vm| %>
+                <% if fav_count_num(vm) > 0 %>
                   <div class="card-label-one">
                     <div class="title heading">
-                      <h4>Associations</h4>
-                    </div>
-                  </div>
-                  <div class="row card-row location-row-holder show">
-                    <% @trade_associations.each do |association| %>
-                      <div class="col-md-2">
-                        <div class="category-body-card">
-                          <div class="img">
-                            <%= link_to(image_tag(association.logo.url(:list)), association) %>
-                          </div>
-                          <div class="title mb-3">
-                            <h4><%= link_to association.name, association %></h4>
-                          </div>
-                        </div>
-                      </div>
-                    <%end%>
-                  </div>
-                <% end %>
-                <% @vertical_markets.each do |vm| %>
-                  <% if fav_count_num(vm) > 0 %>
-                    <div class="card-label-one">
-                      <div class="title heading">
-                        <h4><%= vm.name %></h4>
-                        <% if !params[:name].present? %>
-                          &nbsp;&nbsp;
-                          <%= link_to 'See More +', '#', class: 'see-more', data: { element: vm.id } %>
-                          &nbsp;&nbsp;
-                          <%= link_to ' See All', city_guide_path('vancouver', vm), class: 'see-all' %>
-                        <% end %>
-                      </div>
-                    </div>
-                    <div class="row card-row location-row-holder <%= params[:name].present? ? 'show' : '' %>" id="cat-<%= vm.id %>">
-                      <% fav_categories(vm).each  do |f| %>
-                        <div class="col-md-2">
-                          <div class="category-body-card">
-
-                            <div class="img">
-                              <%= link_to(image_tag(get_location_image_url(f.location)), f.location)%>
-                            </div>
-
-                            <div class="title">
-                              <h4><%= link_to f.location.name, f.location %></h4>
-                            </div>
-                            <hr>
-
-                            <div class="contact-details">
-                              <span>
-                                <i class="fal fa-map-marker-alt"></i>
-                                <%= "#{f.location.address} #{f.location.city&.name if f.location.city.present? } #{f.location.province&.abbr} #{f.location.postal_code}".html_safe %>
-                              </span>
-                              <br>
-                              <span>
-                                <i class="far fa-phone-alt"></i>
-                                <%= f.location.phone %>
-                              </span>
-                            </div>
-
-                            <div id="favorite-<%= f.location.id %>" class="button favorite favorite-<%= f.location.id %>">
-                              <%= render 'favorites/like_button_v2', location_id: f.location.id if user_signed_in? %>
-                            </div>
-                          </div>
-                        </div>
+                      <h4><%= vm.name %></h4>
+                      <% if !params[:name].present? %>
+                        &nbsp;&nbsp;
+                        <%= link_to 'See More +', '#', class: 'see-more', data: { element: vm.id } %>
+                        &nbsp;&nbsp;
+                        <%= link_to ' See All', city_guide_path('vancouver', vm), class: 'see-all' %>
                       <% end %>
                     </div>
-                  <% end %>
+                  </div>
+                  <div class="row card-row location-row-holder <%= params[:name].present? ? 'show' : '' %>" id="cat-<%= vm.id %>">
+                    <% fav_categories(vm).each  do |f| %>
+                      <div class="col-md-2">
+                        <div class="category-body-card">
+
+                          <div class="img">
+                            <%= link_to(image_tag(get_location_image_url(f.location)), f.location)%>
+                          </div>
+
+                          <div class="title">
+                            <h4><%= link_to f.location.name, f.location %></h4>
+                          </div>
+                          <hr>
+
+                          <div class="contact-details">
+                            <span>
+                              <i class="fal fa-map-marker-alt"></i>
+                              <%= "#{f.location.address} #{f.location.city&.name if f.location.city.present? } #{f.location.province&.abbr} #{f.location.postal_code}".html_safe %>
+                            </span>
+                            <br>
+                            <span>
+                              <i class="far fa-phone-alt"></i>
+                              <%= f.location.phone %>
+                            </span>
+                          </div>
+
+                          <div id="favorite-<%= f.location.id %>" class="button favorite favorite-<%= f.location.id %>">
+                            <%= render 'favorites/like_button_v2', location_id: f.location.id if user_signed_in? %>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
                 <% end %>
-              </div>
+              <% end %>
             </div>
           </div>
-      </div>
+        </div>
     </div>
+  </div>
 </div>
 <br>
 
+<%= javascript_tag do %>
+  window.locations = <%= raw map_locations_data(@locations) %>;
 <% end %>
