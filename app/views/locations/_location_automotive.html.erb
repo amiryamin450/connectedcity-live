@@ -13,7 +13,7 @@
         <% if listing %>
           <div class="col-md-3">
             <div class="business-body-card">
-              <div class="img">
+              <div class="img mx-auto my-3">
                 <%= link_to(image_tag(listing.main_image.url(:list)), [@location, listing]) %>
               </div>
               <div class="title">
@@ -28,7 +28,6 @@
       <% end %>
     <% end %>
   </div>
-  <%= paginate @products, param_name: 'product_page' %>
 <% else %>
   <div class="alert alert-dark" role="alert">
     No Auto Listings found.
