@@ -27,20 +27,14 @@
 }
 
 .association-about-block {
-  margin-inline: 30px;
-
   .logo {
-    width: 150px;
-    height: 150px;
+    min-height: 150px;
+    min-width: 150px;
 
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-  }
-
-  .about {
-    padding-left: 35px;
   }
 }

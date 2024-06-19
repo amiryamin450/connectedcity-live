@@ -7,7 +7,7 @@
   </div>
 </div><br>
 
-<div class="row-fluid">
+<div class="container-fluid mb-4">
   <h1><%= @trade_association.name %>
     <% if user_signed_in? and current_user.has_role? :admin %>
     <small>
@@ -17,28 +17,33 @@
   </h1>
 </div>
 
-<div class="landing-page-heading-filter association-page mt-3 mb-5">
-  <div class="row px-3">
-    <div class="col-12">
-      <%= render 'share/search_box', url: '', opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', params[:market_id]), all_promt: 'All' %>
-    </div>
-  </div>
-</div>
-
-<div class="association-about-block mt-5 mb-3">
-  <div class="row-fluid">
-    <div class="holder px-3 ">
-      <div class="row">
-        <div class="col-md-6 col-12 logo border border-dark rounded">
-          <%= image_tag(@trade_association.logo.url(:display), class: '') %>
-        </div>
-        <div class="col-md-6 col-12 al">
-          <div class="about d-flex flex-column justify-content-between">
-            <h5>About <%= @trade_association.name %> BIA</h5>
-            <%= @trade_association.description.html_safe %>
-            <div class="w-50">
-              <%= link_to "Visit us online!", @trade_association.website_url, class: 'btn btn-success input-block-level' if @trade_association.website_url.present? %>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 col-12">
+      <div class="association-about-block">
+        <div class="holder">
+          <div class="d-flex flex-row">
+            <div class="logo border border-dark rounded m-2">
+              <%= image_tag(@trade_association.logo.url(:display), class: 'p-2') %>
             </div>
+            <div class="ps-3">
+              <div class="about d-flex flex-column">
+                <h5>About <%= @trade_association.name %></h5>
+                <div><%= @trade_association.description.html_safe %></div>
+                <div class="mt-3">
+                  <%= link_to "Visit us online!", @trade_association.website_url, class: 'btn btn-success' if @trade_association.website_url.present? %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-12">
+      <div class="landing-page-heading-filter association-page my-3">
+        <div class="row px-3">
+          <div class="col-12">
+            <%= render 'share/search_box', url: '', opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', params[:market_id]), all_promt: 'All' %>
           </div>
         </div>
       </div>
@@ -51,7 +56,7 @@
     <div class="col-md-12">
       <!-- Shopping District Slider -->
       <div class="district-slider">
-        <div class="slider-heading">
+        <div class="slider-heading my-3">
           <h3> Featured Businesses </h3>
         </div>
         <div class="inner-slider">
@@ -78,5 +83,5 @@
 
 %>
 <br>
- <%= render "multi_columns" %>
+  <%= render "/layouts/application_v_2/multi_columns" %>
 <br>

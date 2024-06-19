@@ -71,10 +71,34 @@ class TradeAssociation < ApplicationRecord
   end
 
   def vertical_market_status_updates
-    status_updates = StatusUpdate.where(statusable_id: vertical_market_location_ids).order("created_at DESC")
+    StatusUpdate.where(statusable_id: vertical_market_location_ids).order("created_at DESC")
   end
 
   def vertical_market_events
-    status_updates = Event.where(location_id: vertical_market_location_ids).order("created_at DESC")
+    Event.where(location_id: vertical_market_location_ids).order("created_at DESC")
+  end
+
+  def vertical_market_media_attachments
+    MediaAttachment.where(attachable_id: vertical_market_location_ids).order("created_at DESC")
+  end
+
+  def vertical_market_news_articles
+    NewsArticle.where(newsable_id: vertical_market_location_ids).order("created_at DESC")
+  end
+
+  def vertical_market_services
+    Service.where(location_id: vertical_market_location_ids).order("created_at DESC")
+  end
+
+  def vertical_market_products
+    Product.where(location_id: vertical_market_location_ids).order("created_at DESC")
+  end
+
+  def vertical_market_blog_entries
+    BlogEntry.where(bloggable_id: vertical_market_location_ids).order("created_at DESC")
+  end
+
+  def vertical_market_coupons
+    Coupon.where(location_id: vertical_market_location_ids).order("created_at DESC")
   end
 end

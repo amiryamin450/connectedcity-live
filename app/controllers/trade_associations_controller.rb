@@ -20,6 +20,12 @@ class TradeAssociationsController < ApplicationController
   def show
     @status_updates = @trade_association.status_updates + @trade_association.vertical_market_status_updates
     @events = @trade_association.vertical_market_events
+    @news = @trade_association.vertical_market_news_articles
+    @media_attachments = @trade_association.vertical_market_media_attachments
+    @blog_entries = @trade_association.vertical_market_blog_entries
+    @products = @trade_association.vertical_market_products
+    @coupons = @trade_association.vertical_market_coupons
+    @services = @trade_association.vertical_market_services
 
     respond_to do |format|
       format.html

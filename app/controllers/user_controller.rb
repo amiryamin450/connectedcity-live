@@ -135,16 +135,13 @@ class UserController < ApplicationController
       slug = @user.name.presence || @user.email.presence
       location = Location.unscoped.find_by(slug: slug.parameterize) || @user.profile
       @trade_associations = location&.trade_associations
-      ids = []
+
       vertical_market_location_ids = []
       @trade_associations.each do |association|
-        ids << association.locations.business&.ids
         vertical_market_location_ids << association.vertical_market_location_ids
       end if @trade_associations.present?
-      filter_ids = ids.flatten.uniq
 
-      @status_updates = StatusUpdate.where(statusable_id: vertical_market_location_ids.flatten.uniq).order("created_at DESC")
-      @events = Event.where(location_id: vertical_market_location_ids.flatten.uniq).order("created_at DESC")
+      filter_ids = vertical_market_location_ids.flatten.uniq
     else
       vm_slugs = []
       @vertical_markets.each do |vm|
@@ -155,11 +152,10 @@ class UserController < ApplicationController
 
       favorites = Favorite.where(user_id: params[:id]).where(category: vm_slugs)
       filter_ids = favorites.pluck(:location_id)
-
-      @status_updates = StatusUpdate.where(statusable_id: filter_ids).order("created_at DESC")
-      @events = Event.where(location_id: filter_ids).order("created_at DESC")
     end
 
+    @status_updates = StatusUpdate.where(statusable_id: filter_ids).order("created_at DESC")
+    @events = Event.where(location_id: filter_ids).order("created_at DESC")
     @media_attachments = MediaAttachment.where(attachable_id: filter_ids).order("created_at DESC")
     @products = Product.where(location_id: filter_ids).order("created_at DESC")
     @services = Service.where(location_id: filter_ids).order("created_at DESC")
