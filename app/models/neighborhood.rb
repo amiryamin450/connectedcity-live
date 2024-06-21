@@ -3,7 +3,7 @@ class Neighborhood < ApplicationRecord
 
   self.primary_key = 'nid'
 
-  belongs_to :district
+  belongs_to :district, optional: true
   belongs_to :city, foreign_key: "placecode"
   has_many :locations_of_neighborhood, -> { where(is_profile: false) }, :class_name => "Location", foreign_key: 'neighborhood_id'
   has_many :city_news_articles
