@@ -1,7 +1,9 @@
 class AutomotiveListingsController < ApplicationController
-  before_action :set_location, only: [:index, :new]
-  load_resource :location
-  load_and_authorize_resource :automotive_listing, through: [:location]
+  before_action :set_location
+  before_action :automotive_listing, only: [:show, :edit, :update, :destroy]
+  # load_resource :location
+  # load_and_authorize_resource :automotive_listing, through: [:location]
+  layout "application_v_2"
 
   # GET /automotive_listings
   # GET /automotive_listings.json
@@ -17,7 +19,7 @@ class AutomotiveListingsController < ApplicationController
   # GET /automotive_listings/1
   # GET /automotive_listings/1.json
   def show
-   @vertical_market = @location.vertical_market_categories.first.vertical_market
+    @vertical_market = @location.vertical_market_categories.first.vertical_market
 
     add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
     add_breadcrumb @location.district.name, district_guide_path(@location.district) if @location.district
@@ -40,14 +42,13 @@ class AutomotiveListingsController < ApplicationController
     @automotive_listing = @location.automotive_listings.new
     @auto_makers = get_auto_makers
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @automotive_listing }
     end
   end
 
   # GET /automotive_listings/1/edit
   def edit
-    @automotive_listing = AutomotiveListing.find(params[:id])
     @auto_makers = get_auto_makers
     @selected_maker = @automotive_listing.make
   end
@@ -71,12 +72,11 @@ class AutomotiveListingsController < ApplicationController
   # PUT /automotive_listings/1
   # PUT /automotive_listings/1.json
   def update
-    @automotive_listing = AutomotiveListing.find(params[:id])
     @auto_makers = get_auto_makers
     @selected_maker = @automotive_listing.make
 
     respond_to do |format|
-      if @automotive_listing.update_attributes(automative_listing_params)
+      if @automotive_listing.update!(automative_listing_params)
         format.html { redirect_to [@location, @automotive_listing], notice: 'Automotive listing was successfully updated.' }
         format.json { head :no_content }
       else
@@ -89,7 +89,6 @@ class AutomotiveListingsController < ApplicationController
   # DELETE /automotive_listings/1
   # DELETE /automotive_listings/1.json
   def destroy
-    @automotive_listing = AutomotiveListing.find(params[:id])
     @automotive_listing.destroy
 
     respond_to do |format|
@@ -104,6 +103,10 @@ class AutomotiveListingsController < ApplicationController
     @location = Location.friendly.find(params[:location_id])
   end
 
+  def automotive_listing
+    @automotive_listing = AutomotiveListing.find(params[:id])
+  end
+
   def automative_listing_params
     params.require(:automotive_listing).permit(
       :accident, :body, :body_exterior, :convenience_features, :description,
@@ -111,7 +114,7 @@ class AutomotiveListingsController < ApplicationController
       :lighting_visibility_instruments, :local, :location_id, :make, :mileage, :model,
       :powertrain_specs, :price_cents, :saftey_and_security, :seats_and_trim, :specs,
       :status, :stock_number, :suspension_specs, :title, :transmission, :trim_level, :vehicle_type,
-      :year, :price, :main_image
+      :year, :price, :main_image, :sub_image, :accident_description
     )
   end
 

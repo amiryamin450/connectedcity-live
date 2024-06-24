@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_12_042059) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_20_084959) do
   create_table "active_admin_comments", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "resource_id", null: false
     t.string "resource_type", null: false
@@ -56,7 +56,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_12_042059) do
 
   create_table "automotive_listings", id: :integer, charset: "latin1", force: :cascade do |t|
     t.string "title"
-    t.string "status"
+    t.integer "status", default: 0
     t.string "vehicle_type"
     t.boolean "local"
     t.boolean "accident"
@@ -74,15 +74,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_12_042059) do
     t.integer "mileage"
     t.string "stock_number"
     t.text "description"
-    t.text "powertrain_specs"
-    t.text "suspension_specs"
-    t.text "specs"
-    t.text "entertainment_features"
-    t.text "seats_and_trim"
-    t.text "convenience_features"
-    t.text "body_exterior"
-    t.text "lighting_visibility_instruments"
-    t.text "saftey_and_security"
+    t.string "powertrain_specs"
+    t.string "suspension_specs"
+    t.string "specs"
+    t.string "entertainment_features"
+    t.string "seats_and_trim"
+    t.string "convenience_features"
+    t.string "body_exterior"
+    t.string "lighting_visibility_instruments"
+    t.string "saftey_and_security"
     t.integer "location_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
@@ -90,6 +90,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_12_042059) do
     t.string "main_image_content_type"
     t.integer "main_image_file_size"
     t.datetime "main_image_updated_at", precision: nil
+    t.string "accident_description"
+    t.string "sub_image_file_name"
+    t.string "sub_image_content_type"
+    t.bigint "sub_image_file_size"
+    t.datetime "sub_image_updated_at"
   end
 
   create_table "blog_entries", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
