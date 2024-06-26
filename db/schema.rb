@@ -55,16 +55,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_25_083141) do
   end
 
   create_table "automotive_listing_images", charset: "utf8", force: :cascade do |t|
-    t.integer "main_id"
-    t.integer "sub_id"
+    t.bigint "automotive_listing_id"
+    t.integer "image_type"
     t.string "image_file_name"
     t.string "image_content_type"
     t.bigint "image_file_size"
     t.datetime "image_updated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["main_id"], name: "index_automotive_listing_images_on_main_id"
-    t.index ["sub_id"], name: "index_automotive_listing_images_on_sub_id"
+    t.index ["automotive_listing_id"], name: "index_automotive_listing_images_on_automotive_listing_id"
   end
 
   create_table "automotive_listings", id: :integer, charset: "latin1", force: :cascade do |t|
@@ -1252,8 +1251,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_25_083141) do
     t.string "broadcast_id"
   end
 
-  add_foreign_key "automotive_listing_images", "automotive_listings", column: "main_id"
-  add_foreign_key "automotive_listing_images", "automotive_listings", column: "sub_id"
   add_foreign_key "line_items", "orders"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"

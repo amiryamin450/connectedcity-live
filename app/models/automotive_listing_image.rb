@@ -1,6 +1,7 @@
 class AutomotiveListingImage < ApplicationRecord
-  belongs_to :main, optional: true
-  belongs_to :sub, optional: true
+  belongs_to :automotive_listing
+
+  enum image_type: [:main, :sub]
 
   has_attached_file :image, styles: {thumb: "75x75#", list: "320", display: "750", :hp_list => "168x95" }, url: "/system/automotive_listing/image/:id/:style/:basename.:extension", path: ":rails_root/public/system/automotive_listing/image/:id/:style/:basename.:extension", default_url: "/default_images/automotive_listing/image/:style/missing.jpg"
 

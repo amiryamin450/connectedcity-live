@@ -1,8 +1,8 @@
 class AutomotiveListingsController < ApplicationController
   before_action :set_location
   before_action :automotive_listing, only: [:show, :edit, :update, :destroy]
-  # load_resource :location
-  # load_and_authorize_resource :automotive_listing, through: [:location]
+  load_resource :location
+  load_and_authorize_resource :automotive_listing, through: [:location]
   layout "application_v_2"
 
   # GET /automotive_listings
@@ -116,7 +116,7 @@ class AutomotiveListingsController < ApplicationController
       :lighting_visibility_instruments, :local, :location_id, :make, :mileage, :model,
       :powertrain_specs, :price_cents, :saftey_and_security, :seats_and_trim, :specs,
       :status, :stock_number, :suspension_specs, :title, :transmission, :trim_level, :vehicle_type,
-      :year, :price, :accident_description, main_images_attributes: [:image], sub_images_attributes: [:image]
+      :year, :price, :accident_description, main_images_attributes: [:image, :image_type], sub_images_attributes: [:image, :image_type]
     )
   end
 

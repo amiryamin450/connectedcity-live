@@ -25,8 +25,8 @@ class AutomotiveListing < ApplicationRecord
 
   monetize :price_cents
 
-  has_many :main_images, class_name: "AutomotiveListingImage", foreign_key: :main_id, dependent: :destroy
-  has_many :sub_images, class_name: "AutomotiveListingImage", foreign_key: :sub_id, dependent: :destroy
+  has_many :main_images, -> { where(image_type: 'main') }, class_name: "AutomotiveListingImage", dependent: :destroy
+  has_many :sub_images, -> { where(image_type: 'sub') }, class_name: "AutomotiveListingImage", dependent: :destroy
 
   accepts_nested_attributes_for :main_images, allow_destroy: true
   accepts_nested_attributes_for :sub_images, allow_destroy: true
