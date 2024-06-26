@@ -62,4 +62,8 @@ class AutomotiveListing < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     ["location"]
   end
+
+  def main_image
+    self.main_images.first&.image
+  end
 end

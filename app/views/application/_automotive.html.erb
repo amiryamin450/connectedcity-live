@@ -1,6 +1,10 @@
 <div class="location-teaser clearfix">
     <div style="height: 74px; text-align: center;">
-      <%= link_to image_tag(listing.main_image.url(:hp_list)), [listing.location, listing] %>
+      <% if listing.main_image.present? %>
+        <%= link_to(image_tag(listing.main_image.url(:hp_list)), [listing.location, listing])%>
+      <% else %>
+        <%= image_tag "http://placehold.it/168x95" %>
+      <% end -%>
     </div>
     <div style="margin-top: 5px; margin-bottom: 5px;"><%= humanized_money_with_symbol listing.price %></div>
     <div style="width: 168px; font-size: 12px; min-height:24px;"><strong><%= link_to [listing.year, listing.make, listing.model].reject(&:blank?).join(' '), [listing.location, listing] %></strong></div>
