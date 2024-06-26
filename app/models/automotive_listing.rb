@@ -2,6 +2,8 @@ class AutomotiveListing < ApplicationRecord
 
   belongs_to :location
 
+  enum status: [:new, :used], _prefix: :true
+
   searchable do
     text :title, boost: 5
     text :make, boost: 3
@@ -23,17 +25,19 @@ class AutomotiveListing < ApplicationRecord
 
   monetize :price_cents
 
-  has_attached_file :main_image, styles: {thumb: "75x75#", list: "320", display: "750", :hp_list => "168x95" },
-                    url: "/system/automotive_listing/main_image/:id/:style/:basename.:extension",
-                    path: ":rails_root/public/system/automotive_listing/main_image/:id/:style/:basename.:extension",
-                    default_url: "/default_images/automotive_listing/main_image/:style/missing.jpg"
+  has_many :main_images, -> { where(image_type: 'main') }, class_name: "AutomotiveListingImage", dependent: :destroy
+  has_many :sub_images, -> { where(image_type: 'sub') }, class_name: "AutomotiveListingImage", dependent: :destroy
 
-  validates :title, presence: true
-  validates :make, presence: true
-  validates :model, presence: true
-  validates :year, presence: true,  numericality: { only_integer: true, greater_than: 0 }
-  validates :price, presence: true,  numericality: true
-  validates :mileage, presence: true,  numericality: { only_integer: true, greater_than: 0 }
+  accepts_nested_attributes_for :main_images, allow_destroy: true
+  accepts_nested_attributes_for :sub_images, allow_destroy: true
+
+  validates :title, presence: true, length: { in: 1..100 }
+  validates :vehicle_type, length: { maximum: 150 }
+  validates :status, :make, :model, :trim_level, presence: true
+  validates :year, presence: true, numericality: { only_integer: true, greater_than: 1989 }
+  validates :price, presence: true, numericality: true
+  validates :mileage, presence: true, numericality: { only_integer: true, greater_than: 0 }
+  validates :exterior_color, :interior_color, :enigine, :drivetrain, :transmission, :body, :stock_number, :powertrain_specs, :suspension_specs, :specs, :entertainment_features, :seats_and_trim, :convenience_features, :body_exterior, :lighting_visibility_instruments, :saftey_and_security, length: { maximum: 100 }
 
   scope :available_in, ->(municipality_id = nil, city_id = nil, district_id = nil, neighborhood_id = nil, sub_neighborhood_id = nil) {
     if municipality_id.present?
@@ -57,5 +61,9 @@ class AutomotiveListing < ApplicationRecord
 
   def self.ransackable_associations(auth_object = nil)
     ["location"]
+  end
+
+  def main_image
+    self.main_images.first&.image
   end
 end

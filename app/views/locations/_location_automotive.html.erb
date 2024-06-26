@@ -14,7 +14,11 @@
           <div class="col-md-3">
             <div class="business-body-card">
               <div class="img mx-auto my-3">
-                <%= link_to(image_tag(listing.main_image.url(:list)), [@location, listing]) %>
+                <% if listing.main_image.present? %>
+                  <%= link_to(image_tag(listing.main_image.url(:list)), [listing.location, listing])%>
+                <% else %>
+                  <%= image_tag "http://placehold.it/320x320" %>
+                <% end -%>
               </div>
               <div class="title">
                   <h3><%= link_to listing.title, [@location, listing] %></h3>

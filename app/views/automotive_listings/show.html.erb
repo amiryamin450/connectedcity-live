@@ -1,159 +1,223 @@
-<h1><%= @automotive_listing.title %> <small><%= "#{@automotive_listing.year} #{@automotive_listing.make} #{@automotive_listing.model} - #{humanized_money_with_symbol @automotive_listing.price}" %></small></h1>
-<p id="notice"><%= notice %></p>
-
-<div class="row-fluid">
-  <div class="span4 thumbnail">
-    <%= image_tag @automotive_listing.main_image.url(:display), class: '' %>
-  </div>
-</div>
-<div class="row-fluid">
-  <div class="span4">
-    <div style="margin: 10px 0px;"></div>
-  </div>
-</div>
-
-
-
-<div class="row-fluid">
-  <div class="span4">
-
-    <div class="row-fluid">
-      <div class="well">
-        <div class="row-fluid">
-          <div class="span4">
-            <ul class="unstyled">
-              <li><strong>Status:</strong> <%= @automotive_listing.status %></li>
-              <li><strong>Year:</strong> <%= @automotive_listing.year %></li>
-              <li><strong>Make:</strong> <%= @automotive_listing.make %></li>
-              <li> <strong>Model:</strong> <%= @automotive_listing.model %></li>
-              <li><strong>Mileage:</strong> <%= @automotive_listing.mileage %></li>
-              <li><strong>Accident:</strong> <%= @automotive_listing.accident %></li>
-            </ul>
+<div class="container automotive-listing-details">
+  <h3><%= @automotive_listing.title %> - <%= humanized_money_with_symbol(@automotive_listing.price) %></h3>
+  <div class="row mt-4">
+    <div class="col-8">
+      <% if @images.size > 0 %>
+        <div>
+          <div id="carousel-automotive-listing" class="carousel carousel-dark slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <div class="multi">
+                <% @images.each_with_index do |image, index| %>
+                  <button type="button" data-bs-target="#carousel-automotive-listing" data-bs-slide-to="<%= index %>" class="colla <%= index == 0 ? 'active' : '' %>" aria-current="true" aria-label="Slide <%= index + 1 %>">
+                    <%= image_tag image.image.url, class:"d-block indicator-image"%>
+                  </button>
+                <% end %>
+              </div>
+            </div>
+            <div class="carousel-inner">
+              <% @images.each_with_index do |image, index| %>
+                <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
+                  <%= image_tag image.image.url, class:"d-block w-100"%>
+                </div>
+              <% end %>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-automotive-listing" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel-automotive-listing" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
           </div>
-          <div class="span4">
-            <ul class="unstyled">
-              <li><strong>Trim level:</strong> <%= @automotive_listing.trim_level %></li>
-              <li><strong>Exterior color:</strong> <%= @automotive_listing.exterior_color %></li>
-              <li><strong>Interior color:</strong> <%= @automotive_listing.interior_color %></li>
-              <li><strong>Enigine:</strong> <%= @automotive_listing.enigine %></li>
-              <li><strong>Vehicle type:</strong> <%= @automotive_listing.vehicle_type %></li>
-            </ul>
+        </div>
+      <% end %>
+      <div class="business-body-section">
+        <div class="business-info">
+          <div class="brand-contact-details pt-3">
+            <div class="row row-card-details d-flex" style="display:flex !important">
+              <div class="col-12 col-md-2 align-content-center" style="flex:unset !important">
+                <div class="brand-icon my-auto">
+                  <%= image_tag @location.logo.url %>
+                </div>
+              </div>
+              <div class="col-12 col-md-10">
+                <div class="row details-row">
+                  <div class="col-12">
+                    <div class="title">
+                      <h3><%= @location.name %></h3>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="d-flex">
+                      <i class="far fa-map-marker-alt"></i>
+                      <p class="mb-0"><%= @location.address %> &middot; <%= "#{@location&.city&.name} #{@location&.province&.abbr}, #{@location.postal_code}" %></p>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="d-flex">
+                      <i class="far fa-globe"></i>
+                      <p><%= link_to('Visit us online!', @location.website_url, target: :_blank) if @location.website_url.present? %></p>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="d-flex">
+                      <i class="far fa-envelope"></i>
+                      <p><%= mail_to @location.email if @location.email.present? %></p>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="d-flex">
+                      <i class="far fa-phone-alt"></i>
+                      <p><%= display_phone 'show_phone', 'phone', 'Phone', @location %></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="span4">
-            <ul class="unstyled">
-              <li><strong>Drivetrain:</strong> <%= @automotive_listing.drivetrain %></li>
-              <li><strong>Transmission:</strong> <%= @automotive_listing.transmission %></li>
-              <li><strong>Body:</strong> <%= @automotive_listing.body %></li>
-              <li><strong>Local:</strong> <%= @automotive_listing.local %></li>
-              <li><strong>Stock number:</strong> <%= @automotive_listing.stock_number %></li>
-            </ul>
+          <% if @location.operating_hours.where("starts_at IS NOT NULL OR closed = 1").exists? %>
+            <hr>
+            <div class="operating-hours mb-3">
+              <div class="title">
+                <h3>Operating Hours</h3>
+              </div>
+              <div class="timing">
+                <ul class="w-auto ps-3">
+                  <% @location.operating_hours.where("starts_at IS NOT NULL OR closed = 1").each do |operating_hour| %>
+                    <li class="my-0"><%= operating_hour.day.to_s.humanize %>
+                      <span>
+                        <% if operating_hour.open? %>
+                          <%= operating_hour.starts_at.strftime("%-I:%M %p") %> &ndash; <%= operating_hour.ends_at.strftime("%-I:%M %p") %>
+                        <% else %>
+                          Closed
+                        <% end %>
+                      <span>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          <% end %>
+          <div class="operating-hours">
+            <div class="btn" style="cursor: unset;">
+              <div class="row justify-content-end align-items-center">
+                <% if (user_signed_in? and current_user.has_role? :admin) or (user_signed_in? and current_user.can_manage_location? @location)  %>
+                  <div class="px-1 col-2 col-lg-2">
+                    <a class="btn btn-primary-outline px-1" style="background-color: #10375C; color: #fff;" href=<%="/business/#{@location.slug}/edit" %>>Edit</a>
+                  </div>
+                <% end %>
+                <% if user_signed_in? and !@location.user_owns?(current_user) and @location.vertical_markets.present? %>
+                  <div class="px-1 col-3 col-lg-3 favorite-<%= @location.id %>" id="favorite-<%= @location.id %>">
+                    <%= render 'favorites/like_button_v2', location_id: @location.id, vertical_market_slug: @location.vertical_markets.first.slug %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <% if @automotive_listing.description.present? %>
+            <hr>
+            <div class="description">
+              <h4>Description</h4>
+              <p class="short-description mt-0"><%= truncate_html(@automotive_listing.description&.html_safe, length: 80) %></p>
+              <div class="collapse" id="textCollapse1">
+                <%= @automotive_listing.description&.html_safe %>
+              </div>
+              <a class="text-dark small expand-text" data-bs-toggle="collapse" href="#textCollapse1" role="button" aria-expanded="false" aria-controls="textCollapse" onclick="hideShortDescription('.description')">
+                View more
+              </a>
+            </div>
+          <% end %>
+          <hr>
+          <div class="row">
+            <div class="col-6">
+              <ul class="unstyled">
+                <li><strong>Powertrain specs:</strong> <%= @automotive_listing.powertrain_specs %></li>
+                <li><strong>Suspension specs:</strong> <%= @automotive_listing.suspension_specs %></li>
+                <li><strong>Specs:</strong> <%= @automotive_listing.specs %></li>
+                <li><strong>Entertainment features:</strong> <%= @automotive_listing.entertainment_features %></li>
+              </ul>
+            </div>
+            <div class="col-6">
+              <ul class="unstyled">
+                <li><strong>Seats and trim:</strong> <%= @automotive_listing.seats_and_trim %></li>
+                <li><strong>Convenience features:</strong> <%= @automotive_listing.convenience_features %></li>
+                <li><strong>Body exterior:</strong> <%= @automotive_listing.body_exterior %></li>
+                <li><strong>Lighting visibility instruments:</strong> <%= @automotive_listing.lighting_visibility_instruments %></li>
+                <li><strong>Saftey and security:</strong> <%= @automotive_listing.saftey_and_security %></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="row-fluid">
-      <div class="well">
-        <h6>Description</h6>
-        <%= @automotive_listing.description.html_safe %>
+    <div class="col-4 ps-3">
+      <ul class="unstyled">
+        <li><strong>Status:</strong> <%= @automotive_listing.status %></li>
+        <li><strong>Year:</strong> <%= @automotive_listing.year %></li>
+        <li><strong>Make:</strong> <%= @automotive_listing.make %></li>
+        <li><strong>Model:</strong> <%= @automotive_listing.model %></li>
+        <li><strong>Mileage:</strong> <%= @automotive_listing.mileage %></li>
+        <li><strong>Accident:</strong> <%= @automotive_listing.accident %></li>
+        <li><strong>Trim level:</strong> <%= @automotive_listing.trim_level %></li>
+        <li><strong>Exterior color:</strong> <%= @automotive_listing.exterior_color %></li>
+        <li><strong>Interior color:</strong> <%= @automotive_listing.interior_color %></li>
+        <li><strong>Enigine:</strong> <%= @automotive_listing.enigine %></li>
+        <li><strong>Vehicle type:</strong> <%= @automotive_listing.vehicle_type %></li>
+        <li><strong>Drivetrain:</strong> <%= @automotive_listing.drivetrain %></li>
+        <li><strong>Transmission:</strong> <%= @automotive_listing.transmission %></li>
+        <li><strong>Body:</strong> <%= @automotive_listing.body %></li>
+        <li><strong>Stock number:</strong> <%= @automotive_listing.stock_number %></li>
+      </ul>
+      <div class="map-section my-5 d-none d-md-block">
+        <div id="map" class="clearfix location-profile-map" style="height: 240px;" data-coordinates=<%= raw @location.geo_location.to_json() %>></div>
       </div>
-    </div>
-
-    <div class="row-fluid">
-      <div class="well">
-        <div class="row-fluid">
-          <div class="span6">
-            <h6>Powertrain specs</h6>
-            <ul class="unstyled">
-              <% @automotive_listing.powertrain_specs.each_line do |item| %>
-              <li><%= item %></li>
-              <% end %>
-            </ul>
-          </div>
-          <div class="span6">
-            <h6>Suspension specs</h6>
-            <ul class="unstyled">
-              <% @automotive_listing.suspension_specs.each_line do |item| %>
-              <li><%= item %></li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
-        <div class="row-fluid">
-          <div class="span6">
-            <h6>Specs</h6>
-            <%= @automotive_listing.specs %>
-            <ul class="unstyled">
-              <% @automotive_listing.specs.each_line do |item| %>
-              <li><%= item %></li>
-              <% end %>
-            </ul>
-          </div>
-          <div class="span6">
-            <h6>Entertainment features</h6>
-           <ul class="unstyled">
-            <% @automotive_listing.entertainment_features.each_line do |item| %>
-            <li><%= item %></li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
-      <div class="row-fluid">
-        <div class="span6">
-          <h6>Seats and trim</h6>
-          <ul class="unstyled">
-            <% @automotive_listing.seats_and_trim.each_line do |item| %>
-            <li><%= item %></li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="span6">
-          <h6>Convenience features</h6>
-          <ul class="unstyled">
-            <% @automotive_listing.convenience_features.each_line do |item| %>
-            <li><%= item %></li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
-      <div class="row-fluid">
-        <div class="span6">
-          <h6>Body exterior</h6>
-          <ul class="unstyled">
-            <% @automotive_listing.body_exterior.each_line do |item| %>
-            <li><%= item %></li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="span6">
-          <h6>Lighting visibility instruments</h6>
-
-          <ul class="unstyled">
-            <% @automotive_listing.lighting_visibility_instruments.each_line do |item| %>
-            <li><%= item %></li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
-      <div class="row-fluid">
-        <div class="span6">
-          <h6>Saftey and security</h6>
-
-          <ul class="unstyled">
-            <% @automotive_listing.saftey_and_security.each_line do |item| %>
-            <li><%= item %></li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="span6"></div>
-      </div>
-
     </div>
   </div>
-
-
-</div>
 </div>
 
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.multi').slick({
+      infinite: true,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      arrows: true,
+      speed: 300,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            infinite: true
+          }
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            infinite: true
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            infinite: true
+          }
+        }
+      ]
+    });
+  });
 
+  function hideShortDescription(container) {
+    $(container + ' .short-description').css('display', $(container + ' .short-description').css('display') === 'none' ? 'block' : 'none');
+    $(container + ' .expand-text').text($(container + ' .short-description').css('display') === 'none' ? 'View less' : 'View more');
+  }
 
+  window.locations = <%= raw map_locations_data([@location]) %>;
+</script>
