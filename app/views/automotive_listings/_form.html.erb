@@ -1,5 +1,5 @@
 <%= simple_form_for([@location, @automotive_listing],
-  :html => { :multipart => true, class: 'form-horizontal'},
+  :html => { :multipart => true, class: 'form-horizontal automotive-listing-form'},
     wrapper: :horizontal_form,
 ) do |f| %>
   <%= f.error_notification %>
@@ -35,8 +35,44 @@
     <%= f.input :body_exterior %>
     <%= f.input :lighting_visibility_instruments %>
     <%= f.input :saftey_and_security %>
-    <%= f.input :main_image, as: :logo_preview, input_html: {class: 'form-control file'} %>
-    <%= f.input :sub_image, as: :logo_preview, input_html: {class: 'form-control file'} %>
+    <% if @automotive_listing.main_images.present? %>
+      <div class="row preview-image">
+        <div class="col-sm-9 offset-sm-3">
+          <% @automotive_listing.main_images.each do |image| %>
+            <%= image_tag image.image.url(:thumb) %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <%= f.fields_for :main_images, @automotive_listing.main_images.build do |builder| %>
+      <div id="main-images">
+        <%= builder.input :image, as: :logo_preview, wrapper: :horizontal_file, label: "Main Images"%>
+      </div>
+      <div class="row add-more-images">
+        <div class="col-sm-9 offset-sm-3">
+          <button class="btn btn-sm btn-outline-primary" id="add-main-image">Add More Image</button>
+        </div>
+      </div>
+    <% end %>
+    <% if @automotive_listing.sub_images.present? %>
+      <div class="row preview-image">
+        <div class="col-sm-9 offset-sm-3">
+          <% @automotive_listing.sub_images.each do |image| %>
+            <%= image_tag image.image.url(:thumb) %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <%= f.fields_for :sub_images, @automotive_listing.sub_images.build do |builder| %>
+      <div id="sub-images">
+        <%= builder.input :image, as: :logo_preview, wrapper: :horizontal_file, label: "Sub Images"%>
+      </div>
+      <div class="row add-more-images">
+        <div class="col-sm-9 offset-sm-3">
+          <button class="btn btn-sm btn-outline-primary" id="add-sub-image">Add More Image</button>
+        </div>
+      </div>
+    <% end %>
   </div>
 
   <div class="form-actions">
@@ -63,6 +99,28 @@
     } else {
       $('#accident-description').addClass('hidden');
       $('#automotive_listing_accident_description').val('');
+    }
+  })
+
+  $('#add-main-image').click(function(e) {
+    e.preventDefault();
+    var count = $("#main-images input").length;
+
+    $('#main-images > div').append(`<div class="col-sm-9 offset-sm-3 mb-2"><input class="logo_preview optional" type="file" name="automotive_listing[main_images_attributes][${count}][image]" id="automotive_listing_main_images_attributes_0_image"></div>`)
+
+    if (count > 3) {
+      $('#add-main-image').addClass('hidden')
+    }
+  })
+
+  $('#add-sub-image').click(function(e) {
+    e.preventDefault();
+    var count = $("#sub-images input").length;
+
+    $('#sub-images > div').append(`<div class="col-sm-9 offset-sm-3 mb-2"><input class="logo_preview optional" type="file" name="automotive_listing[sub_images_attributes][${count}][image]" id="automotive_listing_sub_images_attributes_0_image"></div>`)
+
+    if (count > 18) {
+      $('#add-sub-image').addClass('hidden')
     }
   })
 </script>

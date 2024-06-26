@@ -30,6 +30,8 @@ class AutomotiveListingsController < ApplicationController
     add_breadcrumb @location.name, "#{@base_path}business/#{@location.slug}"
     add_breadcrumb @automotive_listing.title
 
+    @images = @automotive_listing.main_images + @automotive_listing.sub_images
+
     respond_to do |format|
       format.html
       format.json { render json: @automotive_listing }
@@ -114,7 +116,7 @@ class AutomotiveListingsController < ApplicationController
       :lighting_visibility_instruments, :local, :location_id, :make, :mileage, :model,
       :powertrain_specs, :price_cents, :saftey_and_security, :seats_and_trim, :specs,
       :status, :stock_number, :suspension_specs, :title, :transmission, :trim_level, :vehicle_type,
-      :year, :price, :main_image, :sub_image, :accident_description
+      :year, :price, :accident_description, main_images_attributes: [:image], sub_images_attributes: [:image]
     )
   end
 

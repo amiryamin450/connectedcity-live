@@ -25,17 +25,11 @@ class AutomotiveListing < ApplicationRecord
 
   monetize :price_cents
 
-  has_attached_file :main_image, styles: {thumb: "75x75#", list: "320", display: "750", :hp_list => "168x95" },
-                    url: "/system/automotive_listing/main_image/:id/:style/:basename.:extension",
-                    path: ":rails_root/public/system/automotive_listing/main_image/:id/:style/:basename.:extension",
-                    default_url: "/default_images/automotive_listing/main_image/:style/missing.jpg"
+  has_many :main_images, class_name: "AutomotiveListingImage", foreign_key: :main_id, dependent: :destroy
+  has_many :sub_images, class_name: "AutomotiveListingImage", foreign_key: :sub_id, dependent: :destroy
 
-  has_attached_file :sub_image, styles: {thumb: "75x75#", list: "320", display: "750", :hp_list => "168x95" },
-                    url: "/system/automotive_listing/sub_image/:id/:style/:basename.:extension",
-                    path: ":rails_root/public/system/automotive_listing/sub_image/:id/:style/:basename.:extension",
-                    default_url: "/default_images/automotive_listing/sub_image/:style/missing.jpg"
-
-  validates_attachment_content_type :main_image, :sub_image, :content_type => ["image/jpg", "image/jpeg", "image/png"]
+  accepts_nested_attributes_for :main_images, allow_destroy: true
+  accepts_nested_attributes_for :sub_images, allow_destroy: true
 
   validates :title, presence: true, length: { in: 1..100 }
   validates :vehicle_type, length: { maximum: 150 }

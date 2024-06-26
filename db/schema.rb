@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_20_084959) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_25_083141) do
   create_table "active_admin_comments", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "resource_id", null: false
     t.string "resource_type", null: false
@@ -54,6 +54,19 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_20_084959) do
     t.index ["attachable_id", "attachable_type"], name: "index_attachments_on_attachable_id_and_attachable_type"
   end
 
+  create_table "automotive_listing_images", charset: "utf8", force: :cascade do |t|
+    t.integer "main_id"
+    t.integer "sub_id"
+    t.string "image_file_name"
+    t.string "image_content_type"
+    t.bigint "image_file_size"
+    t.datetime "image_updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["main_id"], name: "index_automotive_listing_images_on_main_id"
+    t.index ["sub_id"], name: "index_automotive_listing_images_on_sub_id"
+  end
+
   create_table "automotive_listings", id: :integer, charset: "latin1", force: :cascade do |t|
     t.string "title"
     t.integer "status", default: 0
@@ -91,10 +104,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_20_084959) do
     t.integer "main_image_file_size"
     t.datetime "main_image_updated_at", precision: nil
     t.string "accident_description"
-    t.string "sub_image_file_name"
-    t.string "sub_image_content_type"
-    t.bigint "sub_image_file_size"
-    t.datetime "sub_image_updated_at"
   end
 
   create_table "blog_entries", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
@@ -317,11 +326,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_20_084959) do
     t.index ["slug"], name: "index_communities_on_slug"
   end
 
-  create_table "conversations", charset: "utf8", force: :cascade do |t|
+  create_table "conversations", id: :integer, charset: "utf8", force: :cascade do |t|
     t.integer "recipient_id"
     t.integer "sender_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["recipient_id", "sender_id"], name: "index_conversations_on_recipient_id_and_sender_id", unique: true
   end
 
@@ -542,14 +551,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_20_084959) do
     t.integer "municipality_id"
     t.string "stripe_account_id"
     t.boolean "is_profile", default: false
-    t.bigint "owner_id"
     t.bigint "super_admin_id"
     t.integer "status", default: 0
     t.bigint "user_id"
     t.index ["city_id"], name: "city_id"
     t.index ["community_id"], name: "community_id"
     t.index ["country_id"], name: "country_id"
-    t.index ["owner_id"], name: "index_locations_on_owner_id"
     t.index ["province_id"], name: "province_id"
     t.index ["region_id"], name: "region_id"
     t.index ["slug"], name: "index_slug"
@@ -655,15 +662,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_20_084959) do
     t.index ["attachable_id", "attachable_type"], name: "index_media_attachments_on_attachable_id_and_attachable_type"
   end
 
-  create_table "messages", charset: "utf8", force: :cascade do |t|
+  create_table "messages", id: :integer, charset: "utf8", force: :cascade do |t|
     t.text "body"
-    t.bigint "conversation_id"
-    t.bigint "sender_id"
+    t.integer "conversation_id"
+    t.integer "sender_id"
     t.boolean "has_seen", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
-    t.index ["sender_id"], name: "index_messages_on_sender_id"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "municipalities", id: :integer, charset: "utf8", force: :cascade do |t|
@@ -776,7 +781,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_20_084959) do
     t.string "name"
   end
 
-  create_table "orders", charset: "utf8", force: :cascade do |t|
+  create_table "orders", charset: "latin1", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "number"
     t.integer "status", default: 0
     t.string "payment_method"
@@ -1057,7 +1062,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_20_084959) do
     t.index ["location_id"], name: "index_services_on_location_id"
   end
 
-  create_table "shipments", charset: "utf8", force: :cascade do |t|
+  create_table "shipments", charset: "latin1", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "tracking_number"
     t.integer "status", default: 0
     t.integer "delivery_method", default: 0
@@ -1247,6 +1252,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_20_084959) do
     t.string "broadcast_id"
   end
 
+  add_foreign_key "automotive_listing_images", "automotive_listings", column: "main_id"
+  add_foreign_key "automotive_listing_images", "automotive_listings", column: "sub_id"
   add_foreign_key "line_items", "orders"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
