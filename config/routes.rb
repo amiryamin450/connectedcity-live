@@ -290,7 +290,12 @@ Connectbook::Application.routes.draw do
   resources :user, only: :show
 
   resources :locations, path: 'business', as: :locations, only: [:show] do
-    resources :automotive_listings, only: [:show]
+    resources :automotive_listings, only: [:show] do
+      member do
+        delete :delete_main_image
+        delete "delete_sub_image/:image_id" => 'automotive_listings#delete_sub_image'
+      end
+    end
     resources :blog_entries, path: 'blog'
     resources :coupons, only: [:show]
     resources :employment_listings, only: [:show]

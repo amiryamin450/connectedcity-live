@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_25_083141) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_27_042508) do
   create_table "active_admin_comments", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "resource_id", null: false
     t.string "resource_type", null: false
@@ -54,9 +54,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_25_083141) do
     t.index ["attachable_id", "attachable_type"], name: "index_attachments_on_attachable_id_and_attachable_type"
   end
 
-  create_table "automotive_listing_images", charset: "utf8", force: :cascade do |t|
+  create_table "automotive_listing_images", charset: "latin1", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "automotive_listing_id"
-    t.integer "image_type"
     t.string "image_file_name"
     t.string "image_content_type"
     t.bigint "image_file_size"

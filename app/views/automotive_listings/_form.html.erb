@@ -35,37 +35,36 @@
     <%= f.input :body_exterior %>
     <%= f.input :lighting_visibility_instruments %>
     <%= f.input :saftey_and_security %>
-    <% if @automotive_listing.main_images.present? %>
-      <div class="row preview-image">
-        <div class="col-sm-9 offset-sm-3">
-          <% @automotive_listing.main_images.each do |image| %>
-            <%= image_tag image.image.url(:thumb) %>
-          <% end %>
+    <% if @automotive_listing.main_image.exists? %>
+      <div class="row preview-images">
+        <div class="col-sm-9 offset-sm-3 row">
+          <div class="preview-image col-sm-2 p-0">
+            <%= link_to delete_main_image_location_automotive_listing_path(@location, @automotive_listing), class: "remove-image", data: { confirm: 'Are you sure?', disable_with: "", method: :delete, remote: true } do %>
+              <i class="fa fa-times"></i>
+            <% end %>
+            <%= image_tag @automotive_listing.main_image.url(:thumb) %>
+          </div>
         </div>
       </div>
     <% end %>
-    <%= f.fields_for :main_images, @automotive_listing.main_images.build do |builder| %>
-      <div id="main-images">
-        <%= builder.input :image, as: :logo_preview, wrapper: :horizontal_file, label: "Main Images", input_html: {class: 'main-image-input'} %>
-      </div>
-      <div class="row add-more-images">
-        <div class="col-sm-9 offset-sm-3">
-          <button class="btn btn-sm btn-outline-primary" id="add-main-image">Add More Image</button>
-        </div>
-      </div>
-    <% end %>
+    <%= f.input :main_image, wrapper: :horizontal_file %>
     <% if @automotive_listing.sub_images.present? %>
-      <div class="row preview-image">
-        <div class="col-sm-9 offset-sm-3">
+      <div class="row preview-images">
+        <div class="col-sm-9 offset-sm-3 row">
           <% @automotive_listing.sub_images.each do |image| %>
-            <%= image_tag image.image.url(:thumb) %>
+            <div class="preview-image col-sm-2 p-0">
+              <%= link_to "/business/#{@location.slug}/automotive_listings/#{@automotive_listing.id}/delete_sub_image/#{image.id}", class: "remove-image", data: { confirm: 'Are you sure?', disable_with: "", method: :delete, remote: true } do %>
+                <i class="fa fa-times"></i>
+              <% end %>
+              <%= image_tag image.image.url(:thumb) %>
+            </div>
           <% end %>
         </div>
       </div>
     <% end %>
     <%= f.fields_for :sub_images, @automotive_listing.sub_images.build do |builder| %>
       <div id="sub-images">
-        <%= builder.input :image, as: :logo_preview, wrapper: :horizontal_file, label: "Sub Images", input_html: {class: 'sub-image-input'} %>
+        <%= builder.input :image, wrapper: :horizontal_file, label: "Sub Images", input_html: {class: 'sub-image-input'} %>
       </div>
       <div class="row add-more-images">
         <div class="col-sm-9 offset-sm-3">
@@ -102,44 +101,15 @@
     }
   })
 
-  $('#add-main-image').click(function(e) {
-    e.preventDefault();
-    var count = $("#main-images input.logo_preview").length;
-
-    $('#main-images > div').append(`<div class="col-sm-9 offset-sm-3 mb-2"><input class="logo_preview optional main-image-input" type="file" name="automotive_listing[main_images_attributes][${count}][image]" id="automotive_listing_main_images_attributes_${count}_image"></div>`)
-
-    if (count > 3) {
-      $('#add-main-image').addClass('hidden')
-    }
-  })
-
   $('#add-sub-image').click(function(e) {
     e.preventDefault();
+    var existsImageCount = <%= @automotive_listing.sub_images.count %>
     var count = $("#sub-images input").length;
 
-    $('#sub-images > div').append(`<div class="col-sm-9 offset-sm-3 mb-2"><input class="logo_preview optional sub-image-input" type="file" name="automotive_listing[sub_images_attributes][${count}][image]" id="automotive_listing_sub_images_attributes_${count}_image"></div>`)
+    $('#sub-images > div').append(`<div class="col-sm-9 offset-sm-3"><input class="form-control file optional sub-image-input" type="file" name="automotive_listing[sub_images_attributes][${count}][image]" id="automotive_listing_sub_images_attributes_${count}_image"></div>`)
 
-    if (count > 18) {
+    if ((existsImageCount + count) > 18) {
       $('#add-sub-image').addClass('hidden')
     }
   })
-
-  $(document).on('change', '.main-image-input', function () {
-    if ($(this).val()) {
-      console.log('main', $(this))
-
-      var name = $(this).attr("name");
-      name = name.replace('[image]', '[image_type]')
-      $(this).after(`<input value="main" autocomplete="off" type="hidden" name="${name}">`)
-    }
-  });
-
-  $(document).on('change', '.sub-image-input', function () {
-    if ($(this).val()) {
-      console.log('sub', $(this))
-      var name = $(this).attr("name");
-      name = name.replace('[image]', '[image_type]')
-      $(this).after(`<input value="sub" autocomplete="off" type="hidden" name="${name}">`)
-    }
-  });
 </script>

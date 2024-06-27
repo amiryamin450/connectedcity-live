@@ -1,6 +1,6 @@
 class AutomotiveListingsController < ApplicationController
   before_action :set_location
-  before_action :automotive_listing, only: [:show, :edit, :update, :destroy]
+  before_action :automotive_listing, only: [:show, :edit, :update, :destroy, :delete_main_image, :delete_sub_image]
   load_resource :location
   load_and_authorize_resource :automotive_listing, through: [:location]
   layout "application_v_2"
@@ -30,7 +30,7 @@ class AutomotiveListingsController < ApplicationController
     add_breadcrumb @location.name, "#{@base_path}business/#{@location.slug}"
     add_breadcrumb @automotive_listing.title
 
-    @images = @automotive_listing.main_images + @automotive_listing.sub_images
+    @images = [@automotive_listing.main_image] + @automotive_listing.sub_images.map(&:image)
 
     respond_to do |format|
       format.html
@@ -99,6 +99,27 @@ class AutomotiveListingsController < ApplicationController
     end
   end
 
+  def delete_main_image
+    if @automotive_listing.main_image.destroy
+      @auto_makers = get_auto_makers
+      respond_to do |format|
+        format.js { render 'delete_image' }
+      end
+    end
+  end
+
+  def delete_sub_image
+    image = @automotive_listing.sub_images.find(params[:image_id])
+
+    if image.delete
+      @auto_makers = get_auto_makers
+
+      respond_to do |format|
+        format.js { render 'delete_image' }
+      end
+    end
+  end
+
   private
 
   def set_location
@@ -116,7 +137,7 @@ class AutomotiveListingsController < ApplicationController
       :lighting_visibility_instruments, :local, :location_id, :make, :mileage, :model,
       :powertrain_specs, :price_cents, :saftey_and_security, :seats_and_trim, :specs,
       :status, :stock_number, :suspension_specs, :title, :transmission, :trim_level, :vehicle_type,
-      :year, :price, :accident_description, main_images_attributes: [:image, :image_type], sub_images_attributes: [:image, :image_type]
+      :year, :price, :accident_description, :main_image, sub_images_attributes: [:image]
     )
   end
 
