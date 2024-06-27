@@ -78,7 +78,7 @@ class AutomotiveListingsController < ApplicationController
     @selected_maker = @automotive_listing.make
 
     respond_to do |format|
-      if @automotive_listing.update!(automative_listing_params)
+      if @automotive_listing.update(automative_listing_params)
         format.html { redirect_to [@location, @automotive_listing], notice: 'Automotive listing was successfully updated.' }
         format.json { head :no_content }
       else
