@@ -197,6 +197,45 @@ class Location < ApplicationRecord
     integer :municipality_id
   end
 
+  def full_address
+    if self.sub_neighborhood.present?
+      neighborhood = self.sub_neighborhood.neighborhood
+      district = neighborhood.district
+      city = district.city
+      municipality = city.municipality
+      region = municipality.region
+      province = region.province
+    end
+
+    if self.neighborhood.present?
+      district = self.neighborhood.district
+      city = district.city
+      municipality = city.municipality
+      region = municipality.region
+      province = region.province
+    end
+
+    if self.district.present?
+      city = self.district.city
+      municipality = city.municipality
+      region = municipality.region
+      province = region.province
+    end
+
+    if self.city.present?
+      municipality = self.city.municipality
+      region = municipality.region
+      province = region.province
+    end
+
+    if self.municipality.present?
+      region = self.municipality.region
+      province = region.province
+    end
+
+    [province, region, municipality, city, district, neighborhood, sub_neighborhood]
+  end
+
   private
     def assign_neighborhood
       if longitude_changed? || latitude_changed?

@@ -1,4 +1,8 @@
-<div class="container automotive-listing-details">
+<ol class="breadcrumb">
+  <%= render_breadcrumbs(tag: :li, separator: '<span style="margin: 0 10px"> > </span>') %>
+</ol>
+
+<div class="container automotive-listing-details mt-4">
   <h3><%= @automotive_listing.title %> - <%= humanized_money_with_symbol(@automotive_listing.price) %></h3>
   <div class="row mt-4">
     <div class="col-8">
