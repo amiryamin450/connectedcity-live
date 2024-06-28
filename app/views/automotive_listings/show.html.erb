@@ -1,7 +1,11 @@
-<div class="container automotive-listing-details">
+<ol class="breadcrumb">
+  <%= render_breadcrumbs(tag: :li, separator: '<span style="margin: 0 10px"> > </span>') %>
+</ol>
+
+<div class="container automotive-listing-details mt-4">
   <h3><%= @automotive_listing.title %> - <%= humanized_money_with_symbol(@automotive_listing.price) %></h3>
   <div class="row mt-4">
-    <div class="col-8">
+    <div class="col-12 col-md-8">
       <% if @images.size > 0 %>
         <div>
           <div id="carousel-automotive-listing" class="carousel carousel-dark slide" data-bs-ride="carousel">
@@ -36,16 +40,16 @@
         <div class="business-info">
           <div class="brand-contact-details pt-3">
             <div class="row row-card-details d-flex" style="display:flex !important">
-              <div class="col-12 col-md-2 align-content-center" style="flex:unset !important">
+              <div class="col-4 col-md-2 align-content-center" style="flex:unset !important">
                 <div class="brand-icon my-auto">
-                  <%= image_tag @location.logo.url %>
+                  <%= link_to image_tag(@location.logo.url), @location %>
                 </div>
               </div>
-              <div class="col-12 col-md-10">
+              <div class="col-8 col-md-10">
                 <div class="row details-row">
                   <div class="col-12">
                     <div class="title">
-                      <h3><%= @location.name %></h3>
+                      <h4><%= link_to @location.name, @location, class: "location-name" %></h4>
                     </div>
                   </div>
                   <div class="col-12">
@@ -110,6 +114,30 @@
               </div>
             </div>
           </div>
+          <div class="d-md-none d-block">
+            <hr>
+            <ul class="unstyled row">
+              <div class="col-6">
+                <li><strong>Status:</strong> <%= @automotive_listing.status %></li>
+                <li><strong>Year:</strong> <%= @automotive_listing.year %></li>
+                <li><strong>Make:</strong> <%= @automotive_listing.make %></li>
+                <li><strong>Model:</strong> <%= @automotive_listing.model %></li>
+                <li><strong>Mileage:</strong> <%= @automotive_listing.mileage %></li>
+                <li><strong>Accident:</strong> <%= @automotive_listing.accident %></li>
+                <li><strong>Trim level:</strong> <%= @automotive_listing.trim_level %></li>
+                <li><strong>Exterior color:</strong> <%= @automotive_listing.exterior_color %></li>
+              </div>
+              <div class="col-6">
+                <li><strong>Interior color:</strong> <%= @automotive_listing.interior_color %></li>
+                <li><strong>Enigine:</strong> <%= @automotive_listing.enigine %></li>
+                <li><strong>Vehicle type:</strong> <%= @automotive_listing.vehicle_type %></li>
+                <li><strong>Drivetrain:</strong> <%= @automotive_listing.drivetrain %></li>
+                <li><strong>Transmission:</strong> <%= @automotive_listing.transmission %></li>
+                <li><strong>Body:</strong> <%= @automotive_listing.body %></li>
+                <li><strong>Stock number:</strong> <%= @automotive_listing.stock_number %></li>
+              </div>
+            </ul>
+          </div>
           <% if @automotive_listing.description.present? %>
             <hr>
             <div class="description">
@@ -146,7 +174,7 @@
         </div>
       </div>
     </div>
-    <div class="col-4 ps-3">
+    <div class="col-12 col-md-4 ps-3 d-none d-md-block">
       <ul class="unstyled">
         <li><strong>Status:</strong> <%= @automotive_listing.status %></li>
         <li><strong>Year:</strong> <%= @automotive_listing.year %></li>
@@ -164,7 +192,7 @@
         <li><strong>Body:</strong> <%= @automotive_listing.body %></li>
         <li><strong>Stock number:</strong> <%= @automotive_listing.stock_number %></li>
       </ul>
-      <div class="map-section my-5 d-none d-md-block">
+      <div class="map-section my-5">
         <div id="map" class="clearfix location-profile-map" style="height: 240px;" data-coordinates=<%= raw @location.geo_location.to_json() %>></div>
       </div>
     </div>

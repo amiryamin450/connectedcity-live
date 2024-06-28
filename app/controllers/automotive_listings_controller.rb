@@ -22,12 +22,25 @@ class AutomotiveListingsController < ApplicationController
     @vertical_market = @location.vertical_market_categories.first.vertical_market
 
     add_breadcrumb '<i class="icon-home"></i> Home'.html_safe, root_path
-    add_breadcrumb @location.district.name, district_guide_path(@location.district) if @location.district
-    add_breadcrumb @location.neighborhood.name if @location.neighborhood
 
-    add_breadcrumb @vertical_market.name, "#{@base_path}guide/#{@vertical_market.slug}"
-    add_breadcrumb @location.vertical_market_categories.first.name, "#{@base_path}category/#{@location.vertical_market_categories.first.slug}"
-    add_breadcrumb @location.name, "#{@base_path}business/#{@location.slug}"
+    province, region, municipality, city, district, neighborhood, sub_neighborhood = @location.full_address
+
+    add_breadcrumb municipality.name, "/#{province.slug}/#{region.slug}/#{municipality.slug}" if municipality.present?
+
+    add_breadcrumb city.name, "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}" if city.present?
+
+    add_breadcrumb district.name, "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}" if district.present?
+
+    add_breadcrumb neighborhood.name, "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}/#{neighborhood.slug}" if neighborhood.present?
+
+    add_breadcrumb sub_neighborhood.name, "/#{province.slug}/#{region.slug}/#{municipality.slug}/#{city.slug}/#{district.slug}/#{neighborhood.slug}/#{sub_neighborhood}" if sub_neighborhood.present?
+
+    add_breadcrumb @vertical_market.name, "/vancouver/channel/#{@vertical_market.slug}"
+
+    add_breadcrumb @location.vertical_market_categories.first.name, "/vancouver/category/#{@location.vertical_market_categories.first.slug}"
+
+    add_breadcrumb @location.name, "/business/#{@location.slug}"
+
     add_breadcrumb @automotive_listing.title
 
     @images = [@automotive_listing.main_image] + @automotive_listing.sub_images.map(&:image)

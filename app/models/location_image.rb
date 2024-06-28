@@ -6,6 +6,7 @@ class LocationImage < ApplicationRecord
                     :path => ":rails_root/public/system/location_image/:id/:style/:basename.:extension"
 
   validates_attachment_presence :image
+  validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
   validates_attachment_size :image, :less_than => 5.megabytes
 
   include Rails.application.routes.url_helpers
@@ -17,7 +18,7 @@ class LocationImage < ApplicationRecord
       "url" => image.url(:original),
       "thumbnail_url" => image.url(:thumb),
       "delete_url" => location_image_path(self),
-      "delete_type" => "DELETE" 
+      "delete_type" => "DELETE"
     }
   end
 end
