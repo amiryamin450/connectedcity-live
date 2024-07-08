@@ -447,7 +447,7 @@ Connectbook::Application.routes.draw do
   get 'downtown-eastside', to: redirect('/neighbourhoods/downtown-eastside')
   get 'downtown-vancouver', to: redirect('/neighbourhoods/downtown-vancouver')
   get 'dunbar-southlands', to: redirect('/neighbourhoods/dunbar-southlands')
-  get 'fairview', to: redirect('/neighbourhoods/fairview')
+  # get 'fairview', to: redirect('/neighbourhoods/fairview')
   get 'gastown', to: redirect('/neighbourhoods/gastown')
   get 'grandview-woodland', to: redirect('/neighbourhoods/grandview-woodland')
   get 'granville-island', to: redirect('/neighbourhoods/granville-island')
@@ -455,7 +455,7 @@ Connectbook::Application.routes.draw do
   get 'kensington-cedar-cottage', to: redirect('/neighbourhoods/kensington-cedar-cottage')
   get 'kerrisdale', to: redirect('/neighbourhoods/kerrisdale')
   get 'killarney', to: redirect('/neighbourhoods/killarney')
-  get 'kitsilano', to: redirect('/neighbourhoods/kitsilano')
+  # get 'kitsilano', to: redirect('/neighbourhoods/kitsilano')
   get 'marpole', to: redirect('/neighbourhoods/marpole')
   get 'mount-pleasant', to: redirect('/neighbourhoods/mount-pleasant')
   get 'oakridge', to: redirect('/neighbourhoods/oakridge')
@@ -470,6 +470,14 @@ Connectbook::Application.routes.draw do
   get 'victoria-fraserview', to: redirect('/neighbourhoods/victoria-fraserview')
   get 'west-end', to: redirect('/neighbourhoods/west-end')
   get 'yaletown', to: redirect('/neighbourhoods/yaletown')
+
+  get 'kitsilano', to: redirect('/british-columbia/lower-mainland/vancouver-metro/vancouver/vancouver-westside/kitsilano')
+  get 'kitsbeach', to: redirect('/british-columbia/lower-mainland/vancouver-metro/vancouver/vancouver-westside/kitsilano/kits-beach')
+  get 'kitswest4thave', to: redirect('/british-columbia/lower-mainland/vancouver-metro/vancouver/vancouver-westside/kitsilano/kits-west-4th-avenue')
+  get 'kitswestbroadway', to: redirect('/british-columbia/lower-mainland/vancouver-metro/vancouver/vancouver-westside/kitsilano/kits-west-broadway')
+  get 'fairview', to: redirect('/british-columbia/lower-mainland/vancouver-metro/vancouver/vancouver-westside/fairview')
+  get 'armourydistrict', to: redirect('/british-columbia/lower-mainland/vancouver-metro/vancouver/vancouver-westside/fairview/armoury-district')
+  get 'granvilleisland', to: redirect('/british-columbia/lower-mainland/vancouver-metro/vancouver/vancouver-westside/fairview/granville-island')
 
   get '/vancouver/', to: 'home#city_landing', as: :city_landing
 
