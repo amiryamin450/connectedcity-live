@@ -34,5 +34,14 @@
   .pad10 {
     padding: 10px;
   }
+}
 
+@media (max-width: 500px) {
+  #connected-advertiser {
+    .holder {
+      img {
+        width: 100%;
+      }
+    }
+  }
 }
