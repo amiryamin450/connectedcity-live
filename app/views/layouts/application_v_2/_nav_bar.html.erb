@@ -18,7 +18,7 @@
 <% @district_slug = params[:district_route] || params[:district_slug] %>
 
 <div class="nav-bar">
-  <div class="container-fluid p-0 d-flex">
+  <div class="container-fluid p-0 d-flex align-items-center">
     <div id="main" class="main d-flex">
       <div>
         <%= link_to root_path, class: "selected" do %>
@@ -52,9 +52,11 @@
       <%= link_to 'Jobs', employment_opportunity_path %>
       <%= render 'layouts/application_v_2/nav_bar_item', c: @vertical_market_members %>
     </div>
-    <div class='d-block d-md-none w-100 p-1' id='search-bar'>
-      <%= render 'share/search_box', url: search_url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'All' %>
+    <div class='d-block d-md-none w-100 p-1 d-flex flex-row-reverse align-items-center' id='search-bar'>
       <%= render 'location_chooser_v_2' %>
+      <div id="mobile-search-box" class="d-none">
+        <%= render 'share/search_box', url: search_url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'All' %>
+      </div>
     </div>
   </div>
 </div>
