@@ -1,6 +1,6 @@
 class ContactsController < ApplicationController
-  
-  layout "static"
+
+  layout "application_v_2"
 
   def new
   	@contact = Contact.new

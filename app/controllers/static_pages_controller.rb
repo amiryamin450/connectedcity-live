@@ -1,7 +1,7 @@
 class StaticPagesController < ApplicationController
 
-  layout "static"
- 
+  layout "application_v_2"
+
   def about
   end
 

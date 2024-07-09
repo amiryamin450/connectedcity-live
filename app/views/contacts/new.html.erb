@@ -1,5 +1,5 @@
 
-<div class="row-fluid">
+<div class="container-sm">
   <div style="text-align:center;">
     <h2>Contact Us</h2>
     <div style="font-size: 14pt;">
@@ -8,36 +8,16 @@
     </div>
   </div>
 </div>
-<br /><br />
-<div class="row-fluid">
-    <div class="span6">
-      <div class="form-inputs">
-            <%= simple_form_for @contact, :html => {:class => 'form-horizontal' } do |f| %>
-              <%= f.input :name, :required => true %>
-              <%= f.input :email, :required => true %>
-              <%= f.input :message, :as => :text, :required => true %>
+<div class="container-sm mt-5">
+  <div class="form-inputs">
+    <%= simple_form_for @contact, :html => {:class => 'form-horizontal' } do |f| %>
+      <%= f.input :name, :required => true %>
+      <%= f.input :email, :required => true %>
+      <%= f.input :message, :as => :text, :required => true %>
 
-              <div class="form-actions">
-                <%= f.button :submit, 'Send', :class=> "btn btn-primary" %>
-              </div>
-
-            <% end %>
-        </div>
-    </div>
-    <div class="span6">
-      <h4 style="margin: 0;">Drop us a line</h4>
-      <p>Contact us to learn more about ConnectedCity™ and how it can benefit you, your business, business association and municipality. We will respond as soon as possible, within 24 hours.</p>
-      <br />
-      <p>
-        <h4>Transcona Media Network Inc.</h4>
-        #308 - 1505 West 2nd Avenue<br />
-        Vancouver BC V6H 3Y4<br />
-        Ph: 604-227-9797<br />
-        Tf: 1-888-295-8797<br />
-        <a href="mailto:info@connectedcity.com">info@connectedcity.com</a>
-      </p>
-      <p>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2603.3435303200417!2d-123.14018348431111!3d49.26988747932997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x548673ced1cf1367%3A0xc96d451174ad2612!2s1505+W+2nd+Ave%2C+Vancouver%2C+BC+V6J+1H2%2C+Canada!5e0!3m2!1sen!2s!4v1552536949771" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
-      </p>
-    </div>
+      <div class="form-actions mb-5">
+        <%= f.button :submit, 'Send', :class=> "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
 </div>

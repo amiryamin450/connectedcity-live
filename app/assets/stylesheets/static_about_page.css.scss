@@ -1,6 +1,15 @@
 .about-page-wrapper {
   margin: 0 auto;
   width: 70%;
+
+  img {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    vertical-align: middle;
+    border: 0;
+    -ms-interpolation-mode: bicubic
+  }
 }
 
 .about-title {
@@ -24,4 +33,16 @@
 
 .static div#main-content {
   margin-top: 120px;
+}
+
+@media (max-width: 1024px) {
+  .about-page-wrapper {
+    width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-page-wrapper {
+    width: 100%;
+  }
 }
