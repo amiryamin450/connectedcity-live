@@ -54,7 +54,7 @@
     </div>
     <div class='d-block d-md-none w-100 p-1 d-flex flex-row-reverse align-items-center' id='search-bar'>
       <%= render 'location_chooser_v_2' %>
-      <div id="mobile-search-box" class="d-none" style="width: 85%">
+      <div id="mobile-search-box" style="width: 85%">
         <%= render 'share/search_box', url: search_url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'All' %>
       </div>
     </div>

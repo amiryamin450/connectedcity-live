@@ -29,8 +29,12 @@
           </div>
         <% end %>
 
+        <div class='d-inline-block w-50 d-none' id="desktop-search-box">
+          <%= render 'share/search_box', url: search_url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'All' %>
+        </div>
+
         <div class='d-inline-block'>
-          <button class="btn search-box-btn d-inline-block d-md-none" id="mobile-search-button"><img src="/cc_2.0/icon/search-icon.svg"></button>
+          <button class="btn search-box-btn d-none d-md-block" id="desktop-search-button"><img src="/cc_2.0/icon/search-icon.svg"></button>
         </div>
 
         <div class='d-inline-block'>
@@ -89,11 +93,8 @@
 </div>
 
 <script type="text/javascript">
-  $("#mobile-search-button").on("click", function() {
-    if ($("#mobile-search-box").hasClass("d-none" )) {
-      $("#mobile-search-box").removeClass("d-none");
-    } else {
-      $("#mobile-search-box").addClass("d-none");
-    }
+  $("#desktop-search-button").on("click", function() {
+    $("#desktop-search-box").removeClass("d-none");
+    $("#desktop-search-button").addClass("d-md-none");
   });
 </script>
