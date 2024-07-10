@@ -9,7 +9,7 @@
           </a>
         </div>
       </div>
-      <div class="col-12 col-lg-8 col-md-7 text-end px-0">
+      <div class="col-12 col-lg-8 col-md-7 text-end px-0 d-flex">
         <% if false %>
           <div class="col-4 col-sm-6 d-none d-md-block">
             <div class="search-box advance-search-box">
@@ -29,64 +29,68 @@
           </div>
         <% end %>
 
-        <div class='d-inline-block w-50 d-none' id="desktop-search-box">
-          <%= render 'share/search_box', url: search_url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'All' %>
-        </div>
-
-        <div class='d-inline-block'>
-          <button class="btn search-box-btn d-none d-md-block" id="desktop-search-button"><img src="/cc_2.0/icon/search-icon.svg"></button>
-        </div>
-
-        <div class='d-inline-block'>
-          <% if false %>
-            <div class="input-group-prepend search-box ">
-              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select Location <i class="far fa-chevron-down"></i></button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="/vancouver">Vancouver</a>
-                <%# @city.districts.each do |district| %>
-                  <a class="dropdown-item" href="<%#= district_guide_path(district)%>"><%#= district.name%></a>
-                <%# end %>
-              </div>
-            </div>
-          <% end %>
-          <div class="logo-block-flag">
-            <div class="logo-flag d-inline">
-              <!-- <a href="/" title="ConnectedCity"> -->
-                <%= image_tag 'flag/canada.png' %>
-              <!-- </a> -->
-            </div>
+        <div class="flex-grow-1 pe-2">
+          <div class='d-inline-block w-100 d-none' id="desktop-search-box">
+            <%= render 'share/search_box', url: search_url, opts: options_from_collection_for_select(@vertical_markets_all, 'id', 'name', @vertical_market.try(:id)), all_promt: 'All' %>
           </div>
         </div>
+        <div class="d-flex">
+          <div class='d-inline-block'>
+            <button class="btn search-box-btn d-none d-md-block" id="desktop-search-button"><img src="/cc_2.0/icon/search-icon.svg"></button>
+          </div>
 
-        <div class="d-inline-block header-cart-view px-2">
-          <div class="header-shopping-cart p-1 p-sm-2">
-            <% if user_signed_in? and @cart.line_items.count > 0 %>
-              <div class="cart-counter">
-                <span class="total-number"><%= @cart.line_items.to_a.sum { |item| item.quantity } %></span>
+          <div class='d-inline-block'>
+            <% if false %>
+              <div class="input-group-prepend search-box ">
+                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select Location <i class="far fa-chevron-down"></i></button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/vancouver">Vancouver</a>
+                  <%# @city.districts.each do |district| %>
+                    <a class="dropdown-item" href="<%#= district_guide_path(district)%>"><%#= district.name%></a>
+                  <%# end %>
+                </div>
               </div>
             <% end %>
-            <div class="cart-icon">
-              <% url = user_signed_in? ? cart_path(@cart.id) : new_user_session_path %>
-              <%= link_to url do %>
-                <img src="/cc_2.0/icon/shopping-cart.svg">
-              <% end %>
+            <div class="logo-block-flag">
+              <div class="logo-flag d-inline">
+                <!-- <a href="/" title="ConnectedCity"> -->
+                  <%= image_tag 'flag/canada.png' %>
+                <!-- </a> -->
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class='d-inline-block pe-1'>
-          <% if current_user.present? %>
-            <%= render "/layouts/application_v_2/access_user_panel" %>
-          <% else %>
+          <div class="d-inline-block header-cart-view px-2">
             <div class="header-shopping-cart p-1 p-sm-2">
-              <div>
-                <%= link_to new_user_session_path do %>
-                  <img src="/cc_2.0/icon/user-icon.svg" height='26px'>
+              <% if user_signed_in? and @cart.line_items.count > 0 %>
+                <div class="cart-counter">
+                  <span class="total-number"><%= @cart.line_items.to_a.sum { |item| item.quantity } %></span>
+                </div>
+              <% end %>
+              <div class="cart-icon">
+                <% url = user_signed_in? ? cart_path(@cart.id) : new_user_session_path %>
+                <%= link_to url do %>
+                  <img src="/cc_2.0/icon/shopping-cart.svg">
                 <% end %>
               </div>
             </div>
-          <% end %>
+          </div>
+
+          <div class='d-inline-block pe-1'>
+            <% if current_user.present? %>
+              <%= render "/layouts/application_v_2/access_user_panel" %>
+            <% else %>
+              <div class="header-shopping-cart p-1 p-sm-2">
+                <div>
+                  <%= link_to new_user_session_path do %>
+                    <img src="/cc_2.0/icon/user-icon.svg" height='26px'>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
         </div>
+
       </div>
     </div>
   </div>
