@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_27_042508) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_10_071701) do
   create_table "active_admin_comments", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "resource_id", null: false
     t.string "resource_type", null: false
@@ -552,6 +552,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_27_042508) do
     t.bigint "super_admin_id"
     t.integer "status", default: 0
     t.bigint "user_id"
+    t.boolean "show_address", default: true
+    t.boolean "show_email", default: true
     t.index ["city_id"], name: "city_id"
     t.index ["community_id"], name: "community_id"
     t.index ["country_id"], name: "country_id"
