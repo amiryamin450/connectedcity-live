@@ -48,7 +48,7 @@ class VerticalMarketsController < ApplicationController
     end
 
     # init_category_values
-    if params[:market] === 'news'
+    if params[:market] === 'news' || params[:market] == 'civic-news'
       districts
       neighborhoods
       sub_neighborhoods

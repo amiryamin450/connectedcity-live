@@ -1,12 +1,12 @@
 <%
-  @status_updates = @vertical_market.get_status_updates_municipality(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
-  @media_attachments = @vertical_market.get_media_attachments_municipality(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
-  @events = @vertical_market.get_events_municipality(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
-  @news_articles = @vertical_market.get_news_articles_municipality(@municipality,@city, @district, @neighborhood, @sub_neighborhood)
+  @status_updates = @vertical_market.get_status_updates(@municipality, @city, @district, @neighborhood, @sub_neighborhood, !@vertical_market_category.present?, @vertical_market_category)
+  @media_attachments = @vertical_market.get_media_attachments(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
+  @events = @vertical_market.get_events(@municipality, @city, @district, @neighborhood, @sub_neighborhood)
+  @news_articles = @vertical_market.get_news_articles(@municipality,@city, @district, @neighborhood, @sub_neighborhood)
 %>
-<ul class="nav nav-tabs" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link active" data-toggle="tab" href="#Update">Updates</a>
+<ul class="nav nav-tabs justify-content-start" role="tablist">
+    <li class="nav-item active">
+      <a class="nav-link" data-toggle="tab" href="#Update">Updates</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" data-toggle="tab" href="#Videos">Videos</a>
@@ -23,7 +23,7 @@
     <div id="Update" class="container tab-pane active">
       <br>
       <h3>Updates</h3><br>
-      <% if @status_updates.size > 0 %>
+      <% if @status_updates.length > 0 %>
           <% @status_updates.each do |status_update| %>
             <%= render 'layouts/application_v_2/status_update', status_update: status_update %>
           <% end %>
@@ -34,7 +34,7 @@
     <div id="Videos" class="container tab-pane">
       <br>
       <h3>Videos</h3><br>
-      <% if @media_attachments.size > 0 %>
+      <% if @media_attachments.length > 0 %>
           <% @media_attachments.each do |media_attachment| %>
             <%= render 'layouts/application_v_2/media_attachment_basic', media_attachment: media_attachment %>
           <% end %>
@@ -45,7 +45,7 @@
     <div id="Events" class="container tab-pane">
       <br>
       <h3>Events</h3><br>
-      <% if @events.size > 0 %>
+      <% if @events.length > 0 %>
           <% @events.each do |event| %>
             <%= render 'layouts/application_v_2/event', event: event %>
           <% end %>
@@ -56,7 +56,7 @@
     <div id="News" class="container tab-pane">
       <br>
       <h3>News</h3><br>
-      <% if @news_articles.size > 0 %>
+      <% if @news_articles.length > 0 %>
           <% @news_articles.each do |news_article| %>
             <%= render 'layouts/application_v_2/news_article', news_article: news_article %>
           <% end %>
