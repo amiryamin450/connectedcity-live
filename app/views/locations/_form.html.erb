@@ -189,6 +189,7 @@
                 <%= f.input :longitude, as: :hidden %>
                 <input id="value_address" class="hidden" value="<%= @location.address %>" />
                 <%= f.input :address_1 %>
+                <%= f.input :show_address if @location.is_profile? %>
                 <%= f.input :postal_code %>
                 <%= f.association :trade_associations, label: "Associations", collection: TradeAssociation.all.order(:name) %>
                 <%= f.input :phone %>
@@ -229,6 +230,7 @@
                 <%= f.input :content, input_html: {class: '', style: 'width: 810px; height: 350px;', placeholder: 'Enter text ...'} %>
                 <%= f.input :website_url %>
                 <%= f.input :email %>
+                <%= f.input :show_email if @location.is_profile? %>
                 <%= f.input :logo, label: "#{@location.is_profile ? 'My photo' : 'Logo'}", as: :logo_preview %>
                 <%= f.input :delete_logo, as: :boolean %>
                 <%= f.input :cover_photo, as: :logo_preview %>

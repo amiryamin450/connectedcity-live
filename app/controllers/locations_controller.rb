@@ -631,7 +631,7 @@ class LocationsController < ApplicationController
 
   def location_params
     params.require(:location).permit(:address, :address_1, :business_id, :city_id, :community_id, :country_id, :email, :fax, :import_hash,
-      :imported, :latitude, :longitude, :name, :phone, :postal_code, :region_id, :show_fax, :show_phone,
+      :imported, :latitude, :longitude, :name, :phone, :postal_code, :region_id, :show_fax, :show_phone, :show_address, :show_email,
       :show_toll_free, :slug, :province_id, :toll_free, :website_url, :logo,
       :brand_ids, :brand_tokens, :content, :vertical_market_categories, :district, :yp_lid, :yp_categories, :yp_neighborhoods, :sub_neighborhood_id,
       :city, :province, :district_id, :neighborhood, :country, :cover_photo, :neighborhood_id, :broker_id, :hall_id, :councillor_id, :commissioner_id, :business_improvement_area_id,

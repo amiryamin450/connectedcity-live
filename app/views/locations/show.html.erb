@@ -110,24 +110,28 @@
                               <h3><%= @location.name %></h3>
                             </div>
                         </div>
-                        <div class="col-12">
+                        <% if @location.show_address? %>
+                          <div class="col-12">
                             <div class="d-flex">
                               <i class="far fa-map-marker-alt"></i>
                               <p class="mb-0"><%= @location.address %> &middot; <%= "#{@location&.city&.name} #{@location&.province&.abbr}, #{@location.postal_code}" %></p>
                             </div>
-                        </div>
+                          </div>
+                        <% end %>
                         <div class="col-12">
                             <div class="d-flex">
                               <i class="far fa-globe"></i>
                               <p><%= link_to('Visit us online!', @location.website_url, target: :_blank) if @location.website_url.present? %></p>
                             </div>
                         </div>
-                        <div class="col-12">
+                        <% if @location.show_email? %>
+                          <div class="col-12">
                             <div class="d-flex">
                               <i class="far fa-envelope"></i>
                               <p><%= mail_to @location.email if @location.email.present? %></p>
                             </div>
-                        </div>
+                          </div>
+                        <% end %>
                         <div class="col-12">
                             <div class="d-flex">
                               <i class="far fa-phone-alt"></i>
