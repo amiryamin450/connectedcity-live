@@ -45,7 +45,7 @@ class VonageService
         :output_mode => :composed,
         :has_audio => true,
         :has_video => true,
-        :resolution => "1280x720"
+        :resolution => "1920x1080"
       }
       archive
     rescue => e
