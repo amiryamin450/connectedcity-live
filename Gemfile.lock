@@ -2039,7 +2039,6 @@ GEM
       activerecord (>= 5.0)
       rgeo (>= 1.0.0)
     rinku (2.0.6)
-    rmagick (2.13.4)
     rolify (6.0.1)
     rotp (6.3.0)
     rqrcode (2.2.0)
@@ -2255,7 +2254,6 @@ DEPENDENCIES
   rb-fsevent
   rgeo
   rgeo-activerecord
-  rmagick (~> 2.13.4)
   rolify
   rspec-rails
   rvm-capistrano
@@ -2280,7 +2278,7 @@ DEPENDENCIES
   yaml_db
 
 RUBY VERSION
-   ruby 3.0.5p211
+   ruby 3.3.12p206
 
 BUNDLED WITH
-   2.2.33
+   2.5.22

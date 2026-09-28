@@ -27,22 +27,6 @@ services:
       - development
     depends_on:
       - db
-  web:
-    # Uncomment the line below if using Mac M
-    # platform: linux/x86_64
-    tty: true
-    stdin_open: true
-    build: .
-    # command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
-    volumes:
-      - .:/myapp
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-      - solr
-    environment:
-      RAILS_ENV: "${RAILS_ENV}"
 volumes:
   my-db:
   solr_data:
