@@ -24,6 +24,18 @@ module PrismicController
 
   ##
 
+  # Slide images for a landing page, from the Prismic document with this uid.
+  # The slideshow is decorative: if Prismic fails (outage, revoked access, timeout),
+  # render the page without it instead of failing the whole request.
+  def prismic_slide_images(uid)
+    response = api.query(Prismic::Predicates.at("my.location.uid", uid))
+    response.results.present? ? response.results[0]["location.slide_images"] : []
+  # Prismic::Error inherits from Exception, not StandardError, so it must be named explicitly.
+  rescue Prismic::Error, StandardError => e
+    Rails.logger.warn("[prismic] slide images unavailable for #{uid.inspect}: #{e.class}: #{e.message.to_s[0, 200]}")
+    []
+  end
+
   # Easier access and initialization of the Prismic::API object.
   def api
     @api ||= PrismicService.init_api(access_token)

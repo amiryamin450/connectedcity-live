@@ -5,16 +5,14 @@ class HomeController < ApplicationController
   PER_PAGE = 20
 
   def index
-    response = api.query(Prismic::Predicates.at("my.location.uid", "home_page"))
-    @documents = response.results.present? ? response.results[0]["location.slide_images"] : []
+    @documents = prismic_slide_images("home_page")
     @provinces = Province.all.sort_by(&:name)
   end
 
   def city_landing
     @city = City.find_by_slug(params[:city_slug])
     if (@city.present?)
-      response = api.query(Prismic::Predicates.at("my.location.uid", params[:city_slug]))
-      @documents = response.results.present? ? response.results[0]["location.slide_images"] : []
+      @documents = prismic_slide_images(params[:city_slug])
       @carousel_images = @city.carousel_images
       @municipality = @city.municipality
       @status_updates = @city.status_updates.where(statusable_type: 'Location')

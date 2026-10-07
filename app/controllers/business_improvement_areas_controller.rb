@@ -30,8 +30,7 @@ class BusinessImprovementAreasController < ApplicationController
       @sub_neighborhoods = Neighborhood.where(neighborhood_id: @neighborhood.nid)
 
       key_neighborhood_prismic = "#{@city.slug}-#{@district.slug}-#{@neighborhood.slug}"
-      response = api.query(Prismic::Predicates.at("my.location.uid", key_neighborhood_prismic))
-      @documents = response.results.present? ? response.results[0]["location.slide_images"] : []
+      @documents = prismic_slide_images(key_neighborhood_prismic)
 
       @status_updates = @neighborhood.status_updates.where(statusable_type: 'Location')
       @news = @neighborhood.news_articles.where(newsable_type: "Location")

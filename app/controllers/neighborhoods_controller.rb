@@ -40,8 +40,7 @@ class NeighborhoodsController < ApplicationController
     if (@district.present?)
       @neighbourhoods = @district.neighborhoods
       @neighborhood = @neighbourhoods.find { |nbh| nbh.slug == params[:neighborhood_slug] }
-      response = api.query(Prismic::Predicates.at("my.location.uid", key_neighborhood_prismic))
-      @documents = response.results.present? ? response.results[0]["location.slide_images"] : []
+      @documents = prismic_slide_images(key_neighborhood_prismic)
       @city = @district.city
       @municipality = @city.municipality
       @cities = @city.municipality.cities
@@ -86,8 +85,7 @@ class NeighborhoodsController < ApplicationController
     @neighborhood = Neighborhood.find_by_slug(params[:neighborhood_slug])
 
     if (@neighborhood.present?)
-      response = api.query(Prismic::Predicates.at("my.location.uid", key_sub_neighborhood_prismic))
-      @documents = response.results.present? ? response.results[0]["location.slide_images"] : []
+      @documents = prismic_slide_images(key_sub_neighborhood_prismic)
       @district = @neighborhood.district
       @neighbourhoods = @district.neighborhoods
       @city = @district.city

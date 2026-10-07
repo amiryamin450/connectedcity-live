@@ -23,8 +23,7 @@ class MunicipalitiesController < ApplicationController
 
     if (@municipality.present?)
       @municipalities = @municipality.region.municipalities
-      response = api.query(Prismic::Predicates.at("my.location.uid", key_metro_prismic))
-      @documents = response.results.present? ? response.results[0]["location.slide_images"] : []
+      @documents = prismic_slide_images(key_metro_prismic)
       @cities = @municipality.cities
       @districts = @municipality.districts
       @neighbourhoods = @municipality.neighborhoods
