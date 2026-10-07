@@ -479,7 +479,7 @@ Connectbook::Application.routes.draw do
   get 'armourydistrict', to: redirect('/british-columbia/lower-mainland/vancouver-metro/vancouver/vancouver-westside/fairview/armoury-district')
   get 'granvilleisland', to: redirect('/british-columbia/lower-mainland/vancouver-metro/vancouver/vancouver-westside/fairview/granville-island')
 
-  get '/vancouver/', to: 'home#city_landing', as: :city_landing
+  get '/vancouver/', to: 'home#city_landing', defaults: { city_slug: 'vancouver' }, as: :city_landing
 
   get '/vancouver/:district_route', to: 'districts#homepage', as: :district_guide
 
