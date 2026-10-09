@@ -1,6 +1,9 @@
-# See http://www.robotstxt.org/wc/norobots.html for documentation on how to use the robots.txt file
+# See https://developers.google.com/search/docs/crawling-indexing/robots/intro
 #
-# To ban all spiders from the entire site uncomment the next two lines:
-#User-Agent: *
-#Disallow: /
-
+# Business listings and city pages stay open to crawlers. Channel pages below city level
+# (every district and neighbourhood combined with every category, ~335,000 pages),
+# sign-in pages and search results are kept out of crawls.
+User-agent: *
+Disallow: /*/*/channel/
+Disallow: /users/
+Disallow: /search
