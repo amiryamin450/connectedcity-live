@@ -43,7 +43,7 @@ class DistrictsController < ApplicationController
   # FIXME Why is this homepage and not show?
   def homepage
     if !request.fullpath.include? "sitemap.xml"
-      @documents = prismic_slide_images(key_district_prismic)
+      @documents = LandingSlide.for(key_district_prismic)
       @district = District.find_by_slug(params[:district_route])
       @city = @district.city
       @municipality = @city.municipality

@@ -5,14 +5,14 @@ class HomeController < ApplicationController
   PER_PAGE = 20
 
   def index
-    @documents = prismic_slide_images("home_page")
+    @documents = LandingSlide.for("home_page")
     @provinces = Province.all.sort_by(&:name)
   end
 
   def city_landing
     @city = City.find_by_slug(params[:city_slug])
     if (@city.present?)
-      @documents = prismic_slide_images(params[:city_slug])
+      @documents = LandingSlide.for(params[:city_slug])
       @carousel_images = @city.carousel_images
       @municipality = @city.municipality
       @status_updates = @city.status_updates.where(statusable_type: 'Location')

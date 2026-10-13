@@ -40,7 +40,7 @@ class NeighborhoodsController < ApplicationController
     if (@district.present?)
       @neighbourhoods = @district.neighborhoods
       @neighborhood = @neighbourhoods.find { |nbh| nbh.slug == params[:neighborhood_slug] }
-      @documents = prismic_slide_images(key_neighborhood_prismic)
+      @documents = LandingSlide.for(key_neighborhood_prismic)
       @city = @district.city
       @municipality = @city.municipality
       @cities = @city.municipality.cities
@@ -85,7 +85,7 @@ class NeighborhoodsController < ApplicationController
     @neighborhood = Neighborhood.find_by_slug(params[:neighborhood_slug])
 
     if (@neighborhood.present?)
-      @documents = prismic_slide_images(key_sub_neighborhood_prismic)
+      @documents = LandingSlide.for(key_sub_neighborhood_prismic)
       @district = @neighborhood.district
       @neighbourhoods = @district.neighborhoods
       @city = @district.city

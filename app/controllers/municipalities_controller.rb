@@ -23,7 +23,7 @@ class MunicipalitiesController < ApplicationController
 
     if (@municipality.present?)
       @municipalities = @municipality.region.municipalities
-      @documents = prismic_slide_images(key_metro_prismic)
+      @documents = LandingSlide.for(key_metro_prismic)
       @cities = @municipality.cities
       @districts = @municipality.districts
       @neighbourhoods = @municipality.neighborhoods
