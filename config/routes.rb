@@ -14,7 +14,7 @@ Connectbook::Application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations", confirmations: "confirmations", sessions: "sessions" }
 
   devise_scope :user do
-    get 'business_sign_up', :to => 'devise/registrations#new', as: :business_sign_up
+    get 'business_sign_up', :to => 'registrations#new', as: :business_sign_up
     get '/users/sign_out' => 'devise/sessions#destroy'
     post :verify_two_factor, to: 'sessions#verify_two_factor'
     post :request_reset_2fa_code, to: 'sessions#request_reset_2fa_code'
