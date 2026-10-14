@@ -544,7 +544,7 @@
   "ucluelet": [
     {"image": "https://connectedcity-v2.s3.us-west-2.amazonaws.com/prismic_slides/1e194814-984a-49a7-9e79-7b1b32324523_shutterstock_1694098984_connectedbroadcaster.jpg", "title": "Ucluelet Civic News Channel", "sub_title": "Find updates and news from municipal, provincial and federal governments.", "url": "https://www.connectedcity.com/ucluelet/channel/news", "watermark_title": "", "watermark_url": ""}
   ],
-  "vancouver-metro-vancouver": [
+  "vancouver": [
     {"image": "https://connectedcity-v2.s3.us-west-2.amazonaws.com/prismic_slides/1e194814-984a-49a7-9e79-7b1b32324523_shutterstock_1694098984_connectedbroadcaster.jpg", "title": "Vancouver Civic News Channel", "sub_title": "Find news and updates from municipal, provincial and federal government.", "url": "https://connectedcity.herokuapp.com/vancouver/channel/news", "watermark_title": "", "watermark_url": ""},
     {"image": "https://connectedcity-v2.s3.us-west-2.amazonaws.com/prismic_slides/ZpCZCx5LeNNTxFNq_Arts-Entertainment-shutterstock_250490098.jpg", "title": "Vancouver Entertainment Channel", "sub_title": "Find local talent and live performance venues in Vancouver.", "url": "https://connectedcity.herokuapp.com/vancouver/channel/entertainment", "watermark_title": "", "watermark_url": ""},
     {"image": "https://connectedcity-v2.s3.us-west-2.amazonaws.com/prismic_slides/ZjEvkUMTzAJOCdDG_Restaurants-shutterstock_268593074_crop-3000x1881.jpg", "title": "Vancouver Food and Dining Channel", "sub_title": "Find the perfect cuisine and dining experience in Vancouver.", "url": "https://connectedcity.herokuapp.com/vancouver/channel/food-dining", "watermark_title": "", "watermark_url": ""},
