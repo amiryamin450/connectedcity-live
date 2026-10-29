@@ -34,11 +34,11 @@
           <% end %>
         <% else %>
           <div class="slide">
-            <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
+            <% url_first = "#{FileStorage.base_url}/global_homepage_slider/third_slide.png" %>
             <span class="animate in" style="background-image: url(<%= url_first %>)"></span>
           </div>
           <div class="slide">
-            <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
+            <% url_first = "#{FileStorage.base_url}/global_homepage_slider/third_slide.png" %>
             <span class="animate in" style="background-image: url(<%= url_first %>)"></span>
           </div>
         <% end %>

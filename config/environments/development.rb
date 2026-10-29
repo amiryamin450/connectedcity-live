@@ -104,11 +104,15 @@ Connectbook::Application.configure do
 
   Paperclip.options[:command_path] = '/usr/local/bin/'
 
+  # S3_ENDPOINT is set when the bucket is on S3-compatible storage outside AWS (FullHost),
+  # which only serves path-style addresses (see FileStorage).
+  s3_endpoint = ENV['S3_ENDPOINT'].presence
   config.paperclip_defaults = {
     storage: :s3,
-    url: ":s3_domain_url",
+    url: s3_endpoint ? ":s3_path_url" : ":s3_domain_url",
     path: "/system/:class/:id.:style.:extension",
-    s3_host_name: "s3.#{ENV['AWS_REGION']}.amazonaws.com",
+    s3_host_name: s3_endpoint ? URI(s3_endpoint).host : "s3.#{ENV['AWS_REGION']}.amazonaws.com",
+    s3_options: s3_endpoint ? { endpoint: s3_endpoint, force_path_style: true } : {},
     s3_protocol: "https",
     s3_credentials: {
       bucket: ENV['S3_BUCKET_NAME'],

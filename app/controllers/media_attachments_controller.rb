@@ -174,7 +174,7 @@ class MediaAttachmentsController < ApplicationController
     if video.present?
       video.update_attribute(:status, params[:status])
       if params[:status] == "uploaded"
-        url = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/#{ENV['VONAGE_API_KEY']}/#{video.archive_id}/archive.mp4"
+        url = "#{FileStorage.base_url}/#{ENV['VONAGE_API_KEY']}/#{video.archive_id}/archive.mp4"
         video.update_attribute(:video_url, url)
       end
     end
