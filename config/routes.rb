@@ -14,7 +14,7 @@ Connectbook::Application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks', registrations: "registrations", confirmations: "confirmations", sessions: "sessions" }
 
   devise_scope :user do
-    get 'business_sign_up', :to => 'devise/registrations#new', as: :business_sign_up
+    get 'business_sign_up', :to => 'registrations#new', as: :business_sign_up
     get '/users/sign_out' => 'devise/sessions#destroy'
     post :verify_two_factor, to: 'sessions#verify_two_factor'
     post :request_reset_2fa_code, to: 'sessions#request_reset_2fa_code'
@@ -479,7 +479,7 @@ Connectbook::Application.routes.draw do
   get 'armourydistrict', to: redirect('/british-columbia/lower-mainland/vancouver-metro/vancouver/vancouver-westside/fairview/armoury-district')
   get 'granvilleisland', to: redirect('/british-columbia/lower-mainland/vancouver-metro/vancouver/vancouver-westside/fairview/granville-island')
 
-  get '/vancouver/', to: 'home#city_landing', as: :city_landing
+  get '/vancouver/', to: 'home#city_landing', defaults: { city_slug: 'vancouver' }, as: :city_landing
 
   get '/vancouver/:district_route', to: 'districts#homepage', as: :district_guide
 

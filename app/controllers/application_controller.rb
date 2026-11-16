@@ -98,7 +98,11 @@ class ApplicationController < ActionController::Base
 
   def init_category_values
     category_news
-    @results = VerticalMarket.order(:name).at_depth 0
+    # The category menu is the same on every page and rarely changes. Load it in two queries
+    # and keep it cached, instead of two queries per menu item on every page.
+    @results, @menu_children = Rails.cache.fetch('nav_menu/v1', expires_in: 1.hour) do
+      [VerticalMarket.order(:name).at_depth(0).to_a, VerticalMarket.at_depth(1).to_a.group_by(&:parent_id)]
+    end
     @vertical_market_news = @results.select{|i| i.slug === 'civic-news'}.first
     @vertical_market_members = @results.select{|i| i.slug === 'members'}.first
     @vertical_markets_all = @results.reject{|i| ['civic-news', 'employment-opportunities', 'classifieds', 'members'].include?(i.slug)}

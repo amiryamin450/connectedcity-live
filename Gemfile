@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # ruby '2.7.8'
-ruby '3.0.5'
+ruby '3.3.12'
 gem 'rails', '~> 7.0.5'
 
 gem 'faraday'
@@ -48,7 +48,6 @@ gem 'config', github: 'railsconfig/config'
 gem 'ransack'
 gem 'rgeo-activerecord'
 gem 'rgeo'
-gem 'rmagick', '~> 2.13.4'
 gem 'rolify'
 gem 'sidekiq'
 gem 'simple_form', '~> 5.2.0'

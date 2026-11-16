@@ -1,14 +1,14 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
+  # While sign-ups are closed, Facebook can only sign in existing accounts.
   def all
-    user = User.from_facebook(request.env["omniauth.auth"])
-    if user.persisted?
+    auth = request.env["omniauth.auth"]
+    user = User.find_by(provider: auth.provider, uid: auth.uid)
+    if user
       flash.notice = "Signed in!"
       sign_in_and_redirect user
     else
-      user.skip_confirmation!
-      session['devise.user_attributes'] = user.attributes
-      redirect_to new_user_registration_url
+      redirect_to new_user_session_path, alert: 'New sign-ups are closed for now.'
     end
   end
 

@@ -39,11 +39,18 @@ class RealEstateListing < ApplicationRecord
       city.name if city.present?
     end
 
-    integer :municipality_id
+    # real_estate_listings has no municipality_id or sub_neighborhood_id columns (these fields
+    # were copied from Location). Derive them from the listing's own city and neighborhood;
+    # its `location` is the agent's business profile, not the property.
+    integer :municipality_id do
+      city&.municipality_id
+    end
     integer :district_id
     integer :city_id
     integer :neighborhood_id
-    integer :sub_neighborhood_id
+    integer :sub_neighborhood_id do
+      neighborhood_id if neighborhood&.neighborhood_id.present?
+    end
   end
 
   has_attached_file :main_image, styles: {

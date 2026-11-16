@@ -7,12 +7,12 @@
         <% if @documents.present? %>
           <% values = @documents.length === 1 ? @documents.flat_map {|i| [i, i]} : @documents %>
           <% values.each do |data| %>
-            <% url_img = data['image'] ? data['image'].main.url : "" %>
-            <% title = data['title'] ? data['title'].as_text : "" %>
-            <% sub_title = data['sub_title'] ? data['sub_title'].as_text : "" %>
-            <% url = data['url'] ? data['url'].as_text : "" %>
-            <% watermark_url = data['watermark_url'] ? data['watermark_url'].as_text : "" %>
-            <% watermark_title = data['watermark_title'] ? data['watermark_title'].as_text : "" %>
+            <% url_img = data['image'].to_s %>
+            <% title = data['title'].to_s %>
+            <% sub_title = data['sub_title'].to_s %>
+            <% url = data['url'].to_s %>
+            <% watermark_url = data['watermark_url'].to_s %>
+            <% watermark_title = data['watermark_title'].to_s %>
             <div class="slide">
               <% if url.present? %> <a href=<%= url %>> <% else %> <div> <% end %>
                 <span class="animate in" style="background-image: url(<%= url_img %>)"></span>
@@ -36,11 +36,11 @@
           <% end %>
         <% else %>
           <div class="slide">
-            <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
+            <% url_first = "#{FileStorage.base_url}/global_homepage_slider/third_slide.png" %>
             <span class="animate in" style="background-image: url(<%= url_first %>)"></span>
           </div>
           <div class="slide">
-            <% url_first = "https://#{ENV['S3_BUCKET_NAME']}.s3.#{ENV['AWS_REGION']}.amazonaws.com/global_homepage_slider/third_slide.png" %>
+            <% url_first = "#{FileStorage.base_url}/global_homepage_slider/third_slide.png" %>
             <span class="animate in" style="background-image: url(<%= url_first %>)"></span>
           </div>
         <% end %>
